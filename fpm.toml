@@ -1,0 +1,8 @@
+name = "inference-engine"
+version = "0.1.0"
+license = "license"
+author = "Damian Rouson"
+maintainer = "rouson@lbl.gov"
+
+[dependencies]
+assert = {git = "https://github.com/sourceryinstitute/assert", tag = "1.4.0"}
