@@ -48,4 +48,10 @@ contains
 
   end procedure
 
+  module procedure infer
+    
+    ! output = self%activation(matmul(input, self % weights) + self % biases)
+    
+  end procedure
+
 end submodule inference_engine_s

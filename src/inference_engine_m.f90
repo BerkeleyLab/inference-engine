@@ -35,6 +35,12 @@ module inference_engine_m
       character(len=*), intent(in) :: file_name
     end subroutine
 
+    pure module function infer(self) result(output)
+      implicit none
+      class(inference_engine_t), intent(in) :: self
+      real, allocatable :: output(:)
+    end function
+
   end interface
 
 end module inference_engine_m
