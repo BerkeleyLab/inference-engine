@@ -8,6 +8,8 @@ contains
     inference_engine%input_weights_ = input_weights
     inference_engine%hidden_weights_ = hidden_weights
     inference_engine%output_weights_ = output_weights
+    inference_engine%biases_ = biases
+    inference_engine%activation_ => activation
   end procedure
 
   module procedure read_weights
@@ -50,8 +52,28 @@ contains
 
   module procedure infer
     
-    ! output = self%activation(matmul(input, self % weights) + self % biases)
-    
+    integer n, layer, m
+    real neuron(size(self%input_weights_,1), 1 + size(self%hidden_weights_,3))
+
+    associate(neurons_per_layer => size(neuron,1), first_layer => 1)
+      do concurrent(n = 1:neurons_per_layer)
+        neuron(n,first_layer) = self%activation_(dot_product(self%input_weights_(n,:), input(:)))
+      end do
+      associate( num_layers => size(neuron,2))
+        do layer = 2, num_layers
+          do concurrent(n = 1:neurons_per_layer)
+           neuron(n,layer) = self%activation_(dot_product(self%hidden_weights_(n,:,layer-1), neuron(:,layer-1)))
+          end do
+        end do
+        associate( num_outputs => size(self%output_weights_,1))
+          allocate(output(num_outputs))
+          do concurrent(m = 1:num_outputs)
+            output(m) = self%activation_(dot_product(self%output_weights_(m,:), neuron(:,num_layers)))
+          end do
+        end associate
+      end associate
+    end associate
+
   end procedure
 
 end submodule inference_engine_s
