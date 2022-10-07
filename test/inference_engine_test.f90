@@ -60,7 +60,7 @@ contains
     block
       real, parameter :: tolerance = 1.E-01, expected_output=1.
 
-      test_passes = size(output)==1 .and. abs(output(1) - expected_output)/expected_output < tolerance
+      test_passes = size(output)==1 .and. abs(output(1) - expected_output)/expected_output < tolerance !/expected_output < tolerance
     end block
   end function
    

@@ -57,18 +57,19 @@ contains
 
     associate(neurons_per_layer => size(neuron,1), first_layer => 1)
       do concurrent(n = 1:neurons_per_layer)
-        neuron(n,first_layer) = self%activation_(dot_product(self%input_weights_(n,:), input(:)))
+        neuron(n,first_layer) = self%activation_(dot_product(self%input_weights_(n,:), input(:)) + self%biases_(n,1))
       end do
       associate( num_layers => size(neuron,2))
         do layer = 2, num_layers
           do concurrent(n = 1:neurons_per_layer)
-           neuron(n,layer) = self%activation_(dot_product(self%hidden_weights_(n,:,layer-1), neuron(:,layer-1)))
+            neuron(n,layer) = &
+              self%activation_(dot_product(self%hidden_weights_(n,:,layer-1), neuron(:,layer-1)) + self%biases_(n,layer))
           end do
         end do
-        associate( num_outputs => size(self%output_weights_,1))
+        associate(num_outputs => size(self%output_weights_,1))
           allocate(output(num_outputs))
           do concurrent(m = 1:num_outputs)
-            output(m) = self%activation_(dot_product(self%output_weights_(m,:), neuron(:,num_layers)))
+            output(m) = self%activation_(dot_product(self%output_weights_(m,:), neuron(:,num_layers)) + self%biases_(m,num_layers))
           end do
         end associate
       end associate
