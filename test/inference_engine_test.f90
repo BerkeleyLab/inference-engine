@@ -55,7 +55,7 @@ contains
       activation = f &
     )
 
-    output = xor%infer(input=[1.,0.])
+    output = xor%infer(input=[true,false])
 
     block
       real, parameter :: tolerance = 1.E-01, expected_output=1.
