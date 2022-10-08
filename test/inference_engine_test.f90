@@ -37,13 +37,11 @@ contains
   function xor_truth_table() result(test_passes)
     logical, allocatable :: test_passes(:)
 
-    integer i, j
-    integer, parameter :: identity(*,*,*) = reshape([((merge(1,0,i==j), i=1,3), j=1,3)], shape=[3,3,1])
-    real, allocatable :: true_true(:), true_false(:), false_true(:), false_false(:)
     procedure(activation_function), pointer :: f
     type(inference_engine_t) xor
-    real, parameter :: false = 0., true = 1.
-    
+    integer i, j
+    integer, parameter :: identity(*,*,*) = reshape([((merge(1,0,i==j), i=1,3), j=1,3)], shape=[3,3,1])
+
     f => step
    
     xor = inference_engine_t( &
@@ -54,20 +52,22 @@ contains
       activation = f &
     )
 
-    true_true = xor%infer(input=[true,true])
-    false_true = xor%infer(input=[false,true])
-    true_false = xor%infer(input=[true,false])
-    false_false = xor%infer(input=[false,false])
-
     block
-      real, parameter :: tolerance = 1.E-08
+      real, parameter :: tolerance = 1.E-08, false = 0., true = 1.
 
-      test_passes = [ &
-        size(true_true)==1 .and. abs(true_true(1) - false) < tolerance, &
-        size(false_true)==1 .and. abs(false_true(1) - true) < tolerance, &
-        size(true_false)==1 .and. abs(true_false(1) - true) < tolerance,  &
-        size(false_false)==1 .and. abs(false_false(1) - false) < tolerance  &
-      ]
+      associate( &
+        true_true => xor%infer(input=[true,true]), & 
+        true_false => xor%infer(input=[true,false]), &
+        false_true => xor%infer(input=[false,true]), &
+        false_false => xor%infer(input=[false,false]) &
+      )
+        test_passes = [ &
+          size(true_true)==1 .and. abs(true_true(1) - false) < tolerance, &
+          size(true_false)==1 .and. abs(true_false(1) - true) < tolerance,  &
+          size(false_true)==1 .and. abs(false_true(1) - true) < tolerance, &
+          size(false_false)==1 .and. abs(false_false(1) - false) < tolerance  &
+        ]
+      end associate
     end block
 
   contains
