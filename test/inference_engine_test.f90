@@ -69,12 +69,14 @@ contains
         size(false_false)==1 .and. abs(false_false(1) - false) < tolerance  &
       ]
     end block
+
   contains
-  pure function step(x) result(y)
-    real, intent(in) :: x
-    real y
-    y = merge(1., 0., x>0.)
-  end function
+
+    pure function step(x) result(y)
+      real, intent(in) :: x
+      real y
+      y = merge(1., 0., x>0.)
+    end function
   
   end function
 
