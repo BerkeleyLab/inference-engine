@@ -9,5 +9,5 @@ program main
   call inference_engine_test%report(passes, tests)
 
   print *
-  print *,"_________ In total, ",passes," of ",tests, " tests pass. _________"
+  print '(*(a,:,g0))',"_________ In total, ",passes," of ",tests, " tests pass. _________"
 end program

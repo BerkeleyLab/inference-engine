@@ -14,37 +14,35 @@ module inference_engine_test
     procedure, nopass :: results
   end type
 
-  real, parameter :: false = 0., true = 1.
-
 contains
 
   pure function subject() result(specimen)
     character(len=:), allocatable :: specimen
-    specimen = "An inference_engine_t that expresses an XOR gate" 
+    specimen = "An inference_engine_t that encodes an XOR gate" 
   end function
 
   function results() result(test_results)
     type(test_result_t), allocatable :: test_results(:)
 
     test_results = test_result_t( &
-      ["mapping (false,false) to false", "mapping (false,true) to true  "], &
-      xor_false_true_is_true() &
+      [ character(len=len("mapping (false,false) to false")) :: &
+        "mapping (true,true) to false", &
+        "mapping (false,true) to true", &
+        "mapping (true,false) to true", &
+        "mapping (false,false) to false" &
+      ], xor_truth_table() &
     )
   end function
 
-  pure function step(x) result(y)
-    real, intent(in) :: x
-    real y
-    y = merge(1., 0., x>0.)
-  end function
-  
-  function xor_false_true_is_true() result(test_passes)
+  function xor_truth_table() result(test_passes)
     logical, allocatable :: test_passes(:)
+
     integer i, j
     integer, parameter :: identity(*,*,*) = reshape([((merge(1,0,i==j), i=1,3), j=1,3)], shape=[3,3,1])
-    real, allocatable :: output(:)
+    real, allocatable :: true_true(:), true_false(:), false_true(:), false_false(:)
     procedure(activation_function), pointer :: f
     type(inference_engine_t) xor
+    real, parameter :: false = 0., true = 1.
     
     f => step
    
@@ -56,17 +54,28 @@ contains
       activation = f &
     )
 
-    output = xor%infer(input=[true,false])
+    true_true = xor%infer(input=[true,true])
+    false_true = xor%infer(input=[false,true])
+    true_false = xor%infer(input=[true,false])
+    false_false = xor%infer(input=[false,false])
 
     block
-      real, parameter :: tolerance = 1.E-01, expected_output=1.
+      real, parameter :: tolerance = 1.E-08
 
       test_passes = [ &
-       size(output)==1 .and. abs(output(1) - expected_output)/expected_output < tolerance, &
-       size(output)==1 .and. abs(output(1) - expected_output)/expected_output < tolerance  &
+        size(true_true)==1 .and. abs(true_true(1) - false) < tolerance, &
+        size(false_true)==1 .and. abs(false_true(1) - true) < tolerance, &
+        size(true_false)==1 .and. abs(true_false(1) - true) < tolerance,  &
+        size(false_false)==1 .and. abs(false_false(1) - false) < tolerance  &
       ]
     end block
+  contains
+  pure function step(x) result(y)
+    real, intent(in) :: x
+    real y
+    y = merge(1., 0., x>0.)
   end function
-   
+  
+  end function
 
 end module inference_engine_test
