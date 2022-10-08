@@ -20,15 +20,16 @@ contains
 
   pure function subject() result(specimen)
     character(len=:), allocatable :: specimen
-    specimen = "The inference_engine_t type" 
+    specimen = "An inference_engine_t that expresses an XOR gate" 
   end function
 
   function results() result(test_results)
     type(test_result_t), allocatable :: test_results(:)
 
-    test_results = [ & 
-      test_result_t("XOR network maps (false,true) to true", xor_false_true_is_true()) &
-    ]   
+    test_results = test_result_t( &
+      ["mapping (false,false) to false", "mapping (false,true) to true  "], &
+      xor_false_true_is_true() &
+    )
   end function
 
   pure function step(x) result(y)
@@ -38,7 +39,7 @@ contains
   end function
   
   function xor_false_true_is_true() result(test_passes)
-    logical test_passes
+    logical, allocatable :: test_passes(:)
     integer i, j
     integer, parameter :: identity(*,*,*) = reshape([((merge(1,0,i==j), i=1,3), j=1,3)], shape=[3,3,1])
     real, allocatable :: output(:)
@@ -60,7 +61,10 @@ contains
     block
       real, parameter :: tolerance = 1.E-01, expected_output=1.
 
-      test_passes = size(output)==1 .and. abs(output(1) - expected_output)/expected_output < tolerance !/expected_output < tolerance
+      test_passes = [ &
+       size(output)==1 .and. abs(output(1) - expected_output)/expected_output < tolerance, &
+       size(output)==1 .and. abs(output(1) - expected_output)/expected_output < tolerance  &
+      ]
     end block
   end function
    
