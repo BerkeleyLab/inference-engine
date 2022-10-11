@@ -23,8 +23,8 @@ module inference_engine_m
     real, allocatable :: biases_(:,:)           ! neuronal offsets for each hidden layer
     procedure(activation_function), pointer, nopass :: activation_
   contains
-    generic :: inference_engine_t => read_weights
-    procedure :: read_weights
+    generic :: inference_engine_t => read_network
+    procedure :: read_network
     procedure :: infer
   end type
 
@@ -42,7 +42,7 @@ module inference_engine_m
 
   interface
 
-    module subroutine read_weights(self, file_name)
+    module subroutine read_network(self, file_name)
       implicit none
       class(inference_engine_t), intent(out) :: self
       character(len=*), intent(in) :: file_name

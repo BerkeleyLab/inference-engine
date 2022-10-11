@@ -12,44 +12,6 @@ contains
     inference_engine%activation_ => activation
   end procedure
 
-  module procedure read_weights
-
-    integer file_unit, num_inputs, num_nodes, num_layers, num_outputs
-    integer i, j, stat
-
-    open(newunit=file_unit, file=file_name, form='formatted', status='old', iostat=stat, action='read')    
-    call assert(stat==0,"stat==0 in open")
-
-    read(file_unit,*,iostat=stat) num_inputs, num_nodes, num_layers, num_outputs
-    call assert(stat==0,"stat==0 in read(...) num_inputs,...")
-
-    allocate( &
-       self%input_weights_(num_inputs, num_nodes), &
-       self%hidden_weights_(num_nodes, num_nodes, num_layers), &
-       self%output_weights_(num_outputs, num_nodes) &
-    )
-
-    do i = 1,size(self%input_weights_,1)
-      read(file_unit, *, iostat=stat) self%input_weights_(i,:)
-      call assert(stat==0,"stat==0 in input weights read")
-    end do
-
-    do i = 1,size(self%hidden_weights_,1)
-      do j = 1,size(self%hidden_weights_,3)
-        read(file_unit, *, iostat=stat) self%hidden_weights_(i,:,j)
-        call assert(stat==0,"stat==0 in hidden weights read")
-      end do
-    end do
-
-    do i = 1, size(self%output_weights_,2)
-      read(file_unit, *, iostat=stat) self%output_weights_(:,i)
-      call assert(stat==0,"stat==0 in output weights read")
-    end do
-
-    close (file_unit)
-
-  end procedure
-
   module procedure infer
     
     integer n, layer, m
@@ -75,6 +37,72 @@ contains
       end associate
     end associate
 
+  end procedure
+
+  module procedure read_network
+
+    integer i, file_unit, io_status, array_size, line_length, last_opening_bracket, first_closing_bracket, num_inputs, io_status
+    real, allocatable :: array(:)
+    character(len=1) c
+    character(len=:), allocatable :: line, unbracketed_line
+
+    open(newunit=file_unit, file=file_name, form='formatted', status='old', iostat=io_status, action='read')
+    call assert(io_status==0,"stat==0 in open")
+
+    io_status = 0
+    line_length = 1
+    get_line_length: &
+    do 
+      read(file_unit, '(a)',advance='no',iostat=io_status) c
+      if (io_status/=0) exit
+      line_length = line_length + 1
+    end do get_line_length
+
+    allocate(character(len=line_length):: line)
+
+    rewind(file_unit)
+
+    num_inputs = 0
+    get_num_inputs: &
+    do 
+      read(file_unit,'(a)', iostat=io_status) line
+      if (io_status/=0) exit
+      num_inputs = num_inputs + 1
+      if (index(line, "]]", back=.true.) /= 0) exit
+    end do get_num_inputs
+
+    last_opening_bracket = index(line, "[", back=.true.)
+    first_closing_bracket = index(line, "]")
+    unbracketed_line = line(last_opening_bracket+1:first_closing_bracket-1)
+
+    rewind(file_unit)
+
+    io_status = 0
+    array_size = 1
+    get_num_elements: &
+    do while (io_status==0)
+      if (allocated(array)) deallocate(array)
+      allocate(array(array_size))
+      read(unbracketed_line, *, iostat=io_status) array
+      array_size = array_size + 1
+    end do get_num_elements
+    array = array(:size(array)-1)
+
+    allocate(self%input_weights_(num_inputs, size(array)))
+
+    rewind(file_unit)
+
+    get_input_weights: &
+    do i = 1, num_inputs
+      read(file_unit,'(a)', iostat=io_status) line
+      call assert(io_status/=0, "read_network: io_status /= 0")
+      last_opening_bracket = index(line, "[", back=.true.)
+      first_closing_bracket = index(line, "]")
+      unbracketed_line = line(last_opening_bracket+1:first_closing_bracket-1)
+      read(unbracketed_line,*) self%input_weights_(i,:)
+    end do get_input_weights
+
+    close(file_unit)
   end procedure
 
 end submodule inference_engine_s
