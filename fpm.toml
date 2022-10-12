@@ -6,4 +6,4 @@ maintainer = "rouson@lbl.gov"
 
 [dependencies]
 assert = {git = "https://github.com/sourceryinstitute/assert", tag = "1.4.0"}
-sourcery = {git = "https://github.com/sourceryinstitute/sourcery", tag = "3.3.1"}
+sourcery = {git = "https://github.com/sourceryinstitute/sourcery", tag = "3.4.1"}
