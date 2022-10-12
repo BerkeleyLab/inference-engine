@@ -9,4 +9,17 @@
                                                             |___/              
 ```
 
-# inference-engine
+# Overview
+`inference-engine` is a Fortran 2018 library which facillitates the loading of neural network weight and bias arrays and the instantiation of _fixed-sized_ feed-forward neural networks, enabling the user to perform inference on data.
+
+Since `inference-engine` is written in Fortran 2018, it is optimized for scientific applications which can benefit from the performance gains associated with the use of accelerated machine learning.
+
+## Usage
+
+## Prerequisites
+
+## Downloading
+
+## Building and Testing
+
+## Examples
