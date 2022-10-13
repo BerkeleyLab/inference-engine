@@ -95,7 +95,7 @@ contains
     get_input_weights: &
     do i = 1, num_inputs
       read(file_unit,'(a)', iostat=io_status) line
-      call assert(io_status/=0, "read_network: io_status /= 0")
+      call assert(io_status==0, "read_network: io_status == 0", io_status)
       last_opening_bracket = index(line, "[", back=.true.)
       first_closing_bracket = index(line, "]")
       unbracketed_line = line(last_opening_bracket+1:first_closing_bracket-1)

@@ -23,7 +23,6 @@ module inference_engine_m
     real, allocatable :: biases_(:,:)           ! neuronal offsets for each hidden layer
     procedure(activation_function), pointer, nopass :: activation_
   contains
-    generic :: inference_engine_t => read_network
     procedure :: read_network
     procedure :: infer
   end type
