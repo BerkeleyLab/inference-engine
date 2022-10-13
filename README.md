@@ -9,8 +9,11 @@
                                                             |___/              
 ```
 
+[![GitHub issues](https://img.shields.io/github/issues/BerkeleyLab/inference-engine)](https://github.com/BerkeleyLab/inference-engine/issues)
+[![GitHub license](https://img.shields.io/github/license/BerkeleyLab/inference-engine)](https://github.com/BerkeleyLab/inference-engine)
+
 # Overview
-`inference-engine` is a Fortran 2018 library which facillitates the loading of neural network weight and bias arrays and the instantiation of _fixed-sized_ feed-forward neural networks, enabling the user to perform inference on data.
+`inference-engine` is a Fortran 2018 library which facillitates the loading of neural network weight and bias arrays and the instantiation of _fixed-sized_ feed-forward neural networks, enabling the user to perform inference on data within Fortran.
 
 Since `inference-engine` is written in Fortran 2018, it is optimized for scientific applications which can benefit from the performance gains associated with the use of accelerated machine learning.
 
@@ -29,7 +32,9 @@ Since `inference-engine` is written in Fortran 2018, it is optimized for scienti
 
 ## Required data structure
 `inference-engine` can extrapolate the architecture of the intended neural network from the input file. The compilation of the network requires the weight and bias arrays to be constructed using the following data structure:
-`4 x (3x5) x 1 network`
+
+> :construction: **Architecture:** 4 x (3x5) x 1 network
+
 ```
 # input layer
 [[weight weight weight weight weight]
