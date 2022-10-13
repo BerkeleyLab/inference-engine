@@ -41,68 +41,90 @@ contains
 
   module procedure read_network
 
-    integer i, file_unit, io_status, array_size, line_length, last_opening_bracket, first_closing_bracket, num_inputs, io_status
+    integer i, file_unit, io_status, last_opening_bracket, first_closing_bracket
     real, allocatable :: array(:)
-    character(len=1) c
     character(len=:), allocatable :: line, unbracketed_line
 
     open(newunit=file_unit, file=file_name, form='formatted', status='old', iostat=io_status, action='read')
     call assert(io_status==0,"stat==0 in open")
 
-    io_status = 0
-    line_length = 1
-    get_line_length: &
-    do 
-      read(file_unit, '(a)',advance='no',iostat=io_status) c
-      if (io_status/=0) exit
-      line_length = line_length + 1
-    end do get_line_length
+    allocate(character(len=line_length(file_unit)):: line)
 
-    allocate(character(len=line_length):: line)
-
-    rewind(file_unit)
-
-    num_inputs = 0
-    get_num_inputs: &
-    do 
-      read(file_unit,'(a)', iostat=io_status) line
-      if (io_status/=0) exit
-      num_inputs = num_inputs + 1
-      if (index(line, "]]", back=.true.) /= 0) exit
-    end do get_num_inputs
-
-    last_opening_bracket = index(line, "[", back=.true.)
-    first_closing_bracket = index(line, "]")
-    unbracketed_line = line(last_opening_bracket+1:first_closing_bracket-1)
-
-    rewind(file_unit)
-
-    io_status = 0
-    array_size = 1
-    get_num_elements: &
-    do while (io_status==0)
-      if (allocated(array)) deallocate(array)
-      allocate(array(array_size))
-      read(unbracketed_line, *, iostat=io_status) array
-      array_size = array_size + 1
-    end do get_num_elements
-    array = array(:size(array)-1)
-
-    allocate(self%input_weights_(num_inputs, size(array)))
-
-    rewind(file_unit)
-
-    get_input_weights: &
-    do i = 1, num_inputs
-      read(file_unit,'(a)', iostat=io_status) line
-      call assert(io_status==0, "read_network: io_status == 0", io_status)
+    associate(num_inputs => get_num_inputs(file_unit, line))
       last_opening_bracket = index(line, "[", back=.true.)
       first_closing_bracket = index(line, "]")
       unbracketed_line = line(last_opening_bracket+1:first_closing_bracket-1)
-      read(unbracketed_line,*) self%input_weights_(i,:)
-    end do get_input_weights
+      array = read_arbitrary_length_array(unbracketed_line)
+      allocate(self%input_weights_(num_inputs, size(array)))
+      call read_input_weights(file_unit, line, self%input_weights_)
+    end associate
 
     close(file_unit)
+
+  contains
+
+    module function line_length(file_unit) result(length)
+      integer, intent(in) :: file_unit
+      integer length, io_status
+      character(len=1) c
+
+      io_status = 0
+      length = 1
+      do 
+        read(file_unit, '(a)',advance='no',iostat=io_status) c
+        if (io_status/=0) exit
+        length = length + 1
+      end do
+      rewind(file_unit)
+    end function
+
+    module function get_num_inputs(file_unit, line) result(n)
+      integer, intent(in) :: file_unit
+      character(len=*), intent(inout) :: line
+      integer n, io_status
+
+      n = 0
+      do 
+        read(file_unit,'(a)', iostat=io_status) line
+        if (io_status/=0) exit
+        n = n + 1
+        if (index(line, "]]", back=.true.) /= 0) exit
+      end do
+      rewind(file_unit)
+    end function
+
+    pure module function read_arbitrary_length_array(space_delimited_reals) result(array)
+      character(len=*), intent(in) :: space_delimited_reals
+      real, allocatable :: array(:)
+      integer array_size, io_status
+      
+      io_status = 0
+      array_size = 1
+      do while (io_status==0)
+        if (allocated(array)) deallocate(array)
+        allocate(array(array_size))
+        read(space_delimited_reals, *, iostat=io_status) array
+        array_size = array_size + 1
+      end do
+      array = array(:size(array)-1)
+    end function
+
+    module subroutine read_input_weights(file_unit, line_buffer, weights)
+      integer, intent(in) :: file_unit
+      character(len=*), intent(inout) :: line_buffer
+      real, intent(inout) :: weights(:,:)
+      integer i, io_status
+      
+      do i = 1, size(weights,1)
+        read(file_unit,'(a)', iostat=io_status) line_buffer
+        call assert(io_status==0, "read_network: io_status == 0", io_status)
+        associate(last_opening_bracket => index(line_buffer, "[", back=.true.), first_closing_bracket => index(line_buffer, "]"))
+          unbracketed_line = line_buffer(last_opening_bracket+1:first_closing_bracket-1)
+        end associate
+        read(unbracketed_line,*) weights(i,:)
+      end do
+    end subroutine
+
   end procedure
 
 end submodule inference_engine_s
