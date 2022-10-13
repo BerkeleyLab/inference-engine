@@ -48,15 +48,20 @@ contains
     open(newunit=file_unit, file=file_name, form='formatted', status='old', iostat=io_status, action='read')
     call assert(io_status==0,"stat==0 in open")
 
-    allocate(character(len=line_length(file_unit)):: line)
+    associate(line_len => line_length(file_unit))
+      allocate(character(len=line_len):: line)
 
-    associate(num_inputs => get_num_inputs(file_unit, line))
-      last_opening_bracket = index(line, "[", back=.true.)
-      first_closing_bracket = index(line, "]")
-      unbracketed_line = line(last_opening_bracket+1:first_closing_bracket-1)
-      array = read_arbitrary_length_array(unbracketed_line)
-      allocate(self%input_weights_(num_inputs, size(array)))
-      call read_input_weights(file_unit, line, self%input_weights_)
+      associate( &
+        num_inputs => get_num_inputs(file_unit, line), &
+        last_opening_bracket => index(line, "[", back=.true.), &
+        first_closing_bracket => index(line, "]") &
+      )
+        associate(unbracketed_line => line(last_opening_bracket+1:first_closing_bracket-1))
+          array = read_arbitrary_length_array(unbracketed_line)
+        end associate
+        allocate(self%input_weights_(num_inputs, size(array)))
+        call read_input_weights(file_unit, line_len, self%input_weights_)
+      end associate
     end associate
 
     close(file_unit)
@@ -109,19 +114,20 @@ contains
       array = array(:size(array)-1)
     end function
 
-    module subroutine read_input_weights(file_unit, line_buffer, weights)
-      integer, intent(in) :: file_unit
-      character(len=*), intent(inout) :: line_buffer
+    module subroutine read_input_weights(file_unit, buffer_size, weights)
+      integer, intent(in) :: file_unit, buffer_size
       real, intent(inout) :: weights(:,:)
+      character(len=buffer_size) line_buffer
       integer i, io_status
       
       do i = 1, size(weights,1)
         read(file_unit,'(a)', iostat=io_status) line_buffer
         call assert(io_status==0, "read_network: io_status == 0", io_status)
         associate(last_opening_bracket => index(line_buffer, "[", back=.true.), first_closing_bracket => index(line_buffer, "]"))
-          unbracketed_line = line_buffer(last_opening_bracket+1:first_closing_bracket-1)
+          associate(unbracketed_line => line_buffer(last_opening_bracket+1:first_closing_bracket-1))
+            read(unbracketed_line,*) weights(i,:)
+          end associate
         end associate
-        read(unbracketed_line,*) weights(i,:)
       end do
     end subroutine
 
