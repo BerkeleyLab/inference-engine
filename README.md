@@ -14,9 +14,20 @@
 
 Since `inference-engine` is written in Fortran 2018, it is optimized for scientific applications which can benefit from the performance gains associated with the use of accelerated machine learning.
 
-## Usage
+# Table of contents
+- [Overview](#overview)
+- [Table of contents](#table-of-contents)
+- [Usage](#usage)
+  - [Required data structure](#required-data-structure)
+    - [Example data structure](#example-data-structure)
+- [Prerequisites](#prerequisites)
+- [Downloading](#downloading)
+- [Building and testing](#building-and-testing)
+- [Examples](#examples)
 
-### Required data structure
+# Usage
+
+## Required data structure
 `inference-engine` can extrapolate the architecture of the intended neural network from the input file. The compilation of the network requires the weight and bias arrays to be constructed using the following data structure:
 `4 x (3x5) x 1 network`
 ```
@@ -56,7 +67,7 @@ Since `inference-engine` is written in Fortran 2018, it is optimized for scienti
 [bias]
 ```
 
-#### Example data structure
+### Example data structure
 The following data structure represents the first hidden layer of the neural network.
 ```
 [[7.618639323e-09 -2
@@ -64,10 +75,10 @@ The following data structure represents the first hidden layer of the neural net
 ]]
 ```
 
-## Prerequisites
+# Prerequisites
 
-## Downloading
+# Downloading
 
-## Building and testing
+# Building and testing
 
-## Examples
+# Examples
