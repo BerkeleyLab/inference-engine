@@ -41,7 +41,7 @@ contains
 
   module procedure read_network
 
-    integer i, file_unit, io_status, last_opening_bracket, first_closing_bracket
+    integer file_unit, io_status, last_opening_bracket, first_closing_bracket, num_hidden_layers
     real, allocatable :: array(:)
     character(len=:), allocatable :: line, unbracketed_line
 
@@ -61,6 +61,7 @@ contains
         end associate
         allocate(self%input_weights_(num_inputs, size(array)))
         call read_input_weights(file_unit, line_len, self%input_weights_)
+        call count_hidden_layers(file_unit, line_len, num_hidden_layers)
       end associate
     end associate
 
@@ -129,6 +130,23 @@ contains
           end associate
         end associate
       end do
+    end subroutine
+
+    subroutine count_hidden_layers(file_unit, buffer_size, hidden_layers)
+      integer, intent(in) :: file_unit, buffer_size
+      integer, intent(out) :: hidden_layers
+      integer, parameter :: output_layer=1
+      integer layers, io_status
+      character(len=buffer_size) line_buffer
+
+      layers = 0
+      io_status=0
+      do while(io_status==0)
+        read(file_unit, '(a)', iostat=io_status) line_buffer
+        if (index(line_buffer, "[[") /= 0) layers = layers +1
+      end do
+      hidden_layers = layers - output_layer
+      rewind(file_unit)
     end subroutine
 
   end procedure
