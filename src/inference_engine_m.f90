@@ -21,11 +21,13 @@ module inference_engine_m
     real, allocatable :: hidden_weights_(:,:,:) ! weights applied to go from one hidden layer to the next
     real, allocatable :: output_weights_(:,:)   ! weights applied to go from the final hidden layer to the outputs
     real, allocatable :: biases_(:,:)           ! neuronal offsets for each hidden layer
+    real, allocatable :: output_biases_(:)      ! neuronal offsets applied to outputs
     procedure(activation_function), pointer, nopass :: activation_
   contains
     procedure :: read_network
     procedure :: infer
     procedure :: num_inputs
+    procedure :: num_outputs
     procedure :: neurons_per_layer
     procedure :: num_hidden_layers
   end type
@@ -55,6 +57,12 @@ module inference_engine_m
       class(inference_engine_t), intent(in) :: self
       real, intent(in) :: input(:)
       real, allocatable :: output(:)
+    end function
+
+    pure module function num_outputs(self) result(output_count)
+      implicit none
+      class(inference_engine_t), intent(in) :: self
+      integer output_count
     end function
 
     pure module function num_inputs(self) result(input_count)

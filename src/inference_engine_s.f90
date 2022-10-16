@@ -16,24 +16,39 @@ contains
   pure module subroutine assert_consistent(self)
     type(inference_engine_t), intent(in) :: self
 
-    ! TODO: add allocated(self%output_weights_) to allocated_components array
-    associate(allocated_components => [allocated(self%input_weights_), allocated(self%hidden_weights_), allocated(self%biases_)])
+    associate(allocated_components => &
+      [allocated(self%input_weights_), allocated(self%hidden_weights_), allocated(self%biases_), allocated(self%output_weights_)] &
+    )
       call assert(all(allocated_components), "inference_engine_s(assert_consistent): fully allocated object", &
         intrinsic_array_t(allocated_components))
     end associate
 
-    ! TODO: add {ubound,lbound}(self%output_weights_) differences
     associate(num_neurons => 1 + &
       [ ubound(self%biases_,         1) - lbound(self%biases_,         1), & 
         ubound(self%hidden_weights_, 1) - lbound(self%hidden_weights_, 1), &
         ubound(self%hidden_weights_, 2) - lbound(self%hidden_weights_, 2), &
-        ubound(self%input_weights_,  2)  - lbound(self%input_weights_, 2)  &
+        ubound(self%input_weights_,  2) - lbound(self%input_weights_,  2), &
+        ubound(self%output_weights_, 2) - lbound(self%output_weights_, 2)  &
     ] ) 
-      call assert(all(self%neurons_per_layer() == num_neurons), "inference_engine_s(assert_consistent)", &
+      call assert(all(self%neurons_per_layer() == num_neurons), "inference_engine_s(assert_consistent): num_neurons", &
         intrinsic_array_t(num_neurons) &
       )
     end associate
+
+    associate(output_count => 1 + &
+      [ ubound(self%output_weights_, 1) - lbound(self%output_weights_, 1), & 
+        ubound(self%output_biases_,  1) - lbound(self%output_biases_,  1)  &
+    ] )
+      call assert(all(self%num_outputs() == output_count), "inference_engine_s(assert_consistent): num_outputs", &
+        intrinsic_array_t(output_count) &
+      )
+    end associate
   end subroutine
+
+  module procedure num_outputs
+    call assert(allocated(self%output_weights_), "inference_engine_t%num_outputs: allocated(self%output_weights_)")
+    output_count = ubound(self%output_weights_,1) - ubound(self%output_weights_,1) + 1
+  end procedure
 
   module procedure num_inputs
     call assert(allocated(self%input_weights_), "inference_engine_t%num_inputs: allocated(self%input_weights_)")
@@ -92,13 +107,13 @@ contains
     associate(last_opening_bracket => index(line, "[", back=.true.), first_closing_bracket => index(line, "]"))
       associate(unbracketed_line => line(last_opening_bracket+1:first_closing_bracket-1))
         associate(neurons_per_layer=> num_array_elements_in(unbracketed_line))
-          call read_weights_and_biases(file_unit, len(line), num_inputs, neurons_per_layer, num_hidden_layers, self)
+          call read_weights_and_biases(file_unit, len(line), num_inputs, neurons_per_layer, num_hidden_layers, num_outputs, self)
         end associate
       end associate
     end associate
 
     close(file_unit)
-    
+
     call assert_consistent(self)
 
   contains
@@ -153,8 +168,10 @@ contains
       array_size = size(array)-1
     end function
 
-    module subroutine read_weights_and_biases(file_unit, buffer_size, num_inputs, neurons_per_layer, num_hidden_layers, self)
-      integer, intent(in) :: file_unit, buffer_size, num_inputs, neurons_per_layer, num_hidden_layers
+    module subroutine read_weights_and_biases( &
+       file_unit, buffer_size, num_inputs, neurons_per_layer, num_hidden_layers, num_outputs, self &
+    )
+      integer, intent(in) :: file_unit, buffer_size, num_inputs, neurons_per_layer, num_hidden_layers, num_outputs
       type(inference_engine_t), intent(out) :: self
       character(len=buffer_size) line_buffer
       integer input, io_status, layer, neuron
@@ -228,6 +245,39 @@ contains
         
       end do read_hidden_layer_weights_biases
 
+      allocate(self%output_weights_(num_outputs, neurons_per_layer))
+      allocate(self%output_biases_(num_outputs))
+
+      find_output_weights: &
+      do 
+        read(file_unit,'(a)', iostat=io_status) line_buffer
+        call assert(io_status==0, "find_outut_layer_weights: io_status==0", io_status ) 
+        if (index(line_buffer, "[[")/=0) exit
+      end do find_output_weights
+
+      read_output_weights: &
+      do neuron = 1, size(self%hidden_weights_,2)
+        if (neuron/=1) read(file_unit,'(a)', iostat=io_status) line_buffer
+        associate(last_opening_bracket => index(line_buffer, "[", back=.true.), first_closing_bracket => index(line_buffer, "]"))
+          associate(unbracketed_line => line_buffer(last_opening_bracket+1:first_closing_bracket-1))
+            read(unbracketed_line,*) self%output_weights_(:,neuron)
+          end associate
+        end associate
+      end do read_output_weights
+
+      find_output_biases: &
+      do 
+        read(file_unit,'(a)', iostat=io_status) line_buffer
+        call assert(io_status==0, "find_outut_layer_weights: io_status==0", io_status ) 
+        if (index(line_buffer, "[")/=0) exit
+      end do find_output_biases
+
+      associate(last_opening_bracket => index(line_buffer, "[", back=.true.), first_closing_bracket => index(line_buffer, "]"))
+        associate(unbracketed_line => line_buffer(last_opening_bracket+1:first_closing_bracket-1))
+          read(unbracketed_line,*) self%output_biases_(:)
+        end associate
+      end associate
+
       rewind(file_unit)
     end subroutine read_weights_and_biases
 
@@ -252,8 +302,34 @@ contains
     subroutine count_outputs(file_unit, buffer_size, num_hidden_layers, output_count)
       integer, intent(in) :: file_unit, buffer_size, num_hidden_layers
       integer, intent(out) :: output_count
+      character(len=buffer_size) line_buffer
       integer, parameter :: input_layer=1, output_layer=1
+      integer layer
+
       rewind(file_unit)
+
+      layer = 0
+
+      find_end_of_hidden_layers: &
+      do
+        read(file_unit, '(a)', iostat=io_status) line_buffer
+        call assert(io_status==0, "read_hidden_layers: io_status==0", io_status ) 
+        if (index(line_buffer, "]]") /= 0) layer = layer + 1
+        if (layer == input_layer  + num_hidden_layers + output_layer) exit
+      end do find_end_of_hidden_layers
+
+      find_and_read_output_biases: &
+      do 
+        read(file_unit,'(a)', iostat=io_status) line_buffer
+        call assert(io_status==0, "find_output_biases: io_status==0", io_status ) 
+        if (index(line_buffer, "[")/=0) exit
+      end do find_and_read_output_biases
+
+      associate(last_opening_bracket => index(line_buffer, "[", back=.true.), first_closing_bracket => index(line_buffer, "]"))
+        associate(unbracketed_line => line_buffer(last_opening_bracket+1:first_closing_bracket-1))
+          output_count = num_array_elements_in(unbracketed_line)
+        end associate
+      end associate
 
       rewind(file_unit)
     end subroutine
