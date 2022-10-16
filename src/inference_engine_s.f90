@@ -200,7 +200,7 @@ contains
       end do
 
       rewind(file_unit)
-    end subroutine
+    end subroutine read_weights_and_biases
 
     subroutine count_hidden_layers(file_unit, buffer_size, hidden_layers)
       integer, intent(in) :: file_unit, buffer_size
@@ -220,6 +220,6 @@ contains
       rewind(file_unit)
     end subroutine
 
-  end procedure
+  end procedure read_network
 
 end submodule inference_engine_s
