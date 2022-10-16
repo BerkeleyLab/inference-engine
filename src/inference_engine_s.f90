@@ -1,5 +1,6 @@
 submodule(inference_engine_m) inference_engine_s
   use assert_m, only : assert
+  use intrinsic_array_m, only : intrinsic_array_t
   implicit none
 
 contains
@@ -10,6 +11,43 @@ contains
     inference_engine%output_weights_ = output_weights
     inference_engine%biases_ = biases
     inference_engine%activation_ => activation
+  end procedure
+
+  pure module subroutine assert_consistent(self)
+    type(inference_engine_t), intent(in) :: self
+
+    ! TODO: add allocated(self%output_weights_) to allocated_components array
+    associate(allocated_components => [allocated(self%input_weights_), allocated(self%hidden_weights_), allocated(self%biases_)])
+      call assert(all(allocated_components), "inference_engine_s(assert_self_consistent): fully allocated object", &
+        intrinsic_array_t(allocated_components))
+    end associate
+
+    ! TODO: add {ubound,lbound}(self%output_weights_) differences
+    associate(num_neurons => 1 + &
+      [ ubound(self%biases_,         1) - lbound(self%biases_,         1), & 
+        ubound(self%hidden_weights_, 1) - lbound(self%hidden_weights_, 1), &
+        ubound(self%hidden_weights_, 2) - lbound(self%hidden_weights_, 2), &
+        ubound(self%input_weights_,  2)  - lbound(self%input_weights_, 2)  &
+    ] ) 
+      call assert(all(self%neurons_per_layer() == num_neurons), "inference_engine_s(assert_self_consistent)", &
+        intrinsic_array_t(num_neurons) &
+      )
+    end associate
+  end subroutine
+
+  module procedure num_inputs
+      call assert(allocated(self%input_weights_), "inference_engine_t%num_inputs: allocated(self%input_weights_)")
+      input_count = ubound(self%input_weights_,1) - ubound(self%input_weights_,1) + 1
+  end procedure
+
+  module procedure neurons_per_layer
+      call assert(allocated(self%input_weights_), "inference_engine_t%neurons_per_layer: allocated(self%input_weights_)")
+      neuron_count = ubound(self%input_weights_,2) - lbound(self%input_weights_,2) + 1
+  end procedure
+
+  module procedure num_hidden_layers
+      call assert(allocated(self%hidden_weights_), "inference_engine_t%num_hidden_layers: allocated(self%hidden_weights_)")
+      hidden_layer_count = ubound(self%hidden_weights_,2) - ubound(self%hidden_weights_,2) + 1
   end procedure
 
   module procedure infer
@@ -46,8 +84,10 @@ contains
 
     open(newunit=file_unit, file=file_name, form='formatted', status='old', iostat=io_status, action='read')
     call assert(io_status==0,"read_network: io_status==0 after 'open' statement", io_status)
+
     call read_line_and_count_inputs(file_unit, line, num_inputs)
     call count_hidden_layers(file_unit, len(line), num_hidden_layers)
+
     associate(last_opening_bracket => index(line, "[", back=.true.), first_closing_bracket => index(line, "]"))
       associate(unbracketed_line => line(last_opening_bracket+1:first_closing_bracket-1))
         associate(neurons_per_layer=> num_array_elements_in(unbracketed_line))
@@ -55,8 +95,10 @@ contains
         end associate
       end associate
     end associate
-    
+
     close(file_unit)
+    
+    call assert_consistent(self)
 
   contains
 

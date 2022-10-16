@@ -25,6 +25,9 @@ module inference_engine_m
   contains
     procedure :: read_network
     procedure :: infer
+    procedure :: num_inputs
+    procedure :: neurons_per_layer
+    procedure :: num_hidden_layers
   end type
 
   interface inference_engine_t
@@ -52,6 +55,24 @@ module inference_engine_m
       class(inference_engine_t), intent(in) :: self
       real, intent(in) :: input(:)
       real, allocatable :: output(:)
+    end function
+
+    pure module function num_inputs(self) result(input_count)
+      implicit none
+      class(inference_engine_t), intent(in) :: self
+      integer input_count
+    end function
+
+    pure module function neurons_per_layer(self) result(neuron_count)
+      implicit none
+      class(inference_engine_t), intent(in) :: self
+      integer neuron_count
+    end function
+
+    pure module function num_hidden_layers(self) result(hidden_layer_count)
+      implicit none
+      class(inference_engine_t), intent(in) :: self
+      integer hidden_layer_count
     end function
 
   end interface
