@@ -129,7 +129,7 @@ contains
       input_count = 0
       do 
         read(file_unit,'(a)', iostat=io_status) line
-        call assert(io_status==0, "count_inputs: io_status==0", io_status ) 
+        call assert(io_status==0, "read_line_and_count_inputs: io_status==0", io_status ) 
         input_count = input_count + 1
         if (index(line, "]]", back=.true.) /= 0) exit
       end do
@@ -162,34 +162,46 @@ contains
       rewind(file_unit)
 
       allocate(self%input_weights_(num_inputs, neurons_per_layer))
+
+      read_input_weights: &
       do input = 1, size(self%input_weights_,1)
         read(file_unit,'(a)', iostat=io_status) line_buffer
-        call assert(io_status==0, "read_network: io_status == 0", io_status)
+        call assert(io_status==0, "read_input_weights: io_status==0", io_status ) 
         associate(last_opening_bracket => index(line_buffer, "[", back=.true.), first_closing_bracket => index(line_buffer, "]"))
           associate(unbracketed_line => line_buffer(last_opening_bracket+1:first_closing_bracket-1))
             read(unbracketed_line,*) self%input_weights_(input,:)
           end associate
         end associate
-      end do
-
+      end do read_input_weights
+     
       allocate(self%biases_(neurons_per_layer, num_hidden_layers+input_layer))
       allocate(self%hidden_weights_(neurons_per_layer, neurons_per_layer, num_hidden_layers))
 
+      find_input_layer_biases: &
       do 
         read(file_unit,'(a)', iostat=io_status) line_buffer
+        call assert(io_status==0, "find_input_layer_biases: io_status==0", io_status ) 
         if (index(line_buffer, "[")/=0) exit
-      end do
+      end do find_input_layer_biases
+
+      read_input_layer_biases: &
       associate(last_opening_bracket => index(line_buffer, "[", back=.true.), first_closing_bracket => index(line_buffer, "]"))
         associate(unbracketed_line => line_buffer(last_opening_bracket+1:first_closing_bracket-1))
           read(unbracketed_line,*) self%biases_(:,input_layer)
         end associate
-      end associate
+      end associate read_input_layer_biases
 
+      read_hidden_layer_weights_biases: &
       do layer = 1, num_hidden_layers
+
+        find_weights: &
         do 
           read(file_unit,'(a)', iostat=io_status) line_buffer
+          call assert(io_status==0, "find_weights: io_status==0", io_status ) 
           if (index(line_buffer, "[[")/=0) exit
-        end do
+        end do find_weights
+
+        read_weights: &
         do neuron = 1, size(self%hidden_weights_,2)
           if (neuron/=1) read(file_unit,'(a)', iostat=io_status) line_buffer
           associate(last_opening_bracket => index(line_buffer, "[", back=.true.), first_closing_bracket => index(line_buffer, "]"))
@@ -197,18 +209,23 @@ contains
               read(unbracketed_line,*) self%hidden_weights_(:,neuron,layer)
             end associate
           end associate
-        end do
+        end do read_weights
 
+        find_biases: &
         do 
           read(file_unit,'(a)', iostat=io_status) line_buffer
+          call assert(io_status==0, "read_biases: io_status==0", io_status ) 
           if (index(line_buffer, "[")/=0) exit
-        end do
+        end do find_biases
+
+        read_biases: &
         associate(last_opening_bracket => index(line_buffer, "[", back=.true.), first_closing_bracket => index(line_buffer, "]"))
           associate(unbracketed_line => line_buffer(last_opening_bracket+1:first_closing_bracket-1))
             read(unbracketed_line,*) self%biases_(:,input_layer+layer)
           end associate
-        end associate
-      end do
+        end associate read_biases
+        
+      end do read_hidden_layer_weights_biases
 
       rewind(file_unit)
     end subroutine read_weights_and_biases
