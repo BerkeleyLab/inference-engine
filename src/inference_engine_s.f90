@@ -41,30 +41,20 @@ contains
 
   module procedure read_network
 
-    integer file_unit, io_status, last_opening_bracket, first_closing_bracket, num_hidden_layers
-    real, allocatable :: array(:)
-    character(len=:), allocatable :: line, unbracketed_line
+    integer file_unit, io_status, num_inputs, num_hidden_layers
+    character(len=:), allocatable :: line
 
     open(newunit=file_unit, file=file_name, form='formatted', status='old', iostat=io_status, action='read')
-    call assert(io_status==0,"stat==0 in open")
-
-    associate(line_len => line_length(file_unit))
-      allocate(character(len=line_len):: line)
-
-      associate( &
-        num_inputs => get_num_inputs(file_unit, line), &
-        last_opening_bracket => index(line, "[", back=.true.), &
-        first_closing_bracket => index(line, "]") &
-      )
-        associate(unbracketed_line => line(last_opening_bracket+1:first_closing_bracket-1))
-          array = read_arbitrary_length_array(unbracketed_line)
+    call assert(io_status==0,"read_network: io_status==0 after 'open' statement", io_status)
+    call read_line_and_count_inputs(file_unit, line, num_inputs)
+    call count_hidden_layers(file_unit, len(line), num_hidden_layers)
+    associate(last_opening_bracket => index(line, "[", back=.true.), first_closing_bracket => index(line, "]"))
+      associate(unbracketed_line => line(last_opening_bracket+1:first_closing_bracket-1))
+        associate(neurons_per_layer=> num_array_elements_in(unbracketed_line))
+          call read_input_weights(file_unit, len(line), weights_shape=[num_inputs, neurons_per_layer], weights=self%input_weights_)
         end associate
-        allocate(self%input_weights_(num_inputs, size(array)))
-        call read_input_weights(file_unit, line_len, self%input_weights_)
-        call count_hidden_layers(file_unit, line_len, num_hidden_layers)
       end associate
     end associate
-
     close(file_unit)
 
   contains
@@ -74,6 +64,7 @@ contains
       integer length, io_status
       character(len=1) c
 
+      rewind(file_unit)
       io_status = 0
       length = 1
       do 
@@ -84,22 +75,25 @@ contains
       rewind(file_unit)
     end function
 
-    module function get_num_inputs(file_unit, line) result(n)
+    module subroutine read_line_and_count_inputs(file_unit, line, input_count)
       integer, intent(in) :: file_unit
-      character(len=*), intent(inout) :: line
-      integer n, io_status
+      character(len=:), intent(out), allocatable :: line
+      integer, intent(out) :: input_count
+      integer io_status
 
-      n = 0
+      rewind(file_unit)
+      allocate(character(len=line_length(file_unit)):: line)
+      input_count = 0
       do 
         read(file_unit,'(a)', iostat=io_status) line
-        if (io_status/=0) exit
-        n = n + 1
+        call assert(io_status==0, "count_inputs: io_status==0", io_status ) 
+        input_count = input_count + 1
         if (index(line, "]]", back=.true.) /= 0) exit
       end do
       rewind(file_unit)
-    end function
+    end subroutine
 
-    pure module function read_arbitrary_length_array(space_delimited_reals) result(array)
+    pure module function num_array_elements_in(space_delimited_reals) result(array_size)
       character(len=*), intent(in) :: space_delimited_reals
       real, allocatable :: array(:)
       integer array_size, io_status
@@ -112,15 +106,18 @@ contains
         read(space_delimited_reals, *, iostat=io_status) array
         array_size = array_size + 1
       end do
-      array = array(:size(array)-1)
+      array_size = size(array)-1
     end function
 
-    module subroutine read_input_weights(file_unit, buffer_size, weights)
-      integer, intent(in) :: file_unit, buffer_size
-      real, intent(inout) :: weights(:,:)
+    module subroutine read_input_weights(file_unit, buffer_size, weights_shape, weights)
+      integer, intent(in) :: file_unit, buffer_size, weights_shape(:)
+      real, intent(out), allocatable :: weights(:,:)
       character(len=buffer_size) line_buffer
       integer i, io_status
       
+      call assert(size(weights_shape)==2,"read_input_weights: size(weights_shape)==2",size(weights_shape))
+      rewind(file_unit)
+      allocate(weights(weights_shape(1),weights_shape(2)))
       do i = 1, size(weights,1)
         read(file_unit,'(a)', iostat=io_status) line_buffer
         call assert(io_status==0, "read_network: io_status == 0", io_status)
@@ -130,22 +127,24 @@ contains
           end associate
         end associate
       end do
+      rewind(file_unit)
     end subroutine
 
     subroutine count_hidden_layers(file_unit, buffer_size, hidden_layers)
       integer, intent(in) :: file_unit, buffer_size
       integer, intent(out) :: hidden_layers
-      integer, parameter :: output_layer=1
+      integer, parameter :: input_layer=1, output_layer=1
       integer layers, io_status
       character(len=buffer_size) line_buffer
 
+      rewind(file_unit)
       layers = 0
       io_status=0
       do while(io_status==0)
         read(file_unit, '(a)', iostat=io_status) line_buffer
         if (index(line_buffer, "[[") /= 0) layers = layers +1
       end do
-      hidden_layers = layers - output_layer
+      hidden_layers = layers - (input_layer + output_layer)
       rewind(file_unit)
     end subroutine
 
