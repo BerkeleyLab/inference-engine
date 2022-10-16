@@ -36,18 +36,18 @@ contains
   end subroutine
 
   module procedure num_inputs
-      call assert(allocated(self%input_weights_), "inference_engine_t%num_inputs: allocated(self%input_weights_)")
-      input_count = ubound(self%input_weights_,1) - ubound(self%input_weights_,1) + 1
+    call assert(allocated(self%input_weights_), "inference_engine_t%num_inputs: allocated(self%input_weights_)")
+    input_count = ubound(self%input_weights_,1) - ubound(self%input_weights_,1) + 1
   end procedure
 
   module procedure neurons_per_layer
-      call assert(allocated(self%input_weights_), "inference_engine_t%neurons_per_layer: allocated(self%input_weights_)")
-      neuron_count = ubound(self%input_weights_,2) - lbound(self%input_weights_,2) + 1
+    call assert(allocated(self%input_weights_), "inference_engine_t%neurons_per_layer: allocated(self%input_weights_)")
+    neuron_count = ubound(self%input_weights_,2) - lbound(self%input_weights_,2) + 1
   end procedure
 
   module procedure num_hidden_layers
-      call assert(allocated(self%hidden_weights_), "inference_engine_t%num_hidden_layers: allocated(self%hidden_weights_)")
-      hidden_layer_count = ubound(self%hidden_weights_,2) - ubound(self%hidden_weights_,2) + 1
+    call assert(allocated(self%hidden_weights_), "inference_engine_t%num_hidden_layers: allocated(self%hidden_weights_)")
+    hidden_layer_count = ubound(self%hidden_weights_,2) - ubound(self%hidden_weights_,2) + 1
   end procedure
 
   module procedure infer
