@@ -157,6 +157,7 @@ contains
       type(inference_engine_t), intent(out) :: self
       character(len=buffer_size) line_buffer
       integer input, io_status, layer, neuron
+      integer, parameter :: input_layer = 1
       
       rewind(file_unit)
 
@@ -171,20 +172,20 @@ contains
         end associate
       end do
 
-      allocate(self%biases_(neurons_per_layer, num_hidden_layers+1))
+      allocate(self%biases_(neurons_per_layer, num_hidden_layers+input_layer))
       allocate(self%hidden_weights_(neurons_per_layer, neurons_per_layer, num_hidden_layers))
 
-      do layer = 1, num_hidden_layers
-        do 
-          read(file_unit,'(a)', iostat=io_status) line_buffer
-          if (index(line_buffer, "[")/=0) exit
-        end do
-        associate(last_opening_bracket => index(line_buffer, "[", back=.true.), first_closing_bracket => index(line_buffer, "]"))
-          associate(unbracketed_line => line_buffer(last_opening_bracket+1:first_closing_bracket-1))
-            read(unbracketed_line,*) self%biases_(:,layer)
-          end associate
+      do 
+        read(file_unit,'(a)', iostat=io_status) line_buffer
+        if (index(line_buffer, "[")/=0) exit
+      end do
+      associate(last_opening_bracket => index(line_buffer, "[", back=.true.), first_closing_bracket => index(line_buffer, "]"))
+        associate(unbracketed_line => line_buffer(last_opening_bracket+1:first_closing_bracket-1))
+          read(unbracketed_line,*) self%biases_(:,input_layer)
         end associate
+      end associate
 
+      do layer = 1, num_hidden_layers
         do 
           read(file_unit,'(a)', iostat=io_status) line_buffer
           if (index(line_buffer, "[[")/=0) exit
@@ -197,6 +198,16 @@ contains
             end associate
           end associate
         end do
+
+        do 
+          read(file_unit,'(a)', iostat=io_status) line_buffer
+          if (index(line_buffer, "[")/=0) exit
+        end do
+        associate(last_opening_bracket => index(line_buffer, "[", back=.true.), first_closing_bracket => index(line_buffer, "]"))
+          associate(unbracketed_line => line_buffer(last_opening_bracket+1:first_closing_bracket-1))
+            read(unbracketed_line,*) self%biases_(:,input_layer+layer)
+          end associate
+        end associate
       end do
 
       rewind(file_unit)
