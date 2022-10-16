@@ -18,7 +18,7 @@ contains
 
     ! TODO: add allocated(self%output_weights_) to allocated_components array
     associate(allocated_components => [allocated(self%input_weights_), allocated(self%hidden_weights_), allocated(self%biases_)])
-      call assert(all(allocated_components), "inference_engine_s(assert_self_consistent): fully allocated object", &
+      call assert(all(allocated_components), "inference_engine_s(assert_consistent): fully allocated object", &
         intrinsic_array_t(allocated_components))
     end associate
 
@@ -29,7 +29,7 @@ contains
         ubound(self%hidden_weights_, 2) - lbound(self%hidden_weights_, 2), &
         ubound(self%input_weights_,  2)  - lbound(self%input_weights_, 2)  &
     ] ) 
-      call assert(all(self%neurons_per_layer() == num_neurons), "inference_engine_s(assert_self_consistent)", &
+      call assert(all(self%neurons_per_layer() == num_neurons), "inference_engine_s(assert_consistent)", &
         intrinsic_array_t(num_neurons) &
       )
     end associate
