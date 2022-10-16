@@ -79,7 +79,7 @@ contains
 
   module procedure read_network
 
-    integer file_unit, io_status, num_inputs, num_hidden_layers
+    integer file_unit, io_status, num_inputs, num_hidden_layers, num_outputs
     character(len=:), allocatable :: line
 
     open(newunit=file_unit, file=file_name, form='formatted', status='old', iostat=io_status, action='read')
@@ -87,6 +87,7 @@ contains
 
     call read_line_and_count_inputs(file_unit, line, num_inputs)
     call count_hidden_layers(file_unit, len(line), num_hidden_layers)
+    call count_outputs(file_unit, len(line), num_hidden_layers, num_outputs)
 
     associate(last_opening_bracket => index(line, "[", back=.true.), first_closing_bracket => index(line, "]"))
       associate(unbracketed_line => line(last_opening_bracket+1:first_closing_bracket-1))
@@ -173,7 +174,7 @@ contains
           end associate
         end associate
       end do read_input_weights
-     
+
       allocate(self%biases_(neurons_per_layer, num_hidden_layers+input_layer))
       allocate(self%hidden_weights_(neurons_per_layer, neurons_per_layer, num_hidden_layers))
 
@@ -245,6 +246,15 @@ contains
         if (index(line_buffer, "[[") /= 0) layers = layers +1
       end do
       hidden_layers = layers - (input_layer + output_layer)
+      rewind(file_unit)
+    end subroutine
+
+    subroutine count_outputs(file_unit, buffer_size, num_hidden_layers, output_count)
+      integer, intent(in) :: file_unit, buffer_size, num_hidden_layers
+      integer, intent(out) :: output_count
+      integer, parameter :: input_layer=1, output_layer=1
+      rewind(file_unit)
+
       rewind(file_unit)
     end subroutine
 
