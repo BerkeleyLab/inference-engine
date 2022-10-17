@@ -31,7 +31,7 @@ contains
         "mapping (true,false) to true", &
         "mapping (false,false) to false", &
         "writing and then reading itself to and from a file" &
-      ], [xor_truth_table(), write_after_read()] &
+      ], [xor_truth_table(), write_then_read()] &
     )
   end function
 
@@ -41,7 +41,7 @@ contains
     y = merge(1., 0., x>0.)
   end function
 
-  function write_after_read() result(test_passes)
+  function write_then_read() result(test_passes)
     logical, allocatable :: test_passes
 
     procedure(activation_function), pointer :: f
@@ -60,8 +60,8 @@ contains
       activation = f &
     )
 
-    call xor_written%write_network("write_after_read_test_specimen")
-    call xor_read%read_network("write_after_read_test_specimen")
+    call xor_written%write_network("write_then_read_test_specimen")
+    call xor_read%read_network("write_then_read_test_specimen")
 
     !associate(difference => xor_written - xor_read)
     !end associate
