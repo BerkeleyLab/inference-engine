@@ -60,8 +60,8 @@ contains
       activation = f &
     )
 
-    call xor_written%write_network("write_then_read_test_specimen")
-    call xor_read%read_network("write_then_read_test_specimen")
+    call xor_written%write_network("build/write_then_read_test_specimen")
+    call xor_read%read_network("build/write_then_read_test_specimen")
 
     !associate(difference => xor_written - xor_read)
     !end associate
