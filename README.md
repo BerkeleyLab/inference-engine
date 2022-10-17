@@ -15,6 +15,8 @@
 [![GitHub license](https://img.shields.io/github/license/BerkeleyLab/inference-engine)](https://github.com/BerkeleyLab/inference-engine)
 ![GitHub watchers](https://img.shields.io/github/watchers/BerkeleyLab/inference-engine?style=social)
 
+> :memo: **Note:** The badges above will work once the repository goes public.
+
 # Overview
 `inference-engine` is a Fortran 2018 library which facillitates the loading of neural network weight and bias arrays and the instantiation of _fixed-sized_ feed-forward neural networks, enabling the user to perform inference on data within Fortran.
 
