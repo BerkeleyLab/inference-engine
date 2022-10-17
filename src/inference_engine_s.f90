@@ -14,9 +14,23 @@ contains
     inference_engine%activation_ => activation
   end procedure
 
+  module procedure conformable_with
+    conformable = all( &
+      [ shape(self%input_weights_ ) == shape(inference_engine%input_weights_ ) , &
+       [shape(self%hidden_weights_) == shape(inference_engine%hidden_weights_)], &
+       [shape(self%output_weights_) == shape(inference_engine%output_weights_)], &
+       [shape(self%biases_        ) == shape(inference_engine%biases_        )], &
+       [shape(self%output_biases_ ) == shape(inference_engine%output_biases_ )]  &
+      ] &
+    )
+  end procedure
+
   module procedure subtract
-    ! This assertion fails for unknown reasons:
+    ! This assertion fails for reasons probably indicate a gfortran compiler bug:
     ! call assert(associated(self%activation_, rhs%activation_), "inference_engine_t%subtract: consistent operands")
+
+    call assert(self%conformable_with(rhs), "inference_engine_t%subtract: conformable operands")
+    
     difference%input_weights_  = self%input_weights_  - rhs%input_weights_ 
     difference%hidden_weights_ = self%hidden_weights_ - rhs%hidden_weights_
     difference%output_weights_ = self%output_weights_ - rhs%output_weights_

@@ -32,6 +32,7 @@ module inference_engine_m
     procedure :: neurons_per_layer
     procedure :: num_hidden_layers
     procedure :: norm
+    procedure :: conformable_with
     procedure :: subtract
     generic :: operator(-) => subtract
   end type
@@ -74,6 +75,13 @@ module inference_engine_m
       class(inference_engine_t), intent(in) :: self
       type(inference_engine_t), intent(in) :: rhs
       type(inference_engine_t)  difference
+    end function
+
+    pure module function conformable_with(self, inference_engine) result(conformable)
+      implicit none
+      class(inference_engine_t), intent(in) :: self
+      type(inference_engine_t), intent(in) :: inference_engine
+      logical conformable
     end function
 
     pure module function infer(self, input) result(output)
