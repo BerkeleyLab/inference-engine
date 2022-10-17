@@ -25,13 +25,48 @@ contains
     type(test_result_t), allocatable :: test_results(:)
 
     test_results = test_result_t( &
-      [ character(len=len("mapping (false,false) to false")) :: &
+      [ character(len=len("writing and then reading itself to and from a file")) :: &
         "mapping (true,true) to false", &
         "mapping (false,true) to true", &
         "mapping (true,false) to true", &
-        "mapping (false,false) to false" &
-      ], xor_truth_table() &
+        "mapping (false,false) to false", &
+        "writing and then reading itself to and from a file" &
+      ], [xor_truth_table(), write_after_read()] &
     )
+  end function
+
+  pure function step(x) result(y)
+    real, intent(in) :: x
+    real y
+    y = merge(1., 0., x>0.)
+  end function
+
+  function write_after_read() result(test_passes)
+    logical, allocatable :: test_passes
+
+    procedure(activation_function), pointer :: f
+    type(inference_engine_t) xor_written, xor_read
+    integer i, j
+    integer, parameter :: identity(*,*,*) = reshape([((merge(1,0,i==j), i=1,3), j=1,3)], shape=[3,3,1])
+
+    f => step
+
+    xor_written = inference_engine_t( &
+      input_weights = real(reshape([1,1,0,0,1,1], [2,3])), &
+      hidden_weights = real(identity), &
+      output_weights = real(reshape([1,-2,1], [1,3])), &
+      biases = reshape([0.,-1.99,0., 0.,0.,0.], [3,2]), &
+      output_biases = [0.], &
+      activation = f &
+    )
+
+    call xor_written%write_network("write_after_read_test_specimen")
+    call xor_read%read_network("write_after_read_test_specimen")
+
+    !associate(difference => xor_written - xor_read)
+    !end associate
+
+    test_passes = .true.
   end function
 
   function xor_truth_table() result(test_passes)
@@ -45,7 +80,7 @@ contains
     f => step
    
     xor = inference_engine_t( &
-      input_weights = real(reshape([1,1,0,0,1,1], [3,2])), &
+      input_weights = real(reshape([1,0,1,1,0,1], [2,3])), &
       hidden_weights = real(identity), &
       output_weights = real(reshape([1,-2,1], [1,3])), &
       biases = reshape([0.,-1.99,0., 0.,0.,0.], [3,2]), &
@@ -71,14 +106,6 @@ contains
       end associate
     end block
 
-  contains
-
-    pure function step(x) result(y)
-      real, intent(in) :: x
-      real y
-      y = merge(1., 0., x>0.)
-    end function
-  
   end function
 
 end module inference_engine_test

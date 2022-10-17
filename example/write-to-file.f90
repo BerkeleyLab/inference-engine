@@ -18,7 +18,7 @@ program get_flag_value
   output_file_name =  command_line%flag_value("--output-file")
 
    xor = inference_engine_t( &
-    input_weights = real(reshape([1,1,0,0,1,1], [2,3])), &
+    input_weights = real(reshape([1,0,1,1,0,1], [2,3])), &
     hidden_weights = real(identity), &
     output_weights = real(reshape([1,-2,1], [1,3])), &
     biases = reshape([0.,-1.99,0., 0.,0.,0.], [3,2]), &

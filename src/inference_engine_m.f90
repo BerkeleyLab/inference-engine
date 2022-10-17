@@ -31,6 +31,8 @@ module inference_engine_m
     procedure :: num_outputs
     procedure :: neurons_per_layer
     procedure :: num_hidden_layers
+    procedure :: subtract
+    generic :: operator(-) => subtract
   end type
 
   interface inference_engine_t
@@ -59,6 +61,13 @@ module inference_engine_m
       class(inference_engine_t), intent(in) :: self
       character(len=*), intent(in) :: file_name
     end subroutine
+
+    pure module function subtract(self, rhs) result(difference)
+      implicit none
+      class(inference_engine_t), intent(in) :: self
+      type(inference_engine_t), intent(in) :: rhs
+      type(inference_engine_t)  difference
+    end function
 
     pure module function infer(self, input) result(output)
       implicit none

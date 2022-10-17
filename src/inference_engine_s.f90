@@ -14,6 +14,16 @@ contains
     inference_engine%activation_ => activation
   end procedure
 
+  module procedure subtract
+    difference%input_weights_  = self%input_weights_  - rhs%input_weights_ 
+    difference%hidden_weights_ = self%hidden_weights_ - rhs%hidden_weights_
+    difference%output_weights_ = self%output_weights_ - rhs%output_weights_
+    difference%biases_         = self%biases_         - rhs%biases_         
+    difference%output_biases_  = self%output_biases_  - rhs%output_biases_ 
+    call assert(associated(self%activation_, rhs%activation_), "inference_engine_t%subtract: consistent operands")
+    difference%activation_     => self%activation_
+  end procedure
+
   pure module subroutine assert_consistent(self)
     type(inference_engine_t), intent(in) :: self
 
@@ -69,25 +79,25 @@ contains
   module procedure infer
     
     integer n, layer, m
-    real neuron(size(self%input_weights_,1), 1 + size(self%hidden_weights_,3))
+    integer, parameter :: input_layer = 1
+    real, allocatable :: neuron(:,:)
 
-    associate(neurons_per_layer => size(neuron,1), first_layer => 1)
+    associate(neurons_per_layer => self%neurons_per_layer(), num_layers => self%num_hidden_layers()+input_layer)
+      allocate(neuron(neurons_per_layer, num_layers))
       do concurrent(n = 1:neurons_per_layer)
-        neuron(n,first_layer) = self%activation_(dot_product(self%input_weights_(n,:), input(:)) + self%biases_(n,1))
+        neuron(n,input_layer) = self%activation_(dot_product(self%input_weights_(:,n), input(:)) + self%biases_(n,input_layer))
       end do
-      associate( num_layers => size(neuron,2))
-        do layer = 2, num_layers
-          do concurrent(n = 1:neurons_per_layer)
-            neuron(n,layer) = &
-              self%activation_(dot_product(self%hidden_weights_(n,:,layer-1), neuron(:,layer-1)) + self%biases_(n,layer))
-          end do
+      do layer = 2, num_layers
+        do concurrent(n = 1:neurons_per_layer)
+          neuron(n,layer) = &
+            self%activation_(dot_product(self%hidden_weights_(:,n,layer-1), neuron(:,layer-1)) + self%biases_(n,layer))
         end do
-        associate(num_outputs => size(self%output_weights_,1))
-          allocate(output(num_outputs))
-          do concurrent(m = 1:num_outputs)
-            output(m) = self%activation_(dot_product(self%output_weights_(m,:), neuron(:,num_layers)) + self%output_biases_(m))
-          end do
-        end associate
+      end do
+      associate(num_outputs => self%num_outputs())
+        allocate(output(num_outputs))
+        do concurrent(m = 1:num_outputs)
+          output(m) = self%activation_(dot_product(self%output_weights_(m,:), neuron(:,num_layers)) + self%output_biases_(m))
+        end do
       end associate
     end associate
 
@@ -180,12 +190,6 @@ contains
     end associate
 
     close(file_unit)
-
-    print *,"shape(self%input_weights_): ",shape(self%input_weights_)
-    print *,"shape(self%hidden_weights_): ",shape(self%hidden_weights_)
-    print *,"shape(self%biases_): ",shape(self%biases_)
-    print *,"shape(self%output_weights_): ",shape(self%output_weights_)
-    print *,"shape(self%output_biases_): ",shape(self%output_biases_)
 
     call assert_consistent(self)
 
