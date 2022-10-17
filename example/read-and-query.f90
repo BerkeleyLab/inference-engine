@@ -1,6 +1,6 @@
-program get_flag_value
-  !! Demonstrate how to build a neural network from
-  !! a file of weights and biases
+program read_and_query
+  !! This program demonstrates how to read a neural network from a file into an
+  !! inference_engine_t object and then query the resulting object for its properties.
   use command_line_m, only : command_line_t
   use inference_engine_m, only : inference_engine_t
   implicit none
