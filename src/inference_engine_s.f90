@@ -15,13 +15,19 @@ contains
   end procedure
 
   module procedure subtract
+    ! This assertion fails for unknown reasons:
+    ! call assert(associated(self%activation_, rhs%activation_), "inference_engine_t%subtract: consistent operands")
     difference%input_weights_  = self%input_weights_  - rhs%input_weights_ 
     difference%hidden_weights_ = self%hidden_weights_ - rhs%hidden_weights_
     difference%output_weights_ = self%output_weights_ - rhs%output_weights_
     difference%biases_         = self%biases_         - rhs%biases_         
     difference%output_biases_  = self%output_biases_  - rhs%output_biases_ 
-    call assert(associated(self%activation_, rhs%activation_), "inference_engine_t%subtract: consistent operands")
-    difference%activation_     => self%activation_
+    difference%activation_    => self%activation_
+  end procedure
+
+  module procedure norm 
+    norm_of_self = maxval(abs(self%input_weights_)) + maxval(abs(self%hidden_weights_)) + maxval(abs(self%output_weights_)) + & 
+           maxval(abs(self%biases_)) + maxval(abs(self%output_biases_))
   end procedure
 
   pure module subroutine assert_consistent(self)

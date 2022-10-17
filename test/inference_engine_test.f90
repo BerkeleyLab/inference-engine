@@ -45,7 +45,7 @@ contains
     logical, allocatable :: test_passes
 
     procedure(activation_function), pointer :: f
-    type(inference_engine_t) xor_written, xor_read
+    type(inference_engine_t) xor_written, xor_read, difference
     integer i, j
     integer, parameter :: identity(*,*,*) = reshape([((merge(1,0,i==j), i=1,3), j=1,3)], shape=[3,3,1])
 
@@ -63,10 +63,13 @@ contains
     call xor_written%write_network("build/write_then_read_test_specimen")
     call xor_read%read_network("build/write_then_read_test_specimen")
 
-    !associate(difference => xor_written - xor_read)
-    !end associate
+    block 
+      type(inference_engine_t) difference
+      real, parameter :: tolerance = 1.0E-06
 
-    test_passes = .true.
+      difference = xor_read - xor_written
+      test_passes = difference%norm() < tolerance
+    end block
   end function
 
   function xor_truth_table() result(test_passes)
