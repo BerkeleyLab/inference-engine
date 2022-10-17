@@ -10,6 +10,7 @@ contains
     inference_engine%hidden_weights_ = hidden_weights
     inference_engine%output_weights_ = output_weights
     inference_engine%biases_ = biases
+    inference_engine%output_biases_ = output_biases
     inference_engine%activation_ => activation
   end procedure
 
@@ -47,12 +48,12 @@ contains
 
   module procedure num_outputs
     call assert(allocated(self%output_weights_), "inference_engine_t%num_outputs: allocated(self%output_weights_)")
-    output_count = ubound(self%output_weights_,1) - ubound(self%output_weights_,1) + 1
+    output_count = ubound(self%output_weights_,1) - lbound(self%output_weights_,1) + 1
   end procedure
 
   module procedure num_inputs
     call assert(allocated(self%input_weights_), "inference_engine_t%num_inputs: allocated(self%input_weights_)")
-    input_count = ubound(self%input_weights_,1) - ubound(self%input_weights_,1) + 1
+    input_count = ubound(self%input_weights_,1) - lbound(self%input_weights_,1) + 1
   end procedure
 
   module procedure neurons_per_layer
@@ -62,7 +63,7 @@ contains
 
   module procedure num_hidden_layers
     call assert(allocated(self%hidden_weights_), "inference_engine_t%num_hidden_layers: allocated(self%hidden_weights_)")
-    hidden_layer_count = ubound(self%hidden_weights_,2) - ubound(self%hidden_weights_,2) + 1
+    hidden_layer_count = ubound(self%hidden_weights_,3) - lbound(self%hidden_weights_,3) + 1
   end procedure
 
   module procedure infer
@@ -84,12 +85,78 @@ contains
         associate(num_outputs => size(self%output_weights_,1))
           allocate(output(num_outputs))
           do concurrent(m = 1:num_outputs)
-            output(m) = self%activation_(dot_product(self%output_weights_(m,:), neuron(:,num_layers)) + self%biases_(m,num_layers))
+            output(m) = self%activation_(dot_product(self%output_weights_(m,:), neuron(:,num_layers)) + self%output_biases_(m))
           end do
         end associate
       end associate
     end associate
 
+  end procedure
+
+  module procedure write_network
+    integer file_unit, io_status, input, layer, neuron
+
+    open(newunit=file_unit, file=file_name, form='formatted', status='unknown', iostat=io_status, action='write')
+    call assert(io_status==0,"write_network: io_status==0 after 'open' statement", file_name)
+ 
+    call assert_consistent(self)
+
+    write_input_layer : &
+    block
+      input = 1
+      write(file_unit,*) "[[", self%input_weights_(input,:), trim(merge("]]", "] ", self%num_inputs()==1))
+
+      do input = 2, self%num_inputs() - 1
+        write(file_unit,*) "[", self%input_weights_(input,:),"]"
+      end do
+
+      input = self%num_inputs()
+      if (input>1) write(file_unit,*) "[",self%input_weights_(self%num_inputs(), :),"]]"
+
+      write(file_unit,*)
+      write(file_unit,*) "[",self%biases_(:,1),"]"
+    end block write_input_layer
+
+    write_hidden_layers: &
+    do layer = 1, self%num_hidden_layers()
+
+      write(file_unit,*)
+
+      neuron = 1
+      write(file_unit,*) "[[", self%hidden_weights_(:, neuron, layer), trim(merge("]]", "] ", self%neurons_per_layer()==1))
+
+      do neuron = 2, self%neurons_per_layer()-1
+        write(file_unit,*) "[",self%hidden_weights_(: , neuron, layer),"]"
+      end do
+
+      neuron = self%neurons_per_layer()
+      if (neuron>1) write(file_unit,*) "[",self%hidden_weights_(:, neuron, layer),"]]"
+
+      write(file_unit,*)
+      write(file_unit,*) "[",self%biases_(:,layer+1),"]"
+
+    end do write_hidden_layers
+    
+    write_output_layer: &
+    block
+      write(file_unit, *)
+
+      neuron = 1
+      write(file_unit,*) "[[", self%output_weights_(:, neuron), trim(merge("]]", "] ", self%neurons_per_layer()==1))
+
+      do neuron = 2, self%neurons_per_layer()-1
+        write(file_unit,*) "[",self%output_weights_(:, neuron),"]"
+      end do
+
+      neuron = self%neurons_per_layer()
+      if (neuron>1) write(file_unit,*) "[",self%output_weights_(:, neuron),"]]"
+
+      write(file_unit,*)
+      write(file_unit,*) "[",self%output_biases_(:),"]"
+
+    end block write_output_layer
+
+    close(file_unit)
   end procedure
 
   module procedure read_network
@@ -113,6 +180,12 @@ contains
     end associate
 
     close(file_unit)
+
+    print *,"shape(self%input_weights_): ",shape(self%input_weights_)
+    print *,"shape(self%hidden_weights_): ",shape(self%hidden_weights_)
+    print *,"shape(self%biases_): ",shape(self%biases_)
+    print *,"shape(self%output_weights_): ",shape(self%output_weights_)
+    print *,"shape(self%output_biases_): ",shape(self%output_biases_)
 
     call assert_consistent(self)
 

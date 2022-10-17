@@ -25,6 +25,7 @@ module inference_engine_m
     procedure(activation_function), pointer, nopass :: activation_
   contains
     procedure :: read_network
+    procedure :: write_network
     procedure :: infer
     procedure :: num_inputs
     procedure :: num_outputs
@@ -34,10 +35,11 @@ module inference_engine_m
 
   interface inference_engine_t
 
-    pure module function construct(input_weights, hidden_weights, output_weights, biases, activation) result(inference_engine)
+    pure module function construct(input_weights, hidden_weights, output_weights, biases, output_biases, activation) &
+      result(inference_engine)
       implicit none
       real, intent(in), dimension(:,:) :: input_weights, output_weights, biases
-      real, intent(in) :: hidden_weights(:,:,:)
+      real, intent(in) :: hidden_weights(:,:,:), output_biases(:)
       procedure(activation_function), intent(in), pointer :: activation
       type(inference_engine_t) inference_engine
     end function
@@ -49,6 +51,12 @@ module inference_engine_m
     module subroutine read_network(self, file_name)
       implicit none
       class(inference_engine_t), intent(out) :: self
+      character(len=*), intent(in) :: file_name
+    end subroutine
+
+    module subroutine write_network(self, file_name)
+      implicit none
+      class(inference_engine_t), intent(in) :: self
       character(len=*), intent(in) :: file_name
     end subroutine
 

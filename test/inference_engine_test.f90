@@ -49,6 +49,7 @@ contains
       hidden_weights = real(identity), &
       output_weights = real(reshape([1,-2,1], [1,3])), &
       biases = reshape([0.,-1.99,0., 0.,0.,0.], [3,2]), &
+      output_biases = [0.], &
       activation = f &
     )
 
