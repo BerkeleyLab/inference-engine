@@ -64,20 +64,20 @@ module inference_engine_m
       character(len=*), intent(in) :: file_name
     end subroutine
 
-    pure module function norm(self) result(norm_of_self)
+    elemental module function norm(self) result(norm_of_self)
       implicit none
       class(inference_engine_t), intent(in) :: self
       real  norm_of_self
     end function
 
-    pure module function subtract(self, rhs) result(difference)
+    elemental module function subtract(self, rhs) result(difference)
       implicit none
       class(inference_engine_t), intent(in) :: self
       type(inference_engine_t), intent(in) :: rhs
       type(inference_engine_t)  difference
     end function
 
-    pure module function conformable_with(self, inference_engine) result(conformable)
+    elemental module function conformable_with(self, inference_engine) result(conformable)
       implicit none
       class(inference_engine_t), intent(in) :: self
       type(inference_engine_t), intent(in) :: inference_engine
@@ -91,25 +91,25 @@ module inference_engine_m
       real, allocatable :: output(:)
     end function
 
-    pure module function num_outputs(self) result(output_count)
+    elemental module function num_outputs(self) result(output_count)
       implicit none
       class(inference_engine_t), intent(in) :: self
       integer output_count
     end function
 
-    pure module function num_inputs(self) result(input_count)
+    elemental module function num_inputs(self) result(input_count)
       implicit none
       class(inference_engine_t), intent(in) :: self
       integer input_count
     end function
 
-    pure module function neurons_per_layer(self) result(neuron_count)
+    elemental module function neurons_per_layer(self) result(neuron_count)
       implicit none
       class(inference_engine_t), intent(in) :: self
       integer neuron_count
     end function
 
-    pure module function num_hidden_layers(self) result(hidden_layer_count)
+    elemental module function num_hidden_layers(self) result(hidden_layer_count)
       implicit none
       class(inference_engine_t), intent(in) :: self
       integer hidden_layer_count
