@@ -52,13 +52,13 @@ module inference_engine_m
 
   interface
 
-    module subroutine read_network(self, file_name)
+    impure elemental module subroutine read_network(self, file_name)
       implicit none
       class(inference_engine_t), intent(out) :: self
       character(len=*), intent(in) :: file_name
     end subroutine
 
-    module subroutine write_network(self, file_name)
+    impure elemental module subroutine write_network(self, file_name)
       implicit none
       class(inference_engine_t), intent(in) :: self
       character(len=*), intent(in) :: file_name
