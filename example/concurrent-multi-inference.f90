@@ -8,17 +8,20 @@ program concurrent_multi_inferrence
 
   type(inference_engine_t), allocatable :: inference_engines(:)
   type(command_line_t) command_line
-  character(len=:), allocatable :: input_file_names
+  character(len=:), allocatable :: input_files
   real, allocatable :: outputs(:), inputs(:,:)
   integer network
 
-  input_file_names =  command_line%flag_value("--input-files")
+  input_files =  command_line%flag_value("--input-files")
+
+
+  print *,"Defining an array of inference_engine_t objects by reading the files '"//input_files//"'"
+
+  associate(file_names => array_of_strings(input_files, delimiter=" "))
   
-  print *,"Defining an array of inference_engine_t objects by reading the files '"//input_file_names//"'"
-  associate(file_names_array => space_delimited_strings_to_array(input_file_names))
-    call inference_engines%read_network(file_names_array)
-    error stop "concurrent_multi_inferrence: inputs not yet defined"
-    ! inputs = 
+    error stop "trim file_names"
+
+    call inference_engines%read_network(file_names)
     do concurrent(network=1:size(inference_engines))
       outputs = inference_engines(network)%infer(inputs(:,network))
     end do
@@ -30,9 +33,30 @@ program concurrent_multi_inferrence
   print *,"neurons_per_layer = ", inference_engines%neurons_per_layer()
 
 contains
-  pure function space_delimited_strings_to_array(names) result(names_array)
-    character(len=*), intent(in) :: names
-    character(len=len(names)), allocatable :: names_array(:)
-    error stop "concurrent_multi_inferrence: space_delimited_strings_to_array() function not yet implemented"
+
+  pure function array_of_strings(delimited_strings, delimiter) result(array)
+    character(len=*), intent(in) :: delimited_strings, delimiter
+    character(len=len(delimited_strings)), allocatable :: array(:)
+    character(len=:), allocatable :: remainder, next_string
+    integer next_delimiter, string_end
+
+    remainder = trim(adjustl(delimited_strings))
+    allocate(array(0))
+
+    do 
+      next_delimiter = index(remainder, delimiter)
+      string_end = merge(next_delimiter-1, len(remainder), next_delimiter/=0)
+      if (string_end==len(remainder)) then
+        next_string = trim(adjustl(remainder(:string_end)))
+        remainder = ""
+      else
+        next_string = trim(adjustl(remainder(:string_end)))
+        remainder = trim(adjustl(remainder(next_delimiter+1:)))
+      end if
+      if (len(next_string)==0) exit
+      array = [character(len=len(array)):: array, next_string]
+    end do
+
   end function
+
 end program
