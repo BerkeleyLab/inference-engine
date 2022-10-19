@@ -12,14 +12,18 @@ program concurrent_multi_inferrence
   type(string_t), allocatable :: file_names(:)
   character(len=:), allocatable :: input_files
   real, allocatable :: outputs(:), inputs(:,:)
-  integer network
+  integer network, i
 
   input_files =  command_line%flag_value("--input-files")
   print *,"Defining an array of inference_engine_t objects by reading the following files: ", input_files
 
   file_names = array_of_strings(input_files, delimiter=" ")
 
+
+  allocate(inference_engines(size(file_names))) 
+
   call inference_engines%read_network(file_names)
+
   do concurrent(network=1:size(inference_engines))
     outputs = inference_engines(network)%infer(inputs(:,network))
   end do
