@@ -1,5 +1,6 @@
 module inference_engine_test
   !! Define inference tests and procedures required for reporting results
+  use string_m, only : string_t
   use test_m, only : test_t
   use test_result_m, only : test_result_t
   use inference_engine_m, only : inference_engine_t, activation_function
@@ -60,8 +61,8 @@ contains
       activation = f &
     )
 
-    call xor_written%write_network("build/write_then_read_test_specimen")
-    call xor_read%read_network("build/write_then_read_test_specimen")
+    call xor_written%write_network(string_t("build/write_then_read_test_specimen"))
+    call xor_read%read_network(string_t("build/write_then_read_test_specimen"))
 
     block 
       type(inference_engine_t) difference

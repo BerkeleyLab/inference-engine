@@ -126,8 +126,8 @@ contains
   module procedure write_network
     integer file_unit, io_status, input, layer, neuron
 
-    open(newunit=file_unit, file=file_name, form='formatted', status='unknown', iostat=io_status, action='write')
-    call assert(io_status==0,"write_network: io_status==0 after 'open' statement", file_name)
+    open(newunit=file_unit, file=file_name%string(), form='formatted', status='unknown', iostat=io_status, action='write')
+    call assert(io_status==0,"write_network: io_status==0 after 'open' statement", file_name%string())
  
     call assert_consistent(self)
 
@@ -194,8 +194,8 @@ contains
     integer file_unit, io_status, num_inputs, num_hidden_layers, num_outputs
     character(len=:), allocatable :: line
 
-    open(newunit=file_unit, file=file_name, form='formatted', status='old', iostat=io_status, action='read')
-    call assert(io_status==0,"read_network: io_status==0 after 'open' statement", io_status)
+    open(newunit=file_unit, file=file_name%string(), form='formatted', status='old', iostat=io_status, action='read')
+    call assert(io_status==0,"read_network: io_status==0 after 'open' statement", file_name%string())
 
     call read_line_and_count_inputs(file_unit, line, num_inputs)
     call count_hidden_layers(file_unit, len(line), num_hidden_layers)

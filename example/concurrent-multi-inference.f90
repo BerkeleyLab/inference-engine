@@ -4,28 +4,25 @@ program concurrent_multi_inferrence
   !! inference concurrently using the resulting inference_engine_t array.
   use command_line_m, only : command_line_t
   use inference_engine_m, only : inference_engine_t
+  use string_m, only : string_t
   implicit none
 
   type(inference_engine_t), allocatable :: inference_engines(:)
   type(command_line_t) command_line
+  type(string_t), allocatable :: file_names(:)
   character(len=:), allocatable :: input_files
   real, allocatable :: outputs(:), inputs(:,:)
   integer network
 
   input_files =  command_line%flag_value("--input-files")
+  print *,"Defining an array of inference_engine_t objects by reading the following files: ", input_files
 
+  file_names = array_of_strings(input_files, delimiter=" ")
 
-  print *,"Defining an array of inference_engine_t objects by reading the files '"//input_files//"'"
-
-  associate(file_names => array_of_strings(input_files, delimiter=" "))
-  
-    error stop "trim file_names"
-
-    call inference_engines%read_network(file_names)
-    do concurrent(network=1:size(inference_engines))
-      outputs = inference_engines(network)%infer(inputs(:,network))
-    end do
-  end associate
+  call inference_engines%read_network(file_names)
+  do concurrent(network=1:size(inference_engines))
+    outputs = inference_engines(network)%infer(inputs(:,network))
+  end do
 
   print *,"num_inputs = ", inference_engines%num_inputs()
   print *,"num_outputs = ", inference_engines%num_outputs()
@@ -34,14 +31,17 @@ program concurrent_multi_inferrence
 
 contains
 
-  pure function array_of_strings(delimited_strings, delimiter) result(array)
+  pure function array_of_strings(delimited_strings, delimiter) result(strings)
     character(len=*), intent(in) :: delimited_strings, delimiter
-    character(len=len(delimited_strings)), allocatable :: array(:)
+    type(string_t), allocatable :: strings(:)
     character(len=:), allocatable :: remainder, next_string
     integer next_delimiter, string_end
 
+    character(len=len(delimited_strings)), allocatable :: array(:) ! delete
+
     remainder = trim(adjustl(delimited_strings))
     allocate(array(0))
+    allocate(strings(0))
 
     do 
       next_delimiter = index(remainder, delimiter)
@@ -55,6 +55,7 @@ contains
       end if
       if (len(next_string)==0) exit
       array = [character(len=len(array)):: array, next_string]
+      strings = [strings, string_t(next_string)]
     end do
 
   end function

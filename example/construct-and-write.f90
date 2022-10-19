@@ -4,6 +4,7 @@ program construct_and_write
   !! inference_engine_t read_network type-bound procedure.
   use command_line_m, only : command_line_t
   use inference_engine_m, only : inference_engine_t, activation_function
+  use string_m, only : string_t
   implicit none
 
   type(inference_engine_t) xor
@@ -27,7 +28,7 @@ program construct_and_write
   )  
   print *,"Writing an inference_engine_t object to the file '"//output_file_name//"'"
 
-  call xor%write_network(output_file_name)
+  call xor%write_network(string_t(output_file_name))
 
 contains
 

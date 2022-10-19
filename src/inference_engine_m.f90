@@ -1,5 +1,6 @@
 module inference_engine_m
   !! Define an abstraction that supports inference operationsn on a neural network
+  use string_m, only : string_t
   implicit none
 
   private
@@ -55,13 +56,13 @@ module inference_engine_m
     impure elemental module subroutine read_network(self, file_name)
       implicit none
       class(inference_engine_t), intent(out) :: self
-      character(len=*), intent(in) :: file_name
+      type(string_t), intent(in) :: file_name
     end subroutine
 
     impure elemental module subroutine write_network(self, file_name)
       implicit none
       class(inference_engine_t), intent(in) :: self
-      character(len=*), intent(in) :: file_name
+      type(string_t), intent(in) :: file_name
     end subroutine
 
     elemental module function norm(self) result(norm_of_self)
