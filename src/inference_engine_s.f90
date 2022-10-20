@@ -5,6 +5,12 @@ submodule(inference_engine_m) inference_engine_s
 
 contains
 
+  pure function step(x) result(y)
+    real, intent(in) :: x
+    real y
+    y = merge(1., 0., x>0.)
+  end function
+
   module procedure construct
     inference_engine%input_weights_ = input_weights
     inference_engine%hidden_weights_ = hidden_weights
@@ -208,6 +214,8 @@ contains
         end associate
       end associate
     end associate
+
+    self%activation_ => step
 
     close(file_unit)
 
