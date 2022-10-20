@@ -30,10 +30,10 @@ module string_m
       character(len=:), allocatable :: raw_string
     end function
 
-    pure function array_of_strings(delimited_strings, delimiter) result(strings)
+    pure module function array_of_strings(delimited_strings, delimiter) result(strings_array)
       implicit none
       character(len=*), intent(in) :: delimited_strings, delimiter
-      type(string_t), allocatable :: strings(:)
+      type(string_t), allocatable :: strings_array(:)
     end function
    
   end interface
