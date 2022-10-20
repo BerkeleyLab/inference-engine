@@ -3,6 +3,7 @@ module string_m
   
   private
   public :: string_t
+  public :: array_of_strings
 
   type string_t
     private
@@ -27,6 +28,12 @@ module string_m
       implicit none
       class(string_t), intent(in) :: self
       character(len=:), allocatable :: raw_string
+    end function
+
+    pure function array_of_strings(delimited_strings, delimiter) result(strings)
+      implicit none
+      character(len=*), intent(in) :: delimited_strings, delimiter
+      type(string_t), allocatable :: strings(:)
     end function
    
   end interface
