@@ -3,7 +3,8 @@ module inference_engine_test
   use string_m, only : string_t
   use test_m, only : test_t
   use test_result_m, only : test_result_t
-  use inference_engine_m, only : inference_engine_t, activation_function
+  use inference_engine_m, only : inference_engine_t
+  use inference_strategy_m, only : activation_interface
   implicit none
 
   private
@@ -45,7 +46,7 @@ contains
   function write_then_read() result(test_passes)
     logical, allocatable :: test_passes
 
-    procedure(activation_function), pointer :: f
+    procedure(activation_interface), pointer :: f
     type(inference_engine_t) xor_written, xor_read, difference
     integer i, j
     integer, parameter :: identity(*,*,*) = reshape([((merge(1,0,i==j), i=1,3), j=1,3)], shape=[3,3,1])
@@ -76,7 +77,7 @@ contains
   function xor_truth_table() result(test_passes)
     logical, allocatable :: test_passes(:)
 
-    procedure(activation_function), pointer :: f
+    procedure(activation_interface), pointer :: f
     type(inference_engine_t) xor
     integer i, j
     integer, parameter :: identity(*,*,*) = reshape([((merge(1,0,i==j), i=1,3), j=1,3)], shape=[3,3,1])

@@ -3,14 +3,15 @@ program construct_and_write
   !! and how to write the resulting object to a file in the format that is readable by th 
   !! inference_engine_t read_network type-bound procedure.
   use command_line_m, only : command_line_t
-  use inference_engine_m, only : inference_engine_t, activation_function
+  use inference_engine_m, only : inference_engine_t
+  use inference_strategy_m, only : activation_interface
   use string_m, only : string_t
   implicit none
 
   type(inference_engine_t) xor
   type(command_line_t) command_line
   character(len=:), allocatable :: output_file_name
-  procedure(activation_function), pointer :: f
+  procedure(activation_interface), pointer :: f => null()
   integer i, j
   integer, parameter :: identity(*,*,*) = reshape([((merge(1,0,i==j), i=1,3), j=1,3)], shape=[3,3,1])
    

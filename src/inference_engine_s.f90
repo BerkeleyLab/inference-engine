@@ -1,6 +1,7 @@
 submodule(inference_engine_m) inference_engine_s
   use assert_m, only : assert
   use intrinsic_array_m, only : intrinsic_array_t
+  use concurrent_dot_products_m, only : concurrent_dot_products_t
   implicit none
 
 contains
@@ -18,6 +19,11 @@ contains
     inference_engine%biases_ = biases
     inference_engine%output_biases_ = output_biases
     inference_engine%activation_ => activation
+    if (present(inference_strategy)) then
+      inference_engine%inference_strategy_ = inference_strategy
+    else
+      inference_engine%inference_strategy_ = concurrent_dot_products_t()
+    end if
   end procedure
 
   module procedure conformable_with
@@ -52,6 +58,9 @@ contains
 
   pure module subroutine assert_consistent(self)
     type(inference_engine_t), intent(in) :: self
+
+    call assert(allocated(self%inference_strategy_), "inference_engine%assert_consistent: allocated(self%inference_strategy_)")
+    call assert(associated(self%activation_), "inference_engine%assert_consistent: associated(self%activation_)")
 
     associate(allocated_components => &
       [allocated(self%input_weights_), allocated(self%hidden_weights_), allocated(self%biases_), allocated(self%output_weights_)] &
@@ -104,29 +113,14 @@ contains
 
   module procedure infer
     
-    integer n, layer, m
     integer, parameter :: input_layer = 1
-    real, allocatable :: neuron(:,:)
+  
+    call assert_consistent(self)
 
-    associate(neurons_per_layer => self%neurons_per_layer(), num_layers => self%num_hidden_layers()+input_layer)
-      allocate(neuron(neurons_per_layer, num_layers))
-      do concurrent(n = 1:neurons_per_layer)
-        neuron(n,input_layer) = self%activation_(dot_product(self%input_weights_(:,n), input(:)) + self%biases_(n,input_layer))
-      end do
-      do layer = 2, num_layers
-        do concurrent(n = 1:neurons_per_layer)
-          neuron(n,layer) = &
-            self%activation_(dot_product(self%hidden_weights_(:,n,layer-1), neuron(:,layer-1)) + self%biases_(n,layer))
-        end do
-      end do
-      associate(num_outputs => self%num_outputs())
-        allocate(output(num_outputs))
-        do concurrent(m = 1:num_outputs)
-          output(m) = self%activation_(dot_product(self%output_weights_(m,:), neuron(:,num_layers)) + self%output_biases_(m))
-        end do
-      end associate
-    end associate
-
+    output = self%inference_strategy_%infer( &
+      self%neurons_per_layer(), self%num_hidden_layers() + input_layer, self%num_outputs(), input, &
+      self%input_weights_, self%hidden_weights_, self%biases_, self%output_biases_, self%output_weights_, self%activation_ &
+    )
   end procedure
 
   module procedure write_network
@@ -216,6 +210,7 @@ contains
     end associate
 
     self%activation_ => step
+    self%inference_strategy_  = concurrent_dot_products_t()
 
     close(file_unit)
 
