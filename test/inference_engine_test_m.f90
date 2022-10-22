@@ -4,6 +4,10 @@ module inference_engine_test_m
   use test_m, only : test_t
   use test_result_m, only : test_result_t
   use inference_engine_m, only : inference_engine_t
+  use activation_strategy_m, only : activation_strategy_t
+  use concurrent_dot_products_m, only : concurrent_dot_products_t
+  use step_m, only : step_t
+  use matmul_m, only : matmul_t
   implicit none
 
   private
@@ -75,7 +79,8 @@ contains
       hidden_weights = real(identity), &
       output_weights = real(reshape([1,-2,1], [1,3])), &
       biases = reshape([0.,-1.99,0., 0.,0.,0.], [3,2]), &
-      output_biases = [0.] &
+      output_biases = [0.], &
+      inference_strategy = matmul_t() &
     )
 
     block

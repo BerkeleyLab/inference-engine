@@ -13,7 +13,7 @@ contains
     inference_engine%output_weights_ = output_weights
     inference_engine%biases_ = biases
     inference_engine%output_biases_ = output_biases
-    if (present(inference_strategy)) then
+    if (present(activation_strategy)) then
       inference_engine%activation_strategy_ = activation_strategy
     else
       inference_engine%activation_strategy_ = step_t()
