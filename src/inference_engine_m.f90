@@ -2,6 +2,7 @@ module inference_engine_m
   !! Define an abstraction that supports inference operationsn on a neural network
   use string_m, only : string_t
   use inference_strategy_m, only : inference_strategy_t
+  use activation_strategy_m, only : activation_strategy_t
   implicit none
 
   private
@@ -15,6 +16,7 @@ module inference_engine_m
     real, allocatable :: output_weights_(:,:)   ! weights applied to go from the final hidden layer to the outputs
     real, allocatable :: biases_(:,:)           ! neuronal offsets for each hidden layer
     real, allocatable :: output_biases_(:)      ! neuronal offsets applied to outputs
+    class(activation_strategy_t), allocatable :: activation_strategy_
     class(inference_strategy_t), allocatable :: inference_strategy_
   contains
     procedure :: read_network
@@ -33,12 +35,13 @@ module inference_engine_m
   interface inference_engine_t
 
     pure module function construct &
-      (input_weights, hidden_weights, output_weights, biases, output_biases, inference_strategy) &
+      (input_weights, hidden_weights, output_weights, biases, output_biases, inference_strategy, activation_strategy) &
       result(inference_engine)
       implicit none
       real, intent(in), dimension(:,:) :: input_weights, output_weights, biases
       real, intent(in) :: hidden_weights(:,:,:), output_biases(:)
       class(inference_strategy_t), intent(in), optional :: inference_strategy
+      class(activation_strategy_t), intent(in), optional :: activation_strategy
       type(inference_engine_t) inference_engine
     end function
 

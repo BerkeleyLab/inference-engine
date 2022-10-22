@@ -12,9 +12,6 @@ contains
     integer, parameter :: input_layer = 1
     real, allocatable :: neuron(:,:)
 
-    class(activation_strategy_t), allocatable :: activation_strategy
-    allocate(step_t :: activation_strategy)
-   
     allocate(neuron(neurons_per_layer, num_layers))
     do concurrent(n = 1:neurons_per_layer)
       neuron(n,input_layer) = activation_strategy%activation(dot_product(input_weights(:,n), input(:)) + biases(n,input_layer))

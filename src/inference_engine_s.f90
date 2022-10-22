@@ -2,15 +2,10 @@ submodule(inference_engine_m) inference_engine_s
   use assert_m, only : assert
   use intrinsic_array_m, only : intrinsic_array_t
   use concurrent_dot_products_m, only : concurrent_dot_products_t
+  use step_m, only : step_t
   implicit none
 
 contains
-
-  pure function step(x) result(y)
-    real, intent(in) :: x
-    real y
-    y = merge(1., 0., x>0.)
-  end function
 
   module procedure construct
     inference_engine%input_weights_ = input_weights
@@ -18,6 +13,11 @@ contains
     inference_engine%output_weights_ = output_weights
     inference_engine%biases_ = biases
     inference_engine%output_biases_ = output_biases
+    if (present(inference_strategy)) then
+      inference_engine%activation_strategy_ = activation_strategy
+    else
+      inference_engine%activation_strategy_ = step_t()
+    end if
     if (present(inference_strategy)) then
       inference_engine%inference_strategy_ = inference_strategy
     else
@@ -55,6 +55,7 @@ contains
     type(inference_engine_t), intent(in) :: self
 
     call assert(allocated(self%inference_strategy_), "inference_engine%assert_consistent: allocated(self%inference_strategy_)")
+    call assert(allocated(self%activation_strategy_), "inference_engine%assert_consistent: allocated(self%activation_strategy_)")
 
     associate(allocated_components => &
       [allocated(self%input_weights_), allocated(self%hidden_weights_), allocated(self%biases_), allocated(self%output_weights_)] &
@@ -112,8 +113,8 @@ contains
     call assert_consistent(self)
 
     output = self%inference_strategy_%infer( &
-      self%neurons_per_layer(), self%num_hidden_layers() + input_layer, self%num_outputs(), input, &
-      self%input_weights_, self%hidden_weights_, self%biases_, self%output_biases_, self%output_weights_ &
+      self%neurons_per_layer(), self%num_hidden_layers() + input_layer, self%num_outputs(), input, self%input_weights_, &
+      self%hidden_weights_, self%biases_, self%output_biases_, self%output_weights_, self%activation_strategy_ &
     )
   end procedure
 
@@ -203,6 +204,7 @@ contains
       end associate
     end associate
 
+    self%activation_strategy_  = step_t()
     self%inference_strategy_  = concurrent_dot_products_t()
 
     close(file_unit)
