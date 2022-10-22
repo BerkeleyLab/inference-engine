@@ -1,4 +1,4 @@
-module inference_engine_test
+module inference_engine_test_m
   !! Define inference tests and procedures required for reporting results
   use string_m, only : string_t
   use test_m, only : test_t
@@ -113,4 +113,4 @@ contains
 
   end function
 
-end module inference_engine_test
+end module inference_engine_test_m

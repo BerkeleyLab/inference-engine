@@ -1,5 +1,5 @@
 program main
-  use inference_engine_test, only : inference_engine_test_t  
+  use inference_engine_test_m, only : inference_engine_test_t  
   implicit none
 
   type(inference_engine_test_t) inference_engine_test
