@@ -30,13 +30,17 @@ contains
     type(test_result_t), allocatable :: test_results(:)
 
     test_results = test_result_t( &
-      [ character(len=len("writing and then reading itself to and from a file")) :: &
-        "mapping (true,true) to false", &
-        "mapping (false,true) to true", &
-        "mapping (true,false) to true", &
-        "mapping (false,false) to false", &
-        "writing and then reading itself to and from a file" &
-      ], [xor_truth_table(), write_then_read()] &
+      [ character(len=len("mapping (true,true) to false using the default ('do concurrent'/dot_product) inference method")) :: &
+        "mapping (true,true) to false using the default ('do concurrent'/dot_product) inference method", &
+        "mapping (false,true) to true using the default inference method", &
+        "mapping (true,false) to true using the default inference method", &
+        "mapping (false,false) to false using the default inference method", &
+        "writing and then reading itself to and from a file", &
+        "mapping (true,true) to false using `matmul`-based inference method", &
+        "mapping (false,true) to true using `matmul`-based inference method", &
+        "mapping (true,false) to true using `matmul`-based inference method", &
+        "mapping (false,false) to false using `matmul`-based inference method" &
+      ], [xor_truth_table(), write_then_read(), matmul_inference()] &
     )
   end function
 
@@ -68,6 +72,41 @@ contains
   end function
 
   function xor_truth_table() result(test_passes)
+    logical, allocatable :: test_passes(:)
+
+    type(inference_engine_t) xor
+    integer i, j
+    integer, parameter :: identity(*,*,*) = reshape([((merge(1,0,i==j), i=1,3), j=1,3)], shape=[3,3,1])
+   
+    xor = inference_engine_t( &
+      input_weights = real(reshape([1,0,1,1,0,1], [2,3])), &
+      hidden_weights = real(identity), &
+      output_weights = real(reshape([1,-2,1], [1,3])), &
+      biases = reshape([0.,-1.99,0., 0.,0.,0.], [3,2]), &
+      output_biases = [0.] &
+    )
+
+    block
+      real, parameter :: tolerance = 1.E-08, false = 0., true = 1.
+
+      associate( &
+        true_true => xor%infer(input=[true,true]), & 
+        true_false => xor%infer(input=[true,false]), &
+        false_true => xor%infer(input=[false,true]), &
+        false_false => xor%infer(input=[false,false]) &
+      )
+        test_passes = [ &
+          size(true_true)==1 .and. abs(true_true(1) - false) < tolerance, &
+          size(true_false)==1 .and. abs(true_false(1) - true) < tolerance,  &
+          size(false_true)==1 .and. abs(false_true(1) - true) < tolerance, &
+          size(false_false)==1 .and. abs(false_false(1) - false) < tolerance  &
+        ]
+      end associate
+    end block
+
+  end function
+
+  function matmul_inference() result(test_passes)
     logical, allocatable :: test_passes(:)
 
     type(inference_engine_t) xor
