@@ -11,7 +11,7 @@ module activation_strategy_m
 
   abstract interface
 
-    pure function activation_interface(x) result(y)
+    elemental function activation_interface(x) result(y)
       implicit none
       real, intent(in) :: x
       real y
