@@ -19,6 +19,7 @@ module inference_strategy_m
 
     pure function infer_interface(neurons_per_layer, num_layers, num_outputs, &
       input, input_weights, hidden_weights, biases, output_biases, output_weights, activation)  result(output)
+      import activation_interface
       implicit none
       integer, intent(in) :: neurons_per_layer, num_layers, num_outputs
       real, intent(in)  :: input(:)
