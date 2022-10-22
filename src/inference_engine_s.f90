@@ -56,7 +56,7 @@ contains
            maxval(abs(self%biases_)) + maxval(abs(self%output_biases_))
   end procedure
 
-  pure module subroutine assert_consistent(self)
+  pure subroutine assert_consistent(self)
     type(inference_engine_t), intent(in) :: self
 
     call assert(allocated(self%inference_strategy_), "inference_engine%assert_consistent: allocated(self%inference_strategy_)")
@@ -218,7 +218,7 @@ contains
 
   contains
 
-    module function line_length(file_unit) result(length)
+    function line_length(file_unit) result(length)
       integer, intent(in) :: file_unit
       integer length, io_status
       character(len=1) c
@@ -234,7 +234,7 @@ contains
       rewind(file_unit)
     end function
 
-    module subroutine read_line_and_count_inputs(file_unit, line, input_count)
+    subroutine read_line_and_count_inputs(file_unit, line, input_count)
       integer, intent(in) :: file_unit
       character(len=:), intent(out), allocatable :: line
       integer, intent(out) :: input_count
@@ -252,7 +252,7 @@ contains
       rewind(file_unit)
     end subroutine
 
-    pure module function num_array_elements_in(space_delimited_reals) result(array_size)
+    pure function num_array_elements_in(space_delimited_reals) result(array_size)
       character(len=*), intent(in) :: space_delimited_reals
       real, allocatable :: array(:)
       integer array_size, io_status
@@ -268,7 +268,7 @@ contains
       array_size = size(array)-1
     end function
 
-    module subroutine read_weights_and_biases( &
+    subroutine read_weights_and_biases( &
        file_unit, buffer_size, num_inputs, neurons_per_layer, num_hidden_layers, num_outputs, self &
     )
       integer, intent(in) :: file_unit, buffer_size, num_inputs, neurons_per_layer, num_hidden_layers, num_outputs
