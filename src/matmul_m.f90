@@ -15,10 +15,10 @@ module matmul_m
 
   interface
 
-    pure module function infer(neurons_per_layer, num_layers, num_outputs, &
-      input, input_weights, hidden_weights, biases, output_biases, output_weights, activation_strategy) result(output)
+    pure module function infer( &
+      input, input_weights, hidden_weights, biases, output_biases, output_weights, activation_strategy &
+    ) result(output)
       implicit none
-      integer, intent(in) :: neurons_per_layer, num_layers, num_outputs
       real, intent(in)  :: input(:)
       real, intent(in), allocatable :: input_weights(:,:)    !! weights applied to go from the inputs to first hidden layer
       real, intent(in), allocatable :: hidden_weights(:,:,:) !! weights applied to go from one hidden layer to the next

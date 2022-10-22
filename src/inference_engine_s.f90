@@ -112,9 +112,8 @@ contains
   
     call assert_consistent(self)
 
-    output = self%inference_strategy_%infer( &
-      self%neurons_per_layer(), self%num_hidden_layers() + input_layer, self%num_outputs(), input, self%input_weights_, &
-      self%hidden_weights_, self%biases_, self%output_biases_, self%output_weights_, self%activation_strategy_ &
+    output = self%inference_strategy_%infer(input, &
+      self%input_weights_, self%hidden_weights_, self%biases_, self%output_biases_, self%output_weights_, self%activation_strategy_&
     )
   end procedure
 
