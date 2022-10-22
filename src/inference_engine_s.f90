@@ -18,7 +18,6 @@ contains
     inference_engine%output_weights_ = output_weights
     inference_engine%biases_ = biases
     inference_engine%output_biases_ = output_biases
-    inference_engine%activation_ => activation
     if (present(inference_strategy)) then
       inference_engine%inference_strategy_ = inference_strategy
     else
@@ -38,9 +37,6 @@ contains
   end procedure
 
   module procedure subtract
-    ! This assertion fails for reasons probably indicate a gfortran compiler bug:
-    ! call assert(associated(self%activation_, rhs%activation_), "inference_engine_t%subtract: consistent operands")
-
     call assert(self%conformable_with(rhs), "inference_engine_t%subtract: conformable operands")
     
     difference%input_weights_  = self%input_weights_  - rhs%input_weights_ 
@@ -48,7 +44,6 @@ contains
     difference%output_weights_ = self%output_weights_ - rhs%output_weights_
     difference%biases_         = self%biases_         - rhs%biases_         
     difference%output_biases_  = self%output_biases_  - rhs%output_biases_ 
-    difference%activation_    => self%activation_
   end procedure
 
   module procedure norm 
@@ -60,7 +55,6 @@ contains
     type(inference_engine_t), intent(in) :: self
 
     call assert(allocated(self%inference_strategy_), "inference_engine%assert_consistent: allocated(self%inference_strategy_)")
-    call assert(associated(self%activation_), "inference_engine%assert_consistent: associated(self%activation_)")
 
     associate(allocated_components => &
       [allocated(self%input_weights_), allocated(self%hidden_weights_), allocated(self%biases_), allocated(self%output_weights_)] &
@@ -119,7 +113,7 @@ contains
 
     output = self%inference_strategy_%infer( &
       self%neurons_per_layer(), self%num_hidden_layers() + input_layer, self%num_outputs(), input, &
-      self%input_weights_, self%hidden_weights_, self%biases_, self%output_biases_, self%output_weights_, self%activation_ &
+      self%input_weights_, self%hidden_weights_, self%biases_, self%output_biases_, self%output_weights_ &
     )
   end procedure
 
@@ -209,7 +203,6 @@ contains
       end associate
     end associate
 
-    self%activation_ => step
     self%inference_strategy_  = concurrent_dot_products_t()
 
     close(file_unit)

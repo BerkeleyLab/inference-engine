@@ -1,7 +1,7 @@
 module concurrent_dot_products_m
   !! Perform inference using the dot_product intrinsic function inside `do concurrent` constructs
   !! to compute matrix-vector multiplies for forward information propagation from layer to layer
-  use inference_strategy_m, only : inference_strategy_t, activation_interface
+  use inference_strategy_m, only : inference_strategy_t
   implicit none
 
   private
@@ -15,7 +15,7 @@ module concurrent_dot_products_m
   interface
 
     pure module function infer(neurons_per_layer, num_layers, num_outputs, &
-      input, input_weights, hidden_weights, biases, output_biases, output_weights, activation) result(output)
+      input, input_weights, hidden_weights, biases, output_biases, output_weights) result(output)
       implicit none
       integer, intent(in) :: neurons_per_layer, num_layers, num_outputs
       real, intent(in)  :: input(:)
@@ -24,7 +24,6 @@ module concurrent_dot_products_m
       real, intent(in), allocatable :: biases(:,:)           !! neuronal offsets for each hidden layer
       real, intent(in), allocatable :: output_biases(:)      !! neuronal offsets applied to outputs
       real, intent(in), allocatable :: output_weights(:,:)   !! weights applied to go from the final hidden layer to the outputs
-      procedure(activation_interface), intent(in), pointer :: activation !! activation function
       real, allocatable :: output(:)
     end function
 
