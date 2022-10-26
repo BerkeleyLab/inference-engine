@@ -1,6 +1,6 @@
 program construct_and_write
   !! This program demonstrates how to construct a neural network from arrays of weights and biases
-  !! and how to write the resulting object to a file in the format that is readable.
+  !! and how to write the resulting object to a file in the format that is readable by the
   !! inference_engine_t read_network type-bound procedure.
   use command_line_m, only : command_line_t
   use inference_engine_m, only : inference_engine_t
