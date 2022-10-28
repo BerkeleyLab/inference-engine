@@ -1,5 +1,5 @@
 module matmul_m
-  !! Perform inference using the dot_product intrinsic function inside `do concurrent` constructs
+  !! Perform inference using the matrix multiplication intrinsic function inside `do concurrent` constructs
   !! to compute matrix-vector multiplies for forward information propagation from layer to layer
   use inference_strategy_m, only : inference_strategy_t
   use activation_strategy_m, only : activation_strategy_t
