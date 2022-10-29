@@ -8,30 +8,11 @@ jobs:
     strategy:
       fail-fast: true
 
-    env:
-      FC: gfortran
-      GCC_V: 12
-
     steps:
     - name: Checkout code
       uses: actions/checkout@v2
-
-    - name: Install Dependencies
-      run: |
-        sudo apt install -y gfortran-${GCC_V} cmake mpich
-        sudo update-alternatives --install /usr/bin/gfortran gfortran /usr/bin/gfortran-${GCC_V} 100
-        git clone https://github.com/sourceryinstitute/opencoarrays
-        mkdir -p opencoarrays/build
-        cd opencoarrays/build
-        cmake ..
-        sudo make -j $(nproc) install
-        cd -
-        git clone https://github.com/fortran-lang/fpm
-        cd fpm
-        ./install.sh
 
     - name: Build and Test
       run: |
         export PATH="${HOME}/.local/bin:$PATH"
         ./setup.sh
-        ./build/run-fpm.sh test
