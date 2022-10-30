@@ -97,7 +97,7 @@ FPM_FLAG=" $FPM_FLAG -L$NETCDF_LIB_PATH -L$HDF5_LIB_PATH -L$NETCDFF_LIB_PATH"
 FPM_FC="$FC"
 FPM_CC="$CC"
 
-echo "----> Initial PKG_CONFIG_PATH=$PKG_CONFIG_PATH"
+echo "----> Initial PKG_CONFIG_PATH=${PKG_CONFIG_PATH:-}"
 if [ $CI = true ]; then
   PKG_CONFIG_PATH=build/pkgconfig
 else
