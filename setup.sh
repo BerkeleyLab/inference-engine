@@ -68,15 +68,15 @@ mkdir -p build/dependencies/netcdf-fortran/build
 
 CI=${CI:-"false"} # GitHub Actions workflows set CI=true
 
-if [ $CI = true ]; then
-  NETCDFF_PREFIX="/usr/local"
-fi
-
 cd build/dependencies/netcdf-fortran/build
   GCC_VER="12" # This should be replaced with code extracting the version number from Homebrew
   export FC=gfortran-${GCC_VER} CC=gcc-${GCC_VER} CXX=g++-${GCC_VER}
+  if [ $CI = true ]; then
+    NETCDFF_PREFIX="/usr/local"
+  else
+    NETCDFF_PREFIX="$PREFIX"
+  fi
   NETCDF_PREFIX="`brew --prefix netcdf`"
-  NETCDFF_PREFIX="$PREFIX"
   cmake .. \
     -DNETCDF_C_LIBRARY="$NETCDF_PREFIX/lib" \
     -DNETCDF_C_INCLUDE_DIR="$NETCDF_PREFIX/include" \
