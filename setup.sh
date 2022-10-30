@@ -134,7 +134,10 @@ if command -v fpm > /dev/null 2>&1; then
   brew install fpm
 fi
 
-./build/run-fpm.sh test
+cat $INFERENCE_ENGINE_PC
+cat build/run-fpm.sh
+
+#./build/run-fpm.sh test
 
 echo ""
 echo "______________ Inference-Engine has been installed! ______________" 
