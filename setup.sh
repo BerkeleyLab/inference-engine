@@ -97,6 +97,7 @@ FPM_FLAG=" $FPM_FLAG -L$NETCDF_LIB_PATH -L$HDF5_LIB_PATH -L$NETCDFF_LIB_PATH"
 FPM_FC="$FC"
 FPM_CC="$CC"
 
+echo "----> Initial PKG_CONFIG_PATH=$PKG_CONFIG_PATH"
 if [ $CI = true ]; then
   PKG_CONFIG_PATH=build/pkgconfig
 else
@@ -105,6 +106,7 @@ fi
 if [ ! -d $PKG_CONFIG_PATH ]; then
   mkdir -p $PKG_CONFIG_PATH 
 fi
+echo "----> Final PKG_CONFIG_PATH=$PKG_CONFIG_PATH"
 
 INFERENCE_ENGINE_PC="$PKG_CONFIG_PATH/inference-engine.pc"
 echo "INFERENCE_ENGINE_FPM_CXX=\"$CXX\""       >  $INFERENCE_ENGINE_PC
@@ -134,7 +136,11 @@ if command -v fpm > /dev/null 2>&1; then
   brew install fpm
 fi
 
+echo "---------------"
+echo "cat $INFERENCE_ENGINE_PC"
 cat $INFERENCE_ENGINE_PC
+echo "---------------"
+echo "cat build/run-fpm.sh"
 cat build/run-fpm.sh
 
 #./build/run-fpm.sh test
