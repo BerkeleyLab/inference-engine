@@ -2,10 +2,13 @@ name: CI
 
 on: [push, pull_request]
 
+
 jobs:
   Build:
-    runs-on: ubuntu-latest
+    runs-on: ${{ matrix.os }}
     strategy:
+      matrix:
+        os: [macOS-latest]
       fail-fast: true
 
     steps:

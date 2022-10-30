@@ -56,7 +56,7 @@ fi
 
 
 brew tap fortran-lang/fortran # required for building fpm
-brew install opencoarrays fpm cmake netcdf pkg-config coreutils # coreutils supports `realpath` below
+brew install fpm cmake netcdf pkg-config coreutils # coreutils supports `realpath` below
 
 PREFIX=`realpath $PREFIX`
 
@@ -66,13 +66,21 @@ if [ ! -d ./build/dependencies/netcdf-fortran ]; then
 fi
 mkdir -p build/dependencies/netcdf-fortran/build
 
+CI=${CI:-"false"} # GitHub Actions workflows set CI=true
+
+if [ $CI = true ]; then
+  NETCDFF_PREFIX="/usr/local"
+fi
+
 cd build/dependencies/netcdf-fortran/build
   GCC_VER="12" # This should be replaced with code extracting the version number from Homebrew
   export FC=gfortran-${GCC_VER} CC=gcc-${GCC_VER} CXX=g++-${GCC_VER}
   NETCDF_PREFIX="`brew --prefix netcdf`"
+  NETCDFF_PREFIX="$PREFIX"
   cmake .. \
     -DNETCDF_C_LIBRARY="$NETCDF_PREFIX/lib" \
-    -DNETCDF_C_INCLUDE_DIR="$NETCDF_PREFIX/include"
+    -DNETCDF_C_INCLUDE_DIR="$NETCDF_PREFIX/include" \
+    -DCMAKE_INSTALL_PREFIX="$NETCDFF_PREFIX"
   make -j4
   sudo make install
 cd -
@@ -80,29 +88,33 @@ cd -
 GIT_VERSION=`git describe --long --dirty --all --always | sed -e's/heads\///'`
 NETCDF_LIB_PATH="`brew --prefix netcdf`/lib"
 HDF5_LIB_PATH="`brew --prefix hdf5`/lib"
+NETCDFF_LIB_PATH="$NETCDFF_PREFIX/lib"
 
 FPM_FLAG="-cpp -DUSE_ASSERTIONS=.true."
 FPM_FLAG=" $FPM_FLAG -fallow-argument-mismatch -ffree-line-length-none"
 FPM_FLAG=" $FPM_FLAG -DVERSION=\\\'$GIT_VERSION\\\'"
-FPM_FLAG=" $FPM_FLAG -L$NETCDF_LIB_PATH -L$HDF5_LIB_PATH"
+FPM_FLAG=" $FPM_FLAG -L$NETCDF_LIB_PATH -L$HDF5_LIB_PATH -L$NETCDFF_LIB_PATH"
 FPM_FC="$FC"
 FPM_CC="$CC"
 
-PKG_CONFIG_PATH="$PREFIX"/lib/pkgconfig
-
-if [ ! -d $PKG_CONFIG_PATH ]; then
-  mkdir -p $PKG_CONFIG_PATH
+if [ $CI = true ]; then
+  PKG_CONFIG_PATH=build/pkgconfig
+else
+  PKG_CONFIG_PATH="$PREFIX"/lib/pkgconfig
 fi
-cd "$PKG_CONFIG_PATH"
-  echo "INFERENCE_ENGINE_FPM_CXX=\"$CXX\""       >  inference-engine.pc
-  echo "INFERENCE_ENGINE_FPM_CC=\"$FPM_CC\""     >> inference-engine.pc
-  echo "INFERENCE_ENGINE_FPM_FC=\"$FPM_FC\""     >> inference-engine.pc
-  echo "INFERENCE_ENGINE_FPM_FLAG=\"$FPM_FLAG\"" >> inference-engine.pc
-  echo "Name: inference-engine"                  >> inference-engine.pc
-  echo "Description: Inference Engine"           >> inference-engine.pc
-  echo "URL: https://github.com/berkeleylab/inference-engine" >> inference-engine.pc
-  echo "Version: 0.1.0"                                       >> inference-engine.pc
-cd -
+if [ ! -d $PKG_CONFIG_PATH ]; then
+  mkdir -p $PKG_CONFIG_PATH 
+fi
+
+INFERENCE_ENGINE_PC="$PKG_CONFIG_PATH/inference-engine.pc"
+echo "INFERENCE_ENGINE_FPM_CXX=\"$CXX\""       >  $INFERENCE_ENGINE_PC
+echo "INFERENCE_ENGINE_FPM_CC=\"$FPM_CC\""     >> $INFERENCE_ENGINE_PC
+echo "INFERENCE_ENGINE_FPM_FC=\"$FPM_FC\""     >> $INFERENCE_ENGINE_PC
+echo "INFERENCE_ENGINE_FPM_FLAG=\"$FPM_FLAG\"" >> $INFERENCE_ENGINE_PC
+echo "Name: inference-engine"                  >> $INFERENCE_ENGINE_PC
+echo "Description: Inference Engine"           >> $INFERENCE_ENGINE_PC
+echo "URL: https://github.com/berkeleylab/inference-engine" >> $INFERENCE_ENGINE_PC
+echo "Version: 0.1.0"                                       >> $INFERENCE_ENGINE_PC
 
 export PKG_CONFIG_PATH
 cd build
@@ -122,14 +134,16 @@ if command -v fpm > /dev/null 2>&1; then
   brew install fpm
 fi
 
-export PKG_CONFIG_PATH
 ./build/run-fpm.sh test
 
 echo ""
-echo "____________ Inference-Engine has been installed! ____________" 
+echo "______________ Inference-Engine has been installed! ______________" 
 echo ""
-echo "To rebuild or to run tests or examples via the Fortran Package"
-echo "Manager (fpm) with the required compiler/linker flags, pass a"
-echo "fpm command to the build/run-fpm.sh script. For example, run"
+echo "To use use or test with Inference-Engine with the Fortran Package"
+echo "Manager (fpm) and using the required compiler/linker flags, pass"
+echo "a fpm command to the build/run-fpm.sh script.  For example, to"
+echo "run one of the provided example programs with a path of the form"
+echo "example/<name>.f90, enter a command of the following form at " 
+echo "a shell command prompt:"
 echo ""
-echo "./build/run-fpm.sh run"
+echo "./build/run-fpm.sh run --example <name>"
