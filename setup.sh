@@ -99,12 +99,12 @@ FPM_CC="$CC"
 
 if [ $CI = true ]; then
   PKG_CONFIG_PATH=`realpath ./build/pkgconfig`
+  echo "---------------"
+  echo "PKG_CONFIG_PATH=$PKG_CONFIG_PATH"
+  echo "---------------"
 else
   PKG_CONFIG_PATH=`realpath "$PREFIX"/lib/pkgconfig`
 fi
-echo "---------------"
-echo "PKG_CONFIG_PATH=$PKG_CONFIG_PATH"
-echo "---------------"
 
 if [ ! -d $PKG_CONFIG_PATH ]; then
   mkdir -p $PKG_CONFIG_PATH 
@@ -119,33 +119,38 @@ echo "Name: inference-engine"                  >> $INFERENCE_ENGINE_PC
 echo "Description: Inference Engine"           >> $INFERENCE_ENGINE_PC
 echo "URL: https://github.com/berkeleylab/inference-engine" >> $INFERENCE_ENGINE_PC
 echo "Version: 0.1.0"                                       >> $INFERENCE_ENGINE_PC
+if [ $CI = true ]; then
+  echo "---------------"
+  echo "cat $INFERENCE_ENGINE_PC"
+  cat $INFERENCE_ENGINE_PC
+  echo "---------------"
+fi
 
 export PKG_CONFIG_PATH
-cd build
-  echo "#!/bin/sh"                                                    >  run-fpm.sh
-  echo "#-- DO NOT EDIT -- created by inference-engine/install.sh"    >> run-fpm.sh
-  echo "export PKG_CONFIG_PATH"                                       >> run-fpm.sh
-  echo "`brew --prefix fpm`/bin/fpm \$@ --verbose \\"                 >> run-fpm.sh
-  echo "--profile debug \\"                                           >> run-fpm.sh
-  echo "--c-compiler \"`pkg-config inference-engine --variable=INFERENCE_ENGINE_FPM_CC`\" \\" >> run-fpm.sh
-  echo "--compiler \"`pkg-config inference-engine --variable=INFERENCE_ENGINE_FPM_FC`\" \\"   >> run-fpm.sh
-  echo "--flag \"`pkg-config inference-engine --variable=INFERENCE_ENGINE_FPM_FLAG`\""        >> run-fpm.sh
-  chmod u+x run-fpm.sh
-cd -
+RUN_FPM_SH="`realpath ./build/run-fpm.sh`"
+echo "#!/bin/sh"                                                    >  $RUN_FPM_SH
+echo "#-- DO NOT EDIT -- created by inference-engine/install.sh"    >> $RUN_FPM_SH
+echo "export PKG_CONFIG_PATH"                                       >> $RUN_FPM_SH
+echo "`brew --prefix fpm`/bin/fpm \$@ --verbose \\"                 >> $RUN_FPM_SH
+echo "--profile debug \\"                                           >> $RUN_FPM_SH
+echo "--c-compiler \"`pkg-config inference-engine --variable=INFERENCE_ENGINE_FPM_CC`\" \\" >> $RUN_FPM_SH
+echo "--compiler \"`pkg-config inference-engine --variable=INFERENCE_ENGINE_FPM_FC`\" \\"   >> $RUN_FPM_SH
+echo "--flag \"`pkg-config inference-engine --variable=INFERENCE_ENGINE_FPM_FLAG`\""        >> $RUN_FPM_SH
+chmod u+x $RUN_FPM_SH
+if [ $CI = true ]; then
+  echo "---------------"
+  echo "cat $RUN_FPM_SH"
+  cat $RUN_FPM_SH
+  echo "---------------"
+fi
 
 if command -v fpm > /dev/null 2>&1; then
   brew tap fortran-lang/fortran
   brew install fpm
 fi
 
-echo "---------------"
-echo "cat $INFERENCE_ENGINE_PC"
-cat $INFERENCE_ENGINE_PC
-echo "---------------"
-echo "cat build/run-fpm.sh"
-cat build/run-fpm.sh
-
-#./build/run-fpm.sh test
+echo "$RUN_FPM_SH test"
+$RUN_FPM_SH test
 
 echo ""
 echo "______________ Inference-Engine has been installed! ______________" 
