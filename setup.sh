@@ -97,16 +97,18 @@ FPM_FLAG=" $FPM_FLAG -L$NETCDF_LIB_PATH -L$HDF5_LIB_PATH -L$NETCDFF_LIB_PATH"
 FPM_FC="$FC"
 FPM_CC="$CC"
 
-echo "----> Initial PKG_CONFIG_PATH=${PKG_CONFIG_PATH:-}"
 if [ $CI = true ]; then
-  PKG_CONFIG_PATH=build/pkgconfig
+  PKG_CONFIG_PATH=`realpath ./build/pkgconfig`
 else
-  PKG_CONFIG_PATH="$PREFIX"/lib/pkgconfig
+  PKG_CONFIG_PATH=`realpath "$PREFIX"/lib/pkgconfig`
 fi
+echo "---------------"
+echo "PKG_CONFIG_PATH=$PKG_CONFIG_PATH"
+echo "---------------"
+
 if [ ! -d $PKG_CONFIG_PATH ]; then
   mkdir -p $PKG_CONFIG_PATH 
 fi
-echo "----> Final PKG_CONFIG_PATH=$PKG_CONFIG_PATH"
 
 INFERENCE_ENGINE_PC="$PKG_CONFIG_PATH/inference-engine.pc"
 echo "INFERENCE_ENGINE_FPM_CXX=\"$CXX\""       >  $INFERENCE_ENGINE_PC
