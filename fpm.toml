@@ -1,7 +1,7 @@
 name = "inference-engine"
 version = "0.1.0"
 license = "license"
-author = "Damian Rouson"
+author = "Damian Rouson, Tan Nguyen, Jordan Welsman"
 maintainer = "rouson@lbl.gov"
 
 [dependencies]
