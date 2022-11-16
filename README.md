@@ -30,13 +30,18 @@ Since `inference-engine` is written in Fortran 2018, it is optimized for scienti
 - [inference-engine](#inference-engine)
   - [Overview](#overview)
   - [Table of contents](#table-of-contents)
+  - [Usage](#usage)
+  - [Prerequisites](#prerequisites)
+  - [Downloading](#downloading)
+  - [Building and testing](#building-and-testing)
+  - [Examples](#examples)
 
-<!-- ## Usage -->
+## Usage
 
-<!-- ## Prerequisites -->
+## Prerequisites
 
-<!-- ## Downloading -->
+## Downloading
 
-<!-- ## Building and testing -->
+## Building and testing
 
-<!-- ## Examples -->
+## Examples
