@@ -41,7 +41,7 @@ set -u # error on use of undefined variable
 
 if ! command -v brew > /dev/null ; then
   if ! command -v curl > /dev/null ; then
-    echo "Please install curl and then rerun ./install.sh"
+    echo "Please install curl and then rerun ./setup.sh"
     exit 1
   fi
   /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
@@ -71,11 +71,7 @@ CI=${CI:-"false"} # GitHub Actions workflows set CI=true
 cd build/dependencies/netcdf-fortran/build
   GCC_VER="12" # This should be replaced with code extracting the version number from Homebrew
   export FC=gfortran-${GCC_VER} CC=gcc-${GCC_VER} CXX=g++-${GCC_VER}
-  if [ $CI = true ]; then
-    NETCDFF_PREFIX="/usr/local"
-  else
-    NETCDFF_PREFIX="$PREFIX"
-  fi
+  NETCDFF_PREFIX="/usr/local"
   NETCDF_PREFIX="`brew --prefix netcdf`"
   cmake .. \
     -DNETCDF_C_LIBRARY="$NETCDF_PREFIX/lib" \
@@ -90,10 +86,8 @@ NETCDF_LIB_PATH="`brew --prefix netcdf`/lib"
 HDF5_LIB_PATH="`brew --prefix hdf5`/lib"
 NETCDFF_LIB_PATH="$NETCDFF_PREFIX/lib"
 
-FPM_FLAG="-cpp -DUSE_ASSERTIONS=.true."
-FPM_FLAG=" $FPM_FLAG -fallow-argument-mismatch -ffree-line-length-none"
-FPM_FLAG=" $FPM_FLAG -DVERSION=\\\'$GIT_VERSION\\\'"
-FPM_FLAG=" $FPM_FLAG -L$NETCDF_LIB_PATH -L$HDF5_LIB_PATH -L$NETCDFF_LIB_PATH"
+FPM_LD_FLAG=" -L$NETCDF_LIB_PATH -L$HDF5_LIB_PATH -L$NETCDFF_LIB_PATH"
+FPM_FLAG="-cpp -DUSE_ASSERTIONS=.true. -fallow-argument-mismatch -ffree-line-length-none $FPM_LD_FLAG"
 FPM_FC="$FC"
 FPM_CC="$CC"
 
@@ -111,12 +105,13 @@ if [ ! -d $PKG_CONFIG_PATH ]; then
 fi
 
 INFERENCE_ENGINE_PC="$PKG_CONFIG_PATH/inference-engine.pc"
-echo "INFERENCE_ENGINE_FPM_CXX=\"$CXX\""       >  $INFERENCE_ENGINE_PC
-echo "INFERENCE_ENGINE_FPM_CC=\"$FPM_CC\""     >> $INFERENCE_ENGINE_PC
-echo "INFERENCE_ENGINE_FPM_FC=\"$FPM_FC\""     >> $INFERENCE_ENGINE_PC
-echo "INFERENCE_ENGINE_FPM_FLAG=\"$FPM_FLAG\"" >> $INFERENCE_ENGINE_PC
-echo "Name: inference-engine"                  >> $INFERENCE_ENGINE_PC
-echo "Description: Inference Engine"           >> $INFERENCE_ENGINE_PC
+echo "INFERENCE_ENGINE_FPM_CXX=\"$CXX\""                    >  $INFERENCE_ENGINE_PC
+echo "INFERENCE_ENGINE_FPM_CC=\"$FPM_CC\""                  >> $INFERENCE_ENGINE_PC
+echo "INFERENCE_ENGINE_FPM_FC=\"$FPM_FC\""                  >> $INFERENCE_ENGINE_PC
+echo "INFERENCE_ENGINE_FPM_LD_FLAG=\"$FPM_LD_FLAG\""        >> $INFERENCE_ENGINE_PC
+echo "INFERENCE_ENGINE_FPM_FLAG=\"$FPM_FLAG\""              >> $INFERENCE_ENGINE_PC
+echo "Name: inference-engine"                               >> $INFERENCE_ENGINE_PC
+echo "Description: Inference Engine"                        >> $INFERENCE_ENGINE_PC
 echo "URL: https://github.com/berkeleylab/inference-engine" >> $INFERENCE_ENGINE_PC
 echo "Version: 0.1.0"                                       >> $INFERENCE_ENGINE_PC
 if [ $CI = true ]; then
@@ -131,11 +126,12 @@ RUN_FPM_SH="`realpath ./build/run-fpm.sh`"
 echo "#!/bin/sh"                                                    >  $RUN_FPM_SH
 echo "#-- DO NOT EDIT -- created by inference-engine/install.sh"    >> $RUN_FPM_SH
 echo "export PKG_CONFIG_PATH"                                       >> $RUN_FPM_SH
-echo "`brew --prefix fpm`/bin/fpm \$@ --verbose \\"                 >> $RUN_FPM_SH
+echo "`brew --prefix fpm`/bin/fpm \$@ \\"                 >> $RUN_FPM_SH
 echo "--profile debug \\"                                           >> $RUN_FPM_SH
-echo "--c-compiler \"`pkg-config inference-engine --variable=INFERENCE_ENGINE_FPM_CC`\" \\" >> $RUN_FPM_SH
-echo "--compiler \"`pkg-config inference-engine --variable=INFERENCE_ENGINE_FPM_FC`\" \\"   >> $RUN_FPM_SH
-echo "--flag \"`pkg-config inference-engine --variable=INFERENCE_ENGINE_FPM_FLAG`\""        >> $RUN_FPM_SH
+echo "--c-compiler \"`pkg-config inference-engine --variable=INFERENCE_ENGINE_FPM_CC`\" \\"  >> $RUN_FPM_SH
+echo "--compiler \"`pkg-config inference-engine --variable=INFERENCE_ENGINE_FPM_FC`\" \\"    >> $RUN_FPM_SH
+echo "--flag \"`pkg-config inference-engine --variable=INFERENCE_ENGINE_FPM_FLAG`\" \\"      >> $RUN_FPM_SH
+echo "--link-flag \"`pkg-config inference-engine --variable=INFERENCE_ENGINE_FPM_LD_FLAG`\"" >> $RUN_FPM_SH
 chmod u+x $RUN_FPM_SH
 if [ $CI = true ]; then
   echo "---------------"
@@ -153,13 +149,10 @@ echo "$RUN_FPM_SH test"
 $RUN_FPM_SH test
 
 echo ""
-echo "______________ Inference-Engine has been installed! ______________" 
+echo "___________________ Inference-Engine has been set up! ______________________" 
 echo ""
-echo "To use use or test with Inference-Engine with the Fortran Package"
-echo "Manager (fpm) and using the required compiler/linker flags, pass"
-echo "a fpm command to the build/run-fpm.sh script.  For example, to"
-echo "run one of the provided example programs with a path of the form"
-echo "example/<name>.f90, enter a command of the following form at " 
-echo "a shell command prompt:"
+echo "To run one the programs in the example subdirectory, enter a command of the"
+echo "following form at a shell command prompt after replacing <example-base-name>"
+echo "with the base name of a file in the example/ subdirectory:"
 echo ""
-echo "./build/run-fpm.sh run --example <name>"
+echo "./build/run-fpm.sh run --example <example-base-name>"
