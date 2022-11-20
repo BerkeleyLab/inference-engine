@@ -1,4 +1,3 @@
-# inference-engine
 
 ```ascii
   _        __                                                     _            
@@ -19,29 +18,39 @@
 
 > :memo: **Note:** The badges above will work once the repository goes public.
 
-## Overview
+Inference-Engine
+================
 
-`inference-engine` is a Fortran 2018 library which facillitates the loading of neural network weight and bias arrays and the instantiation of _fixed-sized_ feed-forward neural networks, enabling the user to perform inference on data within Fortran.
+Table of contents
+-----------------
 
-Since `inference-engine` is written in Fortran 2018, it is optimized for scientific applications which can benefit from the performance gains associated with the use of accelerated machine learning.
+- [Overview](#overview)
+- [Downloading, Building and testing](#downloading-building-and-testing)
+- [Examples](#examples)
 
-## Table of contents
+Overview
+--------
 
-- [inference-engine](#inference-engine)
-  - [Overview](#overview)
-  - [Table of contents](#table-of-contents)
-  - [Usage](#usage)
-  - [Prerequisites](#prerequisites)
-  - [Downloading](#downloading)
-  - [Building and testing](#building-and-testing)
-  - [Examples](#examples)
+Inference-Engine is a software library that supports researching options for efficiently propagating inputs through deep, feed-forward neural networks to produce outputs.  Inference-Engine's implementation language, Fortran 2018, makes it suitable for integration into high-performance computing (HPC) applications.  Novel features include
 
-## Usage
+1. Exposing concurrency via 
+  - A `pure` inference function that can be invoked inside `do concurrent` 
+  - An `elemental` activation strategy 
+2. Gathering network weights and biases into contiguous arrays
+3. Runtime selection of inference algorithm
+  
+Item 1 ensures that the `infer` procedure can be invoked inside Fortran's `do concurrent` construct, which some compilers can offload automatically to graphics processing units (GPUs).  We envision this being useful in applications that require large numbers of independent inferences.  Item 2 exploits the special case where the number of neurons is uniform across the network layers.  The use of contiguous arrays facilitates spatial locality in memory access patterns.  Item 3 offers the possibility of adaptive inference method selection based on runtime information.  The current methods include ones based on intrinsic functions, `dot_product` or `matmul`.  Future options will explore the use of OpenMP and OpenACC for vectorization, multithreading, and/or accelerator offloading.
 
-## Prerequisites
+Downloading, Building and Testing
+---------------------------------
+To download, build, and test Inference-Engine, enter the following commands in a Linux, macOS, or Windows Subsystem for Linux shell:
+```
+git clone https://github.com/berkeleylab/inference-engine
+cd inference-engine
+./setup.sh
+```
+whereupon the trailing output will provide instructions for running the examples in the [example](./example) subdirectory.
 
-## Downloading
-
-## Building and testing
-
-## Examples
+Examples
+--------
+The [example](./example) subdirectory contains demonstration of several intended use cases.
