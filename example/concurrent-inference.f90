@@ -20,10 +20,12 @@ program concurrent_inferences
 
   input_files =  command_line%flag_value("--input-files")
 
-  print *,"Defining an array of inference_engine_t objects by reading the following files: ", input_files
-  if (len(input_files)==0) &
+  if (len(input_files)==0) then
     error stop new_line('a') // new_line('a') // &
       'Usage: fpm run --example concurrent-inference -- --input-files "<space-delimited-list-of-files>"' 
+  end if
+
+  print *,"Defining an array of inference_engine_t objects by reading the following files: ", input_files
 
   file_names = array_of_strings(input_files, delimiter=" ")
 
