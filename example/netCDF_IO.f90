@@ -1,3 +1,5 @@
+! Copyright (c), The Regents of the University of California
+! Terms of use are as specified in LICENSE.txt
 program netCDF_IO
   use netcdf, only : &
      nf90_create, nf90_def_dim, nf90_def_var, nf90_enddef, nf90_put_var, nf90_inquire_dimension, & ! functions

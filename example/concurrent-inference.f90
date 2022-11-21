@@ -1,3 +1,5 @@
+! Copyright (c), The Regents of the University of California
+! Terms of use are as specified in LICENSE.txt
 program concurrent_inferences
   !! This program demonstrates how to read multiple neural networks, each from a
   !! separate file, into an array of inference_engine_t objects and then perform

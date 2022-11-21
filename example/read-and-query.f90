@@ -1,3 +1,5 @@
+! Copyright (c), The Regents of the University of California
+! Terms of use are as specified in LICENSE.txt
 program read_and_query
   !! This program demonstrates how to read a neural network from a file into an
   !! inference_engine_t object and then query the resulting object for its properties.

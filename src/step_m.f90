@@ -1,3 +1,5 @@
+! Copyright (c), The Regents of the University of California
+! Terms of use are as specified in LICENSE.txt
 module step_m
   use activation_strategy_m, only : activation_strategy_t
   implicit none

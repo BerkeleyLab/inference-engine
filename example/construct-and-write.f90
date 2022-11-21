@@ -1,3 +1,5 @@
+! Copyright (c), The Regents of the University of California
+! Terms of use are as specified in LICENSE.txt
 program construct_and_write
   !! This program demonstrates how to construct a neural network from arrays of weights and biases
   !! and how to write the resulting object to a file in the format that is readable by the

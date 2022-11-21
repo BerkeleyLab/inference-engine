@@ -1,3 +1,5 @@
+! Copyright (c), The Regents of the University of California
+! Terms of use are as specified in LICENSE.txt
 submodule(inference_engine_m) inference_engine_s
   use assert_m, only : assert
   use intrinsic_array_m, only : intrinsic_array_t
