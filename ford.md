@@ -1,7 +1,7 @@
 project: Inference-Engine
 summary: A library supporting concurrent forward propagation on multiple fully-connected deep neural networks
 src_dir: src/
-src_dir: app/
+src_dir: example
 exclude_dir: doc
 output_dir: doc/html
 preprocess: true
