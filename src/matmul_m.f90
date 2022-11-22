@@ -1,3 +1,5 @@
+! Copyright (c), The Regents of the University of California
+! Terms of use are as specified in LICENSE.txt
 module matmul_m
   !! Perform inference using the matrix multiplication intrinsic function inside `do concurrent` constructs
   !! to compute matrix-vector multiplies for forward information propagation from layer to layer

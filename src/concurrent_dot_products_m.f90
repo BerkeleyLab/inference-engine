@@ -1,3 +1,5 @@
+! Copyright (c), The Regents of the University of California
+! Terms of use are as specified in LICENSE.txt
 module concurrent_dot_products_m
   !! Perform inference using the dot_product intrinsic function inside `do concurrent` constructs
   !! to compute matrix-vector multiplies for forward information propagation from layer to layer

@@ -1,3 +1,5 @@
+! Copyright (c), The Regents of the University of California
+! Terms of use are as specified in LICENSE.txt
 module inference_engine_test_m
   !! Define inference tests and procedures required for reporting results
   use string_m, only : string_t

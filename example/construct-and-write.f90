@@ -1,3 +1,5 @@
+! Copyright (c), The Regents of the University of California
+! Terms of use are as specified in LICENSE.txt
 program construct_and_write
   !! This program demonstrates how to construct a neural network from arrays of weights and biases
   !! and how to write the resulting object to a file in the format that is readable by the
@@ -15,7 +17,12 @@ program construct_and_write
    
   output_file_name =  command_line%flag_value("--output-file")
 
-   xor = inference_engine_t( &
+  if (len(output_file_name)==0) then
+    error stop new_line('a') // new_line('a') // &
+      'Usage: fpm run --example construct-and-write -- --output-file "<file-name>"' 
+  end if
+
+  xor = inference_engine_t( &
     input_weights = real(reshape([1,0,1,1,0,1], [2,3])), &
     hidden_weights = real(identity), &
     output_weights = real(reshape([1,-2,1], [1,3])), &

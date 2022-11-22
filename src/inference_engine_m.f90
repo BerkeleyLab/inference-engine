@@ -1,3 +1,5 @@
+! Copyright (c), The Regents of the University of California
+! Terms of use are as specified in LICENSE.txt
 module inference_engine_m
   !! Define an abstraction that supports inference operationsn on a neural network
   use string_m, only : string_t
