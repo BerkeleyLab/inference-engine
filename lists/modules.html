@@ -1,0 +1,566 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+   <meta name="description" content="A library supporting concurrent forward propagation on multiple fully-connected deep neural networks">
+    <meta name="author" content="Sourcery Institute" >
+    <link rel="icon" href="../favicon.png">
+
+    <title>All Modules &ndash; Inference-Engine
+</title>
+
+    <link href="../css/bootstrap.min.css" rel="stylesheet">
+    <link href="../css/pygments.css" rel="stylesheet">
+    <link href="../css/font-awesome.min.css" rel="stylesheet">
+    <link href="../css/local.css" rel="stylesheet">
+    <link  href="../tipuesearch/tipuesearch.css" rel="stylesheet">
+
+    <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
+    <!--[if lt IE 9]>
+      <script src="https://oss.maxcdn.com/html5shiv/3.7.2/html5shiv.min.js"></script>
+      <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
+    <![endif]-->
+    
+    <script src="../js/jquery-2.1.3.min.js"></script>
+    <script src="../js/svg-pan-zoom.min.js"></script>
+
+  </head>
+
+  <body>
+
+    <!-- Fixed navbar -->
+    <nav class="navbar navbar-inverse navbar-fixed-top">
+      <div class="container">
+        <div class="navbar-header">
+          <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
+            <span class="sr-only">Toggle navigation</span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+          </button>
+          <a class="navbar-brand" href="../index.html">Inference-Engine </a>
+        </div>
+        <div id="navbar" class="navbar-collapse collapse">
+          <ul class="nav navbar-nav">
+            <li class="dropdown hidden-xs visible-sm visible-md hidden-lg">
+              <a href="#" class="dropdown-toggle"
+              data-toggle="dropdown" role="button"
+              aria-haspopup="true"
+     aria-expanded="false">Contents <span class="caret"></span></a>
+        <ul class="dropdown-menu">
+            <li><a href="../lists/files.html">Source Files</a></li>
+            <li><a href="../lists/modules.html">Modules</a></li>
+            <li><a href="../lists/procedures.html">Procedures</a></li>
+            <li><a href="../lists/absint.html">Abstract Interfaces</a></li>
+                   <li><a href="../lists/types.html">Derived Types</a></li>
+            <li><a href="../lists/programs.html">Programs</a></li>
+       
+            </ul>
+        
+            </li>
+<li class="visible-xs hidden-sm visible-lg"><a href="../lists/files.html">Source Files</a></li>
+<li class="visible-xs hidden-sm visible-lg"><a href="../lists/modules.html">Modules</a></li>
+<li class="visible-xs hidden-sm visible-lg"><a href="../lists/procedures.html">Procedures</a></li>
+<li class="visible-xs hidden-sm visible-lg"><a href="../lists/absint.html">Abstract Interfaces</a></li>
+                             <li class="visible-xs hidden-sm visible-lg"><a href="../lists/types.html">Derived Types</a></li>
+<li class="visible-xs hidden-sm visible-lg"><a href="../lists/programs.html">Programs</a></li>
+          </ul>
+        <form action="../search.html" class="navbar-form navbar-right" role="search">
+        <div class="form-group">
+          <input type="text" class="form-control" placeholder="Search" name="q" id="tipue_search_input" autocomplete="off" required>
+        </div>
+<!--
+        <button type="submit" class="btn btn-default">Submit</button>
+-->
+        </form>
+        </div><!--/.nav-collapse -->
+      </div>
+    </nav>
+
+    <div class="container">
+      <div class="row">
+        <div class="col-lg-12" id='text'>
+			 <h1>Modules</h1>
+			 <table class="table">
+			 <thead><tr><th>Module</th><th>Source File</th><th>Description</th></tr></thead>
+			 <tbody>
+			   <tr class="active"><td><a href='../module/activation_strategy_m.html'>activation_strategy_m</a></td><td><a href='../sourcefile/activation_strategy_m.f90.html'>activation_strategy_m.f90</a></td><td></td></tr>
+<!--active-->			   <tr class=""><td><a href='../module/concurrent_dot_products_m.html'>concurrent_dot_products_m</a></td><td><a href='../sourcefile/concurrent_dot_products_m.f90.html'>concurrent_dot_products_m.f90</a></td><td><p>Perform inference using the dot_product intrinsic function inside <code>do concurrent</code> constructs
+to compute matrix-vector multiplies for forward information propagation from layer to layer</p></td></tr>
+                  			   <tr class=" submod"><td>&nbsp;&nbsp;&nbsp;<a href='../module/concurrent_dot_products_s.html'>concurrent_dot_products_s</a></td><td><a href='../sourcefile/concurrent_dot_products_s.f90.html'>concurrent_dot_products_s.f90</a></td><td></td></tr>
+
+<!---->			   <tr class="active"><td><a href='../module/inference_engine_m.html'>inference_engine_m</a></td><td><a href='../sourcefile/inference_engine_m.f90.html'>inference_engine_m.f90</a></td><td><p>Define an abstraction that supports inference operationsn on a neural network</p></td></tr>
+                  			   <tr class="active submod"><td>&nbsp;&nbsp;&nbsp;<a href='../module/inference_engine_s.html'>inference_engine_s</a></td><td><a href='../sourcefile/inference_engine_s.f90.html'>inference_engine_s.f90</a></td><td></td></tr>
+
+<!--active-->			   <tr class=""><td><a href='../module/inference_strategy_m.html'>inference_strategy_m</a></td><td><a href='../sourcefile/inference_strategy_m.f90.html'>inference_strategy_m.f90</a></td><td></td></tr>
+<!---->			   <tr class="active"><td><a href='../module/matmul_m.html'>matmul_m</a></td><td><a href='../sourcefile/matmul_m.f90.html'>matmul_m.f90</a></td><td><p>Perform inference using the matrix multiplication intrinsic function inside <code>do concurrent</code> constructs
+to compute matrix-vector multiplies for forward information propagation from layer to layer</p></td></tr>
+                  			   <tr class="active submod"><td>&nbsp;&nbsp;&nbsp;<a href='../module/matmul_s.html'>matmul_s</a></td><td><a href='../sourcefile/matmul_s.f90.html'>matmul_s.f90</a></td><td></td></tr>
+
+<!--active-->			   <tr class=""><td><a href='../module/step_m.html'>step_m</a></td><td><a href='../sourcefile/step_m.f90.html'>step_m.f90</a></td><td></td></tr>
+                  			   <tr class=" submod"><td>&nbsp;&nbsp;&nbsp;<a href='../module/step_s.html'>step_s</a></td><td><a href='../sourcefile/step_s.f90.html'>step_s.f90</a></td><td></td></tr>
+
+<!---->			 </tbody></table>
+             <div class="depgraph"><?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN"
+ "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
+<!-- Generated by graphviz version 2.43.0 (0)
+ -->
+<!-- Title: module~~graph~~ModuleGraph Pages: 1 -->
+<svg id="modulegraphModuleGraph" width="687pt" height="442pt"
+ viewBox="0.00 0.00 687.00 441.61" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+<g id="module~~graph~~ModuleGraph" class="graph" transform="scale(1 1) rotate(0) translate(4 437.61)">
+<title>module~~graph~~ModuleGraph</title>
+<polygon fill="white" stroke="transparent" points="-4,4 -4,-437.61 683,-437.61 683,4 -4,4"/>
+<!-- module~concurrent_dot_products_m -->
+<g id="module~~graph~~ModuleGraph_node1" class="node">
+<title>module~concurrent_dot_products_m</title>
+<g id="a_module~~graph~~ModuleGraph_node1"><a xlink:href=".././module/concurrent_dot_products_m.html" xlink:title="concurrent_dot_products_m">
+<polygon fill="#337ab7" stroke="#337ab7" points="489,-338.32 329,-338.32 329,-314.32 489,-314.32 489,-338.32"/>
+<text text-anchor="middle" x="409" y="-323.92" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">concurrent_dot_products_m</text>
+</a>
+</g>
+</g>
+<!-- module~activation_strategy_m -->
+<g id="module~~graph~~ModuleGraph_node3" class="node">
+<title>module~activation_strategy_m</title>
+<g id="a_module~~graph~~ModuleGraph_node3"><a xlink:href=".././module/activation_strategy_m.html" xlink:title="activation_strategy_m">
+<polygon fill="#337ab7" stroke="#337ab7" points="130,-210.32 0,-210.32 0,-186.32 130,-186.32 130,-210.32"/>
+<text text-anchor="middle" x="65" y="-195.92" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">activation_strategy_m</text>
+</a>
+</g>
+</g>
+<!-- module~concurrent_dot_products_m&#45;&gt;module~activation_strategy_m -->
+<g id="module~~graph~~ModuleGraph_edge1" class="edge">
+<title>module~concurrent_dot_products_m&#45;&gt;module~activation_strategy_m</title>
+<path fill="none" stroke="#ff0000" stroke-dasharray="5,2" d="M354.16,-338.34C345.6,-340.9 336.95,-343.89 329,-347.32 281.72,-367.71 279.01,-425.57 230.5,-408.32"/>
+<path fill="none" stroke="#ff0000" stroke-dasharray="5,2" d="M228.5,-408.32C141.89,-377.51 91.61,-267.27 73.61,-220.04"/>
+<polygon fill="#ff0000" stroke="#ff0000" points="76.83,-218.64 70.08,-210.47 70.26,-221.07 76.83,-218.64"/>
+</g>
+<!-- module~inference_strategy_m -->
+<g id="module~~graph~~ModuleGraph_node4" class="node">
+<title>module~inference_strategy_m</title>
+<g id="a_module~~graph~~ModuleGraph_node4"><a xlink:href=".././module/inference_strategy_m.html" xlink:title="inference_strategy_m">
+<polygon fill="#337ab7" stroke="#337ab7" points="293,-210.32 166,-210.32 166,-186.32 293,-186.32 293,-210.32"/>
+<text text-anchor="middle" x="229.5" y="-195.92" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">inference_strategy_m</text>
+</a>
+</g>
+</g>
+<!-- module~concurrent_dot_products_m&#45;&gt;module~inference_strategy_m -->
+<g id="module~~graph~~ModuleGraph_edge2" class="edge">
+<title>module~concurrent_dot_products_m&#45;&gt;module~inference_strategy_m</title>
+<path fill="none" stroke="#ff0000" stroke-dasharray="5,2" d="M347.84,-314.23C341.25,-311.78 334.83,-308.84 329,-305.32 292.2,-283.1 260.78,-243.11 243.87,-218.81"/>
+<polygon fill="#ff0000" stroke="#ff0000" points="246.62,-216.64 238.11,-210.34 240.83,-220.58 246.62,-216.64"/>
+</g>
+<!-- module~concurrent_dot_products_s -->
+<g id="module~~graph~~ModuleGraph_node2" class="node">
+<title>module~concurrent_dot_products_s</title>
+<g id="a_module~~graph~~ModuleGraph_node2"><a xlink:href=".././module/concurrent_dot_products_s.html" xlink:title="concurrent_dot_products_s">
+<polygon fill="#5bc0de" stroke="#5bc0de" points="679,-338.32 525,-338.32 525,-314.32 679,-314.32 679,-338.32"/>
+<text text-anchor="middle" x="602" y="-323.92" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">concurrent_dot_products_s</text>
+</a>
+</g>
+</g>
+<!-- module~concurrent_dot_products_s&#45;&gt;module~concurrent_dot_products_m -->
+<g id="module~~graph~~ModuleGraph_edge6" class="edge">
+<title>module~concurrent_dot_products_s&#45;&gt;module~concurrent_dot_products_m</title>
+<path fill="none" stroke="#ff6d00" d="M524.96,-326.32C516.51,-326.32 507.85,-326.32 499.26,-326.32"/>
+<polygon fill="#ff6d00" stroke="#ff6d00" points="499.22,-322.82 489.22,-326.32 499.22,-329.82 499.22,-322.82"/>
+</g>
+<!-- module~concurrent_dot_products_s&#45;&gt;module~activation_strategy_m -->
+<g id="module~~graph~~ModuleGraph_edge3" class="edge">
+<title>module~concurrent_dot_products_s&#45;&gt;module~activation_strategy_m</title>
+<path fill="none" stroke="#ff6d00" stroke-dasharray="5,2" d="M543,-338.4C536.68,-340.85 530.55,-343.79 525,-347.32 504.25,-360.5 510.94,-378.23 489,-389.32 386.18,-441.26 339.04,-446.93 230.5,-408.32"/>
+</g>
+<!-- module~step_m -->
+<g id="module~~graph~~ModuleGraph_node5" class="node">
+<title>module~step_m</title>
+<g id="a_module~~graph~~ModuleGraph_node5"><a xlink:href=".././module/step_m.html" xlink:title="step_m">
+<polygon fill="#337ab7" stroke="#337ab7" points="436,-380.32 382,-380.32 382,-356.32 436,-356.32 436,-380.32"/>
+<text text-anchor="middle" x="409" y="-365.92" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">step_m</text>
+</a>
+</g>
+</g>
+<!-- module~concurrent_dot_products_s&#45;&gt;module~step_m -->
+<g id="module~~graph~~ModuleGraph_edge5" class="edge">
+<title>module~concurrent_dot_products_s&#45;&gt;module~step_m</title>
+<path fill="none" stroke="#ff6d00" stroke-dasharray="5,2" d="M546.27,-338.35C514.06,-345.43 474.25,-354.19 445.99,-360.4"/>
+<polygon fill="#ff6d00" stroke="#ff6d00" points="445.15,-357 436.14,-362.57 446.66,-363.84 445.15,-357"/>
+</g>
+<!-- assert_m -->
+<g id="module~~graph~~ModuleGraph_node17" class="node">
+<title>assert_m</title>
+<polygon fill="#337ab7" stroke="#337ab7" points="439.5,-254.32 378.5,-254.32 378.5,-230.32 439.5,-230.32 439.5,-254.32"/>
+<text text-anchor="middle" x="409" y="-239.92" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">assert_m</text>
+</g>
+<!-- module~concurrent_dot_products_s&#45;&gt;assert_m -->
+<g id="module~~graph~~ModuleGraph_edge4" class="edge">
+<title>module~concurrent_dot_products_s&#45;&gt;assert_m</title>
+<path fill="none" stroke="#ff6d00" stroke-dasharray="5,2" d="M543,-314.23C536.68,-311.78 530.55,-308.84 525,-305.32 504.25,-292.14 509.82,-276.4 489,-263.32 477.22,-255.92 462.88,-251.11 449.67,-247.98"/>
+<polygon fill="#ff6d00" stroke="#ff6d00" points="450.35,-244.55 439.85,-245.91 448.91,-251.4 450.35,-244.55"/>
+</g>
+<!-- module~inference_strategy_m&#45;&gt;module~activation_strategy_m -->
+<g id="module~~graph~~ModuleGraph_edge7" class="edge">
+<title>module~inference_strategy_m&#45;&gt;module~activation_strategy_m</title>
+<path fill="none" stroke="#b6ff00" stroke-dasharray="5,2" d="M165.67,-198.32C157.36,-198.32 148.77,-198.32 140.28,-198.32"/>
+<polygon fill="#b6ff00" stroke="#b6ff00" points="140,-194.82 130,-198.32 140,-201.82 140,-194.82"/>
+</g>
+<!-- module~step_m&#45;&gt;module~activation_strategy_m -->
+<g id="module~~graph~~ModuleGraph_edge8" class="edge">
+<title>module~step_m&#45;&gt;module~activation_strategy_m</title>
+<path fill="none" stroke="#48ff00" stroke-dasharray="5,2" d="M381.87,-375.82C336.04,-388.75 244.67,-413.36 230.5,-408.32"/>
+</g>
+<!-- module~inference_engine_s -->
+<g id="module~~graph~~ModuleGraph_node6" class="node">
+<title>module~inference_engine_s</title>
+<g id="a_module~~graph~~ModuleGraph_node6"><a xlink:href=".././module/inference_engine_s.html" xlink:title="inference_engine_s">
+<polygon fill="#5bc0de" stroke="#5bc0de" points="659.5,-296.32 544.5,-296.32 544.5,-272.32 659.5,-272.32 659.5,-296.32"/>
+<text text-anchor="middle" x="602" y="-281.92" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">inference_engine_s</text>
+</a>
+</g>
+</g>
+<!-- module~inference_engine_s&#45;&gt;module~concurrent_dot_products_m -->
+<g id="module~~graph~~ModuleGraph_edge9" class="edge">
+<title>module~inference_engine_s&#45;&gt;module~concurrent_dot_products_m</title>
+<path fill="none" stroke="#00ff24" stroke-dasharray="5,2" d="M546.27,-296.35C523.89,-301.27 497.84,-307 474.54,-312.13"/>
+<polygon fill="#00ff24" stroke="#00ff24" points="473.76,-308.71 464.74,-314.28 475.26,-315.55 473.76,-308.71"/>
+</g>
+<!-- module~inference_engine_s&#45;&gt;module~step_m -->
+<g id="module~~graph~~ModuleGraph_edge11" class="edge">
+<title>module~inference_engine_s&#45;&gt;module~step_m</title>
+<path fill="none" stroke="#00ff24" stroke-dasharray="5,2" d="M544.18,-295.95C537.45,-298.49 530.89,-301.57 525,-305.32 504.25,-318.5 509.82,-334.24 489,-347.32 476.14,-355.4 460.22,-360.39 446.06,-363.47"/>
+<polygon fill="#00ff24" stroke="#00ff24" points="445.27,-360.06 436.12,-365.39 446.6,-366.93 445.27,-360.06"/>
+</g>
+<!-- module~inference_engine_m -->
+<g id="module~~graph~~ModuleGraph_node10" class="node">
+<title>module~inference_engine_m</title>
+<g id="a_module~~graph~~ModuleGraph_node10"><a xlink:href=".././module/inference_engine_m.html" xlink:title="inference_engine_m">
+<polygon fill="#337ab7" stroke="#337ab7" points="469.5,-128.32 348.5,-128.32 348.5,-104.32 469.5,-104.32 469.5,-128.32"/>
+<text text-anchor="middle" x="409" y="-113.92" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">inference_engine_m</text>
+</a>
+</g>
+</g>
+<!-- module~inference_engine_s&#45;&gt;module~inference_engine_m -->
+<g id="module~~graph~~ModuleGraph_edge13" class="edge">
+<title>module~inference_engine_s&#45;&gt;module~inference_engine_m</title>
+<path fill="none" stroke="#00ff24" d="M567.37,-272.22C552.61,-265.42 536.14,-255.6 525,-242.32 493.29,-204.53 525.09,-170.95 489,-137.32 485.99,-134.51 482.65,-132.07 479.09,-129.96"/>
+<polygon fill="#00ff24" stroke="#00ff24" points="480.37,-126.68 469.86,-125.32 477.23,-132.93 480.37,-126.68"/>
+</g>
+<!-- module~inference_engine_s&#45;&gt;assert_m -->
+<g id="module~~graph~~ModuleGraph_edge10" class="edge">
+<title>module~inference_engine_s&#45;&gt;assert_m</title>
+<path fill="none" stroke="#00ff24" stroke-dasharray="5,2" d="M546.27,-272.28C515.34,-265.48 477.39,-257.14 449.4,-250.98"/>
+<polygon fill="#00ff24" stroke="#00ff24" points="450.09,-247.55 439.57,-248.82 448.59,-254.39 450.09,-247.55"/>
+</g>
+<!-- intrinsic_array_m -->
+<g id="module~~graph~~ModuleGraph_node19" class="node">
+<title>intrinsic_array_m</title>
+<polygon fill="#337ab7" stroke="#337ab7" points="461,-296.32 357,-296.32 357,-272.32 461,-272.32 461,-296.32"/>
+<text text-anchor="middle" x="409" y="-281.92" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">intrinsic_array_m</text>
+</g>
+<!-- module~inference_engine_s&#45;&gt;intrinsic_array_m -->
+<g id="module~~graph~~ModuleGraph_edge12" class="edge">
+<title>module~inference_engine_s&#45;&gt;intrinsic_array_m</title>
+<path fill="none" stroke="#00ff24" stroke-dasharray="5,2" d="M544.47,-284.32C521.47,-284.32 494.84,-284.32 471.37,-284.32"/>
+<polygon fill="#00ff24" stroke="#00ff24" points="471.18,-280.82 461.18,-284.32 471.18,-287.82 471.18,-280.82"/>
+</g>
+<!-- module~matmul_s -->
+<g id="module~~graph~~ModuleGraph_node7" class="node">
+<title>module~matmul_s</title>
+<g id="a_module~~graph~~ModuleGraph_node7"><a xlink:href=".././module/matmul_s.html" xlink:title="matmul_s">
+<polygon fill="#5bc0de" stroke="#5bc0de" points="634,-170.32 570,-170.32 570,-146.32 634,-146.32 634,-170.32"/>
+<text text-anchor="middle" x="602" y="-155.92" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">matmul_s</text>
+</a>
+</g>
+</g>
+<!-- module~matmul_m -->
+<g id="module~~graph~~ModuleGraph_node8" class="node">
+<title>module~matmul_m</title>
+<g id="a_module~~graph~~ModuleGraph_node8"><a xlink:href=".././module/matmul_m.html" xlink:title="matmul_m">
+<polygon fill="#337ab7" stroke="#337ab7" points="444,-170.32 374,-170.32 374,-146.32 444,-146.32 444,-170.32"/>
+<text text-anchor="middle" x="409" y="-155.92" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">matmul_m</text>
+</a>
+</g>
+</g>
+<!-- module~matmul_s&#45;&gt;module~matmul_m -->
+<g id="module~~graph~~ModuleGraph_edge14" class="edge">
+<title>module~matmul_s&#45;&gt;module~matmul_m</title>
+<path fill="none" stroke="#00ff91" d="M569.89,-158.32C538.52,-158.32 489.81,-158.32 454.4,-158.32"/>
+<polygon fill="#00ff91" stroke="#00ff91" points="454.33,-154.82 444.33,-158.32 454.33,-161.82 454.33,-154.82"/>
+</g>
+<!-- module~matmul_m&#45;&gt;module~activation_strategy_m -->
+<g id="module~~graph~~ModuleGraph_edge15" class="edge">
+<title>module~matmul_m&#45;&gt;module~activation_strategy_m</title>
+<path fill="none" stroke="#00ffff" stroke-dasharray="5,2" d="M373.99,-154.78C338.02,-151.86 279.79,-149.48 230.5,-158.32"/>
+</g>
+<!-- module~matmul_m&#45;&gt;module~inference_strategy_m -->
+<g id="module~~graph~~ModuleGraph_edge16" class="edge">
+<title>module~matmul_m&#45;&gt;module~inference_strategy_m</title>
+<path fill="none" stroke="#00ffff" stroke-dasharray="5,2" d="M373.78,-166.03C351.08,-171.15 320.61,-178.01 293.6,-184.1"/>
+<polygon fill="#00ffff" stroke="#00ffff" points="292.82,-180.69 283.83,-186.3 294.36,-187.52 292.82,-180.69"/>
+</g>
+<!-- module~step_s -->
+<g id="module~~graph~~ModuleGraph_node9" class="node">
+<title>module~step_s</title>
+<g id="a_module~~graph~~ModuleGraph_node9"><a xlink:href=".././module/step_s.html" xlink:title="step_s">
+<polygon fill="#5bc0de" stroke="#5bc0de" points="629,-380.32 575,-380.32 575,-356.32 629,-356.32 629,-380.32"/>
+<text text-anchor="middle" x="602" y="-365.92" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">step_s</text>
+</a>
+</g>
+</g>
+<!-- module~step_s&#45;&gt;module~step_m -->
+<g id="module~~graph~~ModuleGraph_edge17" class="edge">
+<title>module~step_s&#45;&gt;module~step_m</title>
+<path fill="none" stroke="#0091ff" d="M574.84,-368.32C541.5,-368.32 483.7,-368.32 446.16,-368.32"/>
+<polygon fill="#0091ff" stroke="#0091ff" points="446.15,-364.82 436.15,-368.32 446.15,-371.82 446.15,-364.82"/>
+</g>
+<!-- module~inference_engine_m&#45;&gt;module~activation_strategy_m -->
+<g id="module~~graph~~ModuleGraph_edge18" class="edge">
+<title>module~inference_engine_m&#45;&gt;module~activation_strategy_m</title>
+<path fill="none" stroke="#0024ff" stroke-dasharray="5,2" d="M363.05,-128.4C327.34,-137.64 276.01,-150.15 230.5,-158.32"/>
+<path fill="none" stroke="#0024ff" stroke-dasharray="5,2" d="M228.5,-158.32C191.34,-164.98 150.04,-175.19 118.37,-183.62"/>
+<polygon fill="#0024ff" stroke="#0024ff" points="117.2,-180.31 108.45,-186.29 119.01,-187.07 117.2,-180.31"/>
+</g>
+<!-- module~inference_engine_m&#45;&gt;module~inference_strategy_m -->
+<g id="module~~graph~~ModuleGraph_edge19" class="edge">
+<title>module~inference_engine_m&#45;&gt;module~inference_strategy_m</title>
+<path fill="none" stroke="#0024ff" stroke-dasharray="5,2" d="M348.86,-128.43C341.95,-130.89 335.17,-133.82 329,-137.32 309.59,-148.32 311.63,-160.04 293,-172.32 287.59,-175.88 281.61,-179.12 275.56,-182"/>
+<polygon fill="#0024ff" stroke="#0024ff" points="273.77,-178.97 266.07,-186.24 276.62,-185.36 273.77,-178.97"/>
+</g>
+<!-- string_m -->
+<g id="module~~graph~~ModuleGraph_node18" class="node">
+<title>string_m</title>
+<polygon fill="#337ab7" stroke="#337ab7" points="258.5,-88.32 200.5,-88.32 200.5,-64.32 258.5,-64.32 258.5,-88.32"/>
+<text text-anchor="middle" x="229.5" y="-73.92" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">string_m</text>
+</g>
+<!-- module~inference_engine_m&#45;&gt;string_m -->
+<g id="module~~graph~~ModuleGraph_edge20" class="edge">
+<title>module~inference_engine_m&#45;&gt;string_m</title>
+<path fill="none" stroke="#0024ff" stroke-dasharray="5,2" d="M354.74,-104.32C327.1,-98.09 293.96,-90.62 268.86,-84.96"/>
+<polygon fill="#0024ff" stroke="#0024ff" points="269.5,-81.52 258.98,-82.73 267.96,-88.35 269.5,-81.52"/>
+</g>
+<!-- program~read_and_query -->
+<g id="module~~graph~~ModuleGraph_node11" class="node">
+<title>program~read_and_query</title>
+<g id="a_module~~graph~~ModuleGraph_node11"><a xlink:href=".././program/read_and_query.html" xlink:title="read_and_query">
+<polygon fill="#f0ad4e" stroke="#f0ad4e" points="651,-110.32 553,-110.32 553,-86.32 651,-86.32 651,-110.32"/>
+<text text-anchor="middle" x="602" y="-95.92" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">read_and_query</text>
+</a>
+</g>
+</g>
+<!-- program~read_and_query&#45;&gt;module~inference_engine_m -->
+<g id="module~~graph~~ModuleGraph_edge23" class="edge">
+<title>program~read_and_query&#45;&gt;module~inference_engine_m</title>
+<path fill="none" stroke="#4800ff" stroke-dasharray="5,2" d="M552.8,-102.86C530.76,-104.94 504.21,-107.44 480.02,-109.72"/>
+<polygon fill="#4800ff" stroke="#4800ff" points="479.44,-106.26 469.81,-110.68 480.1,-113.23 479.44,-106.26"/>
+</g>
+<!-- command_line_m -->
+<g id="module~~graph~~ModuleGraph_node15" class="node">
+<title>command_line_m</title>
+<polygon fill="#337ab7" stroke="#337ab7" points="462.5,-48.32 355.5,-48.32 355.5,-24.32 462.5,-24.32 462.5,-48.32"/>
+<text text-anchor="middle" x="409" y="-33.92" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">command_line_m</text>
+</g>
+<!-- program~read_and_query&#45;&gt;command_line_m -->
+<g id="module~~graph~~ModuleGraph_edge21" class="edge">
+<title>program~read_and_query&#45;&gt;command_line_m</title>
+<path fill="none" stroke="#4800ff" stroke-dasharray="5,2" d="M553.69,-86.23C544.13,-83.51 534.19,-80.49 525,-77.32 508.61,-71.66 505.24,-68.36 489,-62.32 479.16,-58.65 468.53,-54.97 458.35,-51.58"/>
+<polygon fill="#4800ff" stroke="#4800ff" points="459.37,-48.23 448.78,-48.42 457.18,-54.88 459.37,-48.23"/>
+</g>
+<!-- program~read_and_query&#45;&gt;string_m -->
+<g id="module~~graph~~ModuleGraph_edge22" class="edge">
+<title>program~read_and_query&#45;&gt;string_m</title>
+<path fill="none" stroke="#4800ff" stroke-dasharray="5,2" d="M552.9,-89.76C514.38,-83.63 458.9,-76.44 410,-76.32"/>
+</g>
+<!-- program~construct_and_write -->
+<g id="module~~graph~~ModuleGraph_node12" class="node">
+<title>program~construct_and_write</title>
+<g id="a_module~~graph~~ModuleGraph_node12"><a xlink:href=".././program/construct_and_write.html" xlink:title="construct_and_write">
+<polygon fill="#f0ad4e" stroke="#f0ad4e" points="661.5,-68.32 542.5,-68.32 542.5,-44.32 661.5,-44.32 661.5,-68.32"/>
+<text text-anchor="middle" x="602" y="-53.92" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">construct_and_write</text>
+</a>
+</g>
+</g>
+<!-- program~construct_and_write&#45;&gt;module~inference_engine_m -->
+<g id="module~~graph~~ModuleGraph_edge26" class="edge">
+<title>program~construct_and_write&#45;&gt;module~inference_engine_m</title>
+<path fill="none" stroke="#b600ff" stroke-dasharray="5,2" d="M555.02,-68.41C545.08,-71.2 534.65,-74.25 525,-77.32 508.79,-82.48 505.08,-84.77 489,-90.32 478.76,-93.85 467.74,-97.55 457.27,-101.01"/>
+<polygon fill="#b600ff" stroke="#b600ff" points="455.85,-97.79 447.45,-104.24 458.04,-104.44 455.85,-97.79"/>
+</g>
+<!-- program~construct_and_write&#45;&gt;command_line_m -->
+<g id="module~~graph~~ModuleGraph_edge24" class="edge">
+<title>program~construct_and_write&#45;&gt;command_line_m</title>
+<path fill="none" stroke="#b600ff" stroke-dasharray="5,2" d="M542.4,-50.18C520.33,-47.87 495.17,-45.24 472.74,-42.89"/>
+<polygon fill="#b600ff" stroke="#b600ff" points="472.96,-39.39 462.65,-41.83 472.23,-46.35 472.96,-39.39"/>
+</g>
+<!-- program~construct_and_write&#45;&gt;string_m -->
+<g id="module~~graph~~ModuleGraph_edge25" class="edge">
+<title>program~construct_and_write&#45;&gt;string_m</title>
+<path fill="none" stroke="#b600ff" stroke-dasharray="5,2" d="M542.23,-65.75C504.54,-70.99 454.51,-76.43 410,-76.32"/>
+<path fill="none" stroke="#b600ff" stroke-dasharray="5,2" d="M408,-76.32C360.04,-76.19 304.79,-76.22 268.84,-76.26"/>
+<polygon fill="#b600ff" stroke="#b600ff" points="268.78,-72.76 258.78,-76.27 268.79,-79.76 268.78,-72.76"/>
+</g>
+<!-- program~netcdf_io -->
+<g id="module~~graph~~ModuleGraph_node13" class="node">
+<title>program~netcdf_io</title>
+<g id="a_module~~graph~~ModuleGraph_node13"><a xlink:href=".././program/netcdf_io.html" xlink:title="netCDF_IO">
+<polygon fill="#f0ad4e" stroke="#f0ad4e" points="636,-233.32 568,-233.32 568,-209.32 636,-209.32 636,-233.32"/>
+<text text-anchor="middle" x="602" y="-218.92" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">netCDF_IO</text>
+</a>
+</g>
+</g>
+<!-- netcdf -->
+<g id="module~~graph~~ModuleGraph_node16" class="node">
+<title>netcdf</title>
+<polygon fill="#337ab7" stroke="#337ab7" points="436,-212.32 382,-212.32 382,-188.32 436,-188.32 436,-212.32"/>
+<text text-anchor="middle" x="409" y="-197.92" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">netcdf</text>
+</g>
+<!-- program~netcdf_io&#45;&gt;netcdf -->
+<g id="module~~graph~~ModuleGraph_edge28" class="edge">
+<title>program~netcdf_io&#45;&gt;netcdf</title>
+<path fill="none" stroke="#ff00da" stroke-dasharray="5,2" d="M567.73,-217.66C533.83,-213.93 481.4,-208.17 446.4,-204.32"/>
+<polygon fill="#ff00da" stroke="#ff00da" points="446.47,-200.81 436.14,-203.19 445.7,-207.76 446.47,-200.81"/>
+</g>
+<!-- program~netcdf_io&#45;&gt;assert_m -->
+<g id="module~~graph~~ModuleGraph_edge27" class="edge">
+<title>program~netcdf_io&#45;&gt;assert_m</title>
+<path fill="none" stroke="#ff00da" stroke-dasharray="5,2" d="M567.73,-224.98C534.99,-228.58 484.97,-234.07 450.06,-237.91"/>
+<polygon fill="#ff00da" stroke="#ff00da" points="449.31,-234.47 439.75,-239.05 450.07,-241.43 449.31,-234.47"/>
+</g>
+<!-- program~concurrent_inferences -->
+<g id="module~~graph~~ModuleGraph_node14" class="node">
+<title>program~concurrent_inferences</title>
+<g id="a_module~~graph~~ModuleGraph_node14"><a xlink:href=".././program/concurrent_inferences.html" xlink:title="concurrent_inferences">
+<polygon fill="#f0ad4e" stroke="#f0ad4e" points="667.5,-26.32 536.5,-26.32 536.5,-2.32 667.5,-2.32 667.5,-26.32"/>
+<text text-anchor="middle" x="602" y="-11.92" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">concurrent_inferences</text>
+</a>
+</g>
+</g>
+<!-- program~concurrent_inferences&#45;&gt;module~inference_engine_m -->
+<g id="module~~graph~~ModuleGraph_edge31" class="edge">
+<title>program~concurrent_inferences&#45;&gt;module~inference_engine_m</title>
+<path fill="none" stroke="#ff006d" stroke-dasharray="5,2" d="M540.97,-26.37C535.3,-28.82 529.87,-31.77 525,-35.32 501.4,-52.54 512.18,-72.53 489,-90.32 484.04,-94.13 478.5,-97.39 472.71,-100.18"/>
+<polygon fill="#ff006d" stroke="#ff006d" points="471.24,-97 463.46,-104.2 474.03,-103.43 471.24,-97"/>
+</g>
+<!-- program~concurrent_inferences&#45;&gt;command_line_m -->
+<g id="module~~graph~~ModuleGraph_edge29" class="edge">
+<title>program~concurrent_inferences&#45;&gt;command_line_m</title>
+<path fill="none" stroke="#ff006d" stroke-dasharray="5,2" d="M536.34,-21.77C515.78,-24.13 493.1,-26.75 472.68,-29.1"/>
+<polygon fill="#ff006d" stroke="#ff006d" points="472.09,-25.64 462.55,-30.26 472.89,-32.6 472.09,-25.64"/>
+</g>
+<!-- program~concurrent_inferences&#45;&gt;string_m -->
+<g id="module~~graph~~ModuleGraph_edge30" class="edge">
+<title>program~concurrent_inferences&#45;&gt;string_m</title>
+<path fill="none" stroke="#ff006d" stroke-dasharray="5,2" d="M536.41,-4.83C480.41,1.12 397.77,4.39 329,-15.32 299.99,-23.63 271.15,-43.15 252.25,-57.89"/>
+<polygon fill="#ff006d" stroke="#ff006d" points="249.91,-55.28 244.3,-64.26 254.29,-60.74 249.91,-55.28"/>
+</g>
+</g>
+</svg>
+</div><div><a type="button" class="graph-help" data-toggle="modal" href="#graph-help-text">Help</a></div><div class="modal fade" id="graph-help-text" tabindex="-1" role="dialog"><div class="modal-dialog modal-lg" role="document"><div class="modal-content"><div class="modal-header"><button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button><h4 class="modal-title" id="-graph-help-label">Graph Key</h4></div><div class="modal-body">
+    <p>Nodes of different colours represent the following: </p>
+    <?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN"
+ "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
+<!-- Generated by graphviz version 2.43.0 (0)
+ -->
+<!-- Title: Graph Key Pages: 1 -->
+<svg width="518pt" height="32pt"
+ viewBox="0.00 0.00 517.50 32.00" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+<g id="graph0" class="graph" transform="scale(1 1) rotate(0) translate(4 28)">
+<title>Graph Key</title>
+<polygon fill="white" stroke="transparent" points="-4,4 -4,-28 513.5,-28 513.5,4 -4,4"/>
+<!-- Module -->
+<g id="node1" class="node">
+<title>Module</title>
+<polygon fill="#337ab7" stroke="#337ab7" points="54,-24 0,-24 0,0 54,0 54,-24"/>
+<text text-anchor="middle" x="27" y="-9.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">Module</text>
+</g>
+<!-- Submodule -->
+<g id="node2" class="node">
+<title>Submodule</title>
+<polygon fill="#5bc0de" stroke="#5bc0de" points="145.5,-24 72.5,-24 72.5,0 145.5,0 145.5,-24"/>
+<text text-anchor="middle" x="109" y="-9.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">Submodule</text>
+</g>
+<!-- Subroutine -->
+<g id="node3" class="node">
+<title>Subroutine</title>
+<polygon fill="#d9534f" stroke="#d9534f" points="234,-24 164,-24 164,0 234,0 234,-24"/>
+<text text-anchor="middle" x="199" y="-9.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">Subroutine</text>
+</g>
+<!-- Function -->
+<g id="node4" class="node">
+<title>Function</title>
+<polygon fill="#d94e8f" stroke="#d94e8f" points="310,-24 252,-24 252,0 310,0 310,-24"/>
+<text text-anchor="middle" x="281" y="-9.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">Function</text>
+</g>
+<!-- Program -->
+<g id="node5" class="node">
+<title>Program</title>
+<polygon fill="#f0ad4e" stroke="#f0ad4e" points="386,-24 328,-24 328,0 386,0 386,-24"/>
+<text text-anchor="middle" x="357" y="-9.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">Program</text>
+</g>
+<!-- This Page&#39;s Entity -->
+<g id="node6" class="node">
+<title>This Page&#39;s Entity</title>
+<polygon fill="none" stroke="black" points="509.5,-24 404.5,-24 404.5,0 509.5,0 509.5,-24"/>
+<text text-anchor="middle" x="457" y="-9.6" font-family="Helvetica,sans-Serif" font-size="10.50">This Page&#39;s Entity</text>
+</g>
+</g>
+</svg>
+
+    
+    <p>Solid arrows point from a submodule to the (sub)module which it is
+    descended from. Dashed arrows point from a module or program unit to 
+    modules which it uses. Where possible, edges connecting nodes are given different colours to make them easier to distinguish in large graphs.
+    </p>
+    </div></div></div></div>
+        </div>
+      </div>
+    <hr>    
+    </div> <!-- /container -->
+    <footer>
+      <div class="container">
+      <div class="row">
+        <div class="col-xs-6 col-md-6"><p>Inference-Engine was developed by Sourcery Institute<br>&copy; 2022 
+</p>
+        </div>
+        <div class="col-xs-6 col-md-6">
+          <p class="text-right">
+            Documentation generated by 
+            <a href="https://github.com/Fortran-FOSS-Programmers/ford">FORD</a>
+ on 2022-11-22 22:49            </p>
+        </div>
+      </div>
+      <br>
+      </div> <!-- /container -->    
+    </footer>
+
+    <!-- Bootstrap core JavaScript
+    ================================================== -->
+    <!-- Placed at the end of the document so the pages load faster -->
+<!--
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
+-->
+    <script src="../js/bootstrap.min.js"></script>
+    <!-- IE10 viewport hack for Surface/desktop Windows 8 bug -->
+    <script src="../js/ie10-viewport-bug-workaround.js"></script>
+
+    <!-- MathJax JavaScript
+    ================================================== -->
+    <!-- Placed at the end of the document so the pages load faster -->
+    <script type="text/x-mathjax-config">
+      MathJax.Hub.Config({
+        TeX: { extensions: ['AMSmath.js','AMSsymbols.js','noErrors.js','noUndefined.js'], equationNumbers: { autoNumber: 'AMS' } },
+        jax: ['input/TeX','input/MathML','output/HTML-CSS'],
+        extensions: ['tex2jax.js','mml2jax.js','MathMenu.js','MathZoom.js']
+      });
+    </script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    
+    <script src="../tipuesearch/tipuesearch_content.js"></script>
+    <script src="../tipuesearch/tipuesearch_set.js"></script>
+    <script src="../tipuesearch/tipuesearch.js"></script>
+    
+  </body>
+</html>
