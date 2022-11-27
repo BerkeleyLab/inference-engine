@@ -6,9 +6,6 @@ module inference_engine_test_m
   use test_m, only : test_t
   use test_result_m, only : test_result_t
   use inference_engine_m, only : inference_engine_t
-  use activation_strategy_m, only : activation_strategy_t
-  use concurrent_dot_products_m, only : concurrent_dot_products_t
-  use step_m, only : step_t
   use matmul_m, only : matmul_t
   implicit none
 
@@ -66,6 +63,27 @@ contains
     )
   end function
 
+  function xor_matmul_network() result(inference_engine)
+
+    type(inference_engine_t) inference_engine
+    integer, parameter :: n_in = 2 ! number of inputs
+    integer, parameter :: n_out = 1 ! number of outputs
+    integer, parameter :: neurons = 3 ! number of neurons per layer
+    integer, parameter :: n_hidden = 2 ! number of hidden layers 
+    integer i, j 
+    integer, parameter :: identity(*,*,*) = &
+      reshape([((merge(1,0,i==j), i=1,neurons), j=1,neurons)], shape=[neurons,neurons,n_hidden-1])
+   
+    inference_engine = inference_engine_t( &
+      input_weights = real(reshape([1,0,1,1,0,1], [n_in, neurons])), &
+      hidden_weights = real(identity), &
+      output_weights = real(reshape([1,-2,1], [n_out, neurons])), &
+      biases = reshape([0.,-1.99,0., 0.,0.,0.], [neurons, n_hidden]), &
+      output_biases = [0.], &
+      inference_strategy = matmul_t() & 
+    )
+  end function
+
   function write_then_read() result(test_passes)
     logical, allocatable :: test_passes
 
@@ -119,7 +137,7 @@ contains
 
     type(inference_engine_t) inference_engine
    
-    inference_engine = xor_network()
+    inference_engine = xor_matmul_network()
 
     block
       real, parameter :: tolerance = 1.E-08, false = 0., true = 1.
