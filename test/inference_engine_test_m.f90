@@ -46,21 +46,35 @@ contains
     )
   end function
 
+  function xor_network() result(inference_engine)
+
+    type(inference_engine_t) inference_engine
+    integer, parameter :: n_in = 2 ! number of inputs
+    integer, parameter :: n_out = 1 ! number of outputs
+    integer, parameter :: neurons = 3 ! number of neurons per layer
+    integer, parameter :: n_hidden = 2 ! number of hidden layers 
+    integer i, j 
+    integer, parameter :: identity(*,*,*) = &
+      reshape([((merge(1,0,i==j), i=1,neurons), j=1,neurons)], shape=[neurons,neurons,n_hidden-1])
+   
+    inference_engine = inference_engine_t( &
+      input_weights = real(reshape([1,0,1,1,0,1], [n_in, neurons])), &
+      hidden_weights = real(identity), &
+      output_weights = real(reshape([1,-2,1], [n_out, neurons])), &
+      biases = reshape([0.,-1.99,0., 0.,0.,0.], [neurons, n_hidden]), &
+      output_biases = [0.] &
+    )
+  end function
+
   function write_then_read() result(test_passes)
     logical, allocatable :: test_passes
 
     type(inference_engine_t) xor_written, xor_read, difference
     integer i, j
     integer, parameter :: identity(*,*,*) = reshape([((merge(1,0,i==j), i=1,3), j=1,3)], shape=[3,3,1])
+    integer, parameter :: num_inputs=2, num_outputs=1, nuerons_per_layer=3
 
-    xor_written = inference_engine_t( &
-      input_weights = real(reshape([1,0,1,1,0,1], [2,3])), &
-      hidden_weights = real(identity), &
-      output_weights = real(reshape([1,-2,1], [1,3])), &
-      biases = reshape([0.,-1.99,0., 0.,0.,0.], [3,2]), &
-      output_biases = [0.] &
-    )
-
+    xor_written = xor_network()
     call xor_written%write_network(string_t("build/write_then_read_test_specimen"))
     call xor_read%read_network(string_t("build/write_then_read_test_specimen"))
 
@@ -76,26 +90,18 @@ contains
   function xor_truth_table() result(test_passes)
     logical, allocatable :: test_passes(:)
 
-    type(inference_engine_t) xor
-    integer i, j
-    integer, parameter :: identity(*,*,*) = reshape([((merge(1,0,i==j), i=1,3), j=1,3)], shape=[3,3,1])
-   
-    xor = inference_engine_t( &
-      input_weights = real(reshape([1,0,1,1,0,1], [2,3])), &
-      hidden_weights = real(identity), &
-      output_weights = real(reshape([1,-2,1], [1,3])), &
-      biases = reshape([0.,-1.99,0., 0.,0.,0.], [3,2]), &
-      output_biases = [0.] &
-    )
+    type(inference_engine_t) inference_engine
+
+    inference_engine = xor_network()
 
     block
       real, parameter :: tolerance = 1.E-08, false = 0., true = 1.
 
       associate( &
-        true_true => xor%infer(input=[true,true]), & 
-        true_false => xor%infer(input=[true,false]), &
-        false_true => xor%infer(input=[false,true]), &
-        false_false => xor%infer(input=[false,false]) &
+        true_true => inference_engine%infer(input=[true,true]), & 
+        true_false => inference_engine%infer(input=[true,false]), &
+        false_true => inference_engine%infer(input=[false,true]), &
+        false_false => inference_engine%infer(input=[false,false]) &
       )
         test_passes = [ &
           size(true_true)==1 .and. abs(true_true(1) - false) < tolerance, &
@@ -111,27 +117,18 @@ contains
   function matmul_inference() result(test_passes)
     logical, allocatable :: test_passes(:)
 
-    type(inference_engine_t) xor
-    integer i, j
-    integer, parameter :: identity(*,*,*) = reshape([((merge(1,0,i==j), i=1,3), j=1,3)], shape=[3,3,1])
+    type(inference_engine_t) inference_engine
    
-    xor = inference_engine_t( &
-      input_weights = real(reshape([1,0,1,1,0,1], [2,3])), &
-      hidden_weights = real(identity), &
-      output_weights = real(reshape([1,-2,1], [1,3])), &
-      biases = reshape([0.,-1.99,0., 0.,0.,0.], [3,2]), &
-      output_biases = [0.], &
-      inference_strategy = matmul_t() &
-    )
+    inference_engine = xor_network()
 
     block
       real, parameter :: tolerance = 1.E-08, false = 0., true = 1.
 
       associate( &
-        true_true => xor%infer(input=[true,true]), & 
-        true_false => xor%infer(input=[true,false]), &
-        false_true => xor%infer(input=[false,true]), &
-        false_false => xor%infer(input=[false,false]) &
+        true_true => inference_engine%infer(input=[true,true]), & 
+        true_false => inference_engine%infer(input=[true,false]), &
+        false_true => inference_engine%infer(input=[false,true]), &
+        false_false => inference_engine%infer(input=[false,false]) &
       )
         test_passes = [ &
           size(true_true)==1 .and. abs(true_true(1) - false) < tolerance, &
