@@ -2,7 +2,6 @@
 ! Terms of use are as specified in LICENSE.txt
 module asymmetric_engine_test_m
   !! Define inference tests and procedures required for reporting results
-  use string_m, only : string_t
   use test_m, only : test_t
   use test_result_m, only : test_result_t
   use inference_engine_m, only : inference_engine_t
@@ -22,7 +21,7 @@ contains
 
   pure function subject() result(specimen)
     character(len=:), allocatable :: specimen
-    specimen = "An inference_engine_t representing XOR AND the left input" 
+    specimen = "An inference_engin_t object represening XOR-AND-the-2nd-input and using the default inference_strategy" 
   end function
 
   function results() result(test_results)
@@ -32,7 +31,7 @@ contains
       [ character(len=len("mapping (true,true) to false using the default ('do concurrent'/dot_product) inference method")) :: &
         "mapping (true,true) to false using the default ('do concurrent'/dot_product) inference method", &
         "mapping (false,true) to true using the default inference method", &
-        "mapping (true,false) to true using the default inference method", &
+        "mapping (true,false) to false using the default inference method", &
         "mapping (false,false) to false using the default inference method" &
       ], [xor_and_left_truth_table()] &
     )
@@ -46,15 +45,17 @@ contains
     integer, parameter :: neurons = 4 ! number of neurons per layer
     integer, parameter :: n_hidden = 2 ! number of hidden layers 
     integer i, j 
-    integer, parameter :: identity(*,*,*) = &
-      reshape([((merge(1,0,i==j), i=1,neurons), j=1,neurons)], shape=[neurons,neurons,n_hidden-1])
-   
+    real xor_into_neuron_2(neurons,neurons,n_hidden-1)
+    xor_into_neuron_2 = 0.
+    xor_into_neuron_2(1:3,2,1) = [1., -2., 1.]
+    xor_into_neuron_2(4,4,1) = 1.
+      
     inference_engine = inference_engine_t( &
-      input_weights = real(reshape([1,0,1,1,0,1,0,0], [n_in, neurons])), &
-      hidden_weights = real(identity), &
-      output_weights = real(reshape([1,-2,1,0], [n_out, neurons])), &
+      input_weights  = real(reshape([1,0,1,1,0,1,0,1], [n_in, neurons])), &
+      hidden_weights = xor_into_neuron_2, &
+      output_weights = real(reshape([0,1,0,1], [n_out, neurons])), &
       biases = reshape([0.,-1.99,0.,0., 0.,0.,0.,0.], [neurons, n_hidden]), &
-      output_biases = [0.] &
+      output_biases = [-1.] &
     )
   end function
 
@@ -76,7 +77,7 @@ contains
       )
         test_passes = [ &
           size(true_true)==1 .and. abs(true_true(1) - false) < tolerance, &
-          size(true_false)==1 .and. abs(true_false(1) - true) < tolerance,  &
+          size(true_false)==1 .and. abs(true_false(1) - false) < tolerance,  &
           size(false_true)==1 .and. abs(false_true(1) - true) < tolerance, &
           size(false_false)==1 .and. abs(false_false(1) - false) < tolerance  &
         ]
