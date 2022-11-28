@@ -33,11 +33,11 @@ contains
         "mapping (false,true) to true using the default inference method", &
         "mapping (true,false) to false using the default inference method", &
         "mapping (false,false) to false using the default inference method" &
-      ], [xor_and_left_truth_table()] &
+      ], [xor_and_2nd_input_truth_table()] &
     )
   end function
 
-  function xor_and_left_network() result(inference_engine)
+  function xor_and_2nd_input_network() result(inference_engine)
 
     type(inference_engine_t) inference_engine
     integer, parameter :: n_in = 2 ! number of inputs
@@ -59,12 +59,12 @@ contains
     )
   end function
 
-  function xor_and_left_truth_table() result(test_passes)
+  function xor_and_2nd_input_truth_table() result(test_passes)
     logical, allocatable :: test_passes(:)
 
     type(inference_engine_t) inference_engine
 
-    inference_engine = xor_and_left_network()
+    inference_engine = xor_and_2nd_input_network()
 
     block
       real, parameter :: tolerance = 1.E-08, false = 0., true = 1.
