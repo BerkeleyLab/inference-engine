@@ -21,7 +21,7 @@ contains
 
   pure function subject() result(specimen)
     character(len=:), allocatable :: specimen
-    specimen = "An inference_engin_t object represening XOR-AND-the-2nd-input and using the default inference_strategy" 
+    specimen = "An inference_engine_t object encoding an asymmetric (XOR-AND-the-2nd-input) network" 
   end function
 
   function results() result(test_results)
