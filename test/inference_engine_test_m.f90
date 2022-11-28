@@ -29,16 +29,16 @@ contains
     type(test_result_t), allocatable :: test_results(:)
 
     test_results = test_result_t( &
-      [ character(len=len("mapping (true,true) to false using the default ('do concurrent'/dot_product) inference method")) :: &
-        "mapping (true,true) to false using the default ('do concurrent'/dot_product) inference method", &
-        "mapping (false,true) to true using the default inference method", &
-        "mapping (true,false) to true using the default inference method", &
-        "mapping (false,false) to false using the default inference method", &
+      [ character(len=len("mapping (true,true) to false using the default ('do concurrent'/dot_product) inference strategy")) :: &
+        "mapping (true,true) to false using the default ('do concurrent'/dot_product) inference strategy", &
+        "mapping (false,true) to true using the default inference strategy", &
+        "mapping (true,false) to true using the default inference strategy", &
+        "mapping (false,false) to false using the default inference strategy", &
         "writing and then reading itself to and from a file", &
-        "mapping (true,true) to false using `matmul`-based inference method", &
-        "mapping (false,true) to true using `matmul`-based inference method", &
-        "mapping (true,false) to true using `matmul`-based inference method", &
-        "mapping (false,false) to false using `matmul`-based inference method" &
+        "mapping (true,true) to false using `matmul`-based inference strategy", &
+        "mapping (false,true) to true using `matmul`-based inference strategy", &
+        "mapping (true,false) to true using `matmul`-based inference strategy", &
+        "mapping (false,false) to false using `matmul`-based inference strategy" &
       ], [xor_truth_table(), write_then_read(), matmul_inference()] &
     )
   end function

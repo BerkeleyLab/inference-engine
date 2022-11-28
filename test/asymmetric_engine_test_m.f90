@@ -5,6 +5,7 @@ module asymmetric_engine_test_m
   use test_m, only : test_t
   use test_result_m, only : test_result_t
   use inference_engine_m, only : inference_engine_t
+  use inference_strategy_m, only : inference_strategy_t
   use matmul_m, only : matmul_t
   implicit none
 
@@ -28,16 +29,20 @@ contains
     type(test_result_t), allocatable :: test_results(:)
 
     test_results = test_result_t( &
-      [ character(len=len("mapping (true,true) to false using the default ('do concurrent'/dot_product) inference method")) :: &
-        "mapping (true,true) to false using the default ('do concurrent'/dot_product) inference method", &
-        "mapping (false,true) to true using the default inference method", &
-        "mapping (true,false) to false using the default inference method", &
-        "mapping (false,false) to false using the default inference method" &
-      ], [xor_and_2nd_input_truth_table()] &
+      [ character(len=len("mapping (true,true) to false using the default ('do concurrent'/dot_product) inference strategy")) :: &
+        "mapping (true,true) to false using the default ('do concurrent'/dot_product) inference strategy", &
+        "mapping (false,true) to true using the default inference strategy", &
+        "mapping (true,false) to false using the default inference strategy", &
+        "mapping (false,false) to false using the default inference strategy", &
+        "mapping (true,true) to false using the matmul inference strategy", &
+        "mapping (false,true) to true using the matmul inference strategy", &
+        "mapping (true,false) to false using the matmul inference strategy", &
+        "mapping (false,false) to false using the matmul inference strategy" &
+      ], [xor_and_2nd_input_truth_table(), xor_and_2nd_input_truth_table(matmul_t())] &
     )
   end function
 
-  function xor_and_2nd_input_network() result(inference_engine)
+  function xor_and_2nd_input_network(inference_strategy) result(inference_engine)
 
     type(inference_engine_t) inference_engine
     integer, parameter :: n_in = 2 ! number of inputs
@@ -46,6 +51,7 @@ contains
     integer, parameter :: n_hidden = 2 ! number of hidden layers 
     integer i, j 
     real xor_into_neuron_2(neurons,neurons,n_hidden-1)
+    class(inference_strategy_t), intent(in), optional :: inference_strategy
     xor_into_neuron_2 = 0.
     xor_into_neuron_2(1:3,2,1) = [1., -2., 1.]
     xor_into_neuron_2(4,4,1) = 1.
@@ -55,16 +61,18 @@ contains
       hidden_weights = xor_into_neuron_2, &
       output_weights = real(reshape([0,1,0,1], [n_out, neurons])), &
       biases = reshape([0.,-1.99,0.,0., 0.,0.,0.,0.], [neurons, n_hidden]), &
-      output_biases = [-1.] &
+      output_biases = [-1.], &
+      inference_strategy = inference_strategy &
     )
   end function
 
-  function xor_and_2nd_input_truth_table() result(test_passes)
+  function xor_and_2nd_input_truth_table(inference_strategy) result(test_passes)
     logical, allocatable :: test_passes(:)
 
     type(inference_engine_t) inference_engine
+    class(inference_strategy_t), intent(in), optional :: inference_strategy
 
-    inference_engine = xor_and_2nd_input_network()
+    inference_engine = xor_and_2nd_input_network(inference_strategy)
 
     block
       real, parameter :: tolerance = 1.E-08, false = 0., true = 1.
