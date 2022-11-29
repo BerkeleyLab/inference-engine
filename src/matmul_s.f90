@@ -22,7 +22,7 @@ contains
         integer layer
         do layer = 2, num_layers
           neuron(:,layer) = &
-            activation_strategy%activation(matmul(hidden_weights(:,:,layer-1), neuron(:,layer-1)) + biases(:,layer))
+            activation_strategy%activation(matmul(transpose(hidden_weights(:,:,layer-1)), neuron(:,layer-1)) + biases(:,layer))
         end do
       end block
       output = activation_strategy%activation(matmul(output_weights(:,:), neuron(:,num_layers)) + output_biases(:))

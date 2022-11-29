@@ -6,6 +6,7 @@ module inference_engine_test_m
   use test_m, only : test_t
   use test_result_m, only : test_result_t
   use inference_engine_m, only : inference_engine_t
+  use inference_strategy_m, only : inference_strategy_t
   use matmul_m, only : matmul_t
   implicit none
 
@@ -29,21 +30,21 @@ contains
     type(test_result_t), allocatable :: test_results(:)
 
     test_results = test_result_t( &
-      [ character(len=len("mapping (true,true) to false using the default ('do concurrent'/dot_product) inference method")) :: &
-        "mapping (true,true) to false using the default ('do concurrent'/dot_product) inference method", &
-        "mapping (false,true) to true using the default inference method", &
-        "mapping (true,false) to true using the default inference method", &
-        "mapping (false,false) to false using the default inference method", &
+      [ character(len=len("mapping (true,true) to false using the default ('do concurrent'/dot_product) inference strategy")) :: &
+        "mapping (true,true) to false using the default ('do concurrent'/dot_product) inference strategy", &
+        "mapping (true,false) to true using the default inference strategy", &
+        "mapping (false,true) to true using the default inference strategy", &
+        "mapping (false,false) to false using the default inference strategy", &
         "writing and then reading itself to and from a file", &
-        "mapping (true,true) to false using `matmul`-based inference method", &
-        "mapping (false,true) to true using `matmul`-based inference method", &
-        "mapping (true,false) to true using `matmul`-based inference method", &
-        "mapping (false,false) to false using `matmul`-based inference method" &
-      ], [xor_truth_table(), write_then_read(), matmul_inference()] &
+        "mapping (true,true) to false using `matmul`-based inference strategy", &
+        "mapping (true,false) to true using `matmul`-based inference strategy", &
+        "mapping (false,true) to true using `matmul`-based inference strategy", &
+        "mapping (false,false) to false using `matmul`-based inference strategy" &
+      ], [xor_truth_table(), write_then_read(), xor_truth_table(matmul_t())] &
     )
   end function
 
-  function xor_network() result(inference_engine)
+  function xor_network(inference_strategy) result(inference_engine)
 
     type(inference_engine_t) inference_engine
     integer, parameter :: n_in = 2 ! number of inputs
@@ -53,26 +54,7 @@ contains
     integer i, j 
     integer, parameter :: identity(*,*,*) = &
       reshape([((merge(1,0,i==j), i=1,neurons), j=1,neurons)], shape=[neurons,neurons,n_hidden-1])
-   
-    inference_engine = inference_engine_t( &
-      input_weights = real(reshape([1,0,1,1,0,1], [n_in, neurons])), &
-      hidden_weights = real(identity), &
-      output_weights = real(reshape([1,-2,1], [n_out, neurons])), &
-      biases = reshape([0.,-1.99,0., 0.,0.,0.], [neurons, n_hidden]), &
-      output_biases = [0.] &
-    )
-  end function
-
-  function xor_matmul_network() result(inference_engine)
-
-    type(inference_engine_t) inference_engine
-    integer, parameter :: n_in = 2 ! number of inputs
-    integer, parameter :: n_out = 1 ! number of outputs
-    integer, parameter :: neurons = 3 ! number of neurons per layer
-    integer, parameter :: n_hidden = 2 ! number of hidden layers 
-    integer i, j 
-    integer, parameter :: identity(*,*,*) = &
-      reshape([((merge(1,0,i==j), i=1,neurons), j=1,neurons)], shape=[neurons,neurons,n_hidden-1])
+    class(inference_strategy_t), intent(in), optional :: inference_strategy
    
     inference_engine = inference_engine_t( &
       input_weights = real(reshape([1,0,1,1,0,1], [n_in, neurons])), &
@@ -80,7 +62,7 @@ contains
       output_weights = real(reshape([1,-2,1], [n_out, neurons])), &
       biases = reshape([0.,-1.99,0., 0.,0.,0.], [neurons, n_hidden]), &
       output_biases = [0.], &
-      inference_strategy = matmul_t() & 
+      inference_strategy = inference_strategy &
     )
   end function
 
@@ -105,39 +87,13 @@ contains
     end block
   end function
 
-  function xor_truth_table() result(test_passes)
+  function xor_truth_table(inference_strategy) result(test_passes)
     logical, allocatable :: test_passes(:)
+    class(inference_strategy_t), intent(in), optional :: inference_strategy
 
     type(inference_engine_t) inference_engine
 
-    inference_engine = xor_network()
-
-    block
-      real, parameter :: tolerance = 1.E-08, false = 0., true = 1.
-
-      associate( &
-        true_true => inference_engine%infer(input=[true,true]), & 
-        true_false => inference_engine%infer(input=[true,false]), &
-        false_true => inference_engine%infer(input=[false,true]), &
-        false_false => inference_engine%infer(input=[false,false]) &
-      )
-        test_passes = [ &
-          size(true_true)==1 .and. abs(true_true(1) - false) < tolerance, &
-          size(true_false)==1 .and. abs(true_false(1) - true) < tolerance,  &
-          size(false_true)==1 .and. abs(false_true(1) - true) < tolerance, &
-          size(false_false)==1 .and. abs(false_false(1) - false) < tolerance  &
-        ]
-      end associate
-    end block
-
-  end function
-
-  function matmul_inference() result(test_passes)
-    logical, allocatable :: test_passes(:)
-
-    type(inference_engine_t) inference_engine
-   
-    inference_engine = xor_matmul_network()
+    inference_engine = xor_network(inference_strategy)
 
     block
       real, parameter :: tolerance = 1.E-08, false = 0., true = 1.
