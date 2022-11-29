@@ -31,12 +31,12 @@ contains
     test_results = test_result_t( &
       [ character(len=len("mapping (true,true) to false using the default ('do concurrent'/dot_product) inference strategy")) :: &
         "mapping (true,true) to false using the default ('do concurrent'/dot_product) inference strategy", &
-        "mapping (false,true) to true using the default inference strategy", &
         "mapping (true,false) to false using the default inference strategy", &
+        "mapping (false,true) to true using the default inference strategy", &
         "mapping (false,false) to false using the default inference strategy", &
         "mapping (true,true) to false using the matmul inference strategy", &
-        "mapping (false,true) to true using the matmul inference strategy", &
         "mapping (true,false) to false using the matmul inference strategy", &
+        "mapping (false,true) to true using the matmul inference strategy", &
         "mapping (false,false) to false using the matmul inference strategy" &
       ], [xor_and_2nd_input_truth_table(), xor_and_2nd_input_truth_table(matmul_t())] &
     )
