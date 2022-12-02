@@ -24,7 +24,7 @@ program concurrent_inferences
 
   if (len(input_files)==0) then
     error stop new_line('a') // new_line('a') // &
-      'Usage: fpm run --example concurrent-inference -- --input-files "<space-delimited-list-of-files>"' 
+      'Usage: ./build/run-fpm.sh run --example concurrent-inference -- --input-files "<space-delimited-list-of-files>"' 
   end if
 
   print *,"Defining an array of inference_engine_t objects by reading the following files: ", input_files
