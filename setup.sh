@@ -124,6 +124,8 @@ fi
 export PKG_CONFIG_PATH
 cp scripts/run-fpm.sh-header build/run-fpm.sh
 RUN_FPM_SH="`realpath ./build/run-fpm.sh`"
+echo "`which fpm` \$fpm_arguments \\" >>  $RUN_FPM_SH
+echo "--profile debug \\" >> $RUN_FPM_SH
 echo "--c-compiler \"`pkg-config inference-engine --variable=INFERENCE_ENGINE_FPM_CC`\" \\" >> $RUN_FPM_SH
 echo "--compiler \"`pkg-config inference-engine --variable=INFERENCE_ENGINE_FPM_FC`\" \\" >> $RUN_FPM_SH
 echo "--flag \"`pkg-config inference-engine --variable=INFERENCE_ENGINE_FPM_FLAG`\" \\"  >> $RUN_FPM_SH

@@ -17,5 +17,3 @@ do
     shift
 done
 
-/opt/homebrew/opt/fpm/bin/fpm $fpm_arguments \
---profile debug \
