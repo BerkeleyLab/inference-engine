@@ -19,7 +19,7 @@ program construct_and_write
 
   if (len(output_file_name)==0) then
     error stop new_line('a') // new_line('a') // &
-      'Usage: fpm run --example construct-and-write -- --output-file "<file-name>"' 
+      'Usage: ./build/run-fpm.sh run --example construct-and-write -- --output-file "<file-name>"' 
   end if
 
   xor = inference_engine_t( &

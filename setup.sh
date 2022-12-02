@@ -113,7 +113,7 @@ echo "INFERENCE_ENGINE_FPM_FLAG=\"$FPM_FLAG\""              >> $INFERENCE_ENGINE
 echo "Name: inference-engine"                               >> $INFERENCE_ENGINE_PC
 echo "Description: Inference Engine"                        >> $INFERENCE_ENGINE_PC
 echo "URL: https://github.com/berkeleylab/inference-engine" >> $INFERENCE_ENGINE_PC
-echo "Version: 0.1.0"                                       >> $INFERENCE_ENGINE_PC
+echo "Version: 0.1.1"                                       >> $INFERENCE_ENGINE_PC
 if [ $CI = true ]; then
   echo "---------------"
   echo "cat $INFERENCE_ENGINE_PC"
@@ -122,16 +122,13 @@ if [ $CI = true ]; then
 fi
 
 export PKG_CONFIG_PATH
+cp scripts/run-fpm.sh-header build/run-fpm.sh
 RUN_FPM_SH="`realpath ./build/run-fpm.sh`"
-echo "#!/bin/sh"                                                    >  $RUN_FPM_SH
-echo "#-- DO NOT EDIT -- created by inference-engine/install.sh"    >> $RUN_FPM_SH
-echo "export PKG_CONFIG_PATH"                                       >> $RUN_FPM_SH
-echo "`brew --prefix fpm`/bin/fpm \$@ \\"                 >> $RUN_FPM_SH
-echo "--profile debug \\"                                           >> $RUN_FPM_SH
-echo "--c-compiler \"`pkg-config inference-engine --variable=INFERENCE_ENGINE_FPM_CC`\" \\"  >> $RUN_FPM_SH
-echo "--compiler \"`pkg-config inference-engine --variable=INFERENCE_ENGINE_FPM_FC`\" \\"    >> $RUN_FPM_SH
-echo "--flag \"`pkg-config inference-engine --variable=INFERENCE_ENGINE_FPM_FLAG`\" \\"      >> $RUN_FPM_SH
-echo "--link-flag \"`pkg-config inference-engine --variable=INFERENCE_ENGINE_FPM_LD_FLAG`\"" >> $RUN_FPM_SH
+echo "--c-compiler \"`pkg-config inference-engine --variable=INFERENCE_ENGINE_FPM_CC`\" \\" >> $RUN_FPM_SH
+echo "--compiler \"`pkg-config inference-engine --variable=INFERENCE_ENGINE_FPM_FC`\" \\" >> $RUN_FPM_SH
+echo "--flag \"`pkg-config inference-engine --variable=INFERENCE_ENGINE_FPM_FLAG`\" \\"  >> $RUN_FPM_SH
+echo "--link-flag \"`pkg-config inference-engine --variable=INFERENCE_ENGINE_FPM_LD_FLAG`\" \\" >> $RUN_FPM_SH
+echo "\$program_arguments" >> $RUN_FPM_SH
 chmod u+x $RUN_FPM_SH
 if [ $CI = true ]; then
   echo "---------------"
