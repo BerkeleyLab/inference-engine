@@ -113,7 +113,7 @@ echo "INFERENCE_ENGINE_FPM_FLAG=\"$FPM_FLAG\""              >> $INFERENCE_ENGINE
 echo "Name: inference-engine"                               >> $INFERENCE_ENGINE_PC
 echo "Description: Inference Engine"                        >> $INFERENCE_ENGINE_PC
 echo "URL: https://github.com/berkeleylab/inference-engine" >> $INFERENCE_ENGINE_PC
-echo "Version: 0.1.1"                                       >> $INFERENCE_ENGINE_PC
+echo "Version: 0.1.2"                                       >> $INFERENCE_ENGINE_PC
 if [ $CI = true ]; then
   echo "---------------"
   echo "cat $INFERENCE_ENGINE_PC"
