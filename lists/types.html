@@ -105,14 +105,28 @@
 <g id="type~~graph~~TypeGraph" class="graph" transform="scale(1 1) rotate(0) translate(4 154)">
 <title>type~~graph~~TypeGraph</title>
 <polygon fill="white" stroke="transparent" points="-4,4 -4,-154 413,-154 413,4 -4,4"/>
-<!-- type~inference_strategy_t -->
+<!-- type~matmul_t -->
 <g id="type~~graph~~TypeGraph_node1" class="node">
+<title>type~matmul_t</title>
+<g id="a_type~~graph~~TypeGraph_node1"><a xlink:href=".././type/matmul_t.html" xlink:title="matmul_t">
+<polygon fill="#5cb85c" stroke="#5cb85c" points="364,-150 301,-150 301,-126 364,-126 364,-150"/>
+<text text-anchor="middle" x="332.5" y="-135.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">matmul_t</text>
+</a>
+</g>
+</g>
+<!-- type~inference_strategy_t -->
+<g id="type~~graph~~TypeGraph_node5" class="node">
 <title>type~inference_strategy_t</title>
-<g id="a_type~~graph~~TypeGraph_node1"><a xlink:href=".././type/inference_strategy_t.html" xlink:title="inference_strategy_t">
+<g id="a_type~~graph~~TypeGraph_node5"><a xlink:href=".././type/inference_strategy_t.html" xlink:title="inference_strategy_t">
 <polygon fill="#5cb85c" stroke="#5cb85c" points="122,-109 1,-109 1,-85 122,-85 122,-109"/>
 <text text-anchor="middle" x="61.5" y="-94.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">inference_strategy_t</text>
 </a>
 </g>
+</g>
+<!-- type~matmul_t&#45;&gt;type~inference_strategy_t -->
+<g id="type~~graph~~TypeGraph_edge1" class="edge">
+<title>type~matmul_t&#45;&gt;type~inference_strategy_t</title>
+<path fill="none" stroke="#ff0000" d="M300.99,-134.97C272.44,-132.19 228.61,-128.04 190.5,-125"/>
 </g>
 <!-- type~step_t -->
 <g id="type~~graph~~TypeGraph_node2" class="node">
@@ -124,47 +138,33 @@
 </g>
 </g>
 <!-- type~activation_strategy_t -->
-<g id="type~~graph~~TypeGraph_node5" class="node">
+<g id="type~~graph~~TypeGraph_node3" class="node">
 <title>type~activation_strategy_t</title>
-<g id="a_type~~graph~~TypeGraph_node5"><a xlink:href=".././type/activation_strategy_t.html" xlink:title="activation_strategy_t">
+<g id="a_type~~graph~~TypeGraph_node3"><a xlink:href=".././type/activation_strategy_t.html" xlink:title="activation_strategy_t">
 <polygon fill="#5cb85c" stroke="#5cb85c" points="123,-55 0,-55 0,-31 123,-31 123,-55"/>
 <text text-anchor="middle" x="61.5" y="-40.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">activation_strategy_t</text>
 </a>
 </g>
 </g>
 <!-- type~step_t&#45;&gt;type~activation_strategy_t -->
-<g id="type~~graph~~TypeGraph_edge1" class="edge">
+<g id="type~~graph~~TypeGraph_edge2" class="edge">
 <title>type~step_t&#45;&gt;type~activation_strategy_t</title>
 <path fill="none" stroke="#ffff00" d="M305.22,-15.03C265.68,-19.58 189.53,-28.36 133.02,-34.87"/>
 <polygon fill="#ffff00" stroke="#ffff00" points="132.6,-31.4 123.07,-36.02 133.4,-38.35 132.6,-31.4"/>
 </g>
 <!-- type~concurrent_dot_products_t -->
-<g id="type~~graph~~TypeGraph_node3" class="node">
+<g id="type~~graph~~TypeGraph_node4" class="node">
 <title>type~concurrent_dot_products_t</title>
-<g id="a_type~~graph~~TypeGraph_node3"><a xlink:href=".././type/concurrent_dot_products_t.html" xlink:title="concurrent_dot_products_t">
-<polygon fill="#5cb85c" stroke="#5cb85c" points="409,-150 256,-150 256,-126 409,-126 409,-150"/>
-<text text-anchor="middle" x="332.5" y="-135.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">concurrent_dot_products_t</text>
+<g id="a_type~~graph~~TypeGraph_node4"><a xlink:href=".././type/concurrent_dot_products_t.html" xlink:title="concurrent_dot_products_t">
+<polygon fill="#5cb85c" stroke="#5cb85c" points="409,-108 256,-108 256,-84 409,-84 409,-108"/>
+<text text-anchor="middle" x="332.5" y="-93.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">concurrent_dot_products_t</text>
 </a>
 </g>
 </g>
 <!-- type~concurrent_dot_products_t&#45;&gt;type~inference_strategy_t -->
-<g id="type~~graph~~TypeGraph_edge2" class="edge">
-<title>type~concurrent_dot_products_t&#45;&gt;type~inference_strategy_t</title>
-<path fill="none" stroke="#00ff00" d="M255.79,-130.68C234.67,-128.73 211.7,-126.69 190.5,-125"/>
-</g>
-<!-- type~matmul_t -->
-<g id="type~~graph~~TypeGraph_node4" class="node">
-<title>type~matmul_t</title>
-<g id="a_type~~graph~~TypeGraph_node4"><a xlink:href=".././type/matmul_t.html" xlink:title="matmul_t">
-<polygon fill="#5cb85c" stroke="#5cb85c" points="364,-108 301,-108 301,-84 364,-84 364,-108"/>
-<text text-anchor="middle" x="332.5" y="-93.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">matmul_t</text>
-</a>
-</g>
-</g>
-<!-- type~matmul_t&#45;&gt;type~inference_strategy_t -->
 <g id="type~~graph~~TypeGraph_edge3" class="edge">
-<title>type~matmul_t&#45;&gt;type~inference_strategy_t</title>
-<path fill="none" stroke="#00ffff" d="M300.7,-104.44C265.93,-113.58 211.49,-126.68 190.5,-125"/>
+<title>type~concurrent_dot_products_t&#45;&gt;type~inference_strategy_t</title>
+<path fill="none" stroke="#00ffff" d="M286.89,-108C252.88,-116.62 208.87,-126.47 190.5,-125"/>
 <path fill="none" stroke="#00ffff" d="M188.5,-125C163.3,-122.99 135.85,-117.31 113.01,-111.59"/>
 <polygon fill="#00ffff" stroke="#00ffff" points="113.76,-108.17 103.2,-109.06 112.01,-114.95 113.76,-108.17"/>
 </g>
@@ -177,19 +177,19 @@
 </a>
 </g>
 </g>
-<!-- type~inference_engine_t&#45;&gt;type~inference_strategy_t -->
-<g id="type~~graph~~TypeGraph_edge5" class="edge">
-<title>type~inference_engine_t&#45;&gt;type~inference_strategy_t</title>
-<path fill="none" stroke="#ff00ff" stroke-dasharray="5,2" d="M275.44,-62.96C233.78,-69.62 176.69,-78.75 132.11,-85.87"/>
-<polygon fill="#ff00ff" stroke="#ff00ff" points="131.55,-82.42 122.23,-87.45 132.65,-89.33 131.55,-82.42"/>
-<text text-anchor="middle" x="189.5" y="-86.4" font-family="Helvetica,sans-Serif" font-size="9.50">inference_strategy_</text>
-</g>
 <!-- type~inference_engine_t&#45;&gt;type~activation_strategy_t -->
 <g id="type~~graph~~TypeGraph_edge4" class="edge">
 <title>type~inference_engine_t&#45;&gt;type~activation_strategy_t</title>
 <path fill="none" stroke="#ff00ff" stroke-dasharray="5,2" d="M275.44,-51.71C234.15,-50.02 177.71,-47.71 133.31,-45.9"/>
 <polygon fill="#ff00ff" stroke="#ff00ff" points="133.31,-42.39 123.17,-45.48 133.02,-49.39 133.31,-42.39"/>
 <text text-anchor="middle" x="189.5" y="-52.4" font-family="Helvetica,sans-Serif" font-size="9.50">activation_strategy_</text>
+</g>
+<!-- type~inference_engine_t&#45;&gt;type~inference_strategy_t -->
+<g id="type~~graph~~TypeGraph_edge5" class="edge">
+<title>type~inference_engine_t&#45;&gt;type~inference_strategy_t</title>
+<path fill="none" stroke="#ff00ff" stroke-dasharray="5,2" d="M275.44,-62.96C233.78,-69.62 176.69,-78.75 132.11,-85.87"/>
+<polygon fill="#ff00ff" stroke="#ff00ff" points="131.55,-82.42 122.23,-87.45 132.65,-89.33 131.55,-82.42"/>
+<text text-anchor="middle" x="189.5" y="-86.4" font-family="Helvetica,sans-Serif" font-size="9.50">inference_strategy_</text>
 </g>
 </g>
 </svg>
@@ -242,7 +242,7 @@
           <p class="text-right">
             Documentation generated by 
             <a href="https://github.com/Fortran-FOSS-Programmers/ford">FORD</a>
- on 2022-12-02 07:39            </p>
+ on 2022-12-02 08:41            </p>
         </div>
       </div>
       <br>

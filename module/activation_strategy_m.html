@@ -161,41 +161,41 @@
 <polygon fill="none" stroke="black" points="130,-150 0,-150 0,-126 130,-126 130,-150"/>
 <text text-anchor="middle" x="65" y="-135.6" font-family="Helvetica,sans-Serif" font-size="10.50">activation_strategy_m</text>
 </g>
-<!-- module~matmul_m -->
+<!-- module~inference_strategy_m -->
 <g id="module~~activation_strategy_m~~UsedByGraph_node2" class="node">
+<title>module~inference_strategy_m</title>
+<g id="a_module~~activation_strategy_m~~UsedByGraph_node2"><a xlink:href=".././module/inference_strategy_m.html" xlink:title="inference_strategy_m">
+<polygon fill="#337ab7" stroke="#337ab7" points="293,-150 166,-150 166,-126 293,-126 293,-150"/>
+<text text-anchor="middle" x="229.5" y="-135.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">inference_strategy_m</text>
+</a>
+</g>
+</g>
+<!-- module~inference_strategy_m&#45;&gt;module~activation_strategy_m -->
+<g id="module~~activation_strategy_m~~UsedByGraph_edge1" class="edge">
+<title>module~inference_strategy_m&#45;&gt;module~activation_strategy_m</title>
+<path fill="none" stroke="#ff0000" stroke-dasharray="5,2" d="M165.67,-138C157.36,-138 148.77,-138 140.28,-138"/>
+<polygon fill="#ff0000" stroke="#ff0000" points="140,-134.5 130,-138 140,-141.5 140,-134.5"/>
+</g>
+<!-- module~matmul_m -->
+<g id="module~~activation_strategy_m~~UsedByGraph_node3" class="node">
 <title>module~matmul_m</title>
-<g id="a_module~~activation_strategy_m~~UsedByGraph_node2"><a xlink:href=".././module/matmul_m.html" xlink:title="matmul_m">
+<g id="a_module~~activation_strategy_m~~UsedByGraph_node3"><a xlink:href=".././module/matmul_m.html" xlink:title="matmul_m">
 <polygon fill="#337ab7" stroke="#337ab7" points="444,-192 374,-192 374,-168 444,-168 444,-192"/>
 <text text-anchor="middle" x="409" y="-177.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">matmul_m</text>
 </a>
 </g>
 </g>
 <!-- module~matmul_m&#45;&gt;module~activation_strategy_m -->
-<g id="module~~activation_strategy_m~~UsedByGraph_edge1" class="edge">
+<g id="module~~activation_strategy_m~~UsedByGraph_edge2" class="edge">
 <title>module~matmul_m&#45;&gt;module~activation_strategy_m</title>
 <path fill="none" stroke="#ff0000" stroke-dasharray="5,2" d="M373.78,-178.33C326.77,-175.74 239.63,-169.89 166,-159 153.47,-157.15 140.15,-154.69 127.45,-152.12"/>
 <polygon fill="#ff0000" stroke="#ff0000" points="127.93,-148.65 117.43,-150.04 126.51,-155.5 127.93,-148.65"/>
 </g>
-<!-- module~inference_strategy_m -->
-<g id="module~~activation_strategy_m~~UsedByGraph_node3" class="node">
-<title>module~inference_strategy_m</title>
-<g id="a_module~~activation_strategy_m~~UsedByGraph_node3"><a xlink:href=".././module/inference_strategy_m.html" xlink:title="inference_strategy_m">
-<polygon fill="#337ab7" stroke="#337ab7" points="293,-150 166,-150 166,-126 293,-126 293,-150"/>
-<text text-anchor="middle" x="229.5" y="-135.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">inference_strategy_m</text>
-</a>
-</g>
-</g>
 <!-- module~matmul_m&#45;&gt;module~inference_strategy_m -->
-<g id="module~~activation_strategy_m~~UsedByGraph_edge10" class="edge">
+<g id="module~~activation_strategy_m~~UsedByGraph_edge9" class="edge">
 <title>module~matmul_m&#45;&gt;module~inference_strategy_m</title>
-<path fill="none" stroke="#ffff00" stroke-dasharray="5,2" d="M373.78,-171.9C350.45,-166.38 318.91,-158.92 291.37,-152.4"/>
-<polygon fill="#ffff00" stroke="#ffff00" points="291.96,-148.95 281.42,-150.05 290.35,-155.76 291.96,-148.95"/>
-</g>
-<!-- module~inference_strategy_m&#45;&gt;module~activation_strategy_m -->
-<g id="module~~activation_strategy_m~~UsedByGraph_edge2" class="edge">
-<title>module~inference_strategy_m&#45;&gt;module~activation_strategy_m</title>
-<path fill="none" stroke="#ff0000" stroke-dasharray="5,2" d="M165.67,-138C157.36,-138 148.77,-138 140.28,-138"/>
-<polygon fill="#ff0000" stroke="#ff0000" points="140,-134.5 130,-138 140,-141.5 140,-134.5"/>
+<path fill="none" stroke="#ff0000" stroke-dasharray="5,2" d="M373.78,-171.9C350.45,-166.38 318.91,-158.92 291.37,-152.4"/>
+<polygon fill="#ff0000" stroke="#ff0000" points="291.96,-148.95 281.42,-150.05 290.35,-155.76 291.96,-148.95"/>
 </g>
 <!-- module~concurrent_dot_products_m -->
 <g id="module~~activation_strategy_m~~UsedByGraph_node4" class="node">
@@ -207,40 +207,20 @@
 </g>
 </g>
 <!-- module~concurrent_dot_products_m&#45;&gt;module~activation_strategy_m -->
-<g id="module~~activation_strategy_m~~UsedByGraph_edge3" class="edge">
+<g id="module~~activation_strategy_m~~UsedByGraph_edge4" class="edge">
 <title>module~concurrent_dot_products_m&#45;&gt;module~activation_strategy_m</title>
 <path fill="none" stroke="#ff0000" stroke-dasharray="5,2" d="M361.37,-83.99C311,-71.18 237.03,-52.84 230.5,-54"/>
 </g>
 <!-- module~concurrent_dot_products_m&#45;&gt;module~inference_strategy_m -->
-<g id="module~~activation_strategy_m~~UsedByGraph_edge9" class="edge">
-<title>module~concurrent_dot_products_m&#45;&gt;module~inference_strategy_m</title>
-<path fill="none" stroke="#ffff00" stroke-dasharray="5,2" d="M357.14,-108.04C336.62,-112.89 312.78,-118.53 291.35,-123.6"/>
-<polygon fill="#ffff00" stroke="#ffff00" points="290.3,-120.25 281.37,-125.96 291.91,-127.07 290.3,-120.25"/>
-</g>
-<!-- module~inference_engine_m -->
-<g id="module~~activation_strategy_m~~UsedByGraph_node5" class="node">
-<title>module~inference_engine_m</title>
-<g id="a_module~~activation_strategy_m~~UsedByGraph_node5"><a xlink:href=".././module/inference_engine_m.html" xlink:title="inference_engine_m">
-<polygon fill="#337ab7" stroke="#337ab7" points="469.5,-150 348.5,-150 348.5,-126 469.5,-126 469.5,-150"/>
-<text text-anchor="middle" x="409" y="-135.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">inference_engine_m</text>
-</a>
-</g>
-</g>
-<!-- module~inference_engine_m&#45;&gt;module~activation_strategy_m -->
-<g id="module~~activation_strategy_m~~UsedByGraph_edge4" class="edge">
-<title>module~inference_engine_m&#45;&gt;module~activation_strategy_m</title>
-<path fill="none" stroke="#ff0000" stroke-dasharray="5,2" d="M353.69,-125.95C345.27,-123.4 336.79,-120.43 329,-117 281.43,-96.08 281.66,-44.88 230.5,-54"/>
-</g>
-<!-- module~inference_engine_m&#45;&gt;module~inference_strategy_m -->
 <g id="module~~activation_strategy_m~~UsedByGraph_edge8" class="edge">
-<title>module~inference_engine_m&#45;&gt;module~inference_strategy_m</title>
-<path fill="none" stroke="#ffff00" stroke-dasharray="5,2" d="M348.4,-138C334,-138 318.44,-138 303.51,-138"/>
-<polygon fill="#ffff00" stroke="#ffff00" points="303.28,-134.5 293.28,-138 303.28,-141.5 303.28,-134.5"/>
+<title>module~concurrent_dot_products_m&#45;&gt;module~inference_strategy_m</title>
+<path fill="none" stroke="#ff0000" stroke-dasharray="5,2" d="M357.14,-108.04C336.62,-112.89 312.78,-118.53 291.35,-123.6"/>
+<polygon fill="#ff0000" stroke="#ff0000" points="290.3,-120.25 281.37,-125.96 291.91,-127.07 290.3,-120.25"/>
 </g>
 <!-- module~step_m -->
-<g id="module~~activation_strategy_m~~UsedByGraph_node6" class="node">
+<g id="module~~activation_strategy_m~~UsedByGraph_node5" class="node">
 <title>module~step_m</title>
-<g id="a_module~~activation_strategy_m~~UsedByGraph_node6"><a xlink:href=".././module/step_m.html" xlink:title="step_m">
+<g id="a_module~~activation_strategy_m~~UsedByGraph_node5"><a xlink:href=".././module/step_m.html" xlink:title="step_m">
 <polygon fill="#337ab7" stroke="#337ab7" points="436,-66 382,-66 382,-42 436,-42 436,-66"/>
 <text text-anchor="middle" x="409" y="-51.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">step_m</text>
 </a>
@@ -250,6 +230,26 @@
 <g id="module~~activation_strategy_m~~UsedByGraph_edge5" class="edge">
 <title>module~step_m&#45;&gt;module~activation_strategy_m</title>
 <path fill="none" stroke="#ff0000" stroke-dasharray="5,2" d="M381.88,-51.16C347.04,-48.01 283.59,-44.53 230.5,-54"/>
+</g>
+<!-- module~inference_engine_m -->
+<g id="module~~activation_strategy_m~~UsedByGraph_node6" class="node">
+<title>module~inference_engine_m</title>
+<g id="a_module~~activation_strategy_m~~UsedByGraph_node6"><a xlink:href=".././module/inference_engine_m.html" xlink:title="inference_engine_m">
+<polygon fill="#337ab7" stroke="#337ab7" points="469.5,-150 348.5,-150 348.5,-126 469.5,-126 469.5,-150"/>
+<text text-anchor="middle" x="409" y="-135.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">inference_engine_m</text>
+</a>
+</g>
+</g>
+<!-- module~inference_engine_m&#45;&gt;module~activation_strategy_m -->
+<g id="module~~activation_strategy_m~~UsedByGraph_edge3" class="edge">
+<title>module~inference_engine_m&#45;&gt;module~activation_strategy_m</title>
+<path fill="none" stroke="#ff0000" stroke-dasharray="5,2" d="M353.69,-125.95C345.27,-123.4 336.79,-120.43 329,-117 281.43,-96.08 281.66,-44.88 230.5,-54"/>
+</g>
+<!-- module~inference_engine_m&#45;&gt;module~inference_strategy_m -->
+<g id="module~~activation_strategy_m~~UsedByGraph_edge7" class="edge">
+<title>module~inference_engine_m&#45;&gt;module~inference_strategy_m</title>
+<path fill="none" stroke="#ff0000" stroke-dasharray="5,2" d="M348.4,-138C334,-138 318.44,-138 303.51,-138"/>
+<polygon fill="#ff0000" stroke="#ff0000" points="303.28,-134.5 293.28,-138 303.28,-141.5 303.28,-134.5"/>
 </g>
 <!-- module~concurrent_dot_products_s -->
 <g id="module~~activation_strategy_m~~UsedByGraph_node7" class="node">
@@ -274,10 +274,10 @@
 <polygon fill="#00ff00" stroke="#00ff00" points="473.76,-78.4 464.74,-83.96 475.26,-85.23 473.76,-78.4"/>
 </g>
 <!-- module~concurrent_dot_products_s&#45;&gt;module~step_m -->
-<g id="module~~activation_strategy_m~~UsedByGraph_edge18" class="edge">
+<g id="module~~activation_strategy_m~~UsedByGraph_edge14" class="edge">
 <title>module~concurrent_dot_products_s&#45;&gt;module~step_m</title>
-<path fill="none" stroke="#0000ff" stroke-dasharray="5,2" d="M524.96,-54C497.96,-54 468.8,-54 446.6,-54"/>
-<polygon fill="#0000ff" stroke="#0000ff" points="446.3,-50.5 436.3,-54 446.3,-57.5 446.3,-50.5"/>
+<path fill="none" stroke="#00ffff" stroke-dasharray="5,2" d="M524.96,-54C497.96,-54 468.8,-54 446.6,-54"/>
+<polygon fill="#00ffff" stroke="#00ffff" points="446.3,-50.5 436.3,-54 446.3,-57.5 446.3,-50.5"/>
 </g>
 <!-- module~matmul_s -->
 <g id="module~~activation_strategy_m~~UsedByGraph_node8" class="node">
@@ -289,37 +289,25 @@
 </g>
 </g>
 <!-- module~matmul_s&#45;&gt;module~matmul_m -->
-<g id="module~~activation_strategy_m~~UsedByGraph_edge7" class="edge">
+<g id="module~~activation_strategy_m~~UsedByGraph_edge10" class="edge">
 <title>module~matmul_s&#45;&gt;module~matmul_m</title>
-<path fill="none" stroke="#ff0000" d="M569.77,-257.11C555.82,-253.59 539.33,-248.81 525,-243 493.85,-230.36 460.38,-211.35 437.62,-197.51"/>
-<polygon fill="#ff0000" stroke="#ff0000" points="439.21,-194.38 428.86,-192.12 435.54,-200.34 439.21,-194.38"/>
+<path fill="none" stroke="#ffff00" d="M569.77,-257.11C555.82,-253.59 539.33,-248.81 525,-243 493.85,-230.36 460.38,-211.35 437.62,-197.51"/>
+<polygon fill="#ffff00" stroke="#ffff00" points="439.21,-194.38 428.86,-192.12 435.54,-200.34 439.21,-194.38"/>
 </g>
-<!-- module~inference_engine_s -->
+<!-- program~concurrent_inferences -->
 <g id="module~~activation_strategy_m~~UsedByGraph_node9" class="node">
-<title>module~inference_engine_s</title>
-<g id="a_module~~activation_strategy_m~~UsedByGraph_node9"><a xlink:href=".././module/inference_engine_s.html" xlink:title="inference_engine_s">
-<polygon fill="#5bc0de" stroke="#5bc0de" points="659.5,-108 544.5,-108 544.5,-84 659.5,-84 659.5,-108"/>
-<text text-anchor="middle" x="602" y="-93.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">inference_engine_s</text>
+<title>program~concurrent_inferences</title>
+<g id="a_module~~activation_strategy_m~~UsedByGraph_node9"><a xlink:href=".././program/concurrent_inferences.html" xlink:title="concurrent_inferences">
+<polygon fill="#f0ad4e" stroke="#f0ad4e" points="667.5,-150 536.5,-150 536.5,-126 667.5,-126 667.5,-150"/>
+<text text-anchor="middle" x="602" y="-135.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">concurrent_inferences</text>
 </a>
 </g>
 </g>
-<!-- module~inference_engine_s&#45;&gt;module~concurrent_dot_products_m -->
-<g id="module~~activation_strategy_m~~UsedByGraph_edge11" class="edge">
-<title>module~inference_engine_s&#45;&gt;module~concurrent_dot_products_m</title>
-<path fill="none" stroke="#00ff00" stroke-dasharray="5,2" d="M544.47,-96C530.21,-96 514.56,-96 499.12,-96"/>
-<polygon fill="#00ff00" stroke="#00ff00" points="499.03,-92.5 489.03,-96 499.03,-99.5 499.03,-92.5"/>
-</g>
-<!-- module~inference_engine_s&#45;&gt;module~inference_engine_m -->
-<g id="module~~activation_strategy_m~~UsedByGraph_edge16" class="edge">
-<title>module~inference_engine_s&#45;&gt;module~inference_engine_m</title>
-<path fill="none" stroke="#00ffff" d="M546.27,-108.04C523.89,-112.96 497.84,-118.69 474.54,-123.81"/>
-<polygon fill="#00ffff" stroke="#00ffff" points="473.76,-120.4 464.74,-125.96 475.26,-127.23 473.76,-120.4"/>
-</g>
-<!-- module~inference_engine_s&#45;&gt;module~step_m -->
+<!-- program~concurrent_inferences&#45;&gt;module~inference_engine_m -->
 <g id="module~~activation_strategy_m~~UsedByGraph_edge17" class="edge">
-<title>module~inference_engine_s&#45;&gt;module~step_m</title>
-<path fill="none" stroke="#0000ff" stroke-dasharray="5,2" d="M546.27,-83.96C514.06,-76.88 474.25,-68.13 445.99,-61.91"/>
-<polygon fill="#0000ff" stroke="#0000ff" points="446.66,-58.48 436.14,-59.75 445.15,-65.31 446.66,-58.48"/>
+<title>program~concurrent_inferences&#45;&gt;module~inference_engine_m</title>
+<path fill="none" stroke="#0000ff" stroke-dasharray="5,2" d="M536.34,-138C518.16,-138 498.32,-138 479.86,-138"/>
+<polygon fill="#0000ff" stroke="#0000ff" points="479.77,-134.5 469.77,-138 479.77,-141.5 479.77,-134.5"/>
 </g>
 <!-- program~read_and_query -->
 <g id="module~~activation_strategy_m~~UsedByGraph_node10" class="node">
@@ -331,40 +319,52 @@
 </g>
 </g>
 <!-- program~read_and_query&#45;&gt;module~inference_engine_m -->
-<g id="module~~activation_strategy_m~~UsedByGraph_edge13" class="edge">
+<g id="module~~activation_strategy_m~~UsedByGraph_edge16" class="edge">
 <title>program~read_and_query&#45;&gt;module~inference_engine_m</title>
-<path fill="none" stroke="#00ffff" stroke-dasharray="5,2" d="M552.95,-213.36C543.24,-210.37 533.44,-206.36 525,-201 504.25,-187.82 509.82,-172.08 489,-159 485.87,-157.03 482.56,-155.25 479.14,-153.63"/>
-<polygon fill="#00ffff" stroke="#00ffff" points="480.45,-150.39 469.88,-149.73 477.73,-156.84 480.45,-150.39"/>
+<path fill="none" stroke="#0000ff" stroke-dasharray="5,2" d="M552.95,-213.36C543.24,-210.37 533.44,-206.36 525,-201 504.25,-187.82 509.82,-172.08 489,-159 485.87,-157.03 482.56,-155.25 479.14,-153.63"/>
+<polygon fill="#0000ff" stroke="#0000ff" points="480.45,-150.39 469.88,-149.73 477.73,-156.84 480.45,-150.39"/>
 </g>
-<!-- program~concurrent_inferences -->
+<!-- module~inference_engine_s -->
 <g id="module~~activation_strategy_m~~UsedByGraph_node11" class="node">
-<title>program~concurrent_inferences</title>
-<g id="a_module~~activation_strategy_m~~UsedByGraph_node11"><a xlink:href=".././program/concurrent_inferences.html" xlink:title="concurrent_inferences">
-<polygon fill="#f0ad4e" stroke="#f0ad4e" points="667.5,-192 536.5,-192 536.5,-168 667.5,-168 667.5,-192"/>
-<text text-anchor="middle" x="602" y="-177.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">concurrent_inferences</text>
+<title>module~inference_engine_s</title>
+<g id="a_module~~activation_strategy_m~~UsedByGraph_node11"><a xlink:href=".././module/inference_engine_s.html" xlink:title="inference_engine_s">
+<polygon fill="#5bc0de" stroke="#5bc0de" points="659.5,-108 544.5,-108 544.5,-84 659.5,-84 659.5,-108"/>
+<text text-anchor="middle" x="602" y="-93.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">inference_engine_s</text>
 </a>
 </g>
 </g>
-<!-- program~concurrent_inferences&#45;&gt;module~inference_engine_m -->
-<g id="module~~activation_strategy_m~~UsedByGraph_edge14" class="edge">
-<title>program~concurrent_inferences&#45;&gt;module~inference_engine_m</title>
-<path fill="none" stroke="#00ffff" stroke-dasharray="5,2" d="M546.27,-167.96C523.89,-163.04 497.84,-157.31 474.54,-152.19"/>
-<polygon fill="#00ffff" stroke="#00ffff" points="475.26,-148.77 464.74,-150.04 473.76,-155.6 475.26,-148.77"/>
+<!-- module~inference_engine_s&#45;&gt;module~concurrent_dot_products_m -->
+<g id="module~~activation_strategy_m~~UsedByGraph_edge11" class="edge">
+<title>module~inference_engine_s&#45;&gt;module~concurrent_dot_products_m</title>
+<path fill="none" stroke="#00ff00" stroke-dasharray="5,2" d="M544.47,-96C530.21,-96 514.56,-96 499.12,-96"/>
+<polygon fill="#00ff00" stroke="#00ff00" points="499.03,-92.5 489.03,-96 499.03,-99.5 499.03,-92.5"/>
+</g>
+<!-- module~inference_engine_s&#45;&gt;module~step_m -->
+<g id="module~~activation_strategy_m~~UsedByGraph_edge13" class="edge">
+<title>module~inference_engine_s&#45;&gt;module~step_m</title>
+<path fill="none" stroke="#00ffff" stroke-dasharray="5,2" d="M546.27,-83.96C514.06,-76.88 474.25,-68.13 445.99,-61.91"/>
+<polygon fill="#00ffff" stroke="#00ffff" points="446.66,-58.48 436.14,-59.75 445.15,-65.31 446.66,-58.48"/>
+</g>
+<!-- module~inference_engine_s&#45;&gt;module~inference_engine_m -->
+<g id="module~~activation_strategy_m~~UsedByGraph_edge19" class="edge">
+<title>module~inference_engine_s&#45;&gt;module~inference_engine_m</title>
+<path fill="none" stroke="#0000ff" d="M546.27,-108.04C523.89,-112.96 497.84,-118.69 474.54,-123.81"/>
+<polygon fill="#0000ff" stroke="#0000ff" points="473.76,-120.4 464.74,-125.96 475.26,-127.23 473.76,-120.4"/>
 </g>
 <!-- program~construct_and_write -->
 <g id="module~~activation_strategy_m~~UsedByGraph_node12" class="node">
 <title>program~construct_and_write</title>
 <g id="a_module~~activation_strategy_m~~UsedByGraph_node12"><a xlink:href=".././program/construct_and_write.html" xlink:title="construct_and_write">
-<polygon fill="#f0ad4e" stroke="#f0ad4e" points="661.5,-150 542.5,-150 542.5,-126 661.5,-126 661.5,-150"/>
-<text text-anchor="middle" x="602" y="-135.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">construct_and_write</text>
+<polygon fill="#f0ad4e" stroke="#f0ad4e" points="661.5,-192 542.5,-192 542.5,-168 661.5,-168 661.5,-192"/>
+<text text-anchor="middle" x="602" y="-177.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">construct_and_write</text>
 </a>
 </g>
 </g>
 <!-- program~construct_and_write&#45;&gt;module~inference_engine_m -->
-<g id="module~~activation_strategy_m~~UsedByGraph_edge15" class="edge">
+<g id="module~~activation_strategy_m~~UsedByGraph_edge18" class="edge">
 <title>program~construct_and_write&#45;&gt;module~inference_engine_m</title>
-<path fill="none" stroke="#00ffff" stroke-dasharray="5,2" d="M542.4,-138C522.7,-138 500.52,-138 480.03,-138"/>
-<polygon fill="#00ffff" stroke="#00ffff" points="479.81,-134.5 469.81,-138 479.81,-141.5 479.81,-134.5"/>
+<path fill="none" stroke="#0000ff" stroke-dasharray="5,2" d="M546.27,-167.96C523.89,-163.04 497.84,-157.31 474.54,-152.19"/>
+<polygon fill="#0000ff" stroke="#0000ff" points="475.26,-148.77 464.74,-150.04 473.76,-155.6 475.26,-148.77"/>
 </g>
 <!-- module~step_s -->
 <g id="module~~activation_strategy_m~~UsedByGraph_node13" class="node">
@@ -376,10 +376,10 @@
 </g>
 </g>
 <!-- module~step_s&#45;&gt;module~step_m -->
-<g id="module~~activation_strategy_m~~UsedByGraph_edge19" class="edge">
+<g id="module~~activation_strategy_m~~UsedByGraph_edge15" class="edge">
 <title>module~step_s&#45;&gt;module~step_m</title>
-<path fill="none" stroke="#0000ff" d="M574.84,-17.75C541.5,-25.08 483.7,-37.79 446.16,-46.05"/>
-<polygon fill="#0000ff" stroke="#0000ff" points="445.16,-42.68 436.15,-48.25 446.67,-49.52 445.16,-42.68"/>
+<path fill="none" stroke="#00ffff" d="M574.84,-17.75C541.5,-25.08 483.7,-37.79 446.16,-46.05"/>
+<polygon fill="#00ffff" stroke="#00ffff" points="445.16,-42.68 436.15,-48.25 446.67,-49.52 445.16,-42.68"/>
 </g>
 </g>
 </svg>
@@ -539,7 +539,7 @@
           <p class="text-right">
             Documentation generated by 
             <a href="https://github.com/Fortran-FOSS-Programmers/ford">FORD</a>
- on 2022-12-02 07:39            </p>
+ on 2022-12-02 08:41            </p>
         </div>
       </div>
       <br>
