@@ -30,12 +30,15 @@ program read_and_infer
   print *,"num_hidden_layers = ", inference_engine%num_hidden_layers()
   print *,"neurons_per_layer = ", inference_engine%neurons_per_layer()
 
-  associate(num_inputs => inference_engine%num_inputs()
+  associate(num_inputs => inference_engine%num_inputs())
     print *,"num_inputs = ", num_inputs
+    block
+      integer, parameter :: inputs(*) = &
+        [0.0079, 1.4429e-12, 0.0000e+00, 0.0000e+00, 0.0000e+00, 4.4941e-04, 0.0000e+00, 0., 282.2671, 71541.9766]
 
-  call assert(
-  print *,inference_engine%infer( &
-    [0.0079, 1.4429e-12, 0.0000e+00, 0.0000e+00, 0.0000e+00, 4.4941e-04, 0.0000e+00, 0., 282.2671, 71541.9766] &
-  )
+      call assert(num_inputs==size(inputs),"main: num_inputs==size(inputs)", num_inputs)
+      print *, inference_engine%infer(inputs)
+    end block
+  end associate
 
 end program
