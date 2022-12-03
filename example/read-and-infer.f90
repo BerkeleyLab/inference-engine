@@ -6,6 +6,7 @@ program read_and_infer
   !! 2. Query the object for some of its properties (number of inputs, etc.), and
   !! 3. User the object to perform inference 
   !! This example expects 10 inputs and applies a sigmoid activation function.
+  use assert_m, only : assert
   use command_line_m, only : command_line_t
   use inference_engine_m, only : inference_engine_t
   use string_m, only : string_t
@@ -33,7 +34,7 @@ program read_and_infer
   associate(num_inputs => inference_engine%num_inputs())
     print *,"num_inputs = ", num_inputs
     block
-      integer, parameter :: inputs(*) = &
+      real, parameter :: inputs(*) = &
         [0.0079, 1.4429e-12, 0.0000e+00, 0.0000e+00, 0.0000e+00, 4.4941e-04, 0.0000e+00, 0., 282.2671, 71541.9766]
 
       call assert(num_inputs==size(inputs),"main: num_inputs==size(inputs)", num_inputs)
