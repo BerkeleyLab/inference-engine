@@ -205,7 +205,12 @@ contains
       end associate
     end associate
 
-    self%activation_strategy_  = step_t()
+    if (present(activation_strategy)) then
+      self%activation_strategy_  = activation_strategy
+    else
+      self%activation_strategy_  = step_t()
+    end if
+ 
     self%inference_strategy_  = concurrent_dot_products_t()
 
     close(file_unit)
