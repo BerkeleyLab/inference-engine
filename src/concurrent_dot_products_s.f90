@@ -9,7 +9,7 @@ submodule(concurrent_dot_products_m) concurrent_dot_products_s
 contains
 
   module procedure infer
-    
+
     integer n, layer, m
     integer, parameter :: input_layer = 1
     real, allocatable :: neuron(:,:)
@@ -23,6 +23,7 @@ contains
         do concurrent(n = 1:neurons_per_layer)
           neuron(n,layer) = &
             activation_strategy%activation(dot_product(hidden_weights(:,n,layer-1), neuron(:,layer-1)) + biases(n,layer))
+	  neuron(n,layer) = neuron(n,layer)+neuron(n,layer-1) 
         end do
       end do
 
@@ -37,3 +38,4 @@ contains
   end procedure
 
 end submodule concurrent_dot_products_s
+
