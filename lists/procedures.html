@@ -91,9 +91,9 @@
 			   <tr><td><a href='../proc/assert_consistent.html'>assert_consistent</a></td><td><a href='../module/inference_engine_s.html'>inference_engine_s</a></td><td>Subroutine</td><td></td></tr>
 			   <tr><td><a href='../interface/conformable_with.html'>conformable_with</a></td><td><a href='../module/inference_engine_m.html'>inference_engine_m</a></td><td>Interface</td><td></td></tr>
 			   <tr><td><a href='../proc/get_shape.html'>get_shape</a></td><td><a href='../program/netcdf_io.html'>netCDF_IO</a></td><td>Function</td><td></td></tr>
-			   <tr><td><a href='../interface/infer.html'>infer</a></td><td><a href='../module/inference_engine_m.html'>inference_engine_m</a></td><td>Interface</td><td></td></tr>
-			   <tr><td><a href='../interface/infer~2.html'>infer</a></td><td><a href='../module/concurrent_dot_products_m.html'>concurrent_dot_products_m</a></td><td>Interface</td><td></td></tr>
-			   <tr><td><a href='../interface/infer~3.html'>infer</a></td><td><a href='../module/matmul_m.html'>matmul_m</a></td><td>Interface</td><td></td></tr>
+			   <tr><td><a href='../interface/infer.html'>infer</a></td><td><a href='../module/concurrent_dot_products_m.html'>concurrent_dot_products_m</a></td><td>Interface</td><td></td></tr>
+			   <tr><td><a href='../interface/infer~2.html'>infer</a></td><td><a href='../module/matmul_m.html'>matmul_m</a></td><td>Interface</td><td></td></tr>
+			   <tr><td><a href='../interface/infer~3.html'>infer</a></td><td><a href='../module/inference_engine_m.html'>inference_engine_m</a></td><td>Interface</td><td></td></tr>
 			   <tr><td><a href='../interface/inference_engine_t.html'>inference_engine_t</a></td><td><a href='../module/inference_engine_m.html'>inference_engine_m</a></td><td>Interface</td><td></td></tr>
 			   <tr><td><a href='../proc/netcdf_read.html'>netCDF_read</a></td><td><a href='../program/netcdf_io.html'>netCDF_IO</a></td><td>Subroutine</td><td></td></tr>
 			   <tr><td><a href='../proc/netcdf_write.html'>netCDF_write</a></td><td><a href='../program/netcdf_io.html'>netCDF_IO</a></td><td>Subroutine</td><td></td></tr>
@@ -117,170 +117,311 @@
 <g id="call~~graph~~CallGraph" class="graph" transform="scale(1 1) rotate(0) translate(4 877)">
 <title>call~~graph~~CallGraph</title>
 <polygon fill="white" stroke="transparent" points="-4,4 -4,-877 575,-877 575,4 -4,4"/>
-<!-- proc~read_network -->
+<!-- interface~infer~3 -->
 <g id="call~~graph~~CallGraph_node1" class="node">
-<title>proc~read_network</title>
-<g id="a_call~~graph~~CallGraph_node1"><a xlink:href=".././proc/read_network.html" xlink:title="read_network">
-<polygon fill="#d9534f" stroke="#d9534f" points="267.5,-142 182.5,-142 182.5,-118 267.5,-118 267.5,-142"/>
-<text text-anchor="middle" x="225" y="-127.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">read_network</text>
+<title>interface~infer~3</title>
+<g id="a_call~~graph~~CallGraph_node1"><a xlink:href=".././interface/infer~3.html" xlink:title="infer">
+<polygon fill="#a7506f" stroke="#a7506f" points="92.5,-100 38.5,-100 38.5,-76 92.5,-76 92.5,-100"/>
+<text text-anchor="middle" x="65.5" y="-85.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">infer</text>
 </a>
 </g>
 </g>
-<!-- proc~assert_consistent -->
-<g id="call~~graph~~CallGraph_node6" class="node">
-<title>proc~assert_consistent</title>
-<g id="a_call~~graph~~CallGraph_node6"><a xlink:href=".././proc/assert_consistent.html" xlink:title="assert_consistent">
-<polygon fill="#d9534f" stroke="#d9534f" points="430.5,-108 326.5,-108 326.5,-84 430.5,-84 430.5,-108"/>
-<text text-anchor="middle" x="378.5" y="-93.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">assert_consistent</text>
-</a>
-</g>
-</g>
-<!-- proc~read_network&#45;&gt;proc~assert_consistent -->
-<g id="call~~graph~~CallGraph_edge2" class="edge">
-<title>proc~read_network&#45;&gt;proc~assert_consistent</title>
-<path fill="none" stroke="#ff0000" d="M267.8,-120.62C282.81,-117.25 300.07,-113.38 316.39,-109.72"/>
-<polygon fill="#ff0000" stroke="#ff0000" points="317.4,-113.07 326.39,-107.47 315.87,-106.24 317.4,-113.07"/>
-</g>
-<!-- assert -->
-<g id="call~~graph~~CallGraph_node39" class="node">
-<title>assert</title>
-<polygon fill="#777777" stroke="#777777" points="549.5,-310 495.5,-310 495.5,-286 549.5,-286 549.5,-310"/>
-<text text-anchor="middle" x="522.5" y="-295.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">assert</text>
-</g>
-<!-- proc~read_network&#45;&gt;assert -->
-<g id="call~~graph~~CallGraph_edge1" class="edge">
-<title>proc~read_network&#45;&gt;assert</title>
-<path fill="none" stroke="#ff0000" d="M267.91,-126.4C313.53,-124.6 386.8,-128.09 438,-162 479.33,-189.37 503.67,-244.91 514.59,-275.87"/>
-<polygon fill="#ff0000" stroke="#ff0000" points="511.39,-277.35 517.89,-285.72 518.03,-275.12 511.39,-277.35"/>
-</g>
-<!-- interface~infer~2 -->
-<g id="call~~graph~~CallGraph_node2" class="node">
-<title>interface~infer~2</title>
-<g id="a_call~~graph~~CallGraph_node2"><a xlink:href=".././interface/infer~2.html" xlink:title="infer">
-<polygon fill="#a7506f" stroke="#a7506f" points="92.5,-516 38.5,-516 38.5,-492 92.5,-492 92.5,-516"/>
-<text text-anchor="middle" x="65.5" y="-501.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">infer</text>
-</a>
-</g>
-</g>
-<!-- proc~infer~2 -->
+<!-- proc~infer~3 -->
 <g id="call~~graph~~CallGraph_node23" class="node">
-<title>proc~infer~2</title>
-<g id="a_call~~graph~~CallGraph_node23"><a xlink:href=".././proc/infer~2.html" xlink:title="infer">
-<polygon fill="#d94e8f" stroke="#d94e8f" points="252,-516 198,-516 198,-492 252,-492 252,-516"/>
-<text text-anchor="middle" x="225" y="-501.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">infer</text>
+<title>proc~infer~3</title>
+<g id="a_call~~graph~~CallGraph_node23"><a xlink:href=".././proc/infer~3.html" xlink:title="infer">
+<polygon fill="#d94e8f" stroke="#d94e8f" points="252,-100 198,-100 198,-76 252,-76 252,-100"/>
+<text text-anchor="middle" x="225" y="-85.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">infer</text>
 </a>
 </g>
 </g>
-<!-- interface~infer~2&#45;&gt;proc~infer~2 -->
-<g id="call~~graph~~CallGraph_edge3" class="edge">
-<title>interface~infer~2&#45;&gt;proc~infer~2</title>
-<path fill="none" stroke="#ff2800" stroke-dasharray="5,2" d="M92.51,-504C118.5,-504 158.67,-504 187.78,-504"/>
-<polygon fill="#ff2800" stroke="#ff2800" points="187.95,-507.5 197.95,-504 187.95,-500.5 187.95,-507.5"/>
+<!-- interface~infer~3&#45;&gt;proc~infer~3 -->
+<g id="call~~graph~~CallGraph_edge1" class="edge">
+<title>interface~infer~3&#45;&gt;proc~infer~3</title>
+<path fill="none" stroke="#ff0000" stroke-dasharray="5,2" d="M92.51,-88C118.5,-88 158.67,-88 187.78,-88"/>
+<polygon fill="#ff0000" stroke="#ff0000" points="187.95,-91.5 197.95,-88 187.95,-84.5 187.95,-91.5"/>
 </g>
 <!-- interface~num_hidden_layers -->
-<g id="call~~graph~~CallGraph_node3" class="node">
+<g id="call~~graph~~CallGraph_node2" class="node">
 <title>interface~num_hidden_layers</title>
-<g id="a_call~~graph~~CallGraph_node3"><a xlink:href=".././interface/num_hidden_layers.html" xlink:title="num_hidden_layers">
+<g id="a_call~~graph~~CallGraph_node2"><a xlink:href=".././interface/num_hidden_layers.html" xlink:title="num_hidden_layers">
 <polygon fill="#a7506f" stroke="#a7506f" points="283,-352 167,-352 167,-328 283,-328 283,-352"/>
 <text text-anchor="middle" x="225" y="-337.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">num_hidden_layers</text>
 </a>
 </g>
 </g>
 <!-- proc~num_hidden_layers -->
-<g id="call~~graph~~CallGraph_node33" class="node">
+<g id="call~~graph~~CallGraph_node15" class="node">
 <title>proc~num_hidden_layers</title>
-<g id="a_call~~graph~~CallGraph_node33"><a xlink:href=".././proc/num_hidden_layers.html" xlink:title="num_hidden_layers">
+<g id="a_call~~graph~~CallGraph_node15"><a xlink:href=".././proc/num_hidden_layers.html" xlink:title="num_hidden_layers">
 <polygon fill="#d94e8f" stroke="#d94e8f" points="436.5,-352 320.5,-352 320.5,-328 436.5,-328 436.5,-352"/>
 <text text-anchor="middle" x="378.5" y="-337.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">num_hidden_layers</text>
 </a>
 </g>
 </g>
 <!-- interface~num_hidden_layers&#45;&gt;proc~num_hidden_layers -->
-<g id="call~~graph~~CallGraph_edge4" class="edge">
+<g id="call~~graph~~CallGraph_edge2" class="edge">
 <title>interface~num_hidden_layers&#45;&gt;proc~num_hidden_layers</title>
-<path fill="none" stroke="#ff5000" stroke-dasharray="5,2" d="M283.28,-340C292.1,-340 301.29,-340 310.31,-340"/>
-<polygon fill="#ff5000" stroke="#ff5000" points="310.39,-343.5 320.39,-340 310.39,-336.5 310.39,-343.5"/>
+<path fill="none" stroke="#ff2800" stroke-dasharray="5,2" d="M283.28,-340C292.1,-340 301.29,-340 310.31,-340"/>
+<polygon fill="#ff2800" stroke="#ff2800" points="310.39,-343.5 320.39,-340 310.39,-336.5 310.39,-343.5"/>
 </g>
-<!-- interface~activation -->
-<g id="call~~graph~~CallGraph_node4" class="node">
-<title>interface~activation</title>
-<g id="a_call~~graph~~CallGraph_node4"><a xlink:href=".././interface/activation.html" xlink:title="activation">
-<polygon fill="#a7506f" stroke="#a7506f" points="98,-558 33,-558 33,-534 98,-534 98,-558"/>
-<text text-anchor="middle" x="65.5" y="-543.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">activation</text>
+<!-- interface~read_network -->
+<g id="call~~graph~~CallGraph_node3" class="node">
+<title>interface~read_network</title>
+<g id="a_call~~graph~~CallGraph_node3"><a xlink:href=".././interface/read_network.html" xlink:title="read_network">
+<polygon fill="#a7506f" stroke="#a7506f" points="108,-184 23,-184 23,-160 108,-160 108,-184"/>
+<text text-anchor="middle" x="65.5" y="-169.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">read_network</text>
 </a>
 </g>
 </g>
+<!-- proc~read_network -->
+<g id="call~~graph~~CallGraph_node30" class="node">
+<title>proc~read_network</title>
+<g id="a_call~~graph~~CallGraph_node30"><a xlink:href=".././proc/read_network.html" xlink:title="read_network">
+<polygon fill="#d9534f" stroke="#d9534f" points="267.5,-184 182.5,-184 182.5,-160 267.5,-160 267.5,-184"/>
+<text text-anchor="middle" x="225" y="-169.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">read_network</text>
+</a>
+</g>
+</g>
+<!-- interface~read_network&#45;&gt;proc~read_network -->
+<g id="call~~graph~~CallGraph_edge3" class="edge">
+<title>interface~read_network&#45;&gt;proc~read_network</title>
+<path fill="none" stroke="#ff5000" stroke-dasharray="5,2" d="M108.29,-172C127.86,-172 151.37,-172 172.07,-172"/>
+<polygon fill="#ff5000" stroke="#ff5000" points="172.28,-175.5 182.28,-172 172.28,-168.5 172.28,-175.5"/>
+</g>
+<!-- interface~activation~2 -->
+<g id="call~~graph~~CallGraph_node4" class="node">
+<title>interface~activation~2</title>
+<g id="a_call~~graph~~CallGraph_node4"><a xlink:href=".././interface/activation~2.html" xlink:title="activation">
+<polygon fill="#a7506f" stroke="#a7506f" points="98,-516 33,-516 33,-492 98,-492 98,-516"/>
+<text text-anchor="middle" x="65.5" y="-501.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">activation</text>
+</a>
+</g>
+</g>
+<!-- proc~activation~2 -->
+<g id="call~~graph~~CallGraph_node22" class="node">
+<title>proc~activation~2</title>
+<g id="a_call~~graph~~CallGraph_node22"><a xlink:href=".././proc/activation~2.html" xlink:title="activation">
+<polygon fill="#d94e8f" stroke="#d94e8f" points="257.5,-516 192.5,-516 192.5,-492 257.5,-492 257.5,-516"/>
+<text text-anchor="middle" x="225" y="-501.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">activation</text>
+</a>
+</g>
+</g>
+<!-- interface~activation~2&#45;&gt;proc~activation~2 -->
+<g id="call~~graph~~CallGraph_edge4" class="edge">
+<title>interface~activation~2&#45;&gt;proc~activation~2</title>
+<path fill="none" stroke="#ff7800" stroke-dasharray="5,2" d="M98.37,-504C122.58,-504 156.07,-504 182.38,-504"/>
+<polygon fill="#ff7800" stroke="#ff7800" points="182.44,-507.5 192.44,-504 182.44,-500.5 182.44,-507.5"/>
+</g>
 <!-- proc~activation -->
-<g id="call~~graph~~CallGraph_node31" class="node">
+<g id="call~~graph~~CallGraph_node5" class="node">
 <title>proc~activation</title>
-<g id="a_call~~graph~~CallGraph_node31"><a xlink:href=".././proc/activation.html" xlink:title="activation">
+<g id="a_call~~graph~~CallGraph_node5"><a xlink:href=".././proc/activation.html" xlink:title="activation">
 <polygon fill="#d94e8f" stroke="#d94e8f" points="257.5,-558 192.5,-558 192.5,-534 257.5,-534 257.5,-558"/>
 <text text-anchor="middle" x="225" y="-543.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">activation</text>
 </a>
 </g>
 </g>
-<!-- interface~activation&#45;&gt;proc~activation -->
-<g id="call~~graph~~CallGraph_edge5" class="edge">
-<title>interface~activation&#45;&gt;proc~activation</title>
-<path fill="none" stroke="#ff7800" stroke-dasharray="5,2" d="M98.37,-546C122.58,-546 156.07,-546 182.38,-546"/>
-<polygon fill="#ff7800" stroke="#ff7800" points="182.44,-549.5 192.44,-546 182.44,-542.5 182.44,-549.5"/>
-</g>
-<!-- proc~neurons_per_layer -->
-<g id="call~~graph~~CallGraph_node5" class="node">
-<title>proc~neurons_per_layer</title>
-<g id="a_call~~graph~~CallGraph_node5"><a xlink:href=".././proc/neurons_per_layer.html" xlink:title="neurons_per_layer">
-<polygon fill="#d94e8f" stroke="#d94e8f" points="434,-310 323,-310 323,-286 434,-286 434,-310"/>
-<text text-anchor="middle" x="378.5" y="-295.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">neurons_per_layer</text>
+<!-- interface~subtract -->
+<g id="call~~graph~~CallGraph_node6" class="node">
+<title>interface~subtract</title>
+<g id="a_call~~graph~~CallGraph_node6"><a xlink:href=".././interface/subtract.html" xlink:title="subtract">
+<polygon fill="#a7506f" stroke="#a7506f" points="253,-394 197,-394 197,-370 253,-370 253,-394"/>
+<text text-anchor="middle" x="225" y="-379.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">subtract</text>
 </a>
 </g>
 </g>
-<!-- proc~neurons_per_layer&#45;&gt;assert -->
-<g id="call~~graph~~CallGraph_edge6" class="edge">
-<title>proc~neurons_per_layer&#45;&gt;assert</title>
-<path fill="none" stroke="#ffa100" d="M434.4,-298C451.4,-298 469.69,-298 485.1,-298"/>
-<polygon fill="#ffa100" stroke="#ffa100" points="485.26,-301.5 495.26,-298 485.26,-294.5 485.26,-301.5"/>
+<!-- proc~subtract -->
+<g id="call~~graph~~CallGraph_node11" class="node">
+<title>proc~subtract</title>
+<g id="a_call~~graph~~CallGraph_node11"><a xlink:href=".././proc/subtract.html" xlink:title="subtract">
+<polygon fill="#d94e8f" stroke="#d94e8f" points="406.5,-394 350.5,-394 350.5,-370 406.5,-370 406.5,-394"/>
+<text text-anchor="middle" x="378.5" y="-379.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">subtract</text>
+</a>
 </g>
-<!-- proc~assert_consistent&#45;&gt;assert -->
-<g id="call~~graph~~CallGraph_edge7" class="edge">
-<title>proc~assert_consistent&#45;&gt;assert</title>
-<path fill="none" stroke="#ffc900" d="M417.24,-108.03C424.74,-111.66 432.11,-116.26 438,-122 482.97,-165.87 506.65,-238.76 516.25,-275.44"/>
-<polygon fill="#ffc900" stroke="#ffc900" points="512.97,-276.74 518.79,-285.59 519.76,-275.04 512.97,-276.74"/>
 </g>
-<!-- intrinsic_array_t -->
-<g id="call~~graph~~CallGraph_node42" class="node">
-<title>intrinsic_array_t</title>
-<polygon fill="#777777" stroke="#777777" points="571,-108 474,-108 474,-84 571,-84 571,-108"/>
-<text text-anchor="middle" x="522.5" y="-93.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">intrinsic_array_t</text>
+<!-- interface~subtract&#45;&gt;proc~subtract -->
+<g id="call~~graph~~CallGraph_edge5" class="edge">
+<title>interface~subtract&#45;&gt;proc~subtract</title>
+<path fill="none" stroke="#ffc900" stroke-dasharray="5,2" d="M253.09,-382C277.35,-382 313.18,-382 340.16,-382"/>
+<polygon fill="#ffc900" stroke="#ffc900" points="340.39,-385.5 350.39,-382 340.39,-378.5 340.39,-385.5"/>
 </g>
-<!-- proc~assert_consistent&#45;&gt;intrinsic_array_t -->
-<g id="call~~graph~~CallGraph_edge8" class="edge">
-<title>proc~assert_consistent&#45;&gt;intrinsic_array_t</title>
-<path fill="none" stroke="#ffc900" d="M430.77,-96C441.36,-96 452.59,-96 463.41,-96"/>
-<polygon fill="#ffc900" stroke="#ffc900" points="463.62,-99.5 473.62,-96 463.62,-92.5 463.62,-99.5"/>
+<!-- proc~construct -->
+<g id="call~~graph~~CallGraph_node7" class="node">
+<title>proc~construct</title>
+<g id="a_call~~graph~~CallGraph_node7"><a xlink:href=".././proc/construct.html" xlink:title="construct">
+<polygon fill="#777777" stroke="#777777" points="96.5,-600 34.5,-600 34.5,-576 96.5,-576 96.5,-600"/>
+<text text-anchor="middle" x="65.5" y="-585.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">construct</text>
+</a>
+</g>
 </g>
 <!-- proc~conformable_with -->
-<g id="call~~graph~~CallGraph_node7" class="node">
-<title>proc~conformable_with</title>
-<g id="a_call~~graph~~CallGraph_node7"><a xlink:href=".././proc/conformable_with.html" xlink:title="conformable_with">
-<polygon fill="#d94e8f" stroke="#d94e8f" points="279,-600 171,-600 171,-576 279,-576 279,-600"/>
-<text text-anchor="middle" x="225" y="-585.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">conformable_with</text>
-</a>
-</g>
-</g>
-<!-- proc~netcdf_write -->
 <g id="call~~graph~~CallGraph_node8" class="node">
-<title>proc~netcdf_write</title>
-<g id="a_call~~graph~~CallGraph_node8"><a xlink:href=".././proc/netcdf_write.html" xlink:title="netCDF_write">
-<polygon fill="#d9534f" stroke="#d9534f" points="420,-474 337,-474 337,-450 420,-450 420,-474"/>
-<text text-anchor="middle" x="378.5" y="-459.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">netCDF_write</text>
+<title>proc~conformable_with</title>
+<g id="a_call~~graph~~CallGraph_node8"><a xlink:href=".././proc/conformable_with.html" xlink:title="conformable_with">
+<polygon fill="#d94e8f" stroke="#d94e8f" points="279,-642 171,-642 171,-618 279,-618 279,-642"/>
+<text text-anchor="middle" x="225" y="-627.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">conformable_with</text>
 </a>
 </g>
 </g>
-<!-- proc~netcdf_write&#45;&gt;assert -->
+<!-- interface~infer -->
+<g id="call~~graph~~CallGraph_node9" class="node">
+<title>interface~infer</title>
+<g id="a_call~~graph~~CallGraph_node9"><a xlink:href=".././interface/infer.html" xlink:title="infer">
+<polygon fill="#a7506f" stroke="#a7506f" points="92.5,-684 38.5,-684 38.5,-660 92.5,-660 92.5,-684"/>
+<text text-anchor="middle" x="65.5" y="-669.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">infer</text>
+</a>
+</g>
+</g>
+<!-- proc~infer -->
+<g id="call~~graph~~CallGraph_node31" class="node">
+<title>proc~infer</title>
+<g id="a_call~~graph~~CallGraph_node31"><a xlink:href=".././proc/infer.html" xlink:title="infer">
+<polygon fill="#d94e8f" stroke="#d94e8f" points="252,-684 198,-684 198,-660 252,-660 252,-684"/>
+<text text-anchor="middle" x="225" y="-669.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">infer</text>
+</a>
+</g>
+</g>
+<!-- interface~infer&#45;&gt;proc~infer -->
+<g id="call~~graph~~CallGraph_edge6" class="edge">
+<title>interface~infer&#45;&gt;proc~infer</title>
+<path fill="none" stroke="#bbff00" stroke-dasharray="5,2" d="M92.51,-672C118.5,-672 158.67,-672 187.78,-672"/>
+<polygon fill="#bbff00" stroke="#bbff00" points="187.95,-675.5 197.95,-672 187.95,-668.5 187.95,-675.5"/>
+</g>
+<!-- interface~infer~2 -->
+<g id="call~~graph~~CallGraph_node10" class="node">
+<title>interface~infer~2</title>
+<g id="a_call~~graph~~CallGraph_node10"><a xlink:href=".././interface/infer~2.html" xlink:title="infer">
+<polygon fill="#a7506f" stroke="#a7506f" points="92.5,-726 38.5,-726 38.5,-702 92.5,-702 92.5,-726"/>
+<text text-anchor="middle" x="65.5" y="-711.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">infer</text>
+</a>
+</g>
+</g>
+<!-- proc~infer~2 -->
+<g id="call~~graph~~CallGraph_node20" class="node">
+<title>proc~infer~2</title>
+<g id="a_call~~graph~~CallGraph_node20"><a xlink:href=".././proc/infer~2.html" xlink:title="infer">
+<polygon fill="#d94e8f" stroke="#d94e8f" points="252,-726 198,-726 198,-702 252,-702 252,-726"/>
+<text text-anchor="middle" x="225" y="-711.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">infer</text>
+</a>
+</g>
+</g>
+<!-- interface~infer~2&#45;&gt;proc~infer~2 -->
+<g id="call~~graph~~CallGraph_edge7" class="edge">
+<title>interface~infer~2&#45;&gt;proc~infer~2</title>
+<path fill="none" stroke="#93ff00" stroke-dasharray="5,2" d="M92.51,-714C118.5,-714 158.67,-714 187.78,-714"/>
+<polygon fill="#93ff00" stroke="#93ff00" points="187.95,-717.5 197.95,-714 187.95,-710.5 187.95,-717.5"/>
+</g>
+<!-- assert -->
+<g id="call~~graph~~CallGraph_node40" class="node">
+<title>assert</title>
+<polygon fill="#777777" stroke="#777777" points="549.5,-310 495.5,-310 495.5,-286 549.5,-286 549.5,-310"/>
+<text text-anchor="middle" x="522.5" y="-295.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">assert</text>
+</g>
+<!-- proc~subtract&#45;&gt;assert -->
+<g id="call~~graph~~CallGraph_edge8" class="edge">
+<title>proc~subtract&#45;&gt;assert</title>
+<path fill="none" stroke="#6bff00" d="M406.73,-374.13C416.84,-370.72 428.22,-366.28 438,-361 460.86,-348.65 484.24,-330.43 500.43,-316.75"/>
+<polygon fill="#6bff00" stroke="#6bff00" points="502.9,-319.25 508.2,-310.07 498.33,-313.94 502.9,-319.25"/>
+</g>
+<!-- proc~norm -->
+<g id="call~~graph~~CallGraph_node12" class="node">
+<title>proc~norm</title>
+<g id="a_call~~graph~~CallGraph_node12"><a xlink:href=".././proc/norm.html" xlink:title="norm">
+<polygon fill="#d94e8f" stroke="#d94e8f" points="252,-768 198,-768 198,-744 252,-744 252,-768"/>
+<text text-anchor="middle" x="225" y="-753.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">norm</text>
+</a>
+</g>
+</g>
+<!-- interface~conformable_with -->
+<g id="call~~graph~~CallGraph_node13" class="node">
+<title>interface~conformable_with</title>
+<g id="a_call~~graph~~CallGraph_node13"><a xlink:href=".././interface/conformable_with.html" xlink:title="conformable_with">
+<polygon fill="#a7506f" stroke="#a7506f" points="119.5,-642 11.5,-642 11.5,-618 119.5,-618 119.5,-642"/>
+<text text-anchor="middle" x="65.5" y="-627.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">conformable_with</text>
+</a>
+</g>
+</g>
+<!-- interface~conformable_with&#45;&gt;proc~conformable_with -->
+<g id="call~~graph~~CallGraph_edge9" class="edge">
+<title>interface~conformable_with&#45;&gt;proc~conformable_with</title>
+<path fill="none" stroke="#1aff00" stroke-dasharray="5,2" d="M119.82,-630C132.91,-630 147.04,-630 160.55,-630"/>
+<polygon fill="#1aff00" stroke="#1aff00" points="160.73,-633.5 170.73,-630 160.73,-626.5 160.73,-633.5"/>
+</g>
+<!-- interface~num_inputs -->
+<g id="call~~graph~~CallGraph_node14" class="node">
+<title>interface~num_inputs</title>
+<g id="a_call~~graph~~CallGraph_node14"><a xlink:href=".././interface/num_inputs.html" xlink:title="num_inputs">
+<polygon fill="#a7506f" stroke="#a7506f" points="262,-310 188,-310 188,-286 262,-286 262,-310"/>
+<text text-anchor="middle" x="225" y="-295.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">num_inputs</text>
+</a>
+</g>
+</g>
+<!-- proc~num_inputs -->
+<g id="call~~graph~~CallGraph_node16" class="node">
+<title>proc~num_inputs</title>
+<g id="a_call~~graph~~CallGraph_node16"><a xlink:href=".././proc/num_inputs.html" xlink:title="num_inputs">
+<polygon fill="#d94e8f" stroke="#d94e8f" points="415.5,-310 341.5,-310 341.5,-286 415.5,-286 415.5,-310"/>
+<text text-anchor="middle" x="378.5" y="-295.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">num_inputs</text>
+</a>
+</g>
+</g>
+<!-- interface~num_inputs&#45;&gt;proc~num_inputs -->
 <g id="call~~graph~~CallGraph_edge10" class="edge">
-<title>proc~netcdf_write&#45;&gt;assert</title>
-<path fill="none" stroke="#e4ff00" d="M415.89,-449.94C423.73,-446.27 431.58,-441.66 438,-436 475.21,-403.21 500.9,-349.73 513.2,-319.89"/>
-<polygon fill="#e4ff00" stroke="#e4ff00" points="516.53,-320.98 516.99,-310.4 510.03,-318.39 516.53,-320.98"/>
+<title>interface~num_inputs&#45;&gt;proc~num_inputs</title>
+<path fill="none" stroke="#00ff0d" stroke-dasharray="5,2" d="M262.29,-298C282.92,-298 308.97,-298 331.08,-298"/>
+<polygon fill="#00ff0d" stroke="#00ff0d" points="331.25,-301.5 341.25,-298 331.25,-294.5 331.25,-301.5"/>
+</g>
+<!-- proc~num_hidden_layers&#45;&gt;assert -->
+<g id="call~~graph~~CallGraph_edge11" class="edge">
+<title>proc~num_hidden_layers&#45;&gt;assert</title>
+<path fill="none" stroke="#00ff35" d="M420.19,-327.96C440.8,-321.87 465.61,-314.53 485.52,-308.64"/>
+<polygon fill="#00ff35" stroke="#00ff35" points="486.55,-311.99 495.15,-305.79 484.56,-305.28 486.55,-311.99"/>
+</g>
+<!-- proc~num_inputs&#45;&gt;assert -->
+<g id="call~~graph~~CallGraph_edge12" class="edge">
+<title>proc~num_inputs&#45;&gt;assert</title>
+<path fill="none" stroke="#00ff5d" d="M415.7,-298C436.93,-298 463.67,-298 484.96,-298"/>
+<polygon fill="#00ff5d" stroke="#00ff5d" points="485.23,-301.5 495.23,-298 485.23,-294.5 485.23,-301.5"/>
+</g>
+<!-- interface~write_network -->
+<g id="call~~graph~~CallGraph_node17" class="node">
+<title>interface~write_network</title>
+<g id="a_call~~graph~~CallGraph_node17"><a xlink:href=".././interface/write_network.html" xlink:title="write_network">
+<polygon fill="#a7506f" stroke="#a7506f" points="109,-142 22,-142 22,-118 109,-118 109,-142"/>
+<text text-anchor="middle" x="65.5" y="-127.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">write_network</text>
+</a>
+</g>
+</g>
+<!-- proc~write_network -->
+<g id="call~~graph~~CallGraph_node33" class="node">
+<title>proc~write_network</title>
+<g id="a_call~~graph~~CallGraph_node33"><a xlink:href=".././proc/write_network.html" xlink:title="write_network">
+<polygon fill="#d9534f" stroke="#d9534f" points="268.5,-142 181.5,-142 181.5,-118 268.5,-118 268.5,-142"/>
+<text text-anchor="middle" x="225" y="-127.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">write_network</text>
+</a>
+</g>
+</g>
+<!-- interface~write_network&#45;&gt;proc~write_network -->
+<g id="call~~graph~~CallGraph_edge13" class="edge">
+<title>interface~write_network&#45;&gt;proc~write_network</title>
+<path fill="none" stroke="#00ff86" stroke-dasharray="5,2" d="M109.12,-130C128.29,-130 151.11,-130 171.34,-130"/>
+<polygon fill="#00ff86" stroke="#00ff86" points="171.34,-133.5 181.34,-130 171.34,-126.5 171.34,-133.5"/>
+</g>
+<!-- proc~netcdf_read -->
+<g id="call~~graph~~CallGraph_node18" class="node">
+<title>proc~netcdf_read</title>
+<g id="a_call~~graph~~CallGraph_node18"><a xlink:href=".././proc/netcdf_read.html" xlink:title="netCDF_read">
+<polygon fill="#d9534f" stroke="#d9534f" points="419,-558 338,-558 338,-534 419,-534 419,-558"/>
+<text text-anchor="middle" x="378.5" y="-543.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">netCDF_read</text>
+</a>
+</g>
+</g>
+<!-- proc~netcdf_read&#45;&gt;assert -->
+<g id="call~~graph~~CallGraph_edge15" class="edge">
+<title>proc~netcdf_read&#45;&gt;assert</title>
+<path fill="none" stroke="#00ffae" d="M419.08,-537.15C426.03,-534.19 432.71,-530.24 438,-525 496.26,-467.2 514.23,-365.35 519.47,-320.4"/>
+<polygon fill="#00ffae" stroke="#00ffae" points="522.97,-320.57 520.55,-310.26 516.01,-319.83 522.97,-320.57"/>
 </g>
 <!-- nf90_strerror -->
 <g id="call~~graph~~CallGraph_node41" class="node">
@@ -288,401 +429,254 @@
 <polygon fill="#777777" stroke="#777777" points="563,-516 482,-516 482,-492 563,-492 563,-516"/>
 <text text-anchor="middle" x="522.5" y="-501.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">nf90_strerror</text>
 </g>
-<!-- proc~netcdf_write&#45;&gt;nf90_strerror -->
-<g id="call~~graph~~CallGraph_edge9" class="edge">
-<title>proc~netcdf_write&#45;&gt;nf90_strerror</title>
-<path fill="none" stroke="#e4ff00" d="M420.19,-474.04C436.36,-478.82 455.11,-484.36 472.05,-489.37"/>
-<polygon fill="#e4ff00" stroke="#e4ff00" points="471.2,-492.77 481.78,-492.25 473.19,-486.06 471.2,-492.77"/>
-</g>
-<!-- interface~write_network -->
-<g id="call~~graph~~CallGraph_node9" class="node">
-<title>interface~write_network</title>
-<g id="a_call~~graph~~CallGraph_node9"><a xlink:href=".././interface/write_network.html" xlink:title="write_network">
-<polygon fill="#a7506f" stroke="#a7506f" points="109,-184 22,-184 22,-160 109,-160 109,-184"/>
-<text text-anchor="middle" x="65.5" y="-169.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">write_network</text>
-</a>
-</g>
-</g>
-<!-- proc~write_network -->
-<g id="call~~graph~~CallGraph_node25" class="node">
-<title>proc~write_network</title>
-<g id="a_call~~graph~~CallGraph_node25"><a xlink:href=".././proc/write_network.html" xlink:title="write_network">
-<polygon fill="#d9534f" stroke="#d9534f" points="268.5,-184 181.5,-184 181.5,-160 268.5,-160 268.5,-184"/>
-<text text-anchor="middle" x="225" y="-169.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">write_network</text>
-</a>
-</g>
-</g>
-<!-- interface~write_network&#45;&gt;proc~write_network -->
-<g id="call~~graph~~CallGraph_edge11" class="edge">
-<title>interface~write_network&#45;&gt;proc~write_network</title>
-<path fill="none" stroke="#bbff00" stroke-dasharray="5,2" d="M109.12,-172C128.29,-172 151.11,-172 171.34,-172"/>
-<polygon fill="#bbff00" stroke="#bbff00" points="171.34,-175.5 181.34,-172 171.34,-168.5 171.34,-175.5"/>
-</g>
-<!-- proc~netcdf_read -->
-<g id="call~~graph~~CallGraph_node10" class="node">
-<title>proc~netcdf_read</title>
-<g id="a_call~~graph~~CallGraph_node10"><a xlink:href=".././proc/netcdf_read.html" xlink:title="netCDF_read">
-<polygon fill="#d9534f" stroke="#d9534f" points="419,-558 338,-558 338,-534 419,-534 419,-558"/>
-<text text-anchor="middle" x="378.5" y="-543.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">netCDF_read</text>
-</a>
-</g>
-</g>
-<!-- proc~netcdf_read&#45;&gt;assert -->
+<!-- proc~netcdf_read&#45;&gt;nf90_strerror -->
 <g id="call~~graph~~CallGraph_edge14" class="edge">
-<title>proc~netcdf_read&#45;&gt;assert</title>
-<path fill="none" stroke="#93ff00" d="M419.08,-537.15C426.03,-534.19 432.71,-530.24 438,-525 496.26,-467.2 514.23,-365.35 519.47,-320.4"/>
-<polygon fill="#93ff00" stroke="#93ff00" points="522.97,-320.57 520.55,-310.26 516.01,-319.83 522.97,-320.57"/>
+<title>proc~netcdf_read&#45;&gt;nf90_strerror</title>
+<path fill="none" stroke="#00ffae" d="M419.05,-534.3C435.38,-529.47 454.49,-523.82 471.75,-518.71"/>
+<polygon fill="#00ffae" stroke="#00ffae" points="473.07,-521.97 481.66,-515.78 471.08,-515.26 473.07,-521.97"/>
 </g>
 <!-- data_in_shape -->
-<g id="call~~graph~~CallGraph_node40" class="node">
+<g id="call~~graph~~CallGraph_node42" class="node">
 <title>data_in_shape</title>
 <polygon fill="#777777" stroke="#777777" points="567,-558 478,-558 478,-534 567,-534 567,-558"/>
 <text text-anchor="middle" x="522.5" y="-543.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">data_in_shape</text>
 </g>
 <!-- proc~netcdf_read&#45;&gt;data_in_shape -->
-<g id="call~~graph~~CallGraph_edge13" class="edge">
+<g id="call~~graph~~CallGraph_edge16" class="edge">
 <title>proc~netcdf_read&#45;&gt;data_in_shape</title>
-<path fill="none" stroke="#93ff00" d="M419.05,-546C434.07,-546 451.43,-546 467.55,-546"/>
-<polygon fill="#93ff00" stroke="#93ff00" points="467.92,-549.5 477.92,-546 467.92,-542.5 467.92,-549.5"/>
+<path fill="none" stroke="#00ffae" d="M419.05,-546C434.07,-546 451.43,-546 467.55,-546"/>
+<polygon fill="#00ffae" stroke="#00ffae" points="467.92,-549.5 477.92,-546 467.92,-542.5 467.92,-549.5"/>
 </g>
-<!-- proc~netcdf_read&#45;&gt;nf90_strerror -->
-<g id="call~~graph~~CallGraph_edge12" class="edge">
-<title>proc~netcdf_read&#45;&gt;nf90_strerror</title>
-<path fill="none" stroke="#93ff00" d="M419.05,-534.3C435.38,-529.47 454.49,-523.82 471.75,-518.71"/>
-<polygon fill="#93ff00" stroke="#93ff00" points="473.07,-521.97 481.66,-515.78 471.08,-515.26 473.07,-521.97"/>
+<!-- interface~norm -->
+<g id="call~~graph~~CallGraph_node19" class="node">
+<title>interface~norm</title>
+<g id="a_call~~graph~~CallGraph_node19"><a xlink:href=".././interface/norm.html" xlink:title="norm">
+<polygon fill="#a7506f" stroke="#a7506f" points="92.5,-768 38.5,-768 38.5,-744 92.5,-744 92.5,-768"/>
+<text text-anchor="middle" x="65.5" y="-753.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">norm</text>
+</a>
+</g>
+</g>
+<!-- interface~norm&#45;&gt;proc~norm -->
+<g id="call~~graph~~CallGraph_edge17" class="edge">
+<title>interface~norm&#45;&gt;proc~norm</title>
+<path fill="none" stroke="#00ffd6" stroke-dasharray="5,2" d="M92.51,-756C118.5,-756 158.67,-756 187.78,-756"/>
+<polygon fill="#00ffd6" stroke="#00ffd6" points="187.95,-759.5 197.95,-756 187.95,-752.5 187.95,-759.5"/>
+</g>
+<!-- interface~neurons_per_layer -->
+<g id="call~~graph~~CallGraph_node21" class="node">
+<title>interface~neurons_per_layer</title>
+<g id="a_call~~graph~~CallGraph_node21"><a xlink:href=".././interface/neurons_per_layer.html" xlink:title="neurons_per_layer">
+<polygon fill="#a7506f" stroke="#a7506f" points="280.5,-226 169.5,-226 169.5,-202 280.5,-202 280.5,-226"/>
+<text text-anchor="middle" x="225" y="-211.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">neurons_per_layer</text>
+</a>
+</g>
+</g>
+<!-- proc~neurons_per_layer -->
+<g id="call~~graph~~CallGraph_node29" class="node">
+<title>proc~neurons_per_layer</title>
+<g id="a_call~~graph~~CallGraph_node29"><a xlink:href=".././proc/neurons_per_layer.html" xlink:title="neurons_per_layer">
+<polygon fill="#d94e8f" stroke="#d94e8f" points="434,-226 323,-226 323,-202 434,-202 434,-226"/>
+<text text-anchor="middle" x="378.5" y="-211.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">neurons_per_layer</text>
+</a>
+</g>
+</g>
+<!-- interface~neurons_per_layer&#45;&gt;proc~neurons_per_layer -->
+<g id="call~~graph~~CallGraph_edge18" class="edge">
+<title>interface~neurons_per_layer&#45;&gt;proc~neurons_per_layer</title>
+<path fill="none" stroke="#00d6ff" stroke-dasharray="5,2" d="M280.69,-214C291.1,-214 302.08,-214 312.76,-214"/>
+<polygon fill="#00d6ff" stroke="#00d6ff" points="312.89,-217.5 322.89,-214 312.89,-210.5 312.89,-217.5"/>
+</g>
+<!-- proc~assert_consistent -->
+<g id="call~~graph~~CallGraph_node26" class="node">
+<title>proc~assert_consistent</title>
+<g id="a_call~~graph~~CallGraph_node26"><a xlink:href=".././proc/assert_consistent.html" xlink:title="assert_consistent">
+<polygon fill="#d9534f" stroke="#d9534f" points="430.5,-108 326.5,-108 326.5,-84 430.5,-84 430.5,-108"/>
+<text text-anchor="middle" x="378.5" y="-93.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">assert_consistent</text>
+</a>
+</g>
+</g>
+<!-- proc~infer~3&#45;&gt;proc~assert_consistent -->
+<g id="call~~graph~~CallGraph_edge19" class="edge">
+<title>proc~infer~3&#45;&gt;proc~assert_consistent</title>
+<path fill="none" stroke="#0086ff" d="M252.04,-89.38C269.72,-90.31 293.87,-91.58 316.27,-92.77"/>
+<polygon fill="#0086ff" stroke="#0086ff" points="316.23,-96.27 326.4,-93.3 316.6,-89.28 316.23,-96.27"/>
+</g>
+<!-- proc~netcdf_write -->
+<g id="call~~graph~~CallGraph_node24" class="node">
+<title>proc~netcdf_write</title>
+<g id="a_call~~graph~~CallGraph_node24"><a xlink:href=".././proc/netcdf_write.html" xlink:title="netCDF_write">
+<polygon fill="#d9534f" stroke="#d9534f" points="420,-474 337,-474 337,-450 420,-450 420,-474"/>
+<text text-anchor="middle" x="378.5" y="-459.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">netCDF_write</text>
+</a>
+</g>
+</g>
+<!-- proc~netcdf_write&#45;&gt;assert -->
+<g id="call~~graph~~CallGraph_edge21" class="edge">
+<title>proc~netcdf_write&#45;&gt;assert</title>
+<path fill="none" stroke="#005dff" d="M415.89,-449.94C423.73,-446.27 431.58,-441.66 438,-436 475.21,-403.21 500.9,-349.73 513.2,-319.89"/>
+<polygon fill="#005dff" stroke="#005dff" points="516.53,-320.98 516.99,-310.4 510.03,-318.39 516.53,-320.98"/>
+</g>
+<!-- proc~netcdf_write&#45;&gt;nf90_strerror -->
+<g id="call~~graph~~CallGraph_edge20" class="edge">
+<title>proc~netcdf_write&#45;&gt;nf90_strerror</title>
+<path fill="none" stroke="#005dff" d="M420.19,-474.04C436.36,-478.82 455.11,-484.36 472.05,-489.37"/>
+<polygon fill="#005dff" stroke="#005dff" points="471.2,-492.77 481.78,-492.25 473.19,-486.06 471.2,-492.77"/>
 </g>
 <!-- interface~num_outputs -->
-<g id="call~~graph~~CallGraph_node11" class="node">
+<g id="call~~graph~~CallGraph_node25" class="node">
 <title>interface~num_outputs</title>
-<g id="a_call~~graph~~CallGraph_node11"><a xlink:href=".././interface/num_outputs.html" xlink:title="num_outputs">
-<polygon fill="#a7506f" stroke="#a7506f" points="266,-226 184,-226 184,-202 266,-202 266,-226"/>
-<text text-anchor="middle" x="225" y="-211.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">num_outputs</text>
+<g id="a_call~~graph~~CallGraph_node25"><a xlink:href=".././interface/num_outputs.html" xlink:title="num_outputs">
+<polygon fill="#a7506f" stroke="#a7506f" points="266,-268 184,-268 184,-244 266,-244 266,-268"/>
+<text text-anchor="middle" x="225" y="-253.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">num_outputs</text>
 </a>
 </g>
 </g>
 <!-- proc~num_outputs -->
-<g id="call~~graph~~CallGraph_node19" class="node">
+<g id="call~~graph~~CallGraph_node34" class="node">
 <title>proc~num_outputs</title>
-<g id="a_call~~graph~~CallGraph_node19"><a xlink:href=".././proc/num_outputs.html" xlink:title="num_outputs">
-<polygon fill="#d94e8f" stroke="#d94e8f" points="419.5,-226 337.5,-226 337.5,-202 419.5,-202 419.5,-226"/>
-<text text-anchor="middle" x="378.5" y="-211.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">num_outputs</text>
+<g id="a_call~~graph~~CallGraph_node34"><a xlink:href=".././proc/num_outputs.html" xlink:title="num_outputs">
+<polygon fill="#d94e8f" stroke="#d94e8f" points="419.5,-268 337.5,-268 337.5,-244 419.5,-244 419.5,-268"/>
+<text text-anchor="middle" x="378.5" y="-253.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">num_outputs</text>
 </a>
 </g>
 </g>
 <!-- interface~num_outputs&#45;&gt;proc~num_outputs -->
-<g id="call~~graph~~CallGraph_edge15" class="edge">
+<g id="call~~graph~~CallGraph_edge22" class="edge">
 <title>interface~num_outputs&#45;&gt;proc~num_outputs</title>
-<path fill="none" stroke="#6bff00" stroke-dasharray="5,2" d="M266.2,-214C284.94,-214 307.43,-214 327.27,-214"/>
-<polygon fill="#6bff00" stroke="#6bff00" points="327.37,-217.5 337.37,-214 327.37,-210.5 327.37,-217.5"/>
+<path fill="none" stroke="#0035ff" stroke-dasharray="5,2" d="M266.2,-256C284.94,-256 307.43,-256 327.27,-256"/>
+<polygon fill="#0035ff" stroke="#0035ff" points="327.37,-259.5 337.37,-256 327.37,-252.5 327.37,-259.5"/>
 </g>
-<!-- proc~subtract -->
-<g id="call~~graph~~CallGraph_node12" class="node">
-<title>proc~subtract</title>
-<g id="a_call~~graph~~CallGraph_node12"><a xlink:href=".././proc/subtract.html" xlink:title="subtract">
-<polygon fill="#d94e8f" stroke="#d94e8f" points="406.5,-268 350.5,-268 350.5,-244 406.5,-244 406.5,-268"/>
-<text text-anchor="middle" x="378.5" y="-253.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">subtract</text>
-</a>
+<!-- proc~assert_consistent&#45;&gt;assert -->
+<g id="call~~graph~~CallGraph_edge23" class="edge">
+<title>proc~assert_consistent&#45;&gt;assert</title>
+<path fill="none" stroke="#000dff" d="M417.24,-108.03C424.74,-111.66 432.11,-116.26 438,-122 482.97,-165.87 506.65,-238.76 516.25,-275.44"/>
+<polygon fill="#000dff" stroke="#000dff" points="512.97,-276.74 518.79,-285.59 519.76,-275.04 512.97,-276.74"/>
 </g>
+<!-- intrinsic_array_t -->
+<g id="call~~graph~~CallGraph_node44" class="node">
+<title>intrinsic_array_t</title>
+<polygon fill="#777777" stroke="#777777" points="571,-108 474,-108 474,-84 571,-84 571,-108"/>
+<text text-anchor="middle" x="522.5" y="-93.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">intrinsic_array_t</text>
 </g>
-<!-- proc~subtract&#45;&gt;assert -->
-<g id="call~~graph~~CallGraph_edge16" class="edge">
-<title>proc~subtract&#45;&gt;assert</title>
-<path fill="none" stroke="#43ff00" d="M406.54,-264C428.89,-270.61 460.82,-280.05 485.36,-287.31"/>
-<polygon fill="#43ff00" stroke="#43ff00" points="484.46,-290.69 495.04,-290.17 486.44,-283.98 484.46,-290.69"/>
-</g>
-<!-- interface~subtract -->
-<g id="call~~graph~~CallGraph_node13" class="node">
-<title>interface~subtract</title>
-<g id="a_call~~graph~~CallGraph_node13"><a xlink:href=".././interface/subtract.html" xlink:title="subtract">
-<polygon fill="#a7506f" stroke="#a7506f" points="253,-268 197,-268 197,-244 253,-244 253,-268"/>
-<text text-anchor="middle" x="225" y="-253.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">subtract</text>
-</a>
-</g>
-</g>
-<!-- interface~subtract&#45;&gt;proc~subtract -->
-<g id="call~~graph~~CallGraph_edge17" class="edge">
-<title>interface~subtract&#45;&gt;proc~subtract</title>
-<path fill="none" stroke="#1aff00" stroke-dasharray="5,2" d="M253.09,-256C277.35,-256 313.18,-256 340.16,-256"/>
-<polygon fill="#1aff00" stroke="#1aff00" points="340.39,-259.5 350.39,-256 340.39,-252.5 340.39,-259.5"/>
+<!-- proc~assert_consistent&#45;&gt;intrinsic_array_t -->
+<g id="call~~graph~~CallGraph_edge24" class="edge">
+<title>proc~assert_consistent&#45;&gt;intrinsic_array_t</title>
+<path fill="none" stroke="#000dff" d="M430.77,-96C441.36,-96 452.59,-96 463.41,-96"/>
+<polygon fill="#000dff" stroke="#000dff" points="463.62,-99.5 473.62,-96 463.62,-92.5 463.62,-99.5"/>
 </g>
 <!-- interface~inference_engine_t -->
-<g id="call~~graph~~CallGraph_node14" class="node">
+<g id="call~~graph~~CallGraph_node27" class="node">
 <title>interface~inference_engine_t</title>
-<g id="a_call~~graph~~CallGraph_node14"><a xlink:href=".././interface/inference_engine_t.html" xlink:title="inference_engine_t">
-<polygon fill="#a7506f" stroke="#a7506f" points="122.5,-642 8.5,-642 8.5,-618 122.5,-618 122.5,-642"/>
-<text text-anchor="middle" x="65.5" y="-627.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">inference_engine_t</text>
+<g id="a_call~~graph~~CallGraph_node27"><a xlink:href=".././interface/inference_engine_t.html" xlink:title="inference_engine_t">
+<polygon fill="#a7506f" stroke="#a7506f" points="122.5,-810 8.5,-810 8.5,-786 122.5,-786 122.5,-810"/>
+<text text-anchor="middle" x="65.5" y="-795.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">inference_engine_t</text>
 </a>
 </g>
 </g>
+<!-- interface~activation -->
+<g id="call~~graph~~CallGraph_node28" class="node">
+<title>interface~activation</title>
+<g id="a_call~~graph~~CallGraph_node28"><a xlink:href=".././interface/activation.html" xlink:title="activation">
+<polygon fill="#a7506f" stroke="#a7506f" points="98,-558 33,-558 33,-534 98,-534 98,-558"/>
+<text text-anchor="middle" x="65.5" y="-543.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">activation</text>
+</a>
+</g>
+</g>
+<!-- interface~activation&#45;&gt;proc~activation -->
+<g id="call~~graph~~CallGraph_edge25" class="edge">
+<title>interface~activation&#45;&gt;proc~activation</title>
+<path fill="none" stroke="#4300ff" stroke-dasharray="5,2" d="M98.37,-546C122.58,-546 156.07,-546 182.38,-546"/>
+<polygon fill="#4300ff" stroke="#4300ff" points="182.44,-549.5 192.44,-546 182.44,-542.5 182.44,-549.5"/>
+</g>
+<!-- proc~neurons_per_layer&#45;&gt;assert -->
+<g id="call~~graph~~CallGraph_edge26" class="edge">
+<title>proc~neurons_per_layer&#45;&gt;assert</title>
+<path fill="none" stroke="#6b00ff" d="M418.3,-226.06C425.02,-228.67 431.83,-231.66 438,-235 460.86,-247.35 484.24,-265.57 500.43,-279.25"/>
+<polygon fill="#6b00ff" stroke="#6b00ff" points="498.33,-282.06 508.2,-285.93 502.9,-276.75 498.33,-282.06"/>
+</g>
+<!-- proc~read_network&#45;&gt;proc~assert_consistent -->
+<g id="call~~graph~~CallGraph_edge28" class="edge">
+<title>proc~read_network&#45;&gt;proc~assert_consistent</title>
+<path fill="none" stroke="#9300ff" d="M261.67,-159.95C268.82,-157.23 276.23,-154.19 283,-151 306.47,-139.95 331.81,-125.03 350.33,-113.51"/>
+<polygon fill="#9300ff" stroke="#9300ff" points="352.24,-116.45 358.84,-108.17 348.51,-110.52 352.24,-116.45"/>
+</g>
+<!-- proc~read_network&#45;&gt;assert -->
+<g id="call~~graph~~CallGraph_edge27" class="edge">
+<title>proc~read_network&#45;&gt;assert</title>
+<path fill="none" stroke="#9300ff" d="M267.82,-166.94C312.71,-163.52 384.74,-163.98 438,-193 472.85,-211.99 498.3,-252.21 511.42,-276.99"/>
+<polygon fill="#9300ff" stroke="#9300ff" points="508.33,-278.64 515.99,-285.96 514.57,-275.46 508.33,-278.64"/>
+</g>
 <!-- proc~get_shape -->
-<g id="call~~graph~~CallGraph_node15" class="node">
+<g id="call~~graph~~CallGraph_node32" class="node">
 <title>proc~get_shape</title>
-<g id="a_call~~graph~~CallGraph_node15"><a xlink:href=".././proc/get_shape.html" xlink:title="get_shape">
+<g id="a_call~~graph~~CallGraph_node32"><a xlink:href=".././proc/get_shape.html" xlink:title="get_shape">
 <polygon fill="#d94e8f" stroke="#d94e8f" points="412,-516 345,-516 345,-492 412,-492 412,-516"/>
 <text text-anchor="middle" x="378.5" y="-501.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">get_shape</text>
 </a>
 </g>
 </g>
 <!-- proc~get_shape&#45;&gt;assert -->
-<g id="call~~graph~~CallGraph_edge19" class="edge">
+<g id="call~~graph~~CallGraph_edge30" class="edge">
 <title>proc~get_shape&#45;&gt;assert</title>
-<path fill="none" stroke="#00ff35" d="M412.09,-497.38C421.31,-494.24 430.79,-489.66 438,-483 486.77,-437.95 508.98,-359.01 517.31,-320.46"/>
-<polygon fill="#00ff35" stroke="#00ff35" points="520.81,-320.8 519.38,-310.3 513.95,-319.4 520.81,-320.8"/>
+<path fill="none" stroke="#e400ff" d="M412.09,-497.38C421.31,-494.24 430.79,-489.66 438,-483 486.77,-437.95 508.98,-359.01 517.31,-320.46"/>
+<polygon fill="#e400ff" stroke="#e400ff" points="520.81,-320.8 519.38,-310.3 513.95,-319.4 520.81,-320.8"/>
 </g>
 <!-- proc~get_shape&#45;&gt;nf90_strerror -->
-<g id="call~~graph~~CallGraph_edge18" class="edge">
+<g id="call~~graph~~CallGraph_edge29" class="edge">
 <title>proc~get_shape&#45;&gt;nf90_strerror</title>
-<path fill="none" stroke="#00ff35" d="M412.08,-504C429.79,-504 452.06,-504 471.89,-504"/>
-<polygon fill="#00ff35" stroke="#00ff35" points="471.99,-507.5 481.99,-504 471.99,-500.5 471.99,-507.5"/>
-</g>
-<!-- interface~norm -->
-<g id="call~~graph~~CallGraph_node16" class="node">
-<title>interface~norm</title>
-<g id="a_call~~graph~~CallGraph_node16"><a xlink:href=".././interface/norm.html" xlink:title="norm">
-<polygon fill="#a7506f" stroke="#a7506f" points="92.5,-684 38.5,-684 38.5,-660 92.5,-660 92.5,-684"/>
-<text text-anchor="middle" x="65.5" y="-669.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">norm</text>
-</a>
-</g>
-</g>
-<!-- proc~norm -->
-<g id="call~~graph~~CallGraph_node26" class="node">
-<title>proc~norm</title>
-<g id="a_call~~graph~~CallGraph_node26"><a xlink:href=".././proc/norm.html" xlink:title="norm">
-<polygon fill="#d94e8f" stroke="#d94e8f" points="252,-684 198,-684 198,-660 252,-660 252,-684"/>
-<text text-anchor="middle" x="225" y="-669.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">norm</text>
-</a>
-</g>
-</g>
-<!-- interface~norm&#45;&gt;proc~norm -->
-<g id="call~~graph~~CallGraph_edge20" class="edge">
-<title>interface~norm&#45;&gt;proc~norm</title>
-<path fill="none" stroke="#00ff5d" stroke-dasharray="5,2" d="M92.51,-672C118.5,-672 158.67,-672 187.78,-672"/>
-<polygon fill="#00ff5d" stroke="#00ff5d" points="187.95,-675.5 197.95,-672 187.95,-668.5 187.95,-675.5"/>
-</g>
-<!-- interface~activation~2 -->
-<g id="call~~graph~~CallGraph_node17" class="node">
-<title>interface~activation~2</title>
-<g id="a_call~~graph~~CallGraph_node17"><a xlink:href=".././interface/activation~2.html" xlink:title="activation">
-<polygon fill="#a7506f" stroke="#a7506f" points="98,-726 33,-726 33,-702 98,-702 98,-726"/>
-<text text-anchor="middle" x="65.5" y="-711.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">activation</text>
-</a>
-</g>
-</g>
-<!-- proc~activation~2 -->
-<g id="call~~graph~~CallGraph_node18" class="node">
-<title>proc~activation~2</title>
-<g id="a_call~~graph~~CallGraph_node18"><a xlink:href=".././proc/activation~2.html" xlink:title="activation">
-<polygon fill="#d94e8f" stroke="#d94e8f" points="257.5,-726 192.5,-726 192.5,-702 257.5,-702 257.5,-726"/>
-<text text-anchor="middle" x="225" y="-711.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">activation</text>
-</a>
-</g>
-</g>
-<!-- interface~activation~2&#45;&gt;proc~activation~2 -->
-<g id="call~~graph~~CallGraph_edge21" class="edge">
-<title>interface~activation~2&#45;&gt;proc~activation~2</title>
-<path fill="none" stroke="#00ff86" stroke-dasharray="5,2" d="M98.37,-714C122.58,-714 156.07,-714 182.38,-714"/>
-<polygon fill="#00ff86" stroke="#00ff86" points="182.44,-717.5 192.44,-714 182.44,-710.5 182.44,-717.5"/>
-</g>
-<!-- proc~num_outputs&#45;&gt;assert -->
-<g id="call~~graph~~CallGraph_edge22" class="edge">
-<title>proc~num_outputs&#45;&gt;assert</title>
-<path fill="none" stroke="#00ffd6" d="M418.3,-226.06C425.02,-228.67 431.83,-231.66 438,-235 460.86,-247.35 484.24,-265.57 500.43,-279.25"/>
-<polygon fill="#00ffd6" stroke="#00ffd6" points="498.33,-282.06 508.2,-285.93 502.9,-276.75 498.33,-282.06"/>
-</g>
-<!-- interface~infer~3 -->
-<g id="call~~graph~~CallGraph_node20" class="node">
-<title>interface~infer~3</title>
-<g id="a_call~~graph~~CallGraph_node20"><a xlink:href=".././interface/infer~3.html" xlink:title="infer">
-<polygon fill="#a7506f" stroke="#a7506f" points="92.5,-768 38.5,-768 38.5,-744 92.5,-744 92.5,-768"/>
-<text text-anchor="middle" x="65.5" y="-753.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">infer</text>
-</a>
-</g>
-</g>
-<!-- proc~infer~3 -->
-<g id="call~~graph~~CallGraph_node32" class="node">
-<title>proc~infer~3</title>
-<g id="a_call~~graph~~CallGraph_node32"><a xlink:href=".././proc/infer~3.html" xlink:title="infer">
-<polygon fill="#d94e8f" stroke="#d94e8f" points="252,-768 198,-768 198,-744 252,-744 252,-768"/>
-<text text-anchor="middle" x="225" y="-753.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">infer</text>
-</a>
-</g>
-</g>
-<!-- interface~infer~3&#45;&gt;proc~infer~3 -->
-<g id="call~~graph~~CallGraph_edge23" class="edge">
-<title>interface~infer~3&#45;&gt;proc~infer~3</title>
-<path fill="none" stroke="#00ffff" stroke-dasharray="5,2" d="M92.51,-756C118.5,-756 158.67,-756 187.78,-756"/>
-<polygon fill="#00ffff" stroke="#00ffff" points="187.95,-759.5 197.95,-756 187.95,-752.5 187.95,-759.5"/>
-</g>
-<!-- interface~read_network -->
-<g id="call~~graph~~CallGraph_node21" class="node">
-<title>interface~read_network</title>
-<g id="a_call~~graph~~CallGraph_node21"><a xlink:href=".././interface/read_network.html" xlink:title="read_network">
-<polygon fill="#a7506f" stroke="#a7506f" points="108,-142 23,-142 23,-118 108,-118 108,-142"/>
-<text text-anchor="middle" x="65.5" y="-127.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">read_network</text>
-</a>
-</g>
-</g>
-<!-- interface~read_network&#45;&gt;proc~read_network -->
-<g id="call~~graph~~CallGraph_edge24" class="edge">
-<title>interface~read_network&#45;&gt;proc~read_network</title>
-<path fill="none" stroke="#00d6ff" stroke-dasharray="5,2" d="M108.29,-130C127.86,-130 151.37,-130 172.07,-130"/>
-<polygon fill="#00d6ff" stroke="#00d6ff" points="172.28,-133.5 182.28,-130 172.28,-126.5 172.28,-133.5"/>
-</g>
-<!-- interface~num_inputs -->
-<g id="call~~graph~~CallGraph_node22" class="node">
-<title>interface~num_inputs</title>
-<g id="a_call~~graph~~CallGraph_node22"><a xlink:href=".././interface/num_inputs.html" xlink:title="num_inputs">
-<polygon fill="#a7506f" stroke="#a7506f" points="262,-394 188,-394 188,-370 262,-370 262,-394"/>
-<text text-anchor="middle" x="225" y="-379.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">num_inputs</text>
-</a>
-</g>
-</g>
-<!-- proc~num_inputs -->
-<g id="call~~graph~~CallGraph_node27" class="node">
-<title>proc~num_inputs</title>
-<g id="a_call~~graph~~CallGraph_node27"><a xlink:href=".././proc/num_inputs.html" xlink:title="num_inputs">
-<polygon fill="#d94e8f" stroke="#d94e8f" points="415.5,-394 341.5,-394 341.5,-370 415.5,-370 415.5,-394"/>
-<text text-anchor="middle" x="378.5" y="-379.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">num_inputs</text>
-</a>
-</g>
-</g>
-<!-- interface~num_inputs&#45;&gt;proc~num_inputs -->
-<g id="call~~graph~~CallGraph_edge25" class="edge">
-<title>interface~num_inputs&#45;&gt;proc~num_inputs</title>
-<path fill="none" stroke="#00aeff" stroke-dasharray="5,2" d="M262.29,-382C282.92,-382 308.97,-382 331.08,-382"/>
-<polygon fill="#00aeff" stroke="#00aeff" points="331.25,-385.5 341.25,-382 331.25,-378.5 331.25,-385.5"/>
-</g>
-<!-- proc~construct -->
-<g id="call~~graph~~CallGraph_node24" class="node">
-<title>proc~construct</title>
-<g id="a_call~~graph~~CallGraph_node24"><a xlink:href=".././proc/construct.html" xlink:title="construct">
-<polygon fill="#777777" stroke="#777777" points="96.5,-810 34.5,-810 34.5,-786 96.5,-786 96.5,-810"/>
-<text text-anchor="middle" x="65.5" y="-795.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">construct</text>
-</a>
-</g>
+<path fill="none" stroke="#e400ff" d="M412.08,-504C429.79,-504 452.06,-504 471.89,-504"/>
+<polygon fill="#e400ff" stroke="#e400ff" points="471.99,-507.5 481.99,-504 471.99,-500.5 471.99,-507.5"/>
 </g>
 <!-- proc~write_network&#45;&gt;proc~assert_consistent -->
-<g id="call~~graph~~CallGraph_edge27" class="edge">
+<g id="call~~graph~~CallGraph_edge32" class="edge">
 <title>proc~write_network&#45;&gt;proc~assert_consistent</title>
-<path fill="none" stroke="#0035ff" d="M261.67,-159.95C268.82,-157.23 276.23,-154.19 283,-151 306.47,-139.95 331.81,-125.03 350.33,-113.51"/>
-<polygon fill="#0035ff" stroke="#0035ff" points="352.24,-116.45 358.84,-108.17 348.51,-110.52 352.24,-116.45"/>
+<path fill="none" stroke="#ff00f1" d="M268.6,-120.44C283.46,-117.1 300.44,-113.29 316.5,-109.69"/>
+<polygon fill="#ff00f1" stroke="#ff00f1" points="317.36,-113.08 326.35,-107.48 315.82,-106.25 317.36,-113.08"/>
 </g>
 <!-- proc~write_network&#45;&gt;assert -->
-<g id="call~~graph~~CallGraph_edge26" class="edge">
-<title>proc~write_network&#45;&gt;assert</title>
-<path fill="none" stroke="#0035ff" d="M268.65,-166.88C313.59,-163.53 385.06,-164.16 438,-193 472.85,-211.99 498.3,-252.21 511.42,-276.99"/>
-<polygon fill="#0035ff" stroke="#0035ff" points="508.33,-278.64 515.99,-285.96 514.57,-275.46 508.33,-278.64"/>
-</g>
-<!-- proc~num_inputs&#45;&gt;assert -->
-<g id="call~~graph~~CallGraph_edge28" class="edge">
-<title>proc~num_inputs&#45;&gt;assert</title>
-<path fill="none" stroke="#1a00ff" d="M415.51,-371.01C423.12,-368.15 430.98,-364.8 438,-361 460.86,-348.65 484.24,-330.43 500.43,-316.75"/>
-<polygon fill="#1a00ff" stroke="#1a00ff" points="502.9,-319.25 508.2,-310.07 498.33,-313.94 502.9,-319.25"/>
-</g>
-<!-- interface~neurons_per_layer -->
-<g id="call~~graph~~CallGraph_node28" class="node">
-<title>interface~neurons_per_layer</title>
-<g id="a_call~~graph~~CallGraph_node28"><a xlink:href=".././interface/neurons_per_layer.html" xlink:title="neurons_per_layer">
-<polygon fill="#a7506f" stroke="#a7506f" points="280.5,-310 169.5,-310 169.5,-286 280.5,-286 280.5,-310"/>
-<text text-anchor="middle" x="225" y="-295.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">neurons_per_layer</text>
-</a>
-</g>
-</g>
-<!-- interface~neurons_per_layer&#45;&gt;proc~neurons_per_layer -->
-<g id="call~~graph~~CallGraph_edge29" class="edge">
-<title>interface~neurons_per_layer&#45;&gt;proc~neurons_per_layer</title>
-<path fill="none" stroke="#4300ff" stroke-dasharray="5,2" d="M280.69,-298C291.1,-298 302.08,-298 312.76,-298"/>
-<polygon fill="#4300ff" stroke="#4300ff" points="312.89,-301.5 322.89,-298 312.89,-294.5 312.89,-301.5"/>
-</g>
-<!-- interface~infer -->
-<g id="call~~graph~~CallGraph_node29" class="node">
-<title>interface~infer</title>
-<g id="a_call~~graph~~CallGraph_node29"><a xlink:href=".././interface/infer.html" xlink:title="infer">
-<polygon fill="#a7506f" stroke="#a7506f" points="92.5,-100 38.5,-100 38.5,-76 92.5,-76 92.5,-100"/>
-<text text-anchor="middle" x="65.5" y="-85.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">infer</text>
-</a>
-</g>
-</g>
-<!-- proc~infer -->
-<g id="call~~graph~~CallGraph_node30" class="node">
-<title>proc~infer</title>
-<g id="a_call~~graph~~CallGraph_node30"><a xlink:href=".././proc/infer.html" xlink:title="infer">
-<polygon fill="#d94e8f" stroke="#d94e8f" points="252,-100 198,-100 198,-76 252,-76 252,-100"/>
-<text text-anchor="middle" x="225" y="-85.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">infer</text>
-</a>
-</g>
-</g>
-<!-- interface~infer&#45;&gt;proc~infer -->
-<g id="call~~graph~~CallGraph_edge30" class="edge">
-<title>interface~infer&#45;&gt;proc~infer</title>
-<path fill="none" stroke="#6b00ff" stroke-dasharray="5,2" d="M92.51,-88C118.5,-88 158.67,-88 187.78,-88"/>
-<polygon fill="#6b00ff" stroke="#6b00ff" points="187.95,-91.5 197.95,-88 187.95,-84.5 187.95,-91.5"/>
-</g>
-<!-- proc~infer&#45;&gt;proc~assert_consistent -->
 <g id="call~~graph~~CallGraph_edge31" class="edge">
-<title>proc~infer&#45;&gt;proc~assert_consistent</title>
-<path fill="none" stroke="#9300ff" d="M252.04,-89.38C269.72,-90.31 293.87,-91.58 316.27,-92.77"/>
-<polygon fill="#9300ff" stroke="#9300ff" points="316.23,-96.27 326.4,-93.3 316.6,-89.28 316.23,-96.27"/>
+<title>proc~write_network&#45;&gt;assert</title>
+<path fill="none" stroke="#ff00f1" d="M268.74,-126.37C314.41,-124.64 387.11,-128.29 438,-162 479.33,-189.37 503.67,-244.91 514.59,-275.87"/>
+<polygon fill="#ff00f1" stroke="#ff00f1" points="511.39,-277.35 517.89,-285.72 518.03,-275.12 511.39,-277.35"/>
 </g>
-<!-- proc~num_hidden_layers&#45;&gt;assert -->
-<g id="call~~graph~~CallGraph_edge32" class="edge">
-<title>proc~num_hidden_layers&#45;&gt;assert</title>
-<path fill="none" stroke="#ff00f1" d="M420.19,-327.96C440.8,-321.87 465.61,-314.53 485.52,-308.64"/>
-<polygon fill="#ff00f1" stroke="#ff00f1" points="486.55,-311.99 495.15,-305.79 484.56,-305.28 486.55,-311.99"/>
-</g>
-<!-- interface~conformable_with -->
-<g id="call~~graph~~CallGraph_node34" class="node">
-<title>interface~conformable_with</title>
-<g id="a_call~~graph~~CallGraph_node34"><a xlink:href=".././interface/conformable_with.html" xlink:title="conformable_with">
-<polygon fill="#a7506f" stroke="#a7506f" points="119.5,-600 11.5,-600 11.5,-576 119.5,-576 119.5,-600"/>
-<text text-anchor="middle" x="65.5" y="-585.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">conformable_with</text>
-</a>
-</g>
-</g>
-<!-- interface~conformable_with&#45;&gt;proc~conformable_with -->
+<!-- proc~num_outputs&#45;&gt;assert -->
 <g id="call~~graph~~CallGraph_edge33" class="edge">
-<title>interface~conformable_with&#45;&gt;proc~conformable_with</title>
-<path fill="none" stroke="#ff00c9" stroke-dasharray="5,2" d="M119.82,-588C132.91,-588 147.04,-588 160.55,-588"/>
-<polygon fill="#ff00c9" stroke="#ff00c9" points="160.73,-591.5 170.73,-588 160.73,-584.5 160.73,-591.5"/>
+<title>proc~num_outputs&#45;&gt;assert</title>
+<path fill="none" stroke="#ff00c9" d="M419.81,-267.92C440.57,-274.06 465.67,-281.49 485.74,-287.42"/>
+<polygon fill="#ff00c9" stroke="#ff00c9" points="484.85,-290.81 495.43,-290.29 486.84,-284.1 484.85,-290.81"/>
 </g>
-<!-- program~read_and_infer -->
+<!-- program~concurrent_inferences -->
 <g id="call~~graph~~CallGraph_node35" class="node">
-<title>program~read_and_infer</title>
-<g id="a_call~~graph~~CallGraph_node35"><a xlink:href=".././program/read_and_infer.html" xlink:title="read_and_infer">
-<polygon fill="#f0ad4e" stroke="#f0ad4e" points="424.5,-66 332.5,-66 332.5,-42 424.5,-42 424.5,-66"/>
-<text text-anchor="middle" x="378.5" y="-51.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">read_and_infer</text>
+<title>program~concurrent_inferences</title>
+<g id="a_call~~graph~~CallGraph_node35"><a xlink:href=".././program/concurrent_inferences.html" xlink:title="concurrent_inferences">
+<polygon fill="#f0ad4e" stroke="#f0ad4e" points="131,-852 0,-852 0,-828 131,-828 131,-852"/>
+<text text-anchor="middle" x="65.5" y="-837.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">concurrent_inferences</text>
 </a>
 </g>
 </g>
-<!-- program~read_and_infer&#45;&gt;assert -->
-<g id="call~~graph~~CallGraph_edge36" class="edge">
-<title>program~read_and_infer&#45;&gt;assert</title>
-<path fill="none" stroke="#ff00a1" d="M424.72,-65.55C429.59,-68.1 434.16,-71.21 438,-75 495.52,-131.74 513.88,-231.82 519.35,-275.99"/>
-<polygon fill="#ff00a1" stroke="#ff00a1" points="515.87,-276.41 520.48,-285.96 522.83,-275.63 515.87,-276.41"/>
+<!-- array_of_strings -->
+<g id="call~~graph~~CallGraph_node39" class="node">
+<title>array_of_strings</title>
+<polygon fill="#777777" stroke="#777777" points="273.5,-873 176.5,-873 176.5,-849 273.5,-849 273.5,-873"/>
+<text text-anchor="middle" x="225" y="-858.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">array_of_strings</text>
 </g>
-<!-- string_t -->
-<g id="call~~graph~~CallGraph_node45" class="node">
-<title>string_t</title>
-<polygon fill="#777777" stroke="#777777" points="549.5,-24 495.5,-24 495.5,0 549.5,0 549.5,-24"/>
-<text text-anchor="middle" x="522.5" y="-9.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">string_t</text>
-</g>
-<!-- program~read_and_infer&#45;&gt;string_t -->
+<!-- program~concurrent_inferences&#45;&gt;array_of_strings -->
 <g id="call~~graph~~CallGraph_edge34" class="edge">
-<title>program~read_and_infer&#45;&gt;string_t</title>
-<path fill="none" stroke="#ff00a1" d="M420.19,-41.96C440.8,-35.87 465.61,-28.53 485.52,-22.64"/>
-<polygon fill="#ff00a1" stroke="#ff00a1" points="486.55,-25.99 495.15,-19.79 484.56,-19.28 486.55,-25.99"/>
+<title>program~concurrent_inferences&#45;&gt;array_of_strings</title>
+<path fill="none" stroke="#ff00a1" d="M131.02,-848.6C142.59,-850.15 154.6,-851.75 165.98,-853.26"/>
+<polygon fill="#ff00a1" stroke="#ff00a1" points="165.85,-856.78 176.22,-854.63 166.77,-849.84 165.85,-856.78"/>
 </g>
-<!-- inputs -->
-<g id="call~~graph~~CallGraph_node46" class="node">
-<title>inputs</title>
-<polygon fill="#777777" stroke="#777777" points="549.5,-66 495.5,-66 495.5,-42 549.5,-42 549.5,-66"/>
-<text text-anchor="middle" x="522.5" y="-51.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">inputs</text>
+<!-- inference -->
+<g id="call~~graph~~CallGraph_node45" class="node">
+<title>inference</title>
+<polygon fill="#777777" stroke="#777777" points="256.5,-831 193.5,-831 193.5,-807 256.5,-807 256.5,-831"/>
+<text text-anchor="middle" x="225" y="-816.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">inference</text>
 </g>
-<!-- program~read_and_infer&#45;&gt;inputs -->
+<!-- program~concurrent_inferences&#45;&gt;inference -->
 <g id="call~~graph~~CallGraph_edge35" class="edge">
-<title>program~read_and_infer&#45;&gt;inputs</title>
-<path fill="none" stroke="#ff00a1" d="M424.82,-54C444.32,-54 466.8,-54 485.17,-54"/>
-<polygon fill="#ff00a1" stroke="#ff00a1" points="485.19,-57.5 495.19,-54 485.19,-50.5 485.19,-57.5"/>
+<title>program~concurrent_inferences&#45;&gt;inference</title>
+<path fill="none" stroke="#ff00a1" d="M131.02,-831.4C148.72,-829.04 167.41,-826.55 183.36,-824.42"/>
+<polygon fill="#ff00a1" stroke="#ff00a1" points="183.95,-827.87 193.4,-823.08 183.03,-820.93 183.95,-827.87"/>
 </g>
 <!-- program~construct_and_write -->
 <g id="call~~graph~~CallGraph_node36" class="node">
@@ -693,44 +687,50 @@
 </a>
 </g>
 </g>
+<!-- string_t -->
+<g id="call~~graph~~CallGraph_node46" class="node">
+<title>string_t</title>
+<polygon fill="#777777" stroke="#777777" points="549.5,-24 495.5,-24 495.5,0 549.5,0 549.5,-24"/>
+<text text-anchor="middle" x="522.5" y="-9.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">string_t</text>
+</g>
 <!-- program~construct_and_write&#45;&gt;string_t -->
-<g id="call~~graph~~CallGraph_edge37" class="edge">
+<g id="call~~graph~~CallGraph_edge36" class="edge">
 <title>program~construct_and_write&#45;&gt;string_t</title>
 <path fill="none" stroke="#ff0078" d="M438.08,-12C453.91,-12 470.58,-12 484.83,-12"/>
 <polygon fill="#ff0078" stroke="#ff0078" points="485.2,-15.5 495.2,-12 485.2,-8.5 485.2,-15.5"/>
 </g>
-<!-- program~concurrent_inferences -->
+<!-- program~read_and_infer -->
 <g id="call~~graph~~CallGraph_node37" class="node">
-<title>program~concurrent_inferences</title>
-<g id="a_call~~graph~~CallGraph_node37"><a xlink:href=".././program/concurrent_inferences.html" xlink:title="concurrent_inferences">
-<polygon fill="#f0ad4e" stroke="#f0ad4e" points="131,-852 0,-852 0,-828 131,-828 131,-852"/>
-<text text-anchor="middle" x="65.5" y="-837.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">concurrent_inferences</text>
+<title>program~read_and_infer</title>
+<g id="a_call~~graph~~CallGraph_node37"><a xlink:href=".././program/read_and_infer.html" xlink:title="read_and_infer">
+<polygon fill="#f0ad4e" stroke="#f0ad4e" points="424.5,-66 332.5,-66 332.5,-42 424.5,-42 424.5,-66"/>
+<text text-anchor="middle" x="378.5" y="-51.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">read_and_infer</text>
 </a>
 </g>
 </g>
-<!-- inference -->
-<g id="call~~graph~~CallGraph_node43" class="node">
-<title>inference</title>
-<polygon fill="#777777" stroke="#777777" points="256.5,-873 193.5,-873 193.5,-849 256.5,-849 256.5,-873"/>
-<text text-anchor="middle" x="225" y="-858.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">inference</text>
-</g>
-<!-- program~concurrent_inferences&#45;&gt;inference -->
-<g id="call~~graph~~CallGraph_edge39" class="edge">
-<title>program~concurrent_inferences&#45;&gt;inference</title>
-<path fill="none" stroke="#ff0050" d="M131.02,-848.6C148.72,-850.96 167.41,-853.45 183.36,-855.58"/>
-<polygon fill="#ff0050" stroke="#ff0050" points="183.03,-859.07 193.4,-856.92 183.95,-852.13 183.03,-859.07"/>
-</g>
-<!-- array_of_strings -->
-<g id="call~~graph~~CallGraph_node44" class="node">
-<title>array_of_strings</title>
-<polygon fill="#777777" stroke="#777777" points="273.5,-831 176.5,-831 176.5,-807 273.5,-807 273.5,-831"/>
-<text text-anchor="middle" x="225" y="-816.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">array_of_strings</text>
-</g>
-<!-- program~concurrent_inferences&#45;&gt;array_of_strings -->
+<!-- program~read_and_infer&#45;&gt;assert -->
 <g id="call~~graph~~CallGraph_edge38" class="edge">
-<title>program~concurrent_inferences&#45;&gt;array_of_strings</title>
-<path fill="none" stroke="#ff0050" d="M131.02,-831.4C142.59,-829.85 154.6,-828.25 165.98,-826.74"/>
-<polygon fill="#ff0050" stroke="#ff0050" points="166.77,-830.16 176.22,-825.37 165.85,-823.22 166.77,-830.16"/>
+<title>program~read_and_infer&#45;&gt;assert</title>
+<path fill="none" stroke="#ff0050" d="M424.72,-65.55C429.59,-68.1 434.16,-71.21 438,-75 495.52,-131.74 513.88,-231.82 519.35,-275.99"/>
+<polygon fill="#ff0050" stroke="#ff0050" points="515.87,-276.41 520.48,-285.96 522.83,-275.63 515.87,-276.41"/>
+</g>
+<!-- inputs -->
+<g id="call~~graph~~CallGraph_node43" class="node">
+<title>inputs</title>
+<polygon fill="#777777" stroke="#777777" points="549.5,-66 495.5,-66 495.5,-42 549.5,-42 549.5,-66"/>
+<text text-anchor="middle" x="522.5" y="-51.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">inputs</text>
+</g>
+<!-- program~read_and_infer&#45;&gt;inputs -->
+<g id="call~~graph~~CallGraph_edge39" class="edge">
+<title>program~read_and_infer&#45;&gt;inputs</title>
+<path fill="none" stroke="#ff0050" d="M424.82,-54C444.32,-54 466.8,-54 485.17,-54"/>
+<polygon fill="#ff0050" stroke="#ff0050" points="485.19,-57.5 495.19,-54 485.19,-50.5 485.19,-57.5"/>
+</g>
+<!-- program~read_and_infer&#45;&gt;string_t -->
+<g id="call~~graph~~CallGraph_edge37" class="edge">
+<title>program~read_and_infer&#45;&gt;string_t</title>
+<path fill="none" stroke="#ff0050" d="M420.19,-41.96C440.8,-35.87 465.61,-28.53 485.52,-22.64"/>
+<polygon fill="#ff0050" stroke="#ff0050" points="486.55,-25.99 495.15,-19.79 484.56,-19.28 486.55,-25.99"/>
 </g>
 <!-- program~netcdf_io -->
 <g id="call~~graph~~CallGraph_node38" class="node">
@@ -741,17 +741,17 @@
 </a>
 </g>
 </g>
-<!-- program~netcdf_io&#45;&gt;proc~netcdf_write -->
-<g id="call~~graph~~CallGraph_edge40" class="edge">
-<title>program~netcdf_io&#45;&gt;proc~netcdf_write</title>
-<path fill="none" stroke="#ff0028" d="M259.25,-462C278.95,-462 304.32,-462 326.51,-462"/>
-<polygon fill="#ff0028" stroke="#ff0028" points="326.77,-465.5 336.77,-462 326.77,-458.5 326.77,-465.5"/>
-</g>
 <!-- program~netcdf_io&#45;&gt;proc~netcdf_read -->
 <g id="call~~graph~~CallGraph_edge41" class="edge">
 <title>program~netcdf_io&#45;&gt;proc~netcdf_read</title>
 <path fill="none" stroke="#ff0028" d="M259.06,-470.96C267.3,-474.04 275.81,-478 283,-483 303.19,-497.04 298.76,-511.05 319,-525 322.02,-527.08 325.27,-528.98 328.64,-530.71"/>
 <polygon fill="#ff0028" stroke="#ff0028" points="327.19,-533.9 337.74,-534.89 330.11,-527.54 327.19,-533.9"/>
+</g>
+<!-- program~netcdf_io&#45;&gt;proc~netcdf_write -->
+<g id="call~~graph~~CallGraph_edge40" class="edge">
+<title>program~netcdf_io&#45;&gt;proc~netcdf_write</title>
+<path fill="none" stroke="#ff0028" d="M259.25,-462C278.95,-462 304.32,-462 326.51,-462"/>
+<polygon fill="#ff0028" stroke="#ff0028" points="326.77,-465.5 336.77,-462 326.77,-458.5 326.77,-465.5"/>
 </g>
 <!-- program~netcdf_io&#45;&gt;assert -->
 <g id="call~~graph~~CallGraph_edge42" class="edge">
@@ -827,14 +827,14 @@
     <footer>
       <div class="container">
       <div class="row">
-        <div class="col-xs-6 col-md-6"><p>Inference-Engine was developed by Sourcery Institute<br>&copy; 2022 
+        <div class="col-xs-6 col-md-6"><p>Inference-Engine was developed by Sourcery Institute<br>&copy; 2023 
 </p>
         </div>
         <div class="col-xs-6 col-md-6">
           <p class="text-right">
             Documentation generated by 
             <a href="https://github.com/Fortran-FOSS-Programmers/ford">FORD</a>
- on 2022-12-07 15:10            </p>
+ on 2023-01-05 00:59            </p>
         </div>
       </div>
       <br>
