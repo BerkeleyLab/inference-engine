@@ -211,7 +211,11 @@ contains
       self%activation_strategy_  = step_t()
     end if
  
-    self%inference_strategy_  = concurrent_dot_products_t()
+    if (present(inference_strategy)) then
+      self%inference_strategy_  = inference_strategy
+    else
+      self%inference_strategy_  = concurrent_dot_products_t()
+    end if
 
     close(file_unit)
 

@@ -51,11 +51,12 @@ module inference_engine_m
 
   interface
 
-    impure elemental module subroutine read_network(self, file_name, activation_strategy)
+    impure elemental module subroutine read_network(self, file_name, activation_strategy, inference_strategy)
       implicit none
       class(inference_engine_t), intent(out) :: self
       type(string_t), intent(in) :: file_name
       class(activation_strategy_t), intent(in), optional :: activation_strategy
+      class(inference_strategy_t), intent(in), optional :: inference_strategy
     end subroutine
 
     impure elemental module subroutine write_network(self, file_name)
