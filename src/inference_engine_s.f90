@@ -3,7 +3,7 @@
 submodule(inference_engine_m) inference_engine_s
   use assert_m, only : assert
   use intrinsic_array_m, only : intrinsic_array_t
-  use concurrent_dot_products_m, only : concurrent_dot_products_t
+  use matmul_m, only : matmul_t
   use step_m, only : step_t
   implicit none
 
@@ -23,7 +23,7 @@ contains
     if (present(inference_strategy)) then
       inference_engine%inference_strategy_ = inference_strategy
     else
-      inference_engine%inference_strategy_ = concurrent_dot_products_t()
+      inference_engine%inference_strategy_ = matmul_t()
     end if
   end procedure
 
@@ -211,7 +211,11 @@ contains
       self%activation_strategy_  = step_t()
     end if
  
-    self%inference_strategy_  = concurrent_dot_products_t()
+    if (present(inference_strategy)) then
+      self%inference_strategy_  = inference_strategy
+    else
+      self%inference_strategy_  = matmul_t()
+    end if
 
     close(file_unit)
 

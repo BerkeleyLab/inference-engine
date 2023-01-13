@@ -11,6 +11,7 @@ program read_and_infer
   use inference_engine_m, only : inference_engine_t
   use string_m, only : string_t
   use sigmoid_m, only : sigmoid_t
+  use matmul_m, only : matmul_t
   implicit none
 
   type(inference_engine_t) inference_engine
@@ -25,7 +26,7 @@ program read_and_infer
   end if
 
   print *,"Defining an inference_engine_t object by reading the file '"//input_file_name//"'"
-  call inference_engine%read_network(string_t(input_file_name), sigmoid_t())
+  call inference_engine%read_network(string_t(input_file_name), sigmoid_t(), matmul_t())
 
   print *,"num_outputs = ", inference_engine%num_outputs()
   print *,"num_hidden_layers = ", inference_engine%num_hidden_layers()
