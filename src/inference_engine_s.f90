@@ -5,6 +5,7 @@ submodule(inference_engine_m) inference_engine_s
   use intrinsic_array_m, only : intrinsic_array_t
   use matmul_m, only : matmul_t
   use step_m, only : step_t
+  use layer_m, only : layer_t, neuron_t
   use iso_fortran_env, only : iostat_end
   implicit none
 
@@ -444,44 +445,35 @@ contains
 
   module procedure read_json
 
-    integer file_unit, io_status, i
+    integer file_unit, io_status
     type(string_t), allocatable :: lines(:)
     character(len=:), allocatable :: line
-
-    type neuron_t
-      !! linked list of neurons for one layer
-      real, allocatable :: weights(:)
-      real  :: bias
-      type(neuron_t), allocatable :: next
-    end type
-
-    type layer_t
-      !! linked list of layers
-      type(neuron_t) neuron
-      type(layer_t), allocatable :: next
-    end type
-
-    type(layer_t), target :: layer
-    type(layer_t), pointer :: layer_ptr
-    integer num_layers
+    type(layer_t) hidden_layers
+    type(neuron_t) output_neurons
     
-
     open(newunit=file_unit, file=file_name%string(), form='formatted', status='old', iostat=io_status, action='read')
     call assert(io_status==0,"read_json: io_status==0 after 'open' statement", file_name%string())
-
     lines = read_lines(file_unit)
+    close(file_unit)
+
     call assert(adjustl(lines(1)%string())=="{", "read_json: outermost object start", lines(1)%string())
     call assert(adjustl(lines(2)%string())=='"hidden_layers": [', "read_json: hidden layers array start", lines(2)%string())
 
-    layer = read_layer_list(lines, 3)
+    block 
+       integer, parameter :: first_layer_line=3, lines_per_neuron=4, bracket_lines_per_layer=2
+       character(len=:), allocatable :: output_layer_line
+       
+       hidden_layers = layer_t(lines, start=first_layer_line)
 
-    layer_ptr => layer
-    num_layers = 1
-    do 
-      if (.not. allocated(layer_ptr%next)) exit
-      layer_ptr => layer%next
-      num_layers = num_layers + 1
-    end do
+       associate( output_layer_line_number => first_layer_line + lines_per_neuron*sum(hidden_layers%count_neurons()) &
+         + bracket_lines_per_layer*hidden_layers%count_layers() + 1)
+
+         output_layer_line = lines(output_layer_line_number)%string()
+         call assert(adjustl(output_layer_line)=='"output_layer": [', "read_json: hidden layers array start", output_layer_line)
+
+         output_neurons = neuron_t(lines, start=output_layer_line_number + 1)
+       end associate
+    end block
 
     if (present(activation_strategy)) then
       self%activation_strategy_  = activation_strategy
@@ -494,8 +486,6 @@ contains
     else
       self%inference_strategy_  = matmul_t()
     end if
-
-    close(file_unit)
 
     !call assert_consistent(self)
   contains
@@ -528,71 +518,6 @@ contains
         array_of_lines(line_num) = string_t(line)
         deallocate(line)
       end do
-    end function
-
-    recursive function read_neuron_list(neuron_lines, start) result(neuron)
-      type(string_t), intent(in) :: neuron_lines(:)
-      integer, intent(in) :: start
-      type(neuron_t) neuron
-
-      character(len=:), allocatable :: line
-
-      call assert(adjustl(neuron_lines(start)%string())=='{', "read_json: neuron object start", neuron_lines(start)%string())
-
-      line = neuron_lines(start+1)%string()
-      associate(colon => index(line, ":"))
-        call assert(adjustl(line(:colon-1))=='"weights"', "read_json: neuron weights", line)
-        associate(opening_bracket => colon + index(line(colon+1:), "["))
-          associate(closing_bracket => opening_bracket + index(line(opening_bracket+1:), "]"))
-            associate(commas => count("," == [(line(i:i), i=opening_bracket+1,closing_bracket-1)]))
-              associate(num_inputs => commas + 1)
-                allocate(neuron%weights(num_inputs))
-                read(line(opening_bracket+1:closing_bracket-1), fmt=*) neuron%weights
-              end associate
-            end associate
-          end associate
-        end associate
-      end associate
-
-      line = neuron_lines(start+2)%string()
-      associate(colon => index(line, ":"))
-        call assert(adjustl(line(:colon-1))=='"bias"', "read_json: neuron bias", line)
-        read(line(colon+1:), fmt=*) neuron%bias
-      end associate
-
-      line = adjustl(neuron_lines(start+3)%string())
-      call assert(line(1:1)=='}', "read_json: neuron object end", line)
-      line = adjustr(neuron_lines(start+3)%string())
-      if (line(len(line):len(line)) == ",") neuron%next = read_neuron_list(neuron_lines, start+4)
-    end function
-
-    recursive function read_layer_list(layer_lines, start) result(layer)
-      type(string_t), intent(in) :: layer_lines(:)
-      integer, intent(in) :: start
-      type(neuron_t), pointer ::  neuron 
-      type(layer_t), target :: layer
-      integer num_inputs, neurons_in_layer
-
-      character(len=:), allocatable :: line
-
-      call assert(adjustl(layer_lines(start)%string())=='[', "read_json: layer start", layer_lines(start)%string())
-
-      layer%neuron = read_neuron_list(lines, start+1)
-      num_inputs = size(layer%neuron%weights)
-
-      neuron => layer%neuron
-      neurons_in_layer = 1
-      do 
-        if (.not. allocated(neuron%next)) exit
-        neuron => neuron%next
-        call assert(size(neuron%weights) == num_inputs, "read_json: constant number of inputs") 
-        neurons_in_layer = neurons_in_layer + 1
-      end do
-
-      line = trim(adjustl(lines(start+4*neurons_in_layer+1)%string()))
-      call assert(line(1:1)==']', "read_json: hidden layer end")
-
-      if (line(len(line):len(line)) == ",") layer%next = read_layer_list(layer_lines, start+4*neurons_in_layer+2)
     end function
 
   end procedure read_json
