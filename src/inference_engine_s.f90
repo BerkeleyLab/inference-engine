@@ -13,21 +13,6 @@ submodule(inference_engine_m) inference_engine_s
 
 contains
 
-  function line_length(file_unit) result(length)
-    integer, intent(in) :: file_unit
-    integer length, io_status
-    character(len=1) c
-
-    io_status = 0
-    length = 1
-    do 
-      read(file_unit, '(a)',advance='no',iostat=io_status) c
-      if (io_status/=0) exit
-      length = length + 1
-    end do
-    backspace(file_unit)
-  end function
-
   module procedure construct
     inference_engine%input_weights_ = input_weights
     inference_engine%hidden_weights_ = hidden_weights
@@ -241,6 +226,21 @@ contains
     call assert_consistent(self)
 
   contains
+
+    function line_length(file_unit) result(length)
+      integer, intent(in) :: file_unit
+      integer length, io_status
+      character(len=1) c
+
+      io_status = 0
+      length = 1
+      do 
+        read(file_unit, '(a)',advance='no',iostat=io_status) c
+        if (io_status/=0) exit
+        length = length + 1
+      end do
+      backspace(file_unit)
+    end function
 
     subroutine read_line_and_count_inputs(file_unit, line, input_count)
       integer, intent(in) :: file_unit

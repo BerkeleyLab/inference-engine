@@ -22,7 +22,7 @@ module neuron_m
 
   interface neuron_t
 
-    pure recursive module function read_neuron_list(neuron_lines, start) result(neuron)
+    pure recursive module function construct(neuron_lines, start) result(neuron)
       !! construct linked list of neuron_t objects from an array of JSON-formatted text lines
       implicit none
       type(string_t), intent(in) :: neuron_lines(:)

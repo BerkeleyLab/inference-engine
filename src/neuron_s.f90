@@ -6,7 +6,7 @@ submodule(neuron_m) neuron_s
 
 contains
 
-  module procedure read_neuron_list
+  module procedure construct
 
     character(len=:), allocatable :: line
     integer i
@@ -37,7 +37,7 @@ contains
     line = adjustl(neuron_lines(start+3)%string())
     call assert(line(1:1)=='}', "read_json: neuron object end", line)
     line = adjustr(neuron_lines(start+3)%string())
-    if (line(len(line):len(line)) == ",") neuron%next = read_neuron_list(neuron_lines, start+4)
+    if (line(len(line):len(line)) == ",") neuron%next = construct(neuron_lines, start+4)
 
   end procedure
 
