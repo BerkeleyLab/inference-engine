@@ -7,11 +7,14 @@ contains
   
   module procedure read_lines
 
-    integer io_status, line_num
+    integer io_status, file_unit, line_num
     character(len=:), allocatable :: line
     integer, parameter :: max_message_length=128
     character(len=max_message_length) error_message
     integer, allocatable :: lengths(:)
+
+    open(newunit=file_unit, file=file_name%string(), form='formatted', status='old', iostat=io_status, action='read')
+    call assert(io_status==0,"read_lines: io_status==0 after 'open' statement", file_name%string())
 
     lengths = line_lengths(file_unit)
 
@@ -28,6 +31,8 @@ contains
       end do
 
     end associate
+
+    close(file_unit)
 
   contains
    

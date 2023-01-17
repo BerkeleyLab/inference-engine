@@ -14,9 +14,9 @@ module file_m
 
   interface file_t
 
-    module function read_lines(file_unit) result(file_object)
+    module function read_lines(file_name) result(file_object)
       implicit none
-      integer, intent(in) :: file_unit
+      type(string_t), intent(in) :: file_name
       type(file_t) file_object
     end function
 

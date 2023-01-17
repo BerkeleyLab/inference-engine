@@ -452,11 +452,8 @@ contains
     type(neuron_t) output_neuron
     type(file_t) file_
     
-    open(newunit=file_unit, file=file_name%string(), form='formatted', status='old', iostat=io_status, action='read')
-    call assert(io_status==0,"read_json: io_status==0 after 'open' statement", file_name%string())
-    file_ = file_t(file_unit)
+    file_ = file_t(file_name)
     lines = file_%lines()
-    close(file_unit)
 
     call assert(adjustl(lines(1)%string())=="{", "read_json: outermost object start", lines(1)%string())
     call assert(adjustl(lines(2)%string())=='"hidden_layers": [', "read_json: hidden layers array start", lines(2)%string())
@@ -481,8 +478,6 @@ contains
       self%output_weights_ = reshape(output_weights, [size(output_weights),1])
       self%output_biases_ = [output_neuron%bias()]
     end associate
-
-   
 
     if (present(activation_strategy)) then
       self%activation_strategy_  = activation_strategy

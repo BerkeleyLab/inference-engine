@@ -63,7 +63,7 @@ module inference_engine_m
     impure elemental module subroutine read_json(self, file_name, activation_strategy, inference_strategy)
       implicit none
       class(inference_engine_t), intent(out) :: self
-      type(string_t), intent(in) :: file_name
+      type(string_t), intent(in) :: file_name ! can't use deferred-length characters due to elemental attribute
       class(activation_strategy_t), intent(in), optional :: activation_strategy
       class(inference_strategy_t), intent(in), optional :: inference_strategy
     end subroutine
