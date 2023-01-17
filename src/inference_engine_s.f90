@@ -6,6 +6,7 @@ submodule(inference_engine_m) inference_engine_s
   use matmul_m, only : matmul_t
   use step_m, only : step_t
   use layer_m, only : layer_t, neuron_t
+  use file_m, only : file_t
   use iso_fortran_env, only : iostat_end
   implicit none
 
@@ -240,7 +241,6 @@ contains
 
   contains
 
-
     subroutine read_line_and_count_inputs(file_unit, line, input_count)
       integer, intent(in) :: file_unit
       character(len=:), intent(out), allocatable :: line
@@ -447,13 +447,14 @@ contains
 
     integer file_unit, io_status
     type(string_t), allocatable :: lines(:)
-    character(len=:), allocatable :: line
     type(layer_t) hidden_layers
-    type(neuron_t) output_neurons
+    type(neuron_t) output_neuron
+    type(file_t) file_
     
     open(newunit=file_unit, file=file_name%string(), form='formatted', status='old', iostat=io_status, action='read')
     call assert(io_status==0,"read_json: io_status==0 after 'open' statement", file_name%string())
-    lines = read_lines(file_unit)
+    file_ = file_t(file_unit)
+    lines = file_%lines()
     close(file_unit)
 
     call assert(adjustl(lines(1)%string())=="{", "read_json: outermost object start", lines(1)%string())
@@ -471,9 +472,16 @@ contains
          output_layer_line = lines(output_layer_line_number)%string()
          call assert(adjustl(output_layer_line)=='"output_layer": [', "read_json: hidden layers array start", output_layer_line)
 
-         output_neurons = neuron_t(lines, start=output_layer_line_number + 1)
+         output_neuron = neuron_t(lines, start=output_layer_line_number + 1)
        end associate
     end block
+
+    associate(output_weights => output_neuron%weights())
+      self%output_weights_ = reshape(output_weights, [size(output_weights),1])
+      self%output_biases_ = [output_neuron%bias()]
+    end associate
+
+   
 
     if (present(activation_strategy)) then
       self%activation_strategy_  = activation_strategy
@@ -488,37 +496,6 @@ contains
     end if
 
     !call assert_consistent(self)
-  contains
-
-    integer function line_count(file_unit)
-      integer, intent(in) :: file_unit
-     
-      rewind(file_unit)
-      line_count = 0
-      do 
-        read(file_unit, *, iostat=io_status)
-        if (io_status==iostat_end) exit
-        line_count = line_count + 1
-      end do
-      rewind(file_unit)
-    end function
-
-    function read_lines(file_unit) result(array_of_lines)
-      integer, intent(in) :: file_unit
-      type(string_t), allocatable :: array_of_lines(:)
-
-      integer io_status, line_num
-      character(len=:), allocatable :: line
-
-      allocate(array_of_lines(line_count(file_unit)))
-      do line_num = 1, size(array_of_lines)
-        allocate(character(len=line_length(file_unit)) :: line)
-        read(file_unit, '(a)', iostat=io_status) line
-        call assert(io_status==0,"read_lines: io_status==0 after line read", file_name%string())
-        array_of_lines(line_num) = string_t(line)
-        deallocate(line)
-      end do
-    end function
 
   end procedure read_json
 
