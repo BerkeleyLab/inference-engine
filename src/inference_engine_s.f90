@@ -5,7 +5,8 @@ submodule(inference_engine_m) inference_engine_s
   use intrinsic_array_m, only : intrinsic_array_t
   use matmul_m, only : matmul_t
   use step_m, only : step_t
-  use layer_m, only : layer_t, neuron_t
+  use layer_m, only : layer_t
+  use neuron_m, only : neuron_t
   use file_m, only : file_t
   use iso_fortran_env, only : iostat_end
   implicit none

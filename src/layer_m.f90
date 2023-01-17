@@ -1,22 +1,12 @@
 ! Copyright (c), The Regents of the University of California
 ! Terms of use are as specified in LICENSE.txt
 module layer_m
+  use neuron_m, only : neuron_t
   use string_m, only : string_t
   implicit none
 
   private
-  public :: layer_t, neuron_t
-
-  type neuron_t
-    !! linked list of neurons
-    private
-    real, allocatable :: weights_(:)
-    real bias_
-    type(neuron_t), allocatable :: next
-  contains
-    procedure :: weights
-    procedure :: bias
-  end type
+  public :: layer_t
 
   type layer_t
     !! linked list of layers, each comprised of a linked list of neurons
@@ -52,34 +42,6 @@ module layer_m
       implicit none
       class(layer_t), intent(in), target :: layer
       integer, allocatable :: neurons_per_layer(:)
-    end function
-
-  end interface
-
-  interface neuron_t
-
-    pure recursive module function read_neuron_list(neuron_lines, start) result(neuron)
-      !! construct linked list of neuron_t objects from an array of JSON-formatted text lines
-      implicit none
-      type(string_t), intent(in) :: neuron_lines(:)
-      integer, intent(in) :: start
-      type(neuron_t) neuron
-    end function
-
-  end interface
-
-  interface
-
-    module function weights(self) result(my_weights)
-      implicit none
-      class(neuron_t), intent(in) :: self
-      real, allocatable :: my_weights(:)
-    end function
-
-    module function bias(self) result(my_bias)
-      implicit none
-      class(neuron_t), intent(in) :: self
-      real my_bias
     end function
 
   end interface
