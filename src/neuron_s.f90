@@ -57,4 +57,8 @@ contains
     next_ptr => self%next
   end procedure
 
+  module procedure num_inputs
+    size_weights = size(self%weights_)
+  end procedure
+
 end submodule neuron_s

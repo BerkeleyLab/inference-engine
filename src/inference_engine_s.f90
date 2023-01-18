@@ -474,6 +474,8 @@ contains
        end associate
     end block
 
+    self%input_weights_ = hidden_layers%input_weights()
+
     associate(output_weights => output_neuron%weights())
       self%output_weights_ = reshape(output_weights, [size(output_weights),1])
       self%output_biases_ = [output_neuron%bias()]

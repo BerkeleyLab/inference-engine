@@ -72,4 +72,44 @@ contains
  
   end procedure
 
+  module procedure input_weights
+
+    type(neuron_t), pointer :: neuron
+    integer i
+
+    associate(num_inputs => self%neuron%num_inputs(), neurons_per_layer => self%neurons_per_layer())
+
+      allocate(weights(num_inputs, neurons_per_layer))
+
+      neuron => self%neuron
+      weights(:,1) = neuron%weights()
+
+      do i = 2, neurons_per_layer - 1
+        call assert(neuron%next_allocated(), "layer_t%input_weights: neuron%next_allocated()")
+        neuron => neuron%next_pointer()
+        weights(:,i) = neuron%weights()
+        call assert(neuron%num_inputs() == num_inputs, "layer_t%input_weights: constant number of inputs")
+      end do
+      neuron => neuron%next_pointer()
+      call assert(.not. neuron%next_allocated(), "layer_t%input_weights: .not. neuron%next_allocated()")
+      if (neurons_per_layer /= 1) weights(:,neurons_per_layer) = neuron%weights()
+
+    end associate
+
+  end procedure
+
+  module procedure neurons_per_layer
+
+    type(neuron_t), pointer ::  neuron 
+
+    neuron => self%neuron
+    num_neurons = 1
+    do 
+      if (.not. neuron%next_allocated()) exit
+      neuron => neuron%next_pointer()
+      num_neurons = num_neurons + 1
+    end do
+
+  end procedure
+
 end submodule layer_s

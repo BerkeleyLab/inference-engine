@@ -16,6 +16,8 @@ module layer_m
   contains
     procedure :: count_layers
     procedure :: count_neurons
+    procedure :: input_weights
+    procedure :: neurons_per_layer
   end type
 
   interface layer_t
@@ -42,6 +44,18 @@ module layer_m
       implicit none
       class(layer_t), intent(in), target :: layer
       integer, allocatable :: neurons_per_layer(:)
+    end function
+
+    module function input_weights(self) result(weights)
+      implicit none
+      class(layer_t), intent(in), target :: self
+      real, allocatable :: weights(:,:)
+    end function
+
+    module function neurons_per_layer(self) result(num_neurons)
+      implicit none
+      class(layer_t), intent(in), target :: self
+      integer num_neurons
     end function
 
   end interface

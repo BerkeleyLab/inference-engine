@@ -18,6 +18,7 @@ module neuron_m
     procedure :: bias
     procedure :: next_allocated
     procedure :: next_pointer
+    procedure :: num_inputs
   end type
 
   interface neuron_t
@@ -56,6 +57,12 @@ module neuron_m
       implicit none
       class(neuron_t), intent(in), target :: self
       type(neuron_t), pointer :: next_ptr
+    end function
+
+    pure module function num_inputs(self) result(size_weights)
+      implicit none
+      class(neuron_t), intent(in) :: self
+      integer size_weights
     end function
 
   end interface
