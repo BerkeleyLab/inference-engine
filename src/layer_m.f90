@@ -11,13 +11,16 @@ module layer_m
   type layer_t
     !! linked list of layers, each comprised of a linked list of neurons
     private
-    type(neuron_t) neuron
-    type(layer_t), allocatable :: next
+    type(neuron_t) neuron !! linked list of this layer's neurons 
+    type(layer_t), allocatable :: next !! next layer
   contains
     procedure :: count_layers
     procedure :: count_neurons
     procedure :: input_weights
+    procedure :: hidden_weights
     procedure :: neurons_per_layer
+    procedure :: next_allocated
+    procedure :: next_pointer
   end type
 
   interface layer_t
@@ -52,10 +55,28 @@ module layer_m
       real, allocatable :: weights(:,:)
     end function
 
+    module function hidden_weights(self) result(weights)
+      implicit none
+      class(layer_t), intent(in), target :: self
+      real, allocatable :: weights(:,:,:)
+    end function
+
     module function neurons_per_layer(self) result(num_neurons)
       implicit none
       class(layer_t), intent(in), target :: self
       integer num_neurons
+    end function
+
+    module function next_allocated(self) result(next_is_allocated)
+      implicit none
+      class(layer_t), intent(in) :: self
+      logical next_is_allocated
+    end function
+
+    module function next_pointer(self) result(next_ptr)
+      implicit none
+      class(layer_t), intent(in), target :: self
+      type(layer_t), pointer :: next_ptr
     end function
 
   end interface

@@ -2,6 +2,7 @@
 ! Terms of use are as specified in LICENSE.txt
 submodule(layer_m) layer_s
   use assert_m, only : assert
+  use intrinsic_array_m, only : intrinsic_array_t
   implicit none
 
 contains
@@ -98,6 +99,49 @@ contains
 
   end procedure
 
+  module procedure hidden_weights
+
+    type(neuron_t), pointer :: neuron
+    type(layer_t), pointer :: layer
+    integer n, l
+
+    associate( &
+      num_inputs => self%neuron%num_inputs(), neurons_per_layer => self%neurons_per_layer(), num_layers => self%count_layers())
+       
+      allocate(weights(num_inputs, neurons_per_layer, num_layers))
+
+      layer => self
+
+      loop_over_layers: &
+      do l = 1, num_layers
+
+        neuron => layer%neuron
+        weights(:,1,l) = neuron%weights()
+
+        loop_over_neurons: &
+        do n = 2, neurons_per_layer - 1
+          call assert(neuron%next_allocated(), "layer_t%hidden_weights: neuron%next_allocated()")
+          neuron => neuron%next_pointer()
+          weights(:,n,l) = neuron%weights()
+          call assert(neuron%num_inputs() == num_inputs, "layer_t%hidden_weights: constant number of inputs", &
+            intrinsic_array_t([num_inputs, neuron%num_inputs(), l, n]))
+        end do loop_over_neurons
+
+        neuron => neuron%next_pointer()
+        if (neurons_per_layer /= 1) weights(:,neurons_per_layer,l) = neuron%weights() ! avoid redundant assignment
+
+        if (l/=num_layers) then
+          layer => layer%next
+        else
+          call assert(.not. layer%next_allocated(), "layer_t%hidden_weights: .not. layer%next_allocated()")
+        end if
+
+      end do loop_over_Layers
+
+    end associate
+
+  end procedure
+
   module procedure neurons_per_layer
 
     type(neuron_t), pointer ::  neuron 
@@ -110,6 +154,14 @@ contains
       num_neurons = num_neurons + 1
     end do
 
+  end procedure
+
+  module procedure next_allocated
+    next_is_allocated = allocated(self%next)
+  end procedure
+
+  module procedure next_pointer
+    next_ptr => self%next
   end procedure
 
 end submodule layer_s

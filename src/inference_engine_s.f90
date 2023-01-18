@@ -64,7 +64,8 @@ contains
     call assert(allocated(self%activation_strategy_), "inference_engine%assert_consistent: allocated(self%activation_strategy_)")
 
     associate(allocated_components => &
-      [allocated(self%input_weights_), allocated(self%hidden_weights_), allocated(self%biases_), allocated(self%output_weights_)] &
+      [allocated(self%input_weights_), allocated(self%hidden_weights_), allocated(self%output_weights_), &
+       allocated(self%biases_), allocated(self%output_biases_)] &
     )
       call assert(all(allocated_components), "inference_engine_s(assert_consistent): fully allocated object", &
         intrinsic_array_t(allocated_components))
@@ -475,6 +476,14 @@ contains
     end block
 
     self%input_weights_ = hidden_layers%input_weights()
+    call assert(hidden_layers%next_allocated(), "inference_engine_t%read_json: next layer exists")
+
+    block 
+      type(layer_t), pointer :: next_layer
+
+      next_layer => hidden_layers%next_pointer()
+      self%hidden_weights_ = next_layer%hidden_weights()
+    end block
 
     associate(output_weights => output_neuron%weights())
       self%output_weights_ = reshape(output_weights, [size(output_weights),1])
@@ -493,7 +502,7 @@ contains
       self%inference_strategy_  = matmul_t()
     end if
 
-    !call assert_consistent(self)
+    call assert_consistent(self)
 
   end procedure read_json
 
