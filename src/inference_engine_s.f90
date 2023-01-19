@@ -445,19 +445,16 @@ contains
 
   end procedure read_network
 
-  module procedure read_json
+  module procedure from_json
 
-    integer file_unit, io_status
     type(string_t), allocatable :: lines(:)
     type(layer_t) hidden_layers
     type(neuron_t) output_neuron
-    type(file_t) file_
     
-    file_ = file_t(file_name)
     lines = file_%lines()
 
-    call assert(adjustl(lines(1)%string())=="{", "read_json: outermost object start", lines(1)%string())
-    call assert(adjustl(lines(2)%string())=='"hidden_layers": [', "read_json: hidden layers array start", lines(2)%string())
+    call assert(adjustl(lines(1)%string())=="{", "from_json: outermost object start", lines(1)%string())
+    call assert(adjustl(lines(2)%string())=='"hidden_layers": [', "from_json: hidden layers array start", lines(2)%string())
 
     block 
        integer, parameter :: first_layer_line=3, lines_per_neuron=4, bracket_lines_per_layer=2
@@ -469,14 +466,14 @@ contains
          + bracket_lines_per_layer*hidden_layers%count_layers() + 1)
 
          output_layer_line = lines(output_layer_line_number)%string()
-         call assert(adjustl(output_layer_line)=='"output_layer": [', "read_json: hidden layers array start", output_layer_line)
+         call assert(adjustl(output_layer_line)=='"output_layer": [', "from_json: hidden layers array start", output_layer_line)
 
          output_neuron = neuron_t(lines, start=output_layer_line_number + 1)
        end associate
     end block
 
     self%input_weights_ = hidden_layers%input_weights()
-    call assert(hidden_layers%next_allocated(), "inference_engine_t%read_json: next layer exists")
+    call assert(hidden_layers%next_allocated(), "inference_engine_t%from_json: next layer exists")
 
     block 
       type(layer_t), pointer :: next_layer
@@ -504,6 +501,6 @@ contains
 
     call assert_consistent(self)
 
-  end procedure read_json
+  end procedure from_json
 
 end submodule inference_engine_s

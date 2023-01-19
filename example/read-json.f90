@@ -12,13 +12,14 @@ program read_and_infer
   use string_m, only : string_t
   use sigmoid_m, only : sigmoid_t
   use matmul_m, only : matmul_t
+  use file_m, only : file_t
   implicit none
 
   type(inference_engine_t) inference_engine
   type(command_line_t) command_line
   character(len=:), allocatable :: input_file_name
 
-  input_file_name =  command_line%flag_value("--input-file")
+  input_file_name = command_line%flag_value("--input-file")
 
   if (len(input_file_name)==0) then
     error stop new_line('a') // new_line('a') // &
@@ -26,10 +27,9 @@ program read_and_infer
   end if
 
   print *,"Defining an inference_engine_t object by reading the file '"//input_file_name//"'"
-  call inference_engine%read_json(string_t(input_file_name), sigmoid_t(), matmul_t())
+  call inference_engine%from_json(file_t(string_t(input_file_name)), sigmoid_t(), matmul_t())
 
-  print *,"read completed"
-  stop
+  stop "read_and_infer(main): inference_engine%from_json(...) completed"
 
   print *,"num_outputs = ", inference_engine%num_outputs()
   print *,"num_hidden_layers = ", inference_engine%num_hidden_layers()
