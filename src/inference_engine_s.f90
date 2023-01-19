@@ -1,4 +1,4 @@
-! Copyright (c), The Regents of the University of California
+!hidden_biasei Copyright (c), The Regents of the University of California
 ! Terms of use are as specified in LICENSE.txt
 submodule(inference_engine_m) inference_engine_s
   use assert_m, only : assert
@@ -43,7 +43,8 @@ contains
   end procedure
 
   module procedure subtract
-    call assert(self%conformable_with(rhs), "inference_engine_t%subtract: conformable operands")
+    call assert(self%conformable_with(rhs), "inference_engine_t%subtract: conformable operands", &
+      intrinsic_array_t([shape(self%biases_), shape(rhs%biases_)]))
     
     difference%input_weights_  = self%input_weights_  - rhs%input_weights_ 
     difference%hidden_weights_ = self%hidden_weights_ - rhs%hidden_weights_
@@ -481,11 +482,13 @@ contains
       next_layer => hidden_layers%next_pointer()
       self%hidden_weights_ = next_layer%hidden_weights()
     end block
+    self%biases_ = hidden_layers%hidden_biases()
 
     associate(output_weights => output_neuron%weights())
-      self%output_weights_ = reshape(output_weights, [size(output_weights),1])
+      self%output_weights_ = reshape(output_weights, [1, size(output_weights)])
       self%output_biases_ = [output_neuron%bias()]
     end associate
+
 
     if (present(activation_strategy)) then
       self%activation_strategy_  = activation_strategy

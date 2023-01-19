@@ -107,7 +107,7 @@ contains
 
     associate( &
       num_inputs => self%neuron%num_inputs(), neurons_per_layer => self%neurons_per_layer(), num_layers => self%count_layers())
-       
+
       allocate(weights(num_inputs, neurons_per_layer, num_layers))
 
       layer => self
@@ -127,6 +127,7 @@ contains
             intrinsic_array_t([num_inputs, neuron%num_inputs(), l, n]))
         end do loop_over_neurons
 
+        call assert(neuron%next_allocated(), "layer_t%hidden_weights: neuron%next_allocated()")
         neuron => neuron%next_pointer()
         if (neurons_per_layer /= 1) weights(:,neurons_per_layer,l) = neuron%weights() ! avoid redundant assignment
 
@@ -137,6 +138,48 @@ contains
         end if
 
       end do loop_over_Layers
+
+    end associate
+
+  end procedure
+
+  module procedure hidden_biases
+
+    type(neuron_t), pointer :: neuron
+    type(layer_t), pointer :: layer
+    integer n, l
+
+    associate(neurons_per_layer => self%neurons_per_layer(), num_layers => self%count_layers())
+
+      allocate(biases(neurons_per_layer, num_layers))
+
+      layer => self
+
+      loop_over_layers: &
+      do l = 1, num_layers
+
+        neuron => layer%neuron
+        biases(1,l) = neuron%bias()
+
+        loop_over_neurons: &
+        do n = 2, neurons_per_layer - 1
+          call assert(neuron%next_allocated(), "layer_t%hidden_biases: neuron%next_allocated()", intrinsic_array_t([l,n]))
+          neuron => neuron%next_pointer()
+          biases(n,l) = neuron%bias()
+        end do loop_over_neurons
+
+        call assert(neuron%next_allocated(), "layer_t%hidden_biases: neuron%next_allocated()", &
+          intrinsic_array_t([l,neurons_per_layer]))
+        neuron => neuron%next_pointer()
+        if (neurons_per_layer /= 1) biases(neurons_per_layer,l) = neuron%bias() ! avoid redundant assignment
+
+        if (l/=num_layers) then
+          layer => layer%next
+        else
+          call assert(.not. layer%next_allocated(), "layer_t%hidden_biases: .not. layer%next_allocated()")
+        end if
+
+      end do loop_over_layers
 
     end associate
 

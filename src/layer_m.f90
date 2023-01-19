@@ -18,6 +18,7 @@ module layer_m
     procedure :: count_neurons
     procedure :: input_weights
     procedure :: hidden_weights
+    procedure :: hidden_biases
     procedure :: neurons_per_layer
     procedure :: next_allocated
     procedure :: next_pointer
@@ -59,6 +60,12 @@ module layer_m
       implicit none
       class(layer_t), intent(in), target :: self
       real, allocatable :: weights(:,:,:)
+    end function
+
+    module function hidden_biases(self) result(biases)
+      implicit none
+      class(layer_t), intent(in), target :: self
+      real, allocatable :: biases(:,:)
     end function
 
     module function neurons_per_layer(self) result(num_neurons)
