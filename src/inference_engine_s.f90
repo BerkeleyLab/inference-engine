@@ -473,36 +473,36 @@ contains
        end associate
     end block
 
-    self%input_weights_ = hidden_layers%input_weights()
+    inference_engine%input_weights_ = hidden_layers%input_weights()
     call assert(hidden_layers%next_allocated(), "inference_engine_t%from_json: next layer exists")
 
     block 
       type(layer_t), pointer :: next_layer
 
       next_layer => hidden_layers%next_pointer()
-      self%hidden_weights_ = next_layer%hidden_weights()
+      inference_engine%hidden_weights_ = next_layer%hidden_weights()
     end block
-    self%biases_ = hidden_layers%hidden_biases()
+    inference_engine%biases_ = hidden_layers%hidden_biases()
 
     associate(output_weights => output_neuron%weights())
-      self%output_weights_ = reshape(output_weights, [1, size(output_weights)])
-      self%output_biases_ = [output_neuron%bias()]
+      inference_engine%output_weights_ = reshape(output_weights, [1, size(output_weights)])
+      inference_engine%output_biases_ = [output_neuron%bias()]
     end associate
 
 
     if (present(activation_strategy)) then
-      self%activation_strategy_  = activation_strategy
+      inference_engine%activation_strategy_  = activation_strategy
     else
-      self%activation_strategy_  = step_t()
+      inference_engine%activation_strategy_  = step_t()
     end if
  
     if (present(inference_strategy)) then
-      self%inference_strategy_  = inference_strategy
+      inference_engine%inference_strategy_  = inference_strategy
     else
-      self%inference_strategy_  = matmul_t()
+      inference_engine%inference_strategy_  = matmul_t()
     end if
 
-    call assert_consistent(self)
+    call assert_consistent(inference_engine)
 
   end procedure from_json
 

@@ -23,7 +23,6 @@ module inference_engine_m
     class(inference_strategy_t), allocatable :: inference_strategy_
   contains
     procedure :: read_network
-    procedure :: from_json
     procedure :: write_network
     procedure :: infer
     procedure :: num_inputs
@@ -49,6 +48,14 @@ module inference_engine_m
       type(inference_engine_t) inference_engine
     end function
 
+    impure elemental module function from_json(file_, activation_strategy, inference_strategy) result(inference_engine)
+      implicit none
+      type(file_t), intent(in) :: file_
+      class(activation_strategy_t), intent(in), optional :: activation_strategy
+      class(inference_strategy_t), intent(in), optional :: inference_strategy
+      type(inference_engine_t) inference_engine
+    end function
+
   end interface
 
   interface
@@ -57,14 +64,6 @@ module inference_engine_m
       implicit none
       class(inference_engine_t), intent(out) :: self
       type(string_t), intent(in) :: file_name
-      class(activation_strategy_t), intent(in), optional :: activation_strategy
-      class(inference_strategy_t), intent(in), optional :: inference_strategy
-    end subroutine
-
-    impure elemental module subroutine from_json(self, file_, activation_strategy, inference_strategy)
-      implicit none
-      class(inference_engine_t), intent(out) :: self
-      type(file_t), intent(in) :: file_
       class(activation_strategy_t), intent(in), optional :: activation_strategy
       class(inference_strategy_t), intent(in), optional :: inference_strategy
     end subroutine

@@ -27,7 +27,7 @@ program read_json
   end if
 
   print *,"Defining an inference_engine_t object by reading the file '"//input_file_name//"'"
-  call inference_engine%from_json(file_t(string_t(input_file_name)), step_t(), matmul_t())
+  inference_engine = inference_engine_t(file_t(string_t(input_file_name)), step_t(), matmul_t())
 
   print *,"num_outputs = ", inference_engine%num_outputs()
   print *,"num_hidden_layers = ", inference_engine%num_hidden_layers()
@@ -36,7 +36,7 @@ program read_json
   associate(num_inputs => inference_engine%num_inputs())
     print *,"num_inputs = ", num_inputs
     block
-      real, parameter :: inputs(*) = [0.,1.]
+      real, parameter :: inputs(*) = [0.,0.]
 
       call assert(num_inputs==size(inputs),"main: num_inputs==size(inputs)", num_inputs)
       print *, inference_engine%infer(inputs)
@@ -62,7 +62,7 @@ program read_json
       inference_strategy = matmul_t() &
     ) 
     
-      print *, xor%infer([0.,1.])
+      print *, xor%infer([0.,0.])
 
     difference = inference_engine - xor
   end block
