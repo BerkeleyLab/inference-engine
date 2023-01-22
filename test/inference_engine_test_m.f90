@@ -8,6 +8,7 @@ module inference_engine_test_m
   use inference_engine_m, only : inference_engine_t
   use inference_strategy_m, only : inference_strategy_t
   use matmul_m, only : matmul_t
+  use file_m, only : file_t
   implicit none
 
   private
@@ -35,12 +36,13 @@ contains
         "mapping (true,false) to true using the default inference strategy", &
         "mapping (false,true) to true using the default inference strategy", &
         "mapping (false,false) to false using the default inference strategy", &
-        "writing and then reading itself to and from a file", &
         "mapping (true,true) to false using `matmul`-based inference strategy", &
         "mapping (true,false) to true using `matmul`-based inference strategy", &
         "mapping (false,true) to true using `matmul`-based inference strategy", &
-        "mapping (false,false) to false using `matmul`-based inference strategy" &
-      ], [xor_truth_table(), write_then_read(), xor_truth_table(matmul_t())] &
+        "mapping (false,false) to false using `matmul`-based inference strategy", &
+        "writing and then reading itself to and from a file", &
+        "converting to and from JSON format" &
+      ], [xor_truth_table(), xor_truth_table(matmul_t()), write_then_read(), convert_to_and_from_json()] &
     )
   end function
 
@@ -70,9 +72,6 @@ contains
     logical, allocatable :: test_passes
 
     type(inference_engine_t) xor_written, xor_read, difference
-    integer i, j
-    integer, parameter :: identity(*,*,*) = reshape([((merge(1,0,i==j), i=1,3), j=1,3)], shape=[3,3,1])
-    integer, parameter :: num_inputs=2, num_outputs=1, nuerons_per_layer=3
 
     xor_written = xor_network()
     call xor_written%write_network(string_t("build/write_then_read_test_specimen"))
@@ -83,6 +82,25 @@ contains
       real, parameter :: tolerance = 1.0E-06
 
       difference = xor_read - xor_written
+      test_passes = difference%norm() < tolerance
+    end block
+  end function
+
+  function convert_to_and_from_json() result(test_passes)
+    logical, allocatable :: test_passes
+
+    type(inference_engine_t) xor, xor_from_json
+    type(file_t) xor_file_object
+
+    xor = xor_network()
+    xor_file_object = xor%to_json()
+    xor_from_json = inference_engine_t(xor_file_object)
+
+    block 
+      type(inference_engine_t) difference
+      real, parameter :: tolerance = 1.0E-06
+
+      difference = xor_from_json - xor
       test_passes = difference%norm() < tolerance
     end block
   end function

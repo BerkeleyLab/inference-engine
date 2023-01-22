@@ -1,4 +1,4 @@
-!hidden_biasei Copyright (c), The Regents of the University of California
+! Copyright (c), The Regents of the University of California
 ! Terms of use are as specified in LICENSE.txt
 submodule(inference_engine_m) inference_engine_s
   use assert_m, only : assert
@@ -8,6 +8,7 @@ submodule(inference_engine_m) inference_engine_s
   use layer_m, only : layer_t
   use neuron_m, only : neuron_t
   use file_m, only : file_t
+  use formats_m, only : separated_values
   use iso_fortran_env, only : iostat_end
   implicit none
 
@@ -445,6 +446,112 @@ contains
     end subroutine
 
   end procedure read_network
+
+  module procedure to_json
+
+    type(string_t), allocatable :: lines(:)
+    integer layer, neuron, line
+    integer, parameter :: characters_per_value=17
+    character(len=:), allocatable :: comma_separated_values, csv_format
+    character(len=17) :: single_value
+    integer, parameter :: &
+      outer_object_braces = 2, hidden_layer_outer_brackets = 2, lines_per_neuron = 4, inner_brackets_per_layer  = 2, &
+      output_layer_brackets = 2, comma = 1
+
+    call self%write_network(string_t("starting-to_json.txt"))
+
+    csv_format = separated_values(separator=",", mold=[real::])
+
+    associate(num_hidden_layers => self%num_hidden_layers(),  neurons_per_layer => self%neurons_per_layer(), &
+      num_outputs => self%num_outputs(), num_inputs => self%num_inputs())
+      associate(num_lines => &
+        outer_object_braces + hidden_layer_outer_brackets &
+        + (num_hidden_layers + 1)*(inner_brackets_per_layer + neurons_per_layer*lines_per_neuron) &
+        + output_layer_brackets + num_outputs*lines_per_neuron &
+      )
+        allocate(lines(num_lines))
+
+        line = 1
+        lines(line) = string_t('{')
+
+        line = line + 1
+        lines(line) = string_t('     "hidden_layers": [')
+
+        layer = 1 
+        line = line + 1
+        lines(line) = string_t('         [')
+        do neuron = 1, neurons_per_layer
+          line = line + 1
+          lines(line) = string_t('             {')
+          line = line + 1
+          allocate(character(len=num_inputs*(characters_per_value+1)-1)::comma_separated_values)
+          write(comma_separated_values, fmt = csv_format) self%input_weights_(:,neuron)
+          lines(line) = string_t('                "weights": [' // trim(comma_separated_values) // '],')
+          deallocate(comma_separated_values)
+          line = line + 1
+          write(single_value, fmt = csv_format) self%biases_(neuron,layer)
+          lines(line) = string_t('                 "bias": ' // trim(single_value))
+          line = line + 1
+          lines(line) = string_t("             }" // trim(merge(' ',',',neuron==neurons_per_layer)))
+        end do
+        line = line + 1
+        lines(line) = string_t(trim(merge("         ],", "         ] ", line/=num_hidden_layers + 1)))
+
+        do layer = 1, num_hidden_layers
+          line = line + 1
+          lines(line) = string_t('         [')
+          do neuron = 1, neurons_per_layer
+            line = line + 1
+            lines(line) = string_t('             {')
+            line = line + 1
+            allocate(character(len=neurons_per_layer*(characters_per_value+1)-1)::comma_separated_values)
+            write(comma_separated_values, fmt = csv_format) self%hidden_weights_(:, neuron, layer)
+            lines(line) = string_t('                "weights": [' // trim(comma_separated_values) // '],')
+            deallocate(comma_separated_values)
+            line = line + 1
+            write(single_value, fmt = csv_format) self%biases_(neuron,layer+1)
+            lines(line) = string_t('                 "bias": ' // trim(single_value))
+            line = line + 1
+            lines(line) = string_t("             }" // trim(merge(' ',',',neuron==neurons_per_layer)))
+          end do
+          line = line + 1
+          lines(line) = string_t("         ]")
+        end do
+
+        line = line + 1
+        lines(line) = string_t("     ],")
+
+        line = line + 1
+        lines(line) = string_t('     "output_layer": [')
+
+        do neuron = 1, num_outputs
+          line = line + 1
+          lines(line) = string_t('             {')
+          line = line + 1
+          allocate(character(len=neurons_per_layer*(characters_per_value+1)-1)::comma_separated_values)
+          write(comma_separated_values, fmt = csv_format) self%output_weights_(neuron,:)
+          lines(line) = string_t('                "weights": [' // trim(comma_separated_values) // '],')
+          deallocate(comma_separated_values)
+          line = line + 1
+          write(single_value, fmt = csv_format) self%output_biases_(neuron)
+          lines(line) = string_t('                 "bias": ' // trim(single_value))
+          line = line + 1
+          lines(line) = string_t("             }")
+        end do
+
+        line = line + 1
+        lines(line) = string_t('     ]')
+
+        line = line + 1
+        lines(line) = string_t('}')
+
+        call assert(line == num_lines, "inference_engine_t%to_json: all lines defined", intrinsic_array_t([num_lines, line]))
+      end associate
+    end associate
+
+    json_file = file_t(lines)
+
+  end procedure to_json
 
   module procedure from_json
 

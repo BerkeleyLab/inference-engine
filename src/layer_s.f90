@@ -171,6 +171,8 @@ contains
         call assert(neuron%next_allocated(), "layer_t%hidden_biases: neuron%next_allocated()", &
           intrinsic_array_t([l,neurons_per_layer]))
         neuron => neuron%next_pointer()
+        call assert(.not. neuron%next_allocated(), "layer_t%hidden_biases: .not. neuron%next_allocated()", &
+          intrinsic_array_t([l,neurons_per_layer]))
         if (neurons_per_layer /= 1) biases(neurons_per_layer,l) = neuron%bias() ! avoid redundant assignment
 
         if (l/=num_layers) then
@@ -183,7 +185,8 @@ contains
 
     end associate
 
-  end procedure
+
+  end procedure hidden_biases
 
   module procedure neurons_per_layer
 
