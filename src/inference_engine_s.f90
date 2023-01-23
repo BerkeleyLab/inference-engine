@@ -5,6 +5,11 @@ submodule(inference_engine_m) inference_engine_s
   use intrinsic_array_m, only : intrinsic_array_t
   use matmul_m, only : matmul_t
   use step_m, only : step_t
+  use layer_m, only : layer_t
+  use neuron_m, only : neuron_t
+  use file_m, only : file_t
+  use formats_m, only : separated_values
+  use iso_fortran_env, only : iostat_end
   implicit none
 
 contains
@@ -39,7 +44,8 @@ contains
   end procedure
 
   module procedure subtract
-    call assert(self%conformable_with(rhs), "inference_engine_t%subtract: conformable operands")
+    call assert(self%conformable_with(rhs), "inference_engine_t%subtract: conformable operands", &
+      intrinsic_array_t([shape(self%biases_), shape(rhs%biases_)]))
     
     difference%input_weights_  = self%input_weights_  - rhs%input_weights_ 
     difference%hidden_weights_ = self%hidden_weights_ - rhs%hidden_weights_
@@ -60,7 +66,8 @@ contains
     call assert(allocated(self%activation_strategy_), "inference_engine%assert_consistent: allocated(self%activation_strategy_)")
 
     associate(allocated_components => &
-      [allocated(self%input_weights_), allocated(self%hidden_weights_), allocated(self%biases_), allocated(self%output_weights_)] &
+      [allocated(self%input_weights_), allocated(self%hidden_weights_), allocated(self%output_weights_), &
+       allocated(self%biases_), allocated(self%output_biases_)] &
     )
       call assert(all(allocated_components), "inference_engine_s(assert_consistent): fully allocated object", &
         intrinsic_array_t(allocated_components))
@@ -228,7 +235,6 @@ contains
       integer length, io_status
       character(len=1) c
 
-      rewind(file_unit)
       io_status = 0
       length = 1
       do 
@@ -236,7 +242,7 @@ contains
         if (io_status/=0) exit
         length = length + 1
       end do
-      rewind(file_unit)
+      backspace(file_unit)
     end function
 
     subroutine read_line_and_count_inputs(file_unit, line, input_count)
@@ -440,5 +446,171 @@ contains
     end subroutine
 
   end procedure read_network
+
+  module procedure to_json
+
+    type(string_t), allocatable :: lines(:)
+    integer layer, neuron, line
+    integer, parameter :: characters_per_value=17
+    character(len=:), allocatable :: comma_separated_values, csv_format
+    character(len=17) :: single_value
+    integer, parameter :: &
+      outer_object_braces = 2, hidden_layer_outer_brackets = 2, lines_per_neuron = 4, inner_brackets_per_layer  = 2, &
+      output_layer_brackets = 2, comma = 1
+
+    call self%write_network(string_t("starting-to_json.txt"))
+
+    csv_format = separated_values(separator=",", mold=[real::])
+
+    associate(num_hidden_layers => self%num_hidden_layers(),  neurons_per_layer => self%neurons_per_layer(), &
+      num_outputs => self%num_outputs(), num_inputs => self%num_inputs())
+      associate(num_lines => &
+        outer_object_braces + hidden_layer_outer_brackets &
+        + (num_hidden_layers + 1)*(inner_brackets_per_layer + neurons_per_layer*lines_per_neuron) &
+        + output_layer_brackets + num_outputs*lines_per_neuron &
+      )
+        allocate(lines(num_lines))
+
+        line = 1
+        lines(line) = string_t('{')
+
+        line = line + 1
+        lines(line) = string_t('     "hidden_layers": [')
+
+        layer = 1 
+        line = line + 1
+        lines(line) = string_t('         [')
+        do neuron = 1, neurons_per_layer
+          line = line + 1
+          lines(line) = string_t('             {')
+          line = line + 1
+          allocate(character(len=num_inputs*(characters_per_value+1)-1)::comma_separated_values)
+          write(comma_separated_values, fmt = csv_format) self%input_weights_(:,neuron)
+          lines(line) = string_t('                "weights": [' // trim(comma_separated_values) // '],')
+          deallocate(comma_separated_values)
+          line = line + 1
+          write(single_value, fmt = csv_format) self%biases_(neuron,layer)
+          lines(line) = string_t('                 "bias": ' // trim(single_value))
+          line = line + 1
+          lines(line) = string_t("             }" // trim(merge(' ',',',neuron==neurons_per_layer)))
+        end do
+        line = line + 1
+        lines(line) = string_t(trim(merge("         ],", "         ] ", line/=num_hidden_layers + 1)))
+
+        do layer = 1, num_hidden_layers
+          line = line + 1
+          lines(line) = string_t('         [')
+          do neuron = 1, neurons_per_layer
+            line = line + 1
+            lines(line) = string_t('             {')
+            line = line + 1
+            allocate(character(len=neurons_per_layer*(characters_per_value+1)-1)::comma_separated_values)
+            write(comma_separated_values, fmt = csv_format) self%hidden_weights_(:, neuron, layer)
+            lines(line) = string_t('                "weights": [' // trim(comma_separated_values) // '],')
+            deallocate(comma_separated_values)
+            line = line + 1
+            write(single_value, fmt = csv_format) self%biases_(neuron,layer+1)
+            lines(line) = string_t('                 "bias": ' // trim(single_value))
+            line = line + 1
+            lines(line) = string_t("             }" // trim(merge(' ',',',neuron==neurons_per_layer)))
+          end do
+          line = line + 1
+          lines(line) = string_t("         ]")
+        end do
+
+        line = line + 1
+        lines(line) = string_t("     ],")
+
+        line = line + 1
+        lines(line) = string_t('     "output_layer": [')
+
+        do neuron = 1, num_outputs
+          line = line + 1
+          lines(line) = string_t('             {')
+          line = line + 1
+          allocate(character(len=neurons_per_layer*(characters_per_value+1)-1)::comma_separated_values)
+          write(comma_separated_values, fmt = csv_format) self%output_weights_(neuron,:)
+          lines(line) = string_t('                "weights": [' // trim(comma_separated_values) // '],')
+          deallocate(comma_separated_values)
+          line = line + 1
+          write(single_value, fmt = csv_format) self%output_biases_(neuron)
+          lines(line) = string_t('                 "bias": ' // trim(single_value))
+          line = line + 1
+          lines(line) = string_t("             }")
+        end do
+
+        line = line + 1
+        lines(line) = string_t('     ]')
+
+        line = line + 1
+        lines(line) = string_t('}')
+
+        call assert(line == num_lines, "inference_engine_t%to_json: all lines defined", intrinsic_array_t([num_lines, line]))
+      end associate
+    end associate
+
+    json_file = file_t(lines)
+
+  end procedure to_json
+
+  module procedure from_json
+
+    type(string_t), allocatable :: lines(:)
+    type(layer_t) hidden_layers
+    type(neuron_t) output_neuron
+    
+    lines = file_%lines()
+
+    call assert(adjustl(lines(1)%string())=="{", "from_json: outermost object start", lines(1)%string())
+    call assert(adjustl(lines(2)%string())=='"hidden_layers": [', "from_json: hidden layers array start", lines(2)%string())
+
+    block 
+       integer, parameter :: first_layer_line=3, lines_per_neuron=4, bracket_lines_per_layer=2
+       character(len=:), allocatable :: output_layer_line
+       
+       hidden_layers = layer_t(lines, start=first_layer_line)
+
+       associate( output_layer_line_number => first_layer_line + lines_per_neuron*sum(hidden_layers%count_neurons()) &
+         + bracket_lines_per_layer*hidden_layers%count_layers() + 1)
+
+         output_layer_line = lines(output_layer_line_number)%string()
+         call assert(adjustl(output_layer_line)=='"output_layer": [', "from_json: hidden layers array start", output_layer_line)
+
+         output_neuron = neuron_t(lines, start=output_layer_line_number + 1)
+       end associate
+    end block
+
+    inference_engine%input_weights_ = hidden_layers%input_weights()
+    call assert(hidden_layers%next_allocated(), "inference_engine_t%from_json: next layer exists")
+
+    block 
+      type(layer_t), pointer :: next_layer
+
+      next_layer => hidden_layers%next_pointer()
+      inference_engine%hidden_weights_ = next_layer%hidden_weights()
+    end block
+    inference_engine%biases_ = hidden_layers%hidden_biases()
+
+    associate(output_weights => output_neuron%weights())
+      inference_engine%output_weights_ = reshape(output_weights, [1, size(output_weights)])
+      inference_engine%output_biases_ = [output_neuron%bias()]
+    end associate
+
+
+    if (present(activation_strategy)) then
+      inference_engine%activation_strategy_  = activation_strategy
+    else
+      inference_engine%activation_strategy_  = step_t()
+    end if
+ 
+    if (present(inference_strategy)) then
+      inference_engine%inference_strategy_  = inference_strategy
+    else
+      inference_engine%inference_strategy_  = matmul_t()
+    end if
+
+    call assert_consistent(inference_engine)
+
+  end procedure from_json
 
 end submodule inference_engine_s
