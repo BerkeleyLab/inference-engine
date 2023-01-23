@@ -90,7 +90,7 @@
      <li><i class="fa fa-list-ol"></i>
        <a data-toggle="tooltip"
     data-placement="bottom" data-html="true"
-    title="<p>57.1% of total for derived types.</p>Including implementation: 22 statements, 47.8% of total for derived types.">22 statements</a>
+    title="<p>32.0% of total for derived types.</p>Including implementation: 23 statements, 28.7% of total for derived types.">23 statements</a>
      </li> 
     <li><i class="fa fa-code"></i><a href="../src/inference_engine_m.f90"> Source File</a></li>
   </ul>
@@ -142,7 +142,7 @@
   <div id="boundprocs-0" class="panel-collapse collapse">
     <div class="list-group">
       <a class="list-group-item" href="../type/inference_engine_t.html#boundprocedure-conformable_with">conformable_with</a>
-      <a class="list-group-item" href="../type/inference_engine_t.html#boundprocedure-infer~3">infer</a>
+      <a class="list-group-item" href="../type/inference_engine_t.html#boundprocedure-infer">infer</a>
       <a class="list-group-item" href="../type/inference_engine_t.html#boundprocedure-neurons_per_layer">neurons_per_layer</a>
       <a class="list-group-item" href="../type/inference_engine_t.html#boundprocedure-norm">norm</a>
       <a class="list-group-item" href="../type/inference_engine_t.html#boundprocedure-num_hidden_layers">num_hidden_layers</a>
@@ -151,6 +151,7 @@
       <a class="list-group-item" href="../type/inference_engine_t.html#boundprocedure-operator%28-%29">operator(-)</a>
       <a class="list-group-item" href="../type/inference_engine_t.html#boundprocedure-read_network">read_network</a>
       <a class="list-group-item" href="../type/inference_engine_t.html#boundprocedure-subtract">subtract</a>
+      <a class="list-group-item" href="../type/inference_engine_t.html#boundprocedure-to_json">to_json</a>
       <a class="list-group-item" href="../type/inference_engine_t.html#boundprocedure-write_network">write_network</a>
     </div>
   </div>
@@ -288,7 +289,7 @@
   <div id="boundprocs-1" class="panel-collapse collapse">
     <div class="list-group">
       <a class="list-group-item" href="../type/inference_engine_t.html#boundprocedure-conformable_with">conformable_with</a>
-      <a class="list-group-item" href="../type/inference_engine_t.html#boundprocedure-infer~3">infer</a>
+      <a class="list-group-item" href="../type/inference_engine_t.html#boundprocedure-infer">infer</a>
       <a class="list-group-item" href="../type/inference_engine_t.html#boundprocedure-neurons_per_layer">neurons_per_layer</a>
       <a class="list-group-item" href="../type/inference_engine_t.html#boundprocedure-norm">norm</a>
       <a class="list-group-item" href="../type/inference_engine_t.html#boundprocedure-num_hidden_layers">num_hidden_layers</a>
@@ -297,6 +298,7 @@
       <a class="list-group-item" href="../type/inference_engine_t.html#boundprocedure-operator%28-%29">operator(-)</a>
       <a class="list-group-item" href="../type/inference_engine_t.html#boundprocedure-read_network">read_network</a>
       <a class="list-group-item" href="../type/inference_engine_t.html#boundprocedure-subtract">subtract</a>
+      <a class="list-group-item" href="../type/inference_engine_t.html#boundprocedure-to_json">to_json</a>
       <a class="list-group-item" href="../type/inference_engine_t.html#boundprocedure-write_network">write_network</a>
     </div>
   </div>
@@ -409,6 +411,35 @@
 <h4>Return Value <small>type(<a href='../type/inference_engine_t.html'>inference_engine_t</a>)</small></h4>  
 
     </li>
+    <li class="list-group-item">
+    <h3>private impure elemental module function from_json(file_, activation_strategy, inference_strategy) result(inference_engine)</h3>    
+<h4>Arguments</h4>      <table class="table table-striped varlist">
+<thead><tr><th>Type</th><th>Intent</th><th>Optional</th><th>Attributes</th><th></th><th>Name</th><th></th></thead>
+<tbody>
+<tr>
+  <td><span class="anchor" ></span>type(<a href='../type/file_t.html'>file_t</a>),</td>
+<td>intent(in)</td>
+  <td></td>  <td></td><td>::</td>
+  <td><strong>file_</strong></td><td></td>
+</tr>
+<tr>
+  <td><span class="anchor" ></span>class(<a href='../type/activation_strategy_t.html'>activation_strategy_t</a>),</td>
+<td>intent(in),</td>
+  <td>optional</td>  <td></td><td>::</td>
+  <td><strong>activation_strategy</strong></td><td></td>
+</tr>
+<tr>
+  <td><span class="anchor" ></span>class(<a href='../type/inference_strategy_t.html'>inference_strategy_t</a>),</td>
+<td>intent(in),</td>
+  <td>optional</td>  <td></td><td>::</td>
+  <td><strong>inference_strategy</strong></td><td></td>
+</tr>
+</tbody>
+</table>
+
+<h4>Return Value <small>type(<a href='../type/inference_engine_t.html'>inference_engine_t</a>)</small></h4>  
+
+    </li>
   </ul>
 </div>
 
@@ -453,13 +484,13 @@
 </div>
 
      <div class="panel panel-default">
-  <div class="panel-heading codesum"><span class="anchor" id="boundprocedure-infer~3"></span><h3>procedure, public :: <strong>infer</strong>    </h3></div>
+  <div class="panel-heading codesum"><span class="anchor" id="boundprocedure-infer"></span><h3>procedure, public :: <strong>infer</strong>    </h3></div>
   <ul class="list-group">
       <li class="list-group-item">
           <h3>interface
           </h3>
   
-          <h3>private pure module module function infer(self, input) result(output)   <a href='../proc/infer~2.html'><button type="button" class="btn btn-info depwarn">Implementation &rarr;</button></a>
+          <h3>private pure module module function infer(self, input) result(output)   <a href='../proc/infer.html'><button type="button" class="btn btn-info depwarn">Implementation &rarr;</button></a>
 </h3>    
 <h4>Arguments</h4>      <table class="table table-striped varlist">
 <thead><tr><th>Type</th><th>Intent</th><th>Optional</th><th>Attributes</th><th></th><th>Name</th><th></th></thead>
@@ -709,6 +740,33 @@
 </div>
 
      <div class="panel panel-default">
+  <div class="panel-heading codesum"><span class="anchor" id="boundprocedure-to_json"></span><h3>procedure, public :: <strong>to_json</strong>    </h3></div>
+  <ul class="list-group">
+      <li class="list-group-item">
+          <h3>interface
+          </h3>
+  
+          <h3>private impure elemental module module function to_json(self) result(json_file)   <a href='../proc/to_json.html'><button type="button" class="btn btn-info depwarn">Implementation &rarr;</button></a>
+</h3>    
+<h4>Arguments</h4>      <table class="table table-striped varlist">
+<thead><tr><th>Type</th><th>Intent</th><th>Optional</th><th>Attributes</th><th></th><th>Name</th><th></th></thead>
+<tbody>
+<tr>
+  <td><span class="anchor" ></span>class(<a href='../type/inference_engine_t.html'>inference_engine_t</a>),</td>
+<td>intent(in)</td>
+  <td></td>  <td></td><td>::</td>
+  <td><strong>self</strong></td><td></td>
+</tr>
+</tbody>
+</table>
+
+<h4>Return Value <small>type(<a href='../type/file_t.html'>file_t</a>)</small></h4>  
+
+      </li>
+  </ul>
+</div>
+
+     <div class="panel panel-default">
   <div class="panel-heading codesum"><span class="anchor" id="boundprocedure-write_network"></span><h3>procedure, public :: <strong>write_network</strong>    </h3></div>
   <ul class="list-group">
       <li class="list-group-item">
@@ -758,7 +816,7 @@
           <p class="text-right">
             Documentation generated by 
             <a href="https://github.com/Fortran-FOSS-Programmers/ford">FORD</a>
- on 2023-01-13 16:12            </p>
+ on 2023-01-23 00:23            </p>
         </div>
       </div>
       <br>
