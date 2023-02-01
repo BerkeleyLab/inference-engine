@@ -7,6 +7,7 @@ program construct_and_write
   use command_line_m, only : command_line_t
   use inference_engine_m, only : inference_engine_t
   use string_m, only : string_t
+  use kind_parameters_m, only : rkind
   implicit none
 
   type(inference_engine_t) xor
@@ -23,11 +24,11 @@ program construct_and_write
   end if
 
   xor = inference_engine_t( &
-    input_weights = real(reshape([1,0,1,1,0,1], [2,3])), &
-    hidden_weights = real(identity), &
-    output_weights = real(reshape([1,-2,1], [1,3])), &
-    biases = reshape([0.,-1.99,0., 0.,0.,0.], [3,2]), &
-    output_biases = [0.] &
+    input_weights = real(reshape([1,0,1,1,0,1], [2,3]), rkind), &
+    hidden_weights = real(identity, rkind), &
+    output_weights = real(reshape([1,-2,1], [1,3]), rkind), &
+    biases = reshape([real(rkind)::0.,-1.99,0., 0.,0.,0.], [3,2]), &
+    output_biases = [real(rkind)::0.] &
   )  
   print *,"Writing an inference_engine_t object to the file '"//output_file_name//"'"
 

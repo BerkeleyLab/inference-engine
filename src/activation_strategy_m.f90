@@ -1,6 +1,7 @@
 ! Copyright (c), The Regents of the University of California
 ! Terms of use are as specified in LICENSE.txt
 module activation_strategy_m
+  use kind_parameters_m, only : rkind
   implicit none
 
   private
@@ -14,9 +15,10 @@ module activation_strategy_m
   abstract interface
 
     elemental function activation_interface(x) result(y)
+      import rkind
       implicit none
-      real, intent(in) :: x
-      real y
+      real(rkind), intent(in) :: x
+      real(rkind) y
     end function
 
   end interface

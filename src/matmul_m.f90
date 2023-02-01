@@ -5,6 +5,7 @@ module matmul_m
   !! to compute matrix-vector multiplies for forward information propagation from layer to layer
   use inference_strategy_m, only : inference_strategy_t
   use activation_strategy_m, only : activation_strategy_t
+  use kind_parameters_m, only : rkind
   implicit none
 
   private
@@ -21,14 +22,14 @@ module matmul_m
       input, input_weights, hidden_weights, biases, output_biases, output_weights, activation_strategy &
     ) result(output)
       implicit none
-      real, intent(in)  :: input(:)
-      real, intent(in), allocatable :: input_weights(:,:)    !! weights applied to go from the inputs to first hidden layer
-      real, intent(in), allocatable :: hidden_weights(:,:,:) !! weights applied to go from one hidden layer to the next
-      real, intent(in), allocatable :: biases(:,:)           !! neuronal offsets for each hidden layer
-      real, intent(in), allocatable :: output_biases(:)      !! neuronal offsets applied to outputs
-      real, intent(in), allocatable :: output_weights(:,:)   !! weights applied to go from the final hidden layer to the outputs
+      real(rkind), intent(in)  :: input(:)
+      real(rkind), intent(in), allocatable :: input_weights(:,:)    !! weights applied to go from the inputs to first hidden layer
+      real(rkind), intent(in), allocatable :: hidden_weights(:,:,:) !! weights applied to go from one hidden layer to the next
+      real(rkind), intent(in), allocatable :: biases(:,:)           !! neuronal offsets for each hidden layer
+      real(rkind), intent(in), allocatable :: output_biases(:)      !! neuronal offsets applied to outputs
+      real(rkind), intent(in), allocatable :: output_weights(:,:)   !! weights applied to go from the final hidden layer to the outputs
       class(activation_strategy_t), intent(in) :: activation_strategy
-      real, allocatable :: output(:)
+      real(rkind), allocatable :: output(:)
     end function
 
   end interface
