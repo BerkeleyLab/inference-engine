@@ -5,7 +5,7 @@ module inference_engine_test_m
   use string_m, only : string_t
   use test_m, only : test_t
   use test_result_m, only : test_result_t
-  use inference_engine_m, only : inference_engine_t
+  use inference_engine_m, only : inference_engine_t, inputs_t, outputs_t
   use inference_strategy_m, only : inference_strategy_t
   use matmul_m, only : matmul_t
   use file_m, only : file_t
@@ -41,8 +41,9 @@ contains
         "mapping (false,true) to true using `matmul`-based inference strategy", &
         "mapping (false,false) to false using `matmul`-based inference strategy", &
         "writing and then reading itself to and from a file", &
-        "converting to and from JSON format" &
-      ], [xor_truth_table(), xor_truth_table(matmul_t()), write_then_read(), convert_to_and_from_json()] &
+        "converting to and from JSON format", &
+        "performing inference with encapsulated inputs and outputs" &
+      ], [xor_truth_table(), xor_truth_table(matmul_t()), write_then_read(), convert_to_and_from_json(), elemental_inference()] &
     )
   end function
 
@@ -131,6 +132,29 @@ contains
       end associate
     end block
 
+  end function
+
+  function elemental_inference(inference_strategy) result(test_passes)
+    logical, allocatable :: test_passes(:)
+    class(inference_strategy_t), intent(in), optional :: inference_strategy
+    type(inference_engine_t) inference_engine
+
+    inference_engine = xor_network(inference_strategy)
+
+    block
+      type(outputs_t) true_true, true_false, false_true, false_false
+      real, parameter :: tolerance = 1.E-08, false = 0., true = 1.
+
+      true_true = inference_engine%infer_from_inputs_object(inputs=inputs_t([true,true]))
+      true_false = inference_engine%infer_from_inputs_object(inputs=inputs_t([true,false]))
+      false_true = inference_engine%infer_from_inputs_object(inputs=inputs_t([false,true]))
+      false_false = inference_engine%infer_from_inputs_object(inputs=inputs_t([false,false]))
+
+      test_passes = [ &
+        abs(true_true%outputs_ - false) < tolerance .and. abs(true_false%outputs_ - true) < tolerance .and. &
+        abs(false_true%outputs_ - true) < tolerance .and. abs(false_false%outputs_ - false) < tolerance &
+      ]
+    end block
   end function
 
 end module inference_engine_test_m
