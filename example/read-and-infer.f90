@@ -12,6 +12,7 @@ program read_and_infer
   use string_m, only : string_t
   use sigmoid_m, only : sigmoid_t
   use matmul_m, only : matmul_t
+  use kind_parameters_m, only : rkind
   implicit none
 
   type(inference_engine_t) inference_engine
@@ -35,8 +36,8 @@ program read_and_infer
   associate(num_inputs => inference_engine%num_inputs())
     print *,"num_inputs = ", num_inputs
     block
-      real, parameter :: inputs(*) = &
-        [0.0079, 1.4429e-12, 0.0000e+00, 0.0000e+00, 0.0000e+00, 4.4941e-04, 0.0000e+00, 0., 282.2671, 71541.9766]
+      real(rkind), parameter :: inputs(*) = &
+        [real(rkind):: 0.0079, 1.4429e-12, 0.0000e+00, 0.0000e+00, 0.0000e+00, 4.4941e-04, 0.0000e+00, 0., 282.2671, 71541.9766]
 
       call assert(num_inputs==size(inputs),"main: num_inputs==size(inputs)", num_inputs)
       print *, inference_engine%infer(inputs)

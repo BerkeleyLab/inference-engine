@@ -2,6 +2,7 @@
 ! Terms of use are as specified in LICENSE.txt
 module step_m
   use activation_strategy_m, only : activation_strategy_t
+  use kind_parameters_m, only : rkind
   implicit none
 
   private
@@ -16,8 +17,8 @@ module step_m
 
     elemental module function activation(x) result(y)
       implicit none
-      real, intent(in) :: x
-      real y
+      real(rkind), intent(in) :: x
+      real(rkind) y
     end function
 
   end interface
