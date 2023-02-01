@@ -7,6 +7,7 @@ module asymmetric_engine_test_m
   use inference_engine_m, only : inference_engine_t
   use inference_strategy_m, only : inference_strategy_t
   use matmul_m, only : matmul_t
+  use kind_parameters_m, only : rkind
   implicit none
 
   private
@@ -50,18 +51,18 @@ contains
     integer, parameter :: neurons = 4 ! number of neurons per layer
     integer, parameter :: n_hidden = 2 ! number of hidden layers 
     integer i, j 
-    real xor_into_neuron_2(neurons,neurons,n_hidden-1)
+    real(rkind) xor_into_neuron_2(neurons,neurons,n_hidden-1)
     class(inference_strategy_t), intent(in), optional :: inference_strategy
     xor_into_neuron_2 = 0.
     xor_into_neuron_2(1:3,2,1) = [1., -2., 1.]
     xor_into_neuron_2(4,4,1) = 1.
       
     inference_engine = inference_engine_t( &
-      input_weights  = real(reshape([1,0,1,1,0,1,0,1], [n_in, neurons])), &
+      input_weights  = real(reshape([1,0,1,1,0,1,0,1], [n_in, neurons]), rkind), &
       hidden_weights = xor_into_neuron_2, &
-      output_weights = real(reshape([0,1,0,1], [n_out, neurons])), &
-      biases = reshape([0.,-1.99,0.,0., 0.,0.,0.,0.], [neurons, n_hidden]), &
-      output_biases = [-1.], &
+      output_weights = real(reshape([0,1,0,1], [n_out, neurons]), rkind), &
+      biases = reshape([real(rkind):: 0.,-1.99,0.,0., 0.,0.,0.,0.], [neurons, n_hidden]), &
+      output_biases = [real(rkind):: -1.], &
       inference_strategy = inference_strategy &
     )
   end function
@@ -75,7 +76,7 @@ contains
     inference_engine = xor_and_2nd_input_network(inference_strategy)
 
     block
-      real, parameter :: tolerance = 1.E-08, false = 0., true = 1.
+      real(rkind), parameter :: tolerance = 1.E-08_rkind, false = 0._rkind, true = 1._rkind
 
       associate( &
         true_true => inference_engine%infer(input=[true,true]), & 

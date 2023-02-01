@@ -9,6 +9,7 @@ module inference_engine_test_m
   use inference_strategy_m, only : inference_strategy_t
   use matmul_m, only : matmul_t
   use file_m, only : file_t
+  use kind_parameters_m, only : rkind
   implicit none
 
   private
@@ -60,11 +61,11 @@ contains
     class(inference_strategy_t), intent(in), optional :: inference_strategy
    
     inference_engine = inference_engine_t( &
-      input_weights = real(reshape([1,0,1,1,0,1], [n_in, neurons])), &
-      hidden_weights = real(identity), &
-      output_weights = real(reshape([1,-2,1], [n_out, neurons])), &
-      biases = reshape([0.,-1.99,0., 0.,0.,0.], [neurons, n_hidden]), &
-      output_biases = [0.], &
+      input_weights = real(reshape([1,0,1,1,0,1], [n_in, neurons]), rkind), &
+      hidden_weights = real(identity, rkind), &
+      output_weights = real(reshape([1,-2,1], [n_out, neurons]), rkind), &
+      biases = reshape([real(rkind):: 0.,-1.99,0., 0.,0.,0.], [neurons, n_hidden]), &
+      output_biases = [real(rkind):: 0.], &
       inference_strategy = inference_strategy &
     )
   end function
@@ -80,7 +81,7 @@ contains
 
     block 
       type(inference_engine_t) difference
-      real, parameter :: tolerance = 1.0E-06
+      real(rkind), parameter :: tolerance = 1.0E-06_rkind
 
       difference = xor_read - xor_written
       test_passes = difference%norm() < tolerance
@@ -99,7 +100,7 @@ contains
 
     block 
       type(inference_engine_t) difference
-      real, parameter :: tolerance = 1.0E-06
+      real(rkind), parameter :: tolerance = 1.0E-06_rkind
 
       difference = xor_from_json - xor
       test_passes = difference%norm() < tolerance
@@ -115,7 +116,7 @@ contains
     inference_engine = xor_network(inference_strategy)
 
     block
-      real, parameter :: tolerance = 1.E-08, false = 0., true = 1.
+      real(rkind), parameter :: tolerance = 1.E-08_rkind, false = 0._rkind, true = 1._rkind
 
       associate( &
         true_true => inference_engine%infer(input=[true,true]), & 
@@ -143,7 +144,7 @@ contains
 
     block
       type(outputs_t) true_true, true_false, false_true, false_false
-      real, parameter :: tolerance = 1.E-08, false = 0., true = 1.
+      real(rkind), parameter :: tolerance = 1.E-08_rkind, false = 0._rkind, true = 1._rkind
 
       true_true = inference_engine%infer_from_inputs_object(inputs=inputs_t([true,true]))
       true_false = inference_engine%infer_from_inputs_object(inputs=inputs_t([true,false]))

@@ -7,6 +7,7 @@ program concurrent_inferences
   use string_m, only : string_t, array_of_strings
   use inference_engine_m, only : inference_engine_t
   use command_line_m, only : command_line_t 
+  use kind_parameters_m, only : rkind
   implicit none
 
   logical, allocatable :: test_passes(:)
@@ -14,10 +15,10 @@ program concurrent_inferences
   type(command_line_t) command_line
   type(string_t), allocatable :: file_names(:)
   character(len=:), allocatable :: input_files
-  real, allocatable :: truth_table(:)
-  real, parameter :: tolerance = 1.E-08, false = 0., true = 1.
-  real, parameter ::  input_array(*,*) = reshape([true, true, false, true, true, false, false, false], shape=[2,4])
-  real, parameter ::  expected_result(*) = [false, true, true, false] 
+  real(rkind), allocatable :: truth_table(:)
+  real(rkind), parameter :: tolerance = 1.E-08, false = 0., true = 1.
+  real(rkind), parameter ::  input_array(*,*) = reshape([true, true, false, true, true, false, false, false], shape=[2,4])
+  real(rkind), parameter ::  expected_result(*) = [false, true, true, false] 
   integer i
 
   input_files =  command_line%flag_value("--input-files")

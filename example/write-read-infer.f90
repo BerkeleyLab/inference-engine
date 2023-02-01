@@ -11,6 +11,7 @@ program write_read_infer
   use matmul_m, only : matmul_t
   use step_m, only : step_t
   use file_m, only : file_t
+  use kind_parameters_m, only : rkind
   implicit none
 
   type(string_t) file_name
@@ -38,11 +39,11 @@ contains
 
     print *, "Constructing an inference_engine_t neural-network object from scratch."
     xor_network = inference_engine_t( &
-      input_weights = real(reshape([1,0,1,1,0,1], [num_inputs, num_neurons])), &
-      hidden_weights = real(identity), &
-      output_weights = real(reshape([1,-2,1], [num_outputs, num_neurons])), &
-      biases = reshape([0.,-1.99,0., 0.,0.,0.], [num_neurons, num_hidden_layers]), &
-      output_biases = [0.], &
+      input_weights = real(reshape([1,0,1,1,0,1], [num_inputs, num_neurons]), rkind), &
+      hidden_weights = real(identity, rkind), &
+      output_weights = real(reshape([1,-2,1], [num_outputs, num_neurons]), rkind), &
+      biases = reshape([real(rkind):: 0.,-1.99,0., 0.,0.,0.], [num_neurons, num_hidden_layers]), &
+      output_biases = [real(rkind):: 0.], &
       inference_strategy = matmul_t() &
     ) 
     print *, "Converting an inference_engine_t object to a file_t object."

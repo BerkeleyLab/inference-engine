@@ -2,6 +2,7 @@
 ! Terms of use are as specified in LICENSE.txt
 module neuron_m
   use string_m, only : string_t
+  use kind_parameters_m, only : rkind
   implicit none
 
   private
@@ -10,8 +11,8 @@ module neuron_m
   type neuron_t
     !! linked list of neurons
     private
-    real, allocatable :: weights_(:)
-    real bias_
+    real(rkind), allocatable :: weights_(:)
+    real(rkind) bias_
     type(neuron_t), allocatable :: next
   contains
     procedure :: weights
@@ -38,13 +39,13 @@ module neuron_m
     module function weights(self) result(my_weights)
       implicit none
       class(neuron_t), intent(in) :: self
-      real, allocatable :: my_weights(:)
+      real(rkind), allocatable :: my_weights(:)
     end function
 
     module function bias(self) result(my_bias)
       implicit none
       class(neuron_t), intent(in) :: self
-      real my_bias
+      real(rkind) my_bias
     end function
 
     module function next_allocated(self) result(next_is_allocated)

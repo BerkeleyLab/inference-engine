@@ -6,6 +6,7 @@ module inference_engine_m
   use inference_strategy_m, only : inference_strategy_t
   use activation_strategy_m, only : activation_strategy_t
   use file_m, only : file_t
+  use kind_parameters_m, only : rkind
   implicit none
 
   private
@@ -15,21 +16,21 @@ module inference_engine_m
   public :: infer_from_inputs_object
 
   type inputs_t
-    real, allocatable :: inputs_(:)
+    real(rkind), allocatable :: inputs_(:)
   end type
 
   type outputs_t
-    real, allocatable :: outputs_(:)
+    real(rkind), allocatable :: outputs_(:)
   end type
 
   type inference_engine_t
     !! Encapsulate the minimal information needed to performance inference
     private
-    real, allocatable :: input_weights_(:,:)    ! weights applied to go from the inputs to first hidden layer
-    real, allocatable :: hidden_weights_(:,:,:) ! weights applied to go from one hidden layer to the next
-    real, allocatable :: output_weights_(:,:)   ! weights applied to go from the final hidden layer to the outputs
-    real, allocatable :: biases_(:,:)           ! neuronal offsets for each hidden layer
-    real, allocatable :: output_biases_(:)      ! neuronal offsets applied to outputs
+    real(rkind), allocatable :: input_weights_(:,:)    ! weights applied to go from the inputs to first hidden layer
+    real(rkind), allocatable :: hidden_weights_(:,:,:) ! weights applied to go from one hidden layer to the next
+    real(rkind), allocatable :: output_weights_(:,:)   ! weights applied to go from the final hidden layer to the outputs
+    real(rkind), allocatable :: biases_(:,:)           ! neuronal offsets for each hidden layer
+    real(rkind), allocatable :: output_biases_(:)      ! neuronal offsets applied to outputs
     class(activation_strategy_t), allocatable :: activation_strategy_
     class(inference_strategy_t), allocatable :: inference_strategy_
   contains
@@ -55,8 +56,8 @@ module inference_engine_m
       (input_weights, hidden_weights, output_weights, biases, output_biases, inference_strategy, activation_strategy) &
       result(inference_engine)
       implicit none
-      real, intent(in), dimension(:,:) :: input_weights, output_weights, biases
-      real, intent(in) :: hidden_weights(:,:,:), output_biases(:)
+      real(rkind), intent(in), dimension(:,:) :: input_weights, output_weights, biases
+      real(rkind), intent(in) :: hidden_weights(:,:,:), output_biases(:)
       class(inference_strategy_t), intent(in), optional :: inference_strategy
       class(activation_strategy_t), intent(in), optional :: activation_strategy
       type(inference_engine_t) inference_engine
@@ -97,7 +98,7 @@ module inference_engine_m
     elemental module function norm(self) result(norm_of_self)
       implicit none
       class(inference_engine_t), intent(in) :: self
-      real  norm_of_self
+      real(rkind)  norm_of_self
     end function
 
     elemental module function subtract(self, rhs) result(difference)
@@ -117,8 +118,8 @@ module inference_engine_m
     pure module function infer_from_array_of_inputs(self, input) result(output)
       implicit none
       class(inference_engine_t), intent(in) :: self
-      real, intent(in) :: input(:)
-      real, allocatable :: output(:)
+      real(rkind), intent(in) :: input(:)
+      real(rkind), allocatable :: output(:)
     end function
 
     elemental module function infer_from_inputs_object(self, inputs) result(outputs)

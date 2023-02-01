@@ -272,7 +272,7 @@ contains
 
     pure function num_array_elements_in(space_delimited_reals) result(array_size)
       character(len=*), intent(in) :: space_delimited_reals
-      real, allocatable :: array(:)
+      real(rkind), allocatable :: array(:)
       integer array_size, io_status
       
       io_status = 0
@@ -467,7 +467,7 @@ contains
 
     call self%write_network(string_t("starting-to_json.txt"))
 
-    csv_format = separated_values(separator=",", mold=[real::])
+    csv_format = separated_values(separator=",", mold=[real(rkind)::])
 
     associate(num_hidden_layers => self%num_hidden_layers(),  neurons_per_layer => self%neurons_per_layer(), &
       num_outputs => self%num_outputs(), num_inputs => self%num_inputs())

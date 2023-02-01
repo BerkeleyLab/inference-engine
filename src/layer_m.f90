@@ -3,6 +3,7 @@
 module layer_m
   use neuron_m, only : neuron_t
   use string_m, only : string_t
+  use kind_parameters_m, only : rkind
   implicit none
 
   private
@@ -53,19 +54,19 @@ module layer_m
     module function input_weights(self) result(weights)
       implicit none
       class(layer_t), intent(in), target :: self
-      real, allocatable :: weights(:,:)
+      real(rkind), allocatable :: weights(:,:)
     end function
 
     module function hidden_weights(self) result(weights)
       implicit none
       class(layer_t), intent(in), target :: self
-      real, allocatable :: weights(:,:,:)
+      real(rkind), allocatable :: weights(:,:,:)
     end function
 
     module function hidden_biases(self) result(biases)
       implicit none
       class(layer_t), intent(in), target :: self
-      real, allocatable :: biases(:,:)
+      real(rkind), allocatable :: biases(:,:)
     end function
 
     module function neurons_per_layer(self) result(num_neurons)

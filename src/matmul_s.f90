@@ -7,7 +7,7 @@ contains
 
   module procedure infer
     
-    real, allocatable :: neuron(:,:)
+    real(rkind), allocatable :: neuron(:,:)
 
     associate(num_layers => size(biases,2))
       associate(neurons_per_layer => size(input_weights,2))
