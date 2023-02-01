@@ -1,11 +1,9 @@
 ! Copyright (c), The Regents of the University of California
 ! Terms of use are as specified in LICENSE.txt
-program read_and_infer
-  !! This program demonstrates how to 
-  !! 1. Read a neural network from a file into an inference_engine_t object,
-  !! 2. Query the object for some of its properties (number of inputs, etc.), and
-  !! 3. User the object to perform inference 
-  !! This example expects 10 inputs and applies a sigmoid activation function.
+program convert_to_json
+  !! This program demonstrates how to read a neural network in a custom file format
+  !! into an inference_engine_t object, convert it to a JSON format, and write the
+  !! resulting JSON objects to a file.
   use assert_m, only : assert
   use command_line_m, only : command_line_t
   use inference_engine_m, only : inference_engine_t
@@ -25,7 +23,7 @@ program read_and_infer
 
   if (len(input_file_name)==0) then
     error stop new_line('a') // new_line('a') // &
-      'Usage: ./build/run-fpm.sh run --example read-and-infer -- --input-file "<file-name>"' 
+      'Usage: ./build/run-fpm.sh run --example convert-to-json -- --input-file "<file-name>"' 
   end if
 
   print *,"Defining an inference_engine_t object by reading the file '"//input_file_name//"'"
