@@ -115,13 +115,20 @@ contains
     hidden_layer_count = ubound(self%hidden_weights_,3) - lbound(self%hidden_weights_,3) + 1
   end procedure
 
-  module procedure infer
-    
-    integer, parameter :: input_layer = 1
-  
+  module procedure infer_from_array_of_inputs
+      
     call assert_consistent(self)
 
     output = self%inference_strategy_%infer(input, &
+      self%input_weights_, self%hidden_weights_, self%biases_, self%output_biases_, self%output_weights_, self%activation_strategy_&
+    )
+  end procedure
+
+  module procedure infer_from_inputs_object
+      
+    call assert_consistent(self)
+
+    outputs%outputs_ = self%inference_strategy_%infer(inputs%inputs_, &
       self%input_weights_, self%hidden_weights_, self%biases_, self%output_biases_, self%output_weights_, self%activation_strategy_&
     )
   end procedure

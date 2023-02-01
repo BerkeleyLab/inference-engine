@@ -90,7 +90,7 @@
      <li><i class="fa fa-list-ol"></i>
        <a data-toggle="tooltip"
     data-placement="bottom" data-html="true"
-    title="<p>32.0% of total for derived types.</p>Including implementation: 23 statements, 28.7% of total for derived types.">23 statements</a>
+    title="<p>31.6% of total for derived types.</p>Including implementation: 25 statements, 28.4% of total for derived types.">25 statements</a>
      </li> 
     <li><i class="fa fa-code"></i><a href="../src/inference_engine_m.f90"> Source File</a></li>
   </ul>
@@ -143,6 +143,8 @@
     <div class="list-group">
       <a class="list-group-item" href="../type/inference_engine_t.html#boundprocedure-conformable_with">conformable_with</a>
       <a class="list-group-item" href="../type/inference_engine_t.html#boundprocedure-infer">infer</a>
+      <a class="list-group-item" href="../type/inference_engine_t.html#boundprocedure-infer_from_array_of_inputs">infer_from_array_of_inputs</a>
+      <a class="list-group-item" href="../type/inference_engine_t.html#boundprocedure-infer_from_inputs_object">infer_from_inputs_object</a>
       <a class="list-group-item" href="../type/inference_engine_t.html#boundprocedure-neurons_per_layer">neurons_per_layer</a>
       <a class="list-group-item" href="../type/inference_engine_t.html#boundprocedure-norm">norm</a>
       <a class="list-group-item" href="../type/inference_engine_t.html#boundprocedure-num_hidden_layers">num_hidden_layers</a>
@@ -290,6 +292,8 @@
     <div class="list-group">
       <a class="list-group-item" href="../type/inference_engine_t.html#boundprocedure-conformable_with">conformable_with</a>
       <a class="list-group-item" href="../type/inference_engine_t.html#boundprocedure-infer">infer</a>
+      <a class="list-group-item" href="../type/inference_engine_t.html#boundprocedure-infer_from_array_of_inputs">infer_from_array_of_inputs</a>
+      <a class="list-group-item" href="../type/inference_engine_t.html#boundprocedure-infer_from_inputs_object">infer_from_inputs_object</a>
       <a class="list-group-item" href="../type/inference_engine_t.html#boundprocedure-neurons_per_layer">neurons_per_layer</a>
       <a class="list-group-item" href="../type/inference_engine_t.html#boundprocedure-norm">norm</a>
       <a class="list-group-item" href="../type/inference_engine_t.html#boundprocedure-num_hidden_layers">num_hidden_layers</a>
@@ -484,13 +488,29 @@
 </div>
 
      <div class="panel panel-default">
-  <div class="panel-heading codesum"><span class="anchor" id="boundprocedure-infer"></span><h3>procedure, public :: <strong>infer</strong>    </h3></div>
+  <div class="panel-heading codesum"><span class="anchor" id="boundprocedure-infer"></span><h3>generic, public :: <strong>infer</strong>  => <a href='../type/inference_engine_t.html#boundprocedure-infer_from_array_of_inputs'>infer_from_array_of_inputs</a>, <a href='../type/inference_engine_t.html#boundprocedure-infer_from_inputs_object'>infer_from_inputs_object</a>   </h3></div>
+  <ul class="list-group">
+      <li class="list-group-item">
+            <h3>private interface <a href='../interface/infer_from_array_of_inputs.html'>infer_from_array_of_inputs</a>()</h3>    
+<h4>Arguments</h4>      <em>None</em>
+
+      </li>
+      <li class="list-group-item">
+            <h3>public interface <a href='../interface/infer_from_inputs_object.html'>infer_from_inputs_object</a>()</h3>    
+<h4>Arguments</h4>      <em>None</em>
+
+      </li>
+  </ul>
+</div>
+
+     <div class="panel panel-default">
+  <div class="panel-heading codesum"><span class="anchor" id="boundprocedure-infer_from_array_of_inputs"></span><h3>procedure, public :: <strong>infer_from_array_of_inputs</strong>    </h3></div>
   <ul class="list-group">
       <li class="list-group-item">
           <h3>interface
           </h3>
   
-          <h3>private pure module module function infer(self, input) result(output)   <a href='../proc/infer.html'><button type="button" class="btn btn-info depwarn">Implementation &rarr;</button></a>
+          <h3>private pure module module function infer_from_array_of_inputs(self, input) result(output)   <a href='../proc/infer_from_array_of_inputs.html'><button type="button" class="btn btn-info depwarn">Implementation &rarr;</button></a>
 </h3>    
 <h4>Arguments</h4>      <table class="table table-striped varlist">
 <thead><tr><th>Type</th><th>Intent</th><th>Optional</th><th>Attributes</th><th></th><th>Name</th><th></th></thead>
@@ -511,6 +531,39 @@
 </table>
 
 <h4>Return Value <small>real,allocatable, (:)</small></h4>  
+
+      </li>
+  </ul>
+</div>
+
+     <div class="panel panel-default">
+  <div class="panel-heading codesum"><span class="anchor" id="boundprocedure-infer_from_inputs_object"></span><h3>procedure, public :: <strong>infer_from_inputs_object</strong>    </h3></div>
+  <ul class="list-group">
+      <li class="list-group-item">
+          <h3>interface
+          </h3>
+  
+          <h3>public elemental module module function infer_from_inputs_object(self, inputs) result(outputs)   <a href='../proc/infer_from_inputs_object.html'><button type="button" class="btn btn-info depwarn">Implementation &rarr;</button></a>
+</h3>    
+<h4>Arguments</h4>      <table class="table table-striped varlist">
+<thead><tr><th>Type</th><th>Intent</th><th>Optional</th><th>Attributes</th><th></th><th>Name</th><th></th></thead>
+<tbody>
+<tr>
+  <td><span class="anchor" ></span>class(<a href='../type/inference_engine_t.html'>inference_engine_t</a>),</td>
+<td>intent(in)</td>
+  <td></td>  <td></td><td>::</td>
+  <td><strong>self</strong></td><td></td>
+</tr>
+<tr>
+  <td><span class="anchor" ></span>type(<a href='../type/inputs_t.html'>inputs_t</a>),</td>
+<td>intent(in)</td>
+  <td></td>  <td></td><td>::</td>
+  <td><strong>inputs</strong></td><td></td>
+</tr>
+</tbody>
+</table>
+
+<h4>Return Value <small>type(<a href='../type/outputs_t.html'>outputs_t</a>)</small></h4>  
 
       </li>
   </ul>
@@ -816,7 +869,7 @@
           <p class="text-right">
             Documentation generated by 
             <a href="https://github.com/Fortran-FOSS-Programmers/ford">FORD</a>
- on 2023-01-23 00:23            </p>
+ on 2023-02-01 22:04            </p>
         </div>
       </div>
       <br>
