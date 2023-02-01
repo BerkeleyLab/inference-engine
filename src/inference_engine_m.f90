@@ -10,6 +10,17 @@ module inference_engine_m
 
   private
   public :: inference_engine_t
+  public :: inputs_t
+  public :: outputs_t
+  public :: infer_from_inputs_object
+
+  type inputs_t
+    real, allocatable :: inputs_(:)
+  end type
+
+  type outputs_t
+    real, allocatable :: outputs_(:)
+  end type
 
   type inference_engine_t
     !! Encapsulate the minimal information needed to performance inference
@@ -25,7 +36,9 @@ module inference_engine_m
     procedure :: read_network
     procedure :: to_json
     procedure :: write_network
-    procedure :: infer
+    procedure :: infer_from_array_of_inputs
+    procedure :: infer_from_inputs_object
+    generic :: infer => infer_from_array_of_inputs, infer_from_inputs_object
     procedure :: num_inputs
     procedure :: num_outputs
     procedure :: neurons_per_layer
@@ -101,11 +114,18 @@ module inference_engine_m
       logical conformable
     end function
 
-    pure module function infer(self, input) result(output)
+    pure module function infer_from_array_of_inputs(self, input) result(output)
       implicit none
       class(inference_engine_t), intent(in) :: self
       real, intent(in) :: input(:)
       real, allocatable :: output(:)
+    end function
+
+    elemental module function infer_from_inputs_object(self, inputs) result(outputs)
+      implicit none
+      class(inference_engine_t), intent(in) :: self
+      type(inputs_t), intent(in) :: inputs
+      type(outputs_t) outputs
     end function
 
     elemental module function num_outputs(self) result(output_count)
