@@ -465,8 +465,6 @@ contains
       outer_object_braces = 2, hidden_layer_outer_brackets = 2, lines_per_neuron = 4, inner_brackets_per_layer  = 2, &
       output_layer_brackets = 2, comma = 1
 
-    call self%write_network(string_t("starting-to_json.txt"))
-
     csv_format = separated_values(separator=",", mold=[real(rkind)::])
 
     associate(num_hidden_layers => self%num_hidden_layers(),  neurons_per_layer => self%neurons_per_layer(), &
@@ -522,7 +520,7 @@ contains
             lines(line) = string_t("             }" // trim(merge(' ',',',neuron==neurons_per_layer)))
           end do
           line = line + 1
-          lines(line) = string_t("         ]")
+          lines(line) = string_t("         ]" // trim(merge(' ',',',layer==num_hidden_layers)))
         end do
 
         line = line + 1
@@ -568,8 +566,9 @@ contains
     
     lines = file_%lines()
 
-    call assert(adjustl(lines(1)%string())=="{", "from_json: outermost object start", lines(1)%string())
-    call assert(adjustl(lines(2)%string())=='"hidden_layers": [', "from_json: hidden layers array start", lines(2)%string())
+
+    call assert(adjustl(lines(1)%string())=="{", "from_json: expecting '{' for to start outermost object", lines(1)%string())
+    call assert(adjustl(lines(2)%string())=='"hidden_layers": [', 'from_json: expecting "hidden_layers": [', lines(2)%string())
 
     block 
        integer, parameter :: first_layer_line=3, lines_per_neuron=4, bracket_lines_per_layer=2
@@ -581,7 +580,8 @@ contains
          + bracket_lines_per_layer*hidden_layers%count_layers() + 1)
 
          output_layer_line = lines(output_layer_line_number)%string()
-         call assert(adjustl(output_layer_line)=='"output_layer": [', "from_json: hidden layers array start", output_layer_line)
+         call assert(adjustl(output_layer_line)=='"output_layer": [', 'from_json: expecting "output_layer": [', &
+           lines(output_layer_line_number)%string())
 
          output_neuron = neuron_t(lines, start=output_layer_line_number + 1)
        end associate

@@ -88,7 +88,7 @@ contains
         do line_num = 1, num_lines
           do
             read(file_unit, '(a)', advance='no', iostat=io_status, iomsg=error_message) c
-            if (io_status==iostat_eor) exit
+            if (io_status==iostat_eor .or. io_status==iostat_end) exit
             lengths(line_num) = lengths(line_num) + 1
           end do
         end do
