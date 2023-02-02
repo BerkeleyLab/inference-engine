@@ -64,7 +64,7 @@ contains
     print *, "neurons_per_layer = ", inference_engine%neurons_per_layer()
 
     print *, "Performing inference:"
-    print *, "inference_engine%infer([0.,1.]) =",inference_engine%infer([0.,1.])
+    print *, "inference_engine%infer([0.,1.]) =",inference_engine%infer([real(rkind):: 0.,1.])
     print *, "Correct answer for the XOR neural network: ", 1.
   end subroutine write_read_query_infer
 
