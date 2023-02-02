@@ -1,10 +1,8 @@
 ! Copyright (c), The Regents of the University of California
 ! Terms of use are as specified in LICENSE.txt
-program write_read_infer
-  !! This program demonstrates how to write a neural network to a JSON file,
-  !! read the same network from the written file, query the network object for
-  !! some of its properties, print those properties, and use the network to
-  !! perform inference.
+program read_json
+  !! This program demonstrates how to read a neural network from a JSON file.
+  !! query the network for a some of its properties.
   use command_line_m, only : command_line_t
   use inference_engine_m, only : inference_engine_t
   use string_m, only : string_t

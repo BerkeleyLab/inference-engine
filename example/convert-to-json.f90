@@ -13,11 +13,13 @@ program read_and_infer
   use sigmoid_m, only : sigmoid_t
   use matmul_m, only : matmul_t
   use kind_parameters_m, only : rkind
+  use file_m, only : file_t
   implicit none
 
   type(inference_engine_t) inference_engine
   type(command_line_t) command_line
   character(len=:), allocatable :: input_file_name
+  type(file_t) json_output_file
 
   input_file_name =  command_line%flag_value("--input-file")
 
@@ -42,6 +44,14 @@ program read_and_infer
       call assert(num_inputs==size(inputs),"main: num_inputs==size(inputs)", num_inputs)
       print *, inference_engine%infer(inputs)
     end block
+  end associate
+
+  print *, "Converting an inference_engine_t object to a file_t object."
+  json_output_file = inference_engine%to_json()
+
+  associate(output_file_name => string_t(input_file_name // ".json"))
+    print *, "Writing an inference_engine_t object to the file '"//output_file_name%string()//"'."
+    call json_output_file%write_lines(output_file_name)
   end associate
 
 end program
