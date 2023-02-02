@@ -304,40 +304,76 @@
 <path fill="none" stroke="#ff0000" stroke-dasharray="5,2" d="M200.83,-156.94C175.38,-149.48 142.53,-139.86 115.44,-131.92"/>
 <polygon fill="#ff0000" stroke="#ff0000" points="116.33,-128.54 105.75,-129.09 114.36,-135.26 116.33,-128.54"/>
 </g>
-<!-- module~matmul_m -->
-<g id="module~~inference_strategy_m~~UsedByGraph_node3" class="node">
-<title>module~matmul_m</title>
-<g id="a_module~~inference_strategy_m~~UsedByGraph_node3"><a xlink:href=".././module/matmul_m.html" xlink:title="matmul_m">
-<polygon fill="#337ab7" stroke="#337ab7" points="278,-129 208,-129 208,-105 278,-105 278,-129"/>
-<text text-anchor="middle" x="243" y="-114.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">matmul_m</text>
-</a>
-</g>
-</g>
-<!-- module~matmul_m&#45;&gt;module~inference_strategy_m -->
-<g id="module~~inference_strategy_m~~UsedByGraph_edge2" class="edge">
-<title>module~matmul_m&#45;&gt;module~inference_strategy_m</title>
-<path fill="none" stroke="#ff0000" stroke-dasharray="5,2" d="M207.78,-117C187.68,-117 161.49,-117 137,-117"/>
-<polygon fill="#ff0000" stroke="#ff0000" points="137,-113.5 127,-117 137,-120.5 137,-113.5"/>
-</g>
 <!-- module~concurrent_dot_products_m -->
-<g id="module~~inference_strategy_m~~UsedByGraph_node4" class="node">
+<g id="module~~inference_strategy_m~~UsedByGraph_node3" class="node">
 <title>module~concurrent_dot_products_m</title>
-<g id="a_module~~inference_strategy_m~~UsedByGraph_node4"><a xlink:href=".././module/concurrent_dot_products_m.html" xlink:title="concurrent_dot_products_m">
+<g id="a_module~~inference_strategy_m~~UsedByGraph_node3"><a xlink:href=".././module/concurrent_dot_products_m.html" xlink:title="concurrent_dot_products_m">
 <polygon fill="#337ab7" stroke="#337ab7" points="323,-66 163,-66 163,-42 323,-42 323,-66"/>
 <text text-anchor="middle" x="243" y="-51.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">concurrent_dot_products_m</text>
 </a>
 </g>
 </g>
 <!-- module~concurrent_dot_products_m&#45;&gt;module~inference_strategy_m -->
-<g id="module~~inference_strategy_m~~UsedByGraph_edge3" class="edge">
+<g id="module~~inference_strategy_m~~UsedByGraph_edge2" class="edge">
 <title>module~concurrent_dot_products_m&#45;&gt;module~inference_strategy_m</title>
 <path fill="none" stroke="#ff0000" stroke-dasharray="5,2" d="M207.78,-66.15C179.32,-76.25 138.66,-90.68 107.92,-101.59"/>
 <polygon fill="#ff0000" stroke="#ff0000" points="106.57,-98.35 98.32,-105 108.91,-104.95 106.57,-98.35"/>
 </g>
-<!-- program~concurrent_inferences -->
+<!-- module~matmul_m -->
+<g id="module~~inference_strategy_m~~UsedByGraph_node4" class="node">
+<title>module~matmul_m</title>
+<g id="a_module~~inference_strategy_m~~UsedByGraph_node4"><a xlink:href=".././module/matmul_m.html" xlink:title="matmul_m">
+<polygon fill="#337ab7" stroke="#337ab7" points="278,-129 208,-129 208,-105 278,-105 278,-129"/>
+<text text-anchor="middle" x="243" y="-114.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">matmul_m</text>
+</a>
+</g>
+</g>
+<!-- module~matmul_m&#45;&gt;module~inference_strategy_m -->
+<g id="module~~inference_strategy_m~~UsedByGraph_edge3" class="edge">
+<title>module~matmul_m&#45;&gt;module~inference_strategy_m</title>
+<path fill="none" stroke="#ff0000" stroke-dasharray="5,2" d="M207.78,-117C187.68,-117 161.49,-117 137,-117"/>
+<polygon fill="#ff0000" stroke="#ff0000" points="137,-113.5 127,-117 137,-120.5 137,-113.5"/>
+</g>
+<!-- program~read_and_infer -->
 <g id="module~~inference_strategy_m~~UsedByGraph_node5" class="node">
+<title>program~read_and_infer</title>
+<g id="a_module~~inference_strategy_m~~UsedByGraph_node5"><a xlink:href=".././program/read_and_infer.html" xlink:title="read_and_infer">
+<polygon fill="#f0ad4e" stroke="#f0ad4e" points="482,-192 390,-192 390,-168 482,-168 482,-192"/>
+<text text-anchor="middle" x="436" y="-177.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">read_and_infer</text>
+</a>
+</g>
+</g>
+<!-- program~read_and_infer&#45;&gt;module~inference_engine_m -->
+<g id="module~~inference_strategy_m~~UsedByGraph_edge7" class="edge">
+<title>program~read_and_infer&#45;&gt;module~inference_engine_m</title>
+<path fill="none" stroke="#ff0000" stroke-dasharray="5,2" d="M389.74,-177.39C367.14,-176.09 339.31,-174.49 314.04,-173.03"/>
+<polygon fill="#ff0000" stroke="#ff0000" points="313.95,-169.52 303.76,-172.44 313.55,-176.51 313.95,-169.52"/>
+</g>
+<!-- program~read_and_infer&#45;&gt;module~matmul_m -->
+<g id="module~~inference_strategy_m~~UsedByGraph_edge12" class="edge">
+<title>program~read_and_infer&#45;&gt;module~matmul_m</title>
+<path fill="none" stroke="#0000ff" stroke-dasharray="5,2" d="M389.81,-168.16C379.63,-165.31 368.91,-162.17 359,-159 334.07,-151.02 306.52,-141 284.63,-132.75"/>
+<polygon fill="#0000ff" stroke="#0000ff" points="285.59,-129.37 275,-129.09 283.11,-135.91 285.59,-129.37"/>
+</g>
+<!-- module~matmul_s -->
+<g id="module~~inference_strategy_m~~UsedByGraph_node6" class="node">
+<title>module~matmul_s</title>
+<g id="a_module~~inference_strategy_m~~UsedByGraph_node6"><a xlink:href=".././module/matmul_s.html" xlink:title="matmul_s">
+<polygon fill="#5bc0de" stroke="#5bc0de" points="468,-66 404,-66 404,-42 468,-42 468,-66"/>
+<text text-anchor="middle" x="436" y="-51.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">matmul_s</text>
+</a>
+</g>
+</g>
+<!-- module~matmul_s&#45;&gt;module~matmul_m -->
+<g id="module~~inference_strategy_m~~UsedByGraph_edge13" class="edge">
+<title>module~matmul_s&#45;&gt;module~matmul_m</title>
+<path fill="none" stroke="#0000ff" d="M403.77,-62.02C389.97,-65.72 373.6,-70.32 359,-75 334.07,-82.98 306.52,-93 284.63,-101.25"/>
+<polygon fill="#0000ff" stroke="#0000ff" points="283.11,-98.09 275,-104.91 285.59,-104.63 283.11,-98.09"/>
+</g>
+<!-- program~concurrent_inferences -->
+<g id="module~~inference_strategy_m~~UsedByGraph_node7" class="node">
 <title>program~concurrent_inferences</title>
-<g id="a_module~~inference_strategy_m~~UsedByGraph_node5"><a xlink:href=".././program/concurrent_inferences.html" xlink:title="concurrent_inferences">
+<g id="a_module~~inference_strategy_m~~UsedByGraph_node7"><a xlink:href=".././program/concurrent_inferences.html" xlink:title="concurrent_inferences">
 <polygon fill="#f0ad4e" stroke="#f0ad4e" points="501.5,-234 370.5,-234 370.5,-210 501.5,-210 501.5,-234"/>
 <text text-anchor="middle" x="436" y="-219.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">concurrent_inferences</text>
 </a>
@@ -349,31 +385,31 @@
 <path fill="none" stroke="#ff0000" stroke-dasharray="5,2" d="M391.19,-209.91C380.65,-207 369.42,-203.89 359,-201 338.67,-195.36 316.32,-189.15 296.78,-183.71"/>
 <polygon fill="#ff0000" stroke="#ff0000" points="297.71,-180.33 287.14,-181.02 295.83,-187.08 297.71,-180.33"/>
 </g>
-<!-- module~inference_engine_s -->
-<g id="module~~inference_strategy_m~~UsedByGraph_node6" class="node">
-<title>module~inference_engine_s</title>
-<g id="a_module~~inference_strategy_m~~UsedByGraph_node6"><a xlink:href=".././module/inference_engine_s.html" xlink:title="inference_engine_s">
-<polygon fill="#5bc0de" stroke="#5bc0de" points="493.5,-192 378.5,-192 378.5,-168 493.5,-168 493.5,-192"/>
-<text text-anchor="middle" x="436" y="-177.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">inference_engine_s</text>
+<!-- program~write_read_infer -->
+<g id="module~~inference_strategy_m~~UsedByGraph_node8" class="node">
+<title>program~write_read_infer</title>
+<g id="a_module~~inference_strategy_m~~UsedByGraph_node8"><a xlink:href=".././program/write_read_infer.html" xlink:title="write_read_infer">
+<polygon fill="#f0ad4e" stroke="#f0ad4e" points="485,-150 387,-150 387,-126 485,-126 485,-150"/>
+<text text-anchor="middle" x="436" y="-135.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">write_read_infer</text>
 </a>
 </g>
 </g>
-<!-- module~inference_engine_s&#45;&gt;module~inference_engine_m -->
-<g id="module~~inference_strategy_m~~UsedByGraph_edge8" class="edge">
-<title>module~inference_engine_s&#45;&gt;module~inference_engine_m</title>
-<path fill="none" stroke="#ff0000" d="M378.47,-176.74C358.24,-175.58 335.19,-174.25 313.96,-173.03"/>
-<polygon fill="#ff0000" stroke="#ff0000" points="313.89,-169.52 303.71,-172.44 313.49,-176.51 313.89,-169.52"/>
+<!-- program~write_read_infer&#45;&gt;module~inference_engine_m -->
+<g id="module~~inference_strategy_m~~UsedByGraph_edge5" class="edge">
+<title>program~write_read_infer&#45;&gt;module~inference_engine_m</title>
+<path fill="none" stroke="#ff0000" stroke-dasharray="5,2" d="M386.8,-145.82C364.66,-149.42 337.97,-153.75 313.69,-157.69"/>
+<polygon fill="#ff0000" stroke="#ff0000" points="313.12,-154.24 303.81,-159.29 314.24,-161.15 313.12,-154.24"/>
 </g>
-<!-- module~inference_engine_s&#45;&gt;module~matmul_m -->
-<g id="module~~inference_strategy_m~~UsedByGraph_edge9" class="edge">
-<title>module~inference_engine_s&#45;&gt;module~matmul_m</title>
-<path fill="none" stroke="#00ff00" stroke-dasharray="5,2" d="M389.01,-167.93C379.07,-165.15 368.65,-162.09 359,-159 334.07,-151.02 306.52,-141 284.63,-132.75"/>
-<polygon fill="#00ff00" stroke="#00ff00" points="285.59,-129.37 275,-129.09 283.11,-135.91 285.59,-129.37"/>
+<!-- program~write_read_infer&#45;&gt;module~matmul_m -->
+<g id="module~~inference_strategy_m~~UsedByGraph_edge11" class="edge">
+<title>program~write_read_infer&#45;&gt;module~matmul_m</title>
+<path fill="none" stroke="#0000ff" stroke-dasharray="5,2" d="M386.8,-132.7C356.45,-129.36 317.58,-125.09 288.05,-121.84"/>
+<polygon fill="#0000ff" stroke="#0000ff" points="288.35,-118.36 278.03,-120.74 287.59,-125.31 288.35,-118.36"/>
 </g>
 <!-- program~construct_and_write -->
-<g id="module~~inference_strategy_m~~UsedByGraph_node7" class="node">
+<g id="module~~inference_strategy_m~~UsedByGraph_node9" class="node">
 <title>program~construct_and_write</title>
-<g id="a_module~~inference_strategy_m~~UsedByGraph_node7"><a xlink:href=".././program/construct_and_write.html" xlink:title="construct_and_write">
+<g id="a_module~~inference_strategy_m~~UsedByGraph_node9"><a xlink:href=".././program/construct_and_write.html" xlink:title="construct_and_write">
 <polygon fill="#f0ad4e" stroke="#f0ad4e" points="495.5,-276 376.5,-276 376.5,-252 495.5,-252 495.5,-276"/>
 <text text-anchor="middle" x="436" y="-261.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">construct_and_write</text>
 </a>
@@ -385,77 +421,41 @@
 <path fill="none" stroke="#ff0000" stroke-dasharray="5,2" d="M383.16,-251.94C374.93,-249.39 366.62,-246.41 359,-243 325.33,-227.94 290.17,-203.9 267.73,-187.33"/>
 <polygon fill="#ff0000" stroke="#ff0000" points="269.6,-184.36 259.5,-181.16 265.4,-189.96 269.6,-184.36"/>
 </g>
-<!-- program~write_read_infer -->
-<g id="module~~inference_strategy_m~~UsedByGraph_node8" class="node">
-<title>program~write_read_infer</title>
-<g id="a_module~~inference_strategy_m~~UsedByGraph_node8"><a xlink:href=".././program/write_read_infer.html" xlink:title="write_read_infer">
-<polygon fill="#f0ad4e" stroke="#f0ad4e" points="485,-150 387,-150 387,-126 485,-126 485,-150"/>
-<text text-anchor="middle" x="436" y="-135.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">write_read_infer</text>
+<!-- module~inference_engine_s -->
+<g id="module~~inference_strategy_m~~UsedByGraph_node10" class="node">
+<title>module~inference_engine_s</title>
+<g id="a_module~~inference_strategy_m~~UsedByGraph_node10"><a xlink:href=".././module/inference_engine_s.html" xlink:title="inference_engine_s">
+<polygon fill="#5bc0de" stroke="#5bc0de" points="493.5,-108 378.5,-108 378.5,-84 493.5,-84 493.5,-108"/>
+<text text-anchor="middle" x="436" y="-93.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">inference_engine_s</text>
 </a>
 </g>
 </g>
-<!-- program~write_read_infer&#45;&gt;module~inference_engine_m -->
-<g id="module~~inference_strategy_m~~UsedByGraph_edge7" class="edge">
-<title>program~write_read_infer&#45;&gt;module~inference_engine_m</title>
-<path fill="none" stroke="#ff0000" stroke-dasharray="5,2" d="M386.8,-145.82C364.66,-149.42 337.97,-153.75 313.69,-157.69"/>
-<polygon fill="#ff0000" stroke="#ff0000" points="313.12,-154.24 303.81,-159.29 314.24,-161.15 313.12,-154.24"/>
+<!-- module~inference_engine_s&#45;&gt;module~inference_engine_m -->
+<g id="module~~inference_strategy_m~~UsedByGraph_edge8" class="edge">
+<title>module~inference_engine_s&#45;&gt;module~inference_engine_m</title>
+<path fill="none" stroke="#ff0000" d="M384.09,-108.1C375.59,-110.68 366.95,-113.65 359,-117 341.93,-124.19 339.67,-129.93 323,-138 311.71,-143.47 299.19,-148.73 287.5,-153.32"/>
+<polygon fill="#ff0000" stroke="#ff0000" points="286.01,-150.14 277.93,-157 288.52,-156.67 286.01,-150.14"/>
 </g>
-<!-- program~write_read_infer&#45;&gt;module~matmul_m -->
-<g id="module~~inference_strategy_m~~UsedByGraph_edge11" class="edge">
-<title>program~write_read_infer&#45;&gt;module~matmul_m</title>
-<path fill="none" stroke="#00ff00" stroke-dasharray="5,2" d="M386.8,-132.7C356.45,-129.36 317.58,-125.09 288.05,-121.84"/>
-<polygon fill="#00ff00" stroke="#00ff00" points="288.35,-118.36 278.03,-120.74 287.59,-125.31 288.35,-118.36"/>
+<!-- module~inference_engine_s&#45;&gt;module~matmul_m -->
+<g id="module~~inference_strategy_m~~UsedByGraph_edge10" class="edge">
+<title>module~inference_engine_s&#45;&gt;module~matmul_m</title>
+<path fill="none" stroke="#0000ff" stroke-dasharray="5,2" d="M378.47,-102.22C349.72,-105.38 315.29,-109.16 288.47,-112.11"/>
+<polygon fill="#0000ff" stroke="#0000ff" points="287.78,-108.67 278.22,-113.24 288.54,-115.62 287.78,-108.67"/>
 </g>
 <!-- module~concurrent_dot_products_s -->
-<g id="module~~inference_strategy_m~~UsedByGraph_node9" class="node">
+<g id="module~~inference_strategy_m~~UsedByGraph_node11" class="node">
 <title>module~concurrent_dot_products_s</title>
-<g id="a_module~~inference_strategy_m~~UsedByGraph_node9"><a xlink:href=".././module/concurrent_dot_products_s.html" xlink:title="concurrent_dot_products_s">
+<g id="a_module~~inference_strategy_m~~UsedByGraph_node11"><a xlink:href=".././module/concurrent_dot_products_s.html" xlink:title="concurrent_dot_products_s">
 <polygon fill="#5bc0de" stroke="#5bc0de" points="513,-24 359,-24 359,0 513,0 513,-24"/>
 <text text-anchor="middle" x="436" y="-9.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">concurrent_dot_products_s</text>
 </a>
 </g>
 </g>
 <!-- module~concurrent_dot_products_s&#45;&gt;module~concurrent_dot_products_m -->
-<g id="module~~inference_strategy_m~~UsedByGraph_edge13" class="edge">
+<g id="module~~inference_strategy_m~~UsedByGraph_edge9" class="edge">
 <title>module~concurrent_dot_products_s&#45;&gt;module~concurrent_dot_products_m</title>
-<path fill="none" stroke="#0000ff" d="M380.27,-24.04C357.89,-28.96 331.84,-34.69 308.54,-39.81"/>
-<polygon fill="#0000ff" stroke="#0000ff" points="307.76,-36.4 298.74,-41.96 309.26,-43.23 307.76,-36.4"/>
-</g>
-<!-- program~read_and_infer -->
-<g id="module~~inference_strategy_m~~UsedByGraph_node10" class="node">
-<title>program~read_and_infer</title>
-<g id="a_module~~inference_strategy_m~~UsedByGraph_node10"><a xlink:href=".././program/read_and_infer.html" xlink:title="read_and_infer">
-<polygon fill="#f0ad4e" stroke="#f0ad4e" points="482,-108 390,-108 390,-84 482,-84 482,-108"/>
-<text text-anchor="middle" x="436" y="-93.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">read_and_infer</text>
-</a>
-</g>
-</g>
-<!-- program~read_and_infer&#45;&gt;module~inference_engine_m -->
-<g id="module~~inference_strategy_m~~UsedByGraph_edge5" class="edge">
-<title>program~read_and_infer&#45;&gt;module~inference_engine_m</title>
-<path fill="none" stroke="#ff0000" stroke-dasharray="5,2" d="M389.74,-106.44C379.46,-109.38 368.71,-112.91 359,-117 341.93,-124.19 339.67,-129.93 323,-138 311.71,-143.47 299.19,-148.73 287.5,-153.32"/>
-<polygon fill="#ff0000" stroke="#ff0000" points="286.01,-150.14 277.93,-157 288.52,-156.67 286.01,-150.14"/>
-</g>
-<!-- program~read_and_infer&#45;&gt;module~matmul_m -->
-<g id="module~~inference_strategy_m~~UsedByGraph_edge10" class="edge">
-<title>program~read_and_infer&#45;&gt;module~matmul_m</title>
-<path fill="none" stroke="#00ff00" stroke-dasharray="5,2" d="M389.74,-100.98C359.14,-104.34 318.94,-108.76 288.51,-112.11"/>
-<polygon fill="#00ff00" stroke="#00ff00" points="287.74,-108.67 278.18,-113.24 288.51,-115.63 287.74,-108.67"/>
-</g>
-<!-- module~matmul_s -->
-<g id="module~~inference_strategy_m~~UsedByGraph_node11" class="node">
-<title>module~matmul_s</title>
-<g id="a_module~~inference_strategy_m~~UsedByGraph_node11"><a xlink:href=".././module/matmul_s.html" xlink:title="matmul_s">
-<polygon fill="#5bc0de" stroke="#5bc0de" points="468,-66 404,-66 404,-42 468,-42 468,-66"/>
-<text text-anchor="middle" x="436" y="-51.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">matmul_s</text>
-</a>
-</g>
-</g>
-<!-- module~matmul_s&#45;&gt;module~matmul_m -->
-<g id="module~~inference_strategy_m~~UsedByGraph_edge12" class="edge">
-<title>module~matmul_s&#45;&gt;module~matmul_m</title>
-<path fill="none" stroke="#00ff00" d="M403.77,-62.02C389.97,-65.72 373.6,-70.32 359,-75 334.07,-82.98 306.52,-93 284.63,-101.25"/>
-<polygon fill="#00ff00" stroke="#00ff00" points="283.11,-98.09 275,-104.91 285.59,-104.63 283.11,-98.09"/>
+<path fill="none" stroke="#00ff00" d="M380.27,-24.04C357.89,-28.96 331.84,-34.69 308.54,-39.81"/>
+<polygon fill="#00ff00" stroke="#00ff00" points="307.76,-36.4 298.74,-41.96 309.26,-43.23 307.76,-36.4"/>
 </g>
 </g>
 </svg>
@@ -651,7 +651,7 @@
           <p class="text-right">
             Documentation generated by 
             <a href="https://github.com/Fortran-FOSS-Programmers/ford">FORD</a>
- on 2023-02-01 23:20            </p>
+ on 2023-02-02 00:42            </p>
         </div>
       </div>
       <br>
