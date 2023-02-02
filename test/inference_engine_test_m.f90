@@ -90,21 +90,12 @@ contains
 
   function convert_to_and_from_json() result(test_passes)
     logical, allocatable :: test_passes
-
-    type(inference_engine_t) xor, xor_from_json
-    type(file_t) xor_file_object
+    type(inference_engine_t) xor, difference
+    real, parameter :: tolerance = 1.0E-06
 
     xor = xor_network()
-    xor_file_object = xor%to_json()
-    xor_from_json = inference_engine_t(xor_file_object)
-
-    block 
-      type(inference_engine_t) difference
-      real(rkind), parameter :: tolerance = 1.0E-06_rkind
-
-      difference = xor_from_json - xor
-      test_passes = difference%norm() < tolerance
-    end block
+    difference = inference_engine_t(xor%to_json())- xor
+    test_passes = difference%norm() < tolerance
   end function
 
   function xor_truth_table(inference_strategy) result(test_passes)

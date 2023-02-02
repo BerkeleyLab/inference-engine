@@ -42,7 +42,7 @@ contains
     num_layers = 1 
     do  
       if (.not. allocated(layer_ptr%next)) exit
-      layer_ptr => layer%next
+      layer_ptr => layer_ptr%next
       num_layers = num_layers + 1 
     end do
 
@@ -68,7 +68,7 @@ contains
       end do
       neurons_per_layer = [neurons_per_layer, num_neurons]
       if (.not. allocated(layer_ptr%next)) exit
-      layer_ptr => layer%next
+      layer_ptr => layer_ptr%next
     end do
  
   end procedure
