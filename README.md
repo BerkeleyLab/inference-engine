@@ -30,10 +30,10 @@ Table of contents
 Overview
 --------
 
-Inference-Engine is a software library that supports researching options for efficiently propagating inputs through deep, feed-forward neural networks to produce outputs.  Inference-Engine's implementation language, Fortran 2018, makes it suitable for integration into high-performance computing (HPC) applications.  Novel features include
+Inference-Engine is a software library that supports researching options for efficiently propagating inputs through deep, feed-forward neural networks.  Inference-Engine's implementation language, Fortran 2018, makes it suitable for integration into high-performance computing (HPC) applications.  Novel features include
 
 1. Exposing concurrency via 
-  - A `pure` inference function and
+  - An `elemental` inference function
   - An `elemental` activation strategy 
 2. Gathering network weights and biases into contiguous arrays
 3. Runtime selection of inference algorithm
