@@ -30,6 +30,9 @@ contains
     else
       inference_engine%inference_strategy_ = matmul_t()
     end if
+
+    call assert_consistent(inference_engine)
+
   end procedure
 
   module procedure construct_from_json
