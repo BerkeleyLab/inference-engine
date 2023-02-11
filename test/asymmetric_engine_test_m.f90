@@ -75,7 +75,7 @@ contains
   end function
 
   function test_num_hidden_layers() result(test_passes)
-    logical, allocatable :: test_passes
+    logical test_passes
 
     type(inference_engine_t) inference_engine
 
@@ -84,7 +84,7 @@ contains
   end function
 
   function test_neurons_per_layer() result(test_passes)
-    logical, allocatable :: test_passes
+    logical test_passes
 
     type(inference_engine_t) inference_engine
 
@@ -93,7 +93,7 @@ contains
   end function
 
   function test_num_inputs() result(test_passes)
-    logical, allocatable :: test_passes
+    logical test_passes
 
     type(inference_engine_t) inference_engine
 
