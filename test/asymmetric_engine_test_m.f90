@@ -40,8 +40,12 @@ contains
         "mapping (false,true) to true using the matmul inference strategy", &
         "mapping (false,false) to false using the matmul inference strategy", &
         "counting the number of hidden layers", &
-        "counting the number of neurons per layer" &
-      ], [xor_and_2nd_input_truth_table(), xor_and_2nd_input_truth_table(matmul_t()), test_num_hidden_layers(), test_neurons_per_layer()] &
+        "counting the number of neurons per layer", &
+        "counting the number of inputs" &
+      ], &
+      [xor_and_2nd_input_truth_table(), xor_and_2nd_input_truth_table(matmul_t()), test_num_hidden_layers(), &
+       test_neurons_per_layer(), test_num_inputs()] &
+      
     )
   end function
 
@@ -85,6 +89,15 @@ contains
 
     inference_engine = xor_and_2nd_input_network()
     test_passes = inference_engine%neurons_per_layer() == 4
+  end function
+
+  function test_num_inputs() result(test_passes)
+    logical, allocatable :: test_passes
+
+    type(inference_engine_t) inference_engine
+
+    inference_engine = xor_and_2nd_input_network()
+    test_passes = inference_engine%num_inputs() == 2
   end function
 
   function xor_and_2nd_input_truth_table(inference_strategy) result(test_passes)
