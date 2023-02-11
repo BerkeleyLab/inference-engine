@@ -14,7 +14,7 @@ submodule(inference_engine_m) inference_engine_s
 
 contains
 
-  module procedure construct
+  module procedure construct_from_components
     inference_engine%input_weights_ = input_weights
     inference_engine%hidden_weights_ = hidden_weights
     inference_engine%output_weights_ = output_weights
@@ -31,6 +31,67 @@ contains
       inference_engine%inference_strategy_ = matmul_t()
     end if
   end procedure
+
+  module procedure construct_from_json
+
+    type(string_t), allocatable :: lines(:)
+    type(layer_t) hidden_layers
+    type(neuron_t) output_neuron
+    
+    lines = file_%lines()
+
+    call assert(adjustl(lines(1)%string())=="{", "from_json: expecting '{' for to start outermost object", lines(1)%string())
+    call assert(adjustl(lines(2)%string())=='"hidden_layers": [', 'from_json: expecting "hidden_layers": [', lines(2)%string())
+
+    block 
+       integer, parameter :: first_layer_line=3, lines_per_neuron=4, bracket_lines_per_layer=2
+       character(len=:), allocatable :: output_layer_line
+       
+       hidden_layers = layer_t(lines, start=first_layer_line)
+
+       associate( output_layer_line_number => first_layer_line + lines_per_neuron*sum(hidden_layers%count_neurons()) &
+         + bracket_lines_per_layer*hidden_layers%count_layers() + 1)
+
+         output_layer_line = lines(output_layer_line_number)%string()
+         call assert(adjustl(output_layer_line)=='"output_layer": [', 'from_json: expecting "output_layer": [', &
+           lines(output_layer_line_number)%string())
+
+         output_neuron = neuron_t(lines, start=output_layer_line_number + 1)
+       end associate
+    end block
+
+    inference_engine%input_weights_ = hidden_layers%input_weights()
+    call assert(hidden_layers%next_allocated(), "inference_engine_t%from_json: next layer exists")
+
+    block 
+      type(layer_t), pointer :: next_layer
+
+      next_layer => hidden_layers%next_pointer()
+      inference_engine%hidden_weights_ = next_layer%hidden_weights()
+    end block
+    inference_engine%biases_ = hidden_layers%hidden_biases()
+
+    associate(output_weights => output_neuron%weights())
+      inference_engine%output_weights_ = reshape(output_weights, [1, size(output_weights)])
+      inference_engine%output_biases_ = [output_neuron%bias()]
+    end associate
+
+    if (present(activation_strategy)) then
+      inference_engine%activation_strategy_  = activation_strategy
+    else
+      inference_engine%activation_strategy_  = step_t()
+    end if
+ 
+    if (present(inference_strategy)) then
+      inference_engine%inference_strategy_  = inference_strategy
+    else
+      inference_engine%inference_strategy_  = matmul_t()
+    end if
+
+    call assert_consistent(inference_engine)
+
+  end procedure construct_from_json
+
 
   module procedure conformable_with
     conformable = all( &
@@ -557,65 +618,5 @@ contains
     json_file = file_t(lines)
 
   end procedure to_json
-
-  module procedure from_json
-
-    type(string_t), allocatable :: lines(:)
-    type(layer_t) hidden_layers
-    type(neuron_t) output_neuron
-    
-    lines = file_%lines()
-
-    call assert(adjustl(lines(1)%string())=="{", "from_json: expecting '{' for to start outermost object", lines(1)%string())
-    call assert(adjustl(lines(2)%string())=='"hidden_layers": [', 'from_json: expecting "hidden_layers": [', lines(2)%string())
-
-    block 
-       integer, parameter :: first_layer_line=3, lines_per_neuron=4, bracket_lines_per_layer=2
-       character(len=:), allocatable :: output_layer_line
-       
-       hidden_layers = layer_t(lines, start=first_layer_line)
-
-       associate( output_layer_line_number => first_layer_line + lines_per_neuron*sum(hidden_layers%count_neurons()) &
-         + bracket_lines_per_layer*hidden_layers%count_layers() + 1)
-
-         output_layer_line = lines(output_layer_line_number)%string()
-         call assert(adjustl(output_layer_line)=='"output_layer": [', 'from_json: expecting "output_layer": [', &
-           lines(output_layer_line_number)%string())
-
-         output_neuron = neuron_t(lines, start=output_layer_line_number + 1)
-       end associate
-    end block
-
-    inference_engine%input_weights_ = hidden_layers%input_weights()
-    call assert(hidden_layers%next_allocated(), "inference_engine_t%from_json: next layer exists")
-
-    block 
-      type(layer_t), pointer :: next_layer
-
-      next_layer => hidden_layers%next_pointer()
-      inference_engine%hidden_weights_ = next_layer%hidden_weights()
-    end block
-    inference_engine%biases_ = hidden_layers%hidden_biases()
-
-    associate(output_weights => output_neuron%weights())
-      inference_engine%output_weights_ = reshape(output_weights, [1, size(output_weights)])
-      inference_engine%output_biases_ = [output_neuron%bias()]
-    end associate
-
-    if (present(activation_strategy)) then
-      inference_engine%activation_strategy_  = activation_strategy
-    else
-      inference_engine%activation_strategy_  = step_t()
-    end if
- 
-    if (present(inference_strategy)) then
-      inference_engine%inference_strategy_  = inference_strategy
-    else
-      inference_engine%inference_strategy_  = matmul_t()
-    end if
-
-    call assert_consistent(inference_engine)
-
-  end procedure from_json
 
 end submodule inference_engine_s
