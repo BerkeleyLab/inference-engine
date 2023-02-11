@@ -97,14 +97,19 @@ contains
 
 
   module procedure conformable_with
-    conformable = all( &
-      [ shape(self%input_weights_ ) == shape(inference_engine%input_weights_ ) , &
-       [shape(self%hidden_weights_) == shape(inference_engine%hidden_weights_)], &
-       [shape(self%output_weights_) == shape(inference_engine%output_weights_)], &
-       [shape(self%biases_        ) == shape(inference_engine%biases_        )], &
-       [shape(self%output_biases_ ) == shape(inference_engine%output_biases_ )]  &
-      ] &
-    )
+    call assert_consistent(self)
+    call assert_consistent(inference_engine)
+    
+    conformable = &
+      same_type_as(self%activation_strategy_, inference_engine%activation_strategy_) .and. &
+      same_type_as(self%inference_strategy_, inference_engine%inference_strategy_) .and. &
+      all( &
+        [ shape(self%input_weights_ ) == shape(inference_engine%input_weights_ ), &
+          shape(self%hidden_weights_) == shape(inference_engine%hidden_weights_), &
+          shape(self%output_weights_) == shape(inference_engine%output_weights_), &
+          shape(self%biases_        ) == shape(inference_engine%biases_        ), &
+          shape(self%output_biases_ ) == shape(inference_engine%output_biases_ )  &
+        ] )
   end procedure
 
   module procedure subtract
@@ -116,9 +121,14 @@ contains
     difference%output_weights_ = self%output_weights_ - rhs%output_weights_
     difference%biases_         = self%biases_         - rhs%biases_         
     difference%output_biases_  = self%output_biases_  - rhs%output_biases_ 
+    difference%inference_strategy_ = self%inference_strategy_
+    difference%activation_strategy_ = self%activation_strategy_
+
+    call assert_consistent(difference)
   end procedure
 
   module procedure norm 
+    call assert_consistent(self)
     norm_of_self = maxval(abs(self%input_weights_)) + maxval(abs(self%hidden_weights_)) + maxval(abs(self%output_weights_)) + & 
            maxval(abs(self%biases_)) + maxval(abs(self%output_biases_))
   end procedure
@@ -144,7 +154,7 @@ contains
         ubound(self%input_weights_,  2) - lbound(self%input_weights_,  2), &
         ubound(self%output_weights_, 2) - lbound(self%output_weights_, 2)  &
     ] ) 
-      call assert(all(self%neurons_per_layer() == num_neurons), "inference_engine_s(assert_consistent): num_neurons", &
+      call assert(all(num_neurons == num_neurons(1)), "inference_engine_s(assert_consistent): num_neurons", &
         intrinsic_array_t(num_neurons) &
       )
     end associate
@@ -153,45 +163,41 @@ contains
       [ ubound(self%output_weights_, 1) - lbound(self%output_weights_, 1), & 
         ubound(self%output_biases_,  1) - lbound(self%output_biases_,  1)  &
     ] )
-      call assert(all(self%num_outputs() == output_count), "inference_engine_s(assert_consistent): num_outputs", &
+      call assert(all(output_count == output_count(1)), "inference_engine_s(assert_consistent): output_count", &
         intrinsic_array_t(output_count) &
       )
     end associate
   end subroutine
 
   module procedure num_outputs
-    call assert(allocated(self%output_weights_), "inference_engine_t%num_outputs: allocated(self%output_weights_)")
+    call assert_consistent(self)
     output_count = ubound(self%output_weights_,1) - lbound(self%output_weights_,1) + 1
   end procedure
 
   module procedure num_inputs
-    call assert(allocated(self%input_weights_), "inference_engine_t%num_inputs: allocated(self%input_weights_)")
+    call assert_consistent(self)
     input_count = ubound(self%input_weights_,1) - lbound(self%input_weights_,1) + 1
   end procedure
 
   module procedure neurons_per_layer
-    call assert(allocated(self%input_weights_), "inference_engine_t%neurons_per_layer: allocated(self%input_weights_)")
+    call assert_consistent(self)
     neuron_count = ubound(self%input_weights_,2) - lbound(self%input_weights_,2) + 1
   end procedure
 
   module procedure num_hidden_layers
-    call assert(allocated(self%hidden_weights_), "inference_engine_t%num_hidden_layers: allocated(self%hidden_weights_)")
+    call assert_consistent(self)
     hidden_layer_count = ubound(self%hidden_weights_,3) - lbound(self%hidden_weights_,3) + 1
   end procedure
 
   module procedure infer_from_array_of_inputs
-      
     call assert_consistent(self)
-
     output = self%inference_strategy_%infer(input, &
       self%input_weights_, self%hidden_weights_, self%biases_, self%output_biases_, self%output_weights_, self%activation_strategy_&
     )
   end procedure
 
   module procedure infer_from_inputs_object
-      
     call assert_consistent(self)
-
     outputs%outputs_ = self%inference_strategy_%infer(inputs%inputs_, &
       self%input_weights_, self%hidden_weights_, self%biases_, self%output_biases_, self%output_weights_, self%activation_strategy_&
     )
@@ -261,7 +267,7 @@ contains
     end block write_output_layer
 
     close(file_unit)
-  end procedure
+  end procedure write_network
 
   module procedure read_network
 
@@ -528,6 +534,8 @@ contains
     integer, parameter :: &
       outer_object_braces = 2, hidden_layer_outer_brackets = 2, lines_per_neuron = 4, inner_brackets_per_layer  = 2, &
       output_layer_brackets = 2, comma = 1
+
+    call assert_consistent(self)
 
     csv_format = separated_values(separator=",", mold=[real(rkind)::])
 

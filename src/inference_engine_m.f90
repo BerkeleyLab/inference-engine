@@ -46,7 +46,7 @@ module inference_engine_m
     procedure :: num_hidden_layers
     procedure :: norm
     procedure :: conformable_with
-    procedure :: subtract
+    procedure, private :: subtract
     generic :: operator(-) => subtract
   end type
 
