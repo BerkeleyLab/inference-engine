@@ -143,8 +143,6 @@
     <div class="list-group">
       <a class="list-group-item" href="../type/inference_engine_t.html#boundprocedure-conformable_with">conformable_with</a>
       <a class="list-group-item" href="../type/inference_engine_t.html#boundprocedure-infer~2">infer</a>
-      <a class="list-group-item" href="../type/inference_engine_t.html#boundprocedure-infer_from_array_of_inputs">infer_from_array_of_inputs</a>
-      <a class="list-group-item" href="../type/inference_engine_t.html#boundprocedure-infer_from_inputs_object">infer_from_inputs_object</a>
       <a class="list-group-item" href="../type/inference_engine_t.html#boundprocedure-neurons_per_layer">neurons_per_layer</a>
       <a class="list-group-item" href="../type/inference_engine_t.html#boundprocedure-norm">norm</a>
       <a class="list-group-item" href="../type/inference_engine_t.html#boundprocedure-num_hidden_layers">num_hidden_layers</a>
@@ -152,9 +150,11 @@
       <a class="list-group-item" href="../type/inference_engine_t.html#boundprocedure-num_outputs">num_outputs</a>
       <a class="list-group-item" href="../type/inference_engine_t.html#boundprocedure-operator%28-%29">operator(-)</a>
       <a class="list-group-item" href="../type/inference_engine_t.html#boundprocedure-read_network">read_network</a>
-      <a class="list-group-item" href="../type/inference_engine_t.html#boundprocedure-subtract">subtract</a>
       <a class="list-group-item" href="../type/inference_engine_t.html#boundprocedure-to_json">to_json</a>
       <a class="list-group-item" href="../type/inference_engine_t.html#boundprocedure-write_network">write_network</a>
+      <a class="list-group-item" href="../type/inference_engine_t.html#boundprocedure-infer_from_array_of_inputs">infer_from_array_of_inputs</a>
+      <a class="list-group-item" href="../type/inference_engine_t.html#boundprocedure-infer_from_inputs_object">infer_from_inputs_object</a>
+      <a class="list-group-item" href="../type/inference_engine_t.html#boundprocedure-subtract">subtract</a>
     </div>
   </div>
 </div>
@@ -292,8 +292,6 @@
     <div class="list-group">
       <a class="list-group-item" href="../type/inference_engine_t.html#boundprocedure-conformable_with">conformable_with</a>
       <a class="list-group-item" href="../type/inference_engine_t.html#boundprocedure-infer~2">infer</a>
-      <a class="list-group-item" href="../type/inference_engine_t.html#boundprocedure-infer_from_array_of_inputs">infer_from_array_of_inputs</a>
-      <a class="list-group-item" href="../type/inference_engine_t.html#boundprocedure-infer_from_inputs_object">infer_from_inputs_object</a>
       <a class="list-group-item" href="../type/inference_engine_t.html#boundprocedure-neurons_per_layer">neurons_per_layer</a>
       <a class="list-group-item" href="../type/inference_engine_t.html#boundprocedure-norm">norm</a>
       <a class="list-group-item" href="../type/inference_engine_t.html#boundprocedure-num_hidden_layers">num_hidden_layers</a>
@@ -301,9 +299,11 @@
       <a class="list-group-item" href="../type/inference_engine_t.html#boundprocedure-num_outputs">num_outputs</a>
       <a class="list-group-item" href="../type/inference_engine_t.html#boundprocedure-operator%28-%29">operator(-)</a>
       <a class="list-group-item" href="../type/inference_engine_t.html#boundprocedure-read_network">read_network</a>
-      <a class="list-group-item" href="../type/inference_engine_t.html#boundprocedure-subtract">subtract</a>
       <a class="list-group-item" href="../type/inference_engine_t.html#boundprocedure-to_json">to_json</a>
       <a class="list-group-item" href="../type/inference_engine_t.html#boundprocedure-write_network">write_network</a>
+      <a class="list-group-item" href="../type/inference_engine_t.html#boundprocedure-infer_from_array_of_inputs">infer_from_array_of_inputs</a>
+      <a class="list-group-item" href="../type/inference_engine_t.html#boundprocedure-infer_from_inputs_object">infer_from_inputs_object</a>
+      <a class="list-group-item" href="../type/inference_engine_t.html#boundprocedure-subtract">subtract</a>
     </div>
   </div>
 </div>
@@ -363,7 +363,7 @@
   <div class="panel-heading codesum"><span class="anchor" id="interface-inference_engine_t"></span><h3>public interface <a href='../interface/inference_engine_t.html'>inference_engine_t</a>  </h3></div>
   <ul class="list-group">
     <li class="list-group-item">
-    <h3>private pure module function construct(input_weights, hidden_weights, output_weights, biases, output_biases, inference_strategy, activation_strategy) result(inference_engine)</h3>    
+    <h3>private pure module function construct_from_components(input_weights, hidden_weights, output_weights, biases, output_biases, inference_strategy, activation_strategy) result(inference_engine)</h3>    
 <h4>Arguments</h4>      <table class="table table-striped varlist">
 <thead><tr><th>Type</th><th>Intent</th><th>Optional</th><th>Attributes</th><th></th><th>Name</th><th></th></thead>
 <tbody>
@@ -416,7 +416,7 @@
 
     </li>
     <li class="list-group-item">
-    <h3>private impure elemental module function from_json(file_, activation_strategy, inference_strategy) result(inference_engine)</h3>    
+    <h3>private impure elemental module function construct_from_json(file_, activation_strategy, inference_strategy) result(inference_engine)</h3>    
 <h4>Arguments</h4>      <table class="table table-striped varlist">
 <thead><tr><th>Type</th><th>Intent</th><th>Optional</th><th>Attributes</th><th></th><th>Name</th><th></th></thead>
 <tbody>
@@ -498,72 +498,6 @@
       <li class="list-group-item">
             <h3>public interface <a href='../interface/infer_from_inputs_object.html'>infer_from_inputs_object</a>()</h3>    
 <h4>Arguments</h4>      <em>None</em>
-
-      </li>
-  </ul>
-</div>
-
-     <div class="panel panel-default">
-  <div class="panel-heading codesum"><span class="anchor" id="boundprocedure-infer_from_array_of_inputs"></span><h3>procedure, public :: <strong>infer_from_array_of_inputs</strong>    </h3></div>
-  <ul class="list-group">
-      <li class="list-group-item">
-          <h3>interface
-          </h3>
-  
-          <h3>private pure module module function infer_from_array_of_inputs(self, input) result(output)   <a href='../proc/infer_from_array_of_inputs.html'><button type="button" class="btn btn-info depwarn">Implementation &rarr;</button></a>
-</h3>    
-<h4>Arguments</h4>      <table class="table table-striped varlist">
-<thead><tr><th>Type</th><th>Intent</th><th>Optional</th><th>Attributes</th><th></th><th>Name</th><th></th></thead>
-<tbody>
-<tr>
-  <td><span class="anchor" ></span>class(<a href='../type/inference_engine_t.html'>inference_engine_t</a>),</td>
-<td>intent(in)</td>
-  <td></td>  <td></td><td>::</td>
-  <td><strong>self</strong></td><td></td>
-</tr>
-<tr>
-  <td><span class="anchor" ></span>real(kind=rkind),</td>
-<td>intent(in)</td>
-  <td></td>  <td></td><td>::</td>
-  <td><strong>input</strong>(:)</td><td></td>
-</tr>
-</tbody>
-</table>
-
-<h4>Return Value <small>real(kind=rkind),allocatable, (:)</small></h4>  
-
-      </li>
-  </ul>
-</div>
-
-     <div class="panel panel-default">
-  <div class="panel-heading codesum"><span class="anchor" id="boundprocedure-infer_from_inputs_object"></span><h3>procedure, public :: <strong>infer_from_inputs_object</strong>    </h3></div>
-  <ul class="list-group">
-      <li class="list-group-item">
-          <h3>interface
-          </h3>
-  
-          <h3>public elemental module module function infer_from_inputs_object(self, inputs) result(outputs)   <a href='../proc/infer_from_inputs_object.html'><button type="button" class="btn btn-info depwarn">Implementation &rarr;</button></a>
-</h3>    
-<h4>Arguments</h4>      <table class="table table-striped varlist">
-<thead><tr><th>Type</th><th>Intent</th><th>Optional</th><th>Attributes</th><th></th><th>Name</th><th></th></thead>
-<tbody>
-<tr>
-  <td><span class="anchor" ></span>class(<a href='../type/inference_engine_t.html'>inference_engine_t</a>),</td>
-<td>intent(in)</td>
-  <td></td>  <td></td><td>::</td>
-  <td><strong>self</strong></td><td></td>
-</tr>
-<tr>
-  <td><span class="anchor" ></span>type(<a href='../type/inputs_t.html'>inputs_t</a>),</td>
-<td>intent(in)</td>
-  <td></td>  <td></td><td>::</td>
-  <td><strong>inputs</strong></td><td></td>
-</tr>
-</tbody>
-</table>
-
-<h4>Return Value <small>type(<a href='../type/outputs_t.html'>outputs_t</a>)</small></h4>  
 
       </li>
   </ul>
@@ -760,39 +694,6 @@
 </div>
 
      <div class="panel panel-default">
-  <div class="panel-heading codesum"><span class="anchor" id="boundprocedure-subtract"></span><h3>procedure, public :: <strong>subtract</strong>    </h3></div>
-  <ul class="list-group">
-      <li class="list-group-item">
-          <h3>interface
-          </h3>
-  
-          <h3>private elemental module module function subtract(self, rhs) result(difference)   <a href='../proc/subtract.html'><button type="button" class="btn btn-info depwarn">Implementation &rarr;</button></a>
-</h3>    
-<h4>Arguments</h4>      <table class="table table-striped varlist">
-<thead><tr><th>Type</th><th>Intent</th><th>Optional</th><th>Attributes</th><th></th><th>Name</th><th></th></thead>
-<tbody>
-<tr>
-  <td><span class="anchor" ></span>class(<a href='../type/inference_engine_t.html'>inference_engine_t</a>),</td>
-<td>intent(in)</td>
-  <td></td>  <td></td><td>::</td>
-  <td><strong>self</strong></td><td></td>
-</tr>
-<tr>
-  <td><span class="anchor" ></span>type(<a href='../type/inference_engine_t.html'>inference_engine_t</a>),</td>
-<td>intent(in)</td>
-  <td></td>  <td></td><td>::</td>
-  <td><strong>rhs</strong></td><td></td>
-</tr>
-</tbody>
-</table>
-
-<h4>Return Value <small>type(<a href='../type/inference_engine_t.html'>inference_engine_t</a>)</small></h4>  
-
-      </li>
-  </ul>
-</div>
-
-     <div class="panel panel-default">
   <div class="panel-heading codesum"><span class="anchor" id="boundprocedure-to_json"></span><h3>procedure, public :: <strong>to_json</strong>    </h3></div>
   <ul class="list-group">
       <li class="list-group-item">
@@ -851,6 +752,105 @@
   </ul>
 </div>
 
+     <div class="panel panel-default">
+  <div class="panel-heading codesum"><span class="anchor" id="boundprocedure-infer_from_array_of_inputs"></span><h3>procedure, private :: <strong>infer_from_array_of_inputs</strong>    </h3></div>
+  <ul class="list-group">
+      <li class="list-group-item">
+          <h3>interface
+          </h3>
+  
+          <h3>private pure module module function infer_from_array_of_inputs(self, input) result(output)   <a href='../proc/infer_from_array_of_inputs.html'><button type="button" class="btn btn-info depwarn">Implementation &rarr;</button></a>
+</h3>    
+<h4>Arguments</h4>      <table class="table table-striped varlist">
+<thead><tr><th>Type</th><th>Intent</th><th>Optional</th><th>Attributes</th><th></th><th>Name</th><th></th></thead>
+<tbody>
+<tr>
+  <td><span class="anchor" ></span>class(<a href='../type/inference_engine_t.html'>inference_engine_t</a>),</td>
+<td>intent(in)</td>
+  <td></td>  <td></td><td>::</td>
+  <td><strong>self</strong></td><td></td>
+</tr>
+<tr>
+  <td><span class="anchor" ></span>real(kind=rkind),</td>
+<td>intent(in)</td>
+  <td></td>  <td></td><td>::</td>
+  <td><strong>input</strong>(:)</td><td></td>
+</tr>
+</tbody>
+</table>
+
+<h4>Return Value <small>real(kind=rkind),allocatable, (:)</small></h4>  
+
+      </li>
+  </ul>
+</div>
+
+     <div class="panel panel-default">
+  <div class="panel-heading codesum"><span class="anchor" id="boundprocedure-infer_from_inputs_object"></span><h3>procedure, private :: <strong>infer_from_inputs_object</strong>    </h3></div>
+  <ul class="list-group">
+      <li class="list-group-item">
+          <h3>interface
+          </h3>
+  
+          <h3>public elemental module module function infer_from_inputs_object(self, inputs) result(outputs)   <a href='../proc/infer_from_inputs_object.html'><button type="button" class="btn btn-info depwarn">Implementation &rarr;</button></a>
+</h3>    
+<h4>Arguments</h4>      <table class="table table-striped varlist">
+<thead><tr><th>Type</th><th>Intent</th><th>Optional</th><th>Attributes</th><th></th><th>Name</th><th></th></thead>
+<tbody>
+<tr>
+  <td><span class="anchor" ></span>class(<a href='../type/inference_engine_t.html'>inference_engine_t</a>),</td>
+<td>intent(in)</td>
+  <td></td>  <td></td><td>::</td>
+  <td><strong>self</strong></td><td></td>
+</tr>
+<tr>
+  <td><span class="anchor" ></span>type(<a href='../type/inputs_t.html'>inputs_t</a>),</td>
+<td>intent(in)</td>
+  <td></td>  <td></td><td>::</td>
+  <td><strong>inputs</strong></td><td></td>
+</tr>
+</tbody>
+</table>
+
+<h4>Return Value <small>type(<a href='../type/outputs_t.html'>outputs_t</a>)</small></h4>  
+
+      </li>
+  </ul>
+</div>
+
+     <div class="panel panel-default">
+  <div class="panel-heading codesum"><span class="anchor" id="boundprocedure-subtract"></span><h3>procedure, private :: <strong>subtract</strong>    </h3></div>
+  <ul class="list-group">
+      <li class="list-group-item">
+          <h3>interface
+          </h3>
+  
+          <h3>private elemental module module function subtract(self, rhs) result(difference)   <a href='../proc/subtract.html'><button type="button" class="btn btn-info depwarn">Implementation &rarr;</button></a>
+</h3>    
+<h4>Arguments</h4>      <table class="table table-striped varlist">
+<thead><tr><th>Type</th><th>Intent</th><th>Optional</th><th>Attributes</th><th></th><th>Name</th><th></th></thead>
+<tbody>
+<tr>
+  <td><span class="anchor" ></span>class(<a href='../type/inference_engine_t.html'>inference_engine_t</a>),</td>
+<td>intent(in)</td>
+  <td></td>  <td></td><td>::</td>
+  <td><strong>self</strong></td><td></td>
+</tr>
+<tr>
+  <td><span class="anchor" ></span>type(<a href='../type/inference_engine_t.html'>inference_engine_t</a>),</td>
+<td>intent(in)</td>
+  <td></td>  <td></td><td>::</td>
+  <td><strong>rhs</strong></td><td></td>
+</tr>
+</tbody>
+</table>
+
+<h4>Return Value <small>type(<a href='../type/inference_engine_t.html'>inference_engine_t</a>)</small></h4>  
+
+      </li>
+  </ul>
+</div>
+
     </section>
     
     
@@ -869,7 +869,7 @@
           <p class="text-right">
             Documentation generated by 
             <a href="https://github.com/Fortran-FOSS-Programmers/ford">FORD</a>
- on 2023-02-11 20:04            </p>
+ on 2023-02-11 22:16            </p>
         </div>
       </div>
       <br>

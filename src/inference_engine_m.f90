@@ -37,8 +37,8 @@ module inference_engine_m
     procedure :: read_network
     procedure :: to_json
     procedure :: write_network
-    procedure :: infer_from_array_of_inputs
-    procedure :: infer_from_inputs_object
+    procedure, private :: infer_from_array_of_inputs
+    procedure, private :: infer_from_inputs_object
     generic :: infer => infer_from_array_of_inputs, infer_from_inputs_object
     procedure :: num_inputs
     procedure :: num_outputs
@@ -46,13 +46,13 @@ module inference_engine_m
     procedure :: num_hidden_layers
     procedure :: norm
     procedure :: conformable_with
-    procedure :: subtract
+    procedure, private :: subtract
     generic :: operator(-) => subtract
   end type
 
   interface inference_engine_t
 
-    pure module function construct &
+    pure module function construct_from_components &
       (input_weights, hidden_weights, output_weights, biases, output_biases, inference_strategy, activation_strategy) &
       result(inference_engine)
       implicit none
@@ -63,7 +63,7 @@ module inference_engine_m
       type(inference_engine_t) inference_engine
     end function
 
-    impure elemental module function from_json(file_, activation_strategy, inference_strategy) result(inference_engine)
+    impure elemental module function construct_from_json(file_, activation_strategy, inference_strategy) result(inference_engine)
       implicit none
       type(file_t), intent(in) :: file_
       class(activation_strategy_t), intent(in), optional :: activation_strategy
