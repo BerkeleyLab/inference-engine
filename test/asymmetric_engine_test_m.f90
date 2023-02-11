@@ -38,8 +38,15 @@ contains
         "mapping (true,true) to false using the matmul inference strategy", &
         "mapping (true,false) to false using the matmul inference strategy", &
         "mapping (false,true) to true using the matmul inference strategy", &
-        "mapping (false,false) to false using the matmul inference strategy" &
-      ], [xor_and_2nd_input_truth_table(), xor_and_2nd_input_truth_table(matmul_t())] &
+        "mapping (false,false) to false using the matmul inference strategy", &
+        "counting the number of hidden layers", &
+        "counting the number of neurons per layer", &
+        "counting the number of inputs", &
+        "counting the number of outputs" &
+      ], &
+      [xor_and_2nd_input_truth_table(), xor_and_2nd_input_truth_table(matmul_t()), test_num_hidden_layers(), &
+       test_neurons_per_layer(), test_num_inputs(), test_num_outputs()] &
+      
     )
   end function
 
@@ -65,6 +72,42 @@ contains
       output_biases = [real(rkind):: -1.], &
       inference_strategy = inference_strategy &
     )
+  end function
+
+  function test_num_hidden_layers() result(test_passes)
+    logical test_passes
+
+    type(inference_engine_t) inference_engine
+
+    inference_engine = xor_and_2nd_input_network()
+    test_passes = inference_engine%num_hidden_layers() == 1
+  end function
+
+  function test_neurons_per_layer() result(test_passes)
+    logical test_passes
+
+    type(inference_engine_t) inference_engine
+
+    inference_engine = xor_and_2nd_input_network()
+    test_passes = inference_engine%neurons_per_layer() == 4
+  end function
+
+  function test_num_inputs() result(test_passes)
+    logical test_passes
+
+    type(inference_engine_t) inference_engine
+
+    inference_engine = xor_and_2nd_input_network()
+    test_passes = inference_engine%num_inputs() == 2
+  end function
+
+  function test_num_outputs() result(test_passes)
+    logical test_passes
+
+    type(inference_engine_t) inference_engine
+
+    inference_engine = xor_and_2nd_input_network()
+    test_passes = inference_engine%num_outputs() == 1
   end function
 
   function xor_and_2nd_input_truth_table(inference_strategy) result(test_passes)
