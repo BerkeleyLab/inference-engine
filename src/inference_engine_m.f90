@@ -37,8 +37,8 @@ module inference_engine_m
     procedure :: read_network
     procedure :: to_json
     procedure :: write_network
-    procedure :: infer_from_array_of_inputs
-    procedure :: infer_from_inputs_object
+    procedure, private :: infer_from_array_of_inputs
+    procedure, private :: infer_from_inputs_object
     generic :: infer => infer_from_array_of_inputs, infer_from_inputs_object
     procedure :: num_inputs
     procedure :: num_outputs

@@ -137,10 +137,10 @@ contains
       type(outputs_t) true_true, true_false, false_true, false_false
       real(rkind), parameter :: tolerance = 1.E-08_rkind, false = 0._rkind, true = 1._rkind
 
-      true_true = inference_engine%infer_from_inputs_object(inputs=inputs_t([true,true]))
-      true_false = inference_engine%infer_from_inputs_object(inputs=inputs_t([true,false]))
-      false_true = inference_engine%infer_from_inputs_object(inputs=inputs_t([false,true]))
-      false_false = inference_engine%infer_from_inputs_object(inputs=inputs_t([false,false]))
+      true_true = inference_engine%infer(inputs=inputs_t([true,true]))
+      true_false = inference_engine%infer(inputs=inputs_t([true,false]))
+      false_true = inference_engine%infer(inputs=inputs_t([false,true]))
+      false_false = inference_engine%infer(inputs=inputs_t([false,false]))
 
       test_passes = [ &
         abs(true_true%outputs_ - false) < tolerance .and. abs(true_false%outputs_ - true) < tolerance .and. &
