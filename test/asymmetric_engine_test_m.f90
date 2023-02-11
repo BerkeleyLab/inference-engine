@@ -70,21 +70,21 @@ contains
   end function
 
   function test_num_hidden_layers() result(test_passes)
-    logical, allocatable :: test_passes(:)
+    logical, allocatable :: test_passes
 
     type(inference_engine_t) inference_engine
 
     inference_engine = xor_and_2nd_input_network()
-    test_passes = [ inference_engine%num_hidden_layers() == 1 ]
+    test_passes = inference_engine%num_hidden_layers() == 1
   end function
 
   function test_neurons_per_layer() result(test_passes)
-    logical, allocatable :: test_passes(:)
+    logical, allocatable :: test_passes
 
     type(inference_engine_t) inference_engine
 
     inference_engine = xor_and_2nd_input_network()
-    test_passes = [ inference_engine%neurons_per_layer() == 4 ]
+    test_passes = inference_engine%neurons_per_layer() == 4
   end function
 
   function xor_and_2nd_input_truth_table(inference_strategy) result(test_passes)
