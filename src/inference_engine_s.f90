@@ -566,7 +566,6 @@ contains
     
     lines = file_%lines()
 
-
     call assert(adjustl(lines(1)%string())=="{", "from_json: expecting '{' for to start outermost object", lines(1)%string())
     call assert(adjustl(lines(2)%string())=='"hidden_layers": [', 'from_json: expecting "hidden_layers": [', lines(2)%string())
 
@@ -602,7 +601,6 @@ contains
       inference_engine%output_weights_ = reshape(output_weights, [1, size(output_weights)])
       inference_engine%output_biases_ = [output_neuron%bias()]
     end associate
-
 
     if (present(activation_strategy)) then
       inference_engine%activation_strategy_  = activation_strategy
