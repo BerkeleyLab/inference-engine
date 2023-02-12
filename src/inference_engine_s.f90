@@ -15,16 +15,27 @@ submodule(inference_engine_m) inference_engine_s
 contains
 
   module procedure construct_from_components
-    inference_engine%input_weights_ = input_weights
-    inference_engine%hidden_weights_ = hidden_weights
+
+    real(rkind), allocatable :: transposed(:,:,:)
+    integer layer
+
+    allocate(transposed(size(hidden_weights,2), size(hidden_weights,1), size(hidden_weights,3)))
+    do concurrent(layer = 1:size(hidden_weights,3))
+      transposed(:,:,layer) = transpose(hidden_weights(:,:,layer))
+    end do
+
+    inference_engine%input_weights_ = transpose(input_weights)
+    inference_engine%hidden_weights_ = transposed
     inference_engine%output_weights_ = output_weights
     inference_engine%biases_ = biases
     inference_engine%output_biases_ = output_biases
+
     if (present(activation_strategy)) then
       inference_engine%activation_strategy_ = activation_strategy
     else
       inference_engine%activation_strategy_ = step_t()
     end if
+
     if (present(inference_strategy)) then
       inference_engine%inference_strategy_ = inference_strategy
     else
@@ -40,6 +51,7 @@ contains
     type(string_t), allocatable :: lines(:)
     type(layer_t) hidden_layers
     type(neuron_t) output_neuron
+    real(rkind), allocatable :: hidden_weights(:,:,:)
     
     lines = file_%lines()
 
@@ -63,16 +75,24 @@ contains
        end associate
     end block
 
-    inference_engine%input_weights_ = hidden_layers%input_weights()
+    inference_engine%input_weights_ = transpose(hidden_layers%input_weights())
     call assert(hidden_layers%next_allocated(), "inference_engine_t%from_json: next layer exists")
 
     block 
       type(layer_t), pointer :: next_layer
+      real(rkind), allocatable :: transposed(:,:,:)
+      integer layer
 
       next_layer => hidden_layers%next_pointer()
-      inference_engine%hidden_weights_ = next_layer%hidden_weights()
+      hidden_weights = next_layer%hidden_weights()
+      inference_engine%biases_ = hidden_layers%hidden_biases()
+
+      allocate(transposed(size(hidden_weights,2), size(hidden_weights,1), size(hidden_weights,3)))
+      do concurrent(layer = 1:size(hidden_weights,3)) 
+        transposed(:,:,layer) = transpose(hidden_weights(:,:,layer))
+      end do
+      inference_engine%hidden_weights_ = transposed
     end block
-    inference_engine%biases_ = hidden_layers%hidden_biases()
 
     associate(output_weights => output_neuron%weights())
       inference_engine%output_weights_ = reshape(output_weights, [1, size(output_weights)])
@@ -151,7 +171,7 @@ contains
       [ ubound(self%biases_,         1) - lbound(self%biases_,         1), & 
         ubound(self%hidden_weights_, 1) - lbound(self%hidden_weights_, 1), &
         ubound(self%hidden_weights_, 2) - lbound(self%hidden_weights_, 2), &
-        ubound(self%input_weights_,  2) - lbound(self%input_weights_,  2), &
+        ubound(self%input_weights_,  1) - lbound(self%input_weights_,  1), &
         ubound(self%output_weights_, 2) - lbound(self%output_weights_, 2)  &
     ] ) 
       call assert(all(num_neurons == num_neurons(1)), "inference_engine_s(assert_consistent): num_neurons", &
@@ -176,12 +196,12 @@ contains
 
   module procedure num_inputs
     call assert_consistent(self)
-    input_count = ubound(self%input_weights_,1) - lbound(self%input_weights_,1) + 1
+    input_count = ubound(self%input_weights_,2) - lbound(self%input_weights_,2) + 1
   end procedure
 
   module procedure neurons_per_layer
     call assert_consistent(self)
-    neuron_count = ubound(self%input_weights_,2) - lbound(self%input_weights_,2) + 1
+    neuron_count = ubound(self%input_weights_,1) - lbound(self%input_weights_,1) + 1
   end procedure
 
   module procedure num_hidden_layers
@@ -190,16 +210,23 @@ contains
   end procedure
 
   module procedure infer_from_array_of_inputs
+    integer layer
+
     call assert_consistent(self)
+
     output = self%inference_strategy_%infer(input, &
       self%input_weights_, self%hidden_weights_, self%biases_, self%output_biases_, self%output_weights_, self%activation_strategy_&
     )
   end procedure
 
   module procedure infer_from_inputs_object
+    integer layer
+
     call assert_consistent(self)
+
     outputs%outputs_ = self%inference_strategy_%infer(inputs%inputs_, &
       self%input_weights_, self%hidden_weights_, self%biases_, self%output_biases_, self%output_weights_, self%activation_strategy_&
+      
     )
   end procedure
 
@@ -214,14 +241,14 @@ contains
     write_input_layer : &
     block
       input = 1
-      write(file_unit,*) "[[", self%input_weights_(input,:), trim(merge("]]", "] ", self%num_inputs()==1))
+      write(file_unit,*) "[[", self%input_weights_(:,input), trim(merge("]]", "] ", self%num_inputs()==1))
 
       do input = 2, self%num_inputs() - 1
-        write(file_unit,*) "[", self%input_weights_(input,:),"]"
+        write(file_unit,*) "[", self%input_weights_(:,input),"]"
       end do
 
       input = self%num_inputs()
-      if (input>1) write(file_unit,*) "[",self%input_weights_(self%num_inputs(), :),"]]"
+      if (input>1) write(file_unit,*) "[",self%input_weights_(:, self%num_inputs()),"]]"
 
       write(file_unit,*)
       write(file_unit,*) "[",self%biases_(:,1),"]"
@@ -367,15 +394,15 @@ contains
       
       rewind(file_unit)
 
-      allocate(self%input_weights_(num_inputs, neurons_per_layer))
+      allocate(self%input_weights_(neurons_per_layer, num_inputs))
 
       read_input_weights: &
-      do input = 1, size(self%input_weights_,1)
+      do input = 1, size(self%input_weights_,2)
         read(file_unit,'(a)', iostat=io_status) line_buffer
         call assert(io_status==0, "read_input_weights: io_status==0", io_status ) 
         associate(last_opening_bracket => index(line_buffer, "[", back=.true.), first_closing_bracket => index(line_buffer, "]"))
           associate(unbracketed_line => line_buffer(last_opening_bracket+1:first_closing_bracket-1))
-            read(unbracketed_line,*) self%input_weights_(input,:)
+            read(unbracketed_line,*) self%input_weights_(:, input)
           end associate
         end associate
       end do read_input_weights
@@ -562,7 +589,7 @@ contains
           lines(line) = string_t('             {')
           line = line + 1
           allocate(character(len=num_inputs*(characters_per_value+1)-1)::comma_separated_values)
-          write(comma_separated_values, fmt = csv_format) self%input_weights_(:,neuron)
+          write(comma_separated_values, fmt = csv_format) self%input_weights_(neuron,:)
           lines(line) = string_t('                "weights": [' // trim(comma_separated_values) // '],')
           deallocate(comma_separated_values)
           line = line + 1

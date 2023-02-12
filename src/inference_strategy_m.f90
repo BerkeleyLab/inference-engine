@@ -21,11 +21,11 @@ module inference_strategy_m
       import activation_strategy_t, rkind
       implicit none
       real(rkind), intent(in)  :: input(:)
-      real(rkind), intent(in), allocatable :: input_weights(:,:)    !! weights applied to go from the inputs to first hidden layer
-      real(rkind), intent(in), allocatable :: hidden_weights(:,:,:) !! weights applied to go from one hidden layer to the next
-      real(rkind), intent(in), allocatable :: output_weights(:,:)   !! weights applied to go from the final hidden layer to the outputs
-      real(rkind), intent(in), allocatable :: output_biases(:)      !! neuronal offsets applied to outputs
-      real(rkind), intent(in), allocatable :: biases(:,:)           !! neuronal offsets for each hidden layer
+      real(rkind), intent(in) :: input_weights(:,:)    !! weights applied to go from the inputs to first hidden layer
+      real(rkind), intent(in) :: hidden_weights(:,:,:) !! weights applied to go from one hidden layer to the next
+      real(rkind), intent(in) :: output_weights(:,:)   !! weights applied to go from the final hidden layer to the outputs
+      real(rkind), intent(in) :: output_biases(:)      !! neuronal offsets applied to outputs
+      real(rkind), intent(in) :: biases(:,:)           !! neuronal offsets for each hidden layer
       class(activation_strategy_t), intent(in) :: activation_strategy
       real(rkind), allocatable :: output(:)
     end function
