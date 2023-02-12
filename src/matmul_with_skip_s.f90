@@ -10,6 +10,7 @@ contains
     real(rkind), allocatable :: neuron(:,:)
 
     associate(num_layers => size(biases,2))
+
       associate(neurons_per_layer => size(input_weights,1))
         allocate(neuron(neurons_per_layer, num_layers))
       end associate
@@ -22,7 +23,7 @@ contains
         integer layer
         do layer = 2, num_layers
           neuron(:,layer) = neuron(:,layer-1) + &
-            activation_strategy%activation(matmul(transpose(hidden_weights(:,:,layer-1)), neuron(:,layer-1)) + biases(:,layer))
+            activation_strategy%activation(matmul(hidden_weights(:,:,layer-1), neuron(:,layer-1)) + biases(:,layer))
         end do
       end block
       output = activation_strategy%activation(matmul(output_weights(:,:), neuron(:,num_layers)) + output_biases(:))

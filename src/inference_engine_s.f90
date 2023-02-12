@@ -15,16 +15,27 @@ submodule(inference_engine_m) inference_engine_s
 contains
 
   module procedure construct_from_components
+
+    real(rkind), allocatable :: transposed(:,:,:)
+    integer layer
+
+    allocate(transposed(size(hidden_weights,2), size(hidden_weights,1), size(hidden_weights,3)))
+    do concurrent(layer = 1:size(hidden_weights,3))
+      transposed(:,:,layer) = transpose(hidden_weights(:,:,layer))
+    end do
+
     inference_engine%input_weights_ = transpose(input_weights)
-    inference_engine%hidden_weights_ = hidden_weights
+    inference_engine%hidden_weights_ = transposed
     inference_engine%output_weights_ = output_weights
     inference_engine%biases_ = biases
     inference_engine%output_biases_ = output_biases
+
     if (present(activation_strategy)) then
       inference_engine%activation_strategy_ = activation_strategy
     else
       inference_engine%activation_strategy_ = step_t()
     end if
+
     if (present(inference_strategy)) then
       inference_engine%inference_strategy_ = inference_strategy
     else
@@ -40,6 +51,7 @@ contains
     type(string_t), allocatable :: lines(:)
     type(layer_t) hidden_layers
     type(neuron_t) output_neuron
+    real(rkind), allocatable :: hidden_weights(:,:,:)
     
     lines = file_%lines()
 
@@ -68,11 +80,19 @@ contains
 
     block 
       type(layer_t), pointer :: next_layer
+      real(rkind), allocatable :: transposed(:,:,:)
+      integer layer
 
       next_layer => hidden_layers%next_pointer()
-      inference_engine%hidden_weights_ = next_layer%hidden_weights()
+      hidden_weights = next_layer%hidden_weights()
+      inference_engine%biases_ = hidden_layers%hidden_biases()
+
+      allocate(transposed(size(hidden_weights,2), size(hidden_weights,1), size(hidden_weights,3)))
+      do concurrent(layer = 1:size(hidden_weights,3)) 
+        transposed(:,:,layer) = transpose(hidden_weights(:,:,layer))
+      end do
+      inference_engine%hidden_weights_ = transposed
     end block
-    inference_engine%biases_ = hidden_layers%hidden_biases()
 
     associate(output_weights => output_neuron%weights())
       inference_engine%output_weights_ = reshape(output_weights, [1, size(output_weights)])
@@ -190,18 +210,23 @@ contains
   end procedure
 
   module procedure infer_from_array_of_inputs
+    integer layer
+
     call assert_consistent(self)
+
     output = self%inference_strategy_%infer(input, &
-      self%input_weights_, &
-      self%hidden_weights_, self%biases_, self%output_biases_, self%output_weights_, self%activation_strategy_&
+      self%input_weights_, self%hidden_weights_, self%biases_, self%output_biases_, self%output_weights_, self%activation_strategy_&
     )
   end procedure
 
   module procedure infer_from_inputs_object
+    integer layer
+
     call assert_consistent(self)
+
     outputs%outputs_ = self%inference_strategy_%infer(inputs%inputs_, &
-      self%input_weights_, &
-      self%hidden_weights_, self%biases_, self%output_biases_, self%output_weights_, self%activation_strategy_&
+      self%input_weights_, self%hidden_weights_, self%biases_, self%output_biases_, self%output_weights_, self%activation_strategy_&
+      
     )
   end procedure
 

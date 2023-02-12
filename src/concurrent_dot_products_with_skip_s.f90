@@ -12,9 +12,10 @@ contains
     
     integer n, layer, m
     integer, parameter :: input_layer = 1
-    real, allocatable :: neuron(:,:)
+    real(rkind), allocatable :: neuron(:,:)
 
     associate(neurons_per_layer => size(input_weights,1), num_layers => size(biases,2))
+
       allocate(neuron(neurons_per_layer, num_layers))
       do concurrent(n = 1:neurons_per_layer)
         neuron(n,input_layer) = activation_strategy%activation(dot_product(input_weights(n,:), input(:)) + biases(n,input_layer))
@@ -22,7 +23,7 @@ contains
       do layer = 2, num_layers
         do concurrent(n = 1:neurons_per_layer)
           neuron(n,layer) = neuron(n,layer-1) + &
-            activation_strategy%activation(dot_product(hidden_weights(:,n,layer-1), neuron(:,layer-1)) + biases(n,layer))
+            activation_strategy%activation(dot_product(hidden_weights(n,:,layer-1), neuron(:,layer-1)) + biases(n,layer))
         end do
       end do
 
