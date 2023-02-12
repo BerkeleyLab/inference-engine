@@ -8,15 +8,15 @@ contains
   module procedure infer
     
     real(rkind), allocatable :: neuron(:,:)
-
+ 
     associate(num_layers => size(biases,2))
-      associate(neurons_per_layer => size(input_weights,2))
+      associate(neurons_per_layer => size(input_weights,1))
         allocate(neuron(neurons_per_layer, num_layers))
       end associate
       block
         integer, parameter :: input_layer = 1
         neuron(:,input_layer) = &
-          activation_strategy%activation(matmul(transpose(input_weights(:,:)), input(:)) + biases(:,input_layer))
+          activation_strategy%activation(matmul(input_weights(:,:), input(:)) + biases(:,input_layer))
       end block
       block
         integer layer
