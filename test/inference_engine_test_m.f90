@@ -7,6 +7,7 @@ module inference_engine_test_m
   use test_result_m, only : test_result_t
   use inference_engine_m, only : inference_engine_t, inputs_t, outputs_t
   use inference_strategy_m, only : inference_strategy_t
+  use concurrent_dot_products_m, only : concurrent_dot_products_t
   use matmul_m, only : matmul_t
   use file_m, only : file_t
   use kind_parameters_m, only : rkind
@@ -32,19 +33,22 @@ contains
     type(test_result_t), allocatable :: test_results(:)
 
     test_results = test_result_t( &
-      [ character(len=len("mapping (true,true) to false using the default ('do concurrent'/dot_product) inference strategy")) :: &
-        "mapping (true,true) to false using the default ('do concurrent'/dot_product) inference strategy", &
-        "mapping (true,false) to true using the default inference strategy", &
-        "mapping (false,true) to true using the default inference strategy", &
-        "mapping (false,false) to false using the default inference strategy", &
-        "mapping (true,true) to false using `matmul`-based inference strategy", &
-        "mapping (true,false) to true using `matmul`-based inference strategy", &
-        "mapping (false,true) to true using `matmul`-based inference strategy", &
-        "mapping (false,false) to false using `matmul`-based inference strategy", &
+      [ character(len=len("mapping (false,false) to false using the concurrent_dot_products_t() inference strategy")) :: &
+        "mapping (true,true) to false using the concurrent_dot_products_t() inference strategy", &
+        "mapping (true,false) to true using the concurrent_dot_products_t() inference strategy", &
+        "mapping (false,true) to true using the concurrent_dot_products_t() inference strategy", &
+        "mapping (false,false) to false using the concurrent_dot_products_t() inference strategy", &
+        "mapping (true,true) to false using the matmul_t() inference strategy", &
+        "mapping (true,false) to true using the matmul_t() inference strategy", &
+        "mapping (false,true) to true using the matmul_t() inference strategy", &
+        "mapping (false,false) to false using the matmul_t() inference strategy", &
         "writing and then reading itself to and from a file", &
         "converting to and from JSON format", &
         "performing inference with encapsulated inputs and outputs" &
-      ], [xor_truth_table(), xor_truth_table(matmul_t()), write_then_read(), convert_to_and_from_json(), elemental_inference()] &
+      ], &
+      [ xor_truth_table(concurrent_dot_products_t()), xor_truth_table(matmul_t()), &
+        write_then_read(), convert_to_and_from_json(), elemental_inference() &
+      ] &
     )
   end function
 

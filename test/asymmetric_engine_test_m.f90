@@ -7,6 +7,7 @@ module asymmetric_engine_test_m
   use inference_engine_m, only : inference_engine_t
   use inference_strategy_m, only : inference_strategy_t
   use matmul_m, only : matmul_t
+  use concurrent_dot_products_m, only : concurrent_dot_products_t
   use kind_parameters_m, only : rkind
   implicit none
 
@@ -30,23 +31,23 @@ contains
     type(test_result_t), allocatable :: test_results(:)
 
     test_results = test_result_t( &
-      [ character(len=len("mapping (true,true) to false using the default ('do concurrent'/dot_product) inference strategy")) :: &
-        "mapping (true,true) to false using the default ('do concurrent'/dot_product) inference strategy", &
-        "mapping (true,false) to false using the default inference strategy", &
-        "mapping (false,true) to true using the default inference strategy", &
-        "mapping (false,false) to false using the default inference strategy", &
-        "mapping (true,true) to false using the matmul inference strategy", &
-        "mapping (true,false) to false using the matmul inference strategy", &
-        "mapping (false,true) to true using the matmul inference strategy", &
-        "mapping (false,false) to false using the matmul inference strategy", &
+      [ character(len=len("mapping (false,false) to false using the concurrent_dot_products_t() inference strategy")) :: &
+        "mapping (true,true) to false using the concurrent_dot_products_t() inference strategy", &
+        "mapping (true,false) to false using the concurrent_dot_products_t() inference strategy", &
+        "mapping (false,true) to true using the concurrent_dot_products_t() inference strategy", &
+        "mapping (false,false) to false using the concurrent_dot_products_t() inference strategy", &
+        "mapping (true,true) to false using the matmul_t() inference strategy", &
+        "mapping (true,false) to false using the matmul_t() inference strategy", &
+        "mapping (false,true) to true using the matmul_t() inference strategy", &
+        "mapping (false,false) to false using the matmul_t() inference strategy", &
         "counting the number of hidden layers", &
         "counting the number of neurons per layer", &
         "counting the number of inputs", &
         "counting the number of outputs" &
       ], &
-      [xor_and_2nd_input_truth_table(), xor_and_2nd_input_truth_table(matmul_t()), test_num_hidden_layers(), &
-       test_neurons_per_layer(), test_num_inputs(), test_num_outputs()] &
-      
+      [xor_and_2nd_input_truth_table(concurrent_dot_products_t()), xor_and_2nd_input_truth_table(matmul_t()), &
+       test_num_hidden_layers(),  test_neurons_per_layer(), test_num_inputs(), test_num_outputs() &
+      ] &
     )
   end function
 
