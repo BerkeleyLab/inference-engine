@@ -51,15 +51,15 @@ contains
     type(inference_engine_t) inference_engine
     integer, parameter :: n_in = 2 ! number of inputs
     integer, parameter :: n_out = 1 ! number of outputs
-    integer, parameter :: neurons = 4 ! number of neurons per layer
+    integer, parameter :: neurons = 2 ! number of neurons per layer
     integer, parameter :: n_hidden = 2 ! number of hidden layers 
     integer i 
       
     inference_engine = inference_engine_t( &
-      input_weights  = real(reshape([1,0,0,0,0,0,0,1], [n_in, neurons]), rkind), &
+      input_weights  = real(reshape([1,0,0,1], [n_in, neurons]), rkind), &
       hidden_weights = real(reshape([(0., i=1,neurons*neurons)], [neurons, neurons, n_hidden-1]), rkind), &
-      output_weights = real(reshape([-2,0,0,1], [n_out, neurons]), rkind), &
-      biases = reshape([real(rkind):: 0.,0, 0.,0., 0.,0.,0.,0.], [neurons, n_hidden]), &
+      output_weights = real(reshape([-2,1], [n_out, neurons]), rkind), &
+      biases = reshape([real(rkind):: 0.,0, 0.,0.], [neurons, n_hidden]), &
       output_biases = [real(rkind):: 0.], &
       inference_strategy = inference_strategy &
     )
