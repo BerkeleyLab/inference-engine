@@ -138,17 +138,15 @@ contains
     inference_engine = xor_network(inference_strategy)
 
     block
-      type(outputs_t) true_true, true_false, false_true, false_false
+      type(outputs_t), allocatable :: truth_table(:)
       real(rkind), parameter :: tolerance = 1.E-08_rkind, false = 0._rkind, true = 1._rkind
 
-      true_true = inference_engine%infer(inputs=inputs_t([true,true]))
-      true_false = inference_engine%infer(inputs=inputs_t([true,false]))
-      false_true = inference_engine%infer(inputs=inputs_t([false,true]))
-      false_false = inference_engine%infer(inputs=inputs_t([false,false]))
-
+      truth_table = inference_engine%infer( &
+        [inputs_t([true,true]), inputs_t([true,false]), inputs_t([false,true]), inputs_t([false,false])] &
+      )
       test_passes = [ &
-        abs(true_true%outputs_ - false) < tolerance .and. abs(true_false%outputs_ - true) < tolerance .and. &
-        abs(false_true%outputs_ - true) < tolerance .and. abs(false_false%outputs_ - false) < tolerance &
+        abs(truth_table(1)%outputs_ - false) < tolerance .and. abs(truth_table(2)%outputs_ - true) < tolerance .and. &
+        abs(truth_table(3)%outputs_ - true) < tolerance .and. abs(truth_table(4)%outputs_ - false) < tolerance &
       ]
     end block
   end function
