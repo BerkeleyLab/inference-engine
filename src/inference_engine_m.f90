@@ -13,7 +13,6 @@ module inference_engine_m
   public :: inference_engine_t
   public :: inputs_t
   public :: outputs_t
-  public :: infer_from_inputs_object
 
   type inputs_t
     real(rkind), allocatable :: inputs_(:)
@@ -23,9 +22,15 @@ module inference_engine_m
     real(rkind), allocatable :: outputs_(:)
   end type
 
+  type metadata_t
+    character(len=:), allocatable :: modelName, modelAuthor, compilationDate
+    logical usingSkipConnections
+  end type
+
   type inference_engine_t
     !! Encapsulate the minimal information needed to performance inference
     private
+    type(metadata_t) metadata_
     real(rkind), allocatable :: input_weights_(:,:)    ! weights applied to go from the inputs to first hidden layer
     real(rkind), allocatable :: hidden_weights_(:,:,:) ! weights applied to go from one hidden layer to the next
     real(rkind), allocatable :: output_weights_(:,:)   ! weights applied to go from the final hidden layer to the outputs
