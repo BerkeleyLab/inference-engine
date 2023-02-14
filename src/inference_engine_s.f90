@@ -49,7 +49,7 @@ contains
   module procedure construct_from_json
 
     type(string_t), allocatable :: lines(:)
-    type(layer_t) hidden_layers
+    type(layer_t) hidden_layers, output_layer
     type(neuron_t) output_neuron
     real(rkind), allocatable :: hidden_weights(:,:,:)
     integer l
@@ -97,7 +97,7 @@ contains
          call assert(adjustl(output_layer_line)=='"output_layer": [', 'from_json: expecting "output_layer": [', &
            lines(output_layer_line_number)%string())
 
-         output_neuron = neuron_t(lines, start=output_layer_line_number + 1)
+         output_layer = layer_t(lines, start=output_layer_line_number)
        end associate
     end block
 
@@ -120,10 +120,8 @@ contains
       inference_engine%hidden_weights_ = transposed
     end block
 
-    associate(output_weights => output_neuron%weights())
-      inference_engine%output_weights_ = reshape(output_weights, [1, size(output_weights)])
-      inference_engine%output_biases_ = [output_neuron%bias()]
-    end associate
+    inference_engine%output_weights_ = output_layer%output_weights()
+    inference_engine%output_biases_ = output_layer%output_biases()
 
     if (present(activation_strategy)) then
       inference_engine%activation_strategy_  = activation_strategy
