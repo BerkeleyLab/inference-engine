@@ -30,7 +30,7 @@ Table of contents
 Overview
 --------
 
-Inference-Engine is a software library that supports researching options for efficiently propagating inputs through deep, feed-forward neural networks.  Inference-Engine's implementation language, Fortran 2018, makes it suitable for integration into high-performance computing (HPC) applications.  Novel features include
+Inference-Engine is a software library for researching ways to efficiently propagate inputs through deep, feed-forward neural networks exported from Python by the companion package [nexport].  Inference-Engine's implementation language, Fortran 2018, makes it suitable for integration into high-performance computing (HPC) applications.  The first HPC application of interest is the Intermediate Complexity Atmospheric Research ([ICAR]) model.  The novel features of Inference-Engine include
 
 1. Exposing concurrency via 
   - An `elemental` inference function
@@ -60,3 +60,5 @@ Please see the Inference-Engine GitHub Pages [site] for HTML documentation gener
 
 [site]: https://berkeleylab.github.io/inference-engine/ 
 [`ford`]: https://github.com/Fortran-FOSS-Programmers/ford
+[nexport]: https://go.lbl.gov/nexport
+[ICAR]: https://github.com/NCAR/icar
