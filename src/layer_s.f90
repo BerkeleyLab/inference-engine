@@ -166,11 +166,12 @@ contains
         call assert(neuron%num_inputs() == neurons_per_hidden_layer, "layer_t%output_weights: constant number of inputs")
       end do loop_over_output_neurons
 
-      call assert(neuron%next_allocated(), "layer_t%output_weights: neuron%next_allocated()")
-      neuron => neuron%next_pointer()
-      if (num_outputs > 2) weights(num_outputs,:) = neuron%weights() ! avoid redundant assignment
-
-      call assert(.not. self%next_allocated(), "layer_t%output_weights: .not. layer%next_allocated()")
+      if (num_outputs > 1) then
+        call assert(neuron%next_allocated(), "layer_t%output_weights: neuron%next_allocated()")
+        neuron => neuron%next_pointer()
+        weights(num_outputs,:) = neuron%weights() ! avoid redundant assignment
+        call assert(.not. self%next_allocated(), "layer_t%output_weights: .not. layer%next_allocated()")
+      end if
 
     end associate
 
@@ -194,11 +195,12 @@ contains
         biases(n) = neuron%bias()
       end do loop_over_output_neurons
 
-      call assert(neuron%next_allocated(), "layer_t%output_biases: neuron%next_allocated()")
-      neuron => neuron%next_pointer()
-      if (num_outputs > 2) biases(num_outputs) = neuron%bias() ! avoid redundant assignment
-
-      call assert(.not. self%next_allocated(), "layer_t%output_biases: .not. layer%next_allocated()")
+      if (num_outputs > 1) then
+        call assert(neuron%next_allocated(), "layer_t%output_biases: neuron%next_allocated()")
+        neuron => neuron%next_pointer()
+        biases(num_outputs) = neuron%bias() ! avoid redundant assignment
+        call assert(.not. self%next_allocated(), "layer_t%output_biases: .not. layer%next_allocated()")
+      end if
 
     end associate
 
