@@ -12,8 +12,12 @@ contains
     type(neuron_t), pointer ::  neuron 
     integer num_inputs, neurons_in_layer
     character(len=:), allocatable :: line
+    logical hidden_layers, output_layer
 
-    call assert(adjustl(layer_lines(start)%string())=='[', "layer_t construct: layer start", layer_lines(start)%string())
+    line = adjustl(layer_lines(start)%string())
+    hidden_layers = line == '['
+    output_layer = line == '"output_layer": ['
+    call assert(hidden_layers .or. output_layer, "layer_t construct: layer start", line)
 
     layer%neuron = neuron_t(layer_lines, start+1)
     num_inputs = size(layer%neuron%weights())
@@ -138,6 +142,65 @@ contains
         end if
 
       end do loop_over_Layers
+
+    end associate
+
+  end procedure
+
+  module procedure output_weights
+
+    type(neuron_t), pointer :: neuron
+    integer n
+
+    associate(num_outputs => self%neurons_per_layer(), neurons_per_hidden_layer => self%neuron%num_inputs())
+
+      neuron => self%neuron
+      allocate(weights(num_outputs, neurons_per_hidden_layer))
+      weights(1,:) = neuron%weights()
+
+      loop_over_output_neurons: &
+      do n = 2, num_outputs - 1
+        call assert(neuron%next_allocated(), "layer_t%output_weights: neuron%next_allocated()")
+        neuron => neuron%next_pointer()
+        weights(n,:) = neuron%weights()
+        call assert(neuron%num_inputs() == neurons_per_hidden_layer, "layer_t%output_weights: constant number of inputs")
+      end do loop_over_output_neurons
+
+      if (num_outputs > 1) then
+        call assert(neuron%next_allocated(), "layer_t%output_weights: neuron%next_allocated()")
+        neuron => neuron%next_pointer()
+        weights(num_outputs,:) = neuron%weights() ! avoid redundant assignment
+        call assert(.not. self%next_allocated(), "layer_t%output_weights: .not. layer%next_allocated()")
+      end if
+
+    end associate
+
+  end procedure
+
+  module procedure output_biases
+
+    type(neuron_t), pointer :: neuron
+    integer n
+
+    associate(num_outputs => self%neurons_per_layer())
+
+      neuron => self%neuron
+      allocate(biases(num_outputs))
+      biases(1) = neuron%bias()
+
+      loop_over_output_neurons: &
+      do n = 2, num_outputs - 1
+        call assert(neuron%next_allocated(), "layer_t%output_biases: neuron%next_allocated()")
+        neuron => neuron%next_pointer()
+        biases(n) = neuron%bias()
+      end do loop_over_output_neurons
+
+      if (num_outputs > 1) then
+        call assert(neuron%next_allocated(), "layer_t%output_biases: neuron%next_allocated()")
+        neuron => neuron%next_pointer()
+        biases(num_outputs) = neuron%bias() ! avoid redundant assignment
+        call assert(.not. self%next_allocated(), "layer_t%output_biases: .not. layer%next_allocated()")
+      end if
 
     end associate
 

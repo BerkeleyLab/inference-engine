@@ -24,6 +24,7 @@ program read_json
 
   print *, "Constructing a new inference_engine_t object by parameters from '"//input_file_name%string()//"'."
   inference_engine = inference_engine_t(file_t(input_file_name), step_t(), matmul_t())
+  print *, "num_inputs = ", inference_engine%num_inputs()
   print *, "num_outputs = ", inference_engine%num_outputs()
   print *, "num_hidden_layers = ", inference_engine%num_hidden_layers()
   print *, "neurons_per_layer = ", inference_engine%neurons_per_layer()
