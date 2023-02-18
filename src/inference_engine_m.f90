@@ -22,9 +22,11 @@ module inference_engine_m
     real(rkind), allocatable :: outputs_(:)
   end type
 
+  character(len=*), parameter :: key(*) = [character(len=len("usingSkipConnections")) :: &
+    "modelName", "modelAuthor", "compilationDate", "activationFunction", "usingSkipConnections"]
+
   type metadata_t
-    character(len=:), allocatable :: modelName, modelAuthor, compilationDate
-    logical usingSkipConnections
+    type(string_t) key_value(size(key))
   end type
 
   type inference_engine_t
@@ -68,10 +70,9 @@ module inference_engine_m
       type(inference_engine_t) inference_engine
     end function
 
-    impure elemental module function construct_from_json(file_, activation_strategy, inference_strategy) result(inference_engine)
+    impure elemental module function construct_from_json(file_, inference_strategy) result(inference_engine)
       implicit none
       type(file_t), intent(in) :: file_
-      class(activation_strategy_t), intent(in), optional :: activation_strategy
       class(inference_strategy_t), intent(in), optional :: inference_strategy
       type(inference_engine_t) inference_engine
     end function

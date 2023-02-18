@@ -53,32 +53,26 @@ contains
     type(neuron_t) output_neuron
     real(rkind), allocatable :: hidden_weights(:,:,:)
     integer l
-    character(len=:), allocatable :: quoted_value, line
     
     lines = file_%lines()
 
     l = 1
     call assert(adjustl(lines(l)%string())=="{", "construct_from_json: expecting '{' to start outermost object", lines(l)%string())
+
     l = 2
-    if (adjustl(lines(l)%string()) /= '"metadata": {') then
-      inference_engine%metadata_ = metadata_t(modelName="",modelAuthor="",compilationDate="", usingSkipConnections=.false.)
-    else
-      l = l + 1
-      inference_engine%metadata_%modelName = get_string_value(adjustl(lines(l)%string()), key="modelName")
-
-      l = l + 1
-      inference_engine%metadata_%modelAuthor = get_string_value(adjustl(lines(l)%string()), key="modelAuthor")
-
-      l = l + 1
-      inference_engine%metadata_%compilationDate = get_string_value(adjustl(lines(l)%string()), key="compilationDate")
-
-      l = l + 1
-      inference_engine%metadata_%usingSkipConnections = get_logical_value(adjustl(lines(l)%string()), key="usingSkipConnections")
-
-      l = l + 1
-      call assert(adjustl(lines(l)%string())=="},", "construct_from_json: expecting '},' to end metadata object", lines(l)%string())
-
-      l = l + 1
+    inference_engine%metadata_%key_value = [string_t(""),string_t(""),string_t(""),string_t(""),string_t("false")]
+    if (adjustl(lines(l)%string()) == '"metadata": {') then
+      block
+        character(len=:), allocatable :: justified_line
+        do 
+          l = l + 1
+          justified_line = adjustl(lines(l)%string())
+          if (justified_line == "},") exit
+          inference_engine%metadata_%key_value(findloc(key, trim(get_key_string(justified_line)), dim=1)) &
+            = get_key_value(justified_line)
+        end do
+        l = l + 1
+      end block
     end if
 
     call assert(adjustl(lines(l)%string())=='"hidden_layers": [', 'from_json: expecting "hidden_layers": [', lines(l)%string())
@@ -123,11 +117,7 @@ contains
     inference_engine%output_weights_ = output_layer%output_weights()
     inference_engine%output_biases_ = output_layer%output_biases()
 
-    if (present(activation_strategy)) then
-      inference_engine%activation_strategy_  = activation_strategy
-    else
-      inference_engine%activation_strategy_  = step_t()
-    end if
+    inference_engine%activation_strategy_  = step_t()
  
     if (present(inference_strategy)) then
       inference_engine%inference_strategy_  = inference_strategy
@@ -139,43 +129,34 @@ contains
 
   contains
 
-    pure function get_string_value(line, key) result(value_)
-      character(len=*), intent(in) :: line, key
-      character(len=:), allocatable :: value_
-
+    pure function get_key_string(line) result(unquoted_key)
+      character(len=*), intent(in) :: line
+      character(len=:), allocatable :: unquoted_key
+    
       associate(opening_key_quotes => index(line, '"'), separator => index(line, ':'))
         associate(closing_key_quotes => opening_key_quotes + index(line(opening_key_quotes+1:), '"'))
-          associate(unquoted_key => line(opening_key_quotes+1:closing_key_quotes-1), remainder => line(separator+1:))
-            call assert(unquoted_key == key,"construct_from_json(get_string_value): unquoted_key == key ", unquoted_key)
-            associate(opening_value_quotes => index(remainder, '"'))
-              associate(closing_value_quotes => opening_value_quotes + index(remainder(opening_value_quotes+1:), '"'))
-                value_ = remainder(opening_value_quotes+1:closing_value_quotes-1)
-              end associate
-            end associate
-          end associate
+          unquoted_key = trim(line(opening_key_quotes+1:closing_key_quotes-1))
         end associate
       end associate
     end function
 
-    pure function get_logical_value(line, key) result(value_)
-      character(len=*), intent(in) :: line, key
-      logical value_
-      character(len=:), allocatable :: remainder ! a gfortran bug prevents making this an association
+    function get_key_value(line) result(value_)
+      character(len=*), intent(in) :: line
+      type(string_t) value_
 
-      associate(opening_key_quotes => index(line, '"'), separator => index(line, ':'))
-        associate(closing_key_quotes => opening_key_quotes + index(line(opening_key_quotes+1:), '"'))
-          associate(unquoted_key => line(opening_key_quotes+1:closing_key_quotes-1))
-            call assert(unquoted_key == key,"construct_from_json(get_string_value): unquoted_key == key ", unquoted_key)
-            remainder = adjustl(line(separator+1:))
-            call assert(any(remainder == ["true ", "false"]), "construct_from_json(get_logical_value): valid value", remainder)
-            value_ = remainder == "true"
+      associate(text_after_colon => line(index(line, ':')+1:))
+        associate(opening_value_quotes => index(text_after_colon, '"'))
+          associate(closing_value_quotes => opening_value_quotes + index(text_after_colon(opening_value_quotes+1:), '"'))
+            if (any([opening_value_quotes, closing_value_quotes] == 0)) then
+              value_ = string_t(trim(adjustl((text_after_colon))))
+            end if
+            value_ = string_t(text_after_colon(opening_value_quotes+1:closing_value_quotes-1))
           end associate
         end associate
       end associate
     end function
 
   end procedure construct_from_json
-
 
   module procedure conformable_with
     call assert_consistent(self)
