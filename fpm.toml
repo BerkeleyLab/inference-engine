@@ -6,5 +6,5 @@ maintainer = "rouson@lbl.gov"
 
 [dependencies]
 assert = {git = "https://github.com/sourceryinstitute/assert", tag = "1.4.0"}
-sourcery = {git = "https://github.com/sourceryinstitute/sourcery", tag = "3.5.0"}
+sourcery = {git = "https://github.com/sourceryinstitute/sourcery", tag = "3.6.0"}
 netcdf-interfaces = {git = "https://github.com/LKedward/netcdf-interfaces.git"}
