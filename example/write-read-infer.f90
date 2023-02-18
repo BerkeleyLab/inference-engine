@@ -9,7 +9,6 @@ program write_read_infer
   use inference_engine_m, only : inference_engine_t
   use string_m, only : string_t
   use matmul_m, only : matmul_t
-  use step_m, only : step_t
   use file_m, only : file_t
   use kind_parameters_m, only : rkind
   implicit none
@@ -56,7 +55,7 @@ contains
     json_input_file = file_t(output_file_name)
 
     print *, "Constructing a new inference_engine_t object from the parameters read."
-    inference_engine = inference_engine_t(json_input_file, step_t(), matmul_t())
+    inference_engine = inference_engine_t(json_input_file)
 
     print *, "Querying the new inference_engine_t object for several properties:"
     print *, "num_outputs = ", inference_engine%num_outputs()

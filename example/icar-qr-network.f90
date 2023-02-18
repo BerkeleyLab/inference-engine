@@ -7,8 +7,6 @@ program icar_qr_network
   use inference_engine_m, only : inference_engine_t
   use string_m, only : string_t
   use matmul_with_skip_m, only : matmul_with_skip_t
-  use concurrent_dot_products_m, only : concurrent_dot_products_t
-  use sigmoid_m, only : sigmoid_t
   use file_m, only : file_t
   implicit none
 
@@ -20,11 +18,11 @@ program icar_qr_network
 
   if (len(input_file_name%string())==0) then
     error stop new_line('a') // new_line('a') // &
-      'Usage: ./build/run-fpm.sh run --example read -- --input-file "<file-name>"' 
+      'Usage: ./build/run-fpm.sh run --example icar-qr-network -- --input-file "<file-name>"' 
   end if
 
   print *, "Constructing a new inference_engine_t object by parameters from '"//input_file_name%string()//"'."
-  inference_engine = inference_engine_t(file_t(input_file_name), sigmoid_t(), matmul_with_skip_t())
+  inference_engine = inference_engine_t(file_t(input_file_name))
   print *, "num_inputs = ", inference_engine%num_inputs()
   print *, "num_outputs = ", inference_engine%num_outputs()
   print *, "num_hidden_layers = ", inference_engine%num_hidden_layers()

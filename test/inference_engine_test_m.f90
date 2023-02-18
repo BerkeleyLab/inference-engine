@@ -42,12 +42,11 @@ contains
         "mapping (true,false) to true using the matmul_t() inference strategy", &
         "mapping (false,true) to true using the matmul_t() inference strategy", &
         "mapping (false,false) to false using the matmul_t() inference strategy", &
-        "writing and then reading itself to and from a file", &
         "converting to and from JSON format", &
         "performing inference with encapsulated inputs and outputs" &
       ], &
       [ xor_truth_table(concurrent_dot_products_t()), xor_truth_table(matmul_t()), &
-        write_then_read(), convert_to_and_from_json(), elemental_inference() &
+        convert_to_and_from_json(), elemental_inference() &
       ] &
     )
   end function
@@ -72,24 +71,6 @@ contains
       output_biases = [real(rkind):: 0.], &
       inference_strategy = inference_strategy &
     )
-  end function
-
-  function write_then_read() result(test_passes)
-    logical, allocatable :: test_passes
-
-    type(inference_engine_t) xor_written, xor_read, difference
-
-    xor_written = xor_network()
-    call xor_written%write_network(string_t("build/write_then_read_test_specimen"))
-    call xor_read%read_network(string_t("build/write_then_read_test_specimen"))
-
-    block 
-      type(inference_engine_t) difference
-      real(rkind), parameter :: tolerance = 1.0E-06_rkind
-
-      difference = xor_read - xor_written
-      test_passes = difference%norm() < tolerance
-    end block
   end function
 
   function convert_to_and_from_json() result(test_passes)

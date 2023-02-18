@@ -25,14 +25,10 @@ module inference_engine_m
   character(len=*), parameter :: key(*) = [character(len=len("usingSkipConnections")) :: &
     "modelName", "modelAuthor", "compilationDate", "activationFunction", "usingSkipConnections"]
 
-  type metadata_t
-    type(string_t) key_value(size(key))
-  end type
-
   type inference_engine_t
     !! Encapsulate the minimal information needed to performance inference
     private
-    type(metadata_t) metadata_
+    type(string_t) key_value(size(key))
     real(rkind), allocatable :: input_weights_(:,:)    ! weights applied to go from the inputs to first hidden layer
     real(rkind), allocatable :: hidden_weights_(:,:,:) ! weights applied to go from one hidden layer to the next
     real(rkind), allocatable :: output_weights_(:,:)   ! weights applied to go from the final hidden layer to the outputs
@@ -41,9 +37,7 @@ module inference_engine_m
     class(activation_strategy_t), allocatable :: activation_strategy_
     class(inference_strategy_t), allocatable :: inference_strategy_
   contains
-    procedure :: read_network
     procedure :: to_json
-    procedure :: write_network
     procedure, private :: infer_from_array_of_inputs
     procedure, private :: infer_from_inputs_object
     generic :: infer => infer_from_array_of_inputs, infer_from_inputs_object
@@ -52,7 +46,7 @@ module inference_engine_m
     procedure :: neurons_per_layer
     procedure :: num_hidden_layers
     procedure :: norm
-    procedure :: conformable_with
+    procedure :: assert_conformable_with
     procedure, private :: subtract
     generic :: operator(-) => subtract
   end type
@@ -87,20 +81,6 @@ module inference_engine_m
       type(file_t) json_file
     end function
 
-    impure elemental module subroutine read_network(self, file_name, activation_strategy, inference_strategy)
-      implicit none
-      class(inference_engine_t), intent(out) :: self
-      type(string_t), intent(in) :: file_name
-      class(activation_strategy_t), intent(in), optional :: activation_strategy
-      class(inference_strategy_t), intent(in), optional :: inference_strategy
-    end subroutine
-
-    impure elemental module subroutine write_network(self, file_name)
-      implicit none
-      class(inference_engine_t), intent(in) :: self
-      type(string_t), intent(in) :: file_name
-    end subroutine
-
     elemental module function norm(self) result(norm_of_self)
       implicit none
       class(inference_engine_t), intent(in) :: self
@@ -114,12 +94,11 @@ module inference_engine_m
       type(inference_engine_t)  difference
     end function
 
-    elemental module function conformable_with(self, inference_engine) result(conformable)
+    elemental module subroutine assert_conformable_with(self, inference_engine)
       implicit none
       class(inference_engine_t), intent(in) :: self
       type(inference_engine_t), intent(in) :: inference_engine
-      logical conformable
-    end function
+    end subroutine
 
     pure module function infer_from_array_of_inputs(self, input) result(output)
       implicit none
