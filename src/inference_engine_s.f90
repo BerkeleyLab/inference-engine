@@ -428,4 +428,8 @@ contains
     use_skip_connections = self%metadata_(findloc(key, "usingSkipConnections", dim=1))%string() == "true"
   end procedure
 
+  module procedure activation_function_name
+    activation_name = self%metadata_(findloc(key, "activationFunction", dim=1))
+  end procedure
+
 end submodule inference_engine_s

@@ -46,10 +46,12 @@ contains
         "counting the number of hidden layers", &
         "counting the number of neurons per layer", &
         "counting the number of inputs", &
-        "counting the number of outputs" &
+        "counting the number of outputs", &
+        "getting the activation function name" &
       ], &
       [ xor_and_2nd_input_truth_table(concurrent_dot_products_t()), xor_and_2nd_input_truth_table(matmul_t()), &
-        test_num_hidden_layers(),  test_neurons_per_layer(), test_num_inputs(), test_num_outputs() &
+        test_num_hidden_layers(),  test_neurons_per_layer(), test_num_inputs(), test_num_outputs(), &
+        test_activation_name() &
       ] & 
     )   
   end function
@@ -140,6 +142,16 @@ contains
 
     inference_engine = xor_and_2nd_input_network()
     test_passes = inference_engine%num_outputs() == 1
+  end function
+
+  function test_activation_name() result(test_passes)
+    logical test_passes
+    type(string_t) :: function_name
+    type(inference_engine_t) inference_engine
+
+    inference_engine = xor_and_2nd_input_network()
+    function_name = inference_engine%activation_function_name() 
+    test_passes = function_name%string() == "step"
   end function
 
 end module asymmetric_engine_test_m

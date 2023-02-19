@@ -49,6 +49,7 @@ module inference_engine_m
     procedure, private :: subtract
     generic :: operator(-) => subtract
     procedure :: skip
+    procedure :: activation_function_name
   end type
 
   interface inference_engine_t
@@ -141,6 +142,12 @@ module inference_engine_m
       implicit none
       class(inference_engine_t), intent(in) :: self
       logical use_skip_connections
+    end function
+
+    elemental module function activation_function_name(self) result(activation_name)
+      implicit none
+      class(inference_engine_t), intent(in) :: self
+      type(string_t) activation_name
     end function
 
   end interface

@@ -13,6 +13,7 @@ program read_json
   type(string_t) input_file_name
   type(command_line_t) command_line
   type(inference_engine_t) inference_engine
+  type(string_t) activation_name
 
   input_file_name = string_t(command_line%flag_value("--input-file"))
 
@@ -23,8 +24,11 @@ program read_json
 
   print *, "Constructing a new inference_engine_t object by parameters from '"//input_file_name%string()//"'."
   inference_engine = inference_engine_t(file_t(input_file_name))
-  print *, "num_inputs = ", inference_engine%num_inputs()
-  print *, "num_outputs = ", inference_engine%num_outputs()
-  print *, "num_hidden_layers = ", inference_engine%num_hidden_layers()
-  print *, "neurons_per_layer = ", inference_engine%neurons_per_layer()
+  print *, "number of inputs: ", inference_engine%num_inputs()
+  print *, "number of outputs: ", inference_engine%num_outputs()
+  print *, "number of hidden layers: ", inference_engine%num_hidden_layers()
+  print *, "number of neurons per layer: ", inference_engine%neurons_per_layer()
+  activation_name = inference_engine%activation_function_name()
+  print *, "activation function: ", activation_name%string()
+  print *, "using skip connections: ", merge("true ", "false", inference_engine%skip())
 end program
