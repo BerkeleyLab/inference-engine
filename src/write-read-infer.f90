@@ -8,8 +8,8 @@ program write_read_infer
   use command_line_m, only : command_line_t
   use inference_engine_m, only : inference_engine_t
   use string_m, only : string_t
-  use matmul_m, only : matmul_t
   use step_m, only : step_t
+  use matmul_m, only : matmul_t
   use file_m, only : file_t
   use kind_parameters_m, only : rkind
   implicit none
@@ -39,12 +39,12 @@ contains
 
     print *, "Constructing an inference_engine_t neural-network object from scratch."
     xor_network = inference_engine_t( &
+      metadata = [string_t("XOR"), string_t("Damian Rouson"), string_t("2023-02-18"), string_t("step"), string_t("false")], &
       input_weights = real(reshape([1,0,1,1,0,1], [num_inputs, num_neurons]), rkind), &
       hidden_weights = real(identity, rkind), &
       output_weights = real(reshape([1,-2,1], [num_outputs, num_neurons]), rkind), &
       biases = reshape([real(rkind):: 0.,-1.99,0., 0.,0.,0.], [num_neurons, num_hidden_layers]), &
-      output_biases = [real(rkind):: 0.], &
-      inference_strategy = matmul_t() &
+      output_biases = [real(rkind):: 0.] &
     ) 
     print *, "Converting an inference_engine_t object to a file_t object."
     json_output_file = xor_network%to_json()
@@ -56,7 +56,7 @@ contains
     json_input_file = file_t(output_file_name)
 
     print *, "Constructing a new inference_engine_t object from the parameters read."
-    inference_engine = inference_engine_t(json_input_file, step_t(), matmul_t())
+    inference_engine = inference_engine_t(json_input_file)
 
     print *, "Querying the new inference_engine_t object for several properties:"
     print *, "num_outputs = ", inference_engine%num_outputs()
@@ -64,7 +64,7 @@ contains
     print *, "neurons_per_layer = ", inference_engine%neurons_per_layer()
 
     print *, "Performing inference:"
-    print *, "inference_engine%infer([0.,1.]) =",inference_engine%infer([real(rkind):: 0.,1.])
+    print *, "inference_engine%infer([0.,1.]) =",inference_engine%infer([real(rkind):: 0.,1.], matmul_t())
     print *, "Correct answer for the XOR neural network: ", 1.
   end subroutine write_read_query_infer
 

@@ -19,7 +19,7 @@ module concurrent_dot_products_m
   interface
 
     pure module function infer( &
-      input, input_weights, hidden_weights, biases, output_biases, output_weights, activation_strategy &
+      input, input_weights, hidden_weights, biases, output_biases, output_weights, activation_strategy, skip &
     ) result(output)
       implicit none
       real(rkind), intent(in) :: input(:)
@@ -29,6 +29,7 @@ module concurrent_dot_products_m
       real(rkind), intent(in) :: output_biases(:)      !! neuronal offsets applied to outputs
       real(rkind), intent(in) :: output_weights(:,:)   !! weights applied to go from the final hidden layer to the outputs
       class(activation_strategy_t), intent(in) :: activation_strategy
+      logical, intent(in) :: skip
       real(rkind), allocatable :: output(:)
     end function
 

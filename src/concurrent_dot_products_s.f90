@@ -21,10 +21,17 @@ contains
         neuron(n,input_layer) = activation_strategy%activation(dot_product(input_weights(n,:), input(:)) + biases(n,input_layer))
       end do
       do layer = 2, num_layers
-        do concurrent(n = 1:neurons_per_layer)
-          neuron(n,layer) = &
-            activation_strategy%activation(dot_product(hidden_weights(n,:,layer-1), neuron(:,layer-1)) + biases(n,layer))
-        end do
+        if (skip) then
+          do concurrent(n = 1:neurons_per_layer)
+            neuron(n,layer) = neuron(n,layer-1) + &
+              activation_strategy%activation(dot_product(hidden_weights(n,:,layer-1), neuron(:,layer-1)) + biases(n,layer))
+          end do
+        else
+          do concurrent(n = 1:neurons_per_layer)
+            neuron(n,layer) = &
+              activation_strategy%activation(dot_product(hidden_weights(n,:,layer-1), neuron(:,layer-1)) + biases(n,layer))
+          end do
+        end if
       end do
 
       associate(num_outputs => size(output_weights,1))
