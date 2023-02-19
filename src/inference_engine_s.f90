@@ -340,7 +340,7 @@ contains
                                                        self%metadata_(findloc(key, "activationFunction", dim=1))%string() // '",')
         line = line + 1
         lines(line) = string_t('        "usingSkipConnections": "' // &
-                                                       self%metadata_(findloc(key, "usingSkipConnections", dim=1))%string() // '",')
+                                                       self%metadata_(findloc(key, "usingSkipConnections", dim=1))%string() // '"')
 
         line = line + 1
         lines(line) = string_t('    },')
