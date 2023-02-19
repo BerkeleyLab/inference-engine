@@ -22,7 +22,7 @@ program read_json
   end if
 
   print *, "Constructing a new inference_engine_t object by parameters from '"//input_file_name%string()//"'."
-  inference_engine = inference_engine_t(file_t(input_file_name), matmul_t())
+  inference_engine = inference_engine_t(file_t(input_file_name))
   print *, "num_inputs = ", inference_engine%num_inputs()
   print *, "num_outputs = ", inference_engine%num_outputs()
   print *, "num_hidden_layers = ", inference_engine%num_hidden_layers()

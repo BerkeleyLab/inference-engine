@@ -28,14 +28,13 @@ module inference_engine_m
   type inference_engine_t
     !! Encapsulate the minimal information needed to performance inference
     private
-    type(string_t) key_value(size(key))
+    type(string_t) metadata_(size(key))
     real(rkind), allocatable :: input_weights_(:,:)    ! weights applied to go from the inputs to first hidden layer
     real(rkind), allocatable :: hidden_weights_(:,:,:) ! weights applied to go from one hidden layer to the next
     real(rkind), allocatable :: output_weights_(:,:)   ! weights applied to go from the final hidden layer to the outputs
     real(rkind), allocatable :: biases_(:,:)           ! neuronal offsets for each hidden layer
     real(rkind), allocatable :: output_biases_(:)      ! neuronal offsets applied to outputs
-    class(activation_strategy_t), allocatable :: activation_strategy_
-    class(inference_strategy_t), allocatable :: inference_strategy_
+    class(activation_strategy_t), allocatable :: activation_strategy_ ! Strategy Pattern facilitates elemental activation
   contains
     procedure :: to_json
     procedure, private :: infer_from_array_of_inputs
@@ -49,25 +48,23 @@ module inference_engine_m
     procedure :: assert_conformable_with
     procedure, private :: subtract
     generic :: operator(-) => subtract
+    procedure :: skip
   end type
 
   interface inference_engine_t
 
-    pure module function construct_from_components &
-      (input_weights, hidden_weights, output_weights, biases, output_biases, inference_strategy, activation_strategy) &
+    pure module function construct_from_components(metadata, input_weights, hidden_weights, output_weights, biases, output_biases) &
       result(inference_engine)
       implicit none
+      type(string_t), intent(in) :: metadata(:)
       real(rkind), intent(in), dimension(:,:) :: input_weights, output_weights, biases
       real(rkind), intent(in) :: hidden_weights(:,:,:), output_biases(:)
-      class(inference_strategy_t), intent(in), optional :: inference_strategy
-      class(activation_strategy_t), intent(in), optional :: activation_strategy
       type(inference_engine_t) inference_engine
     end function
 
-    impure elemental module function construct_from_json(file_, inference_strategy) result(inference_engine)
+    impure elemental module function construct_from_json(file_) result(inference_engine)
       implicit none
       type(file_t), intent(in) :: file_
-      class(inference_strategy_t), intent(in), optional :: inference_strategy
       type(inference_engine_t) inference_engine
     end function
 
@@ -100,17 +97,19 @@ module inference_engine_m
       type(inference_engine_t), intent(in) :: inference_engine
     end subroutine
 
-    pure module function infer_from_array_of_inputs(self, input) result(output)
+    pure module function infer_from_array_of_inputs(self, input, inference_strategy) result(output)
       implicit none
       class(inference_engine_t), intent(in) :: self
       real(rkind), intent(in) :: input(:)
+      class(inference_strategy_t), intent(in) :: inference_strategy
       real(rkind), allocatable :: output(:)
     end function
 
-    elemental module function infer_from_inputs_object(self, inputs) result(outputs)
+    elemental module function infer_from_inputs_object(self, inputs, inference_strategy) result(outputs)
       implicit none
       class(inference_engine_t), intent(in) :: self
       type(inputs_t), intent(in) :: inputs
+      class(inference_strategy_t), intent(in) :: inference_strategy
       type(outputs_t) outputs
     end function
 
@@ -136,6 +135,12 @@ module inference_engine_m
       implicit none
       class(inference_engine_t), intent(in) :: self
       integer hidden_layer_count
+    end function
+
+    elemental module function skip(self) result(use_skip_connections)
+      implicit none
+      class(inference_engine_t), intent(in) :: self
+      logical use_skip_connections
     end function
 
   end interface

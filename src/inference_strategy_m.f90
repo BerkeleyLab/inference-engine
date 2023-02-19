@@ -16,7 +16,7 @@ module inference_strategy_m
   abstract interface
 
     pure function infer_interface( &
-      input, input_weights, hidden_weights, biases, output_biases, output_weights, activation_strategy &
+      input, input_weights, hidden_weights, biases, output_biases, output_weights, activation_strategy, skip &
     ) result(output)
       import activation_strategy_t, rkind
       implicit none
@@ -27,6 +27,7 @@ module inference_strategy_m
       real(rkind), intent(in) :: output_biases(:)      !! neuronal offsets applied to outputs
       real(rkind), intent(in) :: biases(:,:)           !! neuronal offsets for each hidden layer
       class(activation_strategy_t), intent(in) :: activation_strategy
+      logical, intent(in) :: skip
       real(rkind), allocatable :: output(:)
     end function
 

@@ -4,9 +4,9 @@ program icar_qr_network
   !! This program demonstrates how to read a neural network from a JSON file.
   !! query the network for a some of its properties.
   use command_line_m, only : command_line_t
-  use inference_engine_m, only : inference_engine_t
+  use inference_engine_m, only : inference_engine_t, inputs_t
   use string_m, only : string_t
-  use matmul_with_skip_m, only : matmul_with_skip_t
+  use matmul_m, only : matmul_t
   use file_m, only : file_t
   implicit none
 
@@ -30,6 +30,6 @@ program icar_qr_network
 
   print *, inference_engine%infer([5.7010256568901241e-05, 3.6012468740409531e-07, 1.4284904636951978e-07, &
      0.0000000000000000e+00, 0.0000000000000000e+00, 1.8107765197753906e+01, 1.9922698868413136e-07, &
-      4.8543064679051895e-08, 2.3069851398468018e+00, 5.4544006347656250e+02])*120.
+      4.8543064679051895e-08, 2.3069851398468018e+00, 5.4544006347656250e+02], matmul_t())*120.
 
 end program

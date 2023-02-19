@@ -26,23 +26,27 @@ contains
       transposed(:,:,layer) = transpose(hidden_weights(:,:,layer))
     end do
 
+    inference_engine%metadata_ = metadata
     inference_engine%input_weights_ = transpose(input_weights)
     inference_engine%hidden_weights_ = transposed
     inference_engine%output_weights_ = output_weights
     inference_engine%biases_ = biases
     inference_engine%output_biases_ = output_biases
 
-    if (present(activation_strategy)) then
-      inference_engine%activation_strategy_ = activation_strategy
-    else
-      inference_engine%activation_strategy_ = step_t()
-    end if
-
-    if (present(inference_strategy)) then
-      inference_engine%inference_strategy_ = inference_strategy
-    else
-      inference_engine%inference_strategy_ = matmul_t()
-    end if
+    ! This code is repeated in both constructors and needs to be maintained consistently in both
+    ! places.  It can't be factored into one factory method pattern because the result would need
+    ! to be allocatable and polymorphic, which would preclude the function being pure so it 
+    ! wouldn't be possible to call it from inside this pure constructor function.
+    select case(inference_engine%metadata_(findloc(key, "activationFunction", dim=1))%string())
+      case("swish")
+        inference_engine%activation_strategy_ = swish_t()
+      case("sigmoid")
+        inference_engine%activation_strategy_ = sigmoid_t()
+      case("step")
+        inference_engine%activation_strategy_ = step_t()
+      case default
+        error stop "inference_engine_t construct_from_json: unrecognized activation strategy"
+    end select
 
     call assert_consistent(inference_engine)
 
@@ -55,14 +59,14 @@ contains
     type(neuron_t) output_neuron
     real(rkind), allocatable :: hidden_weights(:,:,:)
     integer l
-    
+
     lines = file_%lines()
 
     l = 1
     call assert(adjustl(lines(l)%string())=="{", "construct_from_json: expecting '{' to start outermost object", lines(l)%string())
 
     l = 2
-    inference_engine%key_value = [string_t(""),string_t(""),string_t(""),string_t(""),string_t("false")]
+    inference_engine%metadata_ = [string_t(""),string_t(""),string_t(""),string_t(""),string_t("false")]
     if (adjustl(lines(l)%string()) == '"metadata": {') then
       block
         character(len=:), allocatable :: justified_line
@@ -70,8 +74,7 @@ contains
           l = l + 1
           justified_line = adjustl(lines(l)%string())
           if (justified_line == "},") exit
-          inference_engine%key_value(findloc(key, trim(get_key_string(justified_line)), dim=1)) &
-            = get_key_value(justified_line)
+          inference_engine%metadata_(findloc(key, trim(get_key_string(justified_line)), dim=1)) = get_key_value(justified_line)
         end do
         l = l + 1
       end block
@@ -119,7 +122,7 @@ contains
     inference_engine%output_weights_ = output_layer%output_weights()
     inference_engine%output_biases_ = output_layer%output_biases()
 
-    select case(inference_engine%key_value(findloc(key, "activationFunction", dim=1))%string())
+    select case(inference_engine%metadata_(findloc(key, "activationFunction", dim=1))%string())
       case("swish")
         inference_engine%activation_strategy_ = swish_t()
       case("sigmoid")
@@ -129,12 +132,6 @@ contains
       case default
         error stop "inference_engine_t construct_from_json: unrecognized activation strategy"
     end select
- 
-    if (present(inference_strategy)) then
-      inference_engine%inference_strategy_  = inference_strategy
-    else
-      inference_engine%inference_strategy_  = matmul_t()
-    end if
 
     call assert_consistent(inference_engine)
 
@@ -182,26 +179,21 @@ contains
       shape(self%output_biases_ ) == shape(inference_engine%output_biases_ )  &
      ])
       call assert(all(equal_shapes), "assert_conformable_with: all(equal_shapes)", intrinsic_array_t(equal_shapes))
-
-      associate(same_types => [ &
-        same_type_as(self%activation_strategy_, inference_engine%activation_strategy_), &
-        same_type_as(self%inference_strategy_, inference_engine%inference_strategy_)  &
-      ])
-        call assert(all(same_types), "assert_conformable_with: all(same_types)", intrinsic_array_t(same_types))
-      end associate
     end associate
+
+    call assert(same_type_as(self%activation_strategy_, inference_engine%activation_strategy_), "assert_conformable_with: types)")
     
   end procedure
 
   module procedure subtract
     call self%assert_conformable_with(rhs)
 
+    difference%metadata_       = self%metadata_
     difference%input_weights_  = self%input_weights_  - rhs%input_weights_ 
     difference%hidden_weights_ = self%hidden_weights_ - rhs%hidden_weights_
     difference%output_weights_ = self%output_weights_ - rhs%output_weights_
     difference%biases_         = self%biases_         - rhs%biases_         
     difference%output_biases_  = self%output_biases_  - rhs%output_biases_ 
-    difference%inference_strategy_ = self%inference_strategy_
     difference%activation_strategy_ = self%activation_strategy_
 
     call assert_consistent(difference)
@@ -216,8 +208,8 @@ contains
   pure subroutine assert_consistent(self)
     type(inference_engine_t), intent(in) :: self
 
-    call assert(allocated(self%inference_strategy_), "inference_engine%assert_consistent: allocated(self%inference_strategy_)")
-    call assert(allocated(self%activation_strategy_), "inference_engine%assert_consistent: allocated(self%activation_strategy_)")
+    call assert(all(self%metadata_%is_allocated()), "inference_engine_t%assert_consistent: self%metadata_s%is_allocated()")
+    call assert(allocated(self%activation_strategy_), "inference_engine_t%assert_consistent: allocated(self%activation_strategy_)")
 
     associate(allocated_components => &
       [allocated(self%input_weights_), allocated(self%hidden_weights_), allocated(self%output_weights_), &
@@ -274,8 +266,15 @@ contains
 
     call assert_consistent(self)
 
-    output = self%inference_strategy_%infer(input, &
-      self%input_weights_, self%hidden_weights_, self%biases_, self%output_biases_, self%output_weights_, self%activation_strategy_&
+    output = inference_strategy%infer( &
+      input = input, &
+      input_weights = self%input_weights_, &
+      hidden_weights = self%hidden_weights_ , &
+      biases = self%biases_, &
+      output_biases = self%output_biases_, &
+      output_weights = self%output_weights_, &
+      activation_strategy = self%activation_strategy_, &
+      skip = self%skip() &
     )
   end procedure
 
@@ -284,9 +283,15 @@ contains
 
     call assert_consistent(self)
 
-    outputs%outputs_ = self%inference_strategy_%infer(inputs%inputs_, &
-      self%input_weights_, self%hidden_weights_, self%biases_, self%output_biases_, self%output_weights_, self%activation_strategy_&
-      
+    outputs%outputs_ = inference_strategy%infer( &
+      input = inputs%inputs_, &
+      input_weights = self%input_weights_, &
+      hidden_weights = self%hidden_weights_ , &
+      biases = self%biases_, &
+      output_biases = self%output_biases_, &
+      output_weights = self%output_weights_, &
+      activation_strategy = self%activation_strategy_, &
+      skip = self%skip() &
     )
   end procedure
 
@@ -322,15 +327,20 @@ contains
         lines(line) = string_t('    "metadata": {')
 
         line = line + 1
-        lines(line) = string_t('        "modelName": "xor",')
+        lines(line) = string_t('        "modelName": "' // &
+                                                       self%metadata_(findloc(key, "modelName", dim=1))%string() // '",')
         line = line + 1
-        lines(line) = string_t('        "modelAuthor": "Damian Rouson",')
+        lines(line) = string_t('        "modelAuthor": "' // &
+                                                       self%metadata_(findloc(key, "modelAuthor", dim=1))%string() // '",')
         line = line + 1
-        lines(line) = string_t('        "compilationDate": "2023-02-18",')
+        lines(line) = string_t('        "compilationDate": "' // &
+                                                       self%metadata_(findloc(key, "compilationDate", dim=1))%string() // '",')
         line = line + 1
-        lines(line) = string_t('        "activationFunction": "step",')
+        lines(line) = string_t('        "activationFunction": "' // &
+                                                       self%metadata_(findloc(key, "activationFunction", dim=1))%string() // '",')
         line = line + 1
-        lines(line) = string_t('        "usingSkipConnections": false ')
+        lines(line) = string_t('        "usingSkipConnections": "' // &
+                                                       self%metadata_(findloc(key, "usingSkipConnections", dim=1))%string() // '",')
 
         line = line + 1
         lines(line) = string_t('    },')
@@ -413,5 +423,9 @@ contains
     json_file = file_t(lines)
 
   end procedure to_json
+
+  module procedure skip
+    use_skip_connections = self%metadata_(findloc(key, "usingSkipConnections", dim=1))%string() == "true"
+  end procedure
 
 end submodule inference_engine_s
