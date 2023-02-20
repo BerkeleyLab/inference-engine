@@ -30,6 +30,7 @@ contains
 
   subroutine write_read_query_infer(output_file_name)
     type(string_t), intent(in) :: output_file_name
+    type(string_t) activation_name
     integer i, j
     integer, parameter :: num_inputs = 2, num_outputs = 1, num_neurons = 3, num_hidden_layers = 2
     integer, parameter :: identity(*,*,*) = & 
@@ -59,10 +60,12 @@ contains
     inference_engine = inference_engine_t(json_input_file)
 
     print *, "Querying the new inference_engine_t object for several properties:"
-    print *, "num_outputs = ", inference_engine%num_outputs()
-    print *, "num_hidden_layers = ", inference_engine%num_hidden_layers()
-    print *, "neurons_per_layer = ", inference_engine%neurons_per_layer()
-
+    print *, "number of outputs:", inference_engine%num_outputs()
+    print *, "number of hidden layers:", inference_engine%num_hidden_layers()
+    print *, "number of neurons per layer:", inference_engine%neurons_per_layer()
+    activation_name = inference_engine%activation_function_name()
+    print *, "activation function: ", activation_name%string()
+    print *, "using skip connections: ", merge("true ", "false", inference_engine%skip())
     print *, "Performing inference:"
     print *, "inference_engine%infer([0.,1.]) =",inference_engine%infer([real(rkind):: 0.,1.], matmul_t())
     print *, "Correct answer for the XOR neural network: ", 1.
