@@ -45,7 +45,7 @@ contains
       case("step")
         inference_engine%activation_strategy_ = step_t()
       case default
-        error stop "inference_engine_t construct_from_json: unrecognized activation strategy"
+        error stop "inference_engine_t construct_from_components: unrecognized activation strategy"
     end select
 
     call assert_consistent(inference_engine)
@@ -157,8 +157,9 @@ contains
           associate(closing_value_quotes => opening_value_quotes + index(text_after_colon(opening_value_quotes+1:), '"'))
             if (any([opening_value_quotes, closing_value_quotes] == 0)) then
               value_ = string_t(trim(adjustl((text_after_colon))))
+            else
+              value_ = string_t(text_after_colon(opening_value_quotes+1:closing_value_quotes-1))
             end if
-            value_ = string_t(text_after_colon(opening_value_quotes+1:closing_value_quotes-1))
           end associate
         end associate
       end associate
@@ -339,8 +340,8 @@ contains
         lines(line) = string_t('        "activationFunction": "' // &
                                                        self%metadata_(findloc(key, "activationFunction", dim=1))%string() // '",')
         line = line + 1
-        lines(line) = string_t('        "usingSkipConnections": "' // &
-                                                       self%metadata_(findloc(key, "usingSkipConnections", dim=1))%string() // '",')
+        lines(line) = string_t('        "usingSkipConnections": ' // &
+                                                       self%metadata_(findloc(key, "usingSkipConnections", dim=1))%string())
 
         line = line + 1
         lines(line) = string_t('    },')
@@ -426,6 +427,10 @@ contains
 
   module procedure skip
     use_skip_connections = self%metadata_(findloc(key, "usingSkipConnections", dim=1))%string() == "true"
+  end procedure
+
+  module procedure activation_function_name
+    activation_name = self%metadata_(findloc(key, "activationFunction", dim=1))
   end procedure
 
 end submodule inference_engine_s
