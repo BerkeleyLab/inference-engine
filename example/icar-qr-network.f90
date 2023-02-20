@@ -33,12 +33,13 @@ program icar_qr_network
   print *, "using skip connections: ", merge("true ", "false", inference_engine%skip())
 
   block
-   real(rkind), parameter :: inputs(*) = [ real(rkind) :: &
-     5.7010256568901241e-05, 3.6012468740409531e-07, 1.4284904636951978e-07, 0.0000000000000000e+00, 0.0000000000000000e+00, &
-     1.8107765197753906e+01, 1.9922698868413136e-07, 4.8543064679051895e-08, 2.3069851398468018e+00, 5.4544006347656250e+02 &
-   ]
-    print *,"inputs: ", inputs
-    print *, "outputs: ", inference_engine%infer(inputs, matmul_t())*120.
+    real(rkind), parameter :: inputs(*) = [ real(rkind) :: &
+      5.4041727707954124e-05_rkind, 1.8311046012797760e-09_rkind, 5.4236606525370767e-13_rkind, 0._rkind, 0._rkind, &
+      2.3016514256596565e-02_rkind, 1.0734779465337851e-07_rkind, 3.9603170742807947e-10_rkind, 2.3047807216644287e+00_rkind, &
+      5.3973675537109375e+02_rkind &
+    ]
+    print *, "inputs: ", inputs
+    print *, "outputs: ", inference_engine%infer(inputs, matmul_t())
   end block
 
 end program
