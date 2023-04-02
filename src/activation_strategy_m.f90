@@ -6,15 +6,16 @@ module activation_strategy_m
 
   private
   public :: activation_strategy_t
+  public :: activation_i
 
   type, abstract :: activation_strategy_t
   contains
-     procedure(activation_interface), nopass, deferred :: activation
+     procedure(activation_i), nopass, deferred :: activation
   end type
 
   abstract interface
 
-    elemental function activation_interface(x) result(y)
+    elemental function activation_i(x) result(y)
       import rkind
       implicit none
       real(rkind), intent(in) :: x
