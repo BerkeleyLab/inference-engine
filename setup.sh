@@ -87,8 +87,7 @@ if [ ! -d $PKG_CONFIG_PATH ]; then
 fi
 
 INFERENCE_ENGINE_PC="$PKG_CONFIG_PATH/inference-engine.pc"
-echo "INFERENCE_ENGINE_FPM_CXX=\"$CXX\""                    >  $INFERENCE_ENGINE_PC
-echo "INFERENCE_ENGINE_FPM_CC=\"$FPM_CC\""                  >> $INFERENCE_ENGINE_PC
+echo "INFERENCE_ENGINE_FPM_CC=\"$FPM_CC\""                  >  $INFERENCE_ENGINE_PC
 echo "INFERENCE_ENGINE_FPM_FC=\"$FPM_FC\""                  >> $INFERENCE_ENGINE_PC
 echo "INFERENCE_ENGINE_FPM_LD_FLAG=\"$FPM_LD_FLAG\""        >> $INFERENCE_ENGINE_PC
 echo "INFERENCE_ENGINE_FPM_FLAG=\"$FPM_FLAG\""              >> $INFERENCE_ENGINE_PC
