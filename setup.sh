@@ -66,8 +66,8 @@ NETCDFF_LIB_PATH="`brew --prefix netcdf-fortran`/lib"
 
 FPM_LD_FLAG=" -L$NETCDF_LIB_PATH -L$HDF5_LIB_PATH -L$NETCDFF_LIB_PATH"
 FPM_FLAG="-fallow-argument-mismatch -ffree-line-length-none -L$NETCDF_LIB_PATH -L$HDF5_LIB_PATH"
-FPM_FC="$FC"
-FPM_CC="$CC"
+FPM_FC=${FC:-"gfortran"}
+FPM_CC=${CC:-"gfortran"}
 
 mkdir -p build
 
