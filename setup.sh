@@ -56,40 +56,22 @@ fi
 
 
 brew tap fortran-lang/fortran # required for building fpm
-brew install fpm cmake netcdf pkg-config coreutils # coreutils supports `realpath` below
+brew install fpm cmake netcdf netcdf-fortran pkg-config coreutils # coreutils supports `realpath` below
 
 PREFIX=`realpath $PREFIX`
 
-mkdir -p build/dependencies
-if [ ! -d ./build/dependencies/netcdf-fortran ]; then
-  git clone https://github.com/Unidata/netcdf-fortran.git build/dependencies/netcdf-fortran
-fi
-mkdir -p build/dependencies/netcdf-fortran/build
-
-CI=${CI:-"false"} # GitHub Actions workflows set CI=true
-
-cd build/dependencies/netcdf-fortran/build
-  GCC_VER="12" # This should be replaced with code extracting the version number from Homebrew
-  export FC=gfortran-${GCC_VER} CC=gcc-${GCC_VER} CXX=g++-${GCC_VER}
-  NETCDFF_PREFIX="/usr/local"
-  NETCDF_PREFIX="`brew --prefix netcdf`"
-  cmake .. \
-    -DNETCDF_C_LIBRARY="$NETCDF_PREFIX/lib" \
-    -DNETCDF_C_INCLUDE_DIR="$NETCDF_PREFIX/include" \
-    -DCMAKE_INSTALL_PREFIX="$NETCDFF_PREFIX"
-  make -j4
-  sudo make install
-cd -
-
-GIT_VERSION=`git describe --long --dirty --all --always | sed -e's/heads\///'`
 NETCDF_LIB_PATH="`brew --prefix netcdf`/lib"
 HDF5_LIB_PATH="`brew --prefix hdf5`/lib"
-NETCDFF_LIB_PATH="$NETCDFF_PREFIX/lib"
+NETCDFF_LIB_PATH="`brew --prefix netcdf-fortran`/lib"
 
 FPM_LD_FLAG=" -L$NETCDF_LIB_PATH -L$HDF5_LIB_PATH -L$NETCDFF_LIB_PATH"
-FPM_FLAG="-cpp -DUSE_ASSERTIONS=.true. -fallow-argument-mismatch -ffree-line-length-none $FPM_LD_FLAG"
+FPM_FLAG="-fallow-argument-mismatch -ffree-line-length-none -L$NETCDF_LIB_PATH -L$HDF5_LIB_PATH"
 FPM_FC="$FC"
 FPM_CC="$CC"
+
+mkdir -p build
+
+CI=${CI:-"false"} # GitHub Actions workflows set CI=true
 
 if [ $CI = true ]; then
   PKG_CONFIG_PATH=`realpath ./build/pkgconfig`
