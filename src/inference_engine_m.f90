@@ -26,7 +26,7 @@ module inference_engine_m
     "modelName", "modelAuthor", "compilationDate", "activationFunction", "usingSkipConnections"]
 
   type inference_engine_t
-    !! Encapsulate the minimal information needed to performance inference
+    !! Encapsulate the minimal information needed to perform inference
     private
     type(string_t) metadata_(size(key))
     real(rkind), allocatable :: input_weights_(:,:)    ! weights applied to go from the inputs to first hidden layer
