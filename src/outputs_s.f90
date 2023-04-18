@@ -11,6 +11,8 @@ contains
 
   module procedure construct_from_compoents
     new_outputs_t%outputs_ = outputs
+    new_outputs_t%pre_activation_in_ = pre_activation_in
+    new_outputs_t%pre_activation_out_ = pre_activation_out
   end procedure
 
 end submodule outputs_s

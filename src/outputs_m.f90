@@ -9,16 +9,19 @@ module outputs_m
 
   type outputs_t
     private
-    real(rkind), allocatable :: outputs_(:)
+    real(rkind), allocatable :: outputs_(:) !! network outputs
+    real(rkind), allocatable :: pre_activation_in_(:,:) !! weighted & biased hidden-layer inputs for training
+    real(rkind), allocatable :: pre_activation_out_(:) !! weighted & biased output for training
   contains
     procedure outputs
   end type
 
   interface outputs_t
 
-     pure module function construct_from_compoents(outputs) result(new_outputs_t)
+     pure module function construct_from_compoents(outputs, pre_activation_in, pre_activation_out) result(new_outputs_t)
        implicit none
        real(rkind), intent(in) :: outputs(:)
+       real(rkind), intent(in) :: pre_activation_in(:,:), pre_activation_out(:)
        type(outputs_t) new_outputs_t
      end function
 
