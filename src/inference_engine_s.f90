@@ -267,7 +267,7 @@ contains
 
     call assert_consistent(self)
 
-    output = inference_strategy%infer( &
+    outputs = inference_strategy%infer( &
       input = input, &
       input_weights = self%input_weights_, &
       hidden_weights = self%hidden_weights_ , &
@@ -284,7 +284,7 @@ contains
 
     call assert_consistent(self)
 
-    outputs%outputs_ = inference_strategy%infer( &
+    outputs = inference_strategy%infer( &
       input = inputs%inputs_, &
       input_weights = self%input_weights_, &
       hidden_weights = self%hidden_weights_ , &

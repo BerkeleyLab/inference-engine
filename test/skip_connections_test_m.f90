@@ -11,6 +11,7 @@ module skip_connections_test_m
   use kind_parameters_m, only : rkind
   use string_m, only : string_t
   use assert_m, only : assert
+  use outputs_m, only : outputs_t
   implicit none
 
   private
@@ -70,19 +71,28 @@ contains
     )
     call assert(inference_engine%skip(), "skip_connections_test_m(not_1st_and_2nd_truth_table): skip")
 
-    associate( &
-      true_true => inference_engine%infer([true,true], inference_strategy), & 
-      true_false => inference_engine%infer([true,false], inference_strategy), &
-      false_true => inference_engine%infer([false,true], inference_strategy), &
-      false_false => inference_engine%infer([false,false], inference_strategy) &
-    )
-      test_passes = [ &
-        size(true_true)==1 .and. abs(true_true(1) - false) < tolerance, &
-        size(true_false)==1 .and. abs(true_false(1) - false) < tolerance,  &
-        size(false_true)==1 .and. abs(false_true(1) - true) < tolerance, &
-        size(false_false)==1 .and. abs(false_false(1) - false) < tolerance  &
-      ]
-    end associate
+    block
+      type(outputs_t)  true_true, true_false, false_true, false_false
+
+      true_true = inference_engine%infer([true,true], inference_strategy)
+      true_false = inference_engine%infer([true,false], inference_strategy)
+      false_true = inference_engine%infer([false,true], inference_strategy)
+      false_false = inference_engine%infer([false,false], inference_strategy) 
+
+      associate( &
+        true_true_outputs => true_true%outputs(), &
+        true_false_outputs => true_false%outputs(), &
+        false_true_outputs => false_true%outputs(), &
+        false_false_outputs => false_false%outputs() &
+      )
+        test_passes = [ &
+          size(true_true_outputs)==1 .and. abs(true_true_outputs(1) - false) < tolerance, &
+          size(true_false_outputs)==1 .and. abs(true_false_outputs(1) - false) < tolerance,  &
+          size(false_true_outputs)==1 .and. abs(false_true_outputs(1) - true) < tolerance, &
+          size(false_false_outputs)==1 .and. abs(false_false_outputs(1) - false) < tolerance  &
+        ]
+      end associate
+    end block
 
   end function
 

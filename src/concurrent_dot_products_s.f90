@@ -12,7 +12,7 @@ contains
     
     integer n, layer, m
     integer, parameter :: input_layer = 1
-    real(rkind), allocatable :: neuron(:,:)
+    real(rkind), allocatable :: neuron(:,:), output_values(:)
 
     associate(neurons_per_layer => size(input_weights,1), num_layers => size(biases,2))
 
@@ -35,10 +35,11 @@ contains
       end do
 
       associate(num_outputs => size(output_weights,1))
-        allocate(output(num_outputs))
+        allocate(output_values(num_outputs))
         do concurrent(m = 1:num_outputs)
-          output(m) = activation_strategy%activation(dot_product(output_weights(m,:), neuron(:,num_layers)) + output_biases(m))
+          output_values(m) = activation_strategy%activation(dot_product(output_weights(m,:), neuron(:,num_layers)) + output_biases(m))
         end do
+        outputs = outputs_t(output_values)
       end associate
     end associate
 

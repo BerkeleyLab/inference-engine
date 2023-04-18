@@ -5,7 +5,9 @@ module inference_engine_test_m
   use string_m, only : string_t
   use test_m, only : test_t
   use test_result_m, only : test_result_t
-  use inference_engine_m, only : inference_engine_t, inputs_t, outputs_t
+  use inference_engine_m, only : inference_engine_t
+  use inputs_m, only : inputs_t
+  use outputs_m, only : outputs_t
   use inference_strategy_m, only : inference_strategy_t
   use concurrent_dot_products_m, only : concurrent_dot_products_t
   use step_m, only : step_t
@@ -92,20 +94,26 @@ contains
 
     block
       real(rkind), parameter :: tolerance = 1.E-08_rkind, false = 0._rkind, true = 1._rkind
+      type(outputs_t) :: true_true, true_false, false_true, false_false
 
-      associate( &
-        true_true => inference_engine%infer([true,true], matmul_t()), & 
-        true_false => inference_engine%infer([true,false], matmul_t()), &
-        false_true => inference_engine%infer([false,true], matmul_t()), &
-        false_false => inference_engine%infer([false,false], matmul_t()) &
-      )
-        test_passes = [ &
-          size(true_true)==1 .and. abs(true_true(1) - false) < tolerance, &
-          size(true_false)==1 .and. abs(true_false(1) - true) < tolerance,  &
-          size(false_true)==1 .and. abs(false_true(1) - true) < tolerance, &
-          size(false_false)==1 .and. abs(false_false(1) - false) < tolerance  &
-        ]
-      end associate
+        true_true = inference_engine%infer([true,true], matmul_t())
+        true_false = inference_engine%infer([true,false], matmul_t())
+        false_true = inference_engine%infer([false,true], matmul_t())
+        false_false = inference_engine%infer([false,false], matmul_t())
+
+        associate( &
+          true_true_outputs => true_true%outputs(), &
+          true_false_outputs => true_false%outputs(), &
+          false_true_outputs => false_true%outputs(), &
+          false_false_outputs => false_false%outputs() &
+        )
+          test_passes = [ &
+            size(true_true_outputs)==1 .and. abs(true_true_outputs(1) - false) < tolerance, &
+            size(true_false_outputs)==1 .and. abs(true_false_outputs(1) - true) < tolerance,  &
+            size(false_true_outputs)==1 .and. abs(false_true_outputs(1) - true) < tolerance, &
+            size(false_false_outputs)==1 .and. abs(false_false_outputs(1) - false) < tolerance  &
+          ]
+        end associate
     end block
 
   end function
@@ -126,8 +134,8 @@ contains
         truth_table = inference_engine%infer(array_of_inputs, [(matmul_t(), i=1,size(array_of_inputs))])
       end associate
       test_passes = [ &
-        abs(truth_table(1)%outputs_ - false) < tolerance .and. abs(truth_table(2)%outputs_ - true) < tolerance .and. &
-        abs(truth_table(3)%outputs_ - true) < tolerance .and. abs(truth_table(4)%outputs_ - false) < tolerance &
+        abs(truth_table(1)%outputs() - false) < tolerance .and. abs(truth_table(2)%outputs() - true) < tolerance .and. &
+        abs(truth_table(3)%outputs() - true) < tolerance .and. abs(truth_table(4)%outputs() - false) < tolerance &
       ]
     end block
   end function

@@ -33,7 +33,7 @@ contains
           end do
         end if
       end block
-      output = activation_strategy%activation(matmul(output_weights(:,:), neuron(:,num_layers)) + output_biases(:))
+      outputs = outputs_t(activation_strategy%activation(matmul(output_weights(:,:), neuron(:,num_layers)) + output_biases(:)))
     end associate
 
   end procedure
