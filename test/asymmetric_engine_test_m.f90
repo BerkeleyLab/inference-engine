@@ -5,13 +5,16 @@ module asymmetric_engine_test_m
   use string_m, only : string_t
   use test_m, only : test_t
   use test_result_m, only : test_result_t
-  use inference_engine_m, only : inference_engine_t, inputs_t, outputs_t
+  use inference_engine_m, only : inference_engine_t
+  use inputs_m, only :inputs_t
+  use outputs_m, only :outputs_t
   use inference_strategy_m, only : inference_strategy_t
   use concurrent_dot_products_m, only : concurrent_dot_products_t
   use step_m, only : step_t
   use matmul_m, only : matmul_t
   use file_m, only : file_t
   use kind_parameters_m, only : rkind
+  use outputs_m, only : outputs_t
   implicit none
 
   private
@@ -90,18 +93,24 @@ contains
 
     block
       real(rkind), parameter :: tolerance = 1.E-08_rkind, false = 0._rkind, true = 1._rkind
+      type(outputs_t) true_true, true_false, false_true, false_false
+
+      true_true = asymmetric_engine%infer([true,true], inference_strategy)
+      true_false = asymmetric_engine%infer([true,false], inference_strategy)
+      false_true = asymmetric_engine%infer([false,true], inference_strategy)
+      false_false = asymmetric_engine%infer([false,false], inference_strategy)
 
       associate( &
-        true_true => asymmetric_engine%infer([true,true], inference_strategy), & 
-        true_false => asymmetric_engine%infer([true,false], inference_strategy), &
-        false_true => asymmetric_engine%infer([false,true], inference_strategy), &
-        false_false => asymmetric_engine%infer([false,false], inference_strategy) &
+        true_true_outputs => true_true%outputs(), &
+        true_false_outputs => true_false%outputs(), &
+        false_true_outputs => false_true%outputs(), &
+        false_false_outputs => false_false%outputs() &
       )
         test_passes = [ &
-          size(true_true)==1 .and. abs(true_true(1) - false) < tolerance, &
-          size(true_false)==1 .and. abs(true_false(1) - false) < tolerance,  &
-          size(false_true)==1 .and. abs(false_true(1) - true) < tolerance, &
-          size(false_false)==1 .and. abs(false_false(1) - false) < tolerance  &
+          size(true_true_outputs)==1 .and. abs(true_true_outputs(1) - false) < tolerance, &
+          size(true_false_outputs)==1 .and. abs(true_false_outputs(1) - false) < tolerance,  &
+          size(false_true_outputs)==1 .and. abs(false_true_outputs(1) - true) < tolerance, &
+          size(false_false_outputs)==1 .and. abs(false_false_outputs(1) - false) < tolerance  &
         ]
       end associate
     end block

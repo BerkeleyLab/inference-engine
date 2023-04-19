@@ -7,26 +7,18 @@ module inference_engine_m
   use activation_strategy_m, only : activation_strategy_t
   use file_m, only : file_t
   use kind_parameters_m, only : rkind
+  use inputs_m, only : inputs_t
+  use outputs_m, only : outputs_t
   implicit none
 
   private
   public :: inference_engine_t
-  public :: inputs_t
-  public :: outputs_t
-
-  type inputs_t
-    real(rkind), allocatable :: inputs_(:)
-  end type
-
-  type outputs_t
-    real(rkind), allocatable :: outputs_(:)
-  end type
 
   character(len=*), parameter :: key(*) = [character(len=len("usingSkipConnections")) :: &
     "modelName", "modelAuthor", "compilationDate", "activationFunction", "usingSkipConnections"]
 
   type inference_engine_t
-    !! Encapsulate the minimal information needed to performance inference
+    !! Encapsulate the minimal information needed to perform inference
     private
     type(string_t) metadata_(size(key))
     real(rkind), allocatable :: input_weights_(:,:)    ! weights applied to go from the inputs to first hidden layer
@@ -98,12 +90,12 @@ module inference_engine_m
       type(inference_engine_t), intent(in) :: inference_engine
     end subroutine
 
-    pure module function infer_from_array_of_inputs(self, input, inference_strategy) result(output)
+    pure module function infer_from_array_of_inputs(self, input, inference_strategy) result(outputs)
       implicit none
       class(inference_engine_t), intent(in) :: self
       real(rkind), intent(in) :: input(:)
       class(inference_strategy_t), intent(in) :: inference_strategy
-      real(rkind), allocatable :: output(:)
+      type(outputs_t) outputs
     end function
 
     elemental module function infer_from_inputs_object(self, inputs, inference_strategy) result(outputs)
