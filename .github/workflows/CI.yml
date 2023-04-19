@@ -10,10 +10,18 @@ jobs:
       matrix:
         os: [macOS-latest]
       fail-fast: true
+    env:
+      FC: gfortran
+      GCC_V: 12
 
     steps:
     - name: Checkout code
       uses: actions/checkout@v2
+
+    - name: Install Dependencies MacOS
+      run: |
+        brew install gcc@${GCC_V} gcc@9
+        sudo ln -s $(which gfortran-${GCC_V}) $(dirname $(which gfortran-${GCC_V}))/gfortran
 
     - name: Build and Test
       run: |
