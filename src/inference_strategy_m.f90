@@ -2,6 +2,7 @@
 ! Terms of use are as specified in LICENSE.txt
 module inference_strategy_m
   use activation_strategy_m, only : activation_strategy_t
+  use outputs_m, only : outputs_t
   use kind_parameters_m, only : rkind
   implicit none
 
@@ -17,8 +18,8 @@ module inference_strategy_m
 
     pure function infer_interface( &
       input, input_weights, hidden_weights, biases, output_biases, output_weights, activation_strategy, skip &
-    ) result(output)
-      import activation_strategy_t, rkind
+    ) result(outputs)
+      import activation_strategy_t, rkind, outputs_t
       implicit none
       real(rkind), intent(in)  :: input(:)
       real(rkind), intent(in) :: input_weights(:,:)    !! weights applied to go from the inputs to first hidden layer
@@ -28,7 +29,7 @@ module inference_strategy_m
       real(rkind), intent(in) :: biases(:,:)           !! neuronal offsets for each hidden layer
       class(activation_strategy_t), intent(in) :: activation_strategy
       logical, intent(in) :: skip
-      real(rkind), allocatable :: output(:)
+      type(outputs_t) outputs
     end function
 
   end interface

@@ -90,7 +90,7 @@
      <li><i class="fa fa-list-ol"></i>
        <a data-toggle="tooltip"
     data-placement="bottom" data-html="true"
-    title="<p>33.3% of total for derived types.</p>Including implementation: 25 statements, 28.7% of total for derived types.">25 statements</a>
+    title="<p>28.7% of total for derived types.</p>Including implementation: 25 statements, 25.5% of total for derived types.">25 statements</a>
      </li> 
     <li><i class="fa fa-code"></i><a href="../src/inference_engine_m.f90"> Source File</a></li>
   </ul>
@@ -143,11 +143,11 @@
     <div class="list-group">
       <a class="list-group-item" href="../type/inference_engine_t.html#boundprocedure-activation_function_name">activation_function_name</a>
       <a class="list-group-item" href="../type/inference_engine_t.html#boundprocedure-assert_conformable_with">assert_conformable_with</a>
-      <a class="list-group-item" href="../type/inference_engine_t.html#boundprocedure-infer~4">infer</a>
+      <a class="list-group-item" href="../type/inference_engine_t.html#boundprocedure-infer~3">infer</a>
       <a class="list-group-item" href="../type/inference_engine_t.html#boundprocedure-neurons_per_layer~2">neurons_per_layer</a>
       <a class="list-group-item" href="../type/inference_engine_t.html#boundprocedure-norm">norm</a>
       <a class="list-group-item" href="../type/inference_engine_t.html#boundprocedure-num_hidden_layers">num_hidden_layers</a>
-      <a class="list-group-item" href="../type/inference_engine_t.html#boundprocedure-num_inputs~2">num_inputs</a>
+      <a class="list-group-item" href="../type/inference_engine_t.html#boundprocedure-num_inputs">num_inputs</a>
       <a class="list-group-item" href="../type/inference_engine_t.html#boundprocedure-num_outputs">num_outputs</a>
       <a class="list-group-item" href="../type/inference_engine_t.html#boundprocedure-operator%28-%29">operator(-)</a>
       <a class="list-group-item" href="../type/inference_engine_t.html#boundprocedure-skip">skip</a>
@@ -165,7 +165,7 @@
     
     <div class="col-md-9" id='text'>
       <h2>type, public :: inference_engine_t</h2>
-    <p>Encapsulate the minimal information needed to performance inference</p>
+    <p>Encapsulate the minimal information needed to perform inference</p>
 <br>    <div class="panel panel-default">
       <div class="panel-heading">
   <h3 class="panel-title">Inherits</h3>
@@ -289,11 +289,11 @@
     <div class="list-group">
       <a class="list-group-item" href="../type/inference_engine_t.html#boundprocedure-activation_function_name">activation_function_name</a>
       <a class="list-group-item" href="../type/inference_engine_t.html#boundprocedure-assert_conformable_with">assert_conformable_with</a>
-      <a class="list-group-item" href="../type/inference_engine_t.html#boundprocedure-infer~4">infer</a>
+      <a class="list-group-item" href="../type/inference_engine_t.html#boundprocedure-infer~3">infer</a>
       <a class="list-group-item" href="../type/inference_engine_t.html#boundprocedure-neurons_per_layer~2">neurons_per_layer</a>
       <a class="list-group-item" href="../type/inference_engine_t.html#boundprocedure-norm">norm</a>
       <a class="list-group-item" href="../type/inference_engine_t.html#boundprocedure-num_hidden_layers">num_hidden_layers</a>
-      <a class="list-group-item" href="../type/inference_engine_t.html#boundprocedure-num_inputs~2">num_inputs</a>
+      <a class="list-group-item" href="../type/inference_engine_t.html#boundprocedure-num_inputs">num_inputs</a>
       <a class="list-group-item" href="../type/inference_engine_t.html#boundprocedure-num_outputs">num_outputs</a>
       <a class="list-group-item" href="../type/inference_engine_t.html#boundprocedure-operator%28-%29">operator(-)</a>
       <a class="list-group-item" href="../type/inference_engine_t.html#boundprocedure-skip">skip</a>
@@ -493,7 +493,7 @@
 </div>
 
      <div class="panel panel-default">
-  <div class="panel-heading codesum"><span class="anchor" id="boundprocedure-infer~4"></span><h3>generic, public :: <strong>infer</strong>  => <a href='../type/inference_engine_t.html#boundprocedure-infer_from_array_of_inputs'>infer_from_array_of_inputs</a>, <a href='../type/inference_engine_t.html#boundprocedure-infer_from_inputs_object'>infer_from_inputs_object</a>   </h3></div>
+  <div class="panel-heading codesum"><span class="anchor" id="boundprocedure-infer~3"></span><h3>generic, public :: <strong>infer</strong>  => <a href='../type/inference_engine_t.html#boundprocedure-infer_from_array_of_inputs'>infer_from_array_of_inputs</a>, <a href='../type/inference_engine_t.html#boundprocedure-infer_from_inputs_object'>infer_from_inputs_object</a>   </h3></div>
   <ul class="list-group">
       <li class="list-group-item">
             <h3>private interface <a href='../interface/infer_from_array_of_inputs.html'>infer_from_array_of_inputs</a>()</h3>    
@@ -590,13 +590,13 @@
 </div>
 
      <div class="panel panel-default">
-  <div class="panel-heading codesum"><span class="anchor" id="boundprocedure-num_inputs~2"></span><h3>procedure, public :: <strong>num_inputs</strong>    </h3></div>
+  <div class="panel-heading codesum"><span class="anchor" id="boundprocedure-num_inputs"></span><h3>procedure, public :: <strong>num_inputs</strong>    </h3></div>
   <ul class="list-group">
       <li class="list-group-item">
           <h3>interface
           </h3>
   
-          <h3>private elemental module module function num_inputs(self) result(input_count)   <a href='../proc/num_inputs~2.html'><button type="button" class="btn btn-info depwarn">Implementation &rarr;</button></a>
+          <h3>private elemental module module function num_inputs(self) result(input_count)   <a href='../proc/num_inputs.html'><button type="button" class="btn btn-info depwarn">Implementation &rarr;</button></a>
 </h3>    
 <h4>Arguments</h4>      <table class="table table-striped varlist">
 <thead><tr><th>Type</th><th>Intent</th><th>Optional</th><th>Attributes</th><th></th><th>Name</th><th></th></thead>
@@ -715,7 +715,7 @@
           <h3>interface
           </h3>
   
-          <h3>private pure module module function infer_from_array_of_inputs(self, input, inference_strategy) result(output)   <a href='../proc/infer_from_array_of_inputs.html'><button type="button" class="btn btn-info depwarn">Implementation &rarr;</button></a>
+          <h3>private pure module module function infer_from_array_of_inputs(self, input, inference_strategy) result(outputs)   <a href='../proc/infer_from_array_of_inputs.html'><button type="button" class="btn btn-info depwarn">Implementation &rarr;</button></a>
 </h3>    
 <h4>Arguments</h4>      <table class="table table-striped varlist">
 <thead><tr><th>Type</th><th>Intent</th><th>Optional</th><th>Attributes</th><th></th><th>Name</th><th></th></thead>
@@ -741,7 +741,7 @@
 </tbody>
 </table>
 
-<h4>Return Value <small>real(kind=rkind),allocatable, (:)</small></h4>  
+<h4>Return Value <small>type(<a href='../type/outputs_t.html'>outputs_t</a>)</small></h4>  
 
       </li>
   </ul>
@@ -837,7 +837,7 @@
           <p class="text-right">
             Documentation generated by 
             <a href="https://github.com/Fortran-FOSS-Programmers/ford">FORD</a>
- on 2023-02-20 01:03            </p>
+ on 2023-04-19 15:16            </p>
         </div>
       </div>
       <br>

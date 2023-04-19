@@ -9,6 +9,7 @@ program icar_qr_network
   use matmul_m, only : matmul_t
   use file_m, only : file_t
   use kind_parameters_m, only : rkind
+  use outputs_m, only : outputs_t
   implicit none
 
   type(string_t) input_file_name, activation_name
@@ -38,8 +39,11 @@ program icar_qr_network
       2.3016514256596565e-02_rkind, 1.0734779465337851e-07_rkind, 3.9603170742807947e-10_rkind, 2.3047807216644287e+00_rkind, &
       5.3973675537109375e+02_rkind &
     ]
+    type(outputs_t) network_outputs
+
     print *, "inputs: ", inputs
-    print *, "outputs: ", inference_engine%infer(inputs, matmul_t())
+    network_outputs = inference_engine%infer(inputs, matmul_t())
+    print *, "outputs: ", network_outputs%outputs()
   end block
 
 end program

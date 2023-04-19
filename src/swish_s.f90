@@ -11,4 +11,9 @@ contains
       y =  x*sigmoid%activation(x)
     end procedure
 
+    module procedure activation_derivative
+      type(sigmoid_t) sigmoid
+      y =  sigmoid%activation(x) + x * sigmoid%activation_derivative(x)
+    end procedure
+
 end submodule swish_s
