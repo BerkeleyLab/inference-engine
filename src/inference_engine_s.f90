@@ -16,6 +16,16 @@ submodule(inference_engine_m) inference_engine_s
 
 contains
 
+  module procedure train
+    call assert_consistent(self)
+    call assert(size(inputs)==size(expected_outputs),"train: size(inputs)==size(expected_outputs)")
+
+    associate(outputs => self%infer(inputs, inference_strategy))
+      !associate(d_L => outputs%a_L() - expected_outputs)
+      !end associate
+    end associate
+  end procedure
+
   module procedure construct_from_components
 
     real(rkind), allocatable :: transposed(:,:,:)
@@ -46,6 +56,39 @@ contains
         inference_engine%activation_strategy_ = step_t()
       case default
         error stop "inference_engine_t construct_from_components: unrecognized activation strategy"
+    end select
+
+    call assert_consistent(inference_engine)
+
+  end procedure
+
+  module procedure construct_trainable_engine
+
+    real(rkind), allocatable :: transposed(:,:,:)
+    integer layer
+
+    call assert(metadata(4)%string()=="", "construct_trainable_engine: ambiguous activation strategy")
+
+    allocate(transposed(size(hidden_weights,2), size(hidden_weights,1), size(hidden_weights,3)))
+    do concurrent(layer = 1:size(hidden_weights,3))
+      transposed(:,:,layer) = transpose(hidden_weights(:,:,layer))
+    end do
+
+    inference_engine%metadata_ = metadata
+    inference_engine%input_weights_ = transpose(input_weights)
+    inference_engine%hidden_weights_ = transposed
+    inference_engine%output_weights_ = output_weights
+    inference_engine%biases_ = biases
+    inference_engine%output_biases_ = output_biases
+    inference_engine%activation_strategy_ = differentiable_activation_strategy
+
+    select type(differentiable_activation_strategy)
+      type is (swish_t)
+        inference_engine%metadata_(4) = string_t("swish")
+      type is (sigmoid_t)
+        inference_engine%metadata_(4) = string_t("sigmoid")
+      class default
+        error stop "inference_engine_s construct_trainable_engine: unrecognized activation strategy"
     end select
 
     call assert_consistent(inference_engine)

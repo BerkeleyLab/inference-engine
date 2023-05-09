@@ -9,6 +9,7 @@ module inference_engine_m
   use kind_parameters_m, only : rkind
   use inputs_m, only : inputs_t
   use outputs_m, only : outputs_t
+  use differentiable_activation_strategy_m, only :differentiable_activation_strategy_t
   implicit none
 
   private
@@ -32,6 +33,7 @@ module inference_engine_m
     procedure, private :: infer_from_array_of_inputs
     procedure, private :: infer_from_inputs_object
     generic :: infer => infer_from_array_of_inputs, infer_from_inputs_object
+    procedure :: train
     procedure :: num_inputs
     procedure :: num_outputs
     procedure :: neurons_per_layer
@@ -54,6 +56,18 @@ module inference_engine_m
       real(rkind), intent(in) :: hidden_weights(:,:,:), output_biases(:)
       type(inference_engine_t) inference_engine
     end function
+
+    pure module function construct_trainable_engine( &
+      metadata, input_weights, hidden_weights, output_weights, biases, output_biases, differentiable_activation_strategy &
+    ) &
+    result(inference_engine)
+    implicit none
+    type(string_t), intent(in) :: metadata(:)
+    real(rkind), intent(in), dimension(:,:) :: input_weights, output_weights, biases
+    real(rkind), intent(in) :: hidden_weights(:,:,:), output_biases(:)
+    type(inference_engine_t) inference_engine
+    class(differentiable_activation_strategy_t), intent(in) :: differentiable_activation_strategy
+  end function
 
     impure elemental module function construct_from_json(file_) result(inference_engine)
       implicit none
@@ -105,6 +119,14 @@ module inference_engine_m
       class(inference_strategy_t), intent(in) :: inference_strategy
       type(outputs_t) outputs
     end function
+
+    pure module subroutine train(self, inputs, inference_strategy, expected_outputs)
+      implicit none
+      class(inference_engine_t), intent(inout) :: self
+      type(inputs_t), intent(in) :: inputs(:)
+      class(inference_strategy_t), intent(in) :: inference_strategy
+      type(outputs_t), intent(in) :: expected_outputs(:)
+    end subroutine
 
     elemental module function num_outputs(self) result(output_count)
       implicit none
