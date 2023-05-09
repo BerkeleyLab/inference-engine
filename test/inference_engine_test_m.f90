@@ -46,12 +46,52 @@ contains
         "mapping (false,true) to true using the matmul_t() inference strategy", &
         "mapping (false,false) to false using the matmul_t() inference strategy", &
         "converting to and from JSON format",  &
-        "performing inference with encapsulated inputs and outputs" &
+        "performing inference with encapsulated inputs and outputs", &
+        "performing inference with a single-layer perceptron" &
       ], &
       [ convert_to_and_from_json(), xor_truth_table(concurrent_dot_products_t()), xor_truth_table(matmul_t()), &
-        elemental_inference() &
+        elemental_inference(), single_layer_inference() &
        ] &
     )
+  end function
+
+  function single_layer_perceptron() result(inference_engine)
+    type(inference_engine_t) inference_engine
+    integer, parameter :: n_in = 2 ! number of inputs
+    integer, parameter :: n_out = 1 ! number of outputs
+    integer, parameter :: neurons = 3 ! number of neurons per layer
+    integer, parameter :: n_hidden = 1 ! number of hidden layers 
+   
+    inference_engine = inference_engine_t( &
+      metadata = [string_t("Single-Layer XOR"), string_t("Damian Rouson"), string_t("2023-05-09"), string_t("step"), string_t("false")], &
+      input_weights = real(reshape([1,0,1,1,0,1], [n_in, neurons]), rkind), &
+      hidden_weights = reshape([real(rkind)::], [neurons,neurons,n_hidden-1]), &
+      output_weights = real(reshape([1,-2,1], [n_out, neurons]), rkind), &
+      biases = reshape([real(rkind):: 0.,-1.99,0., 0.,0.,0.], [neurons, n_hidden]), &
+      output_biases = [real(rkind):: 0.] &
+    )
+  end function
+
+  function single_layer_inference(inference_strategy) result(test_passes)
+    logical, allocatable :: test_passes(:)
+    class(inference_strategy_t), intent(in), optional :: inference_strategy
+    type(inference_engine_t) inference_engine
+
+    inference_engine = single_layer_perceptron()
+
+    block
+      type(outputs_t), allocatable :: truth_table(:)
+      real(rkind), parameter :: tolerance = 1.E-08_rkind, false = 0._rkind, true = 1._rkind
+      integer i
+
+      associate(array_of_inputs => [inputs_t([true,true]), inputs_t([true,false]), inputs_t([false,true]), inputs_t([false,false])])
+        truth_table = inference_engine%infer(array_of_inputs, [(matmul_t(), i=1,size(array_of_inputs))])
+      end associate
+      test_passes = [ &
+        abs(truth_table(1)%outputs() - false) < tolerance .and. abs(truth_table(2)%outputs() - true) < tolerance .and. &
+        abs(truth_table(3)%outputs() - true) < tolerance .and. abs(truth_table(4)%outputs() - false) < tolerance &
+      ]
+    end block
   end function
 
   function xor_network() result(inference_engine)
