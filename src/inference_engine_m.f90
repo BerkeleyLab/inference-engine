@@ -43,6 +43,7 @@ module inference_engine_m
     generic :: operator(-) => subtract
     procedure :: skip
     procedure :: activation_function_name
+    procedure :: assert_consistent
   end type
 
   interface inference_engine_t
@@ -65,6 +66,11 @@ module inference_engine_m
   end interface
 
   interface
+
+    pure module subroutine assert_consistent(self)
+      implicit none
+      class(inference_engine_t), intent(in) :: self
+    end subroutine
 
     impure elemental module function to_json(self) result(json_file)
       implicit none

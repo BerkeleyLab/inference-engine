@@ -12,7 +12,7 @@ contains
     type(outputs_t) actual_outputs
     integer i
 
-    !call assert_consistent(self)
+    call self%assert_consistent
     call assert(size(inputs)==size(expected_outputs), "train: size(inputs)==size(expected_outputs)")
 
     do i = 1, size(inputs)

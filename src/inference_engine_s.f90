@@ -51,7 +51,7 @@ contains
         error stop "inference_engine_t construct_from_components: unrecognized activation strategy"
     end select
 
-    call assert_consistent(inference_engine)
+    call inference_engine%assert_consistent
 
   end procedure
 
@@ -136,7 +136,7 @@ contains
         error stop "inference_engine_t construct_from_json: unrecognized activation strategy"
     end select
 
-    call assert_consistent(inference_engine)
+    call inference_engine%assert_consistent
 
   contains
 
@@ -172,8 +172,8 @@ contains
 
   module procedure assert_conformable_with
 
-    call assert_consistent(self)
-    call assert_consistent(inference_engine)
+    call self%assert_consistent
+    call inference_engine%assert_consistent
 
     associate(equal_shapes => [ &
       shape(self%input_weights_ ) == shape(inference_engine%input_weights_ ), &
@@ -200,17 +200,16 @@ contains
     difference%output_biases_  = self%output_biases_  - rhs%output_biases_ 
     difference%activation_strategy_ = self%activation_strategy_
 
-    call assert_consistent(difference)
+    call difference%assert_consistent
   end procedure
 
   module procedure norm 
-    call assert_consistent(self)
+    call self%assert_consistent
     norm_of_self = maxval(abs(self%input_weights_)) + maxval(abs(self%hidden_weights_)) + maxval(abs(self%output_weights_)) + & 
            maxval(abs(self%biases_)) + maxval(abs(self%output_biases_))
   end procedure
 
-  pure subroutine assert_consistent(self)
-    type(inference_engine_t), intent(in) :: self
+  module procedure assert_consistent
 
     call assert(all(self%metadata_%is_allocated()), "inference_engine_t%assert_consistent: self%metadata_s%is_allocated()")
     call assert(allocated(self%activation_strategy_), "inference_engine_t%assert_consistent: allocated(self%activation_strategy_)")
@@ -243,7 +242,7 @@ contains
         intrinsic_array_t(output_count) &
       )
     end associate
-  end subroutine
+  end procedure
 
   module procedure num_outputs
     call assert_consistent(self)
