@@ -19,34 +19,6 @@ submodule(inference_engine_m) inference_engine_s
 
 contains
 
-  module procedure train
-    call assert_consistent(self)
-    call assert(size(inputs)==size(expected_outputs), "train: size(inputs)==size(expected_outputs)")
-
-    select type(strategy => self%activation_strategy_)
-      class default
-        error stop "train: non-differentiable activation_strategy"
-      class is(differentiable_activation_strategy_t) 
-        block
-          type(outputs_t) actual_outputs
-          integer i
-
-          do i = 1, size(inputs)
-            actual_outputs = self%infer(inputs(i)%inputs(), inference_strategy)
-            associate( &
-              a_L => actual_outputs%outputs(), &
-              y_L => expected_outputs(i)%outputs(), &
-              sigma_prime_of_z_L => strategy%activation_derivative(actual_outputs%pre_activation_out()) &
-            )
-              associate(delta_L => (a_L - y_L)*sigma_prime_of_z_L)
-              end associate
-            end associate
-          end do
-        end block
-    end select
-
-  end procedure
-
   module procedure construct_from_components
 
     real(rkind), allocatable :: transposed(:,:,:)
@@ -77,39 +49,6 @@ contains
         inference_engine%activation_strategy_ = step_t()
       case default
         error stop "inference_engine_t construct_from_components: unrecognized activation strategy"
-    end select
-
-    call assert_consistent(inference_engine)
-
-  end procedure
-
-  module procedure construct_trainable_engine
-
-    real(rkind), allocatable :: transposed(:,:,:)
-    integer layer
-
-    call assert(metadata(4)%string()=="", "construct_trainable_engine: ambiguous activation strategy")
-
-    allocate(transposed(size(hidden_weights,2), size(hidden_weights,1), size(hidden_weights,3)))
-    do concurrent(layer = 1:size(hidden_weights,3))
-      transposed(:,:,layer) = transpose(hidden_weights(:,:,layer))
-    end do
-
-    inference_engine%metadata_ = metadata
-    inference_engine%input_weights_ = transpose(input_weights)
-    inference_engine%hidden_weights_ = transposed
-    inference_engine%output_weights_ = output_weights
-    inference_engine%biases_ = biases
-    inference_engine%output_biases_ = output_biases
-    inference_engine%activation_strategy_ = differentiable_activation_strategy
-
-    select type(differentiable_activation_strategy)
-      type is (swish_t)
-        inference_engine%metadata_(4) = string_t("swish")
-      type is (sigmoid_t)
-        inference_engine%metadata_(4) = string_t("sigmoid")
-      class default
-        error stop "inference_engine_s construct_trainable_engine: unrecognized activation strategy"
     end select
 
     call assert_consistent(inference_engine)
