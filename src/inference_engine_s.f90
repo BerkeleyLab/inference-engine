@@ -12,18 +12,39 @@ submodule(inference_engine_m) inference_engine_s
   use file_m, only : file_t
   use formats_m, only : separated_values
   use iso_fortran_env, only : iostat_end
+  use activation_strategy_m, only : activation_i
+  use differentiable_activation_strategy_m, only : differentiable_activation_strategy_t
+  use outputs_m, only : outputs_t
   implicit none
 
 contains
 
   module procedure train
     call assert_consistent(self)
-    call assert(size(inputs)==size(expected_outputs),"train: size(inputs)==size(expected_outputs)")
+    call assert(size(inputs)==size(expected_outputs), "train: size(inputs)==size(expected_outputs)")
 
-    associate(outputs => self%infer(inputs, inference_strategy))
-      !associate(d_L => outputs%a_L() - expected_outputs)
-      !end associate
-    end associate
+    select type(strategy => self%activation_strategy_)
+      class default
+        error stop "train: non-differentiable activation_strategy"
+      class is(differentiable_activation_strategy_t) 
+        block
+          type(outputs_t) actual_outputs
+          integer i
+
+          do i = 1, size(inputs)
+            actual_outputs = self%infer(inputs(i)%inputs(), inference_strategy)
+            associate( &
+              a_L => actual_outputs%outputs(), &
+              y_L => expected_outputs(i)%outputs(), &
+              sigma_prime_of_z_L => strategy%activation_derivative(actual_outputs%pre_activation_out()) &
+            )
+              associate(delta_L => (a_L - y_L)*sigma_prime_of_z_L)
+              end associate
+            end associate
+          end do
+        end block
+    end select
+
   end procedure
 
   module procedure construct_from_components

@@ -15,4 +15,8 @@ contains
     new_outputs_t%pre_activation_out_ = pre_activation_out
   end procedure
 
+  module procedure pre_activation_out
+    z_L = self%pre_activation_out_
+  end procedure 
+
 end submodule outputs_s
