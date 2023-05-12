@@ -44,6 +44,9 @@ module inference_engine_m
     procedure :: skip
     procedure :: activation_function_name
     procedure :: assert_consistent
+    procedure :: input_weights
+    procedure :: hidden_weights
+    procedure :: output_weights
   end type
 
   interface inference_engine_t
@@ -147,6 +150,24 @@ module inference_engine_m
       implicit none
       class(inference_engine_t), intent(in) :: self
       type(string_t) activation_name
+    end function
+
+    pure module function input_weights(self) result(w)
+      implicit none
+      class(inference_engine_t), intent(in) :: self
+      real(rkind), allocatable :: w(:,:)
+    end function
+
+    pure module function hidden_weights(self) result(w)
+      implicit none
+      class(inference_engine_t), intent(in) :: self
+      real(rkind), allocatable :: w(:,:,:)
+    end function
+
+    pure module function output_weights(self) result(w)
+      implicit none
+      class(inference_engine_t), intent(in) :: self
+      real(rkind), allocatable :: w(:,:)
     end function
 
   end interface

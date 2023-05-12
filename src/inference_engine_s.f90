@@ -435,4 +435,16 @@ contains
     activation_name = self%metadata_(findloc(key, "activationFunction", dim=1))
   end procedure
 
+  module procedure input_weights
+    w = self%input_weights_
+  end procedure
+
+  module procedure hidden_weights
+    w = self%hidden_weights_
+  end procedure
+
+  module procedure output_weights
+    w = self%output_weights_
+  end procedure
+
 end submodule inference_engine_s

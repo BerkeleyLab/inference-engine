@@ -19,4 +19,8 @@ contains
     z_L = self%pre_activation_out_
   end procedure 
 
+  module procedure pre_activation_in
+    z = self%pre_activation_in_
+  end procedure 
+
 end submodule outputs_s

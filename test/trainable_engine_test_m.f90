@@ -75,10 +75,16 @@ contains
       type(outputs_t), allocatable :: truth_table(:)
       real(rkind), parameter :: tolerance = 1.E-08_rkind, false = 0._rkind, true = 1._rkind
       integer i
-      real(rkind), parameter :: empty_2D(*,*) = reshape([real(rkind)::], [0,0])
-      real(rkind), parameter :: empty_1D(*) = reshape([real(rkind)::], [0])
+      type(inputs_t), allocatable :: inputs(:)
+      type(outputs_t), allocatable :: outputs(:)
 
-      call trainable_engine%train([inputs_t([true,true])], matmul_t(), [outputs_t([false], empty_2D, empty_1D)])
+      real(rkind), parameter :: empty_1D(*) = [real(rkind)::]
+      real(rkind), parameter :: empty_2D(*,*) = reshape([real(rkind)::], [0,0])
+
+      inputs = [inputs_t([true,true])]
+      outputs = [outputs_t([false], empty_2D, empty_1D)]
+
+      call trainable_engine%train(inputs, matmul_t(), outputs)
 
       associate(array_of_inputs => [inputs_t([true,true]), inputs_t([true,false]), inputs_t([false,true]), inputs_t([false,false])])
         truth_table = trainable_engine%infer(array_of_inputs, [(matmul_t(), i=1,size(array_of_inputs))])

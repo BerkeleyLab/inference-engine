@@ -14,6 +14,7 @@ module outputs_m
     real(rkind), allocatable :: pre_activation_out_(:) !! weighted & biased output for training
   contains
     procedure outputs
+    procedure pre_activation_in
     procedure pre_activation_out
   end type
 
@@ -40,6 +41,12 @@ module outputs_m
       implicit none
       class(outputs_t), intent(in) :: self
       real(rkind), allocatable :: z_L(:)
+    end function
+
+    pure module function pre_activation_in(self) result(z)
+      implicit none
+      class(outputs_t), intent(in) :: self
+      real(rkind), allocatable :: z(:,:)
     end function
 
   end interface
