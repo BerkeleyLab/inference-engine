@@ -259,7 +259,7 @@ contains
 
   module procedure num_hidden_layers
     call assert_consistent(self)
-    hidden_layer_count = ubound(self%hidden_weights_,3) - lbound(self%hidden_weights_,3) + 1
+    hidden_layer_count = size(self%hidden_weights_,3) + 1
   end procedure
 
   module procedure infer_from_array_of_inputs
@@ -316,7 +316,7 @@ contains
       associate(num_lines => &
         outer_object_braces &
         + metadata_outer_braces + size(key) &
-        + hidden_layer_outer_brackets + (num_hidden_layers + 1)*(inner_brackets_per_layer + neurons_per_layer*lines_per_neuron) &
+        + hidden_layer_outer_brackets + (num_hidden_layers)*(inner_brackets_per_layer + neurons_per_layer*lines_per_neuron) &
         + output_layer_brackets + num_outputs*lines_per_neuron &
       )
         allocate(lines(num_lines))
@@ -367,9 +367,9 @@ contains
           lines(line) = string_t("             }" // trim(merge(' ',',',neuron==neurons_per_layer)))
         end do
         line = line + 1
-        lines(line) = string_t(trim(merge("         ],", "         ] ", line/=num_hidden_layers + 1)))
+        lines(line) = string_t(trim(merge("         ],", "         ] ", line/=num_hidden_layers)))
 
-        do layer = 1, num_hidden_layers
+        do layer = 1, num_hidden_layers-1
           line = line + 1
           lines(line) = string_t('         [')
           do neuron = 1, neurons_per_layer
@@ -387,7 +387,7 @@ contains
             lines(line) = string_t("             }" // trim(merge(' ',',',neuron==neurons_per_layer)))
           end do
           line = line + 1
-          lines(line) = string_t("         ]" // trim(merge(' ',',',layer==num_hidden_layers)))
+          lines(line) = string_t("         ]" // trim(merge(' ',',',layer==num_hidden_layers-1)))
         end do
 
         line = line + 1
