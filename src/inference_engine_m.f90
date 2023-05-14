@@ -47,6 +47,7 @@ module inference_engine_m
     procedure :: input_weights
     procedure :: hidden_weights
     procedure :: output_weights
+    procedure :: increment
   end type
 
   interface inference_engine_t
@@ -169,6 +170,17 @@ module inference_engine_m
       class(inference_engine_t), intent(in) :: self
       real(rkind), allocatable :: w(:,:)
     end function
+
+    !pure module subroutine increment(self, delta_w_in, delta_w_hidden, delta_w_out, delta_b_hidden, delta_b_out)
+    pure module subroutine increment(self, delta_b_hidden, delta_b_out)
+      implicit none
+      class(inference_engine_t), intent(inout) :: self
+      !real(rkind), intent(in), dimension(:,:,:) :: delta_w_hidden
+      !real(rkind), intent(in), dimension(:,:) :: delta_w_in, delta_w_out, delta_b_hidden
+      !real(rkind), intent(in), dimension(:,:) :: delta_w_out
+      real(rkind), intent(in), dimension(:,:) :: delta_b_hidden
+      real(rkind), intent(in), dimension(:) :: delta_b_out
+    end subroutine
 
   end interface
 

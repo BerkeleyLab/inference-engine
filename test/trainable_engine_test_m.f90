@@ -81,8 +81,8 @@ contains
       real(rkind), parameter :: empty_1D(*) = [real(rkind)::]
       real(rkind), parameter :: empty_2D(*,*) = reshape([real(rkind)::], [0,0])
 
-      inputs = [inputs_t([true,true])]
-      outputs = [outputs_t([false], empty_2D, empty_1D)]
+      inputs = [(inputs_t([true,true]), i = 1,10)]
+      outputs = [(outputs_t([false], empty_2D, empty_1D), i=1,10)]
 
       call trainable_engine%train(inputs, matmul_t(), outputs)
 
