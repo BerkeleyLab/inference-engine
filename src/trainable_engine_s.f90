@@ -34,7 +34,6 @@ contains
           w => self%hidden_weights(), &
           w_in => self%input_weights() &
         )
-          print *,"(a_L - y_L)**2 ", (a_L - y_L)**2
           associate( &
               a => self%differentiable_activation_strategy_%activation(z), &
               sigma_prime_of_z_L => self%differentiable_activation_strategy_%activation_derivative(z_L), &
@@ -49,7 +48,7 @@ contains
               end do
 
               block
-                real(rkind), parameter :: eta = 0.1 ! training rate
+                real(rkind), parameter :: eta = 1. ! training rate
 
                 call self%increment( &
                   delta_w_in =  -eta*outer_product(delta(:,1), inputs(i)%inputs()), &
