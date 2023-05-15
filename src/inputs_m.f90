@@ -9,6 +9,18 @@ module inputs_m
 
   type inputs_t
     real(rkind), allocatable :: inputs_(:)
+  contains
+    procedure inputs
   end type
+
+  interface
+
+    pure module function inputs(self) result(my_inputs)
+      implicit none
+      class(inputs_t), intent(in) :: self
+      real(rkind), allocatable :: my_inputs(:)
+    end function
+
+  end interface
 
 end module inputs_m

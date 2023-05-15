@@ -12,6 +12,9 @@ submodule(inference_engine_m) inference_engine_s
   use file_m, only : file_t
   use formats_m, only : separated_values
   use iso_fortran_env, only : iostat_end
+  use activation_strategy_m, only : activation_i
+  use differentiable_activation_strategy_m, only : differentiable_activation_strategy_t
+  use outputs_m, only : outputs_t
   implicit none
 
 contains
@@ -48,7 +51,7 @@ contains
         error stop "inference_engine_t construct_from_components: unrecognized activation strategy"
     end select
 
-    call assert_consistent(inference_engine)
+    call inference_engine%assert_consistent
 
   end procedure
 
@@ -133,7 +136,7 @@ contains
         error stop "inference_engine_t construct_from_json: unrecognized activation strategy"
     end select
 
-    call assert_consistent(inference_engine)
+    call inference_engine%assert_consistent
 
   contains
 
@@ -169,8 +172,8 @@ contains
 
   module procedure assert_conformable_with
 
-    call assert_consistent(self)
-    call assert_consistent(inference_engine)
+    call self%assert_consistent
+    call inference_engine%assert_consistent
 
     associate(equal_shapes => [ &
       shape(self%input_weights_ ) == shape(inference_engine%input_weights_ ), &
@@ -197,17 +200,16 @@ contains
     difference%output_biases_  = self%output_biases_  - rhs%output_biases_ 
     difference%activation_strategy_ = self%activation_strategy_
 
-    call assert_consistent(difference)
+    call difference%assert_consistent
   end procedure
 
   module procedure norm 
-    call assert_consistent(self)
+    call self%assert_consistent
     norm_of_self = maxval(abs(self%input_weights_)) + maxval(abs(self%hidden_weights_)) + maxval(abs(self%output_weights_)) + & 
            maxval(abs(self%biases_)) + maxval(abs(self%output_biases_))
   end procedure
 
-  pure subroutine assert_consistent(self)
-    type(inference_engine_t), intent(in) :: self
+  module procedure assert_consistent
 
     call assert(all(self%metadata_%is_allocated()), "inference_engine_t%assert_consistent: self%metadata_s%is_allocated()")
     call assert(allocated(self%activation_strategy_), "inference_engine_t%assert_consistent: allocated(self%activation_strategy_)")
@@ -240,7 +242,7 @@ contains
         intrinsic_array_t(output_count) &
       )
     end associate
-  end subroutine
+  end procedure
 
   module procedure num_outputs
     call assert_consistent(self)
@@ -259,7 +261,7 @@ contains
 
   module procedure num_hidden_layers
     call assert_consistent(self)
-    hidden_layer_count = ubound(self%hidden_weights_,3) - lbound(self%hidden_weights_,3) + 1
+    hidden_layer_count = size(self%hidden_weights_,3) + 1
   end procedure
 
   module procedure infer_from_array_of_inputs
@@ -316,7 +318,7 @@ contains
       associate(num_lines => &
         outer_object_braces &
         + metadata_outer_braces + size(key) &
-        + hidden_layer_outer_brackets + (num_hidden_layers + 1)*(inner_brackets_per_layer + neurons_per_layer*lines_per_neuron) &
+        + hidden_layer_outer_brackets + (num_hidden_layers)*(inner_brackets_per_layer + neurons_per_layer*lines_per_neuron) &
         + output_layer_brackets + num_outputs*lines_per_neuron &
       )
         allocate(lines(num_lines))
@@ -367,9 +369,9 @@ contains
           lines(line) = string_t("             }" // trim(merge(' ',',',neuron==neurons_per_layer)))
         end do
         line = line + 1
-        lines(line) = string_t(trim(merge("         ],", "         ] ", line/=num_hidden_layers + 1)))
+        lines(line) = string_t(trim(merge("         ],", "         ] ", line/=num_hidden_layers)))
 
-        do layer = 1, num_hidden_layers
+        do layer = 1, num_hidden_layers-1
           line = line + 1
           lines(line) = string_t('         [')
           do neuron = 1, neurons_per_layer
@@ -387,7 +389,7 @@ contains
             lines(line) = string_t("             }" // trim(merge(' ',',',neuron==neurons_per_layer)))
           end do
           line = line + 1
-          lines(line) = string_t("         ]" // trim(merge(' ',',',layer==num_hidden_layers)))
+          lines(line) = string_t("         ]" // trim(merge(' ',',',layer==num_hidden_layers-1)))
         end do
 
         line = line + 1
@@ -431,6 +433,26 @@ contains
 
   module procedure activation_function_name
     activation_name = self%metadata_(findloc(key, "activationFunction", dim=1))
+  end procedure
+
+  module procedure input_weights
+    w = self%input_weights_
+  end procedure
+
+  module procedure hidden_weights
+    w = self%hidden_weights_
+  end procedure
+
+  module procedure output_weights
+    w = self%output_weights_
+  end procedure
+
+  module procedure increment
+    self%input_weights_ = self%input_weights_ + delta_w_in
+    !self%hidden_weights_ = self%hidden_weights_ + delta_w_hidden
+    self%output_weights_ = self%output_weights_ + delta_w_out
+    self%biases_ = self%biases_ + delta_b_hidden
+    self%output_biases_ = self%output_biases_ + delta_b_out
   end procedure
 
 end submodule inference_engine_s

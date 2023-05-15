@@ -123,7 +123,7 @@ contains
     type(inference_engine_t) inference_engine
 
     inference_engine = xor_and_2nd_input_network()
-    test_passes = inference_engine%num_hidden_layers() == 1
+    test_passes = inference_engine%num_hidden_layers() == 2
   end function
 
   function test_neurons_per_layer() result(test_passes)

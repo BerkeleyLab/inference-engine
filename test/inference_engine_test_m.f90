@@ -14,6 +14,7 @@ module inference_engine_test_m
   use matmul_m, only : matmul_t
   use file_m, only : file_t
   use kind_parameters_m, only : rkind
+  use sigmoid_m, only : sigmoid_t
   implicit none
 
   private
@@ -67,14 +68,13 @@ contains
       input_weights = real(reshape([1,0,1,1,0,1], [n_in, neurons]), rkind), &
       hidden_weights = reshape([real(rkind)::], [neurons,neurons,n_hidden-1]), &
       output_weights = real(reshape([1,-2,1], [n_out, neurons]), rkind), &
-      biases = reshape([real(rkind):: 0.,-1.99,0., 0.,0.,0.], [neurons, n_hidden]), &
+      biases = reshape([real(rkind):: 0.,-1.99,0.], [neurons, n_hidden]), &
       output_biases = [real(rkind):: 0.] &
     )
   end function
 
-  function single_layer_inference(inference_strategy) result(test_passes)
+  function single_layer_inference() result(test_passes)
     logical, allocatable :: test_passes(:)
-    class(inference_strategy_t), intent(in), optional :: inference_strategy
     type(inference_engine_t) inference_engine
 
     inference_engine = single_layer_perceptron()
