@@ -448,7 +448,7 @@ contains
   end procedure
 
   module procedure increment
-    !self%input_weights_ = self%input_weights_ + delta_w_in
+    self%input_weights_ = self%input_weights_ + delta_w_in
     !self%hidden_weights_ = self%hidden_weights_ + delta_w_hidden
     self%output_weights_ = self%output_weights_ + delta_w_out
     self%biases_ = self%biases_ + delta_b_hidden

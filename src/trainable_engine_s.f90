@@ -22,8 +22,6 @@ contains
       allocate(delta(self%neurons_per_layer(), num_hidden_layers))
 
       do i = 1, size(inputs)
-        print *
-        print *, "----------------------------------------------"
 
         actual_outputs = self%infer(inputs(i)%inputs(), inference_strategy) ! compiler issue: gfortran won't let this be `associate`
 
@@ -50,13 +48,11 @@ contains
                 delta(:,l) = matmul(transpose(w(:,:,l+1)), delta(:,l+1)) * sigma_prime_of_z(:,l)
               end do
 
-              delta_in = matmul(transpose(w_in(:,:)), delta(:,1)) * sigma_prime_of_z(:,1)
-
               block
                 real(rkind), parameter :: eta = 0.1 ! training rate
 
                 call self%increment( &
-                ! delta_w_in =  -eta*delta_in*inputs(i)%inputs(), &
+                  delta_w_in =  -eta*outer_product(delta(:,1), inputs(i)%inputs()), &
                 ! delta_w_hidden = -eta*delta*sigma(z), &
                   delta_w_out = -eta*outer_product(delta_L, a(:,num_hidden_layers)), &
                   delta_b_hidden = -eta*delta, &
@@ -66,8 +62,6 @@ contains
             end associate
           end associate
         end associate
-        print *, "----------------------------------------------"
-        print *
       end do
     end associate
 
