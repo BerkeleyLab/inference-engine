@@ -9,6 +9,7 @@ module inference_engine_m
   use kind_parameters_m, only : rkind
   use inputs_m, only : inputs_t
   use outputs_m, only : outputs_t
+  use differentiable_activation_strategy_m, only :differentiable_activation_strategy_t
   implicit none
 
   private
@@ -42,6 +43,11 @@ module inference_engine_m
     generic :: operator(-) => subtract
     procedure :: skip
     procedure :: activation_function_name
+    procedure :: assert_consistent
+    procedure :: input_weights
+    procedure :: hidden_weights
+    procedure :: output_weights
+    procedure :: increment
   end type
 
   interface inference_engine_t
@@ -64,6 +70,11 @@ module inference_engine_m
   end interface
 
   interface
+
+    pure module subroutine assert_consistent(self)
+      implicit none
+      class(inference_engine_t), intent(in) :: self
+    end subroutine
 
     impure elemental module function to_json(self) result(json_file)
       implicit none
@@ -141,6 +152,33 @@ module inference_engine_m
       class(inference_engine_t), intent(in) :: self
       type(string_t) activation_name
     end function
+
+    pure module function input_weights(self) result(w)
+      implicit none
+      class(inference_engine_t), intent(in) :: self
+      real(rkind), allocatable :: w(:,:)
+    end function
+
+    pure module function hidden_weights(self) result(w)
+      implicit none
+      class(inference_engine_t), intent(in) :: self
+      real(rkind), allocatable :: w(:,:,:)
+    end function
+
+    pure module function output_weights(self) result(w)
+      implicit none
+      class(inference_engine_t), intent(in) :: self
+      real(rkind), allocatable :: w(:,:)
+    end function
+
+    !pure module subroutine increment(self, delta_w_in, delta_w_hidden, delta_w_out, delta_b_hidden, delta_b_out)
+    pure module subroutine increment(self, delta_w_in, delta_w_out, delta_b_hidden, delta_b_out)
+      implicit none
+      class(inference_engine_t), intent(inout) :: self
+      !real(rkind), intent(in), dimension(:,:,:) :: delta_w_hidden
+      real(rkind), intent(in), dimension(:,:) :: delta_w_in, delta_w_out, delta_b_hidden
+      real(rkind), intent(in), dimension(:) :: delta_b_out
+    end subroutine
 
   end interface
 

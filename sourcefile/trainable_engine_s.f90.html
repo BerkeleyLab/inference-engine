@@ -1,0 +1,563 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+   <meta name="description" content="A library supporting concurrent forward propagation on multiple fully-connected deep neural networks">
+    <meta name="author" content="Sourcery Institute" >
+    <link rel="icon" href="../favicon.png">
+
+    <title>trainable_engine_s.f90 &ndash; Inference-Engine</title>
+
+    <link href="../css/bootstrap.min.css" rel="stylesheet">
+    <link href="../css/pygments.css" rel="stylesheet">
+    <link href="../css/font-awesome.min.css" rel="stylesheet">
+    <link href="../css/local.css" rel="stylesheet">
+    <link  href="../tipuesearch/tipuesearch.css" rel="stylesheet">
+
+    <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
+    <!--[if lt IE 9]>
+      <script src="https://oss.maxcdn.com/html5shiv/3.7.2/html5shiv.min.js"></script>
+      <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
+    <![endif]-->
+    
+    <script src="../js/jquery-2.1.3.min.js"></script>
+    <script src="../js/svg-pan-zoom.min.js"></script>
+
+  </head>
+
+  <body>
+
+    <!-- Fixed navbar -->
+    <nav class="navbar navbar-inverse navbar-fixed-top">
+      <div class="container">
+        <div class="navbar-header">
+          <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
+            <span class="sr-only">Toggle navigation</span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+          </button>
+          <a class="navbar-brand" href="../index.html">Inference-Engine </a>
+        </div>
+        <div id="navbar" class="navbar-collapse collapse">
+          <ul class="nav navbar-nav">
+            <li class="dropdown hidden-xs visible-sm visible-md hidden-lg">
+              <a href="#" class="dropdown-toggle"
+              data-toggle="dropdown" role="button"
+              aria-haspopup="true"
+     aria-expanded="false">Contents <span class="caret"></span></a>
+        <ul class="dropdown-menu">
+            <li><a href="../lists/files.html">Source Files</a></li>
+            <li><a href="../lists/modules.html">Modules</a></li>
+            <li><a href="../lists/procedures.html">Procedures</a></li>
+            <li><a href="../lists/absint.html">Abstract Interfaces</a></li>
+                   <li><a href="../lists/types.html">Derived Types</a></li>
+            <li><a href="../lists/programs.html">Programs</a></li>
+       
+            </ul>
+        
+            </li>
+<li class="visible-xs hidden-sm visible-lg"><a href="../lists/files.html">Source Files</a></li>
+<li class="visible-xs hidden-sm visible-lg"><a href="../lists/modules.html">Modules</a></li>
+<li class="visible-xs hidden-sm visible-lg"><a href="../lists/procedures.html">Procedures</a></li>
+<li class="visible-xs hidden-sm visible-lg"><a href="../lists/absint.html">Abstract Interfaces</a></li>
+                             <li class="visible-xs hidden-sm visible-lg"><a href="../lists/types.html">Derived Types</a></li>
+<li class="visible-xs hidden-sm visible-lg"><a href="../lists/programs.html">Programs</a></li>
+          </ul>
+        <form action="../search.html" class="navbar-form navbar-right" role="search">
+        <div class="form-group">
+          <input type="text" class="form-control" placeholder="Search" name="q" id="tipue_search_input" autocomplete="off" required>
+        </div>
+<!--
+        <button type="submit" class="btn btn-default">Submit</button>
+-->
+        </form>
+        </div><!--/.nav-collapse -->
+      </div>
+    </nav>
+
+    <div class="container">
+  <div class="row">
+    <h1>trainable_engine_s.f90
+    <small>Source File</small>
+    </h1>
+    <div class="row">
+  <div class="col-lg-12">
+<div class="well well-sm">
+  <ul class="list-inline" style="margin-bottom:0px;display:inline">
+     <li><i class="fa fa-list-ol"></i>
+       <a data-toggle="tooltip"
+    data-placement="bottom" data-html="true"
+    title=" 3.4% of total for source files.">50 statements</a>
+     </li> 
+    <li><i class="fa fa-code"></i><a href="../src/trainable_engine_s.f90"> Source File</a></li>
+  </ul>
+  <ol class="breadcrumb in-well text-right">
+     <li class="active">trainable_engine_s.f90</li>
+  </ol>
+</div>
+</div>
+</div>
+<script>
+  $(function () {
+  $('[data-toggle="tooltip"]').tooltip()
+  })
+</script>
+
+  </div>
+  <div class="row">
+    <div class="col-md-3 hidden-xs hidden-sm visible-md visible-lg">
+    <div id="sidebar">
+  <h3>Contents</h3>
+ 
+<div class="panel panel-primary">
+  <div class="panel-heading text-left"><h3 class="panel-title"><a data-toggle="collapse" href="#submods-0">Submodules</a></h3></div>
+  <div id="submods-0" class="panel-collapse collapse">
+    <div class="list-group">
+      <a class="list-group-item" href="../module/trainable_engine_s.html">trainable_engine_s</a>
+    </div>
+  </div>
+</div>
+<div class="panel panel-primary">
+  <div class="panel-heading text-left"><h3 class="panel-title">Source Code</h3></div>
+  <div class="list-group">
+    <a class="list-group-item" href="../sourcefile/trainable_engine_s.f90.html#src">trainable_engine_s.f90</a>
+  </div>
+</div>
+
+</div>
+
+    </div>
+    <div class="col-md-9" id='text'>
+      
+      <br>
+    <div class="panel panel-default">
+      <div class="panel-heading">
+  <h3 class="panel-title">This file depends on</h3>
+      </div>
+      <div class="panel-body">
+  <div class="depgraph"><?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN"
+ "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
+<!-- Generated by graphviz version 2.43.0 (0)
+ -->
+<!-- Title: sourcefile~~trainable_engine_s.f90~~EfferentGraph Pages: 1 -->
+<svg id="sourcefiletrainable_engine_sf90EfferentGraph" width="641pt" height="125pt"
+ viewBox="0.00 0.00 641.00 125.35" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+<g id="sourcefile~~trainable_engine_s.f90~~EfferentGraph" class="graph" transform="scale(1.74 1.74) rotate(0) translate(4 214.24)">
+<title>sourcefile~~trainable_engine_s.f90~~EfferentGraph</title>
+<polygon fill="white" stroke="transparent" points="-4,4 -4,-214.24 1112,-214.24 1112,4 -4,4"/>
+<!-- sourcefile~trainable_engine_s.f90 -->
+<g id="sourcefile~~trainable_engine_s.f90~~EfferentGraph_node1" class="node">
+<title>sourcefile~trainable_engine_s.f90</title>
+<polygon fill="none" stroke="black" points="1108,-189.24 975,-189.24 975,-165.24 1108,-165.24 1108,-189.24"/>
+<text text-anchor="middle" x="1041.5" y="-174.84" font-family="Helvetica,sans-Serif" font-size="10.50">trainable_engine_s.f90</text>
+</g>
+<!-- sourcefile~trainable_engine_m.f90 -->
+<g id="sourcefile~~trainable_engine_s.f90~~EfferentGraph_node2" class="node">
+<title>sourcefile~trainable_engine_m.f90</title>
+<g id="a_sourcefile~~trainable_engine_s.f90~~EfferentGraph_node2"><a xlink:href=".././sourcefile/trainable_engine_m.f90.html" xlink:title="trainable_engine_m.f90">
+<polygon fill="#f0ad4e" stroke="#f0ad4e" points="939,-150.24 800,-150.24 800,-126.24 939,-126.24 939,-150.24"/>
+<text text-anchor="middle" x="869.5" y="-135.84" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">trainable_engine_m.f90</text>
+</a>
+</g>
+</g>
+<!-- sourcefile~trainable_engine_s.f90&#45;&gt;sourcefile~trainable_engine_m.f90 -->
+<g id="sourcefile~~trainable_engine_s.f90~~EfferentGraph_edge1" class="edge">
+<title>sourcefile~trainable_engine_s.f90&#45;&gt;sourcefile~trainable_engine_m.f90</title>
+<path fill="none" stroke="#ff0000" stroke-dasharray="5,2" d="M988.11,-165.22C970.66,-161.22 951.04,-156.72 932.91,-152.56"/>
+<polygon fill="#ff0000" stroke="#ff0000" points="933.54,-149.11 923.01,-150.29 931.98,-155.94 933.54,-149.11"/>
+</g>
+<!-- sourcefile~outputs_m.f90 -->
+<g id="sourcefile~~trainable_engine_s.f90~~EfferentGraph_node3" class="node">
+<title>sourcefile~outputs_m.f90</title>
+<g id="a_sourcefile~~trainable_engine_s.f90~~EfferentGraph_node3"><a xlink:href=".././sourcefile/outputs_m.f90.html" xlink:title="outputs_m.f90">
+<polygon fill="#f0ad4e" stroke="#f0ad4e" points="294,-210.24 206,-210.24 206,-186.24 294,-186.24 294,-210.24"/>
+<text text-anchor="middle" x="250" y="-195.84" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">outputs_m.f90</text>
+</a>
+</g>
+</g>
+<!-- sourcefile~trainable_engine_s.f90&#45;&gt;sourcefile~outputs_m.f90 -->
+<g id="sourcefile~~trainable_engine_s.f90~~EfferentGraph_edge2" class="edge">
+<title>sourcefile~trainable_engine_s.f90&#45;&gt;sourcefile~outputs_m.f90</title>
+<path fill="none" stroke="#ff0000" stroke-dasharray="5,2" d="M974.63,-177.52C869.01,-178.45 655.32,-182.35 475,-198.24"/>
+</g>
+<!-- sourcefile~trainable_engine_m.f90&#45;&gt;sourcefile~outputs_m.f90 -->
+<g id="sourcefile~~trainable_engine_s.f90~~EfferentGraph_edge5" class="edge">
+<title>sourcefile~trainable_engine_m.f90&#45;&gt;sourcefile~outputs_m.f90</title>
+<path fill="none" stroke="#ff0000" stroke-dasharray="5,2" d="M692.5,-160.24C645.11,-165.14 633.93,-171.03 587,-179.24 537.27,-187.94 525.29,-193.81 475,-198.24"/>
+</g>
+<!-- sourcefile~differentiable_activation_strategy_m.f90 -->
+<g id="sourcefile~~trainable_engine_s.f90~~EfferentGraph_node4" class="node">
+<title>sourcefile~differentiable_activation_strategy_m.f90</title>
+<g id="a_sourcefile~~trainable_engine_s.f90~~EfferentGraph_node4"><a xlink:href=".././sourcefile/differentiable_activation_strategy_m.f90.html" xlink:title="differentiable_activation_strategy_m.f90">
+<polygon fill="#f0ad4e" stroke="#f0ad4e" points="587,-90.24 361,-90.24 361,-66.24 587,-66.24 587,-90.24"/>
+<text text-anchor="middle" x="474" y="-75.84" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">differentiable_activation_strategy_m.f90</text>
+</a>
+</g>
+</g>
+<!-- sourcefile~trainable_engine_m.f90&#45;&gt;sourcefile~differentiable_activation_strategy_m.f90 -->
+<g id="sourcefile~~trainable_engine_s.f90~~EfferentGraph_edge3" class="edge">
+<title>sourcefile~trainable_engine_m.f90&#45;&gt;sourcefile~differentiable_activation_strategy_m.f90</title>
+<path fill="none" stroke="#ff0000" stroke-dasharray="5,2" d="M692.5,-36.24C646.31,-23.9 633.94,-48.17 587,-57.24 574.97,-59.57 562.2,-62 549.76,-64.34"/>
+<polygon fill="#ff0000" stroke="#ff0000" points="549.05,-60.91 539.87,-66.2 550.35,-67.79 549.05,-60.91"/>
+</g>
+<!-- sourcefile~inputs_m.f90 -->
+<g id="sourcefile~~trainable_engine_s.f90~~EfferentGraph_node5" class="node">
+<title>sourcefile~inputs_m.f90</title>
+<g id="a_sourcefile~~trainable_engine_s.f90~~EfferentGraph_node5"><a xlink:href=".././sourcefile/inputs_m.f90.html" xlink:title="inputs_m.f90">
+<polygon fill="#f0ad4e" stroke="#f0ad4e" points="514.5,-48.24 433.5,-48.24 433.5,-24.24 514.5,-24.24 514.5,-48.24"/>
+<text text-anchor="middle" x="474" y="-33.84" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">inputs_m.f90</text>
+</a>
+</g>
+</g>
+<!-- sourcefile~trainable_engine_m.f90&#45;&gt;sourcefile~inputs_m.f90 -->
+<g id="sourcefile~~trainable_engine_s.f90~~EfferentGraph_edge4" class="edge">
+<title>sourcefile~trainable_engine_m.f90&#45;&gt;sourcefile~inputs_m.f90</title>
+<path fill="none" stroke="#ff0000" stroke-dasharray="5,2" d="M692.5,-36.24C636.49,-21.27 569.43,-24.26 524.72,-29.05"/>
+<polygon fill="#ff0000" stroke="#ff0000" points="524.23,-25.58 514.69,-30.19 525.02,-32.54 524.23,-25.58"/>
+</g>
+<!-- sourcefile~kind_parameters_m.f90 -->
+<g id="sourcefile~~trainable_engine_s.f90~~EfferentGraph_node6" class="node">
+<title>sourcefile~kind_parameters_m.f90</title>
+<g id="a_sourcefile~~trainable_engine_s.f90~~EfferentGraph_node6"><a xlink:href=".././sourcefile/kind_parameters_m.f90.html" xlink:title="kind_parameters_m.f90">
+<polygon fill="#f0ad4e" stroke="#f0ad4e" points="139,-150.24 0,-150.24 0,-126.24 139,-126.24 139,-150.24"/>
+<text text-anchor="middle" x="69.5" y="-135.84" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">kind_parameters_m.f90</text>
+</a>
+</g>
+</g>
+<!-- sourcefile~trainable_engine_m.f90&#45;&gt;sourcefile~kind_parameters_m.f90 -->
+<g id="sourcefile~~trainable_engine_s.f90~~EfferentGraph_edge7" class="edge">
+<title>sourcefile~trainable_engine_m.f90&#45;&gt;sourcefile~kind_parameters_m.f90</title>
+<path fill="none" stroke="#ff0000" stroke-dasharray="5,2" d="M853.94,-125.92C825.53,-102.8 759.79,-53.69 694.5,-36.24"/>
+<path fill="none" stroke="#ff0000" stroke-dasharray="5,2" d="M692.5,-36.24C549.88,1.87 506.18,11.53 361,-15.24 309.54,-24.73 301.99,-45.49 251,-57.24"/>
+<path fill="none" stroke="#ff0000" stroke-dasharray="5,2" d="M249,-57.24C192.81,-69.66 132.97,-101.02 98.82,-120.87"/>
+<polygon fill="#ff0000" stroke="#ff0000" points="96.72,-118.04 89.89,-126.14 100.28,-124.07 96.72,-118.04"/>
+</g>
+<!-- sourcefile~inference_strategy_m.f90 -->
+<g id="sourcefile~~trainable_engine_s.f90~~EfferentGraph_node7" class="node">
+<title>sourcefile~inference_strategy_m.f90</title>
+<g id="a_sourcefile~~trainable_engine_s.f90~~EfferentGraph_node7"><a xlink:href=".././sourcefile/inference_strategy_m.f90.html" xlink:title="inference_strategy_m.f90">
+<polygon fill="#f0ad4e" stroke="#f0ad4e" points="548,-170.24 400,-170.24 400,-146.24 548,-146.24 548,-170.24"/>
+<text text-anchor="middle" x="474" y="-155.84" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">inference_strategy_m.f90</text>
+</a>
+</g>
+</g>
+<!-- sourcefile~trainable_engine_m.f90&#45;&gt;sourcefile~inference_strategy_m.f90 -->
+<g id="sourcefile~~trainable_engine_s.f90~~EfferentGraph_edge8" class="edge">
+<title>sourcefile~trainable_engine_m.f90&#45;&gt;sourcefile~inference_strategy_m.f90</title>
+<path fill="none" stroke="#ff0000" stroke-dasharray="5,2" d="M799.99,-147.63C767.98,-151.83 729.33,-156.64 694.5,-160.24"/>
+<path fill="none" stroke="#ff0000" stroke-dasharray="5,2" d="M692.5,-160.24C648.35,-164.81 598.89,-164.76 558.31,-163.37"/>
+<polygon fill="#ff0000" stroke="#ff0000" points="558.31,-159.87 548.19,-162.99 558.05,-166.86 558.31,-159.87"/>
+</g>
+<!-- sourcefile~inference_engine_m.f90 -->
+<g id="sourcefile~~trainable_engine_s.f90~~EfferentGraph_node8" class="node">
+<title>sourcefile~inference_engine_m.f90</title>
+<g id="a_sourcefile~~trainable_engine_s.f90~~EfferentGraph_node8"><a xlink:href=".././sourcefile/inference_engine_m.f90.html" xlink:title="inference_engine_m.f90">
+<polygon fill="#f0ad4e" stroke="#f0ad4e" points="764,-131.24 623,-131.24 623,-107.24 764,-107.24 764,-131.24"/>
+<text text-anchor="middle" x="693.5" y="-116.84" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">inference_engine_m.f90</text>
+</a>
+</g>
+</g>
+<!-- sourcefile~trainable_engine_m.f90&#45;&gt;sourcefile~inference_engine_m.f90 -->
+<g id="sourcefile~~trainable_engine_s.f90~~EfferentGraph_edge6" class="edge">
+<title>sourcefile~trainable_engine_m.f90&#45;&gt;sourcefile~inference_engine_m.f90</title>
+<path fill="none" stroke="#ff0000" stroke-dasharray="5,2" d="M799.73,-130.73C791.33,-129.81 782.7,-128.87 774.16,-127.94"/>
+<polygon fill="#ff0000" stroke="#ff0000" points="774.52,-124.46 764.2,-126.85 773.76,-131.42 774.52,-124.46"/>
+</g>
+<!-- sourcefile~outputs_m.f90&#45;&gt;sourcefile~kind_parameters_m.f90 -->
+<g id="sourcefile~~trainable_engine_s.f90~~EfferentGraph_edge9" class="edge">
+<title>sourcefile~outputs_m.f90&#45;&gt;sourcefile~kind_parameters_m.f90</title>
+<path fill="none" stroke="#00ffff" stroke-dasharray="5,2" d="M212.88,-186.1C184.96,-176.72 146.15,-163.67 116.09,-153.57"/>
+<polygon fill="#00ffff" stroke="#00ffff" points="116.86,-150.13 106.26,-150.26 114.63,-156.77 116.86,-150.13"/>
+</g>
+<!-- sourcefile~activation_strategy_m.f90 -->
+<g id="sourcefile~~trainable_engine_s.f90~~EfferentGraph_node9" class="node">
+<title>sourcefile~activation_strategy_m.f90</title>
+<g id="a_sourcefile~~trainable_engine_s.f90~~EfferentGraph_node9"><a xlink:href=".././sourcefile/activation_strategy_m.f90.html" xlink:title="activation_strategy_m.f90">
+<polygon fill="#f0ad4e" stroke="#f0ad4e" points="325,-130.24 175,-130.24 175,-106.24 325,-106.24 325,-130.24"/>
+<text text-anchor="middle" x="250" y="-115.84" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">activation_strategy_m.f90</text>
+</a>
+</g>
+</g>
+<!-- sourcefile~differentiable_activation_strategy_m.f90&#45;&gt;sourcefile~activation_strategy_m.f90 -->
+<g id="sourcefile~~trainable_engine_s.f90~~EfferentGraph_edge10" class="edge">
+<title>sourcefile~differentiable_activation_strategy_m.f90&#45;&gt;sourcefile~activation_strategy_m.f90</title>
+<path fill="none" stroke="#ff0000" stroke-dasharray="5,2" d="M406.39,-90.24C381.7,-94.69 353.5,-99.77 327.96,-104.37"/>
+<polygon fill="#ff0000" stroke="#ff0000" points="327.16,-100.96 317.94,-106.18 328.41,-107.85 327.16,-100.96"/>
+</g>
+<!-- sourcefile~inputs_m.f90&#45;&gt;sourcefile~kind_parameters_m.f90 -->
+<g id="sourcefile~~trainable_engine_s.f90~~EfferentGraph_edge11" class="edge">
+<title>sourcefile~inputs_m.f90&#45;&gt;sourcefile~kind_parameters_m.f90</title>
+<path fill="none" stroke="#cbff00" stroke-dasharray="5,2" d="M433.2,-36.85C388.38,-38.26 313.62,-42.81 251,-57.24"/>
+</g>
+<!-- sourcefile~inference_strategy_m.f90&#45;&gt;sourcefile~outputs_m.f90 -->
+<g id="sourcefile~~trainable_engine_s.f90~~EfferentGraph_edge14" class="edge">
+<title>sourcefile~inference_strategy_m.f90&#45;&gt;sourcefile~outputs_m.f90</title>
+<path fill="none" stroke="#0066ff" stroke-dasharray="5,2" d="M406.39,-170.24C373.69,-176.13 334.83,-183.14 304.15,-188.66"/>
+<polygon fill="#0066ff" stroke="#0066ff" points="303.31,-185.26 294.09,-190.48 304.55,-192.15 303.31,-185.26"/>
+</g>
+<!-- sourcefile~inference_strategy_m.f90&#45;&gt;sourcefile~kind_parameters_m.f90 -->
+<g id="sourcefile~~trainable_engine_s.f90~~EfferentGraph_edge13" class="edge">
+<title>sourcefile~inference_strategy_m.f90&#45;&gt;sourcefile~kind_parameters_m.f90</title>
+<path fill="none" stroke="#0066ff" stroke-dasharray="5,2" d="M399.64,-154.6C328.83,-151.08 221.94,-145.77 149.33,-142.16"/>
+<polygon fill="#0066ff" stroke="#0066ff" points="149.48,-138.66 139.32,-141.66 149.14,-145.65 149.48,-138.66"/>
+</g>
+<!-- sourcefile~inference_strategy_m.f90&#45;&gt;sourcefile~activation_strategy_m.f90 -->
+<g id="sourcefile~~trainable_engine_s.f90~~EfferentGraph_edge12" class="edge">
+<title>sourcefile~inference_strategy_m.f90&#45;&gt;sourcefile~activation_strategy_m.f90</title>
+<path fill="none" stroke="#0066ff" stroke-dasharray="5,2" d="M406.39,-146.24C381.7,-141.79 353.5,-136.71 327.96,-132.11"/>
+<polygon fill="#0066ff" stroke="#0066ff" points="328.41,-128.63 317.94,-130.3 327.16,-135.52 328.41,-128.63"/>
+</g>
+<!-- sourcefile~inference_engine_m.f90&#45;&gt;sourcefile~outputs_m.f90 -->
+<g id="sourcefile~~trainable_engine_s.f90~~EfferentGraph_edge16" class="edge">
+<title>sourcefile~inference_engine_m.f90&#45;&gt;sourcefile~outputs_m.f90</title>
+<path fill="none" stroke="#cc00ff" stroke-dasharray="5,2" d="M653.77,-131.37C643.4,-135.39 632.45,-140.36 623,-146.24 604.57,-157.7 606.5,-169.7 587,-179.24 541.65,-201.43 525.29,-193.81 475,-198.24"/>
+<path fill="none" stroke="#cc00ff" stroke-dasharray="5,2" d="M473,-198.24C415.48,-203.31 349.24,-202.45 304.2,-200.86"/>
+<polygon fill="#cc00ff" stroke="#cc00ff" points="304.2,-197.35 294.07,-200.48 303.93,-204.35 304.2,-197.35"/>
+</g>
+<!-- sourcefile~inference_engine_m.f90&#45;&gt;sourcefile~differentiable_activation_strategy_m.f90 -->
+<g id="sourcefile~~trainable_engine_s.f90~~EfferentGraph_edge18" class="edge">
+<title>sourcefile~inference_engine_m.f90&#45;&gt;sourcefile~differentiable_activation_strategy_m.f90</title>
+<path fill="none" stroke="#cc00ff" stroke-dasharray="5,2" d="M628.71,-107.22C603.7,-102.5 574.84,-97.06 548.93,-92.18"/>
+<polygon fill="#cc00ff" stroke="#cc00ff" points="549.26,-88.68 538.79,-90.27 547.96,-95.56 549.26,-88.68"/>
+</g>
+<!-- sourcefile~inference_engine_m.f90&#45;&gt;sourcefile~inputs_m.f90 -->
+<g id="sourcefile~~trainable_engine_s.f90~~EfferentGraph_edge17" class="edge">
+<title>sourcefile~inference_engine_m.f90&#45;&gt;sourcefile~inputs_m.f90</title>
+<path fill="none" stroke="#cc00ff" stroke-dasharray="5,2" d="M676.23,-107.24C656.25,-93.09 620.82,-69.91 587,-57.24 567.2,-49.83 544.41,-44.94 524.58,-41.77"/>
+<polygon fill="#cc00ff" stroke="#cc00ff" points="524.92,-38.28 514.51,-40.26 523.89,-45.2 524.92,-38.28"/>
+</g>
+<!-- sourcefile~inference_engine_m.f90&#45;&gt;sourcefile~kind_parameters_m.f90 -->
+<g id="sourcefile~~trainable_engine_s.f90~~EfferentGraph_edge20" class="edge">
+<title>sourcefile~inference_engine_m.f90&#45;&gt;sourcefile~kind_parameters_m.f90</title>
+<path fill="none" stroke="#cc00ff" stroke-dasharray="5,2" d="M622.87,-121.23C580.14,-121.88 524.35,-121.7 475,-118.24"/>
+<path fill="none" stroke="#cc00ff" stroke-dasharray="5,2" d="M473,-118.24C422.63,-114.71 409.71,-112.53 361,-99.24 310.51,-85.46 301.99,-45.49 251,-57.24"/>
+</g>
+<!-- sourcefile~inference_engine_m.f90&#45;&gt;sourcefile~inference_strategy_m.f90 -->
+<g id="sourcefile~~trainable_engine_s.f90~~EfferentGraph_edge19" class="edge">
+<title>sourcefile~inference_engine_m.f90&#45;&gt;sourcefile~inference_strategy_m.f90</title>
+<path fill="none" stroke="#cc00ff" stroke-dasharray="5,2" d="M625.47,-131.26C602.31,-135.41 576.19,-140.1 552.28,-144.38"/>
+<polygon fill="#cc00ff" stroke="#cc00ff" points="551.41,-140.98 542.18,-146.19 552.65,-147.87 551.41,-140.98"/>
+</g>
+<!-- sourcefile~inference_engine_m.f90&#45;&gt;sourcefile~activation_strategy_m.f90 -->
+<g id="sourcefile~~trainable_engine_s.f90~~EfferentGraph_edge15" class="edge">
+<title>sourcefile~inference_engine_m.f90&#45;&gt;sourcefile~activation_strategy_m.f90</title>
+<path fill="none" stroke="#cc00ff" stroke-dasharray="5,2" d="M473,-118.24C427.54,-115.06 376.71,-114.81 335.17,-115.47"/>
+<polygon fill="#cc00ff" stroke="#cc00ff" points="335.03,-111.98 325.09,-115.66 335.15,-118.98 335.03,-111.98"/>
+</g>
+<!-- sourcefile~activation_strategy_m.f90&#45;&gt;sourcefile~kind_parameters_m.f90 -->
+<g id="sourcefile~~trainable_engine_s.f90~~EfferentGraph_edge21" class="edge">
+<title>sourcefile~activation_strategy_m.f90&#45;&gt;sourcefile~kind_parameters_m.f90</title>
+<path fill="none" stroke="#ff0000" stroke-dasharray="5,2" d="M174.85,-126.55C166.47,-127.49 157.92,-128.45 149.48,-129.39"/>
+<polygon fill="#ff0000" stroke="#ff0000" points="148.82,-125.94 139.27,-130.54 149.6,-132.9 148.82,-125.94"/>
+</g>
+</g>
+</svg>
+</div><script>var pansourcefiletrainable_engine_sf90EfferentGraph = svgPanZoom('#sourcefiletrainable_engine_sf90EfferentGraph', {zoomEnabled: true,controlIconsEnabled: true, fit: true, center: true,}); </script><div><a type="button" class="graph-help" data-toggle="modal" href="#graph-help-text">Help</a></div><div class="modal fade" id="graph-help-text" tabindex="-1" role="dialog"><div class="modal-dialog modal-lg" role="document"><div class="modal-content"><div class="modal-header"><button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button><h4 class="modal-title" id="-graph-help-label">Graph Key</h4></div><div class="modal-body">
+    <p>Nodes of different colours represent the following: </p>
+    <?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN"
+ "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
+<!-- Generated by graphviz version 2.43.0 (0)
+ -->
+<!-- Title: Graph Key Pages: 1 -->
+<svg width="202pt" height="32pt"
+ viewBox="0.00 0.00 201.50 32.00" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+<g id="graph0" class="graph" transform="scale(1 1) rotate(0) translate(4 28)">
+<title>Graph Key</title>
+<polygon fill="white" stroke="transparent" points="-4,4 -4,-28 197.5,-28 197.5,4 -4,4"/>
+<!-- Source File -->
+<g id="node1" class="node">
+<title>Source File</title>
+<polygon fill="#f0ad4e" stroke="#f0ad4e" points="70,-24 0,-24 0,0 70,0 70,-24"/>
+<text text-anchor="middle" x="35" y="-9.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">Source File</text>
+</g>
+<!-- This Page&#39;s Entity -->
+<g id="node2" class="node">
+<title>This Page&#39;s Entity</title>
+<polygon fill="none" stroke="black" points="193.5,-24 88.5,-24 88.5,0 193.5,0 193.5,-24"/>
+<text text-anchor="middle" x="141" y="-9.6" font-family="Helvetica,sans-Serif" font-size="10.50">This Page&#39;s Entity</text>
+</g>
+</g>
+</svg>
+
+    
+    <p>Solid arrows point from a file to a file which it depends on. A file
+    is dependent upon another if the latter must be compiled before the former
+    can be. Where possible, edges connecting nodes are given different colours to make them easier to distinguish in large graphs.
+    </p>
+    </div></div></div></div>
+      </div>
+    </div>
+<br>
+    <section class="visible-xs visible-sm hidden-md">
+      <h3>Contents</h3>
+ 
+<div class="panel panel-primary">
+  <div class="panel-heading text-left"><h3 class="panel-title"><a data-toggle="collapse" href="#submods-1">Submodules</a></h3></div>
+  <div id="submods-1" class="panel-collapse collapse">
+    <div class="list-group">
+      <a class="list-group-item" href="../module/trainable_engine_s.html">trainable_engine_s</a>
+    </div>
+  </div>
+</div>
+<div class="panel panel-primary">
+  <div class="panel-heading text-left"><h3 class="panel-title">Source Code</h3></div>
+  <div class="list-group">
+    <a class="list-group-item" href="../sourcefile/trainable_engine_s.f90.html#src">trainable_engine_s.f90</a>
+  </div>
+</div>
+
+    </section>
+    <br class="visible-xs visible-sm hidden-md">
+
+    <section>
+      <h2><span class="anchor" id="src"></span>Source Code</h2>
+    <div class="hl"><pre><span></span><a id="ln-1" name="ln-1" href="#ln-1"></a><span class="c">! Copyright (c), The Regents of the University of California</span>
+<a id="ln-2" name="ln-2" href="#ln-2"></a><span class="c">! Terms of use are as specified in LICENSE.txt</span>
+<a id="ln-3" name="ln-3" href="#ln-3"></a><span class="k">submodule</span><span class="p">(</span><span class="n">trainable_engine_m</span><span class="p">)</span><span class="w"> </span><span class="n">trainable_engine_s</span><span class="w"></span>
+<a id="ln-4" name="ln-4" href="#ln-4"></a><span class="w">  </span><span class="k">use </span><span class="n">assert_m</span><span class="p">,</span><span class="w"> </span><span class="k">only</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="n">assert</span><span class="w"></span>
+<a id="ln-5" name="ln-5" href="#ln-5"></a><span class="w">  </span><span class="k">use </span><span class="n">intrinsic_array_m</span><span class="p">,</span><span class="w"> </span><span class="k">only</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="n">intrinsic_array_t</span><span class="w"></span>
+<a id="ln-6" name="ln-6" href="#ln-6"></a><span class="w">  </span><span class="k">use </span><span class="n">outputs_m</span><span class="p">,</span><span class="w"> </span><span class="k">only</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="n">outputs_t</span><span class="w"></span>
+<a id="ln-7" name="ln-7" href="#ln-7"></a><span class="w">  </span><span class="k">implicit none</span>
+<a id="ln-8" name="ln-8" href="#ln-8"></a>
+<a id="ln-9" name="ln-9" href="#ln-9"></a><span class="k">contains</span>
+<a id="ln-10" name="ln-10" href="#ln-10"></a>
+<a id="ln-11" name="ln-11" href="#ln-11"></a><span class="k">  module procedure </span><span class="n">train</span><span class="w"></span>
+<a id="ln-12" name="ln-12" href="#ln-12"></a>
+<a id="ln-13" name="ln-13" href="#ln-13"></a><span class="w">    </span><span class="k">type</span><span class="p">(</span><span class="n">outputs_t</span><span class="p">)</span><span class="w"> </span><span class="n">actual_outputs</span><span class="w"></span>
+<a id="ln-14" name="ln-14" href="#ln-14"></a><span class="w">    </span><span class="kt">integer </span><span class="n">i</span><span class="p">,</span><span class="w"> </span><span class="n">l</span><span class="w"></span>
+<a id="ln-15" name="ln-15" href="#ln-15"></a><span class="w">    </span><span class="kt">real</span><span class="p">(</span><span class="n">rkind</span><span class="p">),</span><span class="w"> </span><span class="k">allocatable</span><span class="w">  </span><span class="kd">::</span><span class="w"> </span><span class="n">delta</span><span class="p">(:,:),</span><span class="w"> </span><span class="n">delta_in</span><span class="p">(:)</span><span class="w"></span>
+<a id="ln-16" name="ln-16" href="#ln-16"></a>
+<a id="ln-17" name="ln-17" href="#ln-17"></a><span class="w">    </span><span class="k">call </span><span class="n">self</span><span class="p">%</span><span class="n">assert_consistent</span><span class="w"></span>
+<a id="ln-18" name="ln-18" href="#ln-18"></a><span class="w">    </span><span class="k">call </span><span class="n">assert</span><span class="p">(</span><span class="n">size</span><span class="p">(</span><span class="n">inputs</span><span class="p">)</span><span class="o">==</span><span class="n">size</span><span class="p">(</span><span class="n">expected_outputs</span><span class="p">),</span><span class="w"> </span><span class="s2">&quot;train: size(inputs)==size(expected_outputs)&quot;</span><span class="p">)</span><span class="w"></span>
+<a id="ln-19" name="ln-19" href="#ln-19"></a>
+<a id="ln-20" name="ln-20" href="#ln-20"></a><span class="w">    </span><span class="k">associate</span><span class="p">(</span><span class="n">num_hidden_layers</span><span class="w"> </span><span class="o">=&gt;</span><span class="w"> </span><span class="n">self</span><span class="p">%</span><span class="n">num_hidden_layers</span><span class="p">())</span><span class="w"></span>
+<a id="ln-21" name="ln-21" href="#ln-21"></a>
+<a id="ln-22" name="ln-22" href="#ln-22"></a><span class="w">      </span><span class="k">allocate</span><span class="p">(</span><span class="n">delta</span><span class="p">(</span><span class="n">self</span><span class="p">%</span><span class="n">neurons_per_layer</span><span class="p">(),</span><span class="w"> </span><span class="n">num_hidden_layers</span><span class="p">))</span><span class="w"></span>
+<a id="ln-23" name="ln-23" href="#ln-23"></a>
+<a id="ln-24" name="ln-24" href="#ln-24"></a><span class="w">      </span><span class="k">do </span><span class="n">i</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="n">size</span><span class="p">(</span><span class="n">inputs</span><span class="p">)</span><span class="w"></span>
+<a id="ln-25" name="ln-25" href="#ln-25"></a>
+<a id="ln-26" name="ln-26" href="#ln-26"></a><span class="w">        </span><span class="n">actual_outputs</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">self</span><span class="p">%</span><span class="n">infer</span><span class="p">(</span><span class="n">inputs</span><span class="p">(</span><span class="n">i</span><span class="p">)%</span><span class="n">inputs</span><span class="p">(),</span><span class="w"> </span><span class="n">inference_strategy</span><span class="p">)</span><span class="w"> </span><span class="c">! compiler issue: gfortran won&#39;t let this be `associate`</span>
+<a id="ln-27" name="ln-27" href="#ln-27"></a>
+<a id="ln-28" name="ln-28" href="#ln-28"></a><span class="w">        </span><span class="k">associate</span><span class="p">(</span><span class="w"> </span><span class="p">&amp;</span><span class="w"></span>
+<a id="ln-29" name="ln-29" href="#ln-29"></a><span class="w">          </span><span class="n">a_L</span><span class="w"> </span><span class="o">=&gt;</span><span class="w"> </span><span class="n">actual_outputs</span><span class="p">%</span><span class="n">outputs</span><span class="p">(),</span><span class="w"> </span><span class="p">&amp;</span><span class="w"></span>
+<a id="ln-30" name="ln-30" href="#ln-30"></a><span class="w">          </span><span class="n">y_L</span><span class="w"> </span><span class="o">=&gt;</span><span class="w"> </span><span class="n">expected_outputs</span><span class="p">(</span><span class="n">i</span><span class="p">)%</span><span class="n">outputs</span><span class="p">(),</span><span class="w"> </span><span class="p">&amp;</span><span class="w"></span>
+<a id="ln-31" name="ln-31" href="#ln-31"></a><span class="w">          </span><span class="n">z_L</span><span class="w"> </span><span class="o">=&gt;</span><span class="w"> </span><span class="n">actual_outputs</span><span class="p">%</span><span class="n">pre_activation_out</span><span class="p">(),</span><span class="w"> </span><span class="p">&amp;</span><span class="w"></span>
+<a id="ln-32" name="ln-32" href="#ln-32"></a><span class="w">          </span><span class="n">z</span><span class="w"> </span><span class="o">=&gt;</span><span class="w"> </span><span class="n">actual_outputs</span><span class="p">%</span><span class="n">pre_activation_in</span><span class="p">(),</span><span class="w"> </span><span class="p">&amp;</span><span class="w"></span>
+<a id="ln-33" name="ln-33" href="#ln-33"></a><span class="w">          </span><span class="n">w_L</span><span class="w"> </span><span class="o">=&gt;</span><span class="w"> </span><span class="n">self</span><span class="p">%</span><span class="n">output_weights</span><span class="p">(),</span><span class="w"> </span><span class="p">&amp;</span><span class="w"></span>
+<a id="ln-34" name="ln-34" href="#ln-34"></a><span class="w">          </span><span class="n">w</span><span class="w"> </span><span class="o">=&gt;</span><span class="w"> </span><span class="n">self</span><span class="p">%</span><span class="n">hidden_weights</span><span class="p">(),</span><span class="w"> </span><span class="p">&amp;</span><span class="w"></span>
+<a id="ln-35" name="ln-35" href="#ln-35"></a><span class="w">          </span><span class="n">w_in</span><span class="w"> </span><span class="o">=&gt;</span><span class="w"> </span><span class="n">self</span><span class="p">%</span><span class="n">input_weights</span><span class="p">()</span><span class="w"> </span><span class="p">&amp;</span><span class="w"></span>
+<a id="ln-36" name="ln-36" href="#ln-36"></a><span class="w">        </span><span class="p">)</span><span class="w"></span>
+<a id="ln-37" name="ln-37" href="#ln-37"></a><span class="w">          </span><span class="k">associate</span><span class="p">(</span><span class="w"> </span><span class="p">&amp;</span><span class="w"></span>
+<a id="ln-38" name="ln-38" href="#ln-38"></a><span class="w">              </span><span class="n">a</span><span class="w"> </span><span class="o">=&gt;</span><span class="w"> </span><span class="n">self</span><span class="p">%</span><span class="n">differentiable_activation_strategy_</span><span class="p">%</span><span class="n">activation</span><span class="p">(</span><span class="n">z</span><span class="p">),</span><span class="w"> </span><span class="p">&amp;</span><span class="w"></span>
+<a id="ln-39" name="ln-39" href="#ln-39"></a><span class="w">              </span><span class="n">sigma_prime_of_z_L</span><span class="w"> </span><span class="o">=&gt;</span><span class="w"> </span><span class="n">self</span><span class="p">%</span><span class="n">differentiable_activation_strategy_</span><span class="p">%</span><span class="n">activation_derivative</span><span class="p">(</span><span class="n">z_L</span><span class="p">),</span><span class="w"> </span><span class="p">&amp;</span><span class="w"></span>
+<a id="ln-40" name="ln-40" href="#ln-40"></a><span class="w">              </span><span class="n">sigma_prime_of_z</span><span class="w"> </span><span class="o">=&gt;</span><span class="w"> </span><span class="n">self</span><span class="p">%</span><span class="n">differentiable_activation_strategy_</span><span class="p">%</span><span class="n">activation_derivative</span><span class="p">(</span><span class="n">z</span><span class="p">)</span><span class="w"> </span><span class="p">&amp;</span><span class="w"></span>
+<a id="ln-41" name="ln-41" href="#ln-41"></a><span class="w">          </span><span class="p">)</span><span class="w"></span>
+<a id="ln-42" name="ln-42" href="#ln-42"></a><span class="w">            </span><span class="k">associate</span><span class="p">(</span><span class="n">delta_L</span><span class="w"> </span><span class="o">=&gt;</span><span class="w"> </span><span class="p">(</span><span class="n">a_L</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="n">y_L</span><span class="p">)</span><span class="o">*</span><span class="n">sigma_prime_of_z_L</span><span class="p">)</span><span class="w"></span>
+<a id="ln-43" name="ln-43" href="#ln-43"></a>
+<a id="ln-44" name="ln-44" href="#ln-44"></a><span class="w">              </span><span class="n">delta</span><span class="p">(:,</span><span class="n">num_hidden_layers</span><span class="p">)</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nb">matmul</span><span class="p">(</span><span class="nb">transpose</span><span class="p">(</span><span class="n">w_L</span><span class="p">),</span><span class="w"> </span><span class="n">delta_L</span><span class="p">)</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="n">sigma_prime_of_z</span><span class="p">(:,</span><span class="n">num_hidden_layers</span><span class="p">)</span><span class="w"></span>
+<a id="ln-45" name="ln-45" href="#ln-45"></a>
+<a id="ln-46" name="ln-46" href="#ln-46"></a><span class="w">              </span><span class="k">do </span><span class="n">l</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">self</span><span class="p">%</span><span class="n">num_hidden_layers</span><span class="p">()</span><span class="o">-</span><span class="mi">1</span><span class="w"> </span><span class="p">,</span><span class="w"> </span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="o">-</span><span class="mi">1</span><span class="w"></span>
+<a id="ln-47" name="ln-47" href="#ln-47"></a><span class="w">                </span><span class="n">delta</span><span class="p">(:,</span><span class="n">l</span><span class="p">)</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nb">matmul</span><span class="p">(</span><span class="nb">transpose</span><span class="p">(</span><span class="n">w</span><span class="p">(:,:,</span><span class="n">l</span><span class="o">+</span><span class="mi">1</span><span class="p">)),</span><span class="w"> </span><span class="n">delta</span><span class="p">(:,</span><span class="n">l</span><span class="o">+</span><span class="mi">1</span><span class="p">))</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="n">sigma_prime_of_z</span><span class="p">(:,</span><span class="n">l</span><span class="p">)</span><span class="w"></span>
+<a id="ln-48" name="ln-48" href="#ln-48"></a><span class="w">              </span><span class="k">end do</span>
+<a id="ln-49" name="ln-49" href="#ln-49"></a>
+<a id="ln-50" name="ln-50" href="#ln-50"></a><span class="k">              block</span>
+<a id="ln-51" name="ln-51" href="#ln-51"></a><span class="k">                </span><span class="kt">real</span><span class="p">(</span><span class="n">rkind</span><span class="p">),</span><span class="w"> </span><span class="k">parameter</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">eta</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mf">1.</span><span class="w"> </span><span class="c">! training rate</span>
+<a id="ln-52" name="ln-52" href="#ln-52"></a>
+<a id="ln-53" name="ln-53" href="#ln-53"></a><span class="w">                </span><span class="k">call </span><span class="n">self</span><span class="p">%</span><span class="n">increment</span><span class="p">(</span><span class="w"> </span><span class="p">&amp;</span><span class="w"></span>
+<a id="ln-54" name="ln-54" href="#ln-54"></a><span class="w">                  </span><span class="n">delta_w_in</span><span class="w"> </span><span class="o">=</span><span class="w">  </span><span class="o">-</span><span class="n">eta</span><span class="o">*</span><span class="n">outer_product</span><span class="p">(</span><span class="n">delta</span><span class="p">(:,</span><span class="mi">1</span><span class="p">),</span><span class="w"> </span><span class="n">inputs</span><span class="p">(</span><span class="n">i</span><span class="p">)%</span><span class="n">inputs</span><span class="p">()),</span><span class="w"> </span><span class="p">&amp;</span><span class="w"></span>
+<a id="ln-55" name="ln-55" href="#ln-55"></a><span class="w">                </span><span class="c">! delta_w_hidden = -eta*delta*sigma(z), &amp;</span>
+<a id="ln-56" name="ln-56" href="#ln-56"></a><span class="w">                  </span><span class="n">delta_w_out</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="o">-</span><span class="n">eta</span><span class="o">*</span><span class="n">outer_product</span><span class="p">(</span><span class="n">delta_L</span><span class="p">,</span><span class="w"> </span><span class="n">a</span><span class="p">(:,</span><span class="n">num_hidden_layers</span><span class="p">)),</span><span class="w"> </span><span class="p">&amp;</span><span class="w"></span>
+<a id="ln-57" name="ln-57" href="#ln-57"></a><span class="w">                  </span><span class="n">delta_b_hidden</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="o">-</span><span class="n">eta</span><span class="o">*</span><span class="n">delta</span><span class="p">,</span><span class="w"> </span><span class="p">&amp;</span><span class="w"></span>
+<a id="ln-58" name="ln-58" href="#ln-58"></a><span class="w">                  </span><span class="n">delta_b_out</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="o">-</span><span class="n">eta</span><span class="o">*</span><span class="n">delta_L</span><span class="w"> </span><span class="p">&amp;</span><span class="w"></span>
+<a id="ln-59" name="ln-59" href="#ln-59"></a><span class="w">                </span><span class="p">)</span><span class="w"></span>
+<a id="ln-60" name="ln-60" href="#ln-60"></a><span class="w">              </span><span class="k">end block</span>
+<a id="ln-61" name="ln-61" href="#ln-61"></a><span class="k">            end associate</span>
+<a id="ln-62" name="ln-62" href="#ln-62"></a><span class="k">          end associate</span>
+<a id="ln-63" name="ln-63" href="#ln-63"></a><span class="k">        end associate</span>
+<a id="ln-64" name="ln-64" href="#ln-64"></a><span class="k">      end do</span>
+<a id="ln-65" name="ln-65" href="#ln-65"></a><span class="k">    end associate</span>
+<a id="ln-66" name="ln-66" href="#ln-66"></a>
+<a id="ln-67" name="ln-67" href="#ln-67"></a><span class="k">  contains</span>
+<a id="ln-68" name="ln-68" href="#ln-68"></a>
+<a id="ln-69" name="ln-69" href="#ln-69"></a><span class="k">    pure function </span><span class="n">outer_product</span><span class="p">(</span><span class="n">u</span><span class="p">,</span><span class="w"> </span><span class="n">v</span><span class="p">)</span><span class="w"> </span><span class="k">result</span><span class="p">(</span><span class="n">u_v_T</span><span class="p">)</span><span class="w"></span>
+<a id="ln-70" name="ln-70" href="#ln-70"></a><span class="w">      </span><span class="kt">real</span><span class="p">(</span><span class="n">rkind</span><span class="p">),</span><span class="w"> </span><span class="k">intent</span><span class="p">(</span><span class="n">in</span><span class="p">),</span><span class="w"> </span><span class="k">dimension</span><span class="p">(:)</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">u</span><span class="p">,</span><span class="w"> </span><span class="n">v</span><span class="w"></span>
+<a id="ln-71" name="ln-71" href="#ln-71"></a><span class="w">      </span><span class="kt">real</span><span class="p">(</span><span class="n">rkind</span><span class="p">),</span><span class="w"> </span><span class="k">allocatable</span><span class="p">,</span><span class="w"> </span><span class="k">dimension</span><span class="p">(:,:)</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">u_v_T</span><span class="w"></span>
+<a id="ln-72" name="ln-72" href="#ln-72"></a><span class="w">      </span><span class="kt">integer </span><span class="n">i</span><span class="p">,</span><span class="w"> </span><span class="n">j</span><span class="w"></span>
+<a id="ln-73" name="ln-73" href="#ln-73"></a><span class="w">      </span><span class="k">associate</span><span class="p">(</span><span class="n">rows</span><span class="w"> </span><span class="o">=&gt;</span><span class="w"> </span><span class="n">size</span><span class="p">(</span><span class="n">u</span><span class="p">),</span><span class="w"> </span><span class="n">columns</span><span class="w"> </span><span class="o">=&gt;</span><span class="w"> </span><span class="n">size</span><span class="p">(</span><span class="n">v</span><span class="p">))</span><span class="w"></span>
+<a id="ln-74" name="ln-74" href="#ln-74"></a><span class="w">        </span><span class="k">allocate</span><span class="p">(</span><span class="n">u_v_T</span><span class="p">(</span><span class="n">rows</span><span class="p">,</span><span class="w"> </span><span class="n">columns</span><span class="p">))</span><span class="w"></span>
+<a id="ln-75" name="ln-75" href="#ln-75"></a><span class="w">        </span><span class="k">do</span><span class="w"> </span><span class="k">concurrent</span><span class="p">(</span><span class="n">i</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">1</span><span class="p">:</span><span class="n">rows</span><span class="p">,</span><span class="w"> </span><span class="n">j</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">1</span><span class="p">:</span><span class="n">columns</span><span class="p">)</span><span class="w"></span>
+<a id="ln-76" name="ln-76" href="#ln-76"></a><span class="w">          </span><span class="n">u_v_T</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">u</span><span class="p">(</span><span class="n">i</span><span class="p">)</span><span class="o">*</span><span class="n">v</span><span class="p">(</span><span class="n">j</span><span class="p">)</span><span class="w"></span>
+<a id="ln-77" name="ln-77" href="#ln-77"></a><span class="w">        </span><span class="k">end do</span>
+<a id="ln-78" name="ln-78" href="#ln-78"></a><span class="k">      end associate</span>
+<a id="ln-79" name="ln-79" href="#ln-79"></a><span class="k">    end function</span>
+<a id="ln-80" name="ln-80" href="#ln-80"></a>
+<a id="ln-81" name="ln-81" href="#ln-81"></a><span class="k">  end procedure</span>
+<a id="ln-82" name="ln-82" href="#ln-82"></a>
+<a id="ln-83" name="ln-83" href="#ln-83"></a><span class="k">  module procedure </span><span class="n">construct_trainable_engine</span><span class="w"></span>
+<a id="ln-84" name="ln-84" href="#ln-84"></a>
+<a id="ln-85" name="ln-85" href="#ln-85"></a><span class="w">    </span><span class="n">trainable_engine</span><span class="p">%</span><span class="n">inference_engine_t</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">inference_engine_t</span><span class="p">(</span><span class="w"> </span><span class="p">&amp;</span><span class="w"></span>
+<a id="ln-86" name="ln-86" href="#ln-86"></a><span class="w">      </span><span class="n">metadata</span><span class="p">,</span><span class="w"> </span><span class="n">input_weights</span><span class="p">,</span><span class="w"> </span><span class="n">hidden_weights</span><span class="p">,</span><span class="w"> </span><span class="n">output_weights</span><span class="p">,</span><span class="w"> </span><span class="n">biases</span><span class="p">,</span><span class="w"> </span><span class="n">output_biases</span><span class="w"> </span><span class="p">&amp;</span><span class="w"></span>
+<a id="ln-87" name="ln-87" href="#ln-87"></a><span class="w">    </span><span class="p">)</span><span class="w"></span>
+<a id="ln-88" name="ln-88" href="#ln-88"></a><span class="w">    </span><span class="n">trainable_engine</span><span class="p">%</span><span class="n">differentiable_activation_strategy_</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">differentiable_activation_strategy</span><span class="w"></span>
+<a id="ln-89" name="ln-89" href="#ln-89"></a><span class="w">    </span>
+<a id="ln-90" name="ln-90" href="#ln-90"></a><span class="w">  </span><span class="k">end procedure</span>
+<a id="ln-91" name="ln-91" href="#ln-91"></a>
+<a id="ln-92" name="ln-92" href="#ln-92"></a><span class="k">end submodule </span><span class="n">trainable_engine_s</span><span class="w"></span>
+</pre></div>
+
+    </section>
+    </div>
+  </div>
+
+    <hr>    
+    </div> <!-- /container -->
+    <footer>
+      <div class="container">
+      <div class="row">
+        <div class="col-xs-6 col-md-6"><p>Inference-Engine was developed by Sourcery Institute<br>&copy; 2023 
+</p>
+        </div>
+        <div class="col-xs-6 col-md-6">
+          <p class="text-right">
+            Documentation generated by 
+            <a href="https://github.com/Fortran-FOSS-Programmers/ford">FORD</a>
+ on 2023-05-15 21:41            </p>
+        </div>
+      </div>
+      <br>
+      </div> <!-- /container -->    
+    </footer>
+
+    <!-- Bootstrap core JavaScript
+    ================================================== -->
+    <!-- Placed at the end of the document so the pages load faster -->
+<!--
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
+-->
+    <script src="../js/bootstrap.min.js"></script>
+    <!-- IE10 viewport hack for Surface/desktop Windows 8 bug -->
+    <script src="../js/ie10-viewport-bug-workaround.js"></script>
+
+    <!-- MathJax JavaScript
+    ================================================== -->
+    <!-- Placed at the end of the document so the pages load faster -->
+    <script type="text/x-mathjax-config">
+      MathJax.Hub.Config({
+        TeX: { extensions: ['AMSmath.js','AMSsymbols.js','noErrors.js','noUndefined.js'], equationNumbers: { autoNumber: 'AMS' } },
+        jax: ['input/TeX','input/MathML','output/HTML-CSS'],
+        extensions: ['tex2jax.js','mml2jax.js','MathMenu.js','MathZoom.js']
+      });
+    </script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    
+    <script src="../tipuesearch/tipuesearch_content.js"></script>
+    <script src="../tipuesearch/tipuesearch_set.js"></script>
+    <script src="../tipuesearch/tipuesearch.js"></script>
+    
+  </body>
+</html>

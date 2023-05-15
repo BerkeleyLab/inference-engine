@@ -1,0 +1,617 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+   <meta name="description" content="A library supporting concurrent forward propagation on multiple fully-connected deep neural networks">
+    <meta name="author" content="Sourcery Institute" >
+    <link rel="icon" href="../favicon.png">
+
+    <title>trainable_engine_s &ndash; Inference-Engine</title>
+
+    <link href="../css/bootstrap.min.css" rel="stylesheet">
+    <link href="../css/pygments.css" rel="stylesheet">
+    <link href="../css/font-awesome.min.css" rel="stylesheet">
+    <link href="../css/local.css" rel="stylesheet">
+    <link  href="../tipuesearch/tipuesearch.css" rel="stylesheet">
+
+    <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
+    <!--[if lt IE 9]>
+      <script src="https://oss.maxcdn.com/html5shiv/3.7.2/html5shiv.min.js"></script>
+      <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
+    <![endif]-->
+    
+    <script src="../js/jquery-2.1.3.min.js"></script>
+    <script src="../js/svg-pan-zoom.min.js"></script>
+
+  </head>
+
+  <body>
+
+    <!-- Fixed navbar -->
+    <nav class="navbar navbar-inverse navbar-fixed-top">
+      <div class="container">
+        <div class="navbar-header">
+          <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
+            <span class="sr-only">Toggle navigation</span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+          </button>
+          <a class="navbar-brand" href="../index.html">Inference-Engine </a>
+        </div>
+        <div id="navbar" class="navbar-collapse collapse">
+          <ul class="nav navbar-nav">
+            <li class="dropdown hidden-xs visible-sm visible-md hidden-lg">
+              <a href="#" class="dropdown-toggle"
+              data-toggle="dropdown" role="button"
+              aria-haspopup="true"
+     aria-expanded="false">Contents <span class="caret"></span></a>
+        <ul class="dropdown-menu">
+            <li><a href="../lists/files.html">Source Files</a></li>
+            <li><a href="../lists/modules.html">Modules</a></li>
+            <li><a href="../lists/procedures.html">Procedures</a></li>
+            <li><a href="../lists/absint.html">Abstract Interfaces</a></li>
+                   <li><a href="../lists/types.html">Derived Types</a></li>
+            <li><a href="../lists/programs.html">Programs</a></li>
+       
+            </ul>
+        
+            </li>
+<li class="visible-xs hidden-sm visible-lg"><a href="../lists/files.html">Source Files</a></li>
+<li class="visible-xs hidden-sm visible-lg"><a href="../lists/modules.html">Modules</a></li>
+<li class="visible-xs hidden-sm visible-lg"><a href="../lists/procedures.html">Procedures</a></li>
+<li class="visible-xs hidden-sm visible-lg"><a href="../lists/absint.html">Abstract Interfaces</a></li>
+                             <li class="visible-xs hidden-sm visible-lg"><a href="../lists/types.html">Derived Types</a></li>
+<li class="visible-xs hidden-sm visible-lg"><a href="../lists/programs.html">Programs</a></li>
+          </ul>
+        <form action="../search.html" class="navbar-form navbar-right" role="search">
+        <div class="form-group">
+          <input type="text" class="form-control" placeholder="Search" name="q" id="tipue_search_input" autocomplete="off" required>
+        </div>
+<!--
+        <button type="submit" class="btn btn-default">Submit</button>
+-->
+        </form>
+        </div><!--/.nav-collapse -->
+      </div>
+    </nav>
+
+    <div class="container">
+  <div class="row">
+    <h1>trainable_engine_s 
+    <small>Submodule</small>
+    </h1>
+    <div class="row">
+  <div class="col-lg-12">
+<div class="well well-sm">
+  <ul class="list-inline" style="margin-bottom:0px;display:inline">
+     <li><i class="fa fa-list-ol"></i>
+       <a data-toggle="tooltip"
+    data-placement="bottom" data-html="true"
+    title=" 3.9% of total for modules and submodules.">50 statements</a>
+     </li> 
+    <li><i class="fa fa-code"></i><a href="../src/trainable_engine_s.f90"> Source File</a></li>
+  </ul>
+  <ol class="breadcrumb in-well text-right">
+     <li><a href='../sourcefile/trainable_engine_s.f90.html'>trainable_engine_s.f90</a></li>
+     <li class="active">trainable_engine_s</li>
+  </ol>
+</div>
+</div>
+</div>
+<script>
+  $(function () {
+  $('[data-toggle="tooltip"]').tooltip()
+  })
+</script>
+
+  </div>
+  
+  <div class="row">
+    <div class="col-md-3 hidden-xs hidden-sm visible-md visible-lg">
+    <div id="sidebar">
+  <h3>Contents</h3>
+ 
+<div class="panel panel-primary">
+  <div class="panel-heading text-left"><h3 class="panel-title"><a data-toggle="collapse" href="#modprocs-0">Module Procedures</a></h3></div>
+  <div id="modprocs-0" class="panel-collapse collapse">
+    <div class="list-group">
+      <a class="list-group-item" href="../module/trainable_engine_s.html#proc-construct_trainable_engine">construct_trainable_engine</a>
+      <a class="list-group-item" href="../module/trainable_engine_s.html#proc-train">train</a>
+    </div>
+  </div>
+</div>
+
+</div>
+
+    </div>
+    
+    <div class="col-md-9" id='text'>
+    
+<br>        <div class="panel panel-default">
+      <div class="panel-heading">
+  <h3 class="panel-title">Uses</h3>
+      </div>
+      <ul class="list-group">
+      <li class="list-group-item">
+  <ul class="list-inline">
+    <li>intrinsic_array_m</li>
+    <li>assert_m</li>
+    <li><a href='../module/outputs_m.html'>outputs_m</a></li>
+  </ul>
+      </li>
+      <li class="list-group-item">
+  <ul class="list-inline">
+    <li><h5>Ancestors:</h5></li>
+    <li><a href='../module/trainable_engine_m.html'>trainable_engine_m</a></li>
+  </ul>
+      </li>
+      <li class="list-group-item">
+  <div class="depgraph"><?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN"
+ "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
+<!-- Generated by graphviz version 2.43.0 (0)
+ -->
+<!-- Title: module~~trainable_engine_s~~UsesGraph Pages: 1 -->
+<svg id="moduletrainable_engine_sUsesGraph" width="641pt" height="247pt"
+ viewBox="0.00 0.00 641.00 246.72" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+<g id="module~~trainable_engine_s~~UsesGraph" class="graph" transform="scale(1.55 1.55) rotate(0) translate(4 378.58)">
+<title>module~~trainable_engine_s~~UsesGraph</title>
+<polygon fill="white" stroke="transparent" points="-4,4 -4,-378.58 990,-378.58 990,4 -4,4"/>
+<!-- module~trainable_engine_s -->
+<g id="module~~trainable_engine_s~~UsesGraph_node1" class="node">
+<title>module~trainable_engine_s</title>
+<polygon fill="none" stroke="black" points="986,-84 873,-84 873,-60 986,-60 986,-84"/>
+<text text-anchor="middle" x="929.5" y="-69.6" font-family="Helvetica,sans-Serif" font-size="10.50">trainable_engine_s</text>
+</g>
+<!-- intrinsic_array_m -->
+<g id="module~~trainable_engine_s~~UsesGraph_node2" class="node">
+<title>intrinsic_array_m</title>
+<polygon fill="#337ab7" stroke="#337ab7" points="830,-146 726,-146 726,-122 830,-122 830,-146"/>
+<text text-anchor="middle" x="778" y="-131.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">intrinsic_array_m</text>
+</g>
+<!-- module~trainable_engine_s&#45;&gt;intrinsic_array_m -->
+<g id="module~~trainable_engine_s~~UsesGraph_edge1" class="edge">
+<title>module~trainable_engine_s&#45;&gt;intrinsic_array_m</title>
+<path fill="none" stroke="#ff0000" stroke-dasharray="5,2" d="M902.69,-84.18C884.48,-92.62 859.43,-103.93 837,-113 832.52,-114.81 827.82,-116.64 823.11,-118.42"/>
+<polygon fill="#ff0000" stroke="#ff0000" points="821.67,-115.22 813.51,-121.98 824.1,-121.78 821.67,-115.22"/>
+</g>
+<!-- module~trainable_engine_m -->
+<g id="module~~trainable_engine_s~~UsesGraph_node3" class="node">
+<title>module~trainable_engine_m</title>
+<g id="a_module~~trainable_engine_s~~UsesGraph_node3"><a xlink:href=".././module/trainable_engine_m.html" xlink:title="trainable_engine_m">
+<polygon fill="#337ab7" stroke="#337ab7" points="837,-104 719,-104 719,-80 837,-80 837,-104"/>
+<text text-anchor="middle" x="778" y="-89.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">trainable_engine_m</text>
+</a>
+</g>
+</g>
+<!-- module~trainable_engine_s&#45;&gt;module~trainable_engine_m -->
+<g id="module~~trainable_engine_s~~UsesGraph_edge4" class="edge">
+<title>module~trainable_engine_s&#45;&gt;module~trainable_engine_m</title>
+<path fill="none" stroke="#ff0000" d="M872.83,-79.45C864.48,-80.56 855.78,-81.73 847.21,-82.88"/>
+<polygon fill="#ff0000" stroke="#ff0000" points="846.66,-79.42 837.22,-84.21 847.59,-86.36 846.66,-79.42"/>
+</g>
+<!-- module~outputs_m -->
+<g id="module~~trainable_engine_s~~UsesGraph_node4" class="node">
+<title>module~outputs_m</title>
+<g id="a_module~~trainable_engine_s~~UsesGraph_node4"><a xlink:href=".././module/outputs_m.html" xlink:title="outputs_m">
+<polygon fill="#337ab7" stroke="#337ab7" points="253,-66 185,-66 185,-42 253,-42 253,-66"/>
+<text text-anchor="middle" x="219" y="-51.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">outputs_m</text>
+</a>
+</g>
+</g>
+<!-- module~trainable_engine_s&#45;&gt;module~outputs_m -->
+<g id="module~~trainable_engine_s~~UsesGraph_edge2" class="edge">
+<title>module~trainable_engine_s&#45;&gt;module~outputs_m</title>
+<path fill="none" stroke="#ff0000" stroke-dasharray="5,2" d="M872.87,-70.57C760.45,-67.56 509.63,-60.15 424,-52"/>
+<path fill="none" stroke="#ff0000" stroke-dasharray="5,2" d="M422,-52C367.6,-46.39 304.53,-48.35 263.53,-50.75"/>
+<polygon fill="#ff0000" stroke="#ff0000" points="263.11,-47.27 253.35,-51.38 263.55,-54.25 263.11,-47.27"/>
+</g>
+<!-- assert_m -->
+<g id="module~~trainable_engine_s~~UsesGraph_node5" class="node">
+<title>assert_m</title>
+<polygon fill="#337ab7" stroke="#337ab7" points="808.5,-24 747.5,-24 747.5,0 808.5,0 808.5,-24"/>
+<text text-anchor="middle" x="778" y="-9.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">assert_m</text>
+</g>
+<!-- module~trainable_engine_s&#45;&gt;assert_m -->
+<g id="module~~trainable_engine_s~~UsesGraph_edge3" class="edge">
+<title>module~trainable_engine_s&#45;&gt;assert_m</title>
+<path fill="none" stroke="#ff0000" stroke-dasharray="5,2" d="M898.25,-59.86C875.2,-50.61 843.27,-37.8 818.26,-27.76"/>
+<polygon fill="#ff0000" stroke="#ff0000" points="819.28,-24.4 808.7,-23.92 816.68,-30.89 819.28,-24.4"/>
+</g>
+<!-- module~trainable_engine_m&#45;&gt;module~outputs_m -->
+<g id="module~~trainable_engine_s~~UsesGraph_edge8" class="edge">
+<title>module~trainable_engine_m&#45;&gt;module~outputs_m</title>
+<path fill="none" stroke="#7fff00" stroke-dasharray="5,2" d="M718.69,-91.42C690.02,-91.18 654.95,-90.97 623.5,-91"/>
+<path fill="none" stroke="#7fff00" stroke-dasharray="5,2" d="M621.5,-91C578.13,-91.04 568.54,-79.42 526,-71 480.76,-62.05 469.91,-56.37 424,-52"/>
+</g>
+<!-- module~kind_parameters_m -->
+<g id="module~~trainable_engine_s~~UsesGraph_node6" class="node">
+<title>module~kind_parameters_m</title>
+<g id="a_module~~trainable_engine_s~~UsesGraph_node6"><a xlink:href=".././module/kind_parameters_m.html" xlink:title="kind_parameters_m">
+<polygon fill="#337ab7" stroke="#337ab7" points="118,-126 0,-126 0,-102 118,-102 118,-126"/>
+<text text-anchor="middle" x="59" y="-111.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">kind_parameters_m</text>
+</a>
+</g>
+</g>
+<!-- module~trainable_engine_m&#45;&gt;module~kind_parameters_m -->
+<g id="module~~trainable_engine_s~~UsesGraph_edge5" class="edge">
+<title>module~trainable_engine_m&#45;&gt;module~kind_parameters_m</title>
+<path fill="none" stroke="#7fff00" stroke-dasharray="5,2" d="M621.5,-338C456.54,-408.33 385.64,-366.72 220,-298"/>
+</g>
+<!-- module~differentiable_activation_strategy_m -->
+<g id="module~~trainable_engine_s~~UsesGraph_node7" class="node">
+<title>module~differentiable_activation_strategy_m</title>
+<g id="a_module~~trainable_engine_s~~UsesGraph_node7"><a xlink:href=".././module/differentiable_activation_strategy_m.html" xlink:title="differentiable_activation_strategy_m">
+<polygon fill="#337ab7" stroke="#337ab7" points="526,-146 320,-146 320,-122 526,-122 526,-146"/>
+<text text-anchor="middle" x="423" y="-131.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">differentiable_activation_strategy_m</text>
+</a>
+</g>
+</g>
+<!-- module~trainable_engine_m&#45;&gt;module~differentiable_activation_strategy_m -->
+<g id="module~~trainable_engine_s~~UsesGraph_edge6" class="edge">
+<title>module~trainable_engine_m&#45;&gt;module~differentiable_activation_strategy_m</title>
+<path fill="none" stroke="#7fff00" stroke-dasharray="5,2" d="M621.5,-91C577.94,-91.04 568.56,-103.72 526,-113 515.52,-115.29 504.42,-117.64 493.54,-119.91"/>
+<polygon fill="#7fff00" stroke="#7fff00" points="492.73,-116.5 483.65,-121.96 494.15,-123.36 492.73,-116.5"/>
+</g>
+<!-- module~inputs_m -->
+<g id="module~~trainable_engine_s~~UsesGraph_node8" class="node">
+<title>module~inputs_m</title>
+<g id="a_module~~trainable_engine_s~~UsesGraph_node8"><a xlink:href=".././module/inputs_m.html" xlink:title="inputs_m">
+<polygon fill="#337ab7" stroke="#337ab7" points="453.5,-310 392.5,-310 392.5,-286 453.5,-286 453.5,-310"/>
+<text text-anchor="middle" x="423" y="-295.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">inputs_m</text>
+</a>
+</g>
+</g>
+<!-- module~trainable_engine_m&#45;&gt;module~inputs_m -->
+<g id="module~~trainable_engine_s~~UsesGraph_edge7" class="edge">
+<title>module~trainable_engine_m&#45;&gt;module~inputs_m</title>
+<path fill="none" stroke="#7fff00" stroke-dasharray="5,2" d="M621.5,-338C607.14,-344.12 516.79,-322.26 463.4,-308.46"/>
+<polygon fill="#7fff00" stroke="#7fff00" points="464.12,-305.04 453.56,-305.9 462.36,-311.81 464.12,-305.04"/>
+</g>
+<!-- module~inference_engine_m -->
+<g id="module~~trainable_engine_s~~UsesGraph_node9" class="node">
+<title>module~inference_engine_m</title>
+<g id="a_module~~trainable_engine_s~~UsesGraph_node9"><a xlink:href=".././module/inference_engine_m.html" xlink:title="inference_engine_m">
+<polygon fill="#337ab7" stroke="#337ab7" points="683,-146 562,-146 562,-122 683,-122 683,-146"/>
+<text text-anchor="middle" x="622.5" y="-131.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">inference_engine_m</text>
+</a>
+</g>
+</g>
+<!-- module~trainable_engine_m&#45;&gt;module~inference_engine_m -->
+<g id="module~~trainable_engine_s~~UsesGraph_edge10" class="edge">
+<title>module~trainable_engine_m&#45;&gt;module~inference_engine_m</title>
+<path fill="none" stroke="#7fff00" stroke-dasharray="5,2" d="M733.01,-104.04C715.67,-108.78 695.58,-114.28 677.38,-119.26"/>
+<polygon fill="#7fff00" stroke="#7fff00" points="676.22,-115.95 667.49,-121.96 678.06,-122.7 676.22,-115.95"/>
+</g>
+<!-- module~inference_strategy_m -->
+<g id="module~~trainable_engine_s~~UsesGraph_node10" class="node">
+<title>module~inference_strategy_m</title>
+<g id="a_module~~trainable_engine_s~~UsesGraph_node10"><a xlink:href=".././module/inference_strategy_m.html" xlink:title="inference_strategy_m">
+<polygon fill="#337ab7" stroke="#337ab7" points="486.5,-104 359.5,-104 359.5,-80 486.5,-80 486.5,-104"/>
+<text text-anchor="middle" x="423" y="-89.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">inference_strategy_m</text>
+</a>
+</g>
+</g>
+<!-- module~trainable_engine_m&#45;&gt;module~inference_strategy_m -->
+<g id="module~~trainable_engine_s~~UsesGraph_edge9" class="edge">
+<title>module~trainable_engine_m&#45;&gt;module~inference_strategy_m</title>
+<path fill="none" stroke="#7fff00" stroke-dasharray="5,2" d="M621.5,-91C580.29,-91.04 534.23,-91.26 496.97,-91.49"/>
+<polygon fill="#7fff00" stroke="#7fff00" points="496.69,-87.99 486.71,-91.55 496.73,-94.99 496.69,-87.99"/>
+</g>
+<!-- string_m -->
+<g id="module~~trainable_engine_s~~UsesGraph_node11" class="node">
+<title>string_m</title>
+<polygon fill="#337ab7" stroke="#337ab7" points="452,-268 394,-268 394,-244 452,-244 452,-268"/>
+<text text-anchor="middle" x="423" y="-253.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">string_m</text>
+</g>
+<!-- module~trainable_engine_m&#45;&gt;string_m -->
+<g id="module~~trainable_engine_s~~UsesGraph_edge11" class="edge">
+<title>module~trainable_engine_m&#45;&gt;string_m</title>
+<path fill="none" stroke="#7fff00" stroke-dasharray="5,2" d="M731.74,-104.06C727.1,-106.52 722.73,-109.46 719,-113 640.14,-187.71 723.43,-295.4 623.5,-338"/>
+<path fill="none" stroke="#7fff00" stroke-dasharray="5,2" d="M621.5,-338C575.17,-357.75 572.66,-295.95 526,-277 505.69,-268.75 481.75,-263.61 462.17,-260.48"/>
+<polygon fill="#7fff00" stroke="#7fff00" points="462.48,-256.99 452.07,-258.98 461.45,-263.91 462.48,-256.99"/>
+</g>
+<!-- module~outputs_m&#45;&gt;module~kind_parameters_m -->
+<g id="module~~trainable_engine_s~~UsesGraph_edge12" class="edge">
+<title>module~outputs_m&#45;&gt;module~kind_parameters_m</title>
+<path fill="none" stroke="#00ffff" stroke-dasharray="5,2" d="M186.03,-66.14C161.53,-75.44 127.55,-88.35 101.05,-98.41"/>
+<polygon fill="#00ffff" stroke="#00ffff" points="99.76,-95.16 91.66,-101.98 102.25,-101.7 99.76,-95.16"/>
+</g>
+<!-- module~activation_strategy_m -->
+<g id="module~~trainable_engine_s~~UsesGraph_node12" class="node">
+<title>module~activation_strategy_m</title>
+<g id="a_module~~trainable_engine_s~~UsesGraph_node12"><a xlink:href=".././module/activation_strategy_m.html" xlink:title="activation_strategy_m">
+<polygon fill="#337ab7" stroke="#337ab7" points="284,-146 154,-146 154,-122 284,-122 284,-146"/>
+<text text-anchor="middle" x="219" y="-131.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">activation_strategy_m</text>
+</a>
+</g>
+</g>
+<!-- module~differentiable_activation_strategy_m&#45;&gt;module~activation_strategy_m -->
+<g id="module~~trainable_engine_s~~UsesGraph_edge13" class="edge">
+<title>module~differentiable_activation_strategy_m&#45;&gt;module~activation_strategy_m</title>
+<path fill="none" stroke="#ffff00" stroke-dasharray="5,2" d="M319.82,-134C311.19,-134 302.57,-134 294.22,-134"/>
+<polygon fill="#ffff00" stroke="#ffff00" points="294.18,-130.5 284.18,-134 294.18,-137.5 294.18,-130.5"/>
+</g>
+<!-- module~inputs_m&#45;&gt;module~kind_parameters_m -->
+<g id="module~~trainable_engine_s~~UsesGraph_edge14" class="edge">
+<title>module~inputs_m&#45;&gt;module~kind_parameters_m</title>
+<path fill="none" stroke="#00ff00" stroke-dasharray="5,2" d="M392.2,-304.86C351.53,-312.73 277.17,-321.72 220,-298"/>
+</g>
+<!-- module~inference_engine_m&#45;&gt;module~outputs_m -->
+<g id="module~~trainable_engine_s~~UsesGraph_edge17" class="edge">
+<title>module~inference_engine_m&#45;&gt;module~outputs_m</title>
+<path fill="none" stroke="#00ffff" stroke-dasharray="5,2" d="M592.37,-121.96C582.37,-117.28 571.36,-111.47 562,-105 543.9,-92.48 545.62,-80.98 526,-71 484.9,-50.1 469.91,-56.37 424,-52"/>
+</g>
+<!-- module~inference_engine_m&#45;&gt;module~kind_parameters_m -->
+<g id="module~~trainable_engine_s~~UsesGraph_edge15" class="edge">
+<title>module~inference_engine_m&#45;&gt;module~kind_parameters_m</title>
+<path fill="none" stroke="#00ffff" stroke-dasharray="5,2" d="M422,-216C376.76,-224.93 362.94,-218.19 320,-235 271.09,-254.15 268.52,-318.13 220,-298"/>
+<path fill="none" stroke="#00ffff" stroke-dasharray="5,2" d="M218,-298C142.37,-266.62 90.47,-176.74 69.89,-135.34"/>
+<polygon fill="#00ffff" stroke="#00ffff" points="72.95,-133.63 65.44,-126.15 66.65,-136.68 72.95,-133.63"/>
+</g>
+<!-- module~inference_engine_m&#45;&gt;module~differentiable_activation_strategy_m -->
+<g id="module~~trainable_engine_s~~UsesGraph_edge16" class="edge">
+<title>module~inference_engine_m&#45;&gt;module~differentiable_activation_strategy_m</title>
+<path fill="none" stroke="#00ffff" stroke-dasharray="5,2" d="M561.98,-134C553.72,-134 545.03,-134 536.2,-134"/>
+<polygon fill="#00ffff" stroke="#00ffff" points="536.18,-130.5 526.18,-134 536.18,-137.5 536.18,-130.5"/>
+</g>
+<!-- module~inference_engine_m&#45;&gt;module~inputs_m -->
+<g id="module~~trainable_engine_s~~UsesGraph_edge18" class="edge">
+<title>module~inference_engine_m&#45;&gt;module~inputs_m</title>
+<path fill="none" stroke="#00ffff" stroke-dasharray="5,2" d="M617.06,-146.33C606.26,-174.45 575.78,-243.49 526,-277 507.74,-289.3 483.77,-294.64 463.66,-296.87"/>
+<polygon fill="#00ffff" stroke="#00ffff" points="463.19,-293.4 453.54,-297.78 463.81,-300.37 463.19,-293.4"/>
+</g>
+<!-- module~inference_engine_m&#45;&gt;module~inference_strategy_m -->
+<g id="module~~trainable_engine_s~~UsesGraph_edge21" class="edge">
+<title>module~inference_engine_m&#45;&gt;module~inference_strategy_m</title>
+<path fill="none" stroke="#00ffff" stroke-dasharray="5,2" d="M567.49,-121.99C553.95,-119.02 539.45,-115.86 526,-113 515.37,-110.74 504.11,-108.38 493.1,-106.1"/>
+<polygon fill="#00ffff" stroke="#00ffff" points="493.59,-102.62 483.09,-104.03 492.17,-109.48 493.59,-102.62"/>
+</g>
+<!-- module~inference_engine_m&#45;&gt;string_m -->
+<g id="module~~trainable_engine_s~~UsesGraph_edge22" class="edge">
+<title>module~inference_engine_m&#45;&gt;string_m</title>
+<path fill="none" stroke="#00ffff" stroke-dasharray="5,2" d="M612.99,-146.08C597.89,-166.58 564.38,-208.09 526,-230 506.54,-241.11 482.32,-247.54 462.36,-251.23"/>
+<polygon fill="#00ffff" stroke="#00ffff" points="461.64,-247.8 452.36,-252.92 462.81,-254.7 461.64,-247.8"/>
+</g>
+<!-- module~inference_engine_m&#45;&gt;module~activation_strategy_m -->
+<g id="module~~trainable_engine_s~~UsesGraph_edge20" class="edge">
+<title>module~inference_engine_m&#45;&gt;module~activation_strategy_m</title>
+<path fill="none" stroke="#00ffff" stroke-dasharray="5,2" d="M607.32,-146.02C589.53,-160.45 557.5,-184.29 526,-197 483.24,-214.26 469.24,-207.07 424,-216"/>
+<path fill="none" stroke="#00ffff" stroke-dasharray="5,2" d="M422,-216C353.25,-229.58 278.28,-180.62 242.05,-152.48"/>
+<polygon fill="#00ffff" stroke="#00ffff" points="244.11,-149.65 234.11,-146.16 239.75,-155.13 244.11,-149.65"/>
+</g>
+<!-- file_m -->
+<g id="module~~trainable_engine_s~~UsesGraph_node13" class="node">
+<title>file_m</title>
+<polygon fill="#337ab7" stroke="#337ab7" points="450,-188 396,-188 396,-164 450,-164 450,-188"/>
+<text text-anchor="middle" x="423" y="-173.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">file_m</text>
+</g>
+<!-- module~inference_engine_m&#45;&gt;file_m -->
+<g id="module~~trainable_engine_s~~UsesGraph_edge19" class="edge">
+<title>module~inference_engine_m&#45;&gt;file_m</title>
+<path fill="none" stroke="#00ffff" stroke-dasharray="5,2" d="M567.49,-146.01C553.95,-148.98 539.45,-152.14 526,-155 504.12,-159.66 479.55,-164.72 460.01,-168.71"/>
+<polygon fill="#00ffff" stroke="#00ffff" points="459.11,-165.32 450.01,-170.74 460.51,-172.18 459.11,-165.32"/>
+</g>
+<!-- module~inference_strategy_m&#45;&gt;module~outputs_m -->
+<g id="module~~trainable_engine_s~~UsesGraph_edge25" class="edge">
+<title>module~inference_strategy_m&#45;&gt;module~outputs_m</title>
+<path fill="none" stroke="#0000ff" stroke-dasharray="5,2" d="M359.47,-80.24C328.2,-74.35 291.15,-67.38 263.1,-62.11"/>
+<polygon fill="#0000ff" stroke="#0000ff" points="263.67,-58.65 253.2,-60.24 262.38,-65.53 263.67,-58.65"/>
+</g>
+<!-- module~inference_strategy_m&#45;&gt;module~kind_parameters_m -->
+<g id="module~~trainable_engine_s~~UsesGraph_edge23" class="edge">
+<title>module~inference_strategy_m&#45;&gt;module~kind_parameters_m</title>
+<path fill="none" stroke="#0000ff" stroke-dasharray="5,2" d="M359.36,-95.81C295.01,-99.72 195.12,-105.79 128.66,-109.83"/>
+<polygon fill="#0000ff" stroke="#0000ff" points="128.06,-106.36 118.29,-110.46 128.48,-113.34 128.06,-106.36"/>
+</g>
+<!-- module~inference_strategy_m&#45;&gt;module~activation_strategy_m -->
+<g id="module~~trainable_engine_s~~UsesGraph_edge24" class="edge">
+<title>module~inference_strategy_m&#45;&gt;module~activation_strategy_m</title>
+<path fill="none" stroke="#0000ff" stroke-dasharray="5,2" d="M363.47,-104.01C349.24,-106.94 334.07,-110.07 320,-113 309.36,-115.21 298.09,-117.57 287.1,-119.87"/>
+<polygon fill="#0000ff" stroke="#0000ff" points="286.17,-116.49 277.1,-121.97 287.61,-123.34 286.17,-116.49"/>
+</g>
+<!-- module~activation_strategy_m&#45;&gt;module~kind_parameters_m -->
+<g id="module~~trainable_engine_s~~UsesGraph_edge26" class="edge">
+<title>module~activation_strategy_m&#45;&gt;module~kind_parameters_m</title>
+<path fill="none" stroke="#ff0000" stroke-dasharray="5,2" d="M153.74,-125.87C145.35,-124.8 136.74,-123.71 128.3,-122.65"/>
+<polygon fill="#ff0000" stroke="#ff0000" points="128.46,-119.14 118.1,-121.35 127.59,-126.08 128.46,-119.14"/>
+</g>
+</g>
+</svg>
+</div><script>var panmoduletrainable_engine_sUsesGraph = svgPanZoom('#moduletrainable_engine_sUsesGraph', {zoomEnabled: true,controlIconsEnabled: true, fit: true, center: true,}); </script><div><a type="button" class="graph-help" data-toggle="modal" href="#graph-help-text">Help</a></div><div class="modal fade" id="graph-help-text" tabindex="-1" role="dialog"><div class="modal-dialog modal-lg" role="document"><div class="modal-content"><div class="modal-header"><button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button><h4 class="modal-title" id="-graph-help-label">Graph Key</h4></div><div class="modal-body">
+    <p>Nodes of different colours represent the following: </p>
+    <?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN"
+ "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
+<!-- Generated by graphviz version 2.43.0 (0)
+ -->
+<!-- Title: Graph Key Pages: 1 -->
+<svg width="518pt" height="32pt"
+ viewBox="0.00 0.00 517.50 32.00" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+<g id="graph0" class="graph" transform="scale(1 1) rotate(0) translate(4 28)">
+<title>Graph Key</title>
+<polygon fill="white" stroke="transparent" points="-4,4 -4,-28 513.5,-28 513.5,4 -4,4"/>
+<!-- Module -->
+<g id="node1" class="node">
+<title>Module</title>
+<polygon fill="#337ab7" stroke="#337ab7" points="54,-24 0,-24 0,0 54,0 54,-24"/>
+<text text-anchor="middle" x="27" y="-9.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">Module</text>
+</g>
+<!-- Submodule -->
+<g id="node2" class="node">
+<title>Submodule</title>
+<polygon fill="#5bc0de" stroke="#5bc0de" points="145.5,-24 72.5,-24 72.5,0 145.5,0 145.5,-24"/>
+<text text-anchor="middle" x="109" y="-9.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">Submodule</text>
+</g>
+<!-- Subroutine -->
+<g id="node3" class="node">
+<title>Subroutine</title>
+<polygon fill="#d9534f" stroke="#d9534f" points="234,-24 164,-24 164,0 234,0 234,-24"/>
+<text text-anchor="middle" x="199" y="-9.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">Subroutine</text>
+</g>
+<!-- Function -->
+<g id="node4" class="node">
+<title>Function</title>
+<polygon fill="#d94e8f" stroke="#d94e8f" points="310,-24 252,-24 252,0 310,0 310,-24"/>
+<text text-anchor="middle" x="281" y="-9.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">Function</text>
+</g>
+<!-- Program -->
+<g id="node5" class="node">
+<title>Program</title>
+<polygon fill="#f0ad4e" stroke="#f0ad4e" points="386,-24 328,-24 328,0 386,0 386,-24"/>
+<text text-anchor="middle" x="357" y="-9.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">Program</text>
+</g>
+<!-- This Page&#39;s Entity -->
+<g id="node6" class="node">
+<title>This Page&#39;s Entity</title>
+<polygon fill="none" stroke="black" points="509.5,-24 404.5,-24 404.5,0 509.5,0 509.5,-24"/>
+<text text-anchor="middle" x="457" y="-9.6" font-family="Helvetica,sans-Serif" font-size="10.50">This Page&#39;s Entity</text>
+</g>
+</g>
+</svg>
+
+    
+    <p>Solid arrows point from a submodule to the (sub)module which it is
+    descended from. Dashed arrows point from a module or program unit to 
+    modules which it uses. Where possible, edges connecting nodes are given different colours to make them easier to distinguish in large graphs.
+    </p>
+    </div></div></div></div>
+      </li>
+      </ul>
+    </div>
+
+    
+    <br>
+
+    <section class="visible-xs visible-sm hidden-md">
+      <h3>Contents</h3>
+ 
+<div class="panel panel-primary">
+  <div class="panel-heading text-left"><h3 class="panel-title"><a data-toggle="collapse" href="#modprocs-1">Module Procedures</a></h3></div>
+  <div id="modprocs-1" class="panel-collapse collapse">
+    <div class="list-group">
+      <a class="list-group-item" href="../module/trainable_engine_s.html#proc-construct_trainable_engine">construct_trainable_engine</a>
+      <a class="list-group-item" href="../module/trainable_engine_s.html#proc-train">train</a>
+    </div>
+  </div>
+</div>
+
+    </section>
+    <br class="visible-xs visible-sm hidden-md">
+
+
+    
+    
+
+    
+    
+
+    
+    
+
+
+        <section>
+        <h2>Module Procedures</h2>
+          <div class="panel panel-default">
+  <div class="panel-heading codesum"><span class="anchor" id="proc-construct_trainable_engine"></span><h3>module procedure <a href='../proc/construct_trainable_engine.html'>construct_trainable_engine</a> <small>module procedure construct_trainable_engine()</small></h3></div>
+  <div class="panel-body">
+           
+<h4>Arguments</h4>      <em>None</em>
+
+  </div>
+  </div>
+
+          <div class="panel panel-default">
+  <div class="panel-heading codesum"><span class="anchor" id="proc-train"></span><h3>module procedure <a href='../proc/train.html'>train</a> <small>module module subroutine train(self, inputs, inference_strategy, expected_outputs)</small>   <a href='../interface/train.html'><button type="button" class="btn btn-info depwarn">Interface &rarr;</button></a>
+</h3></div>
+  <div class="panel-body">
+           
+<h4>Arguments</h4>      <table class="table table-striped varlist">
+<thead><tr><th>Type</th><th>Intent</th><th>Optional</th><th>Attributes</th><th></th><th>Name</th><th></th></thead>
+<tbody>
+<tr>
+  <td><span class="anchor" ></span>class(<a href='../type/trainable_engine_t.html'>trainable_engine_t</a>),</td>
+<td>intent(inout)</td>
+  <td></td>  <td></td><td>::</td>
+  <td><strong>self</strong></td><td></td>
+</tr>
+<tr>
+  <td><span class="anchor" ></span>type(<a href='../type/inputs_t.html'>inputs_t</a>),</td>
+<td>intent(in)</td>
+  <td></td>  <td></td><td>::</td>
+  <td><strong>inputs</strong>(:)</td><td></td>
+</tr>
+<tr>
+  <td><span class="anchor" ></span>class(<a href='../type/inference_strategy_t.html'>inference_strategy_t</a>),</td>
+<td>intent(in)</td>
+  <td></td>  <td></td><td>::</td>
+  <td><strong>inference_strategy</strong></td><td></td>
+</tr>
+<tr>
+  <td><span class="anchor" ></span>type(<a href='../type/outputs_t.html'>outputs_t</a>),</td>
+<td>intent(in)</td>
+  <td></td>  <td></td><td>::</td>
+  <td><strong>expected_outputs</strong>(:)</td><td></td>
+</tr>
+</tbody>
+</table>
+
+
+  </div>
+  </div>
+
+        </section>    
+    
+    </div>
+  </div>
+
+    <hr>    
+    </div> <!-- /container -->
+    <footer>
+      <div class="container">
+      <div class="row">
+        <div class="col-xs-6 col-md-6"><p>Inference-Engine was developed by Sourcery Institute<br>&copy; 2023 
+</p>
+        </div>
+        <div class="col-xs-6 col-md-6">
+          <p class="text-right">
+            Documentation generated by 
+            <a href="https://github.com/Fortran-FOSS-Programmers/ford">FORD</a>
+ on 2023-05-15 21:41            </p>
+        </div>
+      </div>
+      <br>
+      </div> <!-- /container -->    
+    </footer>
+
+    <!-- Bootstrap core JavaScript
+    ================================================== -->
+    <!-- Placed at the end of the document so the pages load faster -->
+<!--
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
+-->
+    <script src="../js/bootstrap.min.js"></script>
+    <!-- IE10 viewport hack for Surface/desktop Windows 8 bug -->
+    <script src="../js/ie10-viewport-bug-workaround.js"></script>
+
+    <!-- MathJax JavaScript
+    ================================================== -->
+    <!-- Placed at the end of the document so the pages load faster -->
+    <script type="text/x-mathjax-config">
+      MathJax.Hub.Config({
+        TeX: { extensions: ['AMSmath.js','AMSsymbols.js','noErrors.js','noUndefined.js'], equationNumbers: { autoNumber: 'AMS' } },
+        jax: ['input/TeX','input/MathML','output/HTML-CSS'],
+        extensions: ['tex2jax.js','mml2jax.js','MathMenu.js','MathZoom.js']
+      });
+    </script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    
+    <script src="../tipuesearch/tipuesearch_content.js"></script>
+    <script src="../tipuesearch/tipuesearch_set.js"></script>
+    <script src="../tipuesearch/tipuesearch.js"></script>
+    
+  </body>
+</html>
