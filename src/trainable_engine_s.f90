@@ -18,7 +18,6 @@ contains
     call assert(size(inputs)==size(expected_outputs), "train: size(inputs)==size(expected_outputs)")
 
     associate(num_hidden_layers => self%num_hidden_layers())
-      print *,"num_hidden_layers ",num_hidden_layers 
 
       allocate(delta(self%neurons_per_layer(), num_hidden_layers))
 
@@ -39,6 +38,7 @@ contains
         )
           print *,"(a_L - y_L)**2 ", (a_L - y_L)**2
           associate( &
+              a => self%differentiable_activation_strategy_%activation(z), &
               sigma_prime_of_z_L => self%differentiable_activation_strategy_%activation_derivative(z_L), &
               sigma_prime_of_z => self%differentiable_activation_strategy_%activation_derivative(z) &
           )
@@ -58,7 +58,7 @@ contains
                 call self%increment( &
                 ! delta_w_in =  -eta*delta_in*inputs(i)%inputs(), &
                 ! delta_w_hidden = -eta*delta*sigma(z), &
-                ! delta_w_out = -eta*delta_L*a_L & !, &
+                  delta_w_out = -eta*outer_product(delta_L, a(:,num_hidden_layers)), &
                   delta_b_hidden = -eta*delta, &
                   delta_b_out = -eta*delta_L &
                 )
@@ -70,6 +70,20 @@ contains
         print *
       end do
     end associate
+
+  contains
+
+    pure function outer_product(u, v) result(u_v_T)
+      real(rkind), intent(in), dimension(:) :: u, v
+      real(rkind), allocatable, dimension(:,:) :: u_v_T
+      integer i, j
+      associate(rows => size(u), columns => size(v))
+        allocate(u_v_T(rows, columns))
+        do concurrent(i = 1:rows, j = 1:columns)
+          u_v_T = u(i)*v(j)
+        end do
+      end associate
+    end function
 
   end procedure
 
