@@ -22,5 +22,6 @@ program main
   print *
   print '(*(a,:,g0))',"_________ In total, ",passes," of ",tests, " tests pass. _________"
   sync all
+  print *
   if (passes/=tests) error stop "-------- One or more tests failed. See the above report. ---------"
 end program

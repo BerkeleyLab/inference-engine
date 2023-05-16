@@ -129,9 +129,9 @@ echo "$RUN_FPM_SH test"
 $RUN_FPM_SH test
 
 echo ""
-echo "___________________ Inference-Engine has been set up! ______________________" 
+echo "____________________ Inference-Engine has been set up! _______________________" 
 echo ""
-echo "To run one the programs in the example subdirectory, enter a command of the"
+echo "To run one of the programs in the example subdirectory, enter a command of the"
 echo "following form at a shell command prompt after replacing <example-base-name>"
 echo "with the base name of a file in the example/ subdirectory:"
 echo ""
