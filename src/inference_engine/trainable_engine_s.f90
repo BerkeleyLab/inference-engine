@@ -5,7 +5,7 @@ submodule(trainable_engine_m) trainable_engine_s
   use intrinsic_array_m, only : intrinsic_array_t
   use outputs_m, only : outputs_t
   use expected_outputs_m, only : expected_outputs_t
-  use mini_batch_m, only : input_output_pair_t
+  use input_output_pair_m, only : input_output_pair_t
   implicit none
 
 contains

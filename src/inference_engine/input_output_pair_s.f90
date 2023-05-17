@@ -1,4 +1,4 @@
-submodule(mini_batch_m) mini_batch_s
+submodule(input_output_pair_m) input_output_pair_s
   implicit none
 
 contains
@@ -16,4 +16,4 @@ contains
     my_expected_outputs = self%expected_outputs_
   end procedure
 
-end submodule mini_batch_s
+end submodule input_output_pair_s

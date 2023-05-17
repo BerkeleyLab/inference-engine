@@ -1,4 +1,4 @@
-module mini_batch_m
+module input_output_pair_m
   use expected_outputs_m, only : expected_outputs_t
   use kind_parameters_m, only : rkind
   use inputs_m, only : inputs_t
@@ -6,7 +6,6 @@ module mini_batch_m
 
   private
   public :: input_output_pair_t
-  public :: mini_batch_t
 
   type input_output_pair_t
     private
@@ -17,7 +16,7 @@ module mini_batch_m
     procedure :: expected_outputs
   end type
 
-  type mini_batch_t
+  type input_output_pair_t
     private
     type(input_output_pair_t), allocatable :: input_output_pairs_(:)
   end type
@@ -49,4 +48,4 @@ module mini_batch_m
 
   end interface
 
-end module mini_batch_m
+end module input_output_pair_m

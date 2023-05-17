@@ -12,7 +12,7 @@ module trainable_engine_test_m
   use matmul_m, only : matmul_t
   use kind_parameters_m, only : rkind
   use sigmoid_m, only : sigmoid_t
-  use mini_batch_m, only : input_output_pair_t
+  use input_output_pair_m, only :input_output_pair_t 
   implicit none
 
   private

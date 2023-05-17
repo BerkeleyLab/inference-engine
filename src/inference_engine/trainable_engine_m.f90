@@ -9,7 +9,7 @@ module trainable_engine_m
   use kind_parameters_m, only : rkind
   use inputs_m, only : inputs_t
   use expected_outputs_m, only : expected_outputs_t
-  use mini_batch_m, only : input_output_pair_t
+  use input_output_pair_m, only : input_output_pair_t 
   implicit none
 
   private
