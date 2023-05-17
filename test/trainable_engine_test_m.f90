@@ -12,6 +12,7 @@ module trainable_engine_test_m
   use matmul_m, only : matmul_t
   use kind_parameters_m, only : rkind
   use sigmoid_m, only : sigmoid_t
+  use mini_batch_m, only : input_output_pair_t
   implicit none
 
   private
@@ -65,6 +66,7 @@ contains
     type(inputs_t), allocatable :: inputs(:)
     type(outputs_t) actual_output
     type(expected_outputs_t), allocatable :: expected_outputs(:)
+    type(input_output_pair_t), allocatable :: input_output_pairs(:)
     real(rkind), parameter :: tolerance = 1.E-02_rkind, false = 0._rkind, true = 1._rkind
     integer i
 
@@ -73,7 +75,9 @@ contains
     inputs = [(inputs_t([true,true]), i = 1,2000)]
     expected_outputs = [(expected_outputs_t([false]), i=1,2000)]
 
-    call trainable_engine%train(inputs, matmul_t(), expected_outputs)
+    input_output_pairs = input_output_pair_t(inputs, expected_outputs)
+
+    call trainable_engine%train(input_output_pairs, matmul_t())
 
     actual_output = trainable_engine%infer([true,true], matmul_t())
     test_passes = [all(abs(actual_output%outputs() - false) < tolerance)]

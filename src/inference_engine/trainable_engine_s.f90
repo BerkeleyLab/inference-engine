@@ -5,26 +5,34 @@ submodule(trainable_engine_m) trainable_engine_s
   use intrinsic_array_m, only : intrinsic_array_t
   use outputs_m, only : outputs_t
   use expected_outputs_m, only : expected_outputs_t
+  use mini_batch_m, only : input_output_pair_t
   implicit none
 
 contains
 
   module procedure train
 
-    type(outputs_t) actual_outputs
+    type(outputs_t) actual_outputs ! compiler issue: gfortran won't let this be `associate`
+    type(inputs_t), allocatable :: inputs(:)
+    type(expected_outputs_t), allocatable :: expected_outputs(:)
     integer i, l
     real(rkind), allocatable  :: delta(:,:), delta_in(:)
 
     call self%assert_consistent
     call assert(size(inputs)==size(expected_outputs), "train: size(inputs)==size(expected_outputs)")
 
-    associate(num_hidden_layers => self%num_hidden_layers())
+    expected_outputs = input_output_pairs%expected_outputs()
+    inputs = input_output_pairs%inputs()
+
+    associate( &
+      num_hidden_layers => self%num_hidden_layers() &
+    )
 
       allocate(delta(self%neurons_per_layer(), num_hidden_layers))
 
       do i = 1, size(inputs)
 
-        actual_outputs = self%infer(inputs(i)%inputs(), inference_strategy) ! compiler issue: gfortran won't let this be `associate`
+        actual_outputs = self%infer(input_output_pairs(i)%inputs(), inference_strategy) 
 
         associate( &
           a_L => actual_outputs%outputs(), &
