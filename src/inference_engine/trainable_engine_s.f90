@@ -4,6 +4,7 @@ submodule(trainable_engine_m) trainable_engine_s
   use assert_m, only : assert
   use intrinsic_array_m, only : intrinsic_array_t
   use outputs_m, only : outputs_t
+  use expected_outputs_m, only : expected_outputs_t
   implicit none
 
 contains

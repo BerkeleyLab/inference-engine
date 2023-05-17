@@ -8,7 +8,7 @@ module trainable_engine_m
   use string_m, only : string_t
   use kind_parameters_m, only : rkind
   use inputs_m, only : inputs_t
-  use outputs_m, only : outputs_t
+  use expected_outputs_m, only : expected_outputs_t
   implicit none
 
   private
@@ -45,7 +45,7 @@ module trainable_engine_m
       class(trainable_engine_t), intent(inout) :: self
       type(inputs_t), intent(in) :: inputs(:)
       class(inference_strategy_t), intent(in) :: inference_strategy
-      type(outputs_t), intent(in) :: expected_outputs(:)
+      type(expected_outputs_t), intent(in) :: expected_outputs(:)
     end subroutine
 
   end interface
