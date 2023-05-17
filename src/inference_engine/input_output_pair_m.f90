@@ -16,11 +16,6 @@ module input_output_pair_m
     procedure :: expected_outputs
   end type
 
-  type input_output_pair_t
-    private
-    type(input_output_pair_t), allocatable :: input_output_pairs_(:)
-  end type
-
   interface input_output_pair_t
 
     elemental module function construct(inputs, expected_outputs) result(input_output_pair)
