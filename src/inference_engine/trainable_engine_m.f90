@@ -41,7 +41,7 @@ module trainable_engine_m
 
   interface
 
-    module subroutine train(self, input_output_pairs, inference_strategy)
+    pure module subroutine train(self, input_output_pairs, inference_strategy)
       implicit none
       class(trainable_engine_t), intent(inout) :: self
       type(input_output_pair_t), intent(in) :: input_output_pairs(:)
