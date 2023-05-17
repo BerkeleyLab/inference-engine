@@ -13,21 +13,16 @@ contains
   module procedure train
 
     type(outputs_t) actual_outputs ! compiler issue: gfortran won't let this be `associate`
-    type(inputs_t), allocatable :: inputs(:)
-    type(expected_outputs_t), allocatable :: expected_outputs(:)
     integer i, l
     real(rkind), allocatable  :: delta(:,:), delta_in(:)
 
     call self%assert_consistent
-    call assert(size(inputs)==size(expected_outputs), "train: size(inputs)==size(expected_outputs)")
-
-    expected_outputs = input_output_pairs%expected_outputs()
-    inputs = input_output_pairs%inputs()
 
     associate( &
-      num_hidden_layers => self%num_hidden_layers() &
+      num_hidden_layers => self%num_hidden_layers(), &
+      expected_outputs => input_output_pairs%expected_outputs(), &
+      inputs => input_output_pairs%inputs() &
     )
-
       allocate(delta(self%neurons_per_layer(), num_hidden_layers))
 
       do i = 1, size(inputs)
