@@ -91,7 +91,7 @@
      <li><i class="fa fa-list-ol"></i>
        <a data-toggle="tooltip"
     data-placement="bottom" data-html="true"
-    title=" 0.4% of total for procedures.">9 statements</a>
+    title=" 0.3% of total for procedures.">8 statements</a>
      </li> 
     <li><i class="fa fa-code"></i><a href="../src/trainable_engine_m.f90"> Source File</a></li>
   </ul>
@@ -163,41 +163,41 @@
 <path fill="none" stroke="#ff0000" stroke-dasharray="5,2" d="M54.4,-75C62.39,-75 71.31,-75 79.82,-75"/>
 <polygon fill="#ff0000" stroke="#ff0000" points="79.92,-78.5 89.92,-75 79.92,-71.5 79.92,-78.5"/>
 </g>
-<!-- assert -->
+<!-- sigma_prime_of_z -->
 <g id="interface~~train~~CallsGraph_node3" class="node">
-<title>assert</title>
-<polygon fill="#777777" stroke="#777777" points="261,-150 207,-150 207,-126 261,-126 261,-150"/>
-<text text-anchor="middle" x="234" y="-135.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">assert</text>
+<title>sigma_prime_of_z</title>
+<polygon fill="#777777" stroke="#777777" points="288,-150 180,-150 180,-126 288,-126 288,-150"/>
+<text text-anchor="middle" x="234" y="-135.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">sigma_prime_of_z</text>
 </g>
-<!-- proc~train&#45;&gt;assert -->
+<!-- proc~train&#45;&gt;sigma_prime_of_z -->
 <g id="interface~~train~~CallsGraph_edge2" class="edge">
-<title>proc~train&#45;&gt;assert</title>
-<path fill="none" stroke="#ff0000" d="M133.71,-87.06C145.9,-96.05 163.45,-108.25 180,-117 185.44,-119.87 191.36,-122.59 197.21,-125.06"/>
-<polygon fill="#ff0000" stroke="#ff0000" points="196.3,-128.46 206.88,-128.95 198.91,-121.97 196.3,-128.46"/>
+<title>proc~train&#45;&gt;sigma_prime_of_z</title>
+<path fill="none" stroke="#ff0000" d="M133.71,-87.06C145.9,-96.05 163.45,-108.25 180,-117 183.25,-118.72 186.68,-120.38 190.16,-121.97"/>
+<polygon fill="#ff0000" stroke="#ff0000" points="188.85,-125.22 199.42,-125.98 191.63,-118.79 188.85,-125.22"/>
 </g>
-<!-- w -->
+<!-- inputs -->
 <g id="interface~~train~~CallsGraph_node4" class="node">
-<title>w</title>
+<title>inputs</title>
 <polygon fill="#777777" stroke="#777777" points="261,-108 207,-108 207,-84 261,-84 261,-108"/>
-<text text-anchor="middle" x="234" y="-93.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">w</text>
+<text text-anchor="middle" x="234" y="-93.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">inputs</text>
 </g>
-<!-- proc~train&#45;&gt;w -->
+<!-- proc~train&#45;&gt;inputs -->
 <g id="interface~~train~~CallsGraph_edge3" class="edge">
-<title>proc~train&#45;&gt;w</title>
+<title>proc~train&#45;&gt;inputs</title>
 <path fill="none" stroke="#ff0000" d="M144.1,-79.77C159.57,-82.59 179.43,-86.22 196.44,-89.32"/>
 <polygon fill="#ff0000" stroke="#ff0000" points="196.14,-92.83 206.61,-91.18 197.4,-85.94 196.14,-92.83"/>
 </g>
-<!-- sigma_prime_of_z -->
+<!-- w -->
 <g id="interface~~train~~CallsGraph_node5" class="node">
-<title>sigma_prime_of_z</title>
-<polygon fill="#777777" stroke="#777777" points="288,-66 180,-66 180,-42 288,-42 288,-66"/>
-<text text-anchor="middle" x="234" y="-51.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">sigma_prime_of_z</text>
+<title>w</title>
+<polygon fill="#777777" stroke="#777777" points="261,-66 207,-66 207,-42 261,-42 261,-66"/>
+<text text-anchor="middle" x="234" y="-51.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">w</text>
 </g>
-<!-- proc~train&#45;&gt;sigma_prime_of_z -->
+<!-- proc~train&#45;&gt;w -->
 <g id="interface~~train~~CallsGraph_edge4" class="edge">
-<title>proc~train&#45;&gt;sigma_prime_of_z</title>
-<path fill="none" stroke="#ff0000" d="M144.1,-70.23C151.88,-68.81 160.78,-67.19 169.86,-65.53"/>
-<polygon fill="#ff0000" stroke="#ff0000" points="170.54,-68.96 179.75,-63.72 169.28,-62.08 170.54,-68.96"/>
+<title>proc~train&#45;&gt;w</title>
+<path fill="none" stroke="#ff0000" d="M144.1,-70.23C159.57,-67.41 179.43,-63.78 196.44,-60.68"/>
+<polygon fill="#ff0000" stroke="#ff0000" points="197.4,-64.06 206.61,-58.82 196.14,-57.17 197.4,-64.06"/>
 </g>
 <!-- a -->
 <g id="interface~~train~~CallsGraph_node6" class="node">
@@ -275,7 +275,7 @@
       </div>
     </div>
     <br>
-      <h2>private module module subroutine train(self, inputs, inference_strategy, expected_outputs)   <a href='../proc/train.html'><button type="button" class="btn btn-info depwarn">Implementation &rarr;</button></a>
+      <h2>private pure module module subroutine train(self, input_output_pairs, inference_strategy)   <a href='../proc/train.html'><button type="button" class="btn btn-info depwarn">Implementation &rarr;</button></a>
 </h2>
 
     
@@ -285,28 +285,22 @@
 <thead><tr><th>Type</th><th>Intent</th><th>Optional</th><th>Attributes</th><th></th><th>Name</th><th></th></thead>
 <tbody>
 <tr>
-  <td><span class="anchor" id="variable-self~4"></span>class(<a href='../type/trainable_engine_t.html'>trainable_engine_t</a>),</td>
+  <td><span class="anchor" id="variable-self~5"></span>class(<a href='../type/trainable_engine_t.html'>trainable_engine_t</a>),</td>
 <td>intent(inout)</td>
   <td></td>  <td></td><td>::</td>
   <td><strong>self</strong></td><td></td>
 </tr>
 <tr>
-  <td><span class="anchor" id="variable-inputs~2"></span>type(<a href='../type/inputs_t.html'>inputs_t</a>),</td>
+  <td><span class="anchor" id="variable-input_output_pairs"></span>type(<a href='../type/input_output_pair_t.html'>input_output_pair_t</a>),</td>
 <td>intent(in)</td>
   <td></td>  <td></td><td>::</td>
-  <td><strong>inputs</strong>(:)</td><td></td>
+  <td><strong>input_output_pairs</strong>(:)</td><td></td>
 </tr>
 <tr>
   <td><span class="anchor" id="variable-inference_strategy"></span>class(<a href='../type/inference_strategy_t.html'>inference_strategy_t</a>),</td>
 <td>intent(in)</td>
   <td></td>  <td></td><td>::</td>
   <td><strong>inference_strategy</strong></td><td></td>
-</tr>
-<tr>
-  <td><span class="anchor" id="variable-expected_outputs"></span>type(<a href='../type/outputs_t.html'>outputs_t</a>),</td>
-<td>intent(in)</td>
-  <td></td>  <td></td><td>::</td>
-  <td><strong>expected_outputs</strong>(:)</td><td></td>
 </tr>
 </tbody>
 </table>
@@ -328,7 +322,7 @@
           <p class="text-right">
             Documentation generated by 
             <a href="https://github.com/Fortran-FOSS-Programmers/ford">FORD</a>
- on 2023-05-16 04:15            </p>
+ on 2023-05-18 06:14            </p>
         </div>
       </div>
       <br>

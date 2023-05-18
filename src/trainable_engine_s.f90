@@ -4,26 +4,32 @@ submodule(trainable_engine_m) trainable_engine_s
   use assert_m, only : assert
   use intrinsic_array_m, only : intrinsic_array_t
   use outputs_m, only : outputs_t
+  use expected_outputs_m, only : expected_outputs_t
+  use input_output_pair_m, only : input_output_pair_t
   implicit none
 
 contains
 
   module procedure train
 
-    type(outputs_t) actual_outputs
+    type(outputs_t) actual_outputs ! compiler issue: gfortran won't let this be `associate`
     integer i, l
-    real(rkind), allocatable  :: delta(:,:), delta_in(:)
+    real(rkind), allocatable  :: delta(:,:), delta_in(:), delta_w(:,:,:)
 
     call self%assert_consistent
-    call assert(size(inputs)==size(expected_outputs), "train: size(inputs)==size(expected_outputs)")
 
-    associate(num_hidden_layers => self%num_hidden_layers())
-
-      allocate(delta(self%neurons_per_layer(), num_hidden_layers))
+    associate( &
+      num_hidden_layers => self%num_hidden_layers(), &
+      neurons_per_layer => self%neurons_per_layer(), &
+      expected_outputs => input_output_pairs%expected_outputs(), &
+      inputs => input_output_pairs%inputs() &
+    )
+      allocate(delta(neurons_per_layer, num_hidden_layers))
+      allocate(delta_w(neurons_per_layer, neurons_per_layer, num_hidden_layers-1))
 
       do i = 1, size(inputs)
 
-        actual_outputs = self%infer(inputs(i)%inputs(), inference_strategy) ! compiler issue: gfortran won't let this be `associate`
+        actual_outputs = self%infer(input_output_pairs(i)%inputs(), inference_strategy) 
 
         associate( &
           a_L => actual_outputs%outputs(), &
@@ -43,16 +49,20 @@ contains
 
               delta(:,num_hidden_layers) = matmul(transpose(w_L), delta_L) * sigma_prime_of_z(:,num_hidden_layers)
 
-              do l = self%num_hidden_layers()-1 , 1, -1
+              do l = num_hidden_layers-1 , 1, -1
                 delta(:,l) = matmul(transpose(w(:,:,l+1)), delta(:,l+1)) * sigma_prime_of_z(:,l)
               end do
 
               block
                 real(rkind), parameter :: eta = 1. ! training rate
 
+                do concurrent(l = 1:size(delta_w,3))
+                  delta_w(:,:,l) = -eta*outer_product(delta(:,l+1), a(:,l))
+                end do
+
                 call self%increment( &
                   delta_w_in =  -eta*outer_product(delta(:,1), inputs(i)%inputs()), &
-                ! delta_w_hidden = -eta*delta*sigma(z), &
+                  delta_w_hidden = delta_w, &
                   delta_w_out = -eta*outer_product(delta_L, a(:,num_hidden_layers)), &
                   delta_b_hidden = -eta*delta, &
                   delta_b_out = -eta*delta_L &

@@ -171,11 +171,10 @@ module inference_engine_m_
       real(rkind), allocatable :: w(:,:)
     end function
 
-    !pure module subroutine increment(self, delta_w_in, delta_w_hidden, delta_w_out, delta_b_hidden, delta_b_out)
-    pure module subroutine increment(self, delta_w_in, delta_w_out, delta_b_hidden, delta_b_out)
+    pure module subroutine increment(self, delta_w_in, delta_w_hidden, delta_w_out, delta_b_hidden, delta_b_out)
       implicit none
       class(inference_engine_t), intent(inout) :: self
-      !real(rkind), intent(in), dimension(:,:,:) :: delta_w_hidden
+      real(rkind), intent(in), dimension(:,:,:) :: delta_w_hidden
       real(rkind), intent(in), dimension(:,:) :: delta_w_in, delta_w_out, delta_b_hidden
       real(rkind), intent(in), dimension(:) :: delta_b_out
     end subroutine
