@@ -47,7 +47,7 @@ contains
 
               delta(:,num_hidden_layers) = matmul(transpose(w_L), delta_L) * sigma_prime_of_z(:,num_hidden_layers)
 
-              do l = self%num_hidden_layers()-1 , 1, -1
+              do l = num_hidden_layers-1 , 1, -1
                 delta(:,l) = matmul(transpose(w(:,:,l+1)), delta(:,l+1)) * sigma_prime_of_z(:,l)
               end do
 
