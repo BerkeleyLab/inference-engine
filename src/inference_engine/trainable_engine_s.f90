@@ -25,7 +25,7 @@ contains
       inputs => input_output_pairs%inputs() &
     )
       allocate(delta(neurons_per_layer, num_hidden_layers))
-      allocate(delta_w(neurons_per_layer, neurons_per_layer, num_hidden_layers-1), source=0._rkind)
+      allocate(delta_w(neurons_per_layer, neurons_per_layer, num_hidden_layers-1))
 
       do i = 1, size(inputs)
 
