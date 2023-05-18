@@ -8,9 +8,11 @@ module trainable_engine_test_m
   use trainable_engine_m, only : trainable_engine_t
   use inputs_m, only : inputs_t
   use outputs_m, only : outputs_t
+  use expected_outputs_m, only : expected_outputs_t
   use matmul_m, only : matmul_t
   use kind_parameters_m, only : rkind
   use sigmoid_m, only : sigmoid_t
+  use input_output_pair_m, only :input_output_pair_t 
   implicit none
 
   private
@@ -60,23 +62,19 @@ contains
 
   function train_on_fixed_input_output_pair() result(test_passes)
     logical, allocatable :: test_passes(:)
+    type(outputs_t) actual_output
     type(trainable_engine_t) trainable_engine
-    type(outputs_t), allocatable :: truth_table(:)
+    type(input_output_pair_t), allocatable :: input_output_pairs(:)
     real(rkind), parameter :: tolerance = 1.E-02_rkind, false = 0._rkind, true = 1._rkind
     integer i
-    type(inputs_t), allocatable :: inputs(:)
-    type(outputs_t), allocatable :: outputs(:)
-    type(outputs_t) actual_output
-    real(rkind), parameter :: empty_1D(*) = [real(rkind)::]
-    real(rkind), parameter :: empty_2D(*,*) = reshape([real(rkind)::], [0,0])
 
     trainable_engine = trainable_single_layer_perceptron()
 
-    inputs = [(inputs_t([true,true]), i = 1,2000)]
-    outputs = [(outputs_t([false], empty_2D, empty_1D), i=1,2000)]
-
-    call trainable_engine%train(inputs, matmul_t(), outputs)
-
+    input_output_pairs = input_output_pair_t( &
+      [(inputs_t([true,true]), i = 1,2000)], &
+      [(expected_outputs_t([false]), i=1,2000)] &
+    )
+    call trainable_engine%train(input_output_pairs, matmul_t())
     actual_output = trainable_engine%infer([true,true], matmul_t())
     test_passes = [all(abs(actual_output%outputs() - false) < tolerance)]
   end function

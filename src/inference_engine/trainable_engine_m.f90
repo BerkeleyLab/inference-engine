@@ -8,7 +8,8 @@ module trainable_engine_m
   use string_m, only : string_t
   use kind_parameters_m, only : rkind
   use inputs_m, only : inputs_t
-  use outputs_m, only : outputs_t
+  use expected_outputs_m, only : expected_outputs_t
+  use input_output_pair_m, only : input_output_pair_t 
   implicit none
 
   private
@@ -40,12 +41,11 @@ module trainable_engine_m
 
   interface
 
-    module subroutine train(self, inputs, inference_strategy, expected_outputs)
+    pure module subroutine train(self, input_output_pairs, inference_strategy)
       implicit none
       class(trainable_engine_t), intent(inout) :: self
-      type(inputs_t), intent(in) :: inputs(:)
+      type(input_output_pair_t), intent(in) :: input_output_pairs(:)
       class(inference_strategy_t), intent(in) :: inference_strategy
-      type(outputs_t), intent(in) :: expected_outputs(:)
     end subroutine
 
   end interface
