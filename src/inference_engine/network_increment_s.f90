@@ -28,4 +28,25 @@ contains
     ratio%delta_b_out_    = numerator%delta_b_out_    / denominator
   end procedure
 
+  module procedure average
+
+    type(network_increment_t) total
+    integer i
+
+    associate(num_increments => size(rhs))
+
+      call assert(num_increments > 0, "mini_batch_s average_increment: num_increments > 0") 
+
+      total = rhs(1)
+
+      do i = 2, num_increments ! In Fortran 2023, this could be a concurrent reduction
+        total = total + rhs(i)
+      end do
+
+      average_increment = rhs/num_increments
+
+    end associate
+
+  end procedure
+
 end submodule network_increment_s

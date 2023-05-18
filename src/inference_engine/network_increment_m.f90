@@ -4,6 +4,7 @@ module network_increment_m
 
   private
   public :: network_increment_t
+  public :: operator(.average.)
 
   type network_increment_t
     private
@@ -30,6 +31,16 @@ module network_increment_m
       real(rkind), allocatable, intent(in) :: delta_b_out(:)
       type(network_increment_t) network_increment
     end function
+
+  end interface
+ 
+  interface operator(.average.)
+
+     pure module function average(rhs) result(average_increment)
+       implicit none
+       type(network_increment_t) rhs(:)
+       type(network_increment_t) average_increment
+     end function
 
   end interface
 
