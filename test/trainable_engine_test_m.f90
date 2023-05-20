@@ -29,15 +29,23 @@ contains
 
   pure function subject() result(specimen)
     character(len=:), allocatable :: specimen
-    specimen = "An trainable_engine_t" 
+    specimen = "A trainable_engine_t" 
   end function
 
   function results() result(test_results)
     type(test_result_t), allocatable :: test_results(:)
 
     test_results = test_result_t( &
-      ["learning to map two fixed inputs to one fixed output"], &
-      [train_on_fixed_input_output_pair()] & 
+      [character(len=len("learning to map (false,false) -> false from mini-batches")) :: &
+       "learning to map two fixed inputs to one fixed output", &
+       "learning to map (true,true) -> false from mini-batches", &
+       "learning to map (false,true) -> true from mini-batches", &
+       "learning to map (true,false) -> true from mini-batches", &
+       "learning to map (false,false) -> false from mini-batches" &
+      ], &
+      [train_on_fixed_input_output_pair(), &
+       train_on_truth_table_mini_batch() &
+      ] &
     )
   end function
 
@@ -71,14 +79,44 @@ contains
     trainable_engine = trainable_single_layer_perceptron()
 
     call trainable_engine%train( &
-       mini_batch_t( input_output_pair_t( &
-          [(inputs_t([true,true]), i = 1,2000)], &
-          [(expected_outputs_t([false]), i=1,2000)] &
-       ) ), & 
+       [(mini_batch_t(input_output_pair_t([inputs_t([true,true])], [expected_outputs_t([false])])), i=1,2000)], &
        matmul_t() &
     )
     actual_output = trainable_engine%infer([true,true], matmul_t())
     test_passes = [all(abs(actual_output%outputs() - false) < tolerance)]
+  end function
+
+  function train_on_truth_table_mini_batch() result(test_passes)
+    logical, allocatable :: test_passes(:)
+    type(trainable_engine_t) trainable_engine
+    real(rkind), parameter :: tolerance = 1.E-02_rkind, false = 0._rkind, true = 1._rkind
+    type(outputs_t), allocatable :: truth_table(:)
+    integer i
+
+    trainable_engine = trainable_single_layer_perceptron()
+
+    associate(array_of_inputs => [inputs_t([true,true]), inputs_t([false,true]), inputs_t([true,false]), inputs_t([false,false])])
+      truth_table = trainable_engine%infer(array_of_inputs, [(matmul_t(), i=1,size(array_of_inputs))])
+    end associate
+    print *,"initial truth_table ",[(truth_table(i)%outputs(), i=1,4)]
+
+    call trainable_engine%train( &
+      [( & 
+       mini_batch_t( &
+         input_output_pair_t( &
+           [inputs_t([true,true]), inputs_t([false,true]), inputs_t([true,false]), inputs_t([false,false])], &
+           [expected_outputs_t([false]), expected_outputs_t([true]), expected_outputs_t([true]), expected_outputs_t([false])] &
+       ) ), i=1,1000000 &
+      )], matmul_t() & 
+    )
+    associate(array_of_inputs => [inputs_t([true,true]), inputs_t([false,true]), inputs_t([true,false]), inputs_t([false,false])])
+      truth_table = trainable_engine%infer(array_of_inputs, [(matmul_t(), i=1,size(array_of_inputs))])
+    end associate
+    print *,"final truth_table ",[(truth_table(i)%outputs(), i=1,4)]
+    test_passes = [ & 
+      abs(truth_table(1)%outputs() - false) < tolerance, abs(truth_table(2)%outputs() - true) < tolerance, &
+      abs(truth_table(3)%outputs() - true) < tolerance , abs(truth_table(4)%outputs() - false) < tolerance &
+    ]
   end function
 
 end module trainable_engine_test_m

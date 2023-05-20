@@ -44,7 +44,7 @@ module trainable_engine_m
     pure module subroutine train(self, mini_batch, inference_strategy)
       implicit none
       class(trainable_engine_t), intent(inout) :: self
-      type(mini_batch_t), intent(in) :: mini_batch
+      type(mini_batch_t), intent(in) :: mini_batch(:)
       class(inference_strategy_t), intent(in) :: inference_strategy
     end subroutine
 
