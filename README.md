@@ -41,7 +41,9 @@ The novel features of Inference-Engine include
 2. Gathering network weights and biases into contiguous arrays
 3. Runtime selection of inferences strategy and activation strategy. 
   
-Item 1 ensures that the `infer` procedure can be invoked inside Fortran's `do concurrent` construct, which some compilers can offload automatically to graphics processing units (GPUs).  We envision this being useful in applications that require large numbers of independent inferences.  Item 2 exploits the special case where the number of neurons is uniform across the network layers.  The use of contiguous arrays facilitates spatial locality in memory access patterns.  Item 3 offers the possibility of adaptive inference method selection based on runtime information.  The current methods include ones based on intrinsic functions, `dot_product` or `matmul`.  Future options will explore the use of OpenMP and OpenACC for vectorization, multithreading, and/or accelerator offloading.
+Item 1 ensures that the `infer` procedure can be invoked inside Fortran's `do concurrent` construct, which some compilers can offload automatically to graphics processing units (GPUs).  We envision offload being useful in applications that require large numbers of independent inferences.  Item 2 exploits the special case where the number of neurons is uniform across the network layers.  The use of contiguous arrays facilitates spatial locality in memory access patterns.  Item 3 offers the possibility of adaptive inference method selection based on runtime information.  The current methods include ones based on intrinsic functions, `dot_product` or `matmul`.  Future work will include
+1. Exploring tradeoffs associated with language-based (`do concurrent`) versus directives-based (OpenMP and OpenACC) vectorization, multithreading, and accelerator offloading and
+2. Tradeoffs associated with different approaches to varying the number of neurons in each layer by daisy-chained `inference_engine_t` objects versus sparsely-connected `inference_engine_t` objects.
 
 Downloading, Building and Testing
 ---------------------------------
