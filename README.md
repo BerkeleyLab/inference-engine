@@ -30,13 +30,16 @@ Table of contents
 Overview
 --------
 
-Inference-Engine is a software library for researching ways to efficiently propagate inputs through deep, feed-forward neural networks exported from Python by the companion package [nexport].  Inference-Engine's implementation language, Fortran 2018, makes it suitable for integration into high-performance computing (HPC) applications.  The first HPC application of interest is the Intermediate Complexity Atmospheric Research ([ICAR]) model.  The novel features of Inference-Engine include
+Inference-Engine is a software library for researching concurrent, large-batch inference and training of deep, feed-forward neural networks.  Inference-Engine targets high-performance computing (HPC) applications with performance-critical inference and training needs.  The initial target application is _in situ_ training of a cloud microphysics model proxy for the Intermediate Complexity Atmospheric Research ([ICAR]) model.  Such a proxy must support concurrent inference at every grid point at every time step of an ICAR run.  As of this writing, the code on the main branch supports concurrent inference.  A draft pull request supports concurrent training.  For validation purposes, Inference-Engine can also import neural networks exported from Python by the companion package [nexport].
+
+Inference-Engine's implementation language, Fortran 2018, makes it suitable for integration into high-performance computing (HPC).
+The novel features of Inference-Engine include
 
 1. Exposing concurrency via 
-  - An `elemental` inference function
-  - An `elemental` activation strategy 
+  - An `elemental` and implicitly `pure` inference function: `infer`.
+  - An `elemental` and implicitly `pure` activation strategy pattern.
 2. Gathering network weights and biases into contiguous arrays
-3. Runtime selection of inference algorithm
+3. Runtime selection of inferences strategy and activation strategy. 
   
 Item 1 ensures that the `infer` procedure can be invoked inside Fortran's `do concurrent` construct, which some compilers can offload automatically to graphics processing units (GPUs).  We envision this being useful in applications that require large numbers of independent inferences.  Item 2 exploits the special case where the number of neurons is uniform across the network layers.  The use of contiguous arrays facilitates spatial locality in memory access patterns.  Item 3 offers the possibility of adaptive inference method selection based on runtime information.  The current methods include ones based on intrinsic functions, `dot_product` or `matmul`.  Future options will explore the use of OpenMP and OpenACC for vectorization, multithreading, and/or accelerator offloading.
 
