@@ -105,33 +105,26 @@ contains
     logical, allocatable :: test_passes(:)
     type(trainable_engine_t) trainable_engine
     real(rkind), parameter :: tolerance = 1.E-02_rkind, false = 0._rkind, true = 1._rkind
-    type(outputs_t), allocatable :: truth_table(:)
-    integer i
+    type(outputs_t), dimension(4) :: actual_output
+    type(inputs_t), dimension(4) :: inputs
+    type(expected_outputs_t), dimension(4) :: expected_outputs !gfortran doesn't allow replacing with an association
+    type(mini_batch_t), allocatable :: mini_batches(:) !gfortran doesn't allow replacing with an association
+    integer i, m
 
-    trainable_engine = trainable_single_layer_perceptron()
-
-    associate(array_of_inputs => [inputs_t([true,true]), inputs_t([false,true]), inputs_t([true,false]), inputs_t([false,false])])
-      truth_table = trainable_engine%infer(array_of_inputs, [(matmul_t(), i=1,size(array_of_inputs))])
-    end associate
-    !print *,"initial truth_table ",[(truth_table(i)%outputs(), i=1,4)]
-
-    call trainable_engine%train( &
-      [( & 
-       mini_batch_t( &
-         input_output_pair_t( &
-           [inputs_t([true,true]), inputs_t([false,true]), inputs_t([true,false]), inputs_t([false,false])], &
-           [expected_outputs_t([false]), expected_outputs_t([true]), expected_outputs_t([true]), expected_outputs_t([false])] &
-       ) ), i=1,2000 &
-      )], matmul_t() & 
-    )
-    associate(array_of_inputs => [inputs_t([true,true]), inputs_t([false,true]), inputs_t([true,false]), inputs_t([false,false])])
-      truth_table = trainable_engine%infer(array_of_inputs, [(matmul_t(), i=1,size(array_of_inputs))])
-    end associate
-    !print *,"final truth_table ",[(truth_table(i)%outputs(), i=1,4)]
-    test_passes = [ & 
-      abs(truth_table(1)%outputs() - false) < tolerance, abs(truth_table(2)%outputs() - true) < tolerance, &
-      abs(truth_table(3)%outputs() - true) < tolerance , abs(truth_table(4)%outputs() - false) < tolerance &
+    inputs = [ &
+      inputs_t([true,true]), inputs_t([false,true]), inputs_t([true,false]), inputs_t([false,false]) &
     ]
+    expected_outputs = [ &
+      expected_outputs_t([false]), expected_outputs_t([true]), expected_outputs_t([true]), expected_outputs_t([false]) &
+    ]
+    mini_batches = [( &
+      mini_batch_t( input_output_pair_t( &
+        [(inputs(i),  i=1, size(inputs))], [(expected_outputs(i), i=1, size(expected_outputs))] ) ), m=1,2000 &
+    )]
+    trainable_engine = trainable_single_layer_perceptron()
+    call trainable_engine%train(mini_batches, matmul_t())
+    actual_output = trainable_engine%infer(inputs, matmul_t())
+    test_passes = [(abs(actual_output(i)%outputs() - expected_outputs(i)%outputs()) < tolerance, i=1, size(inputs))]
   end function
 
 end module trainable_engine_test_m
