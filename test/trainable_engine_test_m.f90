@@ -35,13 +35,19 @@ contains
   function results() result(test_results)
     type(test_result_t), allocatable :: test_results(:)
 
+    character(len=*), parameter :: longest_description = &
+      "learning the mapping (false,false) -> false when trained on a fixed input/output pair"
+
     test_results = test_result_t( &
-      [character(len=len("learning to map (false,false) -> false from mini-batches")) :: &
-       "learning to map two fixed inputs to one fixed output", &
-       "learning to map (true,true) -> false from mini-batches", &
-       "learning to map (false,true) -> true from mini-batches", &
-       "learning to map (true,false) -> true from mini-batches", &
-       "learning to map (false,false) -> false from mini-batches" &
+      [character(len=len(longest_description)) :: &
+       "learning the mapping (true,true) -> false when trained on a fixed input/output pair", &
+       "learning the mapping (false,true) -> true when trained on a fixed input/output pair", &
+       "learning the mapping (true,false) -> true when trained on a fixed input/output pair", &
+       "learning the mapping (false,false) -> false when trained on a fixed input/output pair", &
+       "learning the mapping (true,true) -> false trained on mini-batches", &
+       "learning the mapping (false,true) -> true trained on mini-batches", &
+       "learning the mapping (true,false) -> true trained on mini-batches", &
+       "learning the mapping (false,false) -> false trained on mini-batches" &
       ], &
       [train_on_fixed_input_output_pair(), &
        train_on_truth_table_mini_batch() &
@@ -71,19 +77,28 @@ contains
 
   function train_on_fixed_input_output_pair() result(test_passes)
     logical, allocatable :: test_passes(:)
-    type(outputs_t) actual_output ! gfortran doesn't allow this to be an association
-    type(trainable_engine_t) trainable_engine
     real(rkind), parameter :: tolerance = 1.E-02_rkind, false = 0._rkind, true = 1._rkind
-    integer i
+    type(outputs_t), dimension(4) :: actual_output
+    type(expected_outputs_t), dimension(4) :: expected_outputs !gfortran doesn't allow replacing with an association
+    type(trainable_engine_t) trainable_engine
+    integer i, j
 
-    trainable_engine = trainable_single_layer_perceptron()
-
-    call trainable_engine%train( &
-       [(mini_batch_t(input_output_pair_t([inputs_t([true,true])], [expected_outputs_t([false])])), i=1,2000)], &
-       matmul_t() &
+    expected_outputs = [ &
+      expected_outputs_t([false]), expected_outputs_t([true]), expected_outputs_t([true]), expected_outputs_t([false]) &
+    ] 
+    associate( &
+      inputs => [ &
+        inputs_t([true,true]), inputs_t([false,true]), inputs_t([true,false]), inputs_t([false,false]) &
+      ] &
     )
-    actual_output = trainable_engine%infer([true,true], matmul_t())
-    test_passes = [all(abs(actual_output%outputs() - false) < tolerance)]
+     loop_over_truth_table_entries: &
+      do j =1, size(inputs)
+        trainable_engine = trainable_single_layer_perceptron()
+        call trainable_engine%train([(mini_batch_t(input_output_pair_t([inputs(j)], [expected_outputs(j)])), i=1,3000)], matmul_t())
+        actual_output(j) = trainable_engine%infer(inputs(j), matmul_t())
+      end do loop_over_truth_table_entries
+      test_passes = [(abs(actual_output(j)%outputs() - expected_outputs(j)%outputs()) < tolerance, j=1, size(inputs))]
+    end associate
   end function
 
   function train_on_truth_table_mini_batch() result(test_passes)
@@ -98,7 +113,7 @@ contains
     associate(array_of_inputs => [inputs_t([true,true]), inputs_t([false,true]), inputs_t([true,false]), inputs_t([false,false])])
       truth_table = trainable_engine%infer(array_of_inputs, [(matmul_t(), i=1,size(array_of_inputs))])
     end associate
-    print *,"initial truth_table ",[(truth_table(i)%outputs(), i=1,4)]
+    !print *,"initial truth_table ",[(truth_table(i)%outputs(), i=1,4)]
 
     call trainable_engine%train( &
       [( & 
@@ -106,13 +121,13 @@ contains
          input_output_pair_t( &
            [inputs_t([true,true]), inputs_t([false,true]), inputs_t([true,false]), inputs_t([false,false])], &
            [expected_outputs_t([false]), expected_outputs_t([true]), expected_outputs_t([true]), expected_outputs_t([false])] &
-       ) ), i=1,1000000 &
+       ) ), i=1,2000 &
       )], matmul_t() & 
     )
     associate(array_of_inputs => [inputs_t([true,true]), inputs_t([false,true]), inputs_t([true,false]), inputs_t([false,false])])
       truth_table = trainable_engine%infer(array_of_inputs, [(matmul_t(), i=1,size(array_of_inputs))])
     end associate
-    print *,"final truth_table ",[(truth_table(i)%outputs(), i=1,4)]
+    !print *,"final truth_table ",[(truth_table(i)%outputs(), i=1,4)]
     test_passes = [ & 
       abs(truth_table(1)%outputs() - false) < tolerance, abs(truth_table(2)%outputs() - true) < tolerance, &
       abs(truth_table(3)%outputs() - true) < tolerance , abs(truth_table(4)%outputs() - false) < tolerance &
