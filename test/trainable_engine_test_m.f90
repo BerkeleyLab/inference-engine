@@ -29,7 +29,7 @@ contains
 
   pure function subject() result(specimen)
     character(len=:), allocatable :: specimen
-    specimen = "A trainable_engine_t" 
+    specimen = "A trainable_engine_t (this will take a few minutes)" 
   end function
 
   function results() result(test_results)
@@ -101,30 +101,48 @@ contains
     end associate
   end function
 
+  function wide_single_layer_perceptron() result(trainable_engine)
+    type(trainable_engine_t) trainable_engine
+    integer, parameter :: n_in = 2 ! number of inputs
+    integer, parameter :: n_out = 1 ! number of outputs
+    integer, parameter :: neurons = 24 ! number of neurons per layer
+    integer, parameter :: n_hidden = 1 ! number of hidden layers 
+    integer n
+   
+    trainable_engine = trainable_engine_t( &
+      metadata = [ & 
+       string_t("Wide 1-layer perceptron"), string_t("Damian Rouson"), string_t("2023-05-24"), string_t("sigmoid"), string_t("false") &
+      ], &
+      input_weights = real(reshape([([1,0,1,1,0,1], n=1,8 )], [n_in, neurons]), rkind), &
+      hidden_weights = reshape([real(rkind)::], [neurons,neurons,n_hidden-1]), &
+      output_weights = real(reshape([([1,-2,1], n=1,8)], [n_out, neurons]), rkind), &
+      biases = reshape([real(rkind):: [(0.,-1.99,0., n=1,8)] ], [neurons, n_hidden]), &
+      output_biases = [real(rkind):: 0.], &
+      differentiable_activation_strategy = sigmoid_t() &
+    )   
+  end function
+
   function train_on_truth_table_mini_batch() result(test_passes)
     logical, allocatable :: test_passes(:)
     type(trainable_engine_t) trainable_engine
     real(rkind), parameter :: tolerance = 1.E-02_rkind, false = 0._rkind, true = 1._rkind
-    type(outputs_t), dimension(4) :: actual_output
-    type(inputs_t), dimension(4) :: inputs
-    type(expected_outputs_t), dimension(4) :: expected_outputs !gfortran doesn't allow replacing with an association
+    type(outputs_t), allocatable :: actual_output(:)
+    type(inputs_t), allocatable :: inputs(:)
+    type(expected_outputs_t), allocatable :: expected_outputs(:) !gfortran doesn't allow replacing with an association
     type(mini_batch_t), allocatable :: mini_batches(:) !gfortran doesn't allow replacing with an association
     integer i, m
 
-    inputs = [ &
+    inputs = [ & 
       inputs_t([true,true]), inputs_t([false,true]), inputs_t([true,false]), inputs_t([false,false]) &
     ]
-    expected_outputs = [ &
+    expected_outputs = [ & 
       expected_outputs_t([false]), expected_outputs_t([true]), expected_outputs_t([true]), expected_outputs_t([false]) &
     ]
-    mini_batches = [( &
-      mini_batch_t( input_output_pair_t( &
-        [(inputs(i),  i=1, size(inputs))], [(expected_outputs(i), i=1, size(expected_outputs))] ) ), m=1,2000 &
-    )]
-    trainable_engine = trainable_single_layer_perceptron()
+    mini_batches = [(mini_batch_t( input_output_pair_t( inputs, expected_outputs ) ), m=1,1250000)]
+    trainable_engine = wide_single_layer_perceptron()
     call trainable_engine%train(mini_batches, matmul_t())
     actual_output = trainable_engine%infer(inputs, matmul_t())
-    test_passes = [(abs(actual_output(i)%outputs() - expected_outputs(i)%outputs()) < tolerance, i=1, size(inputs))]
+    test_passes = [(abs(actual_output(i)%outputs() - expected_outputs(i)%outputs()) < tolerance, i=1, size(actual_output))]
   end function
 
 end module trainable_engine_test_m
