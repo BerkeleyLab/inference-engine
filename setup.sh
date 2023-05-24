@@ -65,9 +65,9 @@ HDF5_LIB_PATH="`brew --prefix hdf5`/lib"
 NETCDFF_LIB_PATH="`brew --prefix netcdf-fortran`/lib"
 
 FPM_LD_FLAG=" -L$NETCDF_LIB_PATH -L$HDF5_LIB_PATH -L$NETCDFF_LIB_PATH"
-FPM_FLAG="-fallow-argument-mismatch -ffree-line-length-none -L$NETCDF_LIB_PATH -L$HDF5_LIB_PATH"
-FPM_FC=${FC:-"gfortran-12"}
-FPM_CC=${CC:-"gcc-12"}
+FPM_FLAG="-O3 -fallow-argument-mismatch -ffree-line-length-none -L$NETCDF_LIB_PATH -L$HDF5_LIB_PATH"
+FPM_FC=${FC:-"gfortran-13"}
+FPM_CC=${CC:-"gcc-13"}
 
 mkdir -p build
 
@@ -106,7 +106,7 @@ export PKG_CONFIG_PATH
 cp scripts/run-fpm.sh-header build/run-fpm.sh
 RUN_FPM_SH="`realpath ./build/run-fpm.sh`"
 echo "`which fpm` \$fpm_arguments \\" >>  $RUN_FPM_SH
-echo "--profile debug \\" >> $RUN_FPM_SH
+echo "--profile release \\" >> $RUN_FPM_SH
 echo "--c-compiler \"`pkg-config inference-engine --variable=INFERENCE_ENGINE_FPM_CC`\" \\" >> $RUN_FPM_SH
 echo "--compiler \"`pkg-config inference-engine --variable=INFERENCE_ENGINE_FPM_FC`\" \\" >> $RUN_FPM_SH
 echo "--flag \"`pkg-config inference-engine --variable=INFERENCE_ENGINE_FPM_FLAG`\" \\"  >> $RUN_FPM_SH
