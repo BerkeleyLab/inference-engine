@@ -8,6 +8,7 @@ module inference_engine_m
  use kind_parameters_m
  use layer_m
  use matmul_m
+ use mini_batch_m
  use input_output_pair_m
  use neuron_m
  use outputs_m

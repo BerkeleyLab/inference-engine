@@ -10,6 +10,7 @@ module inference_engine_m_
   use inputs_m, only : inputs_t
   use outputs_m, only : outputs_t
   use differentiable_activation_strategy_m, only :differentiable_activation_strategy_t
+  use network_increment_m, only : network_increment_t
   implicit none
 
   private
@@ -171,12 +172,10 @@ module inference_engine_m_
       real(rkind), allocatable :: w(:,:)
     end function
 
-    pure module subroutine increment(self, delta_w_in, delta_w_hidden, delta_w_out, delta_b_hidden, delta_b_out)
+    pure module subroutine increment(self, network_increment)
       implicit none
       class(inference_engine_t), intent(inout) :: self
-      real(rkind), intent(in), dimension(:,:,:) :: delta_w_hidden
-      real(rkind), intent(in), dimension(:,:) :: delta_w_in, delta_w_out, delta_b_hidden
-      real(rkind), intent(in), dimension(:) :: delta_b_out
+      type(network_increment_t), intent(in) :: network_increment
     end subroutine
 
   end interface
