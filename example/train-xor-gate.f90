@@ -23,8 +23,9 @@ program train_xor_gate
   type(command_line_t) command_line
   type(string_t) base_name
   type(mini_batch_t), allocatable :: mini_batches(:)
+    type(inputs_t), allocatable :: inputs(:)
   character(len=5), parameter :: table_entry(*) = ["TT->F", "FT->T", "TF->T", "FF->F", "xor  "]
-  integer i, j, m
+  integer i, m
 
   base_name = string_t(command_line%flag_value("--base-name"))
  
@@ -33,47 +34,31 @@ program train_xor_gate
       'Usage: ./build/run-fpm.sh run --example train-xor-gate -- --base-name "<base-file-name>"'
   end if
 
-  block
-    expected_outputs = [ &
-      expected_outputs_t([false]), expected_outputs_t([true]), expected_outputs_t([true]), expected_outputs_t([false]) &
-    ] 
-    associate( &
-      inputs => [ &
-        inputs_t([true,true]), inputs_t([false,true]), inputs_t([true,false]), inputs_t([false,false]) &
-      ] &
-    )
-     loop_over_truth_table_entries: &
-     do j =1, size(inputs)
-       trainable_engine = trainable_single_layer_perceptron()
-       call trainable_engine%train([(mini_batch_t(input_output_pair_t([inputs(j)], [expected_outputs(j)])), i=1,3000)], matmul_t())
-       call output(trainable_engine, string_t(base_name%string()//"-"//trim(table_entry(j))//".json"))
-       actual_output(j) = trainable_engine%infer(inputs(j), matmul_t())
-     end do loop_over_truth_table_entries
-    end associate
-    
-
-    !if (.not. all([(abs(actual_output(j)%outputs() - expected_outputs(j)%outputs()) < tolerance, j=1, size(inputs))])) &
-    !   error stop "one or more models failed to converge"
-  end block
-
-  block
-    type(inputs_t), allocatable :: inputs(:)
-
-    inputs = [ &
-      inputs_t([true,true]), inputs_t([false,true]), inputs_t([true,false]), inputs_t([false,false]) &
-    ]
-    expected_outputs = [ &
-      expected_outputs_t([false]), expected_outputs_t([true]), expected_outputs_t([true]), expected_outputs_t([false]) &
-    ]
-    mini_batches = [(mini_batch_t( input_output_pair_t( inputs, expected_outputs ) ), m=1,2000)]
-    trainable_engine = trainable_single_layer_perceptron()
-    call trainable_engine%train(mini_batches, matmul_t())
-    call output(trainable_engine, string_t(base_name%string()//"-"//trim(table_entry(5))//".json"))
-    call output(trainable_engine, string_t(base_name%string() // ".json"))
-    actual_output = trainable_engine%infer(inputs, matmul_t())
-    ! if (.not. all([(abs(actual_output(i)%outputs() - expected_outputs(i)%outputs()) < tolerance, i=1, size(inputs))])) &
-    !   error stop "the model failed to converge"
-  end block
+  inputs = [ &
+    inputs_t([true,true]), inputs_t([false,true]), inputs_t([true,false]), inputs_t([false,false]) &
+  ]
+  expected_outputs = [ &
+    expected_outputs_t([false]), expected_outputs_t([true]), expected_outputs_t([true]), expected_outputs_t([false]) &
+  ]
+  print *,"Defining mini-batches, each containing input/output pairs corresponding to the four entries in the XOR truth table."
+  mini_batches = [(mini_batch_t( input_output_pair_t( inputs, expected_outputs ) ), m=1,2000000)]
+  print *,"Defining an initial trainable_engine_t neural network object."
+  trainable_engine = wide_single_layer_perceptron()
+  print *,"Training the neural network using the mini-batches. ___This could take a few minutes.___"
+  call trainable_engine%train(mini_batches, matmul_t())
+  associate(file_name => string_t(base_name%string() // ".json"))
+    print *,"Writing the network parameters to "
+    call output(trainable_engine, file_name)
+  end associate
+  print *,"Verifying that the network behaves as an exclusive-or (XOR) logic gate: "
+  actual_output = trainable_engine%infer(inputs, matmul_t())
+  if (any([(abs(actual_output(i)%outputs() - expected_outputs(i)%outputs()) < tolerance, i=1, size(actual_output))])) then
+    print *,"Yes!"
+  else
+    error stop &
+      "The trained network does not behave as a XOR gate.  " // &
+      "Please report this issue at https://github.com/BerkeleyLab/inference-engine/issues."
+  end if
 
 contains
 
@@ -87,7 +72,7 @@ contains
     call json_file%write_lines(file_name)
   end subroutine
 
-  function trainable_single_layer_perceptron() result(trainable_engine)
+  function wide_single_layer_perceptron() result(trainable_engine)
     type(trainable_engine_t) trainable_engine
     integer, parameter :: n_in = 2 ! number of inputs
     integer, parameter :: n_out = 1 ! number of outputs
@@ -102,6 +87,27 @@ contains
       hidden_weights = reshape([real(rkind)::], [neurons,neurons,n_hidden-1]), &
       output_weights = real(reshape([1,-2,1], [n_out, neurons]), rkind), &
       biases = reshape([real(rkind):: 0.,-1.99,0.], [neurons, n_hidden]), &
+      output_biases = [real(rkind):: 0.], &
+      differentiable_activation_strategy = sigmoid_t() &
+    )
+  end function
+
+  function wide_perceptron() result(trainable_engine)
+    type(trainable_engine_t) trainable_engine
+    integer, parameter :: n_in = 2 ! number of inputs
+    integer, parameter :: n_out = 1 ! number of outputs
+    integer, parameter :: neurons = 24 ! number of neurons per layer
+    integer, parameter :: n_hidden = 1 ! number of hidden layers 
+    integer n
+   
+    trainable_engine = trainable_engine_t( &
+      metadata = [ &
+       string_t("Wide 1-layer perceptron"), string_t("Damian Rouson"), string_t("2023-05-24"), string_t("sigmoid"), string_t("false") &
+      ], &
+      input_weights = real(reshape([([1,0,1,1,0,1], n=1,8 )], [n_in, neurons]), rkind), &
+      hidden_weights = reshape([real(rkind)::], [neurons,neurons,n_hidden-1]), &
+      output_weights = real(reshape([([1,-2,1], n=1,8)], [n_out, neurons]), rkind), &
+      biases = reshape([real(rkind):: [(0.,-1.99,0., n=1,8)] ], [neurons, n_hidden]), &
       output_biases = [real(rkind):: 0.], &
       differentiable_activation_strategy = sigmoid_t() &
     )
