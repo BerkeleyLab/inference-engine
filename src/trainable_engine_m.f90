@@ -9,7 +9,7 @@ module trainable_engine_m
   use kind_parameters_m, only : rkind
   use inputs_m, only : inputs_t
   use expected_outputs_m, only : expected_outputs_t
-  use input_output_pair_m, only : input_output_pair_t 
+  use mini_batch_m, only : mini_batch_t
   implicit none
 
   private
@@ -41,10 +41,10 @@ module trainable_engine_m
 
   interface
 
-    pure module subroutine train(self, input_output_pairs, inference_strategy)
+    pure module subroutine train(self, mini_batch, inference_strategy)
       implicit none
       class(trainable_engine_t), intent(inout) :: self
-      type(input_output_pair_t), intent(in) :: input_output_pairs(:)
+      type(mini_batch_t), intent(in) :: mini_batch(:)
       class(inference_strategy_t), intent(in) :: inference_strategy
     end subroutine
 

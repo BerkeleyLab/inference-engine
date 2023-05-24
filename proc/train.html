@@ -90,7 +90,7 @@
      <li><i class="fa fa-list-ol"></i>
        <a data-toggle="tooltip"
     data-placement="bottom" data-html="true"
-    title=" 1.6% of total for procedures.">42 statements</a>
+    title=" 1.9% of total for procedures.">54 statements</a>
      </li> 
     <li><i class="fa fa-code"></i><a href="../src/trainable_engine_s.f90"> Source File</a></li>
   </ul>
@@ -122,7 +122,7 @@
     </div>
     
     <div class="col-md-9" id='text'>
-    <h2>module procedure train <small>pure module module subroutine train(self, input_output_pairs, inference_strategy)</small>   <a href='../interface/train.html'><button type="button" class="btn btn-info depwarn">Interface &rarr;</button></a>
+    <h2>module procedure train <small>pure module module subroutine train(self, mini_batch, inference_strategy)</small>   <a href='../interface/train.html'><button type="button" class="btn btn-info depwarn">Interface &rarr;</button></a>
 </h2>
     
 
@@ -138,10 +138,10 @@
   <td><strong>self</strong></td><td></td>
 </tr>
 <tr>
-  <td><span class="anchor" id="variable-input_output_pairs"></span>type(<a href='../type/input_output_pair_t.html'>input_output_pair_t</a>),</td>
+  <td><span class="anchor" id="variable-mini_batch"></span>type(<a href='../type/mini_batch_t.html'>mini_batch_t</a>),</td>
 <td>intent(in)</td>
   <td></td>  <td></td><td>::</td>
-  <td><strong>input_output_pairs</strong>(:)</td><td></td>
+  <td><strong>mini_batch</strong>(:)</td><td></td>
 </tr>
 <tr>
   <td><span class="anchor" id="variable-inference_strategy"></span>class(<a href='../type/inference_strategy_t.html'>inference_strategy_t</a>),</td>
@@ -175,17 +175,17 @@
 <polygon fill="none" stroke="black" points="54,-87 0,-87 0,-63 54,-63 54,-87"/>
 <text text-anchor="middle" x="27" y="-72.6" font-family="Helvetica,sans-Serif" font-size="10.50">train</text>
 </g>
-<!-- sigma_prime_of_z -->
+<!-- inputs -->
 <g id="proc~~train~~CallsGraph_node2" class="node">
-<title>sigma_prime_of_z</title>
-<polygon fill="#777777" stroke="#777777" points="198,-150 90,-150 90,-126 198,-126 198,-150"/>
-<text text-anchor="middle" x="144" y="-135.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">sigma_prime_of_z</text>
+<title>inputs</title>
+<polygon fill="#777777" stroke="#777777" points="171,-150 117,-150 117,-126 171,-126 171,-150"/>
+<text text-anchor="middle" x="144" y="-135.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">inputs</text>
 </g>
-<!-- proc~train&#45;&gt;sigma_prime_of_z -->
+<!-- proc~train&#45;&gt;inputs -->
 <g id="proc~~train~~CallsGraph_edge1" class="edge">
-<title>proc~train&#45;&gt;sigma_prime_of_z</title>
-<path fill="none" stroke="#ff0000" d="M43.71,-87.06C55.9,-96.05 73.45,-108.25 90,-117 93.25,-118.72 96.68,-120.38 100.16,-121.97"/>
-<polygon fill="#ff0000" stroke="#ff0000" points="98.85,-125.22 109.42,-125.98 101.63,-118.79 98.85,-125.22"/>
+<title>proc~train&#45;&gt;inputs</title>
+<path fill="none" stroke="#ff0000" d="M43.71,-87.06C55.9,-96.05 73.45,-108.25 90,-117 95.44,-119.87 101.36,-122.59 107.21,-125.06"/>
+<polygon fill="#ff0000" stroke="#ff0000" points="106.3,-128.46 116.88,-128.95 108.91,-121.97 106.3,-128.46"/>
 </g>
 <!-- w -->
 <g id="proc~~train~~CallsGraph_node3" class="node">
@@ -199,29 +199,29 @@
 <path fill="none" stroke="#ff0000" d="M54.1,-79.77C69.57,-82.59 89.43,-86.22 106.44,-89.32"/>
 <polygon fill="#ff0000" stroke="#ff0000" points="106.14,-92.83 116.61,-91.18 107.4,-85.94 106.14,-92.83"/>
 </g>
-<!-- inputs -->
+<!-- a -->
 <g id="proc~~train~~CallsGraph_node4" class="node">
-<title>inputs</title>
+<title>a</title>
 <polygon fill="#777777" stroke="#777777" points="171,-66 117,-66 117,-42 171,-42 171,-66"/>
-<text text-anchor="middle" x="144" y="-51.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">inputs</text>
+<text text-anchor="middle" x="144" y="-51.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">a</text>
 </g>
-<!-- proc~train&#45;&gt;inputs -->
+<!-- proc~train&#45;&gt;a -->
 <g id="proc~~train~~CallsGraph_edge3" class="edge">
-<title>proc~train&#45;&gt;inputs</title>
+<title>proc~train&#45;&gt;a</title>
 <path fill="none" stroke="#ff0000" d="M54.1,-70.23C69.57,-67.41 89.43,-63.78 106.44,-60.68"/>
 <polygon fill="#ff0000" stroke="#ff0000" points="107.4,-64.06 116.61,-58.82 106.14,-57.17 107.4,-64.06"/>
 </g>
-<!-- a -->
+<!-- sigma_prime_of_z -->
 <g id="proc~~train~~CallsGraph_node5" class="node">
-<title>a</title>
-<polygon fill="#777777" stroke="#777777" points="171,-24 117,-24 117,0 171,0 171,-24"/>
-<text text-anchor="middle" x="144" y="-9.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">a</text>
+<title>sigma_prime_of_z</title>
+<polygon fill="#777777" stroke="#777777" points="198,-24 90,-24 90,0 198,0 198,-24"/>
+<text text-anchor="middle" x="144" y="-9.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">sigma_prime_of_z</text>
 </g>
-<!-- proc~train&#45;&gt;a -->
+<!-- proc~train&#45;&gt;sigma_prime_of_z -->
 <g id="proc~~train~~CallsGraph_edge4" class="edge">
-<title>proc~train&#45;&gt;a</title>
-<path fill="none" stroke="#ff0000" d="M43.71,-62.94C55.9,-53.95 73.45,-41.75 90,-33 95.44,-30.13 101.36,-27.41 107.21,-24.94"/>
-<polygon fill="#ff0000" stroke="#ff0000" points="108.91,-28.03 116.88,-21.05 106.3,-21.54 108.91,-28.03"/>
+<title>proc~train&#45;&gt;sigma_prime_of_z</title>
+<path fill="none" stroke="#ff0000" d="M43.71,-62.94C55.9,-53.95 73.45,-41.75 90,-33 93.25,-31.28 96.68,-29.62 100.16,-28.03"/>
+<polygon fill="#ff0000" stroke="#ff0000" points="101.63,-31.21 109.42,-24.02 98.85,-24.78 101.63,-31.21"/>
 </g>
 </g>
 </svg>
@@ -421,7 +421,7 @@
           <p class="text-right">
             Documentation generated by 
             <a href="https://github.com/Fortran-FOSS-Programmers/ford">FORD</a>
- on 2023-05-23 13:02            </p>
+ on 2023-05-24 22:32            </p>
         </div>
       </div>
       <br>

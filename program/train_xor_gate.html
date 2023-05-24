@@ -1,0 +1,1206 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+   <meta name="description" content="A library supporting concurrent forward propagation on multiple fully-connected deep neural networks">
+    <meta name="author" content="Sourcery Institute" >
+    <link rel="icon" href="../favicon.png">
+
+    <title>train_xor_gate &ndash; Inference-Engine</title>
+
+    <link href="../css/bootstrap.min.css" rel="stylesheet">
+    <link href="../css/pygments.css" rel="stylesheet">
+    <link href="../css/font-awesome.min.css" rel="stylesheet">
+    <link href="../css/local.css" rel="stylesheet">
+    <link  href="../tipuesearch/tipuesearch.css" rel="stylesheet">
+
+    <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
+    <!--[if lt IE 9]>
+      <script src="https://oss.maxcdn.com/html5shiv/3.7.2/html5shiv.min.js"></script>
+      <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
+    <![endif]-->
+    
+    <script src="../js/jquery-2.1.3.min.js"></script>
+    <script src="../js/svg-pan-zoom.min.js"></script>
+
+  </head>
+
+  <body>
+
+    <!-- Fixed navbar -->
+    <nav class="navbar navbar-inverse navbar-fixed-top">
+      <div class="container">
+        <div class="navbar-header">
+          <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
+            <span class="sr-only">Toggle navigation</span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+          </button>
+          <a class="navbar-brand" href="../index.html">Inference-Engine </a>
+        </div>
+        <div id="navbar" class="navbar-collapse collapse">
+          <ul class="nav navbar-nav">
+            <li class="dropdown hidden-xs visible-sm visible-md hidden-lg">
+              <a href="#" class="dropdown-toggle"
+              data-toggle="dropdown" role="button"
+              aria-haspopup="true"
+     aria-expanded="false">Contents <span class="caret"></span></a>
+        <ul class="dropdown-menu">
+            <li><a href="../lists/files.html">Source Files</a></li>
+            <li><a href="../lists/modules.html">Modules</a></li>
+            <li><a href="../lists/procedures.html">Procedures</a></li>
+            <li><a href="../lists/absint.html">Abstract Interfaces</a></li>
+                   <li><a href="../lists/types.html">Derived Types</a></li>
+            <li><a href="../lists/programs.html">Programs</a></li>
+       
+            </ul>
+        
+            </li>
+<li class="visible-xs hidden-sm visible-lg"><a href="../lists/files.html">Source Files</a></li>
+<li class="visible-xs hidden-sm visible-lg"><a href="../lists/modules.html">Modules</a></li>
+<li class="visible-xs hidden-sm visible-lg"><a href="../lists/procedures.html">Procedures</a></li>
+<li class="visible-xs hidden-sm visible-lg"><a href="../lists/absint.html">Abstract Interfaces</a></li>
+                             <li class="visible-xs hidden-sm visible-lg"><a href="../lists/types.html">Derived Types</a></li>
+<li class="visible-xs hidden-sm visible-lg"><a href="../lists/programs.html">Programs</a></li>
+          </ul>
+        <form action="../search.html" class="navbar-form navbar-right" role="search">
+        <div class="form-group">
+          <input type="text" class="form-control" placeholder="Search" name="q" id="tipue_search_input" autocomplete="off" required>
+        </div>
+<!--
+        <button type="submit" class="btn btn-default">Submit</button>
+-->
+        </form>
+        </div><!--/.nav-collapse -->
+      </div>
+    </nav>
+
+    <div class="container">
+  <div class="row">
+    <h1>train_xor_gate    <small>Program</small>
+    </h1>
+    <div class="row">
+  <div class="col-lg-12">
+<div class="well well-sm">
+  <ul class="list-inline" style="margin-bottom:0px;display:inline">
+     <li><i class="fa fa-list-ol"></i>
+       <a data-toggle="tooltip"
+    data-placement="bottom" data-html="true"
+    title="27.7% of total for programs.">74 statements</a>
+     </li> 
+    <li><i class="fa fa-code"></i><a href="../src/train-xor-gate.f90"> Source File</a></li>
+  </ul>
+  <ol class="breadcrumb in-well text-right">
+     <li><a href='../sourcefile/train-xor-gate.f90.html'>train-xor-gate.f90</a></li>
+     <li class="active">train_xor_gate</li>
+  </ol>
+</div>
+</div>
+</div>
+<script>
+  $(function () {
+  $('[data-toggle="tooltip"]').tooltip()
+  })
+</script>
+
+  </div>
+  
+  <div class="row">
+    <div class="col-md-3 hidden-xs hidden-sm visible-md visible-lg">
+    <div id="sidebar">
+  <h3>Contents</h3>
+ 
+<div class="panel panel-primary">
+  <div class="panel-heading text-left"><h3 class="panel-title"><a data-toggle="collapse" href="#vars-0">Variables</a></h3></div>
+  <div id="vars-0" class="panel-collapse collapse">
+    <div class="list-group">
+      <a class="list-group-item" href="../program/train_xor_gate.html#variable-actual_output">actual_output</a>
+      <a class="list-group-item" href="../program/train_xor_gate.html#variable-base_name">base_name</a>
+      <a class="list-group-item" href="../program/train_xor_gate.html#variable-command_line">command_line</a>
+      <a class="list-group-item" href="../program/train_xor_gate.html#variable-expected_outputs~2">expected_outputs</a>
+      <a class="list-group-item" href="../program/train_xor_gate.html#variable-false">false</a>
+      <a class="list-group-item" href="../program/train_xor_gate.html#variable-i">i</a>
+      <a class="list-group-item" href="../program/train_xor_gate.html#variable-inputs~4">inputs</a>
+      <a class="list-group-item" href="../program/train_xor_gate.html#variable-m">m</a>
+      <a class="list-group-item" href="../program/train_xor_gate.html#variable-mini_batches">mini_batches</a>
+      <a class="list-group-item" href="../program/train_xor_gate.html#variable-table_entry">table_entry</a>
+      <a class="list-group-item" href="../program/train_xor_gate.html#variable-tolerance">tolerance</a>
+      <a class="list-group-item" href="../program/train_xor_gate.html#variable-trainable_engine~3">trainable_engine</a>
+      <a class="list-group-item" href="../program/train_xor_gate.html#variable-true">true</a>
+    </div>
+  </div>
+</div>
+<div class="panel panel-primary">
+  <div class="panel-heading text-left"><h3 class="panel-title"><a data-toggle="collapse" href="#funcs-0">Functions</a></h3></div>
+  <div id="funcs-0" class="panel-collapse collapse">
+    <div class="list-group">
+      <a class="list-group-item" href="../program/train_xor_gate.html#proc-wide_perceptron">wide_perceptron</a>
+      <a class="list-group-item" href="../program/train_xor_gate.html#proc-wide_single_layer_perceptron">wide_single_layer_perceptron</a>
+    </div>
+  </div>
+</div>
+<div class="panel panel-primary">
+  <div class="panel-heading text-left"><h3 class="panel-title"><a data-toggle="collapse" href="#subs-0">Subroutines</a></h3></div>
+  <div class="list-group">
+    <div id="subs-0" class="panel-collapse collapse">
+      <a class="list-group-item" href="../program/train_xor_gate.html#proc-output">output</a>
+    </div>
+  </div>
+</div>
+<div class="panel panel-primary">
+  <div class="panel-heading text-left"><h3 class="panel-title">Source Code</h3></div>
+  <div class="list-group">
+    <a class="list-group-item" href="../program/train_xor_gate.html#src">train_xor_gate</a>
+  </div>
+</div>
+
+</div>
+
+    </div>
+    
+    <div class="col-md-9" id='text'>
+        <div class="panel panel-default">
+      <div class="panel-heading">
+  <h3 class="panel-title">Uses</h3>
+      </div>
+      <ul class="list-group">
+      <li class="list-group-item">
+  <ul class="list-inline">
+    <li><a href='../module/sigmoid_m.html'>sigmoid_m</a></li>
+    <li><a href='../module/trainable_engine_m.html'>trainable_engine_m</a></li>
+    <li>file_m</li>
+    <li>command_line_m</li>
+    <li>string_m</li>
+    <li><a href='../module/matmul_m.html'>matmul_m</a></li>
+    <li><a href='../module/input_output_pair_m.html'>input_output_pair_m</a></li>
+    <li><a href='../module/mini_batch_m.html'>mini_batch_m</a></li>
+    <li><a href='../module/outputs_m.html'>outputs_m</a></li>
+    <li><a href='../module/inputs_m.html'>inputs_m</a></li>
+    <li><a href='../module/expected_outputs_m.html'>expected_outputs_m</a></li>
+    <li><a href='../module/kind_parameters_m.html'>kind_parameters_m</a></li>
+  </ul>
+      </li>
+      <li class="list-group-item">
+  <div class="depgraph"><?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN"
+ "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
+<!-- Generated by graphviz version 2.43.0 (0)
+ -->
+<!-- Title: program~~train_xor_gate~~UsesGraph Pages: 1 -->
+<svg id="programtrain_xor_gateUsesGraph" width="641pt" height="400pt"
+ viewBox="0.00 0.00 641.00 399.75" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+<g id="program~~train_xor_gate~~UsesGraph" class="graph" transform="scale(1.52 1.52) rotate(0) translate(4 604.04)">
+<title>program~~train_xor_gate~~UsesGraph</title>
+<polygon fill="white" stroke="transparent" points="-4,4 -4,-604.04 971,-604.04 971,4 -4,4"/>
+<!-- program~train_xor_gate -->
+<g id="program~~train_xor_gate~~UsesGraph_node1" class="node">
+<title>program~train_xor_gate</title>
+<polygon fill="none" stroke="black" points="967,-251.04 878,-251.04 878,-227.04 967,-227.04 967,-251.04"/>
+<text text-anchor="middle" x="922.5" y="-236.64" font-family="Helvetica,sans-Serif" font-size="10.50">train_xor_gate</text>
+</g>
+<!-- module~sigmoid_m -->
+<g id="program~~train_xor_gate~~UsesGraph_node2" class="node">
+<title>module~sigmoid_m</title>
+<g id="a_program~~train_xor_gate~~UsesGraph_node2"><a xlink:href=".././module/sigmoid_m.html" xlink:title="sigmoid_m">
+<polygon fill="#337ab7" stroke="#337ab7" points="660,-600.04 590,-600.04 590,-576.04 660,-576.04 660,-600.04"/>
+<text text-anchor="middle" x="625" y="-585.64" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">sigmoid_m</text>
+</a>
+</g>
+</g>
+<!-- program~train_xor_gate&#45;&gt;module~sigmoid_m -->
+<g id="program~~train_xor_gate~~UsesGraph_edge1" class="edge">
+<title>program~train_xor_gate&#45;&gt;module~sigmoid_m</title>
+<path fill="none" stroke="#ff0000" stroke-dasharray="5,2" d="M782,-509.04C741.04,-533.98 731.08,-540.95 688,-562.04 680.92,-565.5 673.27,-568.95 665.83,-572.14"/>
+<polygon fill="#ff0000" stroke="#ff0000" points="664.44,-568.93 656.59,-576.04 667.16,-575.38 664.44,-568.93"/>
+</g>
+<!-- string_m -->
+<g id="program~~train_xor_gate~~UsesGraph_node3" class="node">
+<title>string_m</title>
+<polygon fill="#337ab7" stroke="#337ab7" points="452,-322.04 394,-322.04 394,-298.04 452,-298.04 452,-322.04"/>
+<text text-anchor="middle" x="423" y="-307.64" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">string_m</text>
+</g>
+<!-- program~train_xor_gate&#45;&gt;string_m -->
+<g id="program~~train_xor_gate~~UsesGraph_edge2" class="edge">
+<title>program~train_xor_gate&#45;&gt;string_m</title>
+<path fill="none" stroke="#ff0000" stroke-dasharray="5,2" d="M919.78,-251.18C912.79,-295.54 881.95,-449.4 784,-509.04"/>
+<path fill="none" stroke="#ff0000" stroke-dasharray="5,2" d="M782,-509.04C780.44,-509.99 563.42,-367.18 562,-366.04 544.56,-352.12 545.72,-341.49 526,-331.04 506.41,-320.66 482.18,-315.41 462.26,-312.75"/>
+<polygon fill="#ff0000" stroke="#ff0000" points="462.62,-309.27 452.28,-311.58 461.8,-316.22 462.62,-309.27"/>
+</g>
+<!-- module~matmul_m -->
+<g id="program~~train_xor_gate~~UsesGraph_node4" class="node">
+<title>module~matmul_m</title>
+<g id="a_program~~train_xor_gate~~UsesGraph_node4"><a xlink:href=".././module/matmul_m.html" xlink:title="matmul_m">
+<polygon fill="#337ab7" stroke="#337ab7" points="660,-482.04 590,-482.04 590,-458.04 660,-458.04 660,-482.04"/>
+<text text-anchor="middle" x="625" y="-467.64" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">matmul_m</text>
+</a>
+</g>
+</g>
+<!-- program~train_xor_gate&#45;&gt;module~matmul_m -->
+<g id="program~~train_xor_gate~~UsesGraph_edge3" class="edge">
+<title>program~train_xor_gate&#45;&gt;module~matmul_m</title>
+<path fill="none" stroke="#ff0000" stroke-dasharray="5,2" d="M782,-509.04C740.81,-534.12 684.17,-507.59 651.69,-487.69"/>
+<polygon fill="#ff0000" stroke="#ff0000" points="653.52,-484.7 643.2,-482.3 649.77,-490.61 653.52,-484.7"/>
+</g>
+<!-- module~input_output_pair_m -->
+<g id="program~~train_xor_gate~~UsesGraph_node5" class="node">
+<title>module~input_output_pair_m</title>
+<g id="a_program~~train_xor_gate~~UsesGraph_node5"><a xlink:href=".././module/input_output_pair_m.html" xlink:title="input_output_pair_m">
+<polygon fill="#337ab7" stroke="#337ab7" points="483.5,-86.04 362.5,-86.04 362.5,-62.04 483.5,-62.04 483.5,-86.04"/>
+<text text-anchor="middle" x="423" y="-71.64" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">input_output_pair_m</text>
+</a>
+</g>
+</g>
+<!-- program~train_xor_gate&#45;&gt;module~input_output_pair_m -->
+<g id="program~~train_xor_gate~~UsesGraph_edge4" class="edge">
+<title>program~train_xor_gate&#45;&gt;module~input_output_pair_m</title>
+<path fill="none" stroke="#ff0000" stroke-dasharray="5,2" d="M624,-72.04C582.08,-59.25 532.88,-59.56 493.76,-63.16"/>
+<polygon fill="#ff0000" stroke="#ff0000" points="493.13,-59.71 483.53,-64.2 493.83,-66.67 493.13,-59.71"/>
+</g>
+<!-- module~trainable_engine_m -->
+<g id="program~~train_xor_gate~~UsesGraph_node6" class="node">
+<title>module~trainable_engine_m</title>
+<g id="a_program~~train_xor_gate~~UsesGraph_node6"><a xlink:href=".././module/trainable_engine_m.html" xlink:title="trainable_engine_m">
+<polygon fill="#337ab7" stroke="#337ab7" points="842,-272.04 724,-272.04 724,-248.04 842,-248.04 842,-272.04"/>
+<text text-anchor="middle" x="783" y="-257.64" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">trainable_engine_m</text>
+</a>
+</g>
+</g>
+<!-- program~train_xor_gate&#45;&gt;module~trainable_engine_m -->
+<g id="program~~train_xor_gate~~UsesGraph_edge5" class="edge">
+<title>program~train_xor_gate&#45;&gt;module~trainable_engine_m</title>
+<path fill="none" stroke="#ff0000" stroke-dasharray="5,2" d="M877.99,-245.68C869.85,-246.93 861.16,-248.26 852.47,-249.58"/>
+<polygon fill="#ff0000" stroke="#ff0000" points="851.67,-246.16 842.31,-251.13 852.73,-253.08 851.67,-246.16"/>
+</g>
+<!-- command_line_m -->
+<g id="program~~train_xor_gate~~UsesGraph_node7" class="node">
+<title>command_line_m</title>
+<polygon fill="#337ab7" stroke="#337ab7" points="836.5,-230.04 729.5,-230.04 729.5,-206.04 836.5,-206.04 836.5,-230.04"/>
+<text text-anchor="middle" x="783" y="-215.64" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">command_line_m</text>
+</g>
+<!-- program~train_xor_gate&#45;&gt;command_line_m -->
+<g id="program~~train_xor_gate~~UsesGraph_edge6" class="edge">
+<title>program~train_xor_gate&#45;&gt;command_line_m</title>
+<path fill="none" stroke="#ff0000" stroke-dasharray="5,2" d="M877.99,-232.4C868.1,-230.88 857.39,-229.25 846.87,-227.64"/>
+<polygon fill="#ff0000" stroke="#ff0000" points="847.28,-224.16 836.87,-226.11 846.22,-231.08 847.28,-224.16"/>
+</g>
+<!-- file_m -->
+<g id="program~~train_xor_gate~~UsesGraph_node8" class="node">
+<title>file_m</title>
+<polygon fill="#337ab7" stroke="#337ab7" points="450,-242.04 396,-242.04 396,-218.04 450,-218.04 450,-242.04"/>
+<text text-anchor="middle" x="423" y="-227.64" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">file_m</text>
+</g>
+<!-- program~train_xor_gate&#45;&gt;file_m -->
+<g id="program~~train_xor_gate~~UsesGraph_edge7" class="edge">
+<title>program~train_xor_gate&#45;&gt;file_m</title>
+<path fill="none" stroke="#ff0000" stroke-dasharray="5,2" d="M624,-190.04C566.15,-198.56 499.72,-212.73 459.85,-221.72"/>
+<polygon fill="#ff0000" stroke="#ff0000" points="459.04,-218.31 450.06,-223.94 460.59,-225.14 459.04,-218.31"/>
+</g>
+<!-- module~mini_batch_m -->
+<g id="program~~train_xor_gate~~UsesGraph_node9" class="node">
+<title>module~mini_batch_m</title>
+<g id="a_program~~train_xor_gate~~UsesGraph_node9"><a xlink:href=".././module/mini_batch_m.html" xlink:title="mini_batch_m">
+<polygon fill="#337ab7" stroke="#337ab7" points="668.5,-124.04 581.5,-124.04 581.5,-100.04 668.5,-100.04 668.5,-124.04"/>
+<text text-anchor="middle" x="625" y="-109.64" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">mini_batch_m</text>
+</a>
+</g>
+</g>
+<!-- program~train_xor_gate&#45;&gt;module~mini_batch_m -->
+<g id="program~~train_xor_gate~~UsesGraph_edge8" class="edge">
+<title>program~train_xor_gate&#45;&gt;module~mini_batch_m</title>
+<path fill="none" stroke="#ff0000" stroke-dasharray="5,2" d="M782,-159.04C748.2,-146.04 709.19,-134.28 678.64,-125.78"/>
+<polygon fill="#ff0000" stroke="#ff0000" points="679.19,-122.3 668.62,-123.03 677.33,-129.05 679.19,-122.3"/>
+</g>
+<!-- module~outputs_m -->
+<g id="program~~train_xor_gate~~UsesGraph_node10" class="node">
+<title>module~outputs_m</title>
+<g id="a_program~~train_xor_gate~~UsesGraph_node10"><a xlink:href=".././module/outputs_m.html" xlink:title="outputs_m">
+<polygon fill="#337ab7" stroke="#337ab7" points="253,-444.04 185,-444.04 185,-420.04 253,-420.04 253,-444.04"/>
+<text text-anchor="middle" x="219" y="-429.64" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">outputs_m</text>
+</a>
+</g>
+</g>
+<!-- program~train_xor_gate&#45;&gt;module~outputs_m -->
+<g id="program~~train_xor_gate~~UsesGraph_edge9" class="edge">
+<title>program~train_xor_gate&#45;&gt;module~outputs_m</title>
+<path fill="none" stroke="#ff0000" stroke-dasharray="5,2" d="M782,-509.04C604.41,-612.61 518.01,-541.36 320,-486.04 292.77,-478.43 264.69,-462.42 245.24,-449.8"/>
+<polygon fill="#ff0000" stroke="#ff0000" points="246.96,-446.73 236.69,-444.1 243.07,-452.56 246.96,-446.73"/>
+</g>
+<!-- module~inputs_m -->
+<g id="program~~train_xor_gate~~UsesGraph_node11" class="node">
+<title>module~inputs_m</title>
+<g id="a_program~~train_xor_gate~~UsesGraph_node11"><a xlink:href=".././module/inputs_m.html" xlink:title="inputs_m">
+<polygon fill="#337ab7" stroke="#337ab7" points="249.5,-222.04 188.5,-222.04 188.5,-198.04 249.5,-198.04 249.5,-222.04"/>
+<text text-anchor="middle" x="219" y="-207.64" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">inputs_m</text>
+</a>
+</g>
+</g>
+<!-- program~train_xor_gate&#45;&gt;module~inputs_m -->
+<g id="program~~train_xor_gate~~UsesGraph_edge10" class="edge">
+<title>program~train_xor_gate&#45;&gt;module~inputs_m</title>
+<path fill="none" stroke="#ff0000" stroke-dasharray="5,2" d="M782,-159.04C716.03,-133.65 695.93,-179.74 626,-190.04"/>
+<path fill="none" stroke="#ff0000" stroke-dasharray="5,2" d="M624,-190.04C536.06,-202.99 512.89,-189.32 424,-190.04"/>
+<path fill="none" stroke="#ff0000" stroke-dasharray="5,2" d="M422,-190.04C365.43,-190.5 300.38,-198.25 259.73,-203.96"/>
+<polygon fill="#ff0000" stroke="#ff0000" points="259.09,-200.52 249.69,-205.4 260.08,-207.45 259.09,-200.52"/>
+</g>
+<!-- module~expected_outputs_m -->
+<g id="program~~train_xor_gate~~UsesGraph_node12" class="node">
+<title>module~expected_outputs_m</title>
+<g id="a_program~~train_xor_gate~~UsesGraph_node12"><a xlink:href=".././module/expected_outputs_m.html" xlink:title="expected_outputs_m">
+<polygon fill="#337ab7" stroke="#337ab7" points="280,-66.04 158,-66.04 158,-42.04 280,-42.04 280,-66.04"/>
+<text text-anchor="middle" x="219" y="-51.64" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">expected_outputs_m</text>
+</a>
+</g>
+</g>
+<!-- program~train_xor_gate&#45;&gt;module~expected_outputs_m -->
+<g id="program~~train_xor_gate~~UsesGraph_edge11" class="edge">
+<title>program~train_xor_gate&#45;&gt;module~expected_outputs_m</title>
+<path fill="none" stroke="#ff0000" stroke-dasharray="5,2" d="M422,-34.04C378.19,-29.96 329.07,-34.61 290.24,-40.45"/>
+<polygon fill="#ff0000" stroke="#ff0000" points="289.43,-37.04 280.09,-42.04 290.51,-43.95 289.43,-37.04"/>
+</g>
+<!-- module~kind_parameters_m -->
+<g id="program~~train_xor_gate~~UsesGraph_node13" class="node">
+<title>module~kind_parameters_m</title>
+<g id="a_program~~train_xor_gate~~UsesGraph_node13"><a xlink:href=".././module/kind_parameters_m.html" xlink:title="kind_parameters_m">
+<polygon fill="#337ab7" stroke="#337ab7" points="118,-302.04 0,-302.04 0,-278.04 118,-278.04 118,-302.04"/>
+<text text-anchor="middle" x="59" y="-287.64" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">kind_parameters_m</text>
+</a>
+</g>
+</g>
+<!-- program~train_xor_gate&#45;&gt;module~kind_parameters_m -->
+<g id="program~~train_xor_gate~~UsesGraph_edge12" class="edge">
+<title>program~train_xor_gate&#45;&gt;module~kind_parameters_m</title>
+<path fill="none" stroke="#ff0000" stroke-dasharray="5,2" d="M904.61,-226.79C879.53,-209.19 830.4,-176.89 784,-159.04"/>
+<path fill="none" stroke="#ff0000" stroke-dasharray="5,2" d="M782,-159.04C733.88,-140.52 734.16,-114.02 688,-91.04 662.2,-78.2 653.57,-80.45 626,-72.04"/>
+<path fill="none" stroke="#ff0000" stroke-dasharray="5,2" d="M624,-72.04C537.46,-45.64 514.09,-42.44 424,-34.04"/>
+<path fill="none" stroke="#ff0000" stroke-dasharray="5,2" d="M422,-34.04C332.17,-25.66 302.16,23.23 220,-14.04"/>
+<path fill="none" stroke="#ff0000" stroke-dasharray="5,2" d="M218,-14.04C190.98,-26.3 175.62,-12.72 154,-33.04 84.8,-98.07 66.36,-218.23 61.59,-267.78"/>
+<polygon fill="#ff0000" stroke="#ff0000" points="58.11,-267.49 60.73,-277.76 65.08,-268.1 58.11,-267.49"/>
+</g>
+<!-- module~sigmoid_m&#45;&gt;module~kind_parameters_m -->
+<g id="program~~train_xor_gate~~UsesGraph_edge14" class="edge">
+<title>module~sigmoid_m&#45;&gt;module~kind_parameters_m</title>
+<path fill="none" stroke="#ff0000" stroke-dasharray="5,2" d="M589.93,-589.42C532.86,-590.79 414.88,-589.57 320,-562.04 271.89,-548.08 263.91,-534.14 220,-510.04"/>
+</g>
+<!-- module~differentiable_activation_strategy_m -->
+<g id="program~~train_xor_gate~~UsesGraph_node14" class="node">
+<title>module~differentiable_activation_strategy_m</title>
+<g id="a_program~~train_xor_gate~~UsesGraph_node14"><a xlink:href=".././module/differentiable_activation_strategy_m.html" xlink:title="differentiable_activation_strategy_m">
+<polygon fill="#337ab7" stroke="#337ab7" points="526,-364.04 320,-364.04 320,-340.04 526,-340.04 526,-364.04"/>
+<text text-anchor="middle" x="423" y="-349.64" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">differentiable_activation_strategy_m</text>
+</a>
+</g>
+</g>
+<!-- module~sigmoid_m&#45;&gt;module~differentiable_activation_strategy_m -->
+<g id="program~~train_xor_gate~~UsesGraph_edge13" class="edge">
+<title>module~sigmoid_m&#45;&gt;module~differentiable_activation_strategy_m</title>
+<path fill="none" stroke="#ff0000" stroke-dasharray="5,2" d="M615.38,-575.84C602.81,-557.78 579.11,-522.68 562,-491.04 543.45,-456.75 552.14,-439.97 526,-411.04 509.23,-392.48 485.21,-378.19 464.69,-368.32"/>
+<polygon fill="#ff0000" stroke="#ff0000" points="466.1,-365.12 455.55,-364.1 463.16,-371.47 466.1,-365.12"/>
+</g>
+<!-- module~matmul_m&#45;&gt;module~outputs_m -->
+<g id="program~~train_xor_gate~~UsesGraph_edge15" class="edge">
+<title>module~matmul_m&#45;&gt;module~outputs_m</title>
+<path fill="none" stroke="#ffff00" stroke-dasharray="5,2" d="M589.67,-470.54C549.83,-471.08 482.16,-471.9 424,-472.04"/>
+<path fill="none" stroke="#ffff00" stroke-dasharray="5,2" d="M422,-472.04C366.3,-472.18 303.58,-457.33 263.02,-445.69"/>
+<polygon fill="#ffff00" stroke="#ffff00" points="263.78,-442.27 253.2,-442.81 261.81,-448.99 263.78,-442.27"/>
+</g>
+<!-- module~matmul_m&#45;&gt;module~kind_parameters_m -->
+<g id="program~~train_xor_gate~~UsesGraph_edge18" class="edge">
+<title>module~matmul_m&#45;&gt;module~kind_parameters_m</title>
+<path fill="none" stroke="#ffff00" stroke-dasharray="5,2" d="M422,-472.04C399.16,-472.1 240.02,-521.03 220,-510.04"/>
+<path fill="none" stroke="#ffff00" stroke-dasharray="5,2" d="M218,-510.04C136.18,-465.13 86.25,-357.61 67.95,-311.56"/>
+<polygon fill="#ffff00" stroke="#ffff00" points="71.21,-310.29 64.34,-302.22 64.68,-312.81 71.21,-310.29"/>
+</g>
+<!-- module~inference_strategy_m -->
+<g id="program~~train_xor_gate~~UsesGraph_node15" class="node">
+<title>module~inference_strategy_m</title>
+<g id="a_program~~train_xor_gate~~UsesGraph_node15"><a xlink:href=".././module/inference_strategy_m.html" xlink:title="inference_strategy_m">
+<polygon fill="#337ab7" stroke="#337ab7" points="486.5,-444.04 359.5,-444.04 359.5,-420.04 486.5,-420.04 486.5,-444.04"/>
+<text text-anchor="middle" x="423" y="-429.64" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">inference_strategy_m</text>
+</a>
+</g>
+</g>
+<!-- module~matmul_m&#45;&gt;module~inference_strategy_m -->
+<g id="program~~train_xor_gate~~UsesGraph_edge16" class="edge">
+<title>module~matmul_m&#45;&gt;module~inference_strategy_m</title>
+<path fill="none" stroke="#ffff00" stroke-dasharray="5,2" d="M589.62,-463.51C564.12,-458.66 528.44,-451.88 496.71,-445.86"/>
+<polygon fill="#ffff00" stroke="#ffff00" points="497.05,-442.36 486.57,-443.93 495.74,-449.23 497.05,-442.36"/>
+</g>
+<!-- module~activation_strategy_m -->
+<g id="program~~train_xor_gate~~UsesGraph_node16" class="node">
+<title>module~activation_strategy_m</title>
+<g id="a_program~~train_xor_gate~~UsesGraph_node16"><a xlink:href=".././module/activation_strategy_m.html" xlink:title="activation_strategy_m">
+<polygon fill="#337ab7" stroke="#337ab7" points="284,-364.04 154,-364.04 154,-340.04 284,-340.04 284,-364.04"/>
+<text text-anchor="middle" x="219" y="-349.64" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">activation_strategy_m</text>
+</a>
+</g>
+</g>
+<!-- module~matmul_m&#45;&gt;module~activation_strategy_m -->
+<g id="program~~train_xor_gate~~UsesGraph_edge17" class="edge">
+<title>module~matmul_m&#45;&gt;module~activation_strategy_m</title>
+<path fill="none" stroke="#ffff00" stroke-dasharray="5,2" d="M589.8,-458.17C580.45,-454.27 570.55,-449.52 562,-444.04 543.72,-432.34 545.43,-420.72 526,-411.04 442.67,-369.53 411.34,-391.05 320,-373.04 308.96,-370.86 297.26,-368.48 285.89,-366.12"/>
+<polygon fill="#ffff00" stroke="#ffff00" points="286.52,-362.67 276.01,-364.06 285.09,-369.53 286.52,-362.67"/>
+</g>
+<!-- module~input_output_pair_m&#45;&gt;module~inputs_m -->
+<g id="program~~train_xor_gate~~UsesGraph_edge19" class="edge">
+<title>module~input_output_pair_m&#45;&gt;module~inputs_m</title>
+<path fill="none" stroke="#7fff00" stroke-dasharray="5,2" d="M404.07,-86.11C368.36,-110.15 288.19,-164.13 246.43,-192.25"/>
+<polygon fill="#7fff00" stroke="#7fff00" points="244.23,-189.51 237.89,-198 248.14,-195.32 244.23,-189.51"/>
+</g>
+<!-- module~input_output_pair_m&#45;&gt;module~expected_outputs_m -->
+<g id="program~~train_xor_gate~~UsesGraph_edge20" class="edge">
+<title>module~input_output_pair_m&#45;&gt;module~expected_outputs_m</title>
+<path fill="none" stroke="#7fff00" stroke-dasharray="5,2" d="M362.49,-68.15C339.88,-65.91 313.92,-63.34 290.4,-61.01"/>
+<polygon fill="#7fff00" stroke="#7fff00" points="290.43,-57.5 280.14,-59.99 289.74,-64.46 290.43,-57.5"/>
+</g>
+<!-- module~input_output_pair_m&#45;&gt;module~kind_parameters_m -->
+<g id="program~~train_xor_gate~~UsesGraph_edge21" class="edge">
+<title>module~input_output_pair_m&#45;&gt;module~kind_parameters_m</title>
+<path fill="none" stroke="#7fff00" stroke-dasharray="5,2" d="M368.64,-61.99C352.84,-58.01 335.6,-53.25 320,-48.04 275.47,-33.18 262.75,5.35 220,-14.04"/>
+</g>
+<!-- module~trainable_engine_m&#45;&gt;string_m -->
+<g id="program~~train_xor_gate~~UsesGraph_edge22" class="edge">
+<title>module~trainable_engine_m&#45;&gt;string_m</title>
+<path fill="none" stroke="#00ff00" stroke-dasharray="5,2" d="M767.22,-272.1C740.79,-292.85 682.86,-334.77 626,-352.04"/>
+<path fill="none" stroke="#00ff00" stroke-dasharray="5,2" d="M624,-352.04C581.38,-364.99 569.59,-340.2 526,-331.04 504.85,-326.6 481.22,-321.73 462.03,-317.79"/>
+<polygon fill="#00ff00" stroke="#00ff00" points="462.65,-314.35 452.15,-315.77 461.25,-321.21 462.65,-314.35"/>
+</g>
+<!-- module~trainable_engine_m&#45;&gt;module~mini_batch_m -->
+<g id="program~~train_xor_gate~~UsesGraph_edge26" class="edge">
+<title>module~trainable_engine_m&#45;&gt;module~mini_batch_m</title>
+<path fill="none" stroke="#00ff00" stroke-dasharray="5,2" d="M736.25,-248.04C731.75,-245.57 727.55,-242.61 724,-239.04 690.39,-205.26 720.76,-172.65 688,-138.04 684.85,-134.71 681.2,-131.79 677.28,-129.23"/>
+<polygon fill="#00ff00" stroke="#00ff00" points="678.8,-126.06 668.37,-124.19 675.35,-132.16 678.8,-126.06"/>
+</g>
+<!-- module~trainable_engine_m&#45;&gt;module~inputs_m -->
+<g id="program~~train_xor_gate~~UsesGraph_edge27" class="edge">
+<title>module~trainable_engine_m&#45;&gt;module~inputs_m</title>
+<path fill="none" stroke="#00ff00" stroke-dasharray="5,2" d="M732.91,-247.98C649.58,-227.93 483.69,-189.92 424,-190.04"/>
+</g>
+<!-- module~trainable_engine_m&#45;&gt;module~expected_outputs_m -->
+<g id="program~~train_xor_gate~~UsesGraph_edge28" class="edge">
+<title>module~trainable_engine_m&#45;&gt;module~expected_outputs_m</title>
+<path fill="none" stroke="#00ff00" stroke-dasharray="5,2" d="M738.03,-247.97C732.99,-245.51 728.18,-242.56 724,-239.04 699.32,-218.28 713.98,-195.15 688,-176.04 620.54,-126.43 399.92,-120.02 320,-95.04 298.04,-88.18 274.17,-78.48 255.26,-70.24"/>
+<polygon fill="#00ff00" stroke="#00ff00" points="256.43,-66.93 245.86,-66.09 253.6,-73.33 256.43,-66.93"/>
+</g>
+<!-- module~trainable_engine_m&#45;&gt;module~kind_parameters_m -->
+<g id="program~~train_xor_gate~~UsesGraph_edge29" class="edge">
+<title>module~trainable_engine_m&#45;&gt;module~kind_parameters_m</title>
+<path fill="none" stroke="#00ff00" stroke-dasharray="5,2" d="M781.38,-272.07C778.63,-311.55 763.99,-437.65 688,-491.04 602.83,-550.88 311.69,-559.31 220,-510.04"/>
+</g>
+<!-- module~trainable_engine_m&#45;&gt;module~differentiable_activation_strategy_m -->
+<g id="program~~train_xor_gate~~UsesGraph_edge25" class="edge">
+<title>module~trainable_engine_m&#45;&gt;module~differentiable_activation_strategy_m</title>
+<path fill="none" stroke="#00ff00" stroke-dasharray="5,2" d="M624,-352.04C596.29,-360.46 565.4,-363.39 536.35,-363.52"/>
+<polygon fill="#00ff00" stroke="#00ff00" points="536.18,-360.02 526.16,-363.45 536.14,-367.02 536.18,-360.02"/>
+</g>
+<!-- module~trainable_engine_m&#45;&gt;module~inference_strategy_m -->
+<g id="program~~train_xor_gate~~UsesGraph_edge23" class="edge">
+<title>module~trainable_engine_m&#45;&gt;module~inference_strategy_m</title>
+<path fill="none" stroke="#00ff00" stroke-dasharray="5,2" d="M624,-352.04C564.95,-369.98 498.93,-398.03 459.46,-415.71"/>
+<polygon fill="#00ff00" stroke="#00ff00" points="457.69,-412.66 450.01,-419.96 460.57,-419.04 457.69,-412.66"/>
+</g>
+<!-- module~inference_engine_m_ -->
+<g id="program~~train_xor_gate~~UsesGraph_node17" class="node">
+<title>module~inference_engine_m_</title>
+<g id="a_program~~train_xor_gate~~UsesGraph_node17"><a xlink:href=".././module/inference_engine_m_.html" xlink:title="inference_engine_m_">
+<polygon fill="#337ab7" stroke="#337ab7" points="688,-313.04 562,-313.04 562,-289.04 688,-289.04 688,-313.04"/>
+<text text-anchor="middle" x="625" y="-298.64" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">inference_engine_m_</text>
+</a>
+</g>
+</g>
+<!-- module~trainable_engine_m&#45;&gt;module~inference_engine_m_ -->
+<g id="program~~train_xor_gate~~UsesGraph_edge24" class="edge">
+<title>module~trainable_engine_m&#45;&gt;module~inference_engine_m_</title>
+<path fill="none" stroke="#00ff00" stroke-dasharray="5,2" d="M736.04,-272.12C718.98,-276.6 699.44,-281.74 681.61,-286.43"/>
+<polygon fill="#00ff00" stroke="#00ff00" points="680.68,-283.05 671.9,-288.98 682.46,-289.82 680.68,-283.05"/>
+</g>
+<!-- module~mini_batch_m&#45;&gt;module~input_output_pair_m -->
+<g id="program~~train_xor_gate~~UsesGraph_edge31" class="edge">
+<title>module~mini_batch_m&#45;&gt;module~input_output_pair_m</title>
+<path fill="none" stroke="#007fff" stroke-dasharray="5,2" d="M581.09,-103.89C555.63,-99.05 522.74,-92.8 493.64,-87.27"/>
+<polygon fill="#007fff" stroke="#007fff" points="494,-83.78 483.52,-85.35 492.7,-90.66 494,-83.78"/>
+</g>
+<!-- module~mini_batch_m&#45;&gt;module~kind_parameters_m -->
+<g id="program~~train_xor_gate~~UsesGraph_edge30" class="edge">
+<title>module~mini_batch_m&#45;&gt;module~kind_parameters_m</title>
+<path fill="none" stroke="#007fff" stroke-dasharray="5,2" d="M581.2,-110.11C494.94,-108.06 296.31,-112.8 154,-189.04 118.4,-208.11 88.91,-245.88 72.94,-269.44"/>
+<polygon fill="#007fff" stroke="#007fff" points="69.88,-267.71 67.3,-277.99 75.73,-271.56 69.88,-267.71"/>
+</g>
+<!-- module~outputs_m&#45;&gt;module~kind_parameters_m -->
+<g id="program~~train_xor_gate~~UsesGraph_edge32" class="edge">
+<title>module~outputs_m&#45;&gt;module~kind_parameters_m</title>
+<path fill="none" stroke="#0000ff" stroke-dasharray="5,2" d="M184.76,-422.17C174.33,-418.15 163.15,-412.82 154,-406.04 118.2,-379.51 88.1,-336.31 72.18,-310.79"/>
+<polygon fill="#0000ff" stroke="#0000ff" points="75.17,-308.96 66.97,-302.25 69.19,-312.61 75.17,-308.96"/>
+</g>
+<!-- module~inputs_m&#45;&gt;module~kind_parameters_m -->
+<g id="program~~train_xor_gate~~UsesGraph_edge33" class="edge">
+<title>module~inputs_m&#45;&gt;module~kind_parameters_m</title>
+<path fill="none" stroke="#7f00ff" stroke-dasharray="5,2" d="M194,-222.19C167.05,-235.84 123.14,-258.07 92.98,-273.34"/>
+<polygon fill="#7f00ff" stroke="#7f00ff" points="91.05,-270.4 83.7,-278.04 94.21,-276.64 91.05,-270.4"/>
+</g>
+<!-- module~expected_outputs_m&#45;&gt;module~kind_parameters_m -->
+<g id="program~~train_xor_gate~~UsesGraph_edge34" class="edge">
+<title>module~expected_outputs_m&#45;&gt;module~kind_parameters_m</title>
+<path fill="none" stroke="#ff00ff" stroke-dasharray="5,2" d="M196.03,-66.08C182.59,-74.29 165.77,-86.16 154,-100.04 109.36,-152.66 79.69,-230.12 67,-267.81"/>
+<polygon fill="#ff00ff" stroke="#ff00ff" points="63.53,-267.15 63.74,-277.74 70.19,-269.33 63.53,-267.15"/>
+</g>
+<!-- module~differentiable_activation_strategy_m&#45;&gt;module~activation_strategy_m -->
+<g id="program~~train_xor_gate~~UsesGraph_edge35" class="edge">
+<title>module~differentiable_activation_strategy_m&#45;&gt;module~activation_strategy_m</title>
+<path fill="none" stroke="#ff0000" stroke-dasharray="5,2" d="M319.82,-352.04C311.19,-352.04 302.57,-352.04 294.22,-352.04"/>
+<polygon fill="#ff0000" stroke="#ff0000" points="294.18,-348.54 284.18,-352.04 294.18,-355.54 294.18,-348.54"/>
+</g>
+<!-- module~inference_strategy_m&#45;&gt;module~outputs_m -->
+<g id="program~~train_xor_gate~~UsesGraph_edge36" class="edge">
+<title>module~inference_strategy_m&#45;&gt;module~outputs_m</title>
+<path fill="none" stroke="#7fff00" stroke-dasharray="5,2" d="M359.47,-432.04C328.34,-432.04 291.47,-432.04 263.47,-432.04"/>
+<polygon fill="#7fff00" stroke="#7fff00" points="263.2,-428.54 253.2,-432.04 263.2,-435.54 263.2,-428.54"/>
+</g>
+<!-- module~inference_strategy_m&#45;&gt;module~kind_parameters_m -->
+<g id="program~~train_xor_gate~~UsesGraph_edge38" class="edge">
+<title>module~inference_strategy_m&#45;&gt;module~kind_parameters_m</title>
+<path fill="none" stroke="#7fff00" stroke-dasharray="5,2" d="M359.3,-421.98C291.78,-410.5 189.31,-390.98 154,-373.04 123.09,-357.34 94.26,-329.05 76.89,-309.92"/>
+<polygon fill="#7fff00" stroke="#7fff00" points="79.42,-307.5 70.17,-302.34 74.18,-312.14 79.42,-307.5"/>
+</g>
+<!-- module~inference_strategy_m&#45;&gt;module~activation_strategy_m -->
+<g id="program~~train_xor_gate~~UsesGraph_edge37" class="edge">
+<title>module~inference_strategy_m&#45;&gt;module~activation_strategy_m</title>
+<path fill="none" stroke="#7fff00" stroke-dasharray="5,2" d="M359.33,-420.39C345.98,-416.73 332.23,-412.03 320,-406.04 301.8,-397.13 301.56,-388.17 284,-378.04 277.72,-374.41 270.83,-371.05 263.97,-368.02"/>
+<polygon fill="#7fff00" stroke="#7fff00" points="265.28,-364.78 254.7,-364.12 262.56,-371.23 265.28,-364.78"/>
+</g>
+<!-- module~activation_strategy_m&#45;&gt;module~kind_parameters_m -->
+<g id="program~~train_xor_gate~~UsesGraph_edge39" class="edge">
+<title>module~activation_strategy_m&#45;&gt;module~kind_parameters_m</title>
+<path fill="none" stroke="#00ffff" stroke-dasharray="5,2" d="M179.21,-339.96C170.84,-337.18 162.09,-334.12 154,-331.04 134.35,-323.55 112.82,-314.24 95.33,-306.39"/>
+<polygon fill="#00ffff" stroke="#00ffff" points="96.62,-303.13 86.06,-302.2 93.73,-309.51 96.62,-303.13"/>
+</g>
+<!-- module~inference_engine_m_&#45;&gt;string_m -->
+<g id="program~~train_xor_gate~~UsesGraph_edge41" class="edge">
+<title>module~inference_engine_m_&#45;&gt;string_m</title>
+<path fill="none" stroke="#7f00ff" stroke-dasharray="5,2" d="M561.82,-303.84C529.28,-305.3 490.48,-307.05 462.35,-308.31"/>
+<polygon fill="#7f00ff" stroke="#7f00ff" points="461.96,-304.83 452.13,-308.77 462.27,-311.82 461.96,-304.83"/>
+</g>
+<!-- module~inference_engine_m_&#45;&gt;file_m -->
+<g id="program~~train_xor_gate~~UsesGraph_edge45" class="edge">
+<title>module~inference_engine_m_&#45;&gt;file_m</title>
+<path fill="none" stroke="#7f00ff" stroke-dasharray="5,2" d="M600.73,-288.9C581.18,-279.06 552.3,-265.34 526,-256.04 504.58,-248.46 479.91,-242.11 460.19,-237.59"/>
+<polygon fill="#7f00ff" stroke="#7f00ff" points="460.9,-234.16 450.38,-235.39 459.37,-240.99 460.9,-234.16"/>
+</g>
+<!-- module~inference_engine_m_&#45;&gt;module~outputs_m -->
+<g id="program~~train_xor_gate~~UsesGraph_edge46" class="edge">
+<title>module~inference_engine_m_&#45;&gt;module~outputs_m</title>
+<path fill="none" stroke="#7f00ff" stroke-dasharray="5,2" d="M422,-270.04C375.91,-271.51 356,-260.22 320,-289.04 288.29,-314.42 307.45,-339.88 284,-373.04 273.12,-388.43 257.66,-402.82 244.66,-413.54"/>
+<polygon fill="#7f00ff" stroke="#7f00ff" points="242.17,-411.05 236.54,-420.03 246.54,-416.52 242.17,-411.05"/>
+</g>
+<!-- module~inference_engine_m_&#45;&gt;module~inputs_m -->
+<g id="program~~train_xor_gate~~UsesGraph_edge47" class="edge">
+<title>module~inference_engine_m_&#45;&gt;module~inputs_m</title>
+<path fill="none" stroke="#7f00ff" stroke-dasharray="5,2" d="M578.23,-289C537.88,-279.58 477.38,-268.33 424,-270.04"/>
+<path fill="none" stroke="#7f00ff" stroke-dasharray="5,2" d="M422,-270.04C359.98,-272.02 291.46,-245.04 252.29,-226.6"/>
+<polygon fill="#7f00ff" stroke="#7f00ff" points="253.51,-223.3 242.98,-222.12 250.47,-229.61 253.51,-223.3"/>
+</g>
+<!-- module~inference_engine_m_&#45;&gt;module~kind_parameters_m -->
+<g id="program~~train_xor_gate~~UsesGraph_edge48" class="edge">
+<title>module~inference_engine_m_&#45;&gt;module~kind_parameters_m</title>
+<path fill="none" stroke="#7f00ff" stroke-dasharray="5,2" d="M422,-270.04C319.76,-273.31 201.45,-280.49 128.67,-285.29"/>
+<polygon fill="#7f00ff" stroke="#7f00ff" points="128.02,-281.83 118.27,-285.99 128.48,-288.81 128.02,-281.83"/>
+</g>
+<!-- module~inference_engine_m_&#45;&gt;module~differentiable_activation_strategy_m -->
+<g id="program~~train_xor_gate~~UsesGraph_edge44" class="edge">
+<title>module~inference_engine_m_&#45;&gt;module~differentiable_activation_strategy_m</title>
+<path fill="none" stroke="#7f00ff" stroke-dasharray="5,2" d="M587.47,-313.12C569.13,-318.95 546.52,-325.8 526,-331.04 516.61,-333.44 506.67,-335.76 496.84,-337.92"/>
+<polygon fill="#7f00ff" stroke="#7f00ff" points="496.1,-334.5 487.06,-340.02 497.57,-341.34 496.1,-334.5"/>
+</g>
+<!-- module~inference_engine_m_&#45;&gt;module~inference_strategy_m -->
+<g id="program~~train_xor_gate~~UsesGraph_edge42" class="edge">
+<title>module~inference_engine_m_&#45;&gt;module~inference_strategy_m</title>
+<path fill="none" stroke="#7f00ff" stroke-dasharray="5,2" d="M600.79,-313.19C588.78,-319.89 574.13,-328.73 562,-338.04 544.3,-351.63 543.79,-359.57 526,-373.04 504.5,-389.31 478.1,-404.47 457.54,-415.35"/>
+<polygon fill="#7f00ff" stroke="#7f00ff" points="455.8,-412.31 448.55,-420.03 459.03,-418.52 455.8,-412.31"/>
+</g>
+<!-- module~inference_engine_m_&#45;&gt;module~activation_strategy_m -->
+<g id="program~~train_xor_gate~~UsesGraph_edge40" class="edge">
+<title>module~inference_engine_m_&#45;&gt;module~activation_strategy_m</title>
+<path fill="none" stroke="#7f00ff" stroke-dasharray="5,2" d="M422,-270.04C375.91,-271.51 359.95,-266 320,-289.04 298.7,-301.32 304.43,-317.37 284,-331.04 281.46,-332.74 278.77,-334.31 275.98,-335.77"/>
+<polygon fill="#7f00ff" stroke="#7f00ff" points="274.45,-332.62 266.85,-340.01 277.4,-338.97 274.45,-332.62"/>
+</g>
+<!-- module~network_increment_m -->
+<g id="program~~train_xor_gate~~UsesGraph_node18" class="node">
+<title>module~network_increment_m</title>
+<g id="a_program~~train_xor_gate~~UsesGraph_node18"><a xlink:href=".././module/network_increment_m.html" xlink:title="network_increment_m">
+<polygon fill="#337ab7" stroke="#337ab7" points="284,-322.04 154,-322.04 154,-298.04 284,-298.04 284,-322.04"/>
+<text text-anchor="middle" x="219" y="-307.64" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">network_increment_m</text>
+</a>
+</g>
+</g>
+<!-- module~inference_engine_m_&#45;&gt;module~network_increment_m -->
+<g id="program~~train_xor_gate~~UsesGraph_edge43" class="edge">
+<title>module~inference_engine_m_&#45;&gt;module~network_increment_m</title>
+<path fill="none" stroke="#7f00ff" stroke-dasharray="5,2" d="M422,-270.04C369.62,-271.71 311,-284.58 270.46,-295.28"/>
+<polygon fill="#7f00ff" stroke="#7f00ff" points="269.3,-291.97 260.56,-297.95 271.12,-298.73 269.3,-291.97"/>
+</g>
+<!-- module~network_increment_m&#45;&gt;module~kind_parameters_m -->
+<g id="program~~train_xor_gate~~UsesGraph_edge49" class="edge">
+<title>module~network_increment_m&#45;&gt;module~kind_parameters_m</title>
+<path fill="none" stroke="#ff0000" stroke-dasharray="5,2" d="M153.74,-301.91C145.35,-300.84 136.74,-299.75 128.3,-298.69"/>
+<polygon fill="#ff0000" stroke="#ff0000" points="128.46,-295.18 118.1,-297.4 127.59,-302.12 128.46,-295.18"/>
+</g>
+</g>
+</svg>
+</div><script>var panprogramtrain_xor_gateUsesGraph = svgPanZoom('#programtrain_xor_gateUsesGraph', {zoomEnabled: true,controlIconsEnabled: true, fit: true, center: true,}); </script><div><a type="button" class="graph-help" data-toggle="modal" href="#graph-help-text">Help</a></div><div class="modal fade" id="graph-help-text" tabindex="-1" role="dialog"><div class="modal-dialog modal-lg" role="document"><div class="modal-content"><div class="modal-header"><button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button><h4 class="modal-title" id="-graph-help-label">Graph Key</h4></div><div class="modal-body">
+    <p>Nodes of different colours represent the following: </p>
+    <?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN"
+ "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
+<!-- Generated by graphviz version 2.43.0 (0)
+ -->
+<!-- Title: Graph Key Pages: 1 -->
+<svg width="518pt" height="32pt"
+ viewBox="0.00 0.00 517.50 32.00" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+<g id="graph0" class="graph" transform="scale(1 1) rotate(0) translate(4 28)">
+<title>Graph Key</title>
+<polygon fill="white" stroke="transparent" points="-4,4 -4,-28 513.5,-28 513.5,4 -4,4"/>
+<!-- Module -->
+<g id="node1" class="node">
+<title>Module</title>
+<polygon fill="#337ab7" stroke="#337ab7" points="54,-24 0,-24 0,0 54,0 54,-24"/>
+<text text-anchor="middle" x="27" y="-9.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">Module</text>
+</g>
+<!-- Submodule -->
+<g id="node2" class="node">
+<title>Submodule</title>
+<polygon fill="#5bc0de" stroke="#5bc0de" points="145.5,-24 72.5,-24 72.5,0 145.5,0 145.5,-24"/>
+<text text-anchor="middle" x="109" y="-9.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">Submodule</text>
+</g>
+<!-- Subroutine -->
+<g id="node3" class="node">
+<title>Subroutine</title>
+<polygon fill="#d9534f" stroke="#d9534f" points="234,-24 164,-24 164,0 234,0 234,-24"/>
+<text text-anchor="middle" x="199" y="-9.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">Subroutine</text>
+</g>
+<!-- Function -->
+<g id="node4" class="node">
+<title>Function</title>
+<polygon fill="#d94e8f" stroke="#d94e8f" points="310,-24 252,-24 252,0 310,0 310,-24"/>
+<text text-anchor="middle" x="281" y="-9.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">Function</text>
+</g>
+<!-- Program -->
+<g id="node5" class="node">
+<title>Program</title>
+<polygon fill="#f0ad4e" stroke="#f0ad4e" points="386,-24 328,-24 328,0 386,0 386,-24"/>
+<text text-anchor="middle" x="357" y="-9.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">Program</text>
+</g>
+<!-- This Page&#39;s Entity -->
+<g id="node6" class="node">
+<title>This Page&#39;s Entity</title>
+<polygon fill="none" stroke="black" points="509.5,-24 404.5,-24 404.5,0 509.5,0 509.5,-24"/>
+<text text-anchor="middle" x="457" y="-9.6" font-family="Helvetica,sans-Serif" font-size="10.50">This Page&#39;s Entity</text>
+</g>
+</g>
+</svg>
+
+    
+    <p>Solid arrows point from a submodule to the (sub)module which it is
+    descended from. Dashed arrows point from a module or program unit to 
+    modules which it uses. Where possible, edges connecting nodes are given different colours to make them easier to distinguish in large graphs.
+    </p>
+    </div></div></div></div>
+      </li>
+      </ul>
+    </div>
+
+    <p>Define inference tests and procedures required for reporting results</p>
+    <br>
+    <div class="panel panel-default">
+      <div class="panel-heading">
+  <h3 class="panel-title">Calls</h3>
+      </div>
+      <div class="panel-body">
+  <div class="depgraph"><?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN"
+ "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
+<!-- Generated by graphviz version 2.43.0 (0)
+ -->
+<!-- Title: program~~train_xor_gate~~CallsGraph Pages: 1 -->
+<svg id="programtrain_xor_gateCallsGraph" width="392pt" height="94pt"
+ viewBox="0.00 0.00 392.00 94.00" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+<g id="program~~train_xor_gate~~CallsGraph" class="graph" transform="scale(1 1) rotate(0) translate(4 90)">
+<title>program~~train_xor_gate~~CallsGraph</title>
+<polygon fill="white" stroke="transparent" points="-4,4 -4,-90 388,-90 388,4 -4,4"/>
+<!-- program~train_xor_gate -->
+<g id="program~~train_xor_gate~~CallsGraph_node1" class="node">
+<title>program~train_xor_gate</title>
+<polygon fill="none" stroke="black" points="89,-66 0,-66 0,-42 89,-42 89,-66"/>
+<text text-anchor="middle" x="44.5" y="-51.6" font-family="Helvetica,sans-Serif" font-size="10.50">train_xor_gate</text>
+</g>
+<!-- string_t -->
+<g id="program~~train_xor_gate~~CallsGraph_node2" class="node">
+<title>string_t</title>
+<polygon fill="#777777" stroke="#777777" points="384,-86 330,-86 330,-62 384,-62 384,-86"/>
+<text text-anchor="middle" x="357" y="-71.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">string_t</text>
+</g>
+<!-- program~train_xor_gate&#45;&gt;string_t -->
+<g id="program~~train_xor_gate~~CallsGraph_edge1" class="edge">
+<title>program~train_xor_gate&#45;&gt;string_t</title>
+<path fill="none" stroke="#ff0000" d="M83.11,-66.07C96.22,-69.7 111.13,-73.2 125,-75 193.44,-83.89 274.26,-80.37 319.88,-77.12"/>
+<polygon fill="#ff0000" stroke="#ff0000" points="320.17,-80.6 329.88,-76.37 319.64,-73.62 320.17,-80.6"/>
+</g>
+<!-- proc~wide_single_layer_perceptron -->
+<g id="program~~train_xor_gate~~CallsGraph_node3" class="node">
+<title>proc~wide_single_layer_perceptron</title>
+<g id="a_program~~train_xor_gate~~CallsGraph_node3"><a xlink:href=".././proc/wide_single_layer_perceptron.html" xlink:title="wide_single_layer_perceptron">
+<polygon fill="#d94e8f" stroke="#d94e8f" points="294,-66 125,-66 125,-42 294,-42 294,-66"/>
+<text text-anchor="middle" x="209.5" y="-51.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">wide_single_layer_perceptron</text>
+</a>
+</g>
+</g>
+<!-- program~train_xor_gate&#45;&gt;proc~wide_single_layer_perceptron -->
+<g id="program~~train_xor_gate~~CallsGraph_edge2" class="edge">
+<title>program~train_xor_gate&#45;&gt;proc~wide_single_layer_perceptron</title>
+<path fill="none" stroke="#ff0000" d="M89.18,-54C97.2,-54 105.84,-54 114.68,-54"/>
+<polygon fill="#ff0000" stroke="#ff0000" points="114.73,-57.5 124.73,-54 114.73,-50.5 114.73,-57.5"/>
+</g>
+<!-- proc~output -->
+<g id="program~~train_xor_gate~~CallsGraph_node4" class="node">
+<title>proc~output</title>
+<g id="a_program~~train_xor_gate~~CallsGraph_node4"><a xlink:href=".././proc/output.html" xlink:title="output">
+<polygon fill="#d9534f" stroke="#d9534f" points="236.5,-24 182.5,-24 182.5,0 236.5,0 236.5,-24"/>
+<text text-anchor="middle" x="209.5" y="-9.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">output</text>
+</a>
+</g>
+</g>
+<!-- program~train_xor_gate&#45;&gt;proc~output -->
+<g id="program~~train_xor_gate~~CallsGraph_edge3" class="edge">
+<title>program~train_xor_gate&#45;&gt;proc~output</title>
+<path fill="none" stroke="#ff0000" d="M89.21,-42.35C100.84,-39.28 113.39,-35.99 125,-33 140.52,-29 157.7,-24.66 172.41,-20.98"/>
+<polygon fill="#ff0000" stroke="#ff0000" points="173.3,-24.36 182.15,-18.54 171.6,-17.57 173.3,-24.36"/>
+</g>
+<!-- proc~wide_single_layer_perceptron&#45;&gt;string_t -->
+<g id="program~~train_xor_gate~~CallsGraph_edge4" class="edge">
+<title>proc~wide_single_layer_perceptron&#45;&gt;string_t</title>
+<path fill="none" stroke="#00ff00" d="M294.29,-65.52C303.26,-66.75 311.99,-67.95 319.93,-69.04"/>
+<polygon fill="#00ff00" stroke="#00ff00" points="319.48,-72.51 329.87,-70.41 320.44,-65.58 319.48,-72.51"/>
+</g>
+</g>
+</svg>
+</div><div><a type="button" class="graph-help" data-toggle="modal" href="#graph-help-text">Help</a></div><div class="modal fade" id="graph-help-text" tabindex="-1" role="dialog"><div class="modal-dialog modal-lg" role="document"><div class="modal-content"><div class="modal-header"><button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button><h4 class="modal-title" id="-graph-help-label">Graph Key</h4></div><div class="modal-body">
+    <p>Nodes of different colours represent the following: </p>
+    <?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN"
+ "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
+<!-- Generated by graphviz version 2.43.0 (0)
+ -->
+<!-- Title: Graph Key Pages: 1 -->
+<svg width="597pt" height="32pt"
+ viewBox="0.00 0.00 596.50 32.00" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+<g id="graph0" class="graph" transform="scale(1 1) rotate(0) translate(4 28)">
+<title>Graph Key</title>
+<polygon fill="white" stroke="transparent" points="-4,4 -4,-28 592.5,-28 592.5,4 -4,4"/>
+<!-- Subroutine -->
+<g id="node1" class="node">
+<title>Subroutine</title>
+<polygon fill="#d9534f" stroke="#d9534f" points="70,-24 0,-24 0,0 70,0 70,-24"/>
+<text text-anchor="middle" x="35" y="-9.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">Subroutine</text>
+</g>
+<!-- Function -->
+<g id="node2" class="node">
+<title>Function</title>
+<polygon fill="#d94e8f" stroke="#d94e8f" points="146,-24 88,-24 88,0 146,0 146,-24"/>
+<text text-anchor="middle" x="117" y="-9.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">Function</text>
+</g>
+<!-- Interface -->
+<g id="node3" class="node">
+<title>Interface</title>
+<polygon fill="#a7506f" stroke="#a7506f" points="225.5,-24 164.5,-24 164.5,0 225.5,0 225.5,-24"/>
+<text text-anchor="middle" x="195" y="-9.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">Interface</text>
+</g>
+<!-- Unknown Procedure Type -->
+<g id="node4" class="node">
+<title>Unknown Procedure Type</title>
+<polygon fill="#777777" stroke="#777777" points="388.5,-24 243.5,-24 243.5,0 388.5,0 388.5,-24"/>
+<text text-anchor="middle" x="316" y="-9.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">Unknown Procedure Type</text>
+</g>
+<!-- Program -->
+<g id="node5" class="node">
+<title>Program</title>
+<polygon fill="#f0ad4e" stroke="#f0ad4e" points="465,-24 407,-24 407,0 465,0 465,-24"/>
+<text text-anchor="middle" x="436" y="-9.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">Program</text>
+</g>
+<!-- This Page&#39;s Entity -->
+<g id="node6" class="node">
+<title>This Page&#39;s Entity</title>
+<polygon fill="none" stroke="black" points="588.5,-24 483.5,-24 483.5,0 588.5,0 588.5,-24"/>
+<text text-anchor="middle" x="536" y="-9.6" font-family="Helvetica,sans-Serif" font-size="10.50">This Page&#39;s Entity</text>
+</g>
+</g>
+</svg>
+
+    
+    <p>Solid arrows point from a procedure to one which it calls. Dashed 
+    arrows point from an interface to procedures which implement that interface.
+    This could include the module procedures in a generic interface or the
+    implementation in a submodule of an interface in a parent module. Where possible, edges connecting nodes are given different colours to make them easier to distinguish in large graphs.
+    </p>
+    </div></div></div></div>
+      </div>
+    </div>
+<br>
+     <section class="visible-xs visible-sm hidden-md">
+       <h3>Contents</h3>
+ 
+<div class="panel panel-primary">
+  <div class="panel-heading text-left"><h3 class="panel-title"><a data-toggle="collapse" href="#vars-1">Variables</a></h3></div>
+  <div id="vars-1" class="panel-collapse collapse">
+    <div class="list-group">
+      <a class="list-group-item" href="../program/train_xor_gate.html#variable-actual_output">actual_output</a>
+      <a class="list-group-item" href="../program/train_xor_gate.html#variable-base_name">base_name</a>
+      <a class="list-group-item" href="../program/train_xor_gate.html#variable-command_line">command_line</a>
+      <a class="list-group-item" href="../program/train_xor_gate.html#variable-expected_outputs~2">expected_outputs</a>
+      <a class="list-group-item" href="../program/train_xor_gate.html#variable-false">false</a>
+      <a class="list-group-item" href="../program/train_xor_gate.html#variable-i">i</a>
+      <a class="list-group-item" href="../program/train_xor_gate.html#variable-inputs~4">inputs</a>
+      <a class="list-group-item" href="../program/train_xor_gate.html#variable-m">m</a>
+      <a class="list-group-item" href="../program/train_xor_gate.html#variable-mini_batches">mini_batches</a>
+      <a class="list-group-item" href="../program/train_xor_gate.html#variable-table_entry">table_entry</a>
+      <a class="list-group-item" href="../program/train_xor_gate.html#variable-tolerance">tolerance</a>
+      <a class="list-group-item" href="../program/train_xor_gate.html#variable-trainable_engine~3">trainable_engine</a>
+      <a class="list-group-item" href="../program/train_xor_gate.html#variable-true">true</a>
+    </div>
+  </div>
+</div>
+<div class="panel panel-primary">
+  <div class="panel-heading text-left"><h3 class="panel-title"><a data-toggle="collapse" href="#funcs-1">Functions</a></h3></div>
+  <div id="funcs-1" class="panel-collapse collapse">
+    <div class="list-group">
+      <a class="list-group-item" href="../program/train_xor_gate.html#proc-wide_perceptron">wide_perceptron</a>
+      <a class="list-group-item" href="../program/train_xor_gate.html#proc-wide_single_layer_perceptron">wide_single_layer_perceptron</a>
+    </div>
+  </div>
+</div>
+<div class="panel panel-primary">
+  <div class="panel-heading text-left"><h3 class="panel-title"><a data-toggle="collapse" href="#subs-1">Subroutines</a></h3></div>
+  <div class="list-group">
+    <div id="subs-1" class="panel-collapse collapse">
+      <a class="list-group-item" href="../program/train_xor_gate.html#proc-output">output</a>
+    </div>
+  </div>
+</div>
+<div class="panel panel-primary">
+  <div class="panel-heading text-left"><h3 class="panel-title">Source Code</h3></div>
+  <div class="list-group">
+    <a class="list-group-item" href="../program/train_xor_gate.html#src">train_xor_gate</a>
+  </div>
+</div>
+
+     </section>
+     <br class="visible-xs visible-sm hidden-md">
+
+
+    <section>
+    <h2>Variables</h2>
+    <table class="table table-striped varlist">
+<thead><tr><th>Type</th><th>Attributes</th><th></th><th>Name</th><th></th><th>Initial</th><th></th></thead>
+<tbody>
+<tr>
+  <td><span class="anchor" id="variable-actual_output"></span>type(<a href='../type/outputs_t.html'>outputs_t</a>),</td>
+  <td>dimension(4)</td><td>::</td>
+  <td><strong>actual_output</strong></td><td></td><td></td><td></td>
+</tr>
+<tr>
+  <td><span class="anchor" id="variable-base_name"></span>type(string_t)</td>
+  <td></td><td>::</td>
+  <td><strong>base_name</strong></td><td></td><td></td><td></td>
+</tr>
+<tr>
+  <td><span class="anchor" id="variable-command_line"></span>type(command_line_t)</td>
+  <td></td><td>::</td>
+  <td><strong>command_line</strong></td><td></td><td></td><td></td>
+</tr>
+<tr>
+  <td><span class="anchor" id="variable-expected_outputs~2"></span>type(<a href='../type/expected_outputs_t.html'>expected_outputs_t</a>),</td>
+  <td>dimension(4)</td><td>::</td>
+  <td><strong>expected_outputs</strong></td><td></td><td></td><td></td>
+</tr>
+<tr>
+  <td><span class="anchor" id="variable-false"></span>real(kind=rkind),</td>
+  <td>parameter</td><td>::</td>
+  <td><strong>false</strong></td><td> =</td><td>0._rkind</td><td></td>
+</tr>
+<tr>
+  <td><span class="anchor" id="variable-i"></span>integer</td>
+  <td></td><td>::</td>
+  <td><strong>i</strong></td><td></td><td></td><td></td>
+</tr>
+<tr>
+  <td><span class="anchor" id="variable-inputs~4"></span>type(<a href='../type/inputs_t.html'>inputs_t</a>),</td>
+  <td>allocatable</td><td>::</td>
+  <td><strong>inputs</strong>(:)</td><td></td><td></td><td></td>
+</tr>
+<tr>
+  <td><span class="anchor" id="variable-m"></span>integer</td>
+  <td></td><td>::</td>
+  <td><strong>m</strong></td><td></td><td></td><td></td>
+</tr>
+<tr>
+  <td><span class="anchor" id="variable-mini_batches"></span>type(<a href='../type/mini_batch_t.html'>mini_batch_t</a>),</td>
+  <td>allocatable</td><td>::</td>
+  <td><strong>mini_batches</strong>(:)</td><td></td><td></td><td></td>
+</tr>
+<tr>
+  <td><span class="anchor" id="variable-table_entry"></span>character(len=5),</td>
+  <td>parameter</td><td>::</td>
+  <td><strong>table_entry</strong>(*)</td><td> =</td><td>["TT->F", "FT->T", "TF->T", "FF->F", "xor&nbsp;&nbsp;"]</td><td></td>
+</tr>
+<tr>
+  <td><span class="anchor" id="variable-tolerance"></span>real(kind=rkind),</td>
+  <td>parameter</td><td>::</td>
+  <td><strong>tolerance</strong></td><td> =</td><td>1.E-02_rkind</td><td></td>
+</tr>
+<tr>
+  <td><span class="anchor" id="variable-trainable_engine~3"></span>type(<a href='../type/trainable_engine_t.html'>trainable_engine_t</a>)</td>
+  <td></td><td>::</td>
+  <td><strong>trainable_engine</strong></td><td></td><td></td><td></td>
+</tr>
+<tr>
+  <td><span class="anchor" id="variable-true"></span>real(kind=rkind),</td>
+  <td>parameter</td><td>::</td>
+  <td><strong>true</strong></td><td> =</td><td>1._rkind</td><td></td>
+</tr>
+</tbody>
+</table>
+
+    </section>
+    <br>
+    
+    
+    
+
+    
+ 
+    <section>
+    <h2>Functions</h2>
+      <div class="panel panel-default">
+  <div class="panel-heading codesum"><span class="anchor" id="proc-wide_perceptron"></span><h3>function <a href='../proc/wide_perceptron.html'>wide_perceptron</a>() result(trainable_engine)</h3></div>
+  <div class="panel-body">
+           
+<h4>Arguments</h4>      <em>None</em>
+<h4>Return Value <small>type(<a href='../type/trainable_engine_t.html'>trainable_engine_t</a>)</small></h4>  
+
+  </div>
+  </div>
+
+      <div class="panel panel-default">
+  <div class="panel-heading codesum"><span class="anchor" id="proc-wide_single_layer_perceptron"></span><h3>function <a href='../proc/wide_single_layer_perceptron.html'>wide_single_layer_perceptron</a>() result(trainable_engine)</h3></div>
+  <div class="panel-body">
+           
+<h4>Arguments</h4>      <em>None</em>
+<h4>Return Value <small>type(<a href='../type/trainable_engine_t.html'>trainable_engine_t</a>)</small></h4>  
+
+  </div>
+  </div>
+
+    </section>
+    <br>
+
+
+    <section>
+    <h2>Subroutines</h2>
+      <div class="panel panel-default">
+  <div class="panel-heading codesum"><span class="anchor" id="proc-output"></span><h3>subroutine <a href='../proc/output.html'>output</a>(engine, file_name)</h3></div>
+  <div class="panel-body">
+           
+<h4>Arguments</h4>      <table class="table table-striped varlist">
+<thead><tr><th>Type</th><th>Intent</th><th>Optional</th><th>Attributes</th><th></th><th>Name</th><th></th></thead>
+<tbody>
+<tr>
+  <td><span class="anchor" ></span>type(<a href='../type/trainable_engine_t.html'>trainable_engine_t</a>),</td>
+<td>intent(in)</td>
+  <td></td>  <td></td><td>::</td>
+  <td><strong>engine</strong></td><td></td>
+</tr>
+<tr>
+  <td><span class="anchor" ></span>type(string_t),</td>
+<td>intent(in)</td>
+  <td></td>  <td></td><td>::</td>
+  <td><strong>file_name</strong></td><td></td>
+</tr>
+</tbody>
+</table>
+
+
+  </div>
+  </div>
+
+    </section>    
+    
+    <section>
+    <h2 id="src">Source Code</h2>
+    <div class="highlight"><pre><span></span><span class="k">program </span><span class="n">train_xor_gate</span><span class="w"></span>
+<span class="w">  </span><span class="c">!! Define inference tests and procedures required for reporting results</span>
+<span class="w">  </span><span class="k">use </span><span class="n">string_m</span><span class="p">,</span><span class="w"> </span><span class="k">only</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="n">string_t</span><span class="w"></span>
+<span class="w">  </span><span class="k">use </span><span class="n">trainable_engine_m</span><span class="p">,</span><span class="w"> </span><span class="k">only</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="n">trainable_engine_t</span><span class="w"></span>
+<span class="w">  </span><span class="k">use </span><span class="n">inputs_m</span><span class="p">,</span><span class="w"> </span><span class="k">only</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="n">inputs_t</span><span class="w"></span>
+<span class="w">  </span><span class="k">use </span><span class="n">outputs_m</span><span class="p">,</span><span class="w"> </span><span class="k">only</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="n">outputs_t</span><span class="w"></span>
+<span class="w">  </span><span class="k">use </span><span class="n">expected_outputs_m</span><span class="p">,</span><span class="w"> </span><span class="k">only</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="n">expected_outputs_t</span><span class="w"></span>
+<span class="w">  </span><span class="k">use </span><span class="n">matmul_m</span><span class="p">,</span><span class="w"> </span><span class="k">only</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="n">matmul_t</span><span class="w"></span>
+<span class="w">  </span><span class="k">use </span><span class="n">kind_parameters_m</span><span class="p">,</span><span class="w"> </span><span class="k">only</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="n">rkind</span><span class="w"></span>
+<span class="w">  </span><span class="k">use </span><span class="n">sigmoid_m</span><span class="p">,</span><span class="w"> </span><span class="k">only</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="n">sigmoid_t</span><span class="w"></span>
+<span class="w">  </span><span class="k">use </span><span class="n">input_output_pair_m</span><span class="p">,</span><span class="w"> </span><span class="k">only</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="n">input_output_pair_t</span><span class="w"> </span>
+<span class="w">  </span><span class="k">use </span><span class="n">mini_batch_m</span><span class="p">,</span><span class="w"> </span><span class="k">only</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="n">mini_batch_t</span><span class="w"></span>
+<span class="w">  </span><span class="k">use </span><span class="n">file_m</span><span class="p">,</span><span class="w"> </span><span class="k">only</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="n">file_t</span><span class="w"></span>
+<span class="w">  </span><span class="k">use </span><span class="n">command_line_m</span><span class="p">,</span><span class="w"> </span><span class="k">only</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="n">command_line_t</span><span class="w"></span>
+<span class="w">  </span><span class="k">implicit none</span>
+
+<span class="k">  </span><span class="kt">real</span><span class="p">(</span><span class="n">rkind</span><span class="p">),</span><span class="w"> </span><span class="k">parameter</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">tolerance</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mf">1.E-02_rkind</span><span class="p">,</span><span class="w"> </span><span class="n">false</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mf">0._rkind</span><span class="p">,</span><span class="w"> </span><span class="n">true</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mf">1._rkind</span><span class="w"></span>
+<span class="w">  </span><span class="k">type</span><span class="p">(</span><span class="n">outputs_t</span><span class="p">),</span><span class="w"> </span><span class="k">dimension</span><span class="p">(</span><span class="mi">4</span><span class="p">)</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">actual_output</span><span class="w"></span>
+<span class="w">  </span><span class="k">type</span><span class="p">(</span><span class="n">expected_outputs_t</span><span class="p">),</span><span class="w"> </span><span class="k">dimension</span><span class="p">(</span><span class="mi">4</span><span class="p">)</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">expected_outputs</span><span class="w"> </span>
+<span class="w">  </span><span class="k">type</span><span class="p">(</span><span class="n">trainable_engine_t</span><span class="p">)</span><span class="w"> </span><span class="n">trainable_engine</span><span class="w"></span>
+<span class="w">  </span><span class="k">type</span><span class="p">(</span><span class="n">command_line_t</span><span class="p">)</span><span class="w"> </span><span class="n">command_line</span><span class="w"></span>
+<span class="w">  </span><span class="k">type</span><span class="p">(</span><span class="n">string_t</span><span class="p">)</span><span class="w"> </span><span class="n">base_name</span><span class="w"></span>
+<span class="w">  </span><span class="k">type</span><span class="p">(</span><span class="n">mini_batch_t</span><span class="p">),</span><span class="w"> </span><span class="k">allocatable</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">mini_batches</span><span class="p">(:)</span><span class="w"></span>
+<span class="w">    </span><span class="k">type</span><span class="p">(</span><span class="n">inputs_t</span><span class="p">),</span><span class="w"> </span><span class="k">allocatable</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">inputs</span><span class="p">(:)</span><span class="w"></span>
+<span class="w">  </span><span class="kt">character</span><span class="p">(</span><span class="nb">len</span><span class="o">=</span><span class="mi">5</span><span class="p">),</span><span class="w"> </span><span class="k">parameter</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">table_entry</span><span class="p">(</span><span class="o">*</span><span class="p">)</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">[</span><span class="s2">&quot;TT-&gt;F&quot;</span><span class="p">,</span><span class="w"> </span><span class="s2">&quot;FT-&gt;T&quot;</span><span class="p">,</span><span class="w"> </span><span class="s2">&quot;TF-&gt;T&quot;</span><span class="p">,</span><span class="w"> </span><span class="s2">&quot;FF-&gt;F&quot;</span><span class="p">,</span><span class="w"> </span><span class="s2">&quot;xor  &quot;</span><span class="p">]</span><span class="w"></span>
+<span class="w">  </span><span class="kt">integer </span><span class="n">i</span><span class="p">,</span><span class="w"> </span><span class="n">m</span><span class="w"></span>
+
+<span class="w">  </span><span class="n">base_name</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">string_t</span><span class="p">(</span><span class="n">command_line</span><span class="p">%</span><span class="n">flag_value</span><span class="p">(</span><span class="s2">&quot;--base-name&quot;</span><span class="p">))</span><span class="w"></span>
+<span class="w"> </span>
+<span class="w">  </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">base_name</span><span class="p">%</span><span class="n">string</span><span class="p">())</span><span class="o">==</span><span class="mi">0</span><span class="p">)</span><span class="w"> </span><span class="k">then</span>
+<span class="k">    error stop </span><span class="nb">new_line</span><span class="p">(</span><span class="s1">&#39;a&#39;</span><span class="p">)</span><span class="w"> </span><span class="o">//</span><span class="w"> </span><span class="nb">new_line</span><span class="p">(</span><span class="s1">&#39;a&#39;</span><span class="p">)</span><span class="w"> </span><span class="o">//</span><span class="w"> </span><span class="p">&amp;</span><span class="w"></span>
+<span class="w">      </span><span class="s1">&#39;Usage: ./build/run-fpm.sh run --example train-xor-gate -- --base-name &quot;&lt;base-file-name&gt;&quot;&#39;</span><span class="w"></span>
+<span class="w">  </span><span class="k">end if</span>
+
+<span class="k">  </span><span class="n">inputs</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">[</span><span class="w"> </span><span class="p">&amp;</span><span class="w"></span>
+<span class="w">    </span><span class="n">inputs_t</span><span class="p">([</span><span class="n">true</span><span class="p">,</span><span class="n">true</span><span class="p">]),</span><span class="w"> </span><span class="n">inputs_t</span><span class="p">([</span><span class="n">false</span><span class="p">,</span><span class="n">true</span><span class="p">]),</span><span class="w"> </span><span class="n">inputs_t</span><span class="p">([</span><span class="n">true</span><span class="p">,</span><span class="n">false</span><span class="p">]),</span><span class="w"> </span><span class="n">inputs_t</span><span class="p">([</span><span class="n">false</span><span class="p">,</span><span class="n">false</span><span class="p">])</span><span class="w"> </span><span class="p">&amp;</span><span class="w"></span>
+<span class="w">  </span><span class="p">]</span><span class="w"></span>
+<span class="w">  </span><span class="n">expected_outputs</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">[</span><span class="w"> </span><span class="p">&amp;</span><span class="w"></span>
+<span class="w">    </span><span class="n">expected_outputs_t</span><span class="p">([</span><span class="n">false</span><span class="p">]),</span><span class="w"> </span><span class="n">expected_outputs_t</span><span class="p">([</span><span class="n">true</span><span class="p">]),</span><span class="w"> </span><span class="n">expected_outputs_t</span><span class="p">([</span><span class="n">true</span><span class="p">]),</span><span class="w"> </span><span class="n">expected_outputs_t</span><span class="p">([</span><span class="n">false</span><span class="p">])</span><span class="w"> </span><span class="p">&amp;</span><span class="w"></span>
+<span class="w">  </span><span class="p">]</span><span class="w"></span>
+<span class="w">  </span><span class="k">print</span><span class="w"> </span><span class="o">*</span><span class="p">,</span><span class="s2">&quot;Defining mini-batches, each containing input/output pairs corresponding to the four entries in the XOR truth table.&quot;</span><span class="w"></span>
+<span class="w">  </span><span class="n">mini_batches</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">[(</span><span class="n">mini_batch_t</span><span class="p">(</span><span class="w"> </span><span class="n">input_output_pair_t</span><span class="p">(</span><span class="w"> </span><span class="n">inputs</span><span class="p">,</span><span class="w"> </span><span class="n">expected_outputs</span><span class="w"> </span><span class="p">)</span><span class="w"> </span><span class="p">),</span><span class="w"> </span><span class="n">m</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span><span class="mi">2000000</span><span class="p">)]</span><span class="w"></span>
+<span class="w">  </span><span class="k">print</span><span class="w"> </span><span class="o">*</span><span class="p">,</span><span class="s2">&quot;Defining an initial trainable_engine_t neural network object.&quot;</span><span class="w"></span>
+<span class="w">  </span><span class="n">trainable_engine</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">wide_single_layer_perceptron</span><span class="p">()</span><span class="w"></span>
+<span class="w">  </span><span class="k">print</span><span class="w"> </span><span class="o">*</span><span class="p">,</span><span class="s2">&quot;Training the neural network using the mini-batches. ___This could take a few minutes.___&quot;</span><span class="w"></span>
+<span class="w">  </span><span class="k">call </span><span class="n">trainable_engine</span><span class="p">%</span><span class="n">train</span><span class="p">(</span><span class="n">mini_batches</span><span class="p">,</span><span class="w"> </span><span class="n">matmul_t</span><span class="p">())</span><span class="w"></span>
+<span class="w">  </span><span class="k">associate</span><span class="p">(</span><span class="n">file_name</span><span class="w"> </span><span class="o">=&gt;</span><span class="w"> </span><span class="n">string_t</span><span class="p">(</span><span class="n">base_name</span><span class="p">%</span><span class="n">string</span><span class="p">()</span><span class="w"> </span><span class="o">//</span><span class="w"> </span><span class="s2">&quot;.json&quot;</span><span class="p">))</span><span class="w"></span>
+<span class="w">    </span><span class="k">print</span><span class="w"> </span><span class="o">*</span><span class="p">,</span><span class="s2">&quot;Writing the network parameters to &quot;</span><span class="w"></span>
+<span class="w">    </span><span class="k">call </span><span class="n">output</span><span class="p">(</span><span class="n">trainable_engine</span><span class="p">,</span><span class="w"> </span><span class="n">file_name</span><span class="p">)</span><span class="w"></span>
+<span class="w">  </span><span class="k">end associate</span>
+<span class="k">  print</span><span class="w"> </span><span class="o">*</span><span class="p">,</span><span class="s2">&quot;Verifying that the network behaves as an exclusive-or (XOR) logic gate: &quot;</span><span class="w"></span>
+<span class="w">  </span><span class="n">actual_output</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">trainable_engine</span><span class="p">%</span><span class="n">infer</span><span class="p">(</span><span class="n">inputs</span><span class="p">,</span><span class="w"> </span><span class="n">matmul_t</span><span class="p">())</span><span class="w"></span>
+<span class="w">  </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="nb">any</span><span class="p">([(</span><span class="nb">abs</span><span class="p">(</span><span class="n">actual_output</span><span class="p">(</span><span class="n">i</span><span class="p">)%</span><span class="n">outputs</span><span class="p">()</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="n">expected_outputs</span><span class="p">(</span><span class="n">i</span><span class="p">)%</span><span class="n">outputs</span><span class="p">())</span><span class="w"> </span><span class="o">&lt;</span><span class="w"> </span><span class="n">tolerance</span><span class="p">,</span><span class="w"> </span><span class="n">i</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="n">size</span><span class="p">(</span><span class="n">actual_output</span><span class="p">))]))</span><span class="w"> </span><span class="k">then</span>
+<span class="k">    print</span><span class="w"> </span><span class="o">*</span><span class="p">,</span><span class="s2">&quot;Yes!&quot;</span><span class="w"></span>
+<span class="w">  </span><span class="k">else</span>
+<span class="k">    error stop</span><span class="w"> </span><span class="p">&amp;</span><span class="w"></span>
+<span class="w">      </span><span class="s2">&quot;The trained network does not behave as a XOR gate.  &quot;</span><span class="w"> </span><span class="o">//</span><span class="w"> </span><span class="p">&amp;</span><span class="w"></span>
+<span class="w">      </span><span class="s2">&quot;Please report this issue at https://github.com/BerkeleyLab/inference-engine/issues.&quot;</span><span class="w"></span>
+<span class="w">  </span><span class="k">end if</span>
+
+<span class="k">contains</span>
+
+<span class="k">  subroutine </span><span class="n">output</span><span class="p">(</span><span class="n">engine</span><span class="p">,</span><span class="w"> </span><span class="n">file_name</span><span class="p">)</span><span class="w"></span>
+<span class="w">    </span><span class="k">type</span><span class="p">(</span><span class="n">trainable_engine_t</span><span class="p">),</span><span class="w"> </span><span class="k">intent</span><span class="p">(</span><span class="n">in</span><span class="p">)</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">engine</span><span class="w"></span>
+<span class="w">    </span><span class="k">type</span><span class="p">(</span><span class="n">string_t</span><span class="p">),</span><span class="w"> </span><span class="k">intent</span><span class="p">(</span><span class="n">in</span><span class="p">)</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">file_name</span><span class="w"></span>
+<span class="w">    </span><span class="k">type</span><span class="p">(</span><span class="n">file_t</span><span class="p">)</span><span class="w"> </span><span class="n">json_file</span><span class="w"></span>
+<span class="w"> </span>
+<span class="w">    </span><span class="n">json_file</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">trainable_engine</span><span class="p">%</span><span class="n">to_json</span><span class="p">()</span><span class="w"></span>
+<span class="w">    </span><span class="k">print</span><span class="w"> </span><span class="o">*</span><span class="p">,</span><span class="w"> </span><span class="s2">&quot;Writing an inference_engine_t object to the file &#39;&quot;</span><span class="o">//</span><span class="n">file_name</span><span class="p">%</span><span class="n">string</span><span class="p">()</span><span class="o">//</span><span class="s2">&quot;&#39; in JSON format.&quot;</span><span class="w"></span>
+<span class="w">    </span><span class="k">call </span><span class="n">json_file</span><span class="p">%</span><span class="n">write_lines</span><span class="p">(</span><span class="n">file_name</span><span class="p">)</span><span class="w"></span>
+<span class="w">  </span><span class="k">end subroutine</span>
+
+<span class="k">  function </span><span class="n">wide_single_layer_perceptron</span><span class="p">()</span><span class="w"> </span><span class="k">result</span><span class="p">(</span><span class="n">trainable_engine</span><span class="p">)</span><span class="w"></span>
+<span class="w">    </span><span class="k">type</span><span class="p">(</span><span class="n">trainable_engine_t</span><span class="p">)</span><span class="w"> </span><span class="n">trainable_engine</span><span class="w"></span>
+<span class="w">    </span><span class="kt">integer</span><span class="p">,</span><span class="w"> </span><span class="k">parameter</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">n_in</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">2</span><span class="w"> </span><span class="c">! number of inputs</span>
+<span class="w">    </span><span class="kt">integer</span><span class="p">,</span><span class="w"> </span><span class="k">parameter</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">n_out</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">1</span><span class="w"> </span><span class="c">! number of outputs</span>
+<span class="w">    </span><span class="kt">integer</span><span class="p">,</span><span class="w"> </span><span class="k">parameter</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">neurons</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">3</span><span class="w"> </span><span class="c">! number of neurons per layer</span>
+<span class="w">    </span><span class="kt">integer</span><span class="p">,</span><span class="w"> </span><span class="k">parameter</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">n_hidden</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">1</span><span class="w"> </span><span class="c">! number of hidden layers </span>
+<span class="w">   </span>
+<span class="w">    </span><span class="n">trainable_engine</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">trainable_engine_t</span><span class="p">(</span><span class="w"> </span><span class="p">&amp;</span><span class="w"></span>
+<span class="w">      </span><span class="n">metadata</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">[</span><span class="w"> </span><span class="p">&amp;</span><span class="w"></span>
+<span class="w">       </span><span class="n">string_t</span><span class="p">(</span><span class="s2">&quot;Trainable XOR&quot;</span><span class="p">),</span><span class="w"> </span><span class="n">string_t</span><span class="p">(</span><span class="s2">&quot;Damian Rouson&quot;</span><span class="p">),</span><span class="w"> </span><span class="n">string_t</span><span class="p">(</span><span class="s2">&quot;2023-05-09&quot;</span><span class="p">),</span><span class="w"> </span><span class="n">string_t</span><span class="p">(</span><span class="s2">&quot;sigmoid&quot;</span><span class="p">),</span><span class="w"> </span><span class="n">string_t</span><span class="p">(</span><span class="s2">&quot;false&quot;</span><span class="p">)</span><span class="w"> </span><span class="p">&amp;</span><span class="w"></span>
+<span class="w">      </span><span class="p">],</span><span class="w"> </span><span class="p">&amp;</span><span class="w"></span>
+<span class="w">      </span><span class="n">input_weights</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="kt">real</span><span class="p">(</span><span class="nb">reshape</span><span class="p">([</span><span class="mi">1</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="mi">1</span><span class="p">],</span><span class="w"> </span><span class="p">[</span><span class="n">n_in</span><span class="p">,</span><span class="w"> </span><span class="n">neurons</span><span class="p">]),</span><span class="w"> </span><span class="n">rkind</span><span class="p">),</span><span class="w"> </span><span class="p">&amp;</span><span class="w"></span>
+<span class="w">      </span><span class="n">hidden_weights</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nb">reshape</span><span class="p">([</span><span class="kt">real</span><span class="p">(</span><span class="n">rkind</span><span class="p">)</span><span class="kd">::</span><span class="p">],</span><span class="w"> </span><span class="p">[</span><span class="n">neurons</span><span class="p">,</span><span class="n">neurons</span><span class="p">,</span><span class="n">n_hidden</span><span class="o">-</span><span class="mi">1</span><span class="p">]),</span><span class="w"> </span><span class="p">&amp;</span><span class="w"></span>
+<span class="w">      </span><span class="n">output_weights</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="kt">real</span><span class="p">(</span><span class="nb">reshape</span><span class="p">([</span><span class="mi">1</span><span class="p">,</span><span class="o">-</span><span class="mi">2</span><span class="p">,</span><span class="mi">1</span><span class="p">],</span><span class="w"> </span><span class="p">[</span><span class="n">n_out</span><span class="p">,</span><span class="w"> </span><span class="n">neurons</span><span class="p">]),</span><span class="w"> </span><span class="n">rkind</span><span class="p">),</span><span class="w"> </span><span class="p">&amp;</span><span class="w"></span>
+<span class="w">      </span><span class="n">biases</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nb">reshape</span><span class="p">([</span><span class="kt">real</span><span class="p">(</span><span class="n">rkind</span><span class="p">)</span><span class="kd">::</span><span class="w"> </span><span class="mf">0.</span><span class="p">,</span><span class="o">-</span><span class="mf">1.99</span><span class="p">,</span><span class="mf">0.</span><span class="p">],</span><span class="w"> </span><span class="p">[</span><span class="n">neurons</span><span class="p">,</span><span class="w"> </span><span class="n">n_hidden</span><span class="p">]),</span><span class="w"> </span><span class="p">&amp;</span><span class="w"></span>
+<span class="w">      </span><span class="n">output_biases</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">[</span><span class="kt">real</span><span class="p">(</span><span class="n">rkind</span><span class="p">)</span><span class="kd">::</span><span class="w"> </span><span class="mf">0.</span><span class="p">],</span><span class="w"> </span><span class="p">&amp;</span><span class="w"></span>
+<span class="w">      </span><span class="n">differentiable_activation_strategy</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">sigmoid_t</span><span class="p">()</span><span class="w"> </span><span class="p">&amp;</span><span class="w"></span>
+<span class="w">    </span><span class="p">)</span><span class="w"></span>
+<span class="w">  </span><span class="k">end function</span>
+
+<span class="k">  function </span><span class="n">wide_perceptron</span><span class="p">()</span><span class="w"> </span><span class="k">result</span><span class="p">(</span><span class="n">trainable_engine</span><span class="p">)</span><span class="w"></span>
+<span class="w">    </span><span class="k">type</span><span class="p">(</span><span class="n">trainable_engine_t</span><span class="p">)</span><span class="w"> </span><span class="n">trainable_engine</span><span class="w"></span>
+<span class="w">    </span><span class="kt">integer</span><span class="p">,</span><span class="w"> </span><span class="k">parameter</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">n_in</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">2</span><span class="w"> </span><span class="c">! number of inputs</span>
+<span class="w">    </span><span class="kt">integer</span><span class="p">,</span><span class="w"> </span><span class="k">parameter</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">n_out</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">1</span><span class="w"> </span><span class="c">! number of outputs</span>
+<span class="w">    </span><span class="kt">integer</span><span class="p">,</span><span class="w"> </span><span class="k">parameter</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">neurons</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">24</span><span class="w"> </span><span class="c">! number of neurons per layer</span>
+<span class="w">    </span><span class="kt">integer</span><span class="p">,</span><span class="w"> </span><span class="k">parameter</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">n_hidden</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">1</span><span class="w"> </span><span class="c">! number of hidden layers </span>
+<span class="w">    </span><span class="kt">integer </span><span class="n">n</span><span class="w"></span>
+<span class="w">   </span>
+<span class="w">    </span><span class="n">trainable_engine</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">trainable_engine_t</span><span class="p">(</span><span class="w"> </span><span class="p">&amp;</span><span class="w"></span>
+<span class="w">      </span><span class="n">metadata</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">[</span><span class="w"> </span><span class="p">&amp;</span><span class="w"></span>
+<span class="w">       </span><span class="n">string_t</span><span class="p">(</span><span class="s2">&quot;Wide 1-layer perceptron&quot;</span><span class="p">),</span><span class="w"> </span><span class="n">string_t</span><span class="p">(</span><span class="s2">&quot;Damian Rouson&quot;</span><span class="p">),</span><span class="w"> </span><span class="n">string_t</span><span class="p">(</span><span class="s2">&quot;2023-05-24&quot;</span><span class="p">),</span><span class="w"> </span><span class="n">string_t</span><span class="p">(</span><span class="s2">&quot;sigmoid&quot;</span><span class="p">),</span><span class="w"> </span><span class="n">string_t</span><span class="p">(</span><span class="s2">&quot;false&quot;</span><span class="p">)</span><span class="w"> </span><span class="p">&amp;</span><span class="w"></span>
+<span class="w">      </span><span class="p">],</span><span class="w"> </span><span class="p">&amp;</span><span class="w"></span>
+<span class="w">      </span><span class="n">input_weights</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="kt">real</span><span class="p">(</span><span class="nb">reshape</span><span class="p">([([</span><span class="mi">1</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="mi">1</span><span class="p">],</span><span class="w"> </span><span class="n">n</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span><span class="mi">8</span><span class="w"> </span><span class="p">)],</span><span class="w"> </span><span class="p">[</span><span class="n">n_in</span><span class="p">,</span><span class="w"> </span><span class="n">neurons</span><span class="p">]),</span><span class="w"> </span><span class="n">rkind</span><span class="p">),</span><span class="w"> </span><span class="p">&amp;</span><span class="w"></span>
+<span class="w">      </span><span class="n">hidden_weights</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nb">reshape</span><span class="p">([</span><span class="kt">real</span><span class="p">(</span><span class="n">rkind</span><span class="p">)</span><span class="kd">::</span><span class="p">],</span><span class="w"> </span><span class="p">[</span><span class="n">neurons</span><span class="p">,</span><span class="n">neurons</span><span class="p">,</span><span class="n">n_hidden</span><span class="o">-</span><span class="mi">1</span><span class="p">]),</span><span class="w"> </span><span class="p">&amp;</span><span class="w"></span>
+<span class="w">      </span><span class="n">output_weights</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="kt">real</span><span class="p">(</span><span class="nb">reshape</span><span class="p">([([</span><span class="mi">1</span><span class="p">,</span><span class="o">-</span><span class="mi">2</span><span class="p">,</span><span class="mi">1</span><span class="p">],</span><span class="w"> </span><span class="n">n</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span><span class="mi">8</span><span class="p">)],</span><span class="w"> </span><span class="p">[</span><span class="n">n_out</span><span class="p">,</span><span class="w"> </span><span class="n">neurons</span><span class="p">]),</span><span class="w"> </span><span class="n">rkind</span><span class="p">),</span><span class="w"> </span><span class="p">&amp;</span><span class="w"></span>
+<span class="w">      </span><span class="n">biases</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nb">reshape</span><span class="p">([</span><span class="kt">real</span><span class="p">(</span><span class="n">rkind</span><span class="p">)</span><span class="kd">::</span><span class="w"> </span><span class="p">[(</span><span class="mf">0.</span><span class="p">,</span><span class="o">-</span><span class="mf">1.99</span><span class="p">,</span><span class="mf">0.</span><span class="p">,</span><span class="w"> </span><span class="n">n</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span><span class="mi">8</span><span class="p">)]</span><span class="w"> </span><span class="p">],</span><span class="w"> </span><span class="p">[</span><span class="n">neurons</span><span class="p">,</span><span class="w"> </span><span class="n">n_hidden</span><span class="p">]),</span><span class="w"> </span><span class="p">&amp;</span><span class="w"></span>
+<span class="w">      </span><span class="n">output_biases</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">[</span><span class="kt">real</span><span class="p">(</span><span class="n">rkind</span><span class="p">)</span><span class="kd">::</span><span class="w"> </span><span class="mf">0.</span><span class="p">],</span><span class="w"> </span><span class="p">&amp;</span><span class="w"></span>
+<span class="w">      </span><span class="n">differentiable_activation_strategy</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">sigmoid_t</span><span class="p">()</span><span class="w"> </span><span class="p">&amp;</span><span class="w"></span>
+<span class="w">    </span><span class="p">)</span><span class="w"></span>
+<span class="w">  </span><span class="k">end function</span>
+
+<span class="k">end program </span><span class="n">train_xor_gate</span><span class="w"></span>
+</pre></div>
+
+    </section>
+    
+    </div>
+  </div>
+
+    <hr>    
+    </div> <!-- /container -->
+    <footer>
+      <div class="container">
+      <div class="row">
+        <div class="col-xs-6 col-md-6"><p>Inference-Engine was developed by Sourcery Institute<br>&copy; 2023 
+</p>
+        </div>
+        <div class="col-xs-6 col-md-6">
+          <p class="text-right">
+            Documentation generated by 
+            <a href="https://github.com/Fortran-FOSS-Programmers/ford">FORD</a>
+ on 2023-05-24 22:32            </p>
+        </div>
+      </div>
+      <br>
+      </div> <!-- /container -->    
+    </footer>
+
+    <!-- Bootstrap core JavaScript
+    ================================================== -->
+    <!-- Placed at the end of the document so the pages load faster -->
+<!--
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
+-->
+    <script src="../js/bootstrap.min.js"></script>
+    <!-- IE10 viewport hack for Surface/desktop Windows 8 bug -->
+    <script src="../js/ie10-viewport-bug-workaround.js"></script>
+
+    <!-- MathJax JavaScript
+    ================================================== -->
+    <!-- Placed at the end of the document so the pages load faster -->
+    <script type="text/x-mathjax-config">
+      MathJax.Hub.Config({
+        TeX: { extensions: ['AMSmath.js','AMSsymbols.js','noErrors.js','noUndefined.js'], equationNumbers: { autoNumber: 'AMS' } },
+        jax: ['input/TeX','input/MathML','output/HTML-CSS'],
+        extensions: ['tex2jax.js','mml2jax.js','MathMenu.js','MathZoom.js']
+      });
+    </script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    
+    <script src="../tipuesearch/tipuesearch_content.js"></script>
+    <script src="../tipuesearch/tipuesearch_set.js"></script>
+    <script src="../tipuesearch/tipuesearch.js"></script>
+    
+  </body>
+</html>
