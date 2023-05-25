@@ -369,7 +369,7 @@ contains
           lines(line) = string_t("             }" // trim(merge(' ',',',neuron==neurons_per_layer)))
         end do
         line = line + 1
-        lines(line) = string_t(trim(merge("         ],", "         ] ", line/=num_hidden_layers)))
+        lines(line) = string_t(trim(merge("         ] ", "         ],", any(num_hidden_layers==[1,line]))))
 
         do layer = 1, num_hidden_layers-1
           line = line + 1

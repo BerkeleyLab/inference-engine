@@ -105,7 +105,7 @@ contains
     type(trainable_engine_t) trainable_engine
     integer, parameter :: n_in = 2 ! number of inputs
     integer, parameter :: n_out = 1 ! number of outputs
-    integer, parameter :: neurons = 24 ! number of neurons per layer
+    integer, parameter :: neurons = 36 ! number of neurons per layer
     integer, parameter :: n_hidden = 1 ! number of hidden layers 
     integer n
    
@@ -113,10 +113,10 @@ contains
       metadata = [ & 
        string_t("Wide 1-layer perceptron"), string_t("Damian Rouson"), string_t("2023-05-24"), string_t("sigmoid"), string_t("false") &
       ], &
-      input_weights = real(reshape([([1,0,1,1,0,1], n=1,8 )], [n_in, neurons]), rkind), &
+      input_weights = real(reshape([([1,0,1,1,0,1], n=1,12 )], [n_in, neurons]), rkind), &
       hidden_weights = reshape([real(rkind)::], [neurons,neurons,n_hidden-1]), &
-      output_weights = real(reshape([([1,-2,1], n=1,8)], [n_out, neurons]), rkind), &
-      biases = reshape([real(rkind):: [(0.,-1.99,0., n=1,8)] ], [neurons, n_hidden]), &
+      output_weights = real(reshape([([1,-2,1], n=1,12)], [n_out, neurons]), rkind), &
+      biases = reshape([real(rkind):: [(0.,-1.99,0., n=1,12)] ], [neurons, n_hidden]), &
       output_biases = [real(rkind):: 0.], &
       differentiable_activation_strategy = sigmoid_t() &
     )   
@@ -138,7 +138,7 @@ contains
     expected_outputs = [ & 
       expected_outputs_t([false]), expected_outputs_t([true]), expected_outputs_t([true]), expected_outputs_t([false]) &
     ]
-    mini_batches = [(mini_batch_t( input_output_pair_t( inputs, expected_outputs ) ), m=1,1250000)]
+    mini_batches = [(mini_batch_t( input_output_pair_t( inputs, expected_outputs ) ), m=1,100000)]
     trainable_engine = wide_single_layer_perceptron()
     call trainable_engine%train(mini_batches, matmul_t())
     actual_output = trainable_engine%infer(inputs, matmul_t())

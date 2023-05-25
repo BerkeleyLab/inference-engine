@@ -11,14 +11,19 @@ program main
   type(asymmetric_engine_test_t) asymmetric_engine_test
   type(skip_connections_test_t) skip_connections_test
   type(trainable_engine_test_t) trainable_engine_test
+  real t_start, t_finish
 
   integer :: passes=0, tests=0
 
+  call cpu_time(t_start)
   call inference_engine_test%report(passes, tests)
   call asymmetric_engine_test%report(passes, tests)
   call skip_connections_test%report(passes, tests)
   call trainable_engine_test%report(passes, tests)
+  call cpu_time(t_finish)
 
+  print *
+  print *,"Test suite execution time: ",t_finish - t_start
   print *
   print '(*(a,:,g0))',"_________ In total, ",passes," of ",tests, " tests pass. _________"
   sync all
