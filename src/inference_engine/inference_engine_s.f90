@@ -104,7 +104,6 @@ contains
     end block
 
     inference_engine%input_weights_ = transpose(hidden_layers%input_weights())
-    call assert(hidden_layers%next_allocated(), "inference_engine_t%from_json: next layer exists")
 
     block 
       type(layer_t), pointer :: next_layer
@@ -112,7 +111,15 @@ contains
       integer layer
 
       next_layer => hidden_layers%next_pointer()
-      hidden_weights = next_layer%hidden_weights()
+
+      if (hidden_layers%next_allocated()) then
+        hidden_weights = next_layer%hidden_weights()
+      else
+        associate(neurons_per_layer => size(inference_engine%input_weights_,1)) ! keep consistent with the eponymous function
+          allocate(hidden_weights(neurons_per_layer, neurons_per_layer, 0))
+        end associate
+      end if
+
       inference_engine%biases_ = hidden_layers%hidden_biases()
 
       allocate(transposed(size(hidden_weights,2), size(hidden_weights,1), size(hidden_weights,3)))

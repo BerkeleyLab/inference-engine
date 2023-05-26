@@ -38,7 +38,7 @@ contains
     type(test_result_t), allocatable :: test_results(:)
 
     character(len=*), parameter :: longest_description = &
-      "mapping (false,false) to false using the concurrent_dot_products_t() inference strategy"
+          "mapping (false,false) to false using the concurrent_dot_products_t() inference strategy"
 
     associate( &
       descriptions => &
@@ -51,13 +51,14 @@ contains
           "mapping (true,false) to true using the matmul_t() inference strategy", &
           "mapping (false,true) to true using the matmul_t() inference strategy", &
           "mapping (false,false) to false using the matmul_t() inference strategy", &
-          "converting to and from JSON format",  &
-          "performing inference with encapsulated inputs and outputs", &
-          "performing inference with a single-layer perceptron" &
+          "performing elemental inference with encapsulated inputs and outputs", &
+          "performing inference with a single-hidden-layer network", &
+          "converting a single-hidden-layer network to and from JSON format",  &
+          "converting a multi-hidden-layer network to and from JSON format"  &
         ], &
       outcomes => &
-        [ convert_to_and_from_json(), xor_truth_table(concurrent_dot_products_t()), xor_truth_table(matmul_t()), &
-          elemental_inference(), single_layer_inference() &
+        [ xor_truth_table(concurrent_dot_products_t()), xor_truth_table(matmul_t()), elemental_inference(), &
+          single_hidden_layer_inference(), single_hidden_layer_net_to_from_json(), multi_hidden_layer_net_to_from_json() &
         ] &
     )
       call assert(size(descriptions) == size(outcomes), "inference_engine_test(results): size(descriptions) == size(outcomes)")
@@ -82,7 +83,7 @@ contains
     )
   end function
 
-  function single_layer_inference() result(test_passes)
+  function single_hidden_layer_inference() result(test_passes)
     logical, allocatable :: test_passes(:)
     type(inference_engine_t) inference_engine
 
@@ -123,13 +124,24 @@ contains
     )
   end function
 
-  function convert_to_and_from_json() result(test_passes)
+  function multi_hidden_layer_net_to_from_json() result(test_passes)
     logical, allocatable :: test_passes
     type(inference_engine_t) xor, difference
     real, parameter :: tolerance = 1.0E-06
 
     xor = xor_network()
     difference = inference_engine_t(xor%to_json()) - xor
+    test_passes = difference%norm() < tolerance
+  end function
+
+  function single_hidden_layer_net_to_from_json() result(test_passes)
+    logical, allocatable :: test_passes
+    type(inference_engine_t) one_hidden_layer_network, difference
+
+    real, parameter :: tolerance = 1.0E-06
+
+    one_hidden_layer_network = single_layer_perceptron()
+    difference = inference_engine_t(one_hidden_layer_network%to_json()) - one_hidden_layer_network
     test_passes = difference%norm() < tolerance
   end function
 
