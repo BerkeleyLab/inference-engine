@@ -2,6 +2,7 @@
 ! Terms of use are as specified in LICENSE.txt
 module inference_engine_test_m
   !! Define inference tests and procedures required for reporting results
+  use assert_m, only : assert
   use string_m, only : string_t
   use test_m, only : test_t
   use test_result_m, only : test_result_t
@@ -36,24 +37,32 @@ contains
   function results() result(test_results)
     type(test_result_t), allocatable :: test_results(:)
 
-    test_results = test_result_t( &
-      [ character(len=len("mapping (false,false) to false using the concurrent_dot_products_t() inference strategy")) :: &
-        "mapping (true,true) to false using the concurrent_dot_products_t() inference strategy", &
-        "mapping (true,false) to true using the concurrent_dot_products_t() inference strategy", &
-        "mapping (false,true) to true using the concurrent_dot_products_t() inference strategy", &
-        "mapping (false,false) to false using the concurrent_dot_products_t() inference strategy", &
-        "mapping (true,true) to false using the matmul_t() inference strategy", &
-        "mapping (true,false) to true using the matmul_t() inference strategy", &
-        "mapping (false,true) to true using the matmul_t() inference strategy", &
-        "mapping (false,false) to false using the matmul_t() inference strategy", &
-        "converting to and from JSON format",  &
-        "performing inference with encapsulated inputs and outputs", &
-        "performing inference with a single-layer perceptron" &
-      ], &
-      [ convert_to_and_from_json(), xor_truth_table(concurrent_dot_products_t()), xor_truth_table(matmul_t()), &
-        elemental_inference(), single_layer_inference() &
-       ] &
+    character(len=*), parameter :: longest_description = &
+      "mapping (false,false) to false using the concurrent_dot_products_t() inference strategy"
+
+    associate( &
+      descriptions => &
+        [ character(len=len(longest_description)) :: &
+          "mapping (true,true) to false using the concurrent_dot_products_t() inference strategy", &
+          "mapping (true,false) to true using the concurrent_dot_products_t() inference strategy", &
+          "mapping (false,true) to true using the concurrent_dot_products_t() inference strategy", &
+          "mapping (false,false) to false using the concurrent_dot_products_t() inference strategy", &
+          "mapping (true,true) to false using the matmul_t() inference strategy", &
+          "mapping (true,false) to true using the matmul_t() inference strategy", &
+          "mapping (false,true) to true using the matmul_t() inference strategy", &
+          "mapping (false,false) to false using the matmul_t() inference strategy", &
+          "converting to and from JSON format",  &
+          "performing inference with encapsulated inputs and outputs", &
+          "performing inference with a single-layer perceptron" &
+        ], &
+      outcomes => &
+        [ convert_to_and_from_json(), xor_truth_table(concurrent_dot_products_t()), xor_truth_table(matmul_t()), &
+          elemental_inference(), single_layer_inference() &
+        ] &
     )
+      call assert(size(descriptions) == size(outcomes), "inference_engine_test(results): size(descriptions) == size(outcomes)")
+      test_results = test_result_t(descriptions, outcomes)
+    end associate
   end function
 
   function single_layer_perceptron() result(inference_engine)
