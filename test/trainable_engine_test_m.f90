@@ -2,6 +2,8 @@
 ! Terms of use are as specified in LICENSE.txt
 module trainable_engine_test_m
   !! Define inference tests and procedures required for reporting results
+  use assert_m, only : assert
+  use intrinsic_array_m, only : intrinsic_array_t
   use string_m, only : string_t
   use test_m, only : test_t
   use test_result_m, only : test_result_t
@@ -38,21 +40,22 @@ contains
     character(len=*), parameter :: longest_description = &
        "learning the mapping (false,false) -> false when trained on a fixed input/output pair"
 
-    test_results = test_result_t( &
-      [character(len=len(longest_description)) :: &
-       "learning the mapping (true,true) -> false when trained on a fixed input/output pair", &
-       "learning the mapping (false,true) -> true when trained on a fixed input/output pair", &
-       "learning the mapping (true,false) -> true when trained on a fixed input/output pair", &
-       "learning the mapping (false,false) -> false when trained on a fixed input/output pair", &
-       "learning the mapping (true,true) -> false trained on mini-batches", &
-       "learning the mapping (false,true) -> true trained on mini-batches", &
-       "learning the mapping (true,false) -> true trained on mini-batches", &
-       "learning the mapping (false,false) -> false trained on mini-batches" &
-      ], &
-      [train_on_fixed_input_output_pair(), &
-       train_on_truth_table_mini_batch() &
-      ] &
+    associate( &
+      descriptions => &
+      [ character(len=len(longest_description)) :: &
+        "learning the mapping (true,true) -> false when trained on a fixed input/output pair", &
+        "learning the mapping (false,true) -> true when trained on a fixed input/output pair", &
+        "learning the mapping (true,false) -> true when trained on a fixed input/output pair", &
+        "learning the mapping (false,false) -> false when trained on a fixed input/output pair", &
+        "learning the mapping (true,true) -> false trained on mini-batches", &
+        "learning the mapping (false,true) -> true trained on mini-batches", &
+        "learning the mapping (true,false) -> true trained on mini-batches", &
+        "learning the mapping (false,false) -> false trained on mini-batches" &
+      ], outcomes => [train_on_fixed_input_output_pair(), train_on_truth_table_mini_batch()] &
     )
+      call assert(size(descriptions) == size(outcomes), "trainable_engine_test_m(results): size(descritions) == size(outcomes)")
+      test_results = test_result_t(descriptions, outcomes)
+    end associate
   end function
 
   function trainable_hidden_layer() result(trainable_engine)
