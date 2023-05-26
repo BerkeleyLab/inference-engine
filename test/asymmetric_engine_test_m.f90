@@ -2,6 +2,7 @@
 ! Terms of use are as specified in LICENSE.txt
 module asymmetric_engine_test_m
   !! Define asymmetric tests and procedures required for reporting results
+  use assert_m, only : assert
   use string_m, only : string_t
   use test_m, only : test_t
   use test_result_m, only : test_result_t
@@ -36,27 +37,36 @@ contains
   function results() result(test_results)
     type(test_result_t), allocatable :: test_results(:)
 
-    test_results = test_result_t( &
-      [ character(len=len("mapping (false,false) to false using the concurrent_dot_products_t() inference strategy")) :: &
-        "mapping (true,true) to false using the concurrent_dot_products_t() inference strategy", &
-        "mapping (true,false) to false using the concurrent_dot_products_t() inference strategy", &
-        "mapping (false,true) to true using the concurrent_dot_products_t() inference strategy", &
-        "mapping (false,false) to false using the concurrent_dot_products_t() inference strategy", &
-        "mapping (true,true) to false using the matmul_t() inference strategy", &
-        "mapping (true,false) to false using the matmul_t() inference strategy", &
-        "mapping (false,true) to true using the matmul_t() inference strategy", &
-        "mapping (false,false) to false using the matmul_t() inference strategy", &
-        "counting the number of hidden layers", &
-        "counting the number of neurons per layer", &
-        "counting the number of inputs", &
-        "counting the number of outputs", &
-        "getting the activation function name" &
-      ], &
-      [ xor_and_2nd_input_truth_table(concurrent_dot_products_t()), xor_and_2nd_input_truth_table(matmul_t()), &
-        test_num_hidden_layers(),  test_neurons_per_layer(), test_num_inputs(), test_num_outputs(), &
-        test_activation_name() &
-      ] & 
-    )   
+    character(len=*), parameter :: longest_description = &
+        "mapping (false,false) to false using the concurrent_dot_products_t() inference strategy"
+
+    associate( &
+      descriptions => &
+        [ character(len=len(longest_description)) :: &
+          "mapping (true,true) to false using the concurrent_dot_products_t() inference strategy", &
+          "mapping (true,false) to false using the concurrent_dot_products_t() inference strategy", &
+          "mapping (false,true) to true using the concurrent_dot_products_t() inference strategy", &
+          "mapping (false,false) to false using the concurrent_dot_products_t() inference strategy", &
+          "mapping (true,true) to false using the matmul_t() inference strategy", &
+          "mapping (true,false) to false using the matmul_t() inference strategy", &
+          "mapping (false,true) to true using the matmul_t() inference strategy", &
+          "mapping (false,false) to false using the matmul_t() inference strategy", &
+          "counting the number of hidden layers", &
+          "counting the number of neurons per layer", &
+          "counting the number of inputs", &
+          "counting the number of outputs", &
+          "getting the activation function name" &
+        ], &
+      outcomes => &
+        [ xor_and_2nd_input_truth_table(concurrent_dot_products_t()), xor_and_2nd_input_truth_table(matmul_t()), &
+          test_num_hidden_layers(),  test_neurons_per_layer(), test_num_inputs(), test_num_outputs(), &
+          test_activation_name() &
+        ] & 
+    )
+      call assert(size(descriptions) == size(outcomes),"assymetric_engine_test_m(results): size(descriptions) == size(outcomes)")
+      test_results = test_result_t(descriptions, outcomes)
+    end associate
+       
   end function
 
  function xor_and_2nd_input_network() result(inference_engine)
