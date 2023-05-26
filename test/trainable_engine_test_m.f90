@@ -29,14 +29,14 @@ contains
 
   pure function subject() result(specimen)
     character(len=:), allocatable :: specimen
-    specimen = "A trainable_engine_t (this will take a few minutes)" 
+    specimen = "A trainable_engine_t" 
   end function
 
   function results() result(test_results)
     type(test_result_t), allocatable :: test_results(:)
 
     character(len=*), parameter :: longest_description = &
-      "learning the mapping (false,false) -> false when trained on a fixed input/output pair"
+       "learning the mapping (false,false) -> false when trained on a fixed input/output pair"
 
     test_results = test_result_t( &
       [character(len=len(longest_description)) :: &
