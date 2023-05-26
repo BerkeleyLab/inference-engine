@@ -33,20 +33,27 @@ contains
   function results() result(test_results)
     type(test_result_t), allocatable :: test_results(:)
 
-    test_results = test_result_t( &
-      [ character(len=len("mapping (false,false) to false using the concurrent_dot_products_t() inference strategy")) :: &
-        "mapping (true,true) to false using the concurrent_dot_products_t() inference strategy", &
-        "mapping (true,false) to false using the concurrent_dot_products_t() inference strategy", &
-        "mapping (false,true) to true using the concurrent_dot_products_t() inference strategy", &
-        "mapping (false,false) to false using the concurrent_dot_products_t() inference strategy", &
-        "mapping (true,true) to false using the matmul_t() inference strategy", &
-        "mapping (true,false) to false using the matmul_t() inference strategy", &
-        "mapping (false,true) to true using the matmul_t() inference strategy", &
-        "mapping (false,false) to false using the matmul_t() inference strategy" &
-      ], &
-      [ not_1st_and_2nd_truth_table(concurrent_dot_products_t()), not_1st_and_2nd_truth_table(matmul_t()) &
-      ] &
-    )
+      character(len=*), parameter :: longest_description = &
+            "mapping (false,false) to false using the concurrent_dot_products_t() inference strategy"
+
+      associate( &
+        descriptions => &
+          [ character(len=len(longest_description)) :: &
+            "mapping (true,true) to false using the concurrent_dot_products_t() inference strategy", &
+            "mapping (true,false) to false using the concurrent_dot_products_t() inference strategy", &
+            "mapping (false,true) to true using the concurrent_dot_products_t() inference strategy", &
+            "mapping (false,false) to false using the concurrent_dot_products_t() inference strategy", &
+            "mapping (true,true) to false using the matmul_t() inference strategy", &
+            "mapping (true,false) to false using the matmul_t() inference strategy", &
+            "mapping (false,true) to true using the matmul_t() inference strategy", &
+            "mapping (false,false) to false using the matmul_t() inference strategy" &
+          ], &
+        outcomes => [not_1st_and_2nd_truth_table(concurrent_dot_products_t()), not_1st_and_2nd_truth_table(matmul_t()) ] &
+       )
+       call assert(size(descriptions) == size(outcomes), "skip_connections_test_m(results): size(descriptions) == size(outcomes)")
+       test_results = test_result_t(descriptions, outcomes)
+     end associate
+    
   end function
 
 
