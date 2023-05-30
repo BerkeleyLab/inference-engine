@@ -2,6 +2,7 @@
 ! Terms of use are as specified in LICENSE.txt
 module inference_engine_test_m
   !! Define inference tests and procedures required for reporting results
+  use assert_m, only : assert
   use string_m, only : string_t
   use test_m, only : test_t
   use test_result_m, only : test_result_t
@@ -36,24 +37,33 @@ contains
   function results() result(test_results)
     type(test_result_t), allocatable :: test_results(:)
 
-    test_results = test_result_t( &
-      [ character(len=len("mapping (false,false) to false using the concurrent_dot_products_t() inference strategy")) :: &
-        "mapping (true,true) to false using the concurrent_dot_products_t() inference strategy", &
-        "mapping (true,false) to true using the concurrent_dot_products_t() inference strategy", &
-        "mapping (false,true) to true using the concurrent_dot_products_t() inference strategy", &
-        "mapping (false,false) to false using the concurrent_dot_products_t() inference strategy", &
-        "mapping (true,true) to false using the matmul_t() inference strategy", &
-        "mapping (true,false) to true using the matmul_t() inference strategy", &
-        "mapping (false,true) to true using the matmul_t() inference strategy", &
-        "mapping (false,false) to false using the matmul_t() inference strategy", &
-        "converting to and from JSON format",  &
-        "performing inference with encapsulated inputs and outputs", &
-        "performing inference with a single-layer perceptron" &
-      ], &
-      [ convert_to_and_from_json(), xor_truth_table(concurrent_dot_products_t()), xor_truth_table(matmul_t()), &
-        elemental_inference(), single_layer_inference() &
-       ] &
+    character(len=*), parameter :: longest_description = &
+          "mapping (false,false) to false using the concurrent_dot_products_t() inference strategy"
+
+    associate( &
+      descriptions => &
+        [ character(len=len(longest_description)) :: &
+          "mapping (true,true) to false using the concurrent_dot_products_t() inference strategy", &
+          "mapping (true,false) to true using the concurrent_dot_products_t() inference strategy", &
+          "mapping (false,true) to true using the concurrent_dot_products_t() inference strategy", &
+          "mapping (false,false) to false using the concurrent_dot_products_t() inference strategy", &
+          "mapping (true,true) to false using the matmul_t() inference strategy", &
+          "mapping (true,false) to true using the matmul_t() inference strategy", &
+          "mapping (false,true) to true using the matmul_t() inference strategy", &
+          "mapping (false,false) to false using the matmul_t() inference strategy", &
+          "performing elemental inference with encapsulated inputs and outputs", &
+          "performing inference with a single-hidden-layer network", &
+          "converting a single-hidden-layer network to and from JSON format",  &
+          "converting a multi-hidden-layer network to and from JSON format"  &
+        ], &
+      outcomes => &
+        [ xor_truth_table(concurrent_dot_products_t()), xor_truth_table(matmul_t()), elemental_inference(), &
+          single_hidden_layer_inference(), single_hidden_layer_net_to_from_json(), multi_hidden_layer_net_to_from_json() &
+        ] &
     )
+      call assert(size(descriptions) == size(outcomes), "inference_engine_test(results): size(descriptions) == size(outcomes)")
+      test_results = test_result_t(descriptions, outcomes)
+    end associate
   end function
 
   function single_layer_perceptron() result(inference_engine)
@@ -73,7 +83,7 @@ contains
     )
   end function
 
-  function single_layer_inference() result(test_passes)
+  function single_hidden_layer_inference() result(test_passes)
     logical, allocatable :: test_passes(:)
     type(inference_engine_t) inference_engine
 
@@ -114,13 +124,24 @@ contains
     )
   end function
 
-  function convert_to_and_from_json() result(test_passes)
+  function multi_hidden_layer_net_to_from_json() result(test_passes)
     logical, allocatable :: test_passes
     type(inference_engine_t) xor, difference
     real, parameter :: tolerance = 1.0E-06
 
     xor = xor_network()
     difference = inference_engine_t(xor%to_json()) - xor
+    test_passes = difference%norm() < tolerance
+  end function
+
+  function single_hidden_layer_net_to_from_json() result(test_passes)
+    logical, allocatable :: test_passes
+    type(inference_engine_t) one_hidden_layer_network, difference
+
+    real, parameter :: tolerance = 1.0E-06
+
+    one_hidden_layer_network = single_layer_perceptron()
+    difference = inference_engine_t(one_hidden_layer_network%to_json()) - one_hidden_layer_network
     test_passes = difference%norm() < tolerance
   end function
 
