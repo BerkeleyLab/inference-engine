@@ -149,8 +149,8 @@
       <ul class="list-group">
       <li class="list-group-item">
   <ul class="list-inline">
-    <li><a href='../module/kind_parameters_m.html'>kind_parameters_m</a></li>
     <li>string_m</li>
+    <li><a href='../module/kind_parameters_m.html'>kind_parameters_m</a></li>
   </ul>
       </li>
       <li class="list-group-item">
@@ -171,32 +171,32 @@
 <polygon fill="none" stroke="black" points="220,-45 154,-45 154,-21 220,-21 220,-45"/>
 <text text-anchor="middle" x="187" y="-30.6" font-family="Helvetica,sans-Serif" font-size="10.50">neuron_m</text>
 </g>
-<!-- module~kind_parameters_m -->
+<!-- string_m -->
 <g id="module~~neuron_m~~UsesGraph_node2" class="node">
+<title>string_m</title>
+<polygon fill="#337ab7" stroke="#337ab7" points="88,-66 30,-66 30,-42 88,-42 88,-66"/>
+<text text-anchor="middle" x="59" y="-51.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">string_m</text>
+</g>
+<!-- module~neuron_m&#45;&gt;string_m -->
+<g id="module~~neuron_m~~UsesGraph_edge1" class="edge">
+<title>module~neuron_m&#45;&gt;string_m</title>
+<path fill="none" stroke="#ff0000" stroke-dasharray="5,2" d="M153.88,-38.35C136.93,-41.18 116.03,-44.66 98.25,-47.62"/>
+<polygon fill="#ff0000" stroke="#ff0000" points="97.49,-44.2 88.2,-49.3 98.64,-51.11 97.49,-44.2"/>
+</g>
+<!-- module~kind_parameters_m -->
+<g id="module~~neuron_m~~UsesGraph_node3" class="node">
 <title>module~kind_parameters_m</title>
-<g id="a_module~~neuron_m~~UsesGraph_node2"><a xlink:href=".././module/kind_parameters_m.html" xlink:title="kind_parameters_m">
-<polygon fill="#337ab7" stroke="#337ab7" points="118,-66 0,-66 0,-42 118,-42 118,-66"/>
-<text text-anchor="middle" x="59" y="-51.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">kind_parameters_m</text>
+<g id="a_module~~neuron_m~~UsesGraph_node3"><a xlink:href=".././module/kind_parameters_m.html" xlink:title="kind_parameters_m">
+<polygon fill="#337ab7" stroke="#337ab7" points="118,-24 0,-24 0,0 118,0 118,-24"/>
+<text text-anchor="middle" x="59" y="-9.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">kind_parameters_m</text>
 </a>
 </g>
 </g>
 <!-- module~neuron_m&#45;&gt;module~kind_parameters_m -->
-<g id="module~~neuron_m~~UsesGraph_edge1" class="edge">
-<title>module~neuron_m&#45;&gt;module~kind_parameters_m</title>
-<path fill="none" stroke="#ff0000" stroke-dasharray="5,2" d="M153.88,-38.35C145.93,-39.68 137.12,-41.15 128.16,-42.64"/>
-<polygon fill="#ff0000" stroke="#ff0000" points="127.31,-39.23 118.03,-44.33 128.46,-46.14 127.31,-39.23"/>
-</g>
-<!-- string_m -->
-<g id="module~~neuron_m~~UsesGraph_node3" class="node">
-<title>string_m</title>
-<polygon fill="#337ab7" stroke="#337ab7" points="88,-24 30,-24 30,0 88,0 88,-24"/>
-<text text-anchor="middle" x="59" y="-9.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">string_m</text>
-</g>
-<!-- module~neuron_m&#45;&gt;string_m -->
 <g id="module~~neuron_m~~UsesGraph_edge2" class="edge">
-<title>module~neuron_m&#45;&gt;string_m</title>
-<path fill="none" stroke="#ff0000" stroke-dasharray="5,2" d="M153.88,-27.65C136.93,-24.82 116.03,-21.34 98.25,-18.38"/>
-<polygon fill="#ff0000" stroke="#ff0000" points="98.64,-14.89 88.2,-16.7 97.49,-21.8 98.64,-14.89"/>
+<title>module~neuron_m&#45;&gt;module~kind_parameters_m</title>
+<path fill="none" stroke="#ff0000" stroke-dasharray="5,2" d="M153.88,-27.65C145.93,-26.32 137.12,-24.85 128.16,-23.36"/>
+<polygon fill="#ff0000" stroke="#ff0000" points="128.46,-19.86 118.03,-21.67 127.31,-26.77 128.46,-19.86"/>
 </g>
 </g>
 </svg>
@@ -291,46 +291,67 @@
 <polygon fill="none" stroke="black" points="66,-88 0,-88 0,-64 66,-64 66,-88"/>
 <text text-anchor="middle" x="33" y="-73.6" font-family="Helvetica,sans-Serif" font-size="10.50">neuron_m</text>
 </g>
-<!-- module~inference_engine_m -->
+<!-- module~layer_m -->
 <g id="module~~neuron_m~~UsedByGraph_node2" class="node">
+<title>module~layer_m</title>
+<g id="a_module~~neuron_m~~UsedByGraph_node2"><a xlink:href=".././module/layer_m.html" xlink:title="layer_m">
+<polygon fill="#337ab7" stroke="#337ab7" points="160,-108 105,-108 105,-84 160,-84 160,-108"/>
+<text text-anchor="middle" x="132.5" y="-93.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">layer_m</text>
+</a>
+</g>
+</g>
+<!-- module~layer_m&#45;&gt;module~neuron_m -->
+<g id="module~~neuron_m~~UsedByGraph_edge1" class="edge">
+<title>module~layer_m&#45;&gt;module~neuron_m</title>
+<path fill="none" stroke="#ff0000" stroke-dasharray="5,2" d="M104.86,-90.53C95.99,-88.72 85.88,-86.64 76.13,-84.64"/>
+<polygon fill="#ff0000" stroke="#ff0000" points="76.66,-81.18 66.16,-82.6 75.25,-88.04 76.66,-81.18"/>
+</g>
+<!-- module~inference_engine_s -->
+<g id="module~~neuron_m~~UsedByGraph_node3" class="node">
+<title>module~inference_engine_s</title>
+<g id="a_module~~neuron_m~~UsedByGraph_node3"><a xlink:href=".././module/inference_engine_s.html" xlink:title="inference_engine_s">
+<polygon fill="#5bc0de" stroke="#5bc0de" points="317,-150 202,-150 202,-126 317,-126 317,-150"/>
+<text text-anchor="middle" x="259.5" y="-135.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">inference_engine_s</text>
+</a>
+</g>
+</g>
+<!-- module~inference_engine_s&#45;&gt;module~neuron_m -->
+<g id="module~~neuron_m~~UsedByGraph_edge2" class="edge">
+<title>module~inference_engine_s&#45;&gt;module~neuron_m</title>
+<path fill="none" stroke="#ff0000" stroke-dasharray="5,2" d="M201.79,-135.97C171.49,-133.51 133.94,-128.23 102,-117 86.51,-111.56 70.72,-102.3 58.25,-93.97"/>
+<polygon fill="#ff0000" stroke="#ff0000" points="60.03,-90.94 49.82,-88.12 56.05,-96.69 60.03,-90.94"/>
+</g>
+<!-- module~inference_engine_s&#45;&gt;module~layer_m -->
+<g id="module~~neuron_m~~UsedByGraph_edge6" class="edge">
+<title>module~inference_engine_s&#45;&gt;module~layer_m</title>
+<path fill="none" stroke="#ff0000" stroke-dasharray="5,2" d="M222.68,-125.96C206.19,-120.42 186.65,-113.86 170.07,-108.29"/>
+<polygon fill="#ff0000" stroke="#ff0000" points="170.78,-104.83 160.18,-104.97 168.55,-111.47 170.78,-104.83"/>
+</g>
+<!-- module~inference_engine_m -->
+<g id="module~~neuron_m~~UsedByGraph_node4" class="node">
 <title>module~inference_engine_m</title>
-<g id="a_module~~neuron_m~~UsedByGraph_node2"><a xlink:href=".././module/inference_engine_m.html" xlink:title="inference_engine_m">
+<g id="a_module~~neuron_m~~UsedByGraph_node4"><a xlink:href=".././module/inference_engine_m.html" xlink:title="inference_engine_m">
 <polygon fill="#337ab7" stroke="#337ab7" points="320,-66 199,-66 199,-42 320,-42 320,-66"/>
 <text text-anchor="middle" x="259.5" y="-51.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">inference_engine_m</text>
 </a>
 </g>
 </g>
 <!-- module~inference_engine_m&#45;&gt;module~neuron_m -->
-<g id="module~~neuron_m~~UsedByGraph_edge1" class="edge">
+<g id="module~~neuron_m~~UsedByGraph_edge3" class="edge">
 <title>module~inference_engine_m&#45;&gt;module~neuron_m</title>
 <path fill="none" stroke="#ff0000" stroke-dasharray="5,2" d="M198.93,-59.84C160.31,-63.62 110.95,-68.46 76.33,-71.85"/>
 <polygon fill="#ff0000" stroke="#ff0000" points="75.69,-68.4 66.08,-72.86 76.38,-75.36 75.69,-68.4"/>
 </g>
-<!-- module~layer_m -->
-<g id="module~~neuron_m~~UsedByGraph_node3" class="node">
-<title>module~layer_m</title>
-<g id="a_module~~neuron_m~~UsedByGraph_node3"><a xlink:href=".././module/layer_m.html" xlink:title="layer_m">
-<polygon fill="#337ab7" stroke="#337ab7" points="160,-108 105,-108 105,-84 160,-84 160,-108"/>
-<text text-anchor="middle" x="132.5" y="-93.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">layer_m</text>
-</a>
-</g>
-</g>
 <!-- module~inference_engine_m&#45;&gt;module~layer_m -->
-<g id="module~~neuron_m~~UsedByGraph_edge8" class="edge">
+<g id="module~~neuron_m~~UsedByGraph_edge5" class="edge">
 <title>module~inference_engine_m&#45;&gt;module~layer_m</title>
-<path fill="none" stroke="#7fff00" stroke-dasharray="5,2" d="M222.68,-66.04C206.19,-71.58 186.65,-78.14 170.07,-83.71"/>
-<polygon fill="#7fff00" stroke="#7fff00" points="168.55,-80.53 160.18,-87.03 170.78,-87.17 168.55,-80.53"/>
-</g>
-<!-- module~layer_m&#45;&gt;module~neuron_m -->
-<g id="module~~neuron_m~~UsedByGraph_edge2" class="edge">
-<title>module~layer_m&#45;&gt;module~neuron_m</title>
-<path fill="none" stroke="#ff0000" stroke-dasharray="5,2" d="M104.86,-90.53C95.99,-88.72 85.88,-86.64 76.13,-84.64"/>
-<polygon fill="#ff0000" stroke="#ff0000" points="76.66,-81.18 66.16,-82.6 75.25,-88.04 76.66,-81.18"/>
+<path fill="none" stroke="#ff0000" stroke-dasharray="5,2" d="M222.68,-66.04C206.19,-71.58 186.65,-78.14 170.07,-83.71"/>
+<polygon fill="#ff0000" stroke="#ff0000" points="168.55,-80.53 160.18,-87.03 170.78,-87.17 168.55,-80.53"/>
 </g>
 <!-- module~neuron_s -->
-<g id="module~~neuron_m~~UsedByGraph_node4" class="node">
+<g id="module~~neuron_m~~UsedByGraph_node5" class="node">
 <title>module~neuron_s</title>
-<g id="a_module~~neuron_m~~UsedByGraph_node4"><a xlink:href=".././module/neuron_s.html" xlink:title="neuron_s">
+<g id="a_module~~neuron_m~~UsedByGraph_node5"><a xlink:href=".././module/neuron_s.html" xlink:title="neuron_s">
 <polygon fill="#5bc0de" stroke="#5bc0de" points="163,-28 102,-28 102,-4 163,-4 163,-28"/>
 <text text-anchor="middle" x="132.5" y="-13.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">neuron_s</text>
 </a>
@@ -342,86 +363,65 @@
 <path fill="none" stroke="#ff0000" d="M111.77,-28.14C97.63,-36.84 78.37,-48.7 62.55,-58.43"/>
 <polygon fill="#ff0000" stroke="#ff0000" points="60.38,-55.65 53.7,-63.88 64.05,-61.62 60.38,-55.65"/>
 </g>
-<!-- module~inference_engine_s -->
-<g id="module~~neuron_m~~UsedByGraph_node5" class="node">
-<title>module~inference_engine_s</title>
-<g id="a_module~~neuron_m~~UsedByGraph_node5"><a xlink:href=".././module/inference_engine_s.html" xlink:title="inference_engine_s">
-<polygon fill="#5bc0de" stroke="#5bc0de" points="317,-150 202,-150 202,-126 317,-126 317,-150"/>
-<text text-anchor="middle" x="259.5" y="-135.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">inference_engine_s</text>
-</a>
-</g>
-</g>
-<!-- module~inference_engine_s&#45;&gt;module~neuron_m -->
-<g id="module~~neuron_m~~UsedByGraph_edge3" class="edge">
-<title>module~inference_engine_s&#45;&gt;module~neuron_m</title>
-<path fill="none" stroke="#ff0000" stroke-dasharray="5,2" d="M201.79,-135.97C171.49,-133.51 133.94,-128.23 102,-117 86.51,-111.56 70.72,-102.3 58.25,-93.97"/>
-<polygon fill="#ff0000" stroke="#ff0000" points="60.03,-90.94 49.82,-88.12 56.05,-96.69 60.03,-90.94"/>
-</g>
-<!-- module~inference_engine_s&#45;&gt;module~layer_m -->
-<g id="module~~neuron_m~~UsedByGraph_edge9" class="edge">
-<title>module~inference_engine_s&#45;&gt;module~layer_m</title>
-<path fill="none" stroke="#7fff00" stroke-dasharray="5,2" d="M222.68,-125.96C206.19,-120.42 186.65,-113.86 170.07,-108.29"/>
-<polygon fill="#7fff00" stroke="#7fff00" points="170.78,-104.83 160.18,-104.97 168.55,-111.47 170.78,-104.83"/>
-</g>
-<!-- program~read_json -->
-<g id="module~~neuron_m~~UsedByGraph_node6" class="node">
-<title>program~read_json</title>
-<g id="a_module~~neuron_m~~UsedByGraph_node6"><a xlink:href=".././program/read_json.html" xlink:title="read_json">
-<polygon fill="#f0ad4e" stroke="#f0ad4e" points="437,-108 373,-108 373,-84 437,-84 437,-108"/>
-<text text-anchor="middle" x="405" y="-93.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">read_json</text>
-</a>
-</g>
-</g>
-<!-- program~read_json&#45;&gt;module~inference_engine_m -->
-<g id="module~~neuron_m~~UsedByGraph_edge5" class="edge">
-<title>program~read_json&#45;&gt;module~inference_engine_m</title>
-<path fill="none" stroke="#ff0000" stroke-dasharray="5,2" d="M372.86,-86.89C354.94,-81.64 331.98,-74.92 311.49,-68.92"/>
-<polygon fill="#ff0000" stroke="#ff0000" points="312.24,-65.5 301.66,-66.05 310.27,-72.21 312.24,-65.5"/>
-</g>
 <!-- module~layer_s -->
-<g id="module~~neuron_m~~UsedByGraph_node7" class="node">
+<g id="module~~neuron_m~~UsedByGraph_node6" class="node">
 <title>module~layer_s</title>
-<g id="a_module~~neuron_m~~UsedByGraph_node7"><a xlink:href=".././module/layer_s.html" xlink:title="layer_s">
+<g id="a_module~~neuron_m~~UsedByGraph_node6"><a xlink:href=".././module/layer_s.html" xlink:title="layer_s">
 <polygon fill="#5bc0de" stroke="#5bc0de" points="286.5,-108 232.5,-108 232.5,-84 286.5,-84 286.5,-108"/>
 <text text-anchor="middle" x="259.5" y="-93.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">layer_s</text>
 </a>
 </g>
 </g>
 <!-- module~layer_s&#45;&gt;module~layer_m -->
-<g id="module~~neuron_m~~UsedByGraph_edge10" class="edge">
+<g id="module~~neuron_m~~UsedByGraph_edge7" class="edge">
 <title>module~layer_s&#45;&gt;module~layer_m</title>
-<path fill="none" stroke="#7fff00" d="M232.3,-96C214.33,-96 190.25,-96 170.36,-96"/>
-<polygon fill="#7fff00" stroke="#7fff00" points="170.1,-92.5 160.1,-96 170.1,-99.5 170.1,-92.5"/>
+<path fill="none" stroke="#ff0000" d="M232.3,-96C214.33,-96 190.25,-96 170.36,-96"/>
+<polygon fill="#ff0000" stroke="#ff0000" points="170.1,-92.5 160.1,-96 170.1,-99.5 170.1,-92.5"/>
 </g>
 <!-- program~write_read_infer -->
-<g id="module~~neuron_m~~UsedByGraph_node8" class="node">
+<g id="module~~neuron_m~~UsedByGraph_node7" class="node">
 <title>program~write_read_infer</title>
-<g id="a_module~~neuron_m~~UsedByGraph_node8"><a xlink:href=".././program/write_read_infer.html" xlink:title="write_read_infer">
-<polygon fill="#f0ad4e" stroke="#f0ad4e" points="454,-66 356,-66 356,-42 454,-42 454,-66"/>
-<text text-anchor="middle" x="405" y="-51.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">write_read_infer</text>
+<g id="a_module~~neuron_m~~UsedByGraph_node7"><a xlink:href=".././program/write_read_infer.html" xlink:title="write_read_infer">
+<polygon fill="#f0ad4e" stroke="#f0ad4e" points="454,-108 356,-108 356,-84 454,-84 454,-108"/>
+<text text-anchor="middle" x="405" y="-93.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">write_read_infer</text>
 </a>
 </g>
 </g>
 <!-- program~write_read_infer&#45;&gt;module~inference_engine_m -->
-<g id="module~~neuron_m~~UsedByGraph_edge6" class="edge">
+<g id="module~~neuron_m~~UsedByGraph_edge9" class="edge">
 <title>program~write_read_infer&#45;&gt;module~inference_engine_m</title>
-<path fill="none" stroke="#ff0000" stroke-dasharray="5,2" d="M355.82,-54C347.57,-54 338.85,-54 330.17,-54"/>
-<polygon fill="#ff0000" stroke="#ff0000" points="330.03,-50.5 320.03,-54 330.03,-57.5 330.03,-50.5"/>
+<path fill="none" stroke="#00ffff" stroke-dasharray="5,2" d="M362.88,-83.96C346.82,-79.26 328.23,-73.82 311.34,-68.88"/>
+<polygon fill="#00ffff" stroke="#00ffff" points="312.21,-65.49 301.63,-66.04 310.24,-72.21 312.21,-65.49"/>
 </g>
 <!-- program~icar_qr_network -->
-<g id="module~~neuron_m~~UsedByGraph_node9" class="node">
+<g id="module~~neuron_m~~UsedByGraph_node8" class="node">
 <title>program~icar_qr_network</title>
-<g id="a_module~~neuron_m~~UsedByGraph_node9"><a xlink:href=".././program/icar_qr_network.html" xlink:title="icar_qr_network">
-<polygon fill="#f0ad4e" stroke="#f0ad4e" points="453.5,-24 356.5,-24 356.5,0 453.5,0 453.5,-24"/>
-<text text-anchor="middle" x="405" y="-9.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">icar_qr_network</text>
+<g id="a_module~~neuron_m~~UsedByGraph_node8"><a xlink:href=".././program/icar_qr_network.html" xlink:title="icar_qr_network">
+<polygon fill="#f0ad4e" stroke="#f0ad4e" points="453.5,-66 356.5,-66 356.5,-42 453.5,-42 453.5,-66"/>
+<text text-anchor="middle" x="405" y="-51.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">icar_qr_network</text>
 </a>
 </g>
 </g>
 <!-- program~icar_qr_network&#45;&gt;module~inference_engine_m -->
-<g id="module~~neuron_m~~UsedByGraph_edge7" class="edge">
+<g id="module~~neuron_m~~UsedByGraph_edge10" class="edge">
 <title>program~icar_qr_network&#45;&gt;module~inference_engine_m</title>
-<path fill="none" stroke="#ff0000" stroke-dasharray="5,2" d="M362.88,-24.04C346.82,-28.74 328.23,-34.18 311.34,-39.12"/>
-<polygon fill="#ff0000" stroke="#ff0000" points="310.24,-35.79 301.63,-41.96 312.21,-42.51 310.24,-35.79"/>
+<path fill="none" stroke="#00ffff" stroke-dasharray="5,2" d="M356.22,-54C347.9,-54 339.09,-54 330.32,-54"/>
+<polygon fill="#00ffff" stroke="#00ffff" points="330.07,-50.5 320.07,-54 330.07,-57.5 330.07,-50.5"/>
+</g>
+<!-- program~read_json -->
+<g id="module~~neuron_m~~UsedByGraph_node9" class="node">
+<title>program~read_json</title>
+<g id="a_module~~neuron_m~~UsedByGraph_node9"><a xlink:href=".././program/read_json.html" xlink:title="read_json">
+<polygon fill="#f0ad4e" stroke="#f0ad4e" points="437,-24 373,-24 373,0 437,0 437,-24"/>
+<text text-anchor="middle" x="405" y="-9.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">read_json</text>
+</a>
+</g>
+</g>
+<!-- program~read_json&#45;&gt;module~inference_engine_m -->
+<g id="module~~neuron_m~~UsedByGraph_edge8" class="edge">
+<title>program~read_json&#45;&gt;module~inference_engine_m</title>
+<path fill="none" stroke="#00ffff" stroke-dasharray="5,2" d="M372.86,-21.11C354.94,-26.36 331.98,-33.08 311.49,-39.08"/>
+<polygon fill="#00ffff" stroke="#00ffff" points="310.27,-35.79 301.66,-41.95 312.24,-42.5 310.27,-35.79"/>
 </g>
 </g>
 </svg>
@@ -750,7 +750,7 @@
           <p class="text-right">
             Documentation generated by 
             <a href="https://github.com/Fortran-FOSS-Programmers/ford">FORD</a>
- on 2023-05-25 18:42            </p>
+ on 2023-05-30 13:44            </p>
         </div>
       </div>
       <br>
