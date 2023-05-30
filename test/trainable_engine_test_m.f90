@@ -55,7 +55,7 @@ contains
     )
   end function
 
-  function trainable_single_layer_perceptron() result(trainable_engine)
+  function trainable_hidden_layer() result(trainable_engine)
     type(trainable_engine_t) trainable_engine
     integer, parameter :: n_in = 2 ! number of inputs
     integer, parameter :: n_out = 1 ! number of outputs
@@ -93,7 +93,7 @@ contains
     )
      loop_over_truth_table_entries: &
       do j =1, size(inputs)
-        trainable_engine = trainable_single_layer_perceptron()
+        trainable_engine = trainable_hidden_layer()
         call trainable_engine%train([(mini_batch_t(input_output_pair_t([inputs(j)], [expected_outputs(j)])), i=1,3000)], matmul_t())
         actual_output(j) = trainable_engine%infer(inputs(j), matmul_t())
       end do loop_over_truth_table_entries
@@ -101,7 +101,7 @@ contains
     end associate
   end function
 
-  function wide_single_layer_perceptron() result(trainable_engine)
+  function wide_hidden_layer() result(trainable_engine)
     type(trainable_engine_t) trainable_engine
     integer, parameter :: n_in = 2 ! number of inputs
     integer, parameter :: n_out = 1 ! number of outputs
@@ -139,7 +139,7 @@ contains
       expected_outputs_t([false]), expected_outputs_t([true]), expected_outputs_t([true]), expected_outputs_t([false]) &
     ]
     mini_batches = [(mini_batch_t( input_output_pair_t( inputs, expected_outputs ) ), m=1,100000)]
-    trainable_engine = wide_single_layer_perceptron()
+    trainable_engine = wide_hidden_layer()
     call trainable_engine%train(mini_batches, matmul_t())
     actual_output = trainable_engine%infer(inputs, matmul_t())
     test_passes = [(abs(actual_output(i)%outputs() - expected_outputs(i)%outputs()) < tolerance, i=1, size(actual_output))]
