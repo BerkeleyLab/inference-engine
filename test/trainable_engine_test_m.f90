@@ -3,7 +3,6 @@
 module trainable_engine_test_m
   !! Define inference tests and procedures required for reporting results
   use assert_m, only : assert
-  use intrinsic_array_m, only : intrinsic_array_t
   use string_m, only : string_t
   use test_m, only : test_t
   use test_result_m, only : test_result_t
@@ -51,7 +50,11 @@ contains
         "learning the mapping (false,true) -> true trained on mini-batches", &
         "learning the mapping (true,false) -> true trained on mini-batches", &
         "learning the mapping (false,false) -> false trained on mini-batches" &
-      ], outcomes => [train_on_fixed_input_output_pair(), train_on_truth_table_mini_batch()] &
+      ], outcomes => [ &
+        train_on_fixed_input_output_pair(), &
+        train_on_xor_truth_table_mini_batch() &
+        !train_on_and_truth_table_mini_batch() &
+      ] &
     )
       call assert(size(descriptions) == size(outcomes), "trainable_engine_test_m(results): size(descritions) == size(outcomes)")
       test_results = test_result_t(descriptions, outcomes)
@@ -114,7 +117,7 @@ contains
    
     trainable_engine = trainable_engine_t( &
       metadata = [ & 
-       string_t("Wide 1-layer perceptron"), string_t("Damian Rouson"), string_t("2023-05-24"), string_t("sigmoid"), string_t("false") &
+       string_t("Wide 1-layer network"), string_t("Damian Rouson"), string_t("2023-05-24"), string_t("sigmoid"), string_t("false") &
       ], &
       input_weights = real(reshape([([1,0,1,1,0,1], n=1,12 )], [n_in, neurons]), rkind), &
       hidden_weights = reshape([real(rkind)::], [neurons,neurons,n_hidden-1]), &
@@ -125,7 +128,7 @@ contains
     )   
   end function
 
-  function train_on_truth_table_mini_batch() result(test_passes)
+  function train_on_xor_truth_table_mini_batch() result(test_passes)
     logical, allocatable :: test_passes(:)
     type(trainable_engine_t) trainable_engine
     real(rkind), parameter :: tolerance = 1.E-02_rkind, false = 0._rkind, true = 1._rkind
@@ -146,6 +149,65 @@ contains
     call trainable_engine%train(mini_batches, matmul_t())
     actual_output = trainable_engine%infer(inputs, matmul_t())
     test_passes = [(abs(actual_output(i)%outputs() - expected_outputs(i)%outputs()) < tolerance, i=1, size(actual_output))]
+  end function
+
+  function train_on_and_truth_table_mini_batch() result(test_passes)
+    logical, allocatable :: test_passes(:)
+    type(trainable_engine_t) trainable_engine
+    integer, parameter :: mini_batch_size = 200, num_inputs=2, num_outputs=1, num_iterations=50000
+    type(inputs_t) inputs(mini_batch_size)
+    type(outputs_t) actual_output(mini_batch_size)
+    type(expected_outputs_t) expected_outputs(mini_batch_size)
+    type(mini_batch_t) mini_batches(mini_batch_size)
+    real(rkind) harvest(mini_batch_size, num_inputs)
+    integer pair, iter, i
+    real(rkind), parameter :: tolerance = 1.E-02_rkind, false = 0._rkind, true = 1._rkind
+
+    call random_init(image_distinct=.true., repeatable=.true.)
+
+    trainable_engine = two_hidden_layers()
+    
+    do iter = 1, num_iterations
+      call random_number(harvest)
+      do pair = 1, mini_batch_size
+        inputs(pair) = inputs_t(harvest(pair,:))
+        expected_outputs(pair) = and(inputs(pair))
+      end do
+      mini_batches = mini_batch_t(input_output_pair_t(inputs, expected_outputs))
+      call trainable_engine%train(mini_batches, matmul_t())
+      actual_output = trainable_engine%infer(inputs, matmul_t())
+    end do
+    test_passes = [(abs(actual_output(i)%outputs() - expected_outputs(i)%outputs()) < tolerance, i=1, size(actual_output))]
+
+  contains
+    
+    elemental function and(inputs_object) result(expected_outputs_object)
+       type(inputs_t), intent(in) :: inputs_object 
+       type(expected_outputs_t) expected_outputs_object 
+       expected_outputs_object = expected_outputs_t([merge(false, true, sum(inputs_object%inputs())<=1.5_rkind)])
+    end function
+
+    function two_hidden_layers() result(trainable_engine)
+      type(trainable_engine_t) trainable_engine
+      integer, parameter :: n_in = 2 ! number of inputs
+      integer, parameter :: n_out = 1 ! number of outputs
+      integer, parameter :: neurons = 3 ! number of neurons per layer
+      integer, parameter :: n_hidden = 2 ! number of hidden layers 
+      integer n
+     
+      trainable_engine = trainable_engine_t( &
+        metadata = [ & 
+         string_t("2-hidden-layer network"), string_t("Damian Rouson"), string_t("2023-05-30"), string_t("sigmoid"), &
+         string_t("false") &
+        ], &
+        input_weights = reshape([(0._rkind, n=1, n_in*neurons)], [n_in, neurons]), &
+        hidden_weights = reshape([(0._rkind, n=1, neurons*neurons*(n_hidden-1))], [neurons,neurons,n_hidden-1]), &
+        output_weights = reshape([(0._rkind, n=1, n_out*neurons)], [n_out, neurons]), &
+        biases = reshape([(0.,n=1, neurons*n_hidden)], [neurons, n_hidden]), &
+        output_biases = [0._rkind], &
+        differentiable_activation_strategy = sigmoid_t() &
+      )   
+    end function
   end function
 
 end module trainable_engine_test_m
