@@ -198,7 +198,7 @@
 <polygon fill="#ff0000" stroke="#ff0000" points="87.56,-36.76 80.42,-44.59 90.88,-42.93 87.56,-36.76"/>
 </g>
 <!-- module~input_output_pair_m&#45;&gt;module~kind_parameters_m -->
-<g id="module~~mini_batch_m~~UsesGraph_edge4" class="edge">
+<g id="module~~mini_batch_m~~UsesGraph_edge3" class="edge">
 <title>module~input_output_pair_m&#45;&gt;module~kind_parameters_m</title>
 <path fill="none" stroke="#ff0000" stroke-dasharray="5,2" d="M350.73,-68.9C331.93,-79.16 303.12,-93.05 276,-98.75 222.94,-109.9 207.03,-110.05 154,-98.75 131.22,-93.89 107.28,-83.1 89.26,-73.67"/>
 <polygon fill="#ff0000" stroke="#ff0000" points="90.88,-70.56 80.42,-68.9 87.56,-76.73 90.88,-70.56"/>
@@ -213,7 +213,7 @@
 </g>
 </g>
 <!-- module~input_output_pair_m&#45;&gt;module~expected_outputs_m -->
-<g id="module~~mini_batch_m~~UsesGraph_edge3" class="edge">
+<g id="module~~mini_batch_m~~UsesGraph_edge4" class="edge">
 <title>module~input_output_pair_m&#45;&gt;module~expected_outputs_m</title>
 <path fill="none" stroke="#ff0000" stroke-dasharray="5,2" d="M311.82,-64.8C303.39,-65.94 294.66,-67.12 286.05,-68.29"/>
 <polygon fill="#ff0000" stroke="#ff0000" points="285.47,-64.83 276.03,-69.64 286.41,-71.77 285.47,-64.83"/>
@@ -353,10 +353,25 @@
 <path fill="none" stroke="#ff0000" stroke-dasharray="5,2" d="M122.72,-87.46C114.27,-86.22 105.61,-84.95 97.28,-83.73"/>
 <polygon fill="#ff0000" stroke="#ff0000" points="97.71,-80.26 87.31,-82.27 96.7,-87.19 97.71,-80.26"/>
 </g>
-<!-- program~train_xor_gate -->
+<!-- module~mini_batch_s -->
 <g id="module~~mini_batch_m~~UsedByGraph_node3" class="node">
+<title>module~mini_batch_s</title>
+<g id="a_module~~mini_batch_m~~UsedByGraph_node3"><a xlink:href=".././module/mini_batch_s.html" xlink:title="mini_batch_s">
+<polygon fill="#5bc0de" stroke="#5bc0de" points="223,-28 141,-28 141,-4 223,-4 223,-28"/>
+<text text-anchor="middle" x="182" y="-13.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">mini_batch_s</text>
+</a>
+</g>
+</g>
+<!-- module~mini_batch_s&#45;&gt;module~mini_batch_m -->
+<g id="module~~mini_batch_m~~UsedByGraph_edge4" class="edge">
+<title>module~mini_batch_s&#45;&gt;module~mini_batch_m</title>
+<path fill="none" stroke="#ff0000" d="M153.38,-28.14C132.66,-37.25 104.08,-49.81 81.4,-59.78"/>
+<polygon fill="#ff0000" stroke="#ff0000" points="79.83,-56.65 72.08,-63.88 82.64,-63.06 79.83,-56.65"/>
+</g>
+<!-- program~train_xor_gate -->
+<g id="module~~mini_batch_m~~UsedByGraph_node4" class="node">
 <title>program~train_xor_gate</title>
-<g id="a_module~~mini_batch_m~~UsedByGraph_node3"><a xlink:href=".././program/train_xor_gate.html" xlink:title="train_xor_gate">
+<g id="a_module~~mini_batch_m~~UsedByGraph_node4"><a xlink:href=".././program/train_xor_gate.html" xlink:title="train_xor_gate">
 <polygon fill="#f0ad4e" stroke="#f0ad4e" points="382,-150 293,-150 293,-126 382,-126 382,-150"/>
 <text text-anchor="middle" x="337.5" y="-135.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">train_xor_gate</text>
 </a>
@@ -375,9 +390,9 @@
 <polygon fill="#ff0000" stroke="#ff0000" points="237.52,-107.29 226.95,-108.03 235.67,-114.04 237.52,-107.29"/>
 </g>
 <!-- module~inference_engine_m -->
-<g id="module~~mini_batch_m~~UsedByGraph_node4" class="node">
+<g id="module~~mini_batch_m~~UsedByGraph_node5" class="node">
 <title>module~inference_engine_m</title>
-<g id="a_module~~mini_batch_m~~UsedByGraph_node4"><a xlink:href=".././module/inference_engine_m.html" xlink:title="inference_engine_m">
+<g id="a_module~~mini_batch_m~~UsedByGraph_node5"><a xlink:href=".././module/inference_engine_m.html" xlink:title="inference_engine_m">
 <polygon fill="#337ab7" stroke="#337ab7" points="398,-66 277,-66 277,-42 398,-42 398,-66"/>
 <text text-anchor="middle" x="337.5" y="-51.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">inference_engine_m</text>
 </a>
@@ -394,21 +409,6 @@
 <title>module~inference_engine_m&#45;&gt;module~trainable_engine_m</title>
 <path fill="none" stroke="#ff0000" stroke-dasharray="5,2" d="M292.51,-66.04C275.17,-70.78 255.08,-76.28 236.88,-81.26"/>
 <polygon fill="#ff0000" stroke="#ff0000" points="235.72,-77.95 226.99,-83.96 237.56,-84.7 235.72,-77.95"/>
-</g>
-<!-- module~mini_batch_s -->
-<g id="module~~mini_batch_m~~UsedByGraph_node5" class="node">
-<title>module~mini_batch_s</title>
-<g id="a_module~~mini_batch_m~~UsedByGraph_node5"><a xlink:href=".././module/mini_batch_s.html" xlink:title="mini_batch_s">
-<polygon fill="#5bc0de" stroke="#5bc0de" points="223,-28 141,-28 141,-4 223,-4 223,-28"/>
-<text text-anchor="middle" x="182" y="-13.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">mini_batch_s</text>
-</a>
-</g>
-</g>
-<!-- module~mini_batch_s&#45;&gt;module~mini_batch_m -->
-<g id="module~~mini_batch_m~~UsedByGraph_edge4" class="edge">
-<title>module~mini_batch_s&#45;&gt;module~mini_batch_m</title>
-<path fill="none" stroke="#ff0000" d="M153.38,-28.14C132.66,-37.25 104.08,-49.81 81.4,-59.78"/>
-<polygon fill="#ff0000" stroke="#ff0000" points="79.83,-56.65 72.08,-63.88 82.64,-63.06 79.83,-56.65"/>
 </g>
 <!-- module~trainable_engine_s -->
 <g id="module~~mini_batch_m~~UsedByGraph_node6" class="node">
@@ -437,8 +437,8 @@
 <!-- program~write_read_infer&#45;&gt;module~inference_engine_m -->
 <g id="module~~mini_batch_m~~UsedByGraph_edge9" class="edge">
 <title>program~write_read_infer&#45;&gt;module~inference_engine_m</title>
-<path fill="none" stroke="#00ffff" stroke-dasharray="5,2" d="M440.88,-83.96C424.82,-79.26 406.23,-73.82 389.34,-68.88"/>
-<polygon fill="#00ffff" stroke="#00ffff" points="390.21,-65.49 379.63,-66.04 388.24,-72.21 390.21,-65.49"/>
+<path fill="none" stroke="#7f00ff" stroke-dasharray="5,2" d="M440.88,-83.96C424.82,-79.26 406.23,-73.82 389.34,-68.88"/>
+<polygon fill="#7f00ff" stroke="#7f00ff" points="390.21,-65.49 379.63,-66.04 388.24,-72.21 390.21,-65.49"/>
 </g>
 <!-- program~icar_qr_network -->
 <g id="module~~mini_batch_m~~UsedByGraph_node8" class="node">
@@ -452,8 +452,8 @@
 <!-- program~icar_qr_network&#45;&gt;module~inference_engine_m -->
 <g id="module~~mini_batch_m~~UsedByGraph_edge10" class="edge">
 <title>program~icar_qr_network&#45;&gt;module~inference_engine_m</title>
-<path fill="none" stroke="#00ffff" stroke-dasharray="5,2" d="M434.22,-54C425.9,-54 417.09,-54 408.32,-54"/>
-<polygon fill="#00ffff" stroke="#00ffff" points="408.07,-50.5 398.07,-54 408.07,-57.5 408.07,-50.5"/>
+<path fill="none" stroke="#7f00ff" stroke-dasharray="5,2" d="M434.22,-54C425.9,-54 417.09,-54 408.32,-54"/>
+<polygon fill="#7f00ff" stroke="#7f00ff" points="408.07,-50.5 398.07,-54 408.07,-57.5 408.07,-50.5"/>
 </g>
 <!-- program~read_json -->
 <g id="module~~mini_batch_m~~UsedByGraph_node9" class="node">
@@ -467,8 +467,8 @@
 <!-- program~read_json&#45;&gt;module~inference_engine_m -->
 <g id="module~~mini_batch_m~~UsedByGraph_edge8" class="edge">
 <title>program~read_json&#45;&gt;module~inference_engine_m</title>
-<path fill="none" stroke="#00ffff" stroke-dasharray="5,2" d="M450.86,-21.11C432.94,-26.36 409.98,-33.08 389.49,-39.08"/>
-<polygon fill="#00ffff" stroke="#00ffff" points="388.27,-35.79 379.66,-41.95 390.24,-42.5 388.27,-35.79"/>
+<path fill="none" stroke="#7f00ff" stroke-dasharray="5,2" d="M450.86,-21.11C432.94,-26.36 409.98,-33.08 389.49,-39.08"/>
+<polygon fill="#7f00ff" stroke="#7f00ff" points="388.27,-35.79 379.66,-41.95 390.24,-42.5 388.27,-35.79"/>
 </g>
 </g>
 </svg>
@@ -671,7 +671,7 @@
           <p class="text-right">
             Documentation generated by 
             <a href="https://github.com/Fortran-FOSS-Programmers/ford">FORD</a>
- on 2023-05-30 13:44            </p>
+ on 2023-05-30 16:02            </p>
         </div>
       </div>
       <br>

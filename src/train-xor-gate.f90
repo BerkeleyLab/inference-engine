@@ -43,7 +43,7 @@ program train_xor_gate
   print *,"Defining mini-batches, each containing input/output pairs corresponding to the four entries in the XOR truth table."
   mini_batches = [(mini_batch_t( input_output_pair_t( inputs, expected_outputs ) ), m=1,110000)]
   print *,"Defining an initial trainable_engine_t neural network object."
-  trainable_engine = wide_single_layer_perceptron()
+  trainable_engine = wide_single_hidden_layer_network()
   print *,"Training the neural network using the mini-batches."
   block
     real t_start, t_end
@@ -87,7 +87,7 @@ contains
     call json_file%write_lines(file_name)
   end subroutine
 
-  function wide_single_layer_perceptron() result(trainable_engine)
+  function wide_single_hidden_layer_network() result(trainable_engine)
     type(trainable_engine_t) trainable_engine
     integer, parameter :: n_in = 2 ! number of inputs
     integer, parameter :: n_out = 1 ! number of outputs
@@ -97,7 +97,8 @@ contains
    
     trainable_engine = trainable_engine_t( &
       metadata = [ &
-       string_t("Wide 1-layer perceptron"), string_t("Damian Rouson"), string_t("2023-05-24"), string_t("sigmoid"), string_t("false") &
+       string_t("Wide 1-hidden-layer network"), string_t("Damian Rouson"), string_t("2023-05-24"), string_t("sigmoid"), &
+       string_t("false") &
       ], &
       input_weights = real(reshape([([1,0,1,1,0,1], n=1,12 )], [n_in, neurons]), rkind), &
       hidden_weights = reshape([real(rkind)::], [neurons,neurons,n_hidden-1]), &
