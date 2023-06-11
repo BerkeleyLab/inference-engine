@@ -1,3 +1,5 @@
+! Copyright (c), The Regents of the University of California
+! Terms of use are as specified in LICENSE.txt
 module inference_engine_m
  use activation_strategy_m
  use concurrent_dot_products_m
