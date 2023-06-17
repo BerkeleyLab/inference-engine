@@ -60,7 +60,7 @@ contains
     type(trainable_engine_t) trainable_engine
     integer, parameter :: mini_batch_size = 200, num_inputs=2, num_outputs=1, num_iterations=1 !50000
     type(inputs_t) inputs(mini_batch_size)
-    type(outputs_t) actual_output(mini_batch_size)
+    type(outputs_t), allocatable :: actual_output(:)
     type(expected_outputs_t) expected_outputs(mini_batch_size)
     type(mini_batch_t) mini_batches(mini_batch_size)
     real(rkind) harvest(mini_batch_size, num_inputs)
@@ -70,17 +70,17 @@ contains
     call random_init(image_distinct=.true., repeatable=.true.)
 
     trainable_engine = two_hidden_layers()
-    
-    !do iter = 1, num_iterations
-    !  call random_number(harvest)
-    !  do pair = 1, mini_batch_size
-    !    inputs(pair) = inputs_t(harvest(pair,:))
-    !    expected_outputs(pair) = and(inputs(pair))
-    !  end do
-    !  mini_batches = mini_batch_t(input_output_pair_t(inputs, expected_outputs))
-    !  call trainable_engine%train(mini_batches, matmul_t())
-    !  actual_output = trainable_engine%infer(inputs, matmul_t())
-    !end do
+
+    do iter = 1, num_iterations
+      call random_number(harvest)
+      do pair = 1, mini_batch_size
+        inputs(pair) = inputs_t(harvest(pair,:))
+        expected_outputs(pair) = and(inputs(pair))
+      end do
+      mini_batches = mini_batch_t(input_output_pair_t(inputs, expected_outputs))
+      call trainable_engine%train(mini_batches, matmul_t())
+      actual_output = trainable_engine%infer(inputs, matmul_t())
+    end do
 
     block
       type(inputs_t), allocatable :: inputs(:)
@@ -94,8 +94,8 @@ contains
         expected_outputs_t([true]), expected_outputs_t([false]), expected_outputs_t([false]), expected_outputs_t([false]) &
       ]
       actual_output = trainable_engine%infer(inputs, matmul_t())
-      stop "made it"
-      print *,"shape(actual_output): ",shape(actual_output)
+      print *,"expected output: ",[(expected_outputs(i)%outputs(), i=1,size(expected_outputs))]
+      print *,"actual output:   ",[(actual_output(i)%outputs(), i=1,size(actual_output))]
       test_passes = [(abs(actual_output(i)%outputs() - expected_outputs(i)%outputs()) < tolerance, i=1, size(actual_output))]
     end block
 
