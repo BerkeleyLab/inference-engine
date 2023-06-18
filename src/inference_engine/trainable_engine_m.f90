@@ -37,6 +37,17 @@ module trainable_engine_m
       type(trainable_engine_t) trainable_engine
     end function
 
+    pure module function construct_from_padded_arrays(nodes, weights, biases, differentiable_activation_strategy, metadata) &
+    result(trainable_engine)
+      implicit none
+      integer, intent(in), allocatable :: nodes(:)
+      real(rkind), intent(in)  :: weights(:,:,:), biases(:,:)
+      class(differentiable_activation_strategy_t), intent(in) :: differentiable_activation_strategy
+      type(string_t), intent(in) :: metadata(:)
+      type(trainable_engine_t) trainable_engine
+ 
+    end function
+
   end interface
 
   interface

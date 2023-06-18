@@ -115,4 +115,28 @@ contains
     
   end procedure
 
+
+  module procedure construct_from_padded_arrays
+
+    integer l
+
+    associate( &
+      n_in => nodes(0), & ! number of inputs
+      n_out => nodes(size(nodes)-1), & ! number of outputs
+      neurons => nodes(1), & ! number of neurons per layer
+      n_hidden => size(nodes) - 2 & ! number of hidden layers 
+    )
+      trainable_engine = construct_trainable_engine( &
+        metadata = metadata, &
+        input_weights = real(reshape([(weights(1:nodes(l), 1:nodes(l-1),l), l=1,1)], [n_in, neurons]), rkind), &
+        hidden_weights = real(reshape([(weights(1:nodes(l), 1:nodes(l-1),l), l=2,n_hidden)], [neurons,neurons,n_hidden-1]), rkind),&
+        output_weights = real(reshape([(weights(1:nodes(l), 1:nodes(l-1),l), l=n_hidden+1,n_hidden+1)], [n_out,neurons]), rkind), &
+        biases = real(reshape([([(biases(1:nodes(l),l))], l=1,n_hidden)], [neurons, n_hidden]), rkind), &
+        output_biases = real([(biases(1:nodes(l),l), l=n_hidden+1,n_hidden+1)], rkind), &
+        differentiable_activation_strategy = differentiable_activation_strategy &
+      )   
+    end associate
+
+  end procedure
+
 end submodule trainable_engine_s
