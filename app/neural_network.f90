@@ -110,16 +110,16 @@ program neural_network
      
      end do
   
-     cost = cost/(2.e0*dble(n_inner_iterations))
+     cost = cost/(2.e0*n_inner_iterations)
      write(8,*) n_outer,log10(cost)
 
      do l = 1,nhidden+1
         do j = 1,nodes(l)
            do k = 1,nodes(l-1)
-              dcdw(j,k,l) = dcdw(j,k,l)/dble(n_inner_iterations)
+              dcdw(j,k,l) = dcdw(j,k,l)/n_inner_iterations
               w(j,k,l) = w(j,k,l) - eta*dcdw(j,k,l) ! Adjust weights
            end do
-           dcdb(j,l) = dcdb(j,l)/dble(n_inner_iterations)
+           dcdb(j,l) = dcdb(j,l)/n_inner_iterations
            b(j,l) = b(j,l) - eta*dcdb(j,l) ! Adjust biases
         end do
      end do
@@ -131,7 +131,7 @@ program neural_network
     type(outputs_t) true_true, false_true, true_false, false_false
     real(rkind), parameter :: tolerance = 1.E-02
 
-    trainable_engine = trainable_engine_t(nodes, real(w, rkind), real(b, rkind), sigmoid_t(), &
+    trainable_engine = trainable_engine_t(nodes, w, b, sigmoid_t(), &
       metadata = [ & 
         string_t("2-hidden-layer network"), string_t("Damian Rouson"), string_t("2023-06-18"), string_t("sigmoid"), &
         string_t("false") &
