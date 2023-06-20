@@ -202,7 +202,7 @@ contains
     elemental function and(inputs_object) result(expected_outputs_object)
        type(inputs_t), intent(in) :: inputs_object 
        type(expected_outputs_t) expected_outputs_object 
-       expected_outputs_object = expected_outputs_t([merge(false, true, sum(inputs_object%inputs())<=1.5_rkind)])
+       expected_outputs_object = expected_outputs_t([merge(false, true, sum(inputs_object%values())<=1.5_rkind)])
     end function
 
     function two_hidden_layers() result(trainable_engine)

@@ -6,11 +6,11 @@ submodule(inputs_m) inputs_s
 contains
 
     module procedure construct_from_components
-      inputs_object%inputs_ = inputs
+      inputs%values_ = values
     end procedure
 
-    module procedure inputs 
-      my_inputs = self%inputs_
+    module procedure values
+      inputs = self%values_
     end procedure
 
 end submodule inputs_s

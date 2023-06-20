@@ -9,27 +9,27 @@ module inputs_m
 
   type inputs_t
     private
-    real(rkind), allocatable :: inputs_(:)
+    real(rkind), allocatable :: values_(:)
   contains
-    procedure inputs
+    procedure values
   end type
 
   interface inputs_t
 
-    pure module function construct_from_components(inputs) result(inputs_object)
+    pure module function construct_from_components(values) result(inputs)
       implicit none
-      real(rkind), intent(in) :: inputs(:)
-      type(inputs_t) inputs_object
+      real(rkind), intent(in) :: values(:)
+      type(inputs_t) inputs
     end function
 
   end interface
 
   interface
 
-    pure module function inputs(self) result(my_inputs)
+    pure module function values(self) result(inputs)
       implicit none
       class(inputs_t), intent(in) :: self
-      real(rkind), allocatable :: my_inputs(:)
+      real(rkind), allocatable :: inputs(:)
     end function
 
   end interface

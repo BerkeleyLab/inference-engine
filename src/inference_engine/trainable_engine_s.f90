@@ -71,7 +71,7 @@ contains
                       end do
 
                       network_increments(pair) = network_increment_t( &
-                        delta_w_in =  -eta*outer_product(delta(:,1), inputs(pair)%inputs()), &
+                        delta_w_in =  -eta*outer_product(delta(:,1), inputs(pair)%values()), &
                         delta_w_hidden = delta_w, &
                         delta_w_out = -eta*outer_product(delta_L, a(:,num_hidden_layers)), &
                         delta_b_hidden = -eta*delta, &
