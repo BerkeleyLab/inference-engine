@@ -294,7 +294,7 @@ contains
     call assert_consistent(self)
 
     outputs = inference_strategy%infer( &
-      input = inputs%inputs_, &
+      input = inputs%inputs(), &
       input_weights = self%input_weights_, &
       hidden_weights = self%hidden_weights_ , &
       biases = self%biases_, &

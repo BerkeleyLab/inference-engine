@@ -8,10 +8,21 @@ module inputs_m
   public :: inputs_t
 
   type inputs_t
+    private
     real(rkind), allocatable :: inputs_(:)
   contains
     procedure inputs
   end type
+
+  interface inputs_t
+
+    pure module function construct_from_components(inputs) result(inputs_object)
+      implicit none
+      real(rkind), intent(in) :: inputs(:)
+      type(inputs_t) inputs_object
+    end function
+
+  end interface
 
   interface
 

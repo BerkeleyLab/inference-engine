@@ -5,6 +5,10 @@ submodule(inputs_m) inputs_s
 
 contains
 
+    module procedure construct_from_components
+      inputs_object%inputs_ = inputs
+    end procedure
+
     module procedure inputs 
       my_inputs = self%inputs_
     end procedure
