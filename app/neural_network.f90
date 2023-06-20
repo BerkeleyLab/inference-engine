@@ -20,7 +20,7 @@ program neural_network
   type(sigmoid_t) sigmoid
   type(expected_outputs_t) expected_y
   real, parameter :: false = 0._rkind, true = 1._rkind
-  real(rkind), allocatable :: harvest(:)
+  real(rkind), allocatable :: harvest(:,:,:)
 
   open(unit=8,file='cost')
   nhidden = 2
@@ -46,12 +46,13 @@ program neural_network
   allocate(dcdw(nodes_max,nodes_max,nhidden+1)) ! Gradient of cost function with respect to weights
   allocate(dcdb(nodes_max,nhidden+1)) ! Gradient of cost function with respect with biases
   allocate(y(nodes(nhidden+1))) ! Desired output
-  allocate(harvest(nodes(0)))
+  allocate(harvest(nodes(0), n_inner_iterations, n_outer_iterations))
 
   w = 0.e0 ! Initialize weights
   b = 0.e0 ! Initialize biases
 
   call random_init(image_distinct=.true., repeatable=.true.)
+  call random_number(harvest)
   
   do n_outer = 1,n_outer_iterations
 
@@ -62,8 +63,7 @@ program neural_network
      do n = 1,n_inner_iterations
 
         ! Create an AND gate
-        call random_number(harvest)
-        a(:,0) = merge(true, false, harvest < 0.5E0)
+        a(:,0) = merge(true, false, harvest(:,n,n_outer) < 0.5E0)
         expected_y = and(inputs_t(a(1:nodes(0),0)))
         y = expected_y%outputs()
 
