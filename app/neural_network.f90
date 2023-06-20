@@ -22,7 +22,6 @@ program neural_network
   real, parameter :: false = 0._rkind, true = 1._rkind
   real(rkind), allocatable :: harvest(:,:,:)
 
-  open(unit=8,file='cost')
   nhidden = 2
   n_inner_iterations = 200
   n_outer_iterations = 50000
