@@ -21,6 +21,7 @@ program neural_network
   type(expected_outputs_t) expected_y
   real, parameter :: false = 0._rkind, true = 1._rkind
   real(rkind), allocatable :: harvest(:,:,:)
+  type(inputs_t), allocatable :: tmp(:), inputs(:,:)
 
   nhidden = 2
   n_inner_iterations = 200
@@ -52,6 +53,10 @@ program neural_network
 
   call random_init(image_distinct=.true., repeatable=.true.)
   call random_number(harvest)
+
+  ! The following temporary copy is required by gfortran bug 100650 (and possibly 49324)
+  tmp = [([(inputs_t(merge(true, false, harvest(:,n,n_outer) < 0.5E0)), n=1, n_inner_iterations)], n_outer=1, n_outer_iterations)]
+  inputs = reshape(tmp, [n_inner_iterations, n_outer_iterations])
   
   do n_outer = 1,n_outer_iterations
 
@@ -62,7 +67,7 @@ program neural_network
      do n = 1,n_inner_iterations
 
         ! Create an AND gate
-        a(:,0) = merge(true, false, harvest(:,n,n_outer) < 0.5E0)
+        a(1:nodes(0),0) = inputs(n,n_outer)%values()
         expected_y = and(inputs_t(a(1:nodes(0),0)))
         y = expected_y%outputs()
 
