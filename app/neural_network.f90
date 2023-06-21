@@ -8,6 +8,8 @@ program neural_network
   use outputs_m, only : outputs_t
   use expected_outputs_m, only : expected_outputs_t
   use inputs_m, only : inputs_t
+  use input_output_pair_m, only : input_output_pair_t
+  use mini_batch_m, only : mini_batch_t
   implicit none
   integer i,j,k,l,n,n_outer
   integer nhidden,nodes_max
@@ -22,6 +24,7 @@ program neural_network
   real(rkind), allocatable :: harvest(:,:,:)
   type(inputs_t), allocatable :: tmp(:), inputs(:,:)
   type(expected_outputs_t), allocatable :: expected_outputs(:,:)
+  type(mini_batch_t), allocatable :: mini_batches(:)
 
   nhidden = 2
   n_inner_iterations = 200
@@ -58,6 +61,7 @@ program neural_network
   tmp = [([(inputs_t(merge(true, false, harvest(:,n,n_outer) < 0.5E0)), n=1, n_inner_iterations)], n_outer=1, n_outer_iterations)]
   inputs = reshape(tmp, [n_inner_iterations, n_outer_iterations])
   expected_outputs = and(inputs)
+  mini_batches = [(mini_batch_t( input_output_pair_t( inputs(:,n_outer), expected_outputs(:,n_outer) ) ), n_outer=1,n_outer_iterations)]
   
   do n_outer = 1,n_outer_iterations
 

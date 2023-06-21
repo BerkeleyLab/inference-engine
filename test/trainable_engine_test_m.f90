@@ -157,45 +157,46 @@ contains
 
   function train_on_and_truth_table_mini_batch() result(test_passes)
     logical, allocatable :: test_passes(:)
-    type(trainable_engine_t) trainable_engine
-    integer, parameter :: mini_batch_size = 200, num_inputs=2, num_outputs=1, num_iterations=1 !50000
-    type(inputs_t) inputs(mini_batch_size)
-    type(outputs_t), allocatable :: actual_output(:)
-    type(expected_outputs_t) expected_outputs(mini_batch_size)
-    type(mini_batch_t) mini_batches(mini_batch_size)
-    real(rkind) harvest(mini_batch_size, num_inputs)
-    integer pair, iter, i
+    type(mini_batch_t), allocatable :: mini_batches(:)
     real(rkind), parameter :: false = 0._rkind, true = 1._rkind
 
-    call random_init(image_distinct=.true., repeatable=.true.)
-
-    trainable_engine = two_hidden_layers()
-    
-    !do iter = 1, num_iterations
-    !  call random_number(harvest)
-    !  do pair = 1, mini_batch_size
-    !    inputs(pair) = inputs_t(harvest(pair,:))
-    !    expected_outputs(pair) = and(inputs(pair))
-    !  end do
-    !  mini_batches = mini_batch_t(input_output_pair_t(inputs, expected_outputs))
-    !  call trainable_engine%train(mini_batches, matmul_t())
-    !  actual_output = trainable_engine%infer(inputs, matmul_t())
-    !end do
-
+    define_training_data: &
     block
-      type(inputs_t), allocatable :: inputs(:)
-      type(expected_outputs_t), allocatable :: expected_outputs(:)
-      real(rkind), parameter :: tolerance = 1.E-02_rkind
+      type(inputs_t), allocatable :: inputs(:,:), tmp(:)
+      type(expected_outputs_t), allocatable :: expected_outputs(:,:)
+      real(rkind), allocatable :: harvest(:,:,:)
+      integer, parameter :: num_inputs=2, mini_batch_size = 200, num_iterations=50000
+      integer batch, iter
 
-      inputs = [ & 
-        inputs_t([true,true]), inputs_t([false,true]), inputs_t([true,false]), inputs_t([false,false]) &
-      ]
-      expected_outputs = [ & 
-        expected_outputs_t([true]), expected_outputs_t([false]), expected_outputs_t([false]), expected_outputs_t([false]) &
-      ]
-      actual_output = trainable_engine%infer(inputs, matmul_t())
-      test_passes = [(abs(actual_output(i)%outputs() - expected_outputs(i)%outputs()) < tolerance, i=1, size(actual_output))]
-    end block
+      call random_init(image_distinct=.true., repeatable=.true.)
+      allocate(harvest(num_inputs, mini_batch_size, num_iterations))
+      call random_number(harvest)
+      ! The following temporary copy is required by gfortran bug 100650 and possibly 49324
+      ! See https://gcc.gnu.org/bugzilla/show_bug.cgi?id=100650 and https://gcc.gnu.org/bugzilla/show_bug.cgi?id=49324
+      tmp = [([(inputs_t(merge(true, false, harvest(:,batch,iter) < 0.5E0)), batch=1, mini_batch_size)], iter=1, num_iterations)]
+      inputs = reshape(tmp, [mini_batch_size, num_iterations])
+      expected_outputs = and(inputs)
+      mini_batches = [( &
+        mini_batch_t(input_output_pair_t(inputs(:,num_iterations), expected_outputs(:,num_iterations))), iter=1, num_iterations &
+      )]
+    end block define_training_data
+
+    train_and_test: &
+    block
+      type(trainable_engine_t) trainable_engine
+      type(inputs_t), allocatable :: test_inputs(:)
+      type(outputs_t), allocatable :: actual_output(:)
+      type(expected_outputs_t), allocatable :: expected_test_outputs(:)
+      real(rkind), parameter :: tolerance = 1.E-02_rkind
+      integer i
+
+      trainable_engine = two_zeroed_hidden_layers()
+      call trainable_engine%train(mini_batches)
+      test_inputs = [inputs_t([true,true]), inputs_t([false,true]), inputs_t([true,false]), inputs_t([false,false])]
+      expected_test_outputs = and(test_inputs)
+      actual_output = trainable_engine%infer(test_inputs, matmul_t())
+      test_passes = [(abs(actual_output(i)%outputs() - expected_test_outputs(i)%outputs()) < tolerance, i=1, size(actual_output))]
+    end block train_and_test
 
   contains
     
@@ -205,7 +206,7 @@ contains
        expected_outputs_object = expected_outputs_t([merge(false, true, sum(inputs_object%values())<=1.5_rkind)])
     end function
 
-    function two_hidden_layers() result(trainable_engine)
+    function two_zeroed_hidden_layers() result(trainable_engine)
       type(trainable_engine_t) trainable_engine
       integer, parameter :: n_in = 2 ! number of inputs
       integer, parameter :: n_out = 1 ! number of outputs

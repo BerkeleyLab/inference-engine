@@ -20,7 +20,9 @@ module trainable_engine_m
     private
     class(differentiable_activation_strategy_t), allocatable :: differentiable_activation_strategy_ 
   contains
-    procedure :: train
+    procedure :: train_single_hidden_layer
+    procedure :: train_deep_network
+    generic :: train => train_deep_network, train_single_hidden_layer
   end type
 
   interface trainable_engine_t
@@ -52,13 +54,19 @@ module trainable_engine_m
 
   interface
 
-    pure module subroutine train(self, mini_batch, inference_strategy)
+    pure module subroutine train_single_hidden_layer(self, mini_batch, inference_strategy)
       implicit none
       class(trainable_engine_t), intent(inout) :: self
       type(mini_batch_t), intent(in) :: mini_batch(:)
       class(inference_strategy_t), intent(in) :: inference_strategy
     end subroutine
 
+    pure module subroutine train_deep_network(self, mini_batches)
+      implicit none
+      class(trainable_engine_t), intent(inout) :: self
+      type(mini_batch_t), intent(in) :: mini_batches(:)
+    end subroutine
+    
   end interface
 
 end module trainable_engine_m

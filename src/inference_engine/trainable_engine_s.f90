@@ -1,13 +1,14 @@
 ! Copyright (c), The Regents of the University of California
 ! Terms of use are as specified in LICENSE.txt
 submodule(trainable_engine_m) trainable_engine_s
+  use assert_m, only : assert
   use outputs_m, only : outputs_t
   use network_increment_m, only : network_increment_t, operator(.average.)
   implicit none
 
 contains
 
-  module procedure train
+  module procedure train_single_hidden_layer
 
     integer pair, l, batch
     real(rkind), allocatable  :: delta(:,:), delta_in(:), delta_w(:,:,:)
@@ -20,6 +21,7 @@ contains
       num_hidden_layers => self%num_hidden_layers(), &
       neurons_per_layer => self%neurons_per_layer() &
     )
+      call assert(num_hidden_layers==1, "trainable_engine_s(train_single_hidden_layer) not validated for deep networks")
       allocate(delta(neurons_per_layer, num_hidden_layers))
       allocate(delta_w(neurons_per_layer, neurons_per_layer, num_hidden_layers-1))
 
@@ -103,6 +105,10 @@ contains
         end do
       end associate
     end function
+
+  end procedure
+
+  module procedure train_deep_network
 
   end procedure
 
