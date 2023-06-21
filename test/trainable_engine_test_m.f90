@@ -171,16 +171,15 @@ contains
       call random_init(image_distinct=.true., repeatable=.true.)
       allocate(harvest(num_inputs, mini_batch_size, num_iterations))
       call random_number(harvest)
+
       ! The following temporary copy is required by gfortran bug 100650 and possibly 49324
       ! See https://gcc.gnu.org/bugzilla/show_bug.cgi?id=100650 and https://gcc.gnu.org/bugzilla/show_bug.cgi?id=49324
       tmp = [([(inputs_t(merge(true, false, harvest(:,batch,iter) < 0.5E0)), batch=1, mini_batch_size)], iter=1, num_iterations)]
       inputs = reshape(tmp, [mini_batch_size, num_iterations])
       expected_outputs = and(inputs)
-      mini_batches = [( &
-        mini_batch_t(input_output_pair_t(inputs(:,num_iterations), expected_outputs(:,num_iterations))), iter=1, num_iterations &
-      )]
+      mini_batches = [(mini_batch_t(input_output_pair_t(inputs(:,iter), expected_outputs(:,iter))), iter=1, num_iterations)]
     end block define_training_data
-
+        
     train_and_test: &
     block
       type(trainable_engine_t) trainable_engine

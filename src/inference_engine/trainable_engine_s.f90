@@ -4,6 +4,8 @@ submodule(trainable_engine_m) trainable_engine_s
   use assert_m, only : assert
   use outputs_m, only : outputs_t
   use network_increment_m, only : network_increment_t, operator(.average.)
+  use sigmoid_m, only : sigmoid_t
+  use input_output_pair_m, only : input_output_pair_t
   implicit none
 
 contains
@@ -109,7 +111,125 @@ contains
   end procedure
 
   module procedure train_deep_network
+    integer i,j,k,l,nodes_max, batch, iter, mini_batch_size, pair
+    integer, parameter ::  nhidden=2
+    real(rkind) :: r,eta,ir,rr
+    real(rkind) :: cost
+    integer, allocatable :: nodes(:)
+    real(rkind), allocatable :: w(:,:,:),z(:,:),b(:,:),a(:,:),y(:),delta(:,:)
+    real(rkind), allocatable :: dcdw(:,:,:),dcdb(:,:)
+    type(sigmoid_t) sigmoid
+    type(inputs_t), allocatable :: batch_inputs(:)
+    type(expected_outputs_t), allocatable :: batch_expected_outputs(:)
+    type(input_output_pair_t), allocatable :: input_output_pairs(:)
+    
+    allocate(nodes(0:nhidden+1))
+    ! Number of nodes in each layes
+    nodes(0) = 2 ! Number of inputs
+    nodes(1) = 3
+    nodes(2) = 3
+    nodes(3) = 1 ! Number of nodes in the output layer
 
+    nodes_max = maxval(nodes)
+
+    eta = 1.5e0 ! Learning parameter
+    
+    allocate(a(nodes_max,0:nhidden+1)) ! Activations, Layer 0: Inputs, Layer nhidden+1: Outputs
+    allocate(z(nodes_max,nhidden+1)) ! z-values: Sum z_j^l = w_jk^{l} a_k^{l-1} + b_j^l
+    allocate(w(nodes_max,nodes_max,nhidden+1)) ! Weights w_{jk}^l is the weight from the k'th neuron in the (l-1)'th layer to the j'th neuron in the l'th layer
+    allocate(b(nodes_max,nhidden+1)) ! Bias b_j^l is the bias in j'th neuron of the l'th layer
+    allocate(delta(nodes_max,nhidden+1))
+    allocate(dcdw(nodes_max,nodes_max,nhidden+1)) ! Gradient of cost function with respect to weights
+    allocate(dcdb(nodes_max,nhidden+1)) ! Gradient of cost function with respect with biases
+    allocate(y(nodes(nhidden+1))) ! Desired output
+
+    w = 0.e0 ! Initialize weights
+    b = 0.e0 ! Initialize biases
+
+    do iter = 1, size(mini_batches)
+
+       cost = 0.e0
+       dcdw = 0.e0
+       dcdb = 0.e0
+       
+       input_output_pairs = mini_batches(iter)%input_output_pairs()
+       mini_batch_size = size(input_output_pairs )
+       batch_inputs = input_output_pairs%inputs()
+       batch_expected_outputs = input_output_pairs%expected_outputs()
+
+       do pair = 1, mini_batch_size
+
+          ! Create an AND gate
+          a(1:nodes(0),0) = batch_inputs(pair)%values()
+          y = batch_expected_outputs(pair)%outputs()
+
+          ! Feedforward
+          do l = 1,nhidden+1
+             do j = 1,nodes(l)
+                z(j,l) = 0.e0
+                do k = 1,nodes(l-1)
+                   z(j,l) = z(j,l) + w(j,k,l)*a(k,l-1)
+                end do
+                z(j,l) = z(j,l) + b(j,l)
+                a(j,l) = sigmoid%activation(real(z(j,l), kind(1.)))
+             end do
+          end do
+
+          do k = 1,nodes(nhidden+1)
+             cost = cost + (y(k)-a(k,nhidden+1))**2
+          end do
+       
+          do k = 1,nodes(nhidden+1)
+             delta(k,nhidden+1) = (a(k,nhidden+1)-y(k))*sigmoid%activation_derivative(real(z(k,nhidden+1), kind(1.)))
+          end do
+
+          ! Backpropagate the error
+          do l = nhidden,1,-1
+             do j = 1,nodes(l)
+                delta(j,l) = 0.e0
+                do k = 1,nodes(l+1)
+                   delta(j,l) = delta(j,l) + w(k,j,l+1)*delta(k,l+1)
+                end do
+                delta(j,l) = delta(j,l)*sigmoid%activation_derivative(real(z(j,l), kind(1.)))
+             end do
+          end do
+
+          ! Sum up gradients in the inner iteration
+          do l = 1,nhidden+1
+              do j = 1,nodes(l)
+                do k = 1,nodes(l-1)
+                   dcdw(j,k,l) = dcdw(j,k,l) + a(k,l-1)*delta(j,l)
+                end do
+                dcdb(j,l) = dcdb(j,l) + delta(j,l)
+             end do
+           end do
+       
+       end do
+    
+       cost = cost/(2.e0*mini_batch_size)
+
+       do l = 1,nhidden+1
+          do j = 1,nodes(l)
+             do k = 1,nodes(l-1)
+                dcdw(j,k,l) = dcdw(j,k,l)/mini_batch_size
+                w(j,k,l) = w(j,k,l) - eta*dcdw(j,k,l) ! Adjust weights
+             end do
+             dcdb(j,l) = dcdb(j,l)/mini_batch_size
+             b(j,l) = b(j,l) - eta*dcdb(j,l) ! Adjust biases
+          end do
+       end do
+
+    end do
+
+    block
+      type(trainable_engine_t) trainable_engine
+
+      trainable_engine = trainable_engine_t(nodes, w, b, sigmoid_t(), &
+        [string_t("deep network"), string_t("Damian Rouson"), string_t("2023-06-18"), string_t("sigmoid"), string_t("false")])
+      self%inference_engine_t = trainable_engine%inference_engine_t
+      self%differentiable_activation_strategy_ = trainable_engine%differentiable_activation_strategy_
+    end block
+    
   end procedure
 
   module procedure construct_trainable_engine
