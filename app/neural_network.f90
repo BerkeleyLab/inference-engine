@@ -11,28 +11,39 @@ program neural_network
   use input_output_pair_m, only : input_output_pair_t
   use mini_batch_m, only : mini_batch_t
   implicit none
-  integer i,j,k,l,n,n_outer
-  integer nhidden,nodes_max
-  integer n_outer_iterations,n_inner_iterations
+
+  real, parameter :: false = 0._rkind, true = 1._rkind
+  real(rkind), allocatable :: harvest(:,:,:)
+  type(inputs_t), allocatable :: tmp(:), inputs(:,:)
+  type(expected_outputs_t), allocatable :: expected_outputs(:,:)
+  type(mini_batch_t), allocatable :: mini_batches(:)
+  integer, parameter :: mini_batch_size = 200, num_iterations = 50000, num_inputs = 2
+  integer batch, iter
+
+  integer i,j,k,l,nodes_max
+  integer, parameter ::  nhidden=2
   real(rkind) :: r,eta,ir,rr
   real(rkind) :: cost
   integer, allocatable :: nodes(:)
   real(rkind), allocatable :: w(:,:,:),z(:,:),b(:,:),a(:,:),y(:),delta(:,:)
   real(rkind), allocatable :: dcdw(:,:,:),dcdb(:,:)
   type(sigmoid_t) sigmoid
-  real, parameter :: false = 0._rkind, true = 1._rkind
-  real(rkind), allocatable :: harvest(:,:,:)
-  type(inputs_t), allocatable :: tmp(:), inputs(:,:)
-  type(expected_outputs_t), allocatable :: expected_outputs(:,:)
-  type(mini_batch_t), allocatable :: mini_batches(:)
-
-  nhidden = 2
-  n_inner_iterations = 200
-  n_outer_iterations = 50000
+  type(inputs_t), allocatable :: batch_inputs(:)
+  type(expected_outputs_t), allocatable :: batch_expected_outputs(:)
+  type(input_output_pair_t), allocatable :: input_output_pairs(:)
   
+  allocate(harvest(num_inputs, mini_batch_size, num_iterations))
+  call random_init(image_distinct=.true., repeatable=.true.)
+  call random_number(harvest)
+  ! The following temporary copy is required by gfortran bug 100650 (and possibly 49324)
+  tmp = [([(inputs_t(merge(true, false, harvest(:,batch,iter) < 0.5E0)), batch=1, mini_batch_size)], iter=1, num_iterations)]
+  inputs = reshape(tmp, [mini_batch_size, num_iterations])
+  expected_outputs = and(inputs)
+  mini_batches = [(mini_batch_t( input_output_pair_t( inputs(:,iter), expected_outputs(:,iter) ) ), iter=1,num_iterations)]
+
   allocate(nodes(0:nhidden+1))
   ! Number of nodes in each layes
-  nodes(0) = 2 ! Number of nodes in the input layer
+  nodes(0) = num_inputs
   nodes(1) = 3
   nodes(2) = 3
   nodes(3) = 1 ! Number of nodes in the output layer
@@ -49,31 +60,25 @@ program neural_network
   allocate(dcdw(nodes_max,nodes_max,nhidden+1)) ! Gradient of cost function with respect to weights
   allocate(dcdb(nodes_max,nhidden+1)) ! Gradient of cost function with respect with biases
   allocate(y(nodes(nhidden+1))) ! Desired output
-  allocate(harvest(nodes(0), n_inner_iterations, n_outer_iterations))
 
   w = 0.e0 ! Initialize weights
   b = 0.e0 ! Initialize biases
 
-  call random_init(image_distinct=.true., repeatable=.true.)
-  call random_number(harvest)
-
-  ! The following temporary copy is required by gfortran bug 100650 (and possibly 49324)
-  tmp = [([(inputs_t(merge(true, false, harvest(:,n,n_outer) < 0.5E0)), n=1, n_inner_iterations)], n_outer=1, n_outer_iterations)]
-  inputs = reshape(tmp, [n_inner_iterations, n_outer_iterations])
-  expected_outputs = and(inputs)
-  mini_batches = [(mini_batch_t( input_output_pair_t( inputs(:,n_outer), expected_outputs(:,n_outer) ) ), n_outer=1,n_outer_iterations)]
-  
-  do n_outer = 1,n_outer_iterations
+  do iter = 1,num_iterations
 
      cost = 0.e0
      dcdw = 0.e0
      dcdb = 0.e0
      
-     do n = 1,n_inner_iterations
+     input_output_pairs = mini_batches(iter)%input_output_pairs()
+     batch_inputs = input_output_pairs%inputs()
+     batch_expected_outputs = input_output_pairs%expected_outputs()
+
+     do batch = 1,mini_batch_size
 
         ! Create an AND gate
-        a(1:nodes(0),0) = inputs(n,n_outer)%values()
-        y = expected_outputs(n,n_outer)%outputs()
+        a(1:nodes(0),0) = batch_inputs(batch)%values()
+        y = batch_expected_outputs(batch)%outputs()
 
         ! Feedforward
         do l = 1,nhidden+1
@@ -118,16 +123,16 @@ program neural_network
      
      end do
   
-     cost = cost/(2.e0*n_inner_iterations)
-     write(8,*) n_outer,log10(cost)
+     cost = cost/(2.e0*mini_batch_size)
+     write(8,*) iter,log10(cost)
 
      do l = 1,nhidden+1
         do j = 1,nodes(l)
            do k = 1,nodes(l-1)
-              dcdw(j,k,l) = dcdw(j,k,l)/n_inner_iterations
+              dcdw(j,k,l) = dcdw(j,k,l)/mini_batch_size
               w(j,k,l) = w(j,k,l) - eta*dcdw(j,k,l) ! Adjust weights
            end do
-           dcdb(j,l) = dcdb(j,l)/n_inner_iterations
+           dcdb(j,l) = dcdb(j,l)/mini_batch_size
            b(j,l) = b(j,l) - eta*dcdb(j,l) ! Adjust biases
         end do
      end do
