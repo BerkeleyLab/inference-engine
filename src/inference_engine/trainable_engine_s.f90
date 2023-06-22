@@ -124,12 +124,9 @@ contains
     type(input_output_pair_t), allocatable :: input_output_pairs(:)
     
     allocate(nodes(0:nhidden+1))
-    ! Number of nodes in each layes
-    nodes(0) = 2 ! Number of inputs
-    nodes(1) = 3
-    nodes(2) = 3
-    nodes(3) = 1 ! Number of nodes in the output layer
-
+    nodes(0) = self%num_inputs()
+    nodes(1:2)==self%neurons_per_layer()
+    nodes(3)==self%num_outputs()
     nodes_max = maxval(nodes)
 
     eta = 1.5e0 ! Learning parameter
