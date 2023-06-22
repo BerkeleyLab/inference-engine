@@ -112,33 +112,31 @@ contains
 
   module procedure train_deep_network
     integer i,j,k,l,nodes_max, batch, iter, mini_batch_size, pair
-    integer, parameter ::  nhidden=2
-    real(rkind) :: r,eta,ir,rr
-    real(rkind) :: cost
+    real(rkind) :: r, eta, ir, rr, cost
     integer, allocatable :: nodes(:)
-    real(rkind), allocatable :: w(:,:,:),z(:,:),b(:,:),a(:,:),y(:),delta(:,:)
-    real(rkind), allocatable :: dcdw(:,:,:),dcdb(:,:)
+    real(rkind), allocatable :: w(:,:,:), z(:,:), b(:,:), a(:,:), y(:), delta(:,:), dcdw(:,:,:), dcdb(:,:)
     type(sigmoid_t) sigmoid
     type(inputs_t), allocatable :: batch_inputs(:)
     type(expected_outputs_t), allocatable :: batch_expected_outputs(:)
     type(input_output_pair_t), allocatable :: input_output_pairs(:)
     
-    allocate(nodes(0:nhidden+1))
-    nodes(0) = self%num_inputs()
-    nodes(1:2)==self%neurons_per_layer()
-    nodes(3)==self%num_outputs()
+    associate(num_hidden_layers => self%num_hidden_layers(), num_inputs => self%num_inputs())
+    allocate(nodes(0:num_hidden_layers+1))
+    nodes(0) = num_inputs
+    nodes(1:2) = self%neurons_per_layer()
+    nodes(3) = self%num_outputs()
     nodes_max = maxval(nodes)
 
     eta = 1.5e0 ! Learning parameter
     
-    allocate(a(nodes_max,0:nhidden+1)) ! Activations, Layer 0: Inputs, Layer nhidden+1: Outputs
-    allocate(z(nodes_max,nhidden+1)) ! z-values: Sum z_j^l = w_jk^{l} a_k^{l-1} + b_j^l
-    allocate(w(nodes_max,nodes_max,nhidden+1)) ! Weights w_{jk}^l is the weight from the k'th neuron in the (l-1)'th layer to the j'th neuron in the l'th layer
-    allocate(b(nodes_max,nhidden+1)) ! Bias b_j^l is the bias in j'th neuron of the l'th layer
-    allocate(delta(nodes_max,nhidden+1))
-    allocate(dcdw(nodes_max,nodes_max,nhidden+1)) ! Gradient of cost function with respect to weights
-    allocate(dcdb(nodes_max,nhidden+1)) ! Gradient of cost function with respect with biases
-    allocate(y(nodes(nhidden+1))) ! Desired output
+    allocate(a(nodes_max,0:num_hidden_layers+1)) ! Activations, Layer 0: Inputs, Layer num_hidden_layers+1: Outputs
+    allocate(z(nodes_max,num_hidden_layers+1)) ! z-values: Sum z_j^l = w_jk^{l} a_k^{l-1} + b_j^l
+    allocate(w(nodes_max,nodes_max,num_hidden_layers+1)) ! Weights w_{jk}^l is the weight from the k'th neuron in the (l-1)'th layer to the j'th neuron in the l'th layer
+    allocate(b(nodes_max,num_hidden_layers+1)) ! Bias b_j^l is the bias in j'th neuron of the l'th layer
+    allocate(delta(nodes_max,num_hidden_layers+1))
+    allocate(dcdw(nodes_max,nodes_max,num_hidden_layers+1)) ! Gradient of cost function with respect to weights
+    allocate(dcdb(nodes_max,num_hidden_layers+1)) ! Gradient of cost function with respect with biases
+    allocate(y(nodes(num_hidden_layers+1))) ! Desired output
 
     w = 0.e0 ! Initialize weights
     b = 0.e0 ! Initialize biases
@@ -157,42 +155,42 @@ contains
        do pair = 1, mini_batch_size
 
           ! Create an AND gate
-          a(1:nodes(0),0) = batch_inputs(pair)%values()
+          a(1:num_inputs,0) = batch_inputs(pair)%values()
           y = batch_expected_outputs(pair)%outputs()
 
           ! Feedforward
-          do l = 1,nhidden+1
+          do l = 1,num_hidden_layers+1
              do j = 1,nodes(l)
                 z(j,l) = 0.e0
                 do k = 1,nodes(l-1)
                    z(j,l) = z(j,l) + w(j,k,l)*a(k,l-1)
                 end do
                 z(j,l) = z(j,l) + b(j,l)
-                a(j,l) = sigmoid%activation(real(z(j,l), kind(1.)))
+                a(j,l) = sigmoid%activation(z(j,l))
              end do
           end do
 
-          do k = 1,nodes(nhidden+1)
-             cost = cost + (y(k)-a(k,nhidden+1))**2
+          do k = 1,nodes(num_hidden_layers+1)
+             cost = cost + (y(k)-a(k,num_hidden_layers+1))**2
           end do
        
-          do k = 1,nodes(nhidden+1)
-             delta(k,nhidden+1) = (a(k,nhidden+1)-y(k))*sigmoid%activation_derivative(real(z(k,nhidden+1), kind(1.)))
+          do k = 1,nodes(num_hidden_layers+1)
+             delta(k,num_hidden_layers+1) = (a(k,num_hidden_layers+1)-y(k))*sigmoid%activation_derivative(z(k,num_hidden_layers+1))
           end do
 
           ! Backpropagate the error
-          do l = nhidden,1,-1
+          do l = num_hidden_layers,1,-1
              do j = 1,nodes(l)
                 delta(j,l) = 0.e0
                 do k = 1,nodes(l+1)
                    delta(j,l) = delta(j,l) + w(k,j,l+1)*delta(k,l+1)
                 end do
-                delta(j,l) = delta(j,l)*sigmoid%activation_derivative(real(z(j,l), kind(1.)))
+                delta(j,l) = delta(j,l)*sigmoid%activation_derivative(z(j,l))
              end do
           end do
 
           ! Sum up gradients in the inner iteration
-          do l = 1,nhidden+1
+          do l = 1,num_hidden_layers+1
               do j = 1,nodes(l)
                 do k = 1,nodes(l-1)
                    dcdw(j,k,l) = dcdw(j,k,l) + a(k,l-1)*delta(j,l)
@@ -205,7 +203,7 @@ contains
     
        cost = cost/(2.e0*mini_batch_size)
 
-       do l = 1,nhidden+1
+       do l = 1,num_hidden_layers+1
           do j = 1,nodes(l)
              do k = 1,nodes(l-1)
                 dcdw(j,k,l) = dcdw(j,k,l)/mini_batch_size
@@ -217,6 +215,7 @@ contains
        end do
 
     end do
+    end associate
 
     block
       type(trainable_engine_t) trainable_engine
