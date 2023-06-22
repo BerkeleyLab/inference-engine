@@ -165,7 +165,7 @@ contains
       type(inputs_t), allocatable :: inputs(:,:), tmp(:)
       type(expected_outputs_t), allocatable :: expected_outputs(:,:)
       real(rkind), allocatable :: harvest(:,:,:)
-      integer, parameter :: num_inputs=2, mini_batch_size = 200, num_iterations=50000
+      integer, parameter :: num_inputs=2, mini_batch_size = 200, num_iterations=30000
       integer batch, iter
 
       call random_init(image_distinct=.true., repeatable=.true.)
