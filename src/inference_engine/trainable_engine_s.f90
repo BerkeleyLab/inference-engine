@@ -160,14 +160,8 @@ contains
 
           ! Feedforward
           do l = 1,num_hidden_layers+1
-             do j = 1,nodes(l)
-                z(j,l) = 0.e0
-                do k = 1,nodes(l-1)
-                   z(j,l) = z(j,l) + w(j,k,l)*a(k,l-1)
-                end do
-                z(j,l) = z(j,l) + b(j,l)
-                a(j,l) = sigmoid%activation(z(j,l))
-             end do
+            z(1:nodes(l),l) = matmul(w(1:nodes(l),1:nodes(l-1),l), a(1:nodes(l-1),l-1)) + b(1:nodes(l),l)
+            a(1:nodes(l),l) = sigmoid%activation(z(1:nodes(l),l))
           end do
 
           do k = 1,nodes(num_hidden_layers+1)
@@ -180,13 +174,8 @@ contains
 
           ! Backpropagate the error
           do l = num_hidden_layers,1,-1
-             do j = 1,nodes(l)
-                delta(j,l) = 0.e0
-                do k = 1,nodes(l+1)
-                   delta(j,l) = delta(j,l) + w(k,j,l+1)*delta(k,l+1)
-                end do
-                delta(j,l) = delta(j,l)*sigmoid%activation_derivative(z(j,l))
-             end do
+            delta(1:nodes(l),l) = matmul(transpose(w(1:nodes(l+1),1:nodes(l),l+1)), delta(1:nodes(l+1),l+1)) 
+            delta(1:nodes(l),l) = delta(1:nodes(l),l) * sigmoid%activation_derivative(z(1:nodes(l),l))
           end do
 
           ! Sum up gradients in the inner iteration
