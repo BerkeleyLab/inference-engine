@@ -164,13 +164,11 @@ contains
             a(1:nodes(l),l) = sigmoid%activation(z(1:nodes(l),l))
           end do
 
-          do k = 1,nodes(num_hidden_layers+1)
-             cost = cost + (y(k)-a(k,num_hidden_layers+1))**2
-          end do
+          cost = cost + sum((y(1:nodes(num_hidden_layers+1))-a(1:nodes(num_hidden_layers+1),num_hidden_layers+1))**2)
        
-          do k = 1,nodes(num_hidden_layers+1)
-             delta(k,num_hidden_layers+1) = (a(k,num_hidden_layers+1)-y(k))*sigmoid%activation_derivative(z(k,num_hidden_layers+1))
-          end do
+          delta(1:nodes(num_hidden_layers+1),num_hidden_layers+1) = &
+            (a(1:nodes(num_hidden_layers+1),num_hidden_layers+1) - &
+            y(1:nodes(num_hidden_layers+1)))*sigmoid%activation_derivative(z(1:nodes(num_hidden_layers+1),num_hidden_layers+1))
 
           ! Backpropagate the error
           do l = num_hidden_layers,1,-1
