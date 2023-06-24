@@ -178,12 +178,10 @@ contains
 
           ! Sum up gradients in the inner iteration
           do l = 1,num_hidden_layers+1
-              do j = 1,nodes(l)
-                do k = 1,nodes(l-1)
-                   dcdw(j,k,l) = dcdw(j,k,l) + a(k,l-1)*delta(j,l)
-                end do
-                dcdb(j,l) = dcdb(j,l) + delta(j,l)
-             end do
+              dcdb(1:nodes(l),l) = dcdb(1:nodes(l),l) + delta(1:nodes(l),l)
+              do concurrent(j = 1:nodes(l))
+                dcdw(j,1:nodes(l-1),l) = dcdw(j,1:nodes(l-1),l) + a(1:nodes(l-1),l-1)*delta(j,l)
+              end do
            end do
        
        end do
@@ -191,14 +189,12 @@ contains
        cost = cost/(2.e0*mini_batch_size)
 
        do l = 1,num_hidden_layers+1
+          dcdb(1:nodes(l),l) = dcdb(1:nodes(l),l)/mini_batch_size
           do j = 1,nodes(l)
-             do k = 1,nodes(l-1)
-                dcdw(j,k,l) = dcdw(j,k,l)/mini_batch_size
-                w(j,k,l) = w(j,k,l) - eta*dcdw(j,k,l) ! Adjust weights
-             end do
-             dcdb(j,l) = dcdb(j,l)/mini_batch_size
              b(j,l) = b(j,l) - eta*dcdb(j,l) ! Adjust biases
           end do
+          dcdw(1:nodes(l),1:nodes(l-1),l) = dcdw(1:nodes(l),1:nodes(l-1),l)/mini_batch_size
+          w(1:nodes(l),1:nodes(l-1),l) = w(1:nodes(l),1:nodes(l-1),l) - eta*dcdw(1:nodes(l),1:nodes(l-1),l) ! Adjust weights
        end do
 
     end do
