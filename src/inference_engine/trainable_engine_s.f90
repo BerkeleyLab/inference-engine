@@ -113,6 +113,7 @@ contains
   module procedure train_deep_network
     integer i,j,k,l,batch, iter, mini_batch_size, pair
     integer, allocatable :: n(:)
+    integer, parameter :: input_layer=0
     real(rkind), parameter :: eta = 1.5e0 ! Learning parameter
     real(rkind), allocatable :: cost, w(:,:,:), z(:,:), b(:,:), a(:,:), y(:), delta(:,:), dcdw(:,:,:), dcdb(:,:)
     real(rkind) cost
@@ -121,12 +122,9 @@ contains
     
     associate(n_hidden => self%num_hidden_layers(), num_inputs => self%num_inputs(), num_outputs => self%num_outputs())
       associate(output_layer => n_hidden+1)
-        allocate(n(0:output_layer))
-        n(0) = num_inputs
-        n(1:n_hidden) = self%neurons_per_layer()
-        n(output_layer) = num_outputs
+        allocate(n(input_layer:output_layer), source=[num_inputs, [(self%neurons_per_Layer(), l=1,n_hidden)], num_outputs])
         associate(max_width => maxval(n))
-          allocate(a(max_width,0:output_layer)) ! Activations, Layer 0: Inputs, Layer output_layer: Outputs
+          allocate(a(max_width,input_layer:output_layer)) ! Activations, Layer 0: Inputs, Layer output_layer: Outputs
           allocate(b(max_width,output_layer)) ! b_j^l = bias in j'th neuron of the l'th layer
           allocate(w(max_width,max_width,output_layer)) ! w_{jk}^l = weight from k'th neuron in (l-1)'th layer to j'th neuron in l'th layer
         end associate
