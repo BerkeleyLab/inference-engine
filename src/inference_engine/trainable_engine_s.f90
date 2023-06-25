@@ -119,7 +119,6 @@ contains
     type(sigmoid_t) sigmoid
     type(inputs_t), allocatable :: inputs(:)
     type(expected_outputs_t), allocatable :: expected_outputs(:)
-    type(input_output_pair_t), allocatable :: input_output_pairs(:)
     
     associate(n_hidden => self%num_hidden_layers(), num_inputs => self%num_inputs(), num_outputs => self%num_outputs())
       associate(output_layer => n_hidden+1)
@@ -146,10 +145,11 @@ contains
           dcdw = 0.e0
           dcdb = 0.e0
           
-          input_output_pairs = mini_batches(iter)%input_output_pairs()
-          inputs = input_output_pairs%inputs()
-          expected_outputs = input_output_pairs%expected_outputs()
-          mini_batch_size = size(input_output_pairs )
+          associate(input_output_pairs => mini_batches(iter)%input_output_pairs())
+            inputs = input_output_pairs%inputs()
+            expected_outputs = input_output_pairs%expected_outputs()
+            mini_batch_size = size(input_output_pairs)
+          end associate
 
           do pair = 1, mini_batch_size
 
