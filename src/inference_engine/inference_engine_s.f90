@@ -19,6 +19,24 @@ submodule(inference_engine_m_) inference_engine_s
 
 contains
 
+  pure subroutine set_activation_name(inference_engine)
+    type(inference_engine_t), intent(inout) :: inference_engine
+    ! This code is called in both constructors and and can't be refactored into a factory method
+    ! pattern because the result would need to be allocatable and polymorphic, which would preclude
+    ! the function being pure so it wouldn't be possible to call it from inside the pure constructor
+    ! functions.
+    select case(inference_engine%metadata_(findloc(key, "activationFunction", dim=1))%string())
+      case("swish")
+        inference_engine%activation_strategy_ = swish_t()
+      case("sigmoid")
+        inference_engine%activation_strategy_ = sigmoid_t()
+      case("step")
+        inference_engine%activation_strategy_ = step_t()
+      case default
+        error stop "inference_engine_t construct_from_components: unrecognized activation strategy"
+    end select
+  end subroutine
+
   module procedure construct_from_components
 
     real(rkind), allocatable :: transposed(:,:,:)
@@ -36,21 +54,7 @@ contains
     inference_engine%biases_ = biases
     inference_engine%output_biases_ = output_biases
 
-    ! This code is repeated in both constructors and needs to be maintained consistently in both
-    ! places.  It can't be factored into one factory method pattern because the result would need
-    ! to be allocatable and polymorphic, which would preclude the function being pure so it 
-    ! wouldn't be possible to call it from inside this pure constructor function.
-    select case(inference_engine%metadata_(findloc(key, "activationFunction", dim=1))%string())
-      case("swish")
-        inference_engine%activation_strategy_ = swish_t()
-      case("sigmoid")
-        inference_engine%activation_strategy_ = sigmoid_t()
-      case("step")
-        inference_engine%activation_strategy_ = step_t()
-      case default
-        error stop "inference_engine_t construct_from_components: unrecognized activation strategy"
-    end select
-
+    call set_activation_name(inference_engine)
     call inference_engine%assert_consistent
 
   end procedure
@@ -132,17 +136,7 @@ contains
     inference_engine%output_weights_ = output_layer%output_weights()
     inference_engine%output_biases_ = output_layer%output_biases()
 
-    select case(inference_engine%metadata_(findloc(key, "activationFunction", dim=1))%string())
-      case("swish")
-        inference_engine%activation_strategy_ = swish_t()
-      case("sigmoid")
-        inference_engine%activation_strategy_ = sigmoid_t()
-      case("step")
-        inference_engine%activation_strategy_ = step_t()
-      case default
-        error stop "inference_engine_t construct_from_json: unrecognized activation strategy"
-    end select
-
+    call set_activation_name(inference_engine)
     call inference_engine%assert_consistent
 
   contains
