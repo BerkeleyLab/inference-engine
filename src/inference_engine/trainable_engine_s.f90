@@ -121,84 +121,82 @@ contains
     type(expected_outputs_t), allocatable :: expected_outputs(:)
     type(input_output_pair_t), allocatable :: input_output_pairs(:)
     
-    associate(n_hidden => self%num_hidden_layers(), num_inputs => self%num_inputs(), num_outputs=>self%num_outputs())
-    associate(output_layer => n_hidden+1)
-    allocate(n(0:output_layer))
-    n(0) = num_inputs
-    n(1:n_hidden) = self%neurons_per_layer()
-    n(output_layer) = num_outputs
-    associate(max_width => maxval(n))
-    
-    allocate(a(max_width,0:output_layer)) ! Activations, Layer 0: Inputs, Layer output_layer: Outputs
-    allocate(w(max_width,max_width,output_layer)) ! Weights w_{jk}^l is the weight from the k'th neuron in the (l-1)'th layer to the j'th neuron in the l'th layer
-    allocate(b(max_width,output_layer)) ! Bias b_j^l is the bias in j'th neuron of the l'th layer
-    end associate
-    allocate(dcdw,  mold=w) ! Gradient of cost function with respect to weights
-    allocate(z,     mold=b) ! z-values: Sum z_j^l = w_jk^{l} a_k^{l-1} + b_j^l
-    allocate(delta, mold=b)
-    allocate(dcdb,  mold=b) ! Gradient of cost function with respect with biases
+    associate(n_hidden => self%num_hidden_layers(), num_inputs => self%num_inputs(), num_outputs => self%num_outputs())
+      associate(output_layer => n_hidden+1)
+        allocate(n(0:output_layer))
+        n(0) = num_inputs
+        n(1:n_hidden) = self%neurons_per_layer()
+        n(output_layer) = num_outputs
+        associate(max_width => maxval(n))
+          allocate(a(max_width,0:output_layer)) ! Activations, Layer 0: Inputs, Layer output_layer: Outputs
+          allocate(b(max_width,output_layer)) ! b_j^l = bias in j'th neuron of the l'th layer
+          allocate(w(max_width,max_width,output_layer)) ! w_{jk}^l = weight from k'th neuron in (l-1)'th layer to j'th neuron in l'th layer
+        end associate
+        allocate(dcdw,  mold=w) ! Gradient of cost function with respect to weights
+        allocate(z,     mold=b) ! z-values: Sum z_j^l = w_jk^{l} a_k^{l-1} + b_j^l
+        allocate(delta, mold=b)
+        allocate(dcdb,  mold=b) ! Gradient of cost function with respect with biases
 
-    w = 0.e0 ! Initialize weights
-    b = 0.e0 ! Initialize biases
+        w = 0.e0 ! Initialize weights
+        b = 0.e0 ! Initialize biases
 
-    do iter = 1, size(mini_batches)
+        do iter = 1, size(mini_batches)
 
-       cost = 0.e0
-       dcdw = 0.e0
-       dcdb = 0.e0
-       
-       input_output_pairs = mini_batches(iter)%input_output_pairs()
-       inputs = input_output_pairs%inputs()
-       expected_outputs = input_output_pairs%expected_outputs()
-       mini_batch_size = size(input_output_pairs )
+          cost = 0.e0
+          dcdw = 0.e0
+          dcdb = 0.e0
+          
+          input_output_pairs = mini_batches(iter)%input_output_pairs()
+          inputs = input_output_pairs%inputs()
+          expected_outputs = input_output_pairs%expected_outputs()
+          mini_batch_size = size(input_output_pairs )
 
-       do pair = 1, mini_batch_size
+          do pair = 1, mini_batch_size
 
-          ! Create an AND gate
-          a(1:num_inputs,0) = inputs(pair)%values()
-          y = expected_outputs(pair)%outputs()
+            ! Create an AND gate
+            a(1:num_inputs,0) = inputs(pair)%values()
+            y = expected_outputs(pair)%outputs()
 
-          ! Feedforward
-          do l = 1,output_layer
-            z(1:n(l),l) = matmul(w(1:n(l),1:n(l-1),l), a(1:n(l-1),l-1)) + b(1:n(l),l)
-            a(1:n(l),l) = sigmoid%activation(z(1:n(l),l))
-          end do
+            ! Feedforward
+            do l = 1,output_layer
+              z(1:n(l),l) = matmul(w(1:n(l),1:n(l-1),l), a(1:n(l-1),l-1)) + b(1:n(l),l)
+              a(1:n(l),l) = sigmoid%activation(z(1:n(l),l))
+            end do
 
-          cost = cost + sum((y(1:n(output_layer))-a(1:n(output_layer),output_layer))**2)
-       
-          delta(1:n(output_layer),output_layer) = &
-            (a(1:n(output_layer),output_layer) - &
-            y(1:n(output_layer)))*sigmoid%activation_derivative(z(1:n(output_layer),output_layer))
+            cost = cost + sum((y(1:n(output_layer))-a(1:n(output_layer),output_layer))**2)
+          
+            delta(1:n(output_layer),output_layer) = &
+              (a(1:n(output_layer),output_layer) - &
+              y(1:n(output_layer)))*sigmoid%activation_derivative(z(1:n(output_layer),output_layer))
 
-          ! Backpropagate the error
-          do l = n_hidden,1,-1
-            delta(1:n(l),l) = matmul(transpose(w(1:n(l+1),1:n(l),l+1)), delta(1:n(l+1),l+1)) 
-            delta(1:n(l),l) = delta(1:n(l),l) * sigmoid%activation_derivative(z(1:n(l),l))
-          end do
+            ! Backpropagate the error
+            do l = n_hidden,1,-1
+              delta(1:n(l),l) = matmul(transpose(w(1:n(l+1),1:n(l),l+1)), delta(1:n(l+1),l+1)) 
+              delta(1:n(l),l) = delta(1:n(l),l) * sigmoid%activation_derivative(z(1:n(l),l))
+            end do
 
-          ! Sum up gradients in the inner iteration
-          do l = 1,output_layer
+            ! Sum up gradients in the inner iteration
+            do l = 1,output_layer
               dcdb(1:n(l),l) = dcdb(1:n(l),l) + delta(1:n(l),l)
               do concurrent(j = 1:n(l))
                 dcdw(j,1:n(l-1),l) = dcdw(j,1:n(l-1),l) + a(1:n(l-1),l-1)*delta(j,l)
               end do
-           end do
-       
-       end do
-    
-       cost = cost/(2.e0*mini_batch_size)
-
-       do l = 1,output_layer
-          dcdb(1:n(l),l) = dcdb(1:n(l),l)/mini_batch_size
-          do j = 1,n(l)
-             b(j,l) = b(j,l) - eta*dcdb(j,l) ! Adjust biases
+            end do
           end do
-          dcdw(1:n(l),1:n(l-1),l) = dcdw(1:n(l),1:n(l-1),l)/mini_batch_size
-          w(1:n(l),1:n(l-1),l) = w(1:n(l),1:n(l-1),l) - eta*dcdw(1:n(l),1:n(l-1),l) ! Adjust weights
-       end do
+        
+          cost = cost/(2.e0*mini_batch_size)
 
-    end do
-    end associate
+          do l = 1,output_layer
+            dcdb(1:n(l),l) = dcdb(1:n(l),l)/mini_batch_size
+            do j = 1,n(l)
+               b(j,l) = b(j,l) - eta*dcdb(j,l) ! Adjust biases
+            end do
+            dcdw(1:n(l),1:n(l-1),l) = dcdw(1:n(l),1:n(l-1),l)/mini_batch_size
+            w(1:n(l),1:n(l-1),l) = w(1:n(l),1:n(l-1),l) - eta*dcdw(1:n(l),1:n(l-1),l) ! Adjust weights
+          end do
+
+        end do
+      end associate
     end associate
 
     block
