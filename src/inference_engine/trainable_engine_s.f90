@@ -4,8 +4,8 @@ submodule(trainable_engine_m) trainable_engine_s
   use assert_m, only : assert
   use outputs_m, only : outputs_t
   use network_increment_m, only : network_increment_t, operator(.average.)
-  use sigmoid_m, only : sigmoid_t
   use input_output_pair_m, only : input_output_pair_t
+  use sigmoid_m, only : sigmoid_t
   implicit none
 
 contains
@@ -116,7 +116,6 @@ contains
     real(rkind), parameter :: eta = 1.5e0 ! Learning parameter
     real(rkind), allocatable :: cost, w(:,:,:), z(:,:), b(:,:), a(:,:), y(:), delta(:,:), dcdw(:,:,:), dcdb(:,:)
     real(rkind) cost
-    type(sigmoid_t) sigmoid
     type(inputs_t), allocatable :: inputs(:)
     type(expected_outputs_t), allocatable :: expected_outputs(:)
     
@@ -160,19 +159,19 @@ contains
             ! Feedforward
             do l = 1,output_layer
               z(1:n(l),l) = matmul(w(1:n(l),1:n(l-1),l), a(1:n(l-1),l-1)) + b(1:n(l),l)
-              a(1:n(l),l) = sigmoid%activation(z(1:n(l),l))
+              a(1:n(l),l) = self%differentiable_activation_strategy_%activation(z(1:n(l),l))
             end do
 
             cost = cost + sum((y(1:n(output_layer))-a(1:n(output_layer),output_layer))**2)
           
             delta(1:n(output_layer),output_layer) = &
-              (a(1:n(output_layer),output_layer) - &
-              y(1:n(output_layer)))*sigmoid%activation_derivative(z(1:n(output_layer),output_layer))
-
+              (a(1:n(output_layer),output_layer) - y(1:n(output_layer))) &
+              * self%differentiable_activation_strategy_%activation_derivative(z(1:n(output_layer),output_layer))
+                                    
             ! Backpropagate the error
             do l = n_hidden,1,-1
               delta(1:n(l),l) = matmul(transpose(w(1:n(l+1),1:n(l),l+1)), delta(1:n(l+1),l+1)) 
-              delta(1:n(l),l) = delta(1:n(l),l) * sigmoid%activation_derivative(z(1:n(l),l))
+              delta(1:n(l),l) = delta(1:n(l),l) * self%differentiable_activation_strategy_%activation_derivative(z(1:n(l),l))
             end do
 
             ! Sum up gradients in the inner iteration
@@ -199,8 +198,11 @@ contains
 
     block
       type(trainable_engine_t) trainable_engine
+      type(sigmoid_t) sigmoid
 
-      trainable_engine = trainable_engine_t(n, w, b, sigmoid_t(), &
+      call assert(same_type_as(sigmoid,self%differentiable_activation_strategy_),"train: generalize constructor")
+
+      trainable_engine = trainable_engine_t(n, w, b, self%differentiable_activation_strategy_, &
         [string_t("deep network"), string_t("Damian Rouson"), string_t("2023-06-18"), string_t("sigmoid"), string_t("false")])
       self%inference_engine_t = trainable_engine%inference_engine_t
       self%differentiable_activation_strategy_ = trainable_engine%differentiable_activation_strategy_
