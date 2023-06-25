@@ -115,6 +115,7 @@ contains
     integer, allocatable :: n(:)
     real(rkind), parameter :: eta = 1.5e0 ! Learning parameter
     real(rkind), allocatable :: cost, w(:,:,:), z(:,:), b(:,:), a(:,:), y(:), delta(:,:), dcdw(:,:,:), dcdb(:,:)
+    real(rkind) cost
     type(sigmoid_t) sigmoid
     type(inputs_t), allocatable :: inputs(:)
     type(expected_outputs_t), allocatable :: expected_outputs(:)
@@ -136,7 +137,6 @@ contains
     allocate(z,     mold=b) ! z-values: Sum z_j^l = w_jk^{l} a_k^{l-1} + b_j^l
     allocate(delta, mold=b)
     allocate(dcdb,  mold=b) ! Gradient of cost function with respect with biases
-    allocate(y(num_outputs)) ! Desired output
 
     w = 0.e0 ! Initialize weights
     b = 0.e0 ! Initialize biases
