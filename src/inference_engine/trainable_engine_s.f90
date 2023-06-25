@@ -115,7 +115,7 @@ contains
     integer, allocatable :: n(:)
     integer, parameter :: input_layer=0
     real(rkind), parameter :: eta = 1.5e0 ! Learning parameter
-    real(rkind), allocatable :: cost, w(:,:,:), z(:,:), b(:,:), a(:,:), y(:), delta(:,:), dcdw(:,:,:), dcdb(:,:)
+    real(rkind), allocatable :: w(:,:,:), z(:,:), b(:,:), a(:,:), y(:), delta(:,:), dcdw(:,:,:), dcdb(:,:)
     real(rkind) cost
     type(inputs_t), allocatable :: inputs(:)
     type(expected_outputs_t), allocatable :: expected_outputs(:)
@@ -198,10 +198,10 @@ contains
       type(trainable_engine_t) trainable_engine
       type(sigmoid_t) sigmoid
 
-      call assert(same_type_as(sigmoid,self%differentiable_activation_strategy_),"train: generalize constructor")
-
-      trainable_engine = trainable_engine_t(n, w, b, self%differentiable_activation_strategy_, &
-        [string_t("deep network"), string_t("Damian Rouson"), string_t("2023-06-18"), string_t("sigmoid"), string_t("false")])
+      associate(activation_name => self%differentiable_activation_strategy_%function_name())
+        trainable_engine = trainable_engine_t(n, w, b, self%differentiable_activation_strategy_, &
+          [string_t("deep network"), string_t("Damian Rouson"), string_t("2023-06-18"), activation_name, string_t("false")])
+      end associate
       self%inference_engine_t = trainable_engine%inference_engine_t
       self%differentiable_activation_strategy_ = trainable_engine%differentiable_activation_strategy_
     end block
