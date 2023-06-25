@@ -188,9 +188,7 @@ contains
 
           do l = 1,output_layer
             dcdb(1:n(l),l) = dcdb(1:n(l),l)/mini_batch_size
-            do j = 1,n(l)
-               b(j,l) = b(j,l) - eta*dcdb(j,l) ! Adjust biases
-            end do
+            b(1:n(l),l) = b(1:n(l),l) - eta*dcdb(1:n(l),l) ! Adjust biases
             dcdw(1:n(l),1:n(l-1),l) = dcdw(1:n(l),1:n(l-1),l)/mini_batch_size
             w(1:n(l),1:n(l-1),l) = w(1:n(l),1:n(l-1),l) - eta*dcdw(1:n(l),1:n(l-1),l) ! Adjust weights
           end do
