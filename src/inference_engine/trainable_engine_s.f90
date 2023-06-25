@@ -111,32 +111,32 @@ contains
   end procedure
 
   module procedure train_deep_network
-    integer i,j,k,l,nodes_max, batch, iter, mini_batch_size, pair
-    real(rkind) :: r, eta, ir, rr, cost
-    integer, allocatable :: nodes(:)
-    real(rkind), allocatable :: w(:,:,:), z(:,:), b(:,:), a(:,:), y(:), delta(:,:), dcdw(:,:,:), dcdb(:,:)
+    integer i,j,k,l,batch, iter, mini_batch_size, pair
+    integer, allocatable :: n(:)
+    real(rkind), parameter :: eta = 1.5e0 ! Learning parameter
+    real(rkind), allocatable :: cost, w(:,:,:), z(:,:), b(:,:), a(:,:), y(:), delta(:,:), dcdw(:,:,:), dcdb(:,:)
     type(sigmoid_t) sigmoid
-    type(inputs_t), allocatable :: batch_inputs(:)
-    type(expected_outputs_t), allocatable :: batch_expected_outputs(:)
+    type(inputs_t), allocatable :: inputs(:)
+    type(expected_outputs_t), allocatable :: expected_outputs(:)
     type(input_output_pair_t), allocatable :: input_output_pairs(:)
     
-    associate(num_hidden_layers => self%num_hidden_layers(), num_inputs => self%num_inputs())
-    allocate(nodes(0:num_hidden_layers+1))
-    nodes(0) = num_inputs
-    nodes(1:2) = self%neurons_per_layer()
-    nodes(3) = self%num_outputs()
-    nodes_max = maxval(nodes)
-
-    eta = 1.5e0 ! Learning parameter
+    associate(n_hidden => self%num_hidden_layers(), num_inputs => self%num_inputs(), num_outputs=>self%num_outputs())
+    associate(output_layer => n_hidden+1)
+    allocate(n(0:output_layer))
+    n(0) = num_inputs
+    n(1:n_hidden) = self%neurons_per_layer()
+    n(output_layer) = num_outputs
+    associate(max_width => maxval(n))
     
-    allocate(a(nodes_max,0:num_hidden_layers+1)) ! Activations, Layer 0: Inputs, Layer num_hidden_layers+1: Outputs
-    allocate(z(nodes_max,num_hidden_layers+1)) ! z-values: Sum z_j^l = w_jk^{l} a_k^{l-1} + b_j^l
-    allocate(w(nodes_max,nodes_max,num_hidden_layers+1)) ! Weights w_{jk}^l is the weight from the k'th neuron in the (l-1)'th layer to the j'th neuron in the l'th layer
-    allocate(b(nodes_max,num_hidden_layers+1)) ! Bias b_j^l is the bias in j'th neuron of the l'th layer
-    allocate(delta(nodes_max,num_hidden_layers+1))
-    allocate(dcdw(nodes_max,nodes_max,num_hidden_layers+1)) ! Gradient of cost function with respect to weights
-    allocate(dcdb(nodes_max,num_hidden_layers+1)) ! Gradient of cost function with respect with biases
-    allocate(y(nodes(num_hidden_layers+1))) ! Desired output
+    allocate(a(max_width,0:output_layer)) ! Activations, Layer 0: Inputs, Layer output_layer: Outputs
+    allocate(w(max_width,max_width,output_layer)) ! Weights w_{jk}^l is the weight from the k'th neuron in the (l-1)'th layer to the j'th neuron in the l'th layer
+    allocate(b(max_width,output_layer)) ! Bias b_j^l is the bias in j'th neuron of the l'th layer
+    end associate
+    allocate(dcdw,  mold=w) ! Gradient of cost function with respect to weights
+    allocate(z,     mold=b) ! z-values: Sum z_j^l = w_jk^{l} a_k^{l-1} + b_j^l
+    allocate(delta, mold=b)
+    allocate(dcdb,  mold=b) ! Gradient of cost function with respect with biases
+    allocate(y(num_outputs)) ! Desired output
 
     w = 0.e0 ! Initialize weights
     b = 0.e0 ! Initialize biases
@@ -148,39 +148,39 @@ contains
        dcdb = 0.e0
        
        input_output_pairs = mini_batches(iter)%input_output_pairs()
+       inputs = input_output_pairs%inputs()
+       expected_outputs = input_output_pairs%expected_outputs()
        mini_batch_size = size(input_output_pairs )
-       batch_inputs = input_output_pairs%inputs()
-       batch_expected_outputs = input_output_pairs%expected_outputs()
 
        do pair = 1, mini_batch_size
 
           ! Create an AND gate
-          a(1:num_inputs,0) = batch_inputs(pair)%values()
-          y = batch_expected_outputs(pair)%outputs()
+          a(1:num_inputs,0) = inputs(pair)%values()
+          y = expected_outputs(pair)%outputs()
 
           ! Feedforward
-          do l = 1,num_hidden_layers+1
-            z(1:nodes(l),l) = matmul(w(1:nodes(l),1:nodes(l-1),l), a(1:nodes(l-1),l-1)) + b(1:nodes(l),l)
-            a(1:nodes(l),l) = sigmoid%activation(z(1:nodes(l),l))
+          do l = 1,output_layer
+            z(1:n(l),l) = matmul(w(1:n(l),1:n(l-1),l), a(1:n(l-1),l-1)) + b(1:n(l),l)
+            a(1:n(l),l) = sigmoid%activation(z(1:n(l),l))
           end do
 
-          cost = cost + sum((y(1:nodes(num_hidden_layers+1))-a(1:nodes(num_hidden_layers+1),num_hidden_layers+1))**2)
+          cost = cost + sum((y(1:n(output_layer))-a(1:n(output_layer),output_layer))**2)
        
-          delta(1:nodes(num_hidden_layers+1),num_hidden_layers+1) = &
-            (a(1:nodes(num_hidden_layers+1),num_hidden_layers+1) - &
-            y(1:nodes(num_hidden_layers+1)))*sigmoid%activation_derivative(z(1:nodes(num_hidden_layers+1),num_hidden_layers+1))
+          delta(1:n(output_layer),output_layer) = &
+            (a(1:n(output_layer),output_layer) - &
+            y(1:n(output_layer)))*sigmoid%activation_derivative(z(1:n(output_layer),output_layer))
 
           ! Backpropagate the error
-          do l = num_hidden_layers,1,-1
-            delta(1:nodes(l),l) = matmul(transpose(w(1:nodes(l+1),1:nodes(l),l+1)), delta(1:nodes(l+1),l+1)) 
-            delta(1:nodes(l),l) = delta(1:nodes(l),l) * sigmoid%activation_derivative(z(1:nodes(l),l))
+          do l = n_hidden,1,-1
+            delta(1:n(l),l) = matmul(transpose(w(1:n(l+1),1:n(l),l+1)), delta(1:n(l+1),l+1)) 
+            delta(1:n(l),l) = delta(1:n(l),l) * sigmoid%activation_derivative(z(1:n(l),l))
           end do
 
           ! Sum up gradients in the inner iteration
-          do l = 1,num_hidden_layers+1
-              dcdb(1:nodes(l),l) = dcdb(1:nodes(l),l) + delta(1:nodes(l),l)
-              do concurrent(j = 1:nodes(l))
-                dcdw(j,1:nodes(l-1),l) = dcdw(j,1:nodes(l-1),l) + a(1:nodes(l-1),l-1)*delta(j,l)
+          do l = 1,output_layer
+              dcdb(1:n(l),l) = dcdb(1:n(l),l) + delta(1:n(l),l)
+              do concurrent(j = 1:n(l))
+                dcdw(j,1:n(l-1),l) = dcdw(j,1:n(l-1),l) + a(1:n(l-1),l-1)*delta(j,l)
               end do
            end do
        
@@ -188,22 +188,23 @@ contains
     
        cost = cost/(2.e0*mini_batch_size)
 
-       do l = 1,num_hidden_layers+1
-          dcdb(1:nodes(l),l) = dcdb(1:nodes(l),l)/mini_batch_size
-          do j = 1,nodes(l)
+       do l = 1,output_layer
+          dcdb(1:n(l),l) = dcdb(1:n(l),l)/mini_batch_size
+          do j = 1,n(l)
              b(j,l) = b(j,l) - eta*dcdb(j,l) ! Adjust biases
           end do
-          dcdw(1:nodes(l),1:nodes(l-1),l) = dcdw(1:nodes(l),1:nodes(l-1),l)/mini_batch_size
-          w(1:nodes(l),1:nodes(l-1),l) = w(1:nodes(l),1:nodes(l-1),l) - eta*dcdw(1:nodes(l),1:nodes(l-1),l) ! Adjust weights
+          dcdw(1:n(l),1:n(l-1),l) = dcdw(1:n(l),1:n(l-1),l)/mini_batch_size
+          w(1:n(l),1:n(l-1),l) = w(1:n(l),1:n(l-1),l) - eta*dcdw(1:n(l),1:n(l-1),l) ! Adjust weights
        end do
 
     end do
+    end associate
     end associate
 
     block
       type(trainable_engine_t) trainable_engine
 
-      trainable_engine = trainable_engine_t(nodes, w, b, sigmoid_t(), &
+      trainable_engine = trainable_engine_t(n, w, b, sigmoid_t(), &
         [string_t("deep network"), string_t("Damian Rouson"), string_t("2023-06-18"), string_t("sigmoid"), string_t("false")])
       self%inference_engine_t = trainable_engine%inference_engine_t
       self%differentiable_activation_strategy_ = trainable_engine%differentiable_activation_strategy_
