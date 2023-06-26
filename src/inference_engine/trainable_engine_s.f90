@@ -133,14 +133,12 @@ contains
         allocate(delta, mold=b)
         allocate(dcdb,  mold=b) ! Gradient of cost function with respect with biases
 
-        w = 0.e0 ! Initialize weights
-        b = 0.e0 ! Initialize biases
-
+        w = 0.; b = 0.e0 ! Initialize weights and biases
+        
+        iterate_across_batches: &
         do iter = 1, size(mini_batches)
 
-          cost = 0.e0
-          dcdw = 0.e0
-          dcdb = 0.e0
+          cost = 0.; dcdw = 0.; dcdb = 0.
           
           associate(input_output_pairs => mini_batches(iter)%input_output_pairs())
             inputs = input_output_pairs%inputs()
@@ -148,49 +146,47 @@ contains
             mini_batch_size = size(input_output_pairs)
           end associate
 
+          iterate_through_batch: &
           do pair = 1, mini_batch_size
 
-            ! Create an AND gate
             a(1:num_inputs,0) = inputs(pair)%values()
             y = expected_outputs(pair)%outputs()
 
-            ! Feedforward
+            feed_forward: &
             do l = 1,output_layer
               z(1:n(l),l) = matmul(w(1:n(l),1:n(l-1),l), a(1:n(l-1),l-1)) + b(1:n(l),l)
               a(1:n(l),l) = self%differentiable_activation_strategy_%activation(z(1:n(l),l))
-            end do
+            end do feed_forward
 
-            cost = cost + sum((y(1:n(output_layer))-a(1:n(output_layer),output_layer))**2)
+            cost = cost + sum((y(1:n(output_layer))-a(1:n(output_layer),output_layer))**2)/(2.e0*mini_batch_size)
           
             delta(1:n(output_layer),output_layer) = &
               (a(1:n(output_layer),output_layer) - y(1:n(output_layer))) &
               * self%differentiable_activation_strategy_%activation_derivative(z(1:n(output_layer),output_layer))
-                                    
-            ! Backpropagate the error
+            
+            back_propagate_error: &
             do l = n_hidden,1,-1
               delta(1:n(l),l) = matmul(transpose(w(1:n(l+1),1:n(l),l+1)), delta(1:n(l+1),l+1)) 
               delta(1:n(l),l) = delta(1:n(l),l) * self%differentiable_activation_strategy_%activation_derivative(z(1:n(l),l))
-            end do
+            end do back_propagate_error
 
-            ! Sum up gradients in the inner iteration
+            sum_gradients: &
             do l = 1,output_layer
               dcdb(1:n(l),l) = dcdb(1:n(l),l) + delta(1:n(l),l)
               do concurrent(j = 1:n(l))
                 dcdw(j,1:n(l-1),l) = dcdw(j,1:n(l-1),l) + a(1:n(l-1),l-1)*delta(j,l)
               end do
-            end do
-          end do
+            end do sum_gradients
+          end do iterate_through_batch
         
-          cost = cost/(2.e0*mini_batch_size)
-
+          adjust_weights_and_biases: &
           do l = 1,output_layer
             dcdb(1:n(l),l) = dcdb(1:n(l),l)/mini_batch_size
             b(1:n(l),l) = b(1:n(l),l) - eta*dcdb(1:n(l),l) ! Adjust biases
             dcdw(1:n(l),1:n(l-1),l) = dcdw(1:n(l),1:n(l-1),l)/mini_batch_size
             w(1:n(l),1:n(l-1),l) = w(1:n(l),1:n(l-1),l) - eta*dcdw(1:n(l),1:n(l-1),l) ! Adjust weights
-          end do
-
-        end do
+          end do adjust_weights_and_biases
+        end do iterate_across_batches
       end associate
     end associate
 
