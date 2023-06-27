@@ -2,13 +2,46 @@
 ! Terms of use are as specified in LICENSE.txt
 submodule(trainable_engine_m) trainable_engine_s
   use assert_m, only : assert
-  use outputs_m, only : outputs_t
+  use intrinsic_array_m, only : intrinsic_array_t
   use network_increment_m, only : network_increment_t, operator(.average.)
   use input_output_pair_m, only : input_output_pair_t
   use sigmoid_m, only : sigmoid_t
   implicit none
 
 contains
+
+  module procedure infer_from_inputs_object_
+
+    real(rkind), allocatable :: z(:,:), a(:,:)
+    integer, parameter :: input_layer = 0
+    integer l
+
+    call assert(all([allocated(self%w), allocated(self%b), allocated(self%n)]), &
+      "trainable_engine_s(infer_from_inputs_object): fully allocated", &
+      intrinsic_array_t([allocated(self%w), allocated(self%b), allocated(self%n)]) &
+    )
+    associate(w => self%w, b => self%b, n => self%n, output_layer => ubound(self%b,2))
+
+      allocate(z, mold=b)
+      allocate(a(maxval(n), input_layer:output_layer)) ! Activations
+
+      a(1:n(input_layer),input_layer) = inputs%values()
+
+      feed_forward: &
+      do l = 1,output_layer
+        z(1:n(l),l) = matmul(w(1:n(l),1:n(l-1),l), a(1:n(l-1),l-1)) + b(1:n(l),l)
+        a(1:n(l),l) = self%differentiable_activation_strategy_%activation(z(1:n(l),l))
+      end do feed_forward
+ 
+      associate(n_hidden => output_layer-1)
+      outputs = outputs_t( &
+        outputs = a(1:n(output_layer),output_layer), &
+        pre_activation_in = z(:,1:n_hidden), &
+        pre_activation_out = z(1:n(output_layer),output_layer) &
+      )
+      end associate
+    end associate
+  end procedure
 
   module procedure train_single_hidden_layer
 
@@ -112,27 +145,27 @@ contains
 
   module procedure train_deep_network
     integer i,j,k,l,batch, iter, mini_batch_size, pair
-    integer, allocatable :: n(:)
     integer, parameter :: input_layer=0
     real(rkind), parameter :: eta = 1.5e0 ! Learning parameter
-    real(rkind), allocatable :: w(:,:,:), z(:,:), b(:,:), a(:,:), y(:), delta(:,:), dcdw(:,:,:), dcdb(:,:)
+    real(rkind), allocatable :: z(:,:), a(:,:), y(:), delta(:,:), dcdw(:,:,:), dcdb(:,:)
     real(rkind) cost
     type(inputs_t), allocatable :: inputs(:)
     type(expected_outputs_t), allocatable :: expected_outputs(:)
     
     associate(n_hidden => self%num_hidden_layers(), num_inputs => self%num_inputs(), num_outputs => self%num_outputs())
       associate(output_layer => n_hidden+1)
-        allocate(n(input_layer:output_layer), source=[num_inputs, [(self%neurons_per_Layer(), l=1,n_hidden)], num_outputs])
-        associate(max_width => maxval(n))
+        allocate(self%n(input_layer:output_layer), source=[num_inputs, [(self%neurons_per_Layer(), l=1,n_hidden)], num_outputs])
+        associate(max_width => maxval(self%n))
           allocate(a(max_width,input_layer:output_layer)) ! Activations, Layer 0: Inputs, Layer output_layer: Outputs
-          allocate(b(max_width,output_layer)) ! b_j^l = bias in j'th neuron of the l'th layer
-          allocate(w(max_width,max_width,output_layer)) ! w_{jk}^l = weight from k'th neuron in (l-1)'th layer to j'th neuron in l'th layer
+          allocate(self%b(max_width,output_layer)) ! b_j^l = bias in j'th neuron of the l'th layer
+          allocate(self%w(max_width,max_width,output_layer)) ! w_{jk}^l = weight from k'th neuron in (l-1)'th layer to j'th neuron in l'th layer
         end associate
-        allocate(dcdw,  mold=w) ! Gradient of cost function with respect to weights
-        allocate(z,     mold=b) ! z-values: Sum z_j^l = w_jk^{l} a_k^{l-1} + b_j^l
-        allocate(delta, mold=b)
-        allocate(dcdb,  mold=b) ! Gradient of cost function with respect with biases
+        allocate(dcdw,  mold=self%w) ! Gradient of cost function with respect to weights
+        allocate(z,     mold=self%b) ! z-values: Sum z_j^l = w_jk^{l} a_k^{l-1} + b_j^l
+        allocate(delta, mold=self%b)
+        allocate(dcdb,  mold=self%b) ! Gradient of cost function with respect with biases
 
+        associate(w => self%w, b => self%b, n => self%n)
         w = 0.; b = 0.e0 ! Initialize weights and biases
         
         iterate_across_batches: &
@@ -187,20 +220,21 @@ contains
             w(1:n(l),1:n(l-1),l) = w(1:n(l),1:n(l-1),l) - eta*dcdw(1:n(l),1:n(l-1),l) ! Adjust weights
           end do adjust_weights_and_biases
         end do iterate_across_batches
-      end associate
-    end associate
 
     block
       type(trainable_engine_t) trainable_engine
       type(sigmoid_t) sigmoid
 
       associate(activation_name => self%differentiable_activation_strategy_%function_name())
-        trainable_engine = trainable_engine_t(n, w, b, self%differentiable_activation_strategy_, &
+        trainable_engine = trainable_engine_t(self%n, w, b, self%differentiable_activation_strategy_, &
           [string_t("deep network"), string_t("Damian Rouson"), string_t("2023-06-18"), activation_name, string_t("false")])
       end associate
       self%inference_engine_t = trainable_engine%inference_engine_t
       self%differentiable_activation_strategy_ = trainable_engine%differentiable_activation_strategy_
     end block
+      end associate
+      end associate
+    end associate
     
   end procedure
 

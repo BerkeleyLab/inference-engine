@@ -4,6 +4,7 @@ module trainable_engine_m
   !! Define an abstraction that supports training a neural network
   use inference_engine_m_, only : inference_engine_t
   use inference_strategy_m, only : inference_strategy_t
+  use outputs_m, only : outputs_t
   use differentiable_activation_strategy_m, only : differentiable_activation_strategy_t
   use string_m, only : string_t
   use kind_parameters_m, only : rkind
@@ -18,10 +19,14 @@ module trainable_engine_m
   type, extends(inference_engine_t) :: trainable_engine_t
     !! Encapsulate the information needed to perform training
     private
+    real(rkind), allocatable :: w(:,:,:) ! weights
+    real(rkind), allocatable :: b(:,:) ! biases
+    integer, allocatable :: n(:) ! nuerons per layer
     class(differentiable_activation_strategy_t), allocatable :: differentiable_activation_strategy_ 
   contains
     procedure :: train_single_hidden_layer
     procedure :: train_deep_network
+    procedure :: infer_from_inputs_object_
     generic :: train => train_deep_network, train_single_hidden_layer
   end type
 
@@ -66,6 +71,14 @@ module trainable_engine_m
       class(trainable_engine_t), intent(inout) :: self
       type(mini_batch_t), intent(in) :: mini_batches(:)
     end subroutine
+
+    elemental module function infer_from_inputs_object_(self, inputs, inference_strategy) result(outputs)
+      implicit none
+      class(trainable_engine_t), intent(in) :: self
+      type(inputs_t), intent(in) :: inputs
+      class(inference_strategy_t), intent(in) :: inference_strategy
+      type(outputs_t) outputs
+    end function
     
   end interface
 
