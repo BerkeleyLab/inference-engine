@@ -72,11 +72,10 @@ module trainable_engine_m
       type(mini_batch_t), intent(in) :: mini_batches(:)
     end subroutine
 
-    elemental module function infer_from_inputs_object_(self, inputs, inference_strategy) result(outputs)
+    elemental module function infer_from_inputs_object_(self, inputs) result(outputs)
       implicit none
       class(trainable_engine_t), intent(in) :: self
       type(inputs_t), intent(in) :: inputs
-      class(inference_strategy_t), intent(in) :: inference_strategy
       type(outputs_t) outputs
     end function
     

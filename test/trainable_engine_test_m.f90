@@ -193,7 +193,7 @@ contains
       call trainable_engine%train(mini_batches)
       test_inputs = [inputs_t([true,true]), inputs_t([false,true]), inputs_t([true,false]), inputs_t([false,false])]
       expected_test_outputs = and(test_inputs)
-      actual_output = trainable_engine%infer(test_inputs, matmul_t())
+      actual_output = trainable_engine%infer_from_inputs_object_(test_inputs)
       test_passes = [(abs(actual_output(i)%outputs() - expected_test_outputs(i)%outputs()) < tolerance, i=1, size(actual_output))]
     end block train_and_test
 
