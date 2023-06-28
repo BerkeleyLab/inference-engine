@@ -16,7 +16,7 @@ module expected_outputs_m
 
   interface expected_outputs_t
 
-    module function construct(outputs) result(expected_outputs)
+    pure module function construct(outputs) result(expected_outputs)
       implicit none
       real(rkind), intent(in) :: outputs(:)
       type(expected_outputs_t) expected_outputs

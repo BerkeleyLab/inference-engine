@@ -16,4 +16,8 @@ contains
       y =  sigmoid%activation(x) + x * sigmoid%activation_derivative(x)
     end procedure
 
+    module procedure function_name
+      string = string_t("swish")
+    end procedure
+
 end submodule swish_s
