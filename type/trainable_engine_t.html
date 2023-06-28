@@ -90,7 +90,7 @@
      <li><i class="fa fa-list-ol"></i>
        <a data-toggle="tooltip"
     data-placement="bottom" data-html="true"
-    title="<p> 6.9% of total for derived types.</p>Including implementation: 6 statements,  4.0% of total for derived types.">6 statements</a>
+    title="<p>10.0% of total for derived types.</p>Including implementation: 8 statements,  4.6% of total for derived types.">8 statements</a>
      </li> 
     <li><i class="fa fa-code"></i><a href="../src/trainable_engine_m.f90"> Source File</a></li>
   </ul>
@@ -140,18 +140,20 @@
       <a class="list-group-item" href="../type/trainable_engine_t.html#boundprocedure-assert_consistent">assert_consistent</a>
       <a class="list-group-item" href="../type/trainable_engine_t.html#boundprocedure-hidden_weights">hidden_weights</a>
       <a class="list-group-item" href="../type/trainable_engine_t.html#boundprocedure-increment">increment</a>
-      <a class="list-group-item" href="../type/trainable_engine_t.html#boundprocedure-infer~4">infer</a>
+      <a class="list-group-item" href="../type/trainable_engine_t.html#boundprocedure-infer">infer</a>
       <a class="list-group-item" href="../type/trainable_engine_t.html#boundprocedure-input_weights">input_weights</a>
       <a class="list-group-item" href="../type/trainable_engine_t.html#boundprocedure-neurons_per_layer">neurons_per_layer</a>
       <a class="list-group-item" href="../type/trainable_engine_t.html#boundprocedure-norm">norm</a>
       <a class="list-group-item" href="../type/trainable_engine_t.html#boundprocedure-num_hidden_layers">num_hidden_layers</a>
       <a class="list-group-item" href="../type/trainable_engine_t.html#boundprocedure-num_inputs">num_inputs</a>
       <a class="list-group-item" href="../type/trainable_engine_t.html#boundprocedure-num_outputs">num_outputs</a>
-      <a class="list-group-item" href="../type/trainable_engine_t.html#boundprocedure-operator%28-%29~2">operator(-)</a>
+      <a class="list-group-item" href="../type/trainable_engine_t.html#boundprocedure-operator%28-%29">operator(-)</a>
       <a class="list-group-item" href="../type/trainable_engine_t.html#boundprocedure-output_weights">output_weights</a>
       <a class="list-group-item" href="../type/trainable_engine_t.html#boundprocedure-skip">skip</a>
       <a class="list-group-item" href="../type/trainable_engine_t.html#boundprocedure-to_json">to_json</a>
       <a class="list-group-item" href="../type/trainable_engine_t.html#boundprocedure-train">train</a>
+      <a class="list-group-item" href="../type/trainable_engine_t.html#boundprocedure-train_deep_network">train_deep_network</a>
+      <a class="list-group-item" href="../type/trainable_engine_t.html#boundprocedure-train_single_hidden_layer">train_single_hidden_layer</a>
     </div>
   </div>
 </div>
@@ -320,18 +322,20 @@
       <a class="list-group-item" href="../type/trainable_engine_t.html#boundprocedure-assert_consistent">assert_consistent</a>
       <a class="list-group-item" href="../type/trainable_engine_t.html#boundprocedure-hidden_weights">hidden_weights</a>
       <a class="list-group-item" href="../type/trainable_engine_t.html#boundprocedure-increment">increment</a>
-      <a class="list-group-item" href="../type/trainable_engine_t.html#boundprocedure-infer~4">infer</a>
+      <a class="list-group-item" href="../type/trainable_engine_t.html#boundprocedure-infer">infer</a>
       <a class="list-group-item" href="../type/trainable_engine_t.html#boundprocedure-input_weights">input_weights</a>
       <a class="list-group-item" href="../type/trainable_engine_t.html#boundprocedure-neurons_per_layer">neurons_per_layer</a>
       <a class="list-group-item" href="../type/trainable_engine_t.html#boundprocedure-norm">norm</a>
       <a class="list-group-item" href="../type/trainable_engine_t.html#boundprocedure-num_hidden_layers">num_hidden_layers</a>
       <a class="list-group-item" href="../type/trainable_engine_t.html#boundprocedure-num_inputs">num_inputs</a>
       <a class="list-group-item" href="../type/trainable_engine_t.html#boundprocedure-num_outputs">num_outputs</a>
-      <a class="list-group-item" href="../type/trainable_engine_t.html#boundprocedure-operator%28-%29~2">operator(-)</a>
+      <a class="list-group-item" href="../type/trainable_engine_t.html#boundprocedure-operator%28-%29">operator(-)</a>
       <a class="list-group-item" href="../type/trainable_engine_t.html#boundprocedure-output_weights">output_weights</a>
       <a class="list-group-item" href="../type/trainable_engine_t.html#boundprocedure-skip">skip</a>
       <a class="list-group-item" href="../type/trainable_engine_t.html#boundprocedure-to_json">to_json</a>
       <a class="list-group-item" href="../type/trainable_engine_t.html#boundprocedure-train">train</a>
+      <a class="list-group-item" href="../type/trainable_engine_t.html#boundprocedure-train_deep_network">train_deep_network</a>
+      <a class="list-group-item" href="../type/trainable_engine_t.html#boundprocedure-train_single_hidden_layer">train_single_hidden_layer</a>
     </div>
   </div>
 </div>
@@ -360,6 +364,47 @@
      <div class="panel panel-default">
   <div class="panel-heading codesum"><span class="anchor" id="interface-trainable_engine_t"></span><h3>public interface <a href='../interface/trainable_engine_t.html'>trainable_engine_t</a>  </h3></div>
   <ul class="list-group">
+    <li class="list-group-item">
+    <h3>private pure module function construct_from_padded_arrays(nodes, weights, biases, differentiable_activation_strategy, metadata) result(trainable_engine)</h3>    
+<h4>Arguments</h4>      <table class="table table-striped varlist">
+<thead><tr><th>Type</th><th>Intent</th><th>Optional</th><th>Attributes</th><th></th><th>Name</th><th></th></thead>
+<tbody>
+<tr>
+  <td><span class="anchor" ></span>integer,</td>
+<td>intent(in),</td>
+  <td></td>  <td>allocatable</td><td>::</td>
+  <td><strong>nodes</strong>(:)</td><td></td>
+</tr>
+<tr>
+  <td><span class="anchor" ></span>real(kind=rkind),</td>
+<td>intent(in)</td>
+  <td></td>  <td></td><td>::</td>
+  <td><strong>weights</strong>(:,:,:)</td><td></td>
+</tr>
+<tr>
+  <td><span class="anchor" ></span>real(kind=rkind),</td>
+<td>intent(in)</td>
+  <td></td>  <td></td><td>::</td>
+  <td><strong>biases</strong>(:,:)</td><td></td>
+</tr>
+<tr>
+  <td><span class="anchor" ></span>class(<a href='../type/differentiable_activation_strategy_t.html'>differentiable_activation_strategy_t</a>),</td>
+<td>intent(in)</td>
+  <td></td>  <td></td><td>::</td>
+  <td><strong>differentiable_activation_strategy</strong></td><td></td>
+</tr>
+<tr>
+  <td><span class="anchor" ></span>type(string_t),</td>
+<td>intent(in)</td>
+  <td></td>  <td></td><td>::</td>
+  <td><strong>metadata</strong>(:)</td><td></td>
+</tr>
+</tbody>
+</table>
+
+<h4>Return Value <small>type(<a href='../type/trainable_engine_t.html'>trainable_engine_t</a>)</small></h4>  
+
+    </li>
     <li class="list-group-item">
     <h3>private pure module function construct_trainable_engine(metadata, input_weights, hidden_weights, output_weights, biases, output_biases, differentiable_activation_strategy) result(trainable_engine)</h3>    
 <h4>Arguments</h4>      <table class="table table-striped varlist">
@@ -568,7 +613,7 @@
 </div>
 
      <div class="panel panel-default">
-  <div class="panel-heading codesum"><span class="anchor" id="boundprocedure-infer~4"></span><h3>generic, public :: <strong>infer</strong>  => <a href='../type/inference_engine_t.html#boundprocedure-infer_from_array_of_inputs'>infer_from_array_of_inputs</a>, <a href='../type/inference_engine_t.html#boundprocedure-infer_from_inputs_object'>infer_from_inputs_object</a>   </h3></div>
+  <div class="panel-heading codesum"><span class="anchor" id="boundprocedure-infer"></span><h3>generic, public :: <strong>infer</strong>  => <a href='../type/inference_engine_t.html#boundprocedure-infer_from_array_of_inputs'>infer_from_array_of_inputs</a>, <a href='../type/inference_engine_t.html#boundprocedure-infer_from_inputs_object'>infer_from_inputs_object</a>   </h3></div>
   <ul class="list-group">
       <li class="list-group-item">
             <h3>private interface <a href='../interface/infer_from_array_of_inputs.html'>infer_from_array_of_inputs</a>()</h3>    
@@ -746,7 +791,7 @@
 </div>
 
      <div class="panel panel-default">
-  <div class="panel-heading codesum"><span class="anchor" id="boundprocedure-operator%28-%29~2"></span><h3>generic, public :: <strong>operator(-)</strong>  => <a href='../type/inference_engine_t.html#boundprocedure-subtract'>subtract</a>   </h3></div>
+  <div class="panel-heading codesum"><span class="anchor" id="boundprocedure-operator%28-%29"></span><h3>generic, public :: <strong>operator(-)</strong>  => <a href='../type/inference_engine_t.html#boundprocedure-subtract'>subtract</a>   </h3></div>
   <ul class="list-group">
       <li class="list-group-item">
             <h3>private interface <a href='../interface/subtract.html'>subtract</a>()</h3>    
@@ -838,13 +883,61 @@
 </div>
 
      <div class="panel panel-default">
-  <div class="panel-heading codesum"><span class="anchor" id="boundprocedure-train"></span><h3>procedure, public :: <strong>train</strong>    </h3></div>
+  <div class="panel-heading codesum"><span class="anchor" id="boundprocedure-train"></span><h3>generic, public :: <strong>train</strong>  => <a href='../type/trainable_engine_t.html#boundprocedure-train_deep_network'>train_deep_network</a>, <a href='../type/trainable_engine_t.html#boundprocedure-train_single_hidden_layer'>train_single_hidden_layer</a>   </h3></div>
+  <ul class="list-group">
+      <li class="list-group-item">
+            <h3>private interface <a href='../interface/train_deep_network.html'>train_deep_network</a>()</h3>    
+<h4>Arguments</h4>      <em>None</em>
+
+      </li>
+      <li class="list-group-item">
+            <h3>private interface <a href='../interface/train_single_hidden_layer.html'>train_single_hidden_layer</a>()</h3>    
+<h4>Arguments</h4>      <em>None</em>
+
+      </li>
+  </ul>
+</div>
+
+     <div class="panel panel-default">
+  <div class="panel-heading codesum"><span class="anchor" id="boundprocedure-train_deep_network"></span><h3>procedure, public :: <strong>train_deep_network</strong>    </h3></div>
   <ul class="list-group">
       <li class="list-group-item">
           <h3>interface
           </h3>
   
-          <h3>private pure module module subroutine train(self, mini_batch, inference_strategy)   <a href='../proc/train.html'><button type="button" class="btn btn-info depwarn">Implementation &rarr;</button></a>
+          <h3>private pure module module subroutine train_deep_network(self, mini_batches)   <a href='../proc/train_deep_network.html'><button type="button" class="btn btn-info depwarn">Implementation &rarr;</button></a>
+</h3>    
+<h4>Arguments</h4>      <table class="table table-striped varlist">
+<thead><tr><th>Type</th><th>Intent</th><th>Optional</th><th>Attributes</th><th></th><th>Name</th><th></th></thead>
+<tbody>
+<tr>
+  <td><span class="anchor" ></span>class(<a href='../type/trainable_engine_t.html'>trainable_engine_t</a>),</td>
+<td>intent(inout)</td>
+  <td></td>  <td></td><td>::</td>
+  <td><strong>self</strong></td><td></td>
+</tr>
+<tr>
+  <td><span class="anchor" ></span>type(<a href='../type/mini_batch_t.html'>mini_batch_t</a>),</td>
+<td>intent(in)</td>
+  <td></td>  <td></td><td>::</td>
+  <td><strong>mini_batches</strong>(:)</td><td></td>
+</tr>
+</tbody>
+</table>
+
+
+      </li>
+  </ul>
+</div>
+
+     <div class="panel panel-default">
+  <div class="panel-heading codesum"><span class="anchor" id="boundprocedure-train_single_hidden_layer"></span><h3>procedure, public :: <strong>train_single_hidden_layer</strong>    </h3></div>
+  <ul class="list-group">
+      <li class="list-group-item">
+          <h3>interface
+          </h3>
+  
+          <h3>private pure module module subroutine train_single_hidden_layer(self, mini_batch, inference_strategy)   <a href='../proc/train_single_hidden_layer.html'><button type="button" class="btn btn-info depwarn">Implementation &rarr;</button></a>
 </h3>    
 <h4>Arguments</h4>      <table class="table table-striped varlist">
 <thead><tr><th>Type</th><th>Intent</th><th>Optional</th><th>Attributes</th><th></th><th>Name</th><th></th></thead>
@@ -893,7 +986,7 @@
           <p class="text-right">
             Documentation generated by 
             <a href="https://github.com/Fortran-FOSS-Programmers/ford">FORD</a>
- on 2023-06-11 02:15            </p>
+ on 2023-06-28 07:25            </p>
         </div>
       </div>
       <br>

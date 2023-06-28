@@ -10,4 +10,8 @@ contains
       y = merge(1._rkind, 0._rkind, x>0._rkind)
     end procedure
 
+    module procedure function_name
+      string = string_t("step")
+    end procedure
+
 end submodule step_s

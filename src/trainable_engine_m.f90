@@ -20,7 +20,9 @@ module trainable_engine_m
     private
     class(differentiable_activation_strategy_t), allocatable :: differentiable_activation_strategy_ 
   contains
-    procedure :: train
+    procedure :: train_single_hidden_layer
+    procedure :: train_deep_network
+    generic :: train => train_deep_network, train_single_hidden_layer
   end type
 
   interface trainable_engine_t
@@ -37,17 +39,34 @@ module trainable_engine_m
       type(trainable_engine_t) trainable_engine
     end function
 
+    pure module function construct_from_padded_arrays(nodes, weights, biases, differentiable_activation_strategy, metadata) &
+    result(trainable_engine)
+      implicit none
+      integer, intent(in), allocatable :: nodes(:)
+      real(rkind), intent(in)  :: weights(:,:,:), biases(:,:)
+      class(differentiable_activation_strategy_t), intent(in) :: differentiable_activation_strategy
+      type(string_t), intent(in) :: metadata(:)
+      type(trainable_engine_t) trainable_engine
+ 
+    end function
+
   end interface
 
   interface
 
-    pure module subroutine train(self, mini_batch, inference_strategy)
+    pure module subroutine train_single_hidden_layer(self, mini_batch, inference_strategy)
       implicit none
       class(trainable_engine_t), intent(inout) :: self
       type(mini_batch_t), intent(in) :: mini_batch(:)
       class(inference_strategy_t), intent(in) :: inference_strategy
     end subroutine
 
+    pure module subroutine train_deep_network(self, mini_batches)
+      implicit none
+      class(trainable_engine_t), intent(inout) :: self
+      type(mini_batch_t), intent(in) :: mini_batches(:)
+    end subroutine
+    
   end interface
 
 end module trainable_engine_m

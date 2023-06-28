@@ -13,4 +13,8 @@ contains
       y =  exp(-x)/(1.+exp(-x))**2
     end procedure
 
+    module procedure function_name
+      string = string_t("sigmoid")
+    end procedure
+
 end submodule sigmoid_s
