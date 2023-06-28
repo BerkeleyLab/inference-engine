@@ -165,7 +165,7 @@ contains
       type(inputs_t), allocatable :: inputs(:,:), tmp(:)
       type(expected_outputs_t), allocatable :: expected_outputs(:,:)
       real(rkind), allocatable :: harvest(:,:,:)
-      integer, parameter :: num_inputs=2, mini_batch_size = 200, num_iterations=30000
+      integer, parameter :: num_inputs=2, mini_batch_size = 1, num_iterations=30000
       integer batch, iter
 
       call random_init(image_distinct=.true., repeatable=.true.)
@@ -189,7 +189,7 @@ contains
       real(rkind), parameter :: tolerance = 1.E-02_rkind
       integer i
 
-      trainable_engine = two_zeroed_hidden_layers()
+      trainable_engine = two_random_hidden_layers()
       call trainable_engine%train(mini_batches)
       test_inputs = [inputs_t([true,true]), inputs_t([false,true]), inputs_t([true,false]), inputs_t([false,false])]
       expected_test_outputs = and(test_inputs)
@@ -205,25 +205,19 @@ contains
        expected_outputs_object = expected_outputs_t([merge(false, true, sum(inputs_object%values())<=1.5_rkind)])
     end function
 
-    function two_zeroed_hidden_layers() result(trainable_engine)
+    function two_random_hidden_layers() result(trainable_engine)
       type(trainable_engine_t) trainable_engine
-      integer, parameter :: n_in = 2 ! number of inputs
-      integer, parameter :: n_out = 1 ! number of outputs
-      integer, parameter :: neurons = 3 ! number of neurons per layer
-      integer, parameter :: n_hidden = 2 ! number of hidden layers 
-      integer n
+      integer, parameter :: inputs = 2, outputs = 1, hidden = 3 ! number of neurons in input, output, and hidden layers
+      integer, parameter :: neurons(*) = [inputs, hidden, hidden, outputs] ! neurons per layer
+      integer, parameter :: max_neurons = maxval(neurons), layers=size(neurons) ! max layer width, number of layers
+      real(rkind) w(max_neurons, max_neurons, layers-1), b(max_neurons, max_neurons)
+
+      call random_number(w)
+      call random_number(b)
      
       trainable_engine = trainable_engine_t( &
-        metadata = [ & 
-         string_t("2-hidden-layer network"), string_t("Damian Rouson"), string_t("2023-05-30"), string_t("sigmoid"), &
-         string_t("false") &
-        ], &
-        input_weights = reshape([(0._rkind, n=1, n_in*neurons)], [n_in, neurons]), &
-        hidden_weights = reshape([(0._rkind, n=1, neurons*neurons*(n_hidden-1))], [neurons,neurons,n_hidden-1]), &
-        output_weights = reshape([(0._rkind, n=1, n_out*neurons)], [n_out, neurons]), &
-        biases = reshape([(0.,n=1, neurons*n_hidden)], [neurons, n_hidden]), &
-        output_biases = [0._rkind], &
-        differentiable_activation_strategy = sigmoid_t() &
+        nodes = neurons, weights = w, biases = b, differentiable_activation_strategy = sigmoid_t(), metadata = &
+        [string_t("2-hide|3-wide"), string_t("Damian Rouson"), string_t("2023-06-28"), string_t("sigmoid"), string_t("false")] &
       )   
     end function
   end function

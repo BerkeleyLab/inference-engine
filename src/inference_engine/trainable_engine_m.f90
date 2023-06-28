@@ -47,7 +47,7 @@ module trainable_engine_m
     pure module function construct_from_padded_arrays(nodes, weights, biases, differentiable_activation_strategy, metadata) &
     result(trainable_engine)
       implicit none
-      integer, intent(in), allocatable :: nodes(:)
+      integer, intent(in) :: nodes(0:)
       real(rkind), intent(in)  :: weights(:,:,:), biases(:,:)
       class(differentiable_activation_strategy_t), intent(in) :: differentiable_activation_strategy
       type(string_t), intent(in) :: metadata(:)
