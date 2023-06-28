@@ -12,7 +12,7 @@ jobs:
       fail-fast: true
     env:
       FC: gfortran
-      GCC_V: 12
+      GCC_V: 13
 
     steps:
     - name: Checkout code
