@@ -166,7 +166,6 @@ contains
         allocate(dcdb,  mold=self%b) ! Gradient of cost function with respect with biases
 
         associate(w => self%w, b => self%b, n => self%n)
-        w = 0.; b = 0.e0 ! Initialize weights and biases
         
         iterate_across_batches: &
         do iter = 1, size(mini_batches)
