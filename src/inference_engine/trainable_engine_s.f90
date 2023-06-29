@@ -198,8 +198,8 @@ contains
             
             back_propagate_error: &
             do l = n_hidden,1,-1
-              delta(1:n(l),l) = matmul(transpose(w(1:n(l+1),1:n(l),l+1)), delta(1:n(l+1),l+1)) 
-              delta(1:n(l),l) = delta(1:n(l),l) * self%differentiable_activation_strategy_%activation_derivative(z(1:n(l),l))
+              delta(1:n(l),l) = matmul(transpose(w(1:n(l+1),1:n(l),l+1)), delta(1:n(l+1),l+1)) &
+                * self%differentiable_activation_strategy_%activation_derivative(z(1:n(l),l))
             end do back_propagate_error
 
             sum_gradients: &
