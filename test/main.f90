@@ -16,6 +16,7 @@ program main
   integer :: passes=0, tests=0
 
   call cpu_time(t_start)
+  call random_init(image_distinct=.true., repeatable=.true.)
   call inference_engine_test%report(passes, tests)
   call asymmetric_engine_test%report(passes, tests)
   call skip_connections_test%report(passes, tests)

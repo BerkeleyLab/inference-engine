@@ -49,27 +49,32 @@ contains
     type(test_result_t), allocatable :: test_results(:)
 
     character(len=*), parameter :: longest_description = &
-        "learning the mapping (false,false) -> false with 2 hidden layers trained with symmetric data representing an OR gate" 
+        "learning the mapping (false,false) -> false with 2 hidden layers trained with random weights an XOR-gate training data"
 
     associate( &
       descriptions => &
       [ character(len=len(longest_description)) :: &
-        "learning the mapping (true,true) -> true with 2 hidden layers trained with skewed data representing an AND gate"    , &
-        "learning the mapping (false,true) -> false with 2 hidden layers trained with skewed data representing an AND gate"  , &
-        "learning the mapping (true,false) -> false with 2 hidden layers trained with skewed data representing an AND gate"  , &
-        "learning the mapping (false,false) -> false with 2 hidden layers trained with skewed data representing anAND gate"  , &
-        "learning the mapping (true,true) -> false with 2 hidden layers trained with skewed data representing NOT-AND logic" , &
-        "learning the mapping (false,true) -> true with 2 hidden layers trained with skewed data representing NOT-AND logic" , &
-        "learning the mapping (true,false) -> true with 2 hidden layers trained with skewed data representing NOT-AND logic" , &
-        "learning the mapping (false,false) -> true with 2 hidden layers trained with skewed data representing NOT-AND logic", &
-        "learning the mapping (true,true) -> true with 2 hidden layers trained with symmetric data representing an OR gate"  , &
-        "learning the mapping (false,true) -> true with 2 hidden layers trained with symmetric data representing an OR gate,", &
-        "learning the mapping (true,false) -> true with 2 hidden layers trained with symmetric data representing an OR gate", &
-        "learning the mapping (false,false) -> false with 2 hidden layers trained with symmetric data representing an OR gate" &
+        "learning the mapping (true,true) -> true with 2 hidden layers trained on skewed data representing an AND gate"         ,&
+        "learning the mapping (false,true) -> false with 2 hidden layers trained on skewed data representing an AND gate"       ,&
+        "learning the mapping (true,false) -> false with 2 hidden layers trained on skewed data representing an AND gate"       ,&
+        "learning the mapping (false,false) -> false with 2 hidden layers trained on skewed data representing anAND gate"       ,&
+        "learning the mapping (true,true) -> false with 2 hidden layers trained on skewed data representing NOT-AND logic"      ,&
+        "learning the mapping (false,true) -> true with 2 hidden layers trained on skewed data representing NOT-AND logic"      ,&
+        "learning the mapping (true,false) -> true with 2 hidden layers trained on skewed data representing NOT-AND logic"      ,&
+        "learning the mapping (false,false) -> true with 2 hidden layers trained on skewed data representing NOT-AND logic"     ,&
+        "learning the mapping (true,true) -> true with 2 hidden layers trained on symmetric data representing an OR gate"       ,&
+        "learning the mapping (false,true) -> true with 2 hidden layers trained on symmetric data representing an OR gate,"     ,&
+        "learning the mapping (true,false) -> true with 2 hidden layers trained on symmetric data representing an OR gate"      ,&
+        "learning the mapping (false,false) -> false with 2 hidden layers trained on symmetric data representing an OR gate"    ,&
+        "learning the mapping (true,true) -> false with 2 hidden layers trained with random weights and XOR-gate training data" ,&
+        "learning the mapping (false,true) -> true with 2 hidden layers trained with random weights and XOR-gate training data" ,&
+        "learning the mapping (true,false) -> true with 2 hidden layers trained with random weights and XOR-gate training data" ,&
+        "learning the mapping (false,false) -> false with 2 hidden layers trained with random weights an XOR-gate training data" &
       ], outcomes => [ &
         and_gate_with_skewed_training_data(), &
         not_and_gate_with_skewed_training_data(), &
-        or_gate_with_symmetric_training_data() &
+        or_gate_with_symmetric_training_data(), &
+        xor_gate() &
       ] &
     )
       call assert(size(descriptions) == size(outcomes), "trainable_engine_test_m(results): size(descriptions) == size(outcomes)")
@@ -96,7 +101,7 @@ contains
     end do
   end subroutine
 
-  function two_random_hidden_layers() result(trainable_engine)
+  function two_zeroed_hidden_layers() result(trainable_engine)
     type(trainable_engine_t) trainable_engine
     integer, parameter :: inputs = 2, outputs = 1, hidden = 3 ! number of neurons in input, output, and hidden layers
     integer, parameter :: neurons(*) = [inputs, hidden, hidden, outputs] ! neurons per layer
@@ -105,7 +110,23 @@ contains
 
     w = 0.
     b = 0.
-   
+
+    trainable_engine = trainable_engine_t( &
+      nodes = neurons, weights = w, biases = b, differentiable_activation_strategy = sigmoid_t(), metadata = &
+      [string_t("2-hide|3-wide"), string_t("Damian Rouson"), string_t("2023-06-28"), string_t("sigmoid"), string_t("false")] &
+    )   
+  end function
+
+  function two_random_hidden_layers() result(trainable_engine)
+    type(trainable_engine_t) trainable_engine
+    integer, parameter :: inputs = 2, outputs = 1, hidden = 24 ! number of neurons in input, output, and hidden layers
+    integer, parameter :: neurons(*) = [inputs, hidden, hidden, outputs] ! neurons per layer
+    integer, parameter :: max_neurons = maxval(neurons), layers=size(neurons) ! max layer width, number of layers
+    real(rkind) w(max_neurons, max_neurons, layers-1), b(max_neurons, max_neurons)
+
+    call random_number(w)
+    call random_number(b)
+
     trainable_engine = trainable_engine_t( &
       nodes = neurons, weights = w, biases = b, differentiable_activation_strategy = sigmoid_t(), metadata = &
       [string_t("2-hide|3-wide"), string_t("Damian Rouson"), string_t("2023-06-28"), string_t("sigmoid"), string_t("false")] &
@@ -124,7 +145,6 @@ contains
     integer, parameter :: num_inputs=2, mini_batch_size = 1, num_iterations=14000
     integer batch, iter, i
 
-    call random_init(image_distinct=.true., repeatable=.true.)
     allocate(harvest(num_inputs, mini_batch_size, num_iterations))
     call random_number(harvest)
     harvest = 2.*harvest - 1.
@@ -138,7 +158,7 @@ contains
     training_outputs = reshape(tmp2, [mini_batch_size, num_iterations])
 
     mini_batches = [(mini_batch_t(input_output_pair_t(training_inputs(:,iter), training_outputs(:,iter))), iter=1, num_iterations)]        
-    trainable_engine = two_random_hidden_layers()
+    trainable_engine = two_zeroed_hidden_layers()
 
     call trainable_engine%train(mini_batches)
 
@@ -169,7 +189,6 @@ contains
     integer, parameter :: num_inputs=2, mini_batch_size = 1, num_iterations=14000
     integer batch, iter, i
 
-    call random_init(image_distinct=.true., repeatable=.true.)
     allocate(harvest(num_inputs, mini_batch_size, num_iterations))
     call random_number(harvest)
     harvest = 2.*harvest - 1.
@@ -183,7 +202,7 @@ contains
     training_outputs = reshape(tmp2, [mini_batch_size, num_iterations])
 
     mini_batches = [(mini_batch_t(input_output_pair_t(training_inputs(:,iter), training_outputs(:,iter))), iter=1, num_iterations)]        
-    trainable_engine = two_random_hidden_layers()
+    trainable_engine = two_zeroed_hidden_layers()
 
     call trainable_engine%train(mini_batches)
 
@@ -214,7 +233,6 @@ contains
     integer, parameter :: num_inputs=2, mini_batch_size = 1, num_iterations=26000
     integer batch, iter, i
 
-    call random_init(image_distinct=.true., repeatable=.true.)
     allocate(harvest(num_inputs, mini_batch_size, num_iterations))
     call random_number(harvest)
 
@@ -242,6 +260,51 @@ contains
        type(inputs_t), intent(in) :: inputs
        type(expected_outputs_t) expected_outputs
        expected_outputs = expected_outputs_t([merge(true, false, sum(inputs%values()) > 0.99)])
+    end function
+
+  end function
+
+  function xor_gate() result(test_passes)
+    logical, allocatable :: test_passes(:)
+    type(mini_batch_t), allocatable :: mini_batches(:)
+    type(inputs_t), allocatable :: training_inputs(:,:), tmp(:), test_inputs(:)
+    type(expected_outputs_t), allocatable :: training_outputs(:,:), expected_test_outputs(:), tmp2(:)
+    type(trainable_engine_t) trainable_engine
+    type(outputs_t), allocatable :: actual_outputs(:)
+    real(rkind), parameter :: tolerance = 1.E-02_rkind
+    real(rkind), allocatable :: harvest(:,:,:)
+    integer, parameter :: num_inputs=2, mini_batch_size = 1, num_iterations=200000
+    integer batch, iter, i
+
+    allocate(harvest(num_inputs, mini_batch_size, num_iterations))
+    call random_number(harvest)
+
+    ! The following temporary copies are required by gfortran bug 100650 and possibly 49324
+    ! See https://gcc.gnu.org/bugzilla/show_bug.cgi?id=100650 and https://gcc.gnu.org/bugzilla/show_bug.cgi?id=49324
+    tmp = [([(inputs_t(merge(true, false, harvest(:,batch,iter) < 0.5E0)), batch=1, mini_batch_size)], iter=1, num_iterations)]
+    training_inputs = reshape(tmp, [mini_batch_size, num_iterations])
+
+    tmp2 = [([(xor(training_inputs(batch, iter)), batch = 1, mini_batch_size)], iter = 1, num_iterations )]
+    training_outputs = reshape(tmp2, [mini_batch_size, num_iterations])
+
+    mini_batches = [(mini_batch_t(input_output_pair_t(training_inputs(:,iter), training_outputs(:,iter))), iter=1, num_iterations)]        
+    trainable_engine = two_random_hidden_layers()
+
+    call trainable_engine%train(mini_batches)
+
+    test_inputs = [inputs_t([true,true]), inputs_t([false,true]), inputs_t([true,false]), inputs_t([false,false])]
+    expected_test_outputs = [(xor(test_inputs(i)), i=1, size(test_inputs))]
+    actual_outputs = trainable_engine%infer_from_inputs_object_(test_inputs)
+    test_passes = [(abs(actual_outputs(i)%outputs() - expected_test_outputs(i)%outputs()) < tolerance, i=1, size(actual_outputs))]
+
+  contains
+    
+    function xor(inputs) result(expected_outputs)
+      type(inputs_t), intent(in) :: inputs
+      type(expected_outputs_t) expected_outputs
+      associate(sum_inputs => sum(inputs%values()))
+       expected_outputs = expected_outputs_t([merge(true, false, sum_inputs > 0.99 .and. sum_inputs < 1.01)])
+      end associate
     end function
 
   end function
