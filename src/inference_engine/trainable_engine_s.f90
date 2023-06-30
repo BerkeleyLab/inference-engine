@@ -8,18 +8,42 @@ submodule(trainable_engine_m) trainable_engine_s
   use sigmoid_m, only : sigmoid_t
   implicit none
 
+  integer, parameter :: input_layer = 0
+
 contains
 
-  module procedure infer_from_inputs_object_
+  module procedure num_inputs
+    n_in = self%n(input_layer)
+  end procedure
+
+  module procedure num_layers
+    n_layers = size(self%n,1)
+  end procedure
+
+  module procedure assert_consistent
+
+    associate( &
+      fully_allocated=>[allocated(self%w),allocated(self%b),allocated(self%n),allocated(self%differentiable_activation_strategy_)] &
+    )
+      call assert(all(fully_allocated),"trainable_engine_s(assert_consistent): fully_allocated",intrinsic_array_t(fully_allocated))
+    end associate
+
+    associate(max_width => maxval(self%n), component_dims => [size(self%b,1), size(self%w,1), size(self%w,2)])
+      call assert(all(component_dims == max_width), "trainable_engine_s(assert_consistent): conformable arrays", &
+        intrinsic_array_t([max_width,component_dims]))
+    end associate
+
+    call assert(lbound(self%n,1)==input_layer, "trainable_engine_s(assert_consistent): n base subsscript", lbound(self%n,1))
+
+  end procedure
+
+  module procedure infer
 
     real(rkind), allocatable :: z(:,:), a(:,:)
-    integer, parameter :: input_layer = 0
     integer l
 
-    call assert(all([allocated(self%w), allocated(self%b), allocated(self%n)]), &
-      "trainable_engine_s(infer_from_inputs_object): fully allocated", &
-      intrinsic_array_t([allocated(self%w), allocated(self%b), allocated(self%n)]) &
-    )
+    call self%assert_consistent
+
     associate(w => self%w, b => self%b, n => self%n, output_layer => ubound(self%b,2))
 
       allocate(z, mold=b)
@@ -40,133 +64,31 @@ contains
         pre_activation_out = z(1:n(output_layer),output_layer) &
       )
       end associate
+
     end associate
-  end procedure
-
-  module procedure train_single_hidden_layer
-
-    integer pair, l, batch
-    real(rkind), allocatable  :: delta(:,:), delta_in(:), delta_w(:,:,:)
-    type(outputs_t), allocatable :: actual_outputs(:)
-    type(network_increment_t), allocatable :: network_increments(:)
-
-    call self%assert_consistent
-
-    associate( &
-      num_hidden_layers => self%num_hidden_layers(), &
-      neurons_per_layer => self%neurons_per_layer() &
-    )
-      call assert(num_hidden_layers==1, "trainable_engine_s(train_single_hidden_layer) not validated for deep networks")
-      allocate(delta(neurons_per_layer, num_hidden_layers))
-      allocate(delta_w(neurons_per_layer, neurons_per_layer, num_hidden_layers-1))
-
-      loop_over_mini_batches: &
-      do batch = 1, size(mini_batch)
-
-        associate(input_output_pairs => mini_batch(batch)%input_output_pairs())
-          associate( &
-            expected_outputs => input_output_pairs%expected_outputs(), &
-            inputs => input_output_pairs%inputs() &
-          )
-            if (allocated(network_increments)) deallocate(network_increments)
-            allocate(network_increments(size(inputs)))
-            if (allocated(actual_outputs)) deallocate(actual_outputs)
-            allocate(actual_outputs(size(inputs)))
-
-            loop_over_input_ouput_pairs: &
-            do concurrent(pair = 1:size(inputs))
-
-              actual_outputs(pair) = self%infer(inputs(pair), inference_strategy) 
-
-              associate( &
-                a_L => actual_outputs(pair)%outputs(), &
-                y_L => expected_outputs(pair)%outputs(), &
-                z_L => actual_outputs(pair)%pre_activation_out(), &
-                z => actual_outputs(pair)%pre_activation_in(), &
-                w_L => self%output_weights(), &
-                w => self%hidden_weights(), &
-                w_in => self%input_weights() &
-              )
-                associate( &
-                    a => self%differentiable_activation_strategy_%activation(z), &
-                    sigma_prime_of_z_L => self%differentiable_activation_strategy_%activation_derivative(z_L), &
-                    sigma_prime_of_z => self%differentiable_activation_strategy_%activation_derivative(z) &
-                )
-                  associate(delta_L => (a_L - y_L)*sigma_prime_of_z_L)
-
-                    delta(:,num_hidden_layers) = matmul(transpose(w_L), delta_L) * sigma_prime_of_z(:,num_hidden_layers)
-
-                    do l = num_hidden_layers-1 , 1, -1
-                      delta(:,l) = matmul(transpose(w(:,:,l+1)), delta(:,l+1)) * sigma_prime_of_z(:,l)
-                    end do
-
-                    block
-                      real(rkind), parameter :: eta = 1. ! training rate
-
-                      do concurrent(l = 1:size(delta_w,3))
-                        delta_w(:,:,l) = -eta*outer_product(delta(:,l+1), a(:,l))
-                      end do
-
-                      network_increments(pair) = network_increment_t( &
-                        delta_w_in =  -eta*outer_product(delta(:,1), inputs(pair)%values()), &
-                        delta_w_hidden = delta_w, &
-                        delta_w_out = -eta*outer_product(delta_L, a(:,num_hidden_layers)), &
-                        delta_b_hidden = -eta*delta, &
-                        delta_b_out = -eta*delta_L &
-                      )
-                    end block
-                  end associate
-                end associate
-              end associate
-            end do loop_over_input_ouput_pairs
-
-            call self%increment( .average. network_increments)
-
-          end associate
-        end associate
-      end do loop_over_mini_batches
-    end associate
-
-  contains
-
-    pure function outer_product(u, v) result(u_v_T)
-      real(rkind), intent(in), dimension(:) :: u, v
-      real(rkind), allocatable, dimension(:,:) :: u_v_T
-      integer i, j
-      associate(rows => size(u), columns => size(v))
-        allocate(u_v_T(rows, columns))
-        do concurrent(i = 1:rows, j = 1:columns)
-          u_v_T = u(i)*v(j)
-        end do
-      end associate
-    end function
 
   end procedure
 
-  module procedure train_deep_network
-    integer i,j,k,l,batch, iter, mini_batch_size, pair
-    integer, parameter :: input_layer=0
+  module procedure train
+    integer i, j, k, l, batch, iter, mini_batch_size, pair
     real(rkind), parameter :: eta = 1.5e0 ! Learning parameter
     real(rkind), allocatable :: z(:,:), a(:,:), y(:), delta(:,:), dcdw(:,:,:), dcdb(:,:)
     real(rkind) cost
     type(inputs_t), allocatable :: inputs(:)
     type(expected_outputs_t), allocatable :: expected_outputs(:)
-    
-    associate(n_hidden => self%num_hidden_layers(), num_inputs => self%num_inputs(), num_outputs => self%num_outputs())
-      associate(output_layer => n_hidden+1)
-        allocate(self%n(input_layer:output_layer), source=[num_inputs, [(self%neurons_per_Layer(), l=1,n_hidden)], num_outputs])
-        associate(max_width => maxval(self%n))
-          allocate(a(max_width,input_layer:output_layer)) ! Activations, Layer 0: Inputs, Layer output_layer: Outputs
-          allocate(self%b(max_width,output_layer)) ! b_j^l = bias in j'th neuron of the l'th layer
-          allocate(self%w(max_width,max_width,output_layer)) ! w_{jk}^l = weight from k'th neuron in (l-1)'th layer to j'th neuron in l'th layer
-        end associate
-        allocate(dcdw,  mold=self%w) ! Gradient of cost function with respect to weights
-        allocate(z,     mold=self%b) ! z-values: Sum z_j^l = w_jk^{l} a_k^{l-1} + b_j^l
-        allocate(delta, mold=self%b)
-        allocate(dcdb,  mold=self%b) ! Gradient of cost function with respect with biases
 
-        associate(w => self%w, b => self%b, n => self%n)
-        
+    call self%assert_consistent
+
+    associate(output_layer => ubound(self%n,1))
+      
+      allocate(a(maxval(self%n), input_layer:output_layer)) ! Activations
+      allocate(dcdw,  mold=self%w) ! Gradient of cost function with respect to weights
+      allocate(z,     mold=self%b) ! z-values: Sum z_j^l = w_jk^{l} a_k^{l-1} + b_j^l
+      allocate(delta, mold=self%b)
+      allocate(dcdb,  mold=self%b) ! Gradient of cost function with respect with biases
+
+      associate(w => self%w, b => self%b, n => self%n)
+      
         iterate_across_batches: &
         do iter = 1, size(mini_batches)
 
@@ -181,7 +103,7 @@ contains
           iterate_through_batch: &
           do pair = 1, mini_batch_size
 
-            a(1:num_inputs,0) = inputs(pair)%values()
+            a(1:self%num_inputs(), input_layer) = inputs(pair)%values()
             y = expected_outputs(pair)%outputs()
 
             feed_forward: &
@@ -196,11 +118,13 @@ contains
               (a(1:n(output_layer),output_layer) - y(1:n(output_layer))) &
               * self%differentiable_activation_strategy_%activation_derivative(z(1:n(output_layer),output_layer))
             
-            back_propagate_error: &
-            do l = n_hidden,1,-1
-              delta(1:n(l),l) = matmul(transpose(w(1:n(l+1),1:n(l),l+1)), delta(1:n(l+1),l+1)) &
-                * self%differentiable_activation_strategy_%activation_derivative(z(1:n(l),l))
-            end do back_propagate_error
+            associate(n_hidden => self%num_layers()-2)
+              back_propagate_error: &
+              do l = n_hidden,1,-1
+                delta(1:n(l),l) = matmul(transpose(w(1:n(l+1),1:n(l),l+1)), delta(1:n(l+1),l+1)) &
+                  * self%differentiable_activation_strategy_%activation_derivative(z(1:n(l),l))
+              end do back_propagate_error
+            end associate
 
             sum_gradients: &
             do l = 1,output_layer
@@ -209,6 +133,7 @@ contains
                 dcdw(j,1:n(l-1),l) = dcdw(j,1:n(l-1),l) + a(1:n(l-1),l-1)*delta(j,l)
               end do
             end do sum_gradients
+    
           end do iterate_through_batch
         
           adjust_weights_and_biases: &
@@ -220,54 +145,19 @@ contains
           end do adjust_weights_and_biases
         end do iterate_across_batches
 
-    block
-      type(trainable_engine_t) trainable_engine
-      type(sigmoid_t) sigmoid
-
-      associate(activation_name => self%differentiable_activation_strategy_%function_name())
-        trainable_engine = trainable_engine_t(self%n, w, b, self%differentiable_activation_strategy_, &
-          [string_t("deep network"), string_t("Damian Rouson"), string_t("2023-06-18"), activation_name, string_t("false")])
-      end associate
-      self%inference_engine_t = trainable_engine%inference_engine_t
-      self%differentiable_activation_strategy_ = trainable_engine%differentiable_activation_strategy_
-    end block
-      end associate
       end associate
     end associate
     
   end procedure
-
-  module procedure construct_trainable_engine
-
-    trainable_engine%inference_engine_t = inference_engine_t( &
-      metadata, input_weights, hidden_weights, output_weights, biases, output_biases &
-    )
-    trainable_engine%differentiable_activation_strategy_ = differentiable_activation_strategy
-    
-  end procedure
-
 
   module procedure construct_from_padded_arrays
 
-    integer l
+     trainable_engine%n = nodes
+     trainable_engine%w = weights
+     trainable_engine%b = biases
+     trainable_engine%differentiable_activation_strategy_ = differentiable_activation_strategy
 
-    associate( &
-      n_in => nodes(0), & ! number of inputs
-      n_out => nodes(size(nodes)-1), & ! number of outputs
-      neurons => nodes(1), & ! number of neurons per layer
-      n_hidden => size(nodes) - 2 & ! number of hidden layers 
-    )
-      trainable_engine = construct_trainable_engine( &
-        metadata = metadata, &
-        input_weights = real(reshape([(weights(1:nodes(l), 1:nodes(l-1),l), l=1,1)], [n_in, neurons]), rkind), &
-        hidden_weights = real(reshape([(weights(1:nodes(l), 1:nodes(l-1),l), l=2,n_hidden)], [neurons,neurons,n_hidden-1]), rkind),&
-        output_weights = real(reshape([(weights(1:nodes(l), 1:nodes(l-1),l), l=n_hidden+1,n_hidden+1)], [n_out,neurons]), rkind), &
-        biases = real(reshape([([(biases(1:nodes(l),l))], l=1,n_hidden)], [neurons, n_hidden]), rkind), &
-        output_biases = real([(biases(1:nodes(l),l), l=n_hidden+1,n_hidden+1)], rkind), &
-        differentiable_activation_strategy = differentiable_activation_strategy &
-      )   
-    end associate
-
+     call trainable_engine%assert_consistent
   end procedure
 
 end submodule trainable_engine_s

@@ -3,6 +3,7 @@
 module trainable_engine_test_m
   !! Define inference tests and procedures required for reporting results
   use assert_m, only : assert
+  use intrinsic_array_m, only : intrinsic_array_t
   use string_m, only : string_t
   use test_m, only : test_t
   use test_result_m, only : test_result_t
@@ -49,27 +50,27 @@ contains
     type(test_result_t), allocatable :: test_results(:)
 
     character(len=*), parameter :: longest_description = &
-        "learning the mapping (false,false) -> false with 2 hidden layers trained with random weights an XOR-gate training data"
+        "learning the mapping (false,false) -> false with 2 hidden layers trained on symmetric OR-gate data and random weights"
 
     associate( &
       descriptions => &
       [ character(len=len(longest_description)) :: &
-        "learning the mapping (true,true) -> true with 2 hidden layers trained on skewed data representing an AND gate"         ,&
-        "learning the mapping (false,true) -> false with 2 hidden layers trained on skewed data representing an AND gate"       ,&
-        "learning the mapping (true,false) -> false with 2 hidden layers trained on skewed data representing an AND gate"       ,&
-        "learning the mapping (false,false) -> false with 2 hidden layers trained on skewed data representing anAND gate"       ,&
-        "learning the mapping (true,true) -> false with 2 hidden layers trained on skewed data representing NOT-AND logic"      ,&
-        "learning the mapping (false,true) -> true with 2 hidden layers trained on skewed data representing NOT-AND logic"      ,&
-        "learning the mapping (true,false) -> true with 2 hidden layers trained on skewed data representing NOT-AND logic"      ,&
-        "learning the mapping (false,false) -> true with 2 hidden layers trained on skewed data representing NOT-AND logic"     ,&
-        "learning the mapping (true,true) -> true with 2 hidden layers trained on symmetric data representing an OR gate"       ,&
-        "learning the mapping (false,true) -> true with 2 hidden layers trained on symmetric data representing an OR gate,"     ,&
-        "learning the mapping (true,false) -> true with 2 hidden layers trained on symmetric data representing an OR gate"      ,&
-        "learning the mapping (false,false) -> false with 2 hidden layers trained on symmetric data representing an OR gate"    ,&
-        "learning the mapping (true,true) -> false with 2 hidden layers trained with random weights and XOR-gate training data" ,&
-        "learning the mapping (false,true) -> true with 2 hidden layers trained with random weights and XOR-gate training data" ,&
-        "learning the mapping (true,false) -> true with 2 hidden layers trained with random weights and XOR-gate training data" ,&
-        "learning the mapping (false,false) -> false with 2 hidden layers trained with random weights an XOR-gate training data" &
+        "learning the mapping (true,true) -> true with 2 hidden layers trained on skewed AND-gate data"                        ,&
+        "learning the mapping (false,true) -> false with 2 hidden layers trained on skewed AND-gate data"                      ,&
+        "learning the mapping (true,false) -> false with 2 hidden layers trained on skewed AND-gate data"                      ,&
+        "learning the mapping (false,false) -> false with 2 hidden layers trained on skewed AND-gate data"                     ,&
+        "learning the mapping (true,true) -> false with 2 hidden layers trained on skewed NOT-AND-gate data"                   ,&
+        "learning the mapping (false,true) -> true with 2 hidden layers trained on skewed NOT-AND-gate data"                   ,&
+        "learning the mapping (true,false) -> true with 2 hidden layers trained on skewed NOT-AND-gate data"                   ,&
+        "learning the mapping (false,false) -> true with 2 hidden layers trained on skewed NOT-AND-gate data"                  ,&
+        "learning the mapping (true,true) -> true with 2 hidden layers trained on symmetric OR-gate data and random weights"   ,&
+        "learning the mapping (false,true) -> true with 2 hidden layers trained on symmetric OR-gate data and random weights"  ,&
+        "learning the mapping (true,false) -> true with 2 hidden layers trained on symmetric OR-gate data and random weights"  ,&
+        "learning the mapping (false,false) -> false with 2 hidden layers trained on symmetric OR-gate data and random weights",&
+        "learning the mapping (true,true) -> false with 2 hidden layers trained on XOR-gate data and random weights"  ,&
+        "learning the mapping (false,true) -> true with 2 hidden layers trained on XOR-gate data and random weights" ,&
+        "learning the mapping (true,false) -> true with 2 hidden layers trained on XOR-gate data and random weights"  ,&
+        "learning the mapping (false,false) -> false with 2 hidden layers trained on XOR-gate data and random weights" &
       ], outcomes => [ &
         and_gate_with_skewed_training_data(), &
         not_and_gate_with_skewed_training_data(), &
@@ -77,12 +78,18 @@ contains
         xor_gate() &
       ] &
     )
-      call assert(size(descriptions) == size(outcomes), "trainable_engine_test_m(results): size(descriptions) == size(outcomes)")
+      associate(d => size(descriptions), o => size(outcomes))
+        call assert(d == o, "trainable_engine_test_m(results): size(descriptions) == size(outcomes)", intrinsic_array_t([d,o]))
+      end associate
       test_results = test_result_t(descriptions, outcomes)
     end associate
   end function
 
   subroutine print_truth_table(gate_name, gate_function_ptr, test_inputs, actual_outputs)
+    !! Usage: 
+    !!   procedure(map_i), pointer :: xor_ptr
+    !!   xor_ptr => xor
+    !!   call print_truth_table("XOR", xor_ptr, test_inputs, actual_outputs)
     character(len=*), intent(in) :: gate_name
     procedure(map_i), intent(in), pointer :: gate_function_ptr
     type(inputs_t), intent(in) :: test_inputs(:)
@@ -113,23 +120,23 @@ contains
 
     trainable_engine = trainable_engine_t( &
       nodes = neurons, weights = w, biases = b, differentiable_activation_strategy = sigmoid_t(), metadata = &
-      [string_t("2-hide|3-wide"), string_t("Damian Rouson"), string_t("2023-06-28"), string_t("sigmoid"), string_t("false")] &
+      [string_t("2-hide|3-wide"), string_t("Damian Rouson"), string_t("2023-06-30"), string_t("sigmoid"), string_t("false")] &
     )   
   end function
 
   function two_random_hidden_layers() result(trainable_engine)
     type(trainable_engine_t) trainable_engine
-    integer, parameter :: inputs = 2, outputs = 1, hidden = 24 ! number of neurons in input, output, and hidden layers
+    integer, parameter :: inputs = 2, outputs = 1, hidden = 3 ! number of neurons in input, output, and hidden layers
     integer, parameter :: neurons(*) = [inputs, hidden, hidden, outputs] ! neurons per layer
     integer, parameter :: max_neurons = maxval(neurons), layers=size(neurons) ! max layer width, number of layers
     real(rkind) w(max_neurons, max_neurons, layers-1), b(max_neurons, max_neurons)
 
-    call random_number(w)
     call random_number(b)
+    call random_number(w)
 
     trainable_engine = trainable_engine_t( &
       nodes = neurons, weights = w, biases = b, differentiable_activation_strategy = sigmoid_t(), metadata = &
-      [string_t("2-hide|3-wide"), string_t("Damian Rouson"), string_t("2023-06-28"), string_t("sigmoid"), string_t("false")] &
+      [string_t("2-hide|3-wide"), string_t("Damian Rouson"), string_t("2023-06-30"), string_t("sigmoid"), string_t("false")] &
     )   
   end function
 
@@ -147,7 +154,7 @@ contains
 
     allocate(harvest(num_inputs, mini_batch_size, num_iterations))
     call random_number(harvest)
-    harvest = 2.*harvest - 1.
+    harvest = 2.*(harvest - 0.5) ! skew toward more input values being true
 
     ! The following temporary copies are required by gfortran bug 100650 and possibly 49324
     ! See https://gcc.gnu.org/bugzilla/show_bug.cgi?id=100650 and https://gcc.gnu.org/bugzilla/show_bug.cgi?id=49324
@@ -164,7 +171,7 @@ contains
 
     test_inputs = [inputs_t([true,true]), inputs_t([false,true]), inputs_t([true,false]), inputs_t([false,false])]
     expected_test_outputs = [(and(test_inputs(i)), i=1, size(test_inputs))]
-    actual_outputs = trainable_engine%infer_from_inputs_object_(test_inputs)
+    actual_outputs = trainable_engine%infer(test_inputs)
     test_passes = [(abs(actual_outputs(i)%outputs() - expected_test_outputs(i)%outputs()) < tolerance, i=1, size(actual_outputs))]
 
   contains
@@ -191,7 +198,7 @@ contains
 
     allocate(harvest(num_inputs, mini_batch_size, num_iterations))
     call random_number(harvest)
-    harvest = 2.*harvest - 1.
+    harvest = 2.*(harvest - 0.5) ! skew toward more input values being true
 
     ! The following temporary copies are required by gfortran bug 100650 and possibly 49324
     ! See https://gcc.gnu.org/bugzilla/show_bug.cgi?id=100650 and https://gcc.gnu.org/bugzilla/show_bug.cgi?id=49324
@@ -208,7 +215,7 @@ contains
 
     test_inputs = [inputs_t([true,true]), inputs_t([false,true]), inputs_t([true,false]), inputs_t([false,false])]
     expected_test_outputs = [(not_and(test_inputs(i)), i=1, size(test_inputs))]
-    actual_outputs = trainable_engine%infer_from_inputs_object_(test_inputs)
+    actual_outputs = trainable_engine%infer(test_inputs)
     test_passes = [(abs(actual_outputs(i)%outputs() - expected_test_outputs(i)%outputs()) < tolerance, i=1, size(actual_outputs))]
 
   contains
@@ -251,7 +258,7 @@ contains
 
     test_inputs = [inputs_t([true,true]), inputs_t([false,true]), inputs_t([true,false]), inputs_t([false,false])]
     expected_test_outputs = [(or(test_inputs(i)), i=1, size(test_inputs))]
-    actual_outputs = trainable_engine%infer_from_inputs_object_(test_inputs)
+    actual_outputs = trainable_engine%infer(test_inputs)
     test_passes = [(abs(actual_outputs(i)%outputs() - expected_test_outputs(i)%outputs()) < tolerance, i=1, size(actual_outputs))]
 
   contains
@@ -294,7 +301,7 @@ contains
 
     test_inputs = [inputs_t([true,true]), inputs_t([false,true]), inputs_t([true,false]), inputs_t([false,false])]
     expected_test_outputs = [(xor(test_inputs(i)), i=1, size(test_inputs))]
-    actual_outputs = trainable_engine%infer_from_inputs_object_(test_inputs)
+    actual_outputs = trainable_engine%infer(test_inputs)
     test_passes = [(abs(actual_outputs(i)%outputs() - expected_test_outputs(i)%outputs()) < tolerance, i=1, size(actual_outputs))]
 
   contains
