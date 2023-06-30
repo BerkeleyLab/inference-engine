@@ -55,27 +55,27 @@ contains
     associate( &
       descriptions => &
       [ character(len=len(longest_description)) :: &
-        "learning the mapping (true,true) -> true with 2 hidden layers trained on skewed AND-gate data"                        ,&
-        "learning the mapping (false,true) -> false with 2 hidden layers trained on skewed AND-gate data"                      ,&
-        "learning the mapping (true,false) -> false with 2 hidden layers trained on skewed AND-gate data"                      ,&
-        "learning the mapping (false,false) -> false with 2 hidden layers trained on skewed AND-gate data"                     ,&
-        "learning the mapping (true,true) -> false with 2 hidden layers trained on skewed NOT-AND-gate data"                   ,&
-        "learning the mapping (false,true) -> true with 2 hidden layers trained on skewed NOT-AND-gate data"                   ,&
-        "learning the mapping (true,false) -> true with 2 hidden layers trained on skewed NOT-AND-gate data"                   ,&
-        "learning the mapping (false,false) -> true with 2 hidden layers trained on skewed NOT-AND-gate data"                  ,&
-        "learning the mapping (true,true) -> true with 2 hidden layers trained on symmetric OR-gate data and random weights"   ,&
-        "learning the mapping (false,true) -> true with 2 hidden layers trained on symmetric OR-gate data and random weights"  ,&
-        "learning the mapping (true,false) -> true with 2 hidden layers trained on symmetric OR-gate data and random weights"  ,&
-        "learning the mapping (false,false) -> false with 2 hidden layers trained on symmetric OR-gate data and random weights",&
-        "learning the mapping (true,true) -> false with 2 hidden layers trained on XOR-gate data and random weights"  ,&
-        "learning the mapping (false,true) -> true with 2 hidden layers trained on XOR-gate data and random weights" ,&
-        "learning the mapping (true,false) -> true with 2 hidden layers trained on XOR-gate data and random weights"  ,&
-        "learning the mapping (false,false) -> false with 2 hidden layers trained on XOR-gate data and random weights" &
+        "learning the mapping (true,true) -> true with 2 hidden layers trained on skewed AND-gate data"                         ,&
+        "learning the mapping (false,true) -> false with 2 hidden layers trained on skewed AND-gate data"                       ,&
+        "learning the mapping (true,false) -> false with 2 hidden layers trained on skewed AND-gate data"                       ,&
+        "learning the mapping (false,false) -> false with 2 hidden layers trained on skewed AND-gate data"                      ,&
+        "learning the mapping (true,true) -> false with 2 hidden layers trained on skewed NOT-AND-gate data"                    ,&
+        "learning the mapping (false,true) -> true with 2 hidden layers trained on skewed NOT-AND-gate data"                    ,&
+        "learning the mapping (true,false) -> true with 2 hidden layers trained on skewed NOT-AND-gate data"                    ,&
+        "learning the mapping (false,false) -> true with 2 hidden layers trained on skewed NOT-AND-gate data"                   ,&
+        "learning the mapping (true,true) -> true with 2 hidden layers trained on symmetric OR-gate data and random weights"    ,&
+        "learning the mapping (false,true) -> true with 2 hidden layers trained on symmetric OR-gate data and random weights"   ,&
+        "learning the mapping (true,false) -> true with 2 hidden layers trained on symmetric OR-gate data and random weights"   ,&
+        "learning the mapping (false,false) -> false with 2 hidden layers trained on symmetric OR-gate data and random weights" ,&
+        "learning the mapping (true,true) -> false with 2 hidden layers trained on symmetric XOR-gate data and random weights"  ,&
+        "learning the mapping (false,true) -> true with 2 hidden layers trained on symmetric XOR-gate data and random weights"  ,&
+        "learning the mapping (true,false) -> true with 2 hidden layers trained on symmetric XOR-gate data and random weights"  ,&
+        "learning the mapping (false,false) -> false with 2 hidden layers trained on symmetric XOR-gate data and random weights" &
       ], outcomes => [ &
         and_gate_with_skewed_training_data(), &
         not_and_gate_with_skewed_training_data(), &
-        or_gate_with_symmetric_training_data(), &
-        xor_gate() &
+        or_gate_with_random_weights(), &
+        xor_gate_with_random_weights() &
       ] &
     )
       associate(d => size(descriptions), o => size(outcomes))
@@ -149,7 +149,7 @@ contains
     type(outputs_t), allocatable :: actual_outputs(:)
     real(rkind), parameter :: tolerance = 1.E-02_rkind
     real(rkind), allocatable :: harvest(:,:,:)
-    integer, parameter :: num_inputs=2, mini_batch_size = 1, num_iterations=14000
+    integer, parameter :: num_inputs=2, mini_batch_size = 1, num_iterations=20000
     integer batch, iter, i
 
     allocate(harvest(num_inputs, mini_batch_size, num_iterations))
@@ -193,7 +193,7 @@ contains
     type(outputs_t), allocatable :: actual_outputs(:)
     real(rkind), parameter :: tolerance = 1.E-02_rkind
     real(rkind), allocatable :: harvest(:,:,:)
-    integer, parameter :: num_inputs=2, mini_batch_size = 1, num_iterations=14000
+    integer, parameter :: num_inputs=2, mini_batch_size = 1, num_iterations=30000
     integer batch, iter, i
 
     allocate(harvest(num_inputs, mini_batch_size, num_iterations))
@@ -228,7 +228,7 @@ contains
 
   end function
 
-  function or_gate_with_symmetric_training_data() result(test_passes)
+  function or_gate_with_random_weights() result(test_passes)
     logical, allocatable :: test_passes(:)
     type(mini_batch_t), allocatable :: mini_batches(:)
     type(inputs_t), allocatable :: training_inputs(:,:), tmp(:), test_inputs(:)
@@ -237,7 +237,7 @@ contains
     type(outputs_t), allocatable :: actual_outputs(:)
     real(rkind), parameter :: tolerance = 1.E-02_rkind
     real(rkind), allocatable :: harvest(:,:,:)
-    integer, parameter :: num_inputs=2, mini_batch_size = 1, num_iterations=26000
+    integer, parameter :: num_inputs=2, mini_batch_size = 1, num_iterations=50000
     integer batch, iter, i
 
     allocate(harvest(num_inputs, mini_batch_size, num_iterations))
@@ -271,7 +271,7 @@ contains
 
   end function
 
-  function xor_gate() result(test_passes)
+  function xor_gate_with_random_weights() result(test_passes)
     logical, allocatable :: test_passes(:)
     type(mini_batch_t), allocatable :: mini_batches(:)
     type(inputs_t), allocatable :: training_inputs(:,:), tmp(:), test_inputs(:)
@@ -280,7 +280,7 @@ contains
     type(outputs_t), allocatable :: actual_outputs(:)
     real(rkind), parameter :: tolerance = 1.E-02_rkind
     real(rkind), allocatable :: harvest(:,:,:)
-    integer, parameter :: num_inputs=2, mini_batch_size = 1, num_iterations=200000
+    integer, parameter :: num_inputs=2, mini_batch_size = 1, num_iterations=400000
     integer batch, iter, i
 
     allocate(harvest(num_inputs, mini_batch_size, num_iterations))
