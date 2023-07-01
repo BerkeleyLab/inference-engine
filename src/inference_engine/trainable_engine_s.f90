@@ -3,7 +3,6 @@
 submodule(trainable_engine_m) trainable_engine_s
   use assert_m, only : assert
   use intrinsic_array_m, only : intrinsic_array_t
-  use network_increment_m, only : network_increment_t, operator(.average.)
   use input_output_pair_m, only : input_output_pair_t
   use sigmoid_m, only : sigmoid_t
   implicit none

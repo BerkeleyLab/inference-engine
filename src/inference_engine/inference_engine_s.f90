@@ -448,12 +448,4 @@ contains
     w = self%output_weights_
   end procedure
 
-  module procedure increment
-    self%input_weights_ = self%input_weights_ + network_increment%delta_w_in()
-    self%hidden_weights_ = self%hidden_weights_ + network_increment%delta_w_hidden()
-    self%output_weights_ = self%output_weights_ + network_increment%delta_w_out()
-    self%biases_ = self%biases_ + network_increment%delta_b_hidden()
-    self%output_biases_ = self%output_biases_ + network_increment%delta_b_out()
-  end procedure
-
 end submodule inference_engine_s

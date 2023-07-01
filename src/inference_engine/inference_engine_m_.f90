@@ -10,7 +10,6 @@ module inference_engine_m_
   use inputs_m, only : inputs_t
   use outputs_m, only : outputs_t
   use differentiable_activation_strategy_m, only :differentiable_activation_strategy_t
-  use network_increment_m, only : network_increment_t
   implicit none
 
   private
@@ -48,7 +47,6 @@ module inference_engine_m_
     procedure :: input_weights
     procedure :: hidden_weights
     procedure :: output_weights
-    procedure :: increment
   end type
 
   interface inference_engine_t
@@ -171,12 +169,6 @@ module inference_engine_m_
       class(inference_engine_t), intent(in) :: self
       real(rkind), allocatable :: w(:,:)
     end function
-
-    pure module subroutine increment(self, network_increment)
-      implicit none
-      class(inference_engine_t), intent(inout) :: self
-      type(network_increment_t), intent(in) :: network_increment
-    end subroutine
 
   end interface
 
