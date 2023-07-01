@@ -8,11 +8,9 @@ module inference_engine_m
  use inference_engine_m_
  use inference_strategy_m
  use kind_parameters_m
- use layer_m
  use matmul_m
  use mini_batch_m
  use input_output_pair_m
- use neuron_m
  use outputs_m
  use sigmoid_m
  use step_m
