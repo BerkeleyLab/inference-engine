@@ -2,20 +2,19 @@
 ! Terms of use are as specified in LICENSE.txt
 module trainable_engine_test_m
   !! Define inference tests and procedures required for reporting results
+
+  ! External dependencies
   use assert_m, only : assert
   use intrinsic_array_m, only : intrinsic_array_t
+  use kind_parameters_m, only : rkind
   use string_m, only : string_t
   use test_m, only : test_t
   use test_result_m, only : test_result_t
-  use trainable_engine_m, only : trainable_engine_t
-  use inputs_m, only : inputs_t
-  use outputs_m, only : outputs_t
-  use expected_outputs_m, only : expected_outputs_t
-  use matmul_m, only : matmul_t
-  use kind_parameters_m, only : rkind
-  use sigmoid_m, only : sigmoid_t
-  use input_output_pair_m, only : input_output_pair_t 
-  use mini_batch_m, only : mini_batch_t
+
+  ! Internal dependencies
+  use inference_engine_m, only : &
+    trainable_engine_t, inputs_t, outputs_t, expected_outputs_t, sigmoid_t, input_output_pair_t, mini_batch_t
+
   implicit none
 
   private

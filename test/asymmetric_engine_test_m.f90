@@ -2,20 +2,17 @@
 ! Terms of use are as specified in LICENSE.txt
 module asymmetric_engine_test_m
   !! Define asymmetric tests and procedures required for reporting results
+
+  ! External dependencies
   use assert_m, only : assert
+  use kind_parameters_m, only : rkind
   use string_m, only : string_t
   use test_m, only : test_t
   use test_result_m, only : test_result_t
-  use inference_engine_m, only : inference_engine_t
-  use inputs_m, only :inputs_t
-  use outputs_m, only :outputs_t
-  use inference_strategy_m, only : inference_strategy_t
-  use concurrent_dot_products_m, only : concurrent_dot_products_t
-  use step_m, only : step_t
-  use matmul_m, only : matmul_t
-  use file_m, only : file_t
-  use kind_parameters_m, only : rkind
-  use outputs_m, only : outputs_t
+
+  ! Internal dependencies
+  use inference_engine_m, only : concurrent_dot_products_t, inference_engine_t, inference_strategy_t, matmul_t, outputs_t
+
   implicit none
 
   private

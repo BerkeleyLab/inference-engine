@@ -1,6 +1,8 @@
 ! Copyright (c), The Regents of the University of California
 ! Terms of use are as specified in LICENSE.txt
 module activation_strategy_m
+
+  ! External dependencies
   use kind_parameters_m, only : rkind
   use string_m, only : string_t
   implicit none
