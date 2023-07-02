@@ -19,7 +19,7 @@ submodule(inference_engine_m_) inference_engine_s
 
 contains
 
-  pure subroutine set_activation_name(inference_engine)
+  pure subroutine set_activation_strategy(inference_engine)
     type(inference_engine_t), intent(inout) :: inference_engine
     ! This code is called in both constructors and and can't be refactored into a factory method
     ! pattern because the result would need to be allocatable and polymorphic, which would preclude
@@ -54,7 +54,7 @@ contains
     inference_engine%biases_ = biases
     inference_engine%output_biases_ = output_biases
 
-    call set_activation_name(inference_engine)
+    call set_activation_strategy(inference_engine)
     call inference_engine%assert_consistent
 
   end procedure
@@ -136,7 +136,7 @@ contains
     inference_engine%output_weights_ = output_layer%output_weights()
     inference_engine%output_biases_ = output_layer%output_biases()
 
-    call set_activation_name(inference_engine)
+    call set_activation_strategy(inference_engine)
     call inference_engine%assert_consistent
 
   contains
