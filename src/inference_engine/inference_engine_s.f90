@@ -89,44 +89,12 @@ contains
 
   module procedure construct_from_padded_arrays
 
-    integer l
-
     inference_engine%metadata_ = metadata
     inference_engine%weights_ = weights
     inference_engine%biases__ = biases
     inference_engine%nodes_ = nodes
     call set_activation_strategy(inference_engine)
-
-    !define_legacy_components: &
-    !block
-
-    !  integer l
-
-    !  associate(in_ => lbound(nodes,1), out_ => ubound(nodes,1), layers => size(nodes))
-    !    associate(width => nodes(in_+1))
-
-    !      call assert(in_ == 0, "zero-base subscript")
-    !      call assert(all(nodes(in_+1) == nodes(in_+1:out_-1)), "uniformly sized hidden layers")
-
-    !      inference_engine%input_weights_ = transpose(weights(1:nodes(in_+1),1:nodes(in_),in_)
-
-    !      allocate(inference_engine%biases_(width, layers-2))
-
-    !      do concurrent(l = 1:layers-2)
-    !        inference_engine%biases_(1:nodes(l),l) = biases(1:nodes(l),l)
-    !      end do
-    !      inference_engine%output_biases_ = biases(1:nodes(out_),out_)
-
-    !    end associate
-    !  end associate
-
-    !    !  !inference_engine%hidden_weights_ = transposed
-    !    !  !inference_engine%output_weights_ = output_weights
-
-
-    !end block define_legacy_components
-
-    !call inference_engine%assert_consistent
+    call assert_consistency(inference_engine)
 
   end procedure construct_from_padded_arrays
 

@@ -64,14 +64,29 @@ contains
   end function
 
   function single_layer_xor_network() result(inference_engine)
-    integer, parameter :: layers = 3 ! number of layers, including input, hidden, and output layers
-    integer, parameter :: max_n = 3 ! maximum number of nodes in any layer
     type(inference_engine_t) inference_engine
+    integer, parameter :: nodes_per_layer(*) = [2, 3, 1]
+    integer, parameter :: max_n = maxval(nodes_per_layer), layers = size(nodes_per_layer)
+
     inference_engine = inference_engine_t( &
-      metadata = [string_t("XOR"), string_t("Damian Rouson"), string_t("2023-07-03"), string_t("step"), string_t("false")], &
-      weights = reshape([real(rkind):: [1,1,0 ,0,1,1, 0,0,0], [1,0,0, -2,0,0, 1,0,0]], [max_n, max_n, layers-1]), &
+      metadata = [string_t("XOR"), string_t("Damian Rouson"), string_t("2023-07-02"), string_t("step"), string_t("false")], &
+      weights = reshape([real(rkind):: [1,1,0, 0,1,1, 0,0,0], [1,0,0, -2,0,0, 1,0,0]], [max_n, max_n, layers-1]), &
       biases = reshape([[0.,-1.99,0.], [0., 0., 0.]], [max_n, layers-1]), &
-      nodes = [2, 3, 1] &
+      nodes = nodes_per_layer &
+    )
+  end function
+
+  function multi_layer_xor_network() result(inference_engine)
+    type(inference_engine_t) inference_engine
+    integer, parameter :: nodes_per_layer(*) = [2, 3, 3, 1]
+    integer, parameter :: max_n = maxval(nodes_per_layer), layers = size(nodes_per_layer)
+
+    inference_engine = inference_engine_t( &
+      metadata = [string_t("XOR"), string_t("Damian Rouson"), string_t("2023-07-02"), string_t("step"), string_t("false")], &
+      weights = reshape([real(rkind):: [1,1,0, 0,1,1, 1,0,0, 1,0,0, 0,1,0, 0,0,1], [1,0,0, -2,0,0, 1,0,0]], &
+        [max_n, max_n, layers-1]), &
+      biases = reshape([[0.,-1.99,0.], [0., 0., 0.], [0., 0., 0.]], [max_n, layers-1]), &
+      nodes = nodes_per_layer &
     )
   end function
 
@@ -193,7 +208,7 @@ contains
     class(inference_strategy_t), intent(in), optional :: inference_strategy
     type(inference_engine_t) inference_engine
 
-    inference_engine = single_layer_xor_network()
+    inference_engine = multi_layer_xor_network() ! single_layer_xor_network()
 
     block
       type(outputs_t), allocatable :: truth_table(:)
