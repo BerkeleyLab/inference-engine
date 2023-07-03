@@ -3,7 +3,6 @@
 submodule(inference_engine_m_) inference_engine_s
   use assert_m, only : assert
   use intrinsic_array_m, only : intrinsic_array_t
-  use matmul_m, only : matmul_t
   use step_m, only : step_t
   use swish_m, only : swish_t
   use sigmoid_m, only : sigmoid_t
@@ -11,9 +10,6 @@ submodule(inference_engine_m_) inference_engine_s
   use neuron_m, only : neuron_t
   use file_m, only : file_t
   use formats_m, only : separated_values
-  use iso_fortran_env, only : iostat_end
-  use activation_strategy_m, only : activation_i
-  use differentiable_activation_strategy_m, only : differentiable_activation_strategy_t
   use outputs_m, only : outputs_t
   implicit none
 
