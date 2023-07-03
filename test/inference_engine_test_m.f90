@@ -11,7 +11,7 @@ module inference_engine_test_m
   use test_result_m, only : test_result_t
 
   ! Internal dependencies
-  use inference_engine_m, only : concurrent_dot_products_t, inference_engine_t, inference_strategy_t, inputs_t, matmul_t, outputs_t
+  use inference_engine_m, only : inference_engine_t, inputs_t, outputs_t
 
   implicit none
 
@@ -35,27 +35,19 @@ contains
     type(test_result_t), allocatable :: test_results(:)
 
     character(len=*), parameter :: longest_description = &
-          "mapping (false,false) to false using the concurrent_dot_products_t() inference strategy"
+          "converting a single-hidden-layer network to and from JSON format"
 
     associate( &
       descriptions => &
         [ character(len=len(longest_description)) :: &
-          "mapping (true,true) to false using the concurrent_dot_products_t() inference strategy", &
-          "mapping (true,false) to true using the concurrent_dot_products_t() inference strategy", &
-          "mapping (false,true) to true using the concurrent_dot_products_t() inference strategy", &
-          "mapping (false,false) to false using the concurrent_dot_products_t() inference strategy", &
-          "mapping (true,true) to false using the matmul_t() inference strategy", &
-          "mapping (true,false) to true using the matmul_t() inference strategy", &
-          "mapping (false,true) to true using the matmul_t() inference strategy", &
-          "mapping (false,false) to false using the matmul_t() inference strategy", &
-          "performing elemental inference with encapsulated inputs and outputs", &
-          "performing inference with a single-hidden-layer network", &
+          "performing elemental inference with a 1 hidden layer", &
+          "performing elemental inference with a 2 hidden layers", &
           "converting a single-hidden-layer network to and from JSON format",  &
           "converting a multi-hidden-layer network to and from JSON format"  &
         ], &
       outcomes => &
-        [ xor_truth_table(concurrent_dot_products_t()), xor_truth_table(matmul_t()), elemental_inference(), &
-          single_hidden_layer_inference(), single_hidden_layer_net_to_from_json(), multi_hidden_layer_net_to_from_json() &
+        [ elemental_infer_with_1_hidden_layer_xor_net(), elemental_infer_with_2_hidden_layer_xor_net(), &
+          single_hidden_layer_net_to_from_json(), multi_hidden_layer_net_to_from_json() &
         ] &
     )
       call assert(size(descriptions) == size(outcomes), "inference_engine_test(results): size(descriptions) == size(outcomes)")
@@ -63,7 +55,7 @@ contains
     end associate
   end function
 
-  function single_layer_xor_network() result(inference_engine)
+  function single_hidden_layer_xor_network() result(inference_engine)
     type(inference_engine_t) inference_engine
     integer, parameter :: nodes_per_layer(*) = [2, 3, 1]
     integer, parameter :: max_n = maxval(nodes_per_layer), layers = size(nodes_per_layer)
@@ -107,27 +99,6 @@ contains
     )
   end function
 
-  function single_hidden_layer_inference() result(test_passes)
-    logical, allocatable :: test_passes(:)
-    type(inference_engine_t) inference_engine
-
-    inference_engine = single_layer_perceptron()
-
-    block
-      type(outputs_t), allocatable :: truth_table(:)
-      real(rkind), parameter :: tolerance = 1.E-08_rkind, false = 0._rkind, true = 1._rkind
-      integer i
-
-      associate(array_of_inputs => [inputs_t([true,true]), inputs_t([true,false]), inputs_t([false,true]), inputs_t([false,false])])
-        truth_table = inference_engine%infer(array_of_inputs, [(matmul_t(), i=1,size(array_of_inputs))])
-      end associate
-      test_passes = [ &
-        abs(truth_table(1)%outputs() - false) < tolerance .and. abs(truth_table(2)%outputs() - true) < tolerance .and. &
-        abs(truth_table(3)%outputs() - true) < tolerance .and. abs(truth_table(4)%outputs() - false) < tolerance &
-      ]
-    end block
-  end function
-
   function xor_network() result(inference_engine)
     type(inference_engine_t) inference_engine
     integer, parameter :: n_in = 2 ! number of inputs
@@ -169,46 +140,32 @@ contains
     test_passes = difference%norm() < tolerance
   end function
 
-  function xor_truth_table(inference_strategy) result(test_passes)
+  function elemental_infer_with_1_hidden_layer_xor_net() result(test_passes)
     logical, allocatable :: test_passes(:)
-    class(inference_strategy_t), intent(in), optional :: inference_strategy
-
     type(inference_engine_t) inference_engine
 
-    inference_engine = xor_network()
+    inference_engine = single_hidden_layer_xor_network()
 
     block
+      type(outputs_t), allocatable :: truth_table(:)
       real(rkind), parameter :: tolerance = 1.E-08_rkind, false = 0._rkind, true = 1._rkind
-      type(outputs_t) :: true_true, true_false, false_true, false_false
+      integer i
 
-        true_true = inference_engine%infer([true,true], matmul_t())
-        true_false = inference_engine%infer([true,false], matmul_t())
-        false_true = inference_engine%infer([false,true], matmul_t())
-        false_false = inference_engine%infer([false,false], matmul_t())
-
-        associate( &
-          true_true_outputs => true_true%outputs(), &
-          true_false_outputs => true_false%outputs(), &
-          false_true_outputs => false_true%outputs(), &
-          false_false_outputs => false_false%outputs() &
-        )
-          test_passes = [ &
-            size(true_true_outputs)==1 .and. abs(true_true_outputs(1) - false) < tolerance, &
-            size(true_false_outputs)==1 .and. abs(true_false_outputs(1) - true) < tolerance,  &
-            size(false_true_outputs)==1 .and. abs(false_true_outputs(1) - true) < tolerance, &
-            size(false_false_outputs)==1 .and. abs(false_false_outputs(1) - false) < tolerance  &
-          ]
-        end associate
+      associate(array_of_inputs => [inputs_t([true,true]), inputs_t([true,false]), inputs_t([false,true]), inputs_t([false,false])])
+        truth_table = inference_engine%infer(array_of_inputs)
+      end associate
+      test_passes = [ &
+        abs(truth_table(1)%outputs() - false) < tolerance .and. abs(truth_table(2)%outputs() - true) < tolerance .and. &
+        abs(truth_table(3)%outputs() - true) < tolerance .and. abs(truth_table(4)%outputs() - false) < tolerance &
+      ]
     end block
-
   end function
 
-  function elemental_inference(inference_strategy) result(test_passes)
+  function elemental_infer_with_2_hidden_layer_xor_net() result(test_passes)
     logical, allocatable :: test_passes(:)
-    class(inference_strategy_t), intent(in), optional :: inference_strategy
     type(inference_engine_t) inference_engine
 
-    inference_engine = multi_layer_xor_network() ! single_layer_xor_network()
+    inference_engine = multi_layer_xor_network()
 
     block
       type(outputs_t), allocatable :: truth_table(:)
