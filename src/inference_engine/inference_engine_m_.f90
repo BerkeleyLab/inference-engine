@@ -22,17 +22,20 @@ module inference_engine_m_
     !! Encapsulate the minimal information needed to perform inference
     private
     type(string_t) metadata_(size(key))
+    real(rkind), allocatable :: weights_(:,:,:), biases__(:,:)
+    integer, allocatable :: nodes_(:)
+    class(activation_strategy_t), allocatable :: activation_strategy_ ! Strategy Pattern facilitates elemental activation
+
+    ! TODO: rm these legacy components
     real(rkind), allocatable :: input_weights_(:,:)    ! weights applied to go from the inputs to first hidden layer
     real(rkind), allocatable :: hidden_weights_(:,:,:) ! weights applied to go from one hidden layer to the next
     real(rkind), allocatable :: output_weights_(:,:)   ! weights applied to go from the final hidden layer to the outputs
     real(rkind), allocatable :: biases_(:,:)           ! neuronal offsets for each hidden layer
     real(rkind), allocatable :: output_biases_(:)      ! neuronal offsets applied to outputs
-    class(activation_strategy_t), allocatable :: activation_strategy_ ! Strategy Pattern facilitates elemental activation
   contains
     procedure :: to_json
-    procedure, private :: infer_from_array_of_inputs
-    procedure, private :: infer_from_inputs_object
-    generic :: infer => infer_from_array_of_inputs, infer_from_inputs_object
+    procedure, private :: infer_from_array_of_inputs, infer_from_inputs_object, infer_with_default_algorithm
+    generic :: infer  =>  infer_from_array_of_inputs, infer_from_inputs_object, infer_with_default_algorithm
     procedure :: num_inputs
     procedure :: num_outputs
     procedure :: neurons_per_layer
@@ -50,6 +53,14 @@ module inference_engine_m_
   end type
 
   interface inference_engine_t
+
+    pure module function construct_from_padded_arrays(metadata, weights, biases, nodes) result(inference_engine)
+      implicit none
+      type(string_t), intent(in) :: metadata(:)
+      real(rkind), intent(in) :: weights(:,:,:), biases(:,:)
+      integer, intent(in) :: nodes(0:)
+      type(inference_engine_t) inference_engine
+    end function
 
     pure module function construct_from_components(metadata, input_weights, hidden_weights, output_weights, biases, output_biases) &
       result(inference_engine)
@@ -105,6 +116,13 @@ module inference_engine_m_
       class(inference_engine_t), intent(in) :: self
       real(rkind), intent(in) :: input(:)
       class(inference_strategy_t), intent(in) :: inference_strategy
+      type(outputs_t) outputs
+    end function
+
+    elemental module function infer_with_default_algorithm(self, inputs) result(outputs)
+      implicit none
+      class(inference_engine_t), intent(in) :: self
+      type(inputs_t), intent(in) :: inputs
       type(outputs_t) outputs
     end function
 

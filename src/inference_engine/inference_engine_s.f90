@@ -19,6 +19,56 @@ submodule(inference_engine_m_) inference_engine_s
 
 contains
 
+  module procedure infer_with_default_algorithm
+
+    real(rkind), allocatable :: z(:,:), a(:,:)
+    integer, parameter :: input_layer = 0
+    integer j, k, l
+
+    call assert_consistency(self)
+
+    associate(w => self%weights_, b => self%biases__, n => self%nodes_, output_layer => ubound(self%biases__,2))
+
+      allocate(a(maxval(n), input_layer:output_layer))
+
+      a(1:n(input_layer),input_layer) = inputs%values()
+
+      feed_forward: &
+      do l = input_layer+1, output_layer
+        associate(z => matmul(w(1:n(l),1:n(l-1),l), a(1:n(l-1),l-1)) + b(1:n(l),l))
+          a(1:n(l),l) = self%activation_strategy_%activation(z)
+        end associate
+      end do feed_forward
+ 
+      outputs = outputs_t(a(1:n(output_layer), output_layer), reshape([real(rkind)::],[0,0]), [real(rkind)::])
+
+    end associate
+
+  end procedure infer_with_default_algorithm
+
+  pure module subroutine assert_consistency(self)
+
+    type(inference_engine_t), intent(in) :: self
+
+    integer, parameter :: input_layer=0
+
+    associate( &
+      all_allocated=>[allocated(self%weights_),allocated(self%biases__),allocated(self%nodes_),allocated(self%activation_strategy_)]&
+    )   
+      call assert(all(all_allocated),"inference_engine_s(assert_consistency): fully_allocated",intrinsic_array_t(all_allocated))
+    end associate
+
+    associate(max_width=>maxval(self%nodes_), component_dims=>[size(self%biases__,1), size(self%weights_,1), size(self%weights_,2)])
+      call assert(all(component_dims == max_width), "inference_engine_s(assert_consistency): conformable arrays", &
+        intrinsic_array_t([max_width,component_dims]))
+    end associate
+
+    associate(input_subscript => lbound(self%nodes_,1))
+      call assert(input_subscript == input_layer, "inference_engine_s(assert_consistency): n base subsscript", input_subscript)
+    end associate
+
+  end subroutine
+
   pure subroutine set_activation_strategy(inference_engine)
     type(inference_engine_t), intent(inout) :: inference_engine
     ! This code is called in both constructors and and can't be refactored into a factory method
@@ -36,6 +86,49 @@ contains
         error stop "inference_engine_t construct_from_components: unrecognized activation strategy"
     end select
   end subroutine
+
+  module procedure construct_from_padded_arrays
+
+    integer l
+
+    inference_engine%metadata_ = metadata
+    inference_engine%weights_ = weights
+    inference_engine%biases__ = biases
+    inference_engine%nodes_ = nodes
+    call set_activation_strategy(inference_engine)
+
+    !define_legacy_components: &
+    !block
+
+    !  integer l
+
+    !  associate(in_ => lbound(nodes,1), out_ => ubound(nodes,1), layers => size(nodes))
+    !    associate(width => nodes(in_+1))
+
+    !      call assert(in_ == 0, "zero-base subscript")
+    !      call assert(all(nodes(in_+1) == nodes(in_+1:out_-1)), "uniformly sized hidden layers")
+
+    !      inference_engine%input_weights_ = transpose(weights(1:nodes(in_+1),1:nodes(in_),in_)
+
+    !      allocate(inference_engine%biases_(width, layers-2))
+
+    !      do concurrent(l = 1:layers-2)
+    !        inference_engine%biases_(1:nodes(l),l) = biases(1:nodes(l),l)
+    !      end do
+    !      inference_engine%output_biases_ = biases(1:nodes(out_),out_)
+
+    !    end associate
+    !  end associate
+
+    !    !  !inference_engine%hidden_weights_ = transposed
+    !    !  !inference_engine%output_weights_ = output_weights
+
+
+    !end block define_legacy_components
+
+    !call inference_engine%assert_consistent
+
+  end procedure construct_from_padded_arrays
 
   module procedure construct_from_components
 

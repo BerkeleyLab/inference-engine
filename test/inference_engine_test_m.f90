@@ -63,6 +63,18 @@ contains
     end associate
   end function
 
+  function single_layer_xor_network() result(inference_engine)
+    integer, parameter :: layers = 3 ! number of layers, including input, hidden, and output layers
+    integer, parameter :: max_n = 3 ! maximum number of nodes in any layer
+    type(inference_engine_t) inference_engine
+    inference_engine = inference_engine_t( &
+      metadata = [string_t("XOR"), string_t("Damian Rouson"), string_t("2023-07-03"), string_t("step"), string_t("false")], &
+      weights = reshape([real(rkind):: [1,1,0 ,0,1,1, 0,0,0], [1,0,0, -2,0,0, 1,0,0]], [max_n, max_n, layers-1]), &
+      biases = reshape([[0.,-1.99,0.], [0., 0., 0.]], [max_n, layers-1]), &
+      nodes = [2, 3, 1] &
+    )
+  end function
+
   function single_layer_perceptron() result(inference_engine)
     type(inference_engine_t) inference_engine
     integer, parameter :: n_in = 2 ! number of inputs
@@ -181,7 +193,7 @@ contains
     class(inference_strategy_t), intent(in), optional :: inference_strategy
     type(inference_engine_t) inference_engine
 
-    inference_engine = xor_network()
+    inference_engine = single_layer_xor_network()
 
     block
       type(outputs_t), allocatable :: truth_table(:)
@@ -189,7 +201,7 @@ contains
       integer i
 
       associate(array_of_inputs => [inputs_t([true,true]), inputs_t([true,false]), inputs_t([false,true]), inputs_t([false,false])])
-        truth_table = inference_engine%infer(array_of_inputs, [(matmul_t(), i=1,size(array_of_inputs))])
+        truth_table = inference_engine%infer(array_of_inputs)
       end associate
       test_passes = [ &
         abs(truth_table(1)%outputs() - false) < tolerance .and. abs(truth_table(2)%outputs() - true) < tolerance .and. &
