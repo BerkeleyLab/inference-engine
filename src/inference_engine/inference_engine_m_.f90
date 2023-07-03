@@ -3,7 +3,6 @@
 module inference_engine_m_
   !! Define an abstraction that supports inference operationsn on a neural network
   use string_m, only : string_t
-  use inference_strategy_m, only : inference_strategy_t
   use activation_strategy_m, only : activation_strategy_t
   use file_m, only : file_t
   use kind_parameters_m, only : rkind
@@ -33,9 +32,8 @@ module inference_engine_m_
     real(rkind), allocatable :: biases_(:,:)           ! neuronal offsets for each hidden layer
     real(rkind), allocatable :: output_biases_(:)      ! neuronal offsets applied to outputs
   contains
+    procedure :: infer
     procedure :: to_json
-    procedure, private :: infer_from_array_of_inputs, infer_from_inputs_object, infer_with_default_algorithm
-    generic :: infer  =>  infer_from_array_of_inputs, infer_from_inputs_object, infer_with_default_algorithm
     procedure :: num_inputs
     procedure :: num_outputs
     procedure :: neurons_per_layer
@@ -111,26 +109,10 @@ module inference_engine_m_
       type(inference_engine_t), intent(in) :: inference_engine
     end subroutine
 
-    pure module function infer_from_array_of_inputs(self, input, inference_strategy) result(outputs)
-      implicit none
-      class(inference_engine_t), intent(in) :: self
-      real(rkind), intent(in) :: input(:)
-      class(inference_strategy_t), intent(in) :: inference_strategy
-      type(outputs_t) outputs
-    end function
-
-    elemental module function infer_with_default_algorithm(self, inputs) result(outputs)
+    elemental module function infer(self, inputs) result(outputs)
       implicit none
       class(inference_engine_t), intent(in) :: self
       type(inputs_t), intent(in) :: inputs
-      type(outputs_t) outputs
-    end function
-
-    elemental module function infer_from_inputs_object(self, inputs, inference_strategy) result(outputs)
-      implicit none
-      class(inference_engine_t), intent(in) :: self
-      type(inputs_t), intent(in) :: inputs
-      class(inference_strategy_t), intent(in) :: inference_strategy
       type(outputs_t) outputs
     end function
 

@@ -15,7 +15,7 @@ submodule(inference_engine_m_) inference_engine_s
 
 contains
 
-  module procedure infer_with_default_algorithm
+  module procedure infer
 
     real(rkind), allocatable :: z(:,:), a(:,:)
     integer, parameter :: input_layer = 0
@@ -40,7 +40,7 @@ contains
 
     end associate
 
-  end procedure infer_with_default_algorithm
+  end procedure
 
   pure module subroutine assert_consistency(self)
 
@@ -320,40 +320,6 @@ contains
   module procedure num_hidden_layers
     call assert_consistent(self)
     hidden_layer_count = size(self%hidden_weights_,3) + 1
-  end procedure
-
-  module procedure infer_from_array_of_inputs
-    integer layer
-
-    call assert_consistent(self)
-
-    outputs = inference_strategy%infer( &
-      input = input, &
-      input_weights = self%input_weights_, &
-      hidden_weights = self%hidden_weights_ , &
-      biases = self%biases_, &
-      output_biases = self%output_biases_, &
-      output_weights = self%output_weights_, &
-      activation_strategy = self%activation_strategy_, &
-      skip = self%skip() &
-    )
-  end procedure
-
-  module procedure infer_from_inputs_object
-    integer layer
-
-    call assert_consistent(self)
-
-    outputs = inference_strategy%infer( &
-      input = inputs%values(), &
-      input_weights = self%input_weights_, &
-      hidden_weights = self%hidden_weights_ , &
-      biases = self%biases_, &
-      output_biases = self%output_biases_, &
-      output_weights = self%output_weights_, &
-      activation_strategy = self%activation_strategy_, &
-      skip = self%skip() &
-    )
   end procedure
 
   module procedure to_json
