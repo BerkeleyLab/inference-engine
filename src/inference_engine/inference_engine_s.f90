@@ -23,7 +23,7 @@ contains
 
     call assert_consistency(self)
 
-    associate(w => self%weights_, b => self%biases__, n => self%nodes_, output_layer => ubound(self%biases__,2))
+    associate(w => self%weights_, b => self%biases__, n => self%nodes_, output_layer => ubound(self%nodes_,1))
 
       allocate(a(maxval(n), input_layer:output_layer))
 
@@ -79,7 +79,7 @@ contains
       case("step")
         inference_engine%activation_strategy_ = step_t()
       case default
-        error stop "inference_engine_t construct_from_components: unrecognized activation strategy"
+        error stop "inference_engine_s(set_activation_strategy): unrecognized activation strategy"
     end select
   end subroutine
 
@@ -97,7 +97,7 @@ contains
   module procedure construct_from_components
 
     real(rkind), allocatable :: transposed(:,:,:)
-    integer layer
+    integer layer, j, l
 
     allocate(transposed(size(hidden_weights,2), size(hidden_weights,1), size(hidden_weights,3)))
     do concurrent(layer = 1:size(hidden_weights,3))
@@ -111,8 +111,49 @@ contains
     inference_engine%biases_ = biases
     inference_engine%output_biases_ = output_biases
 
+    associate( &
+      n_max => max(size(inference_engine%biases_,1),size(inference_engine%output_biases_),size(inference_engine%input_weights_,1)),&
+      n_hidden => size(inference_engine%biases_,2), &
+      n_inputs => size(inference_engine%input_weights_,1), &
+      n_outputs => size(inference_engine%output_biases_) &
+    )
+      associate(layers =>  n_hidden + 2)
+
+        allocate(inference_engine%weights_(n_max, n_max, layers))
+        allocate(inference_engine%biases__(n_max, n_max))
+        associate(n => [n_inputs, [(size(biases,1), l=1,size(biases,2))], n_outputs])
+          allocate(inference_engine%nodes_(0:size(n)-1), source = n)
+        end associate
+
+        associate(n => inference_engine%nodes_)
+
+          l = 1
+          do concurrent(j = 1:n(l))
+            inference_engine%weights_(j,1:n(l-1),l)  = inference_engine%input_weights_(j,1:n(l-1))
+          end do
+
+          do concurrent(j = 1:n(l), l = 2:n_hidden)
+            inference_engine%weights_(j,1:n(l-1),l) = inference_engine%hidden_weights_(j,1:n(l-1),l-1)
+          end do
+
+          l = n_hidden + 1
+          do concurrent(j = 1:n(l))
+            inference_engine%weights_(j,1:n(l-1),l) = inference_engine%output_weights_(j,1:n(l-1))
+          end do
+
+          do concurrent(l = 1:n_hidden)
+            inference_engine%biases_(1:n(l),l) = inference_engine%biases__(1:n(l),l)
+          end do
+
+          l = n_hidden + 1
+          inference_engine%biases_(1:n(l),l) = inference_engine%output_biases_(1:n(l))
+        end associate
+      end associate
+    end associate
+
     call set_activation_strategy(inference_engine)
     call inference_engine%assert_consistent
+    call assert_consistency(inference_engine)
 
   end procedure
 

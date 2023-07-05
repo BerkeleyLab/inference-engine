@@ -40,8 +40,8 @@ contains
     associate( &
       descriptions => &
         [ character(len=len(longest_description)) :: &
-          "performing elemental inference with a 1 hidden layer", &
-          "performing elemental inference with a 2 hidden layers", &
+          "performing elemental inference with 1 hidden layer", &
+          "performing elemental inference with 2 hidden layers", &
           "converting a single-hidden-layer network to and from JSON format",  &
           "converting a multi-hidden-layer network to and from JSON format"  &
         ], &
