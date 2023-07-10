@@ -9,10 +9,10 @@ program write_read_infer
   use inference_engine_m, only : inference_engine_t
   use string_m, only : string_t
   use step_m, only : step_t
-  use matmul_m, only : matmul_t
   use file_m, only : file_t
   use kind_parameters_m, only : rkind
   use outputs_m, only : outputs_t
+  use inputs_m, only : inputs_t
   implicit none
 
   type(string_t) file_name
@@ -39,6 +39,7 @@ contains
     type(inference_engine_t) xor_network, inference_engine
     type(file_t) json_output_file, json_input_file
     type(outputs_t) network_outputs
+    real(rkind), parameter :: false = 0._rkind, true = 1._rkind
 
     print *, "Constructing an inference_engine_t neural-network object from scratch."
     xor_network = inference_engine_t( &
@@ -63,13 +64,12 @@ contains
 
     print *, "Querying the new inference_engine_t object for several properties:"
     print *, "number of outputs:", inference_engine%num_outputs()
-    print *, "number of hidden layers:", inference_engine%num_hidden_layers()
-    print *, "number of neurons per layer:", inference_engine%neurons_per_layer()
+    print *, "nodes per layer:", inference_engine%nodes_per_layer()
     activation_name = inference_engine%activation_function_name()
     print *, "activation function: ", activation_name%string()
     print *, "using skip connections: ", merge("true ", "false", inference_engine%skip())
     print *, "Performing inference:"
-    network_outputs = inference_engine%infer([real(rkind):: 0.,1.], matmul_t())
+    network_outputs = inference_engine%infer(inputs_t([real(rkind):: false,true]))
     print *, "inference_engine%infer([0.,1.]) =", network_outputs%outputs()
     print *, "Correct answer for the XOR neural network: ", 1.
   end subroutine write_read_query_infer

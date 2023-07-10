@@ -90,7 +90,7 @@
      <li><i class="fa fa-list-ol"></i>
        <a data-toggle="tooltip"
     data-placement="bottom" data-html="true"
-    title=" 1.0% of total for procedures.">31 statements</a>
+    title=" 1.7% of total for procedures.">31 statements</a>
      </li> 
     <li><i class="fa fa-code"></i><a href="../src/write-read-infer.f90"> Source File</a></li>
   </ul>
@@ -390,6 +390,7 @@
 <span class="w">    </span><span class="k">type</span><span class="p">(</span><span class="n">inference_engine_t</span><span class="p">)</span><span class="w"> </span><span class="n">xor_network</span><span class="p">,</span><span class="w"> </span><span class="n">inference_engine</span><span class="w"></span>
 <span class="w">    </span><span class="k">type</span><span class="p">(</span><span class="n">file_t</span><span class="p">)</span><span class="w"> </span><span class="n">json_output_file</span><span class="p">,</span><span class="w"> </span><span class="n">json_input_file</span><span class="w"></span>
 <span class="w">    </span><span class="k">type</span><span class="p">(</span><span class="n">outputs_t</span><span class="p">)</span><span class="w"> </span><span class="n">network_outputs</span><span class="w"></span>
+<span class="w">    </span><span class="kt">real</span><span class="p">(</span><span class="n">rkind</span><span class="p">),</span><span class="w"> </span><span class="k">parameter</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">false</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mf">0._rkind</span><span class="p">,</span><span class="w"> </span><span class="n">true</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mf">1._rkind</span><span class="w"></span>
 
 <span class="w">    </span><span class="k">print</span><span class="w"> </span><span class="o">*</span><span class="p">,</span><span class="w"> </span><span class="s2">&quot;Constructing an inference_engine_t neural-network object from scratch.&quot;</span><span class="w"></span>
 <span class="w">    </span><span class="n">xor_network</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">inference_engine_t</span><span class="p">(</span><span class="w"> </span><span class="p">&amp;</span><span class="w"></span>
@@ -414,13 +415,12 @@
 
 <span class="w">    </span><span class="k">print</span><span class="w"> </span><span class="o">*</span><span class="p">,</span><span class="w"> </span><span class="s2">&quot;Querying the new inference_engine_t object for several properties:&quot;</span><span class="w"></span>
 <span class="w">    </span><span class="k">print</span><span class="w"> </span><span class="o">*</span><span class="p">,</span><span class="w"> </span><span class="s2">&quot;number of outputs:&quot;</span><span class="p">,</span><span class="w"> </span><span class="n">inference_engine</span><span class="p">%</span><span class="n">num_outputs</span><span class="p">()</span><span class="w"></span>
-<span class="w">    </span><span class="k">print</span><span class="w"> </span><span class="o">*</span><span class="p">,</span><span class="w"> </span><span class="s2">&quot;number of hidden layers:&quot;</span><span class="p">,</span><span class="w"> </span><span class="n">inference_engine</span><span class="p">%</span><span class="n">num_hidden_layers</span><span class="p">()</span><span class="w"></span>
-<span class="w">    </span><span class="k">print</span><span class="w"> </span><span class="o">*</span><span class="p">,</span><span class="w"> </span><span class="s2">&quot;number of neurons per layer:&quot;</span><span class="p">,</span><span class="w"> </span><span class="n">inference_engine</span><span class="p">%</span><span class="n">neurons_per_layer</span><span class="p">()</span><span class="w"></span>
+<span class="w">    </span><span class="k">print</span><span class="w"> </span><span class="o">*</span><span class="p">,</span><span class="w"> </span><span class="s2">&quot;nodes per layer:&quot;</span><span class="p">,</span><span class="w"> </span><span class="n">inference_engine</span><span class="p">%</span><span class="n">nodes_per_layer</span><span class="p">()</span><span class="w"></span>
 <span class="w">    </span><span class="n">activation_name</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">inference_engine</span><span class="p">%</span><span class="n">activation_function_name</span><span class="p">()</span><span class="w"></span>
 <span class="w">    </span><span class="k">print</span><span class="w"> </span><span class="o">*</span><span class="p">,</span><span class="w"> </span><span class="s2">&quot;activation function: &quot;</span><span class="p">,</span><span class="w"> </span><span class="n">activation_name</span><span class="p">%</span><span class="n">string</span><span class="p">()</span><span class="w"></span>
 <span class="w">    </span><span class="k">print</span><span class="w"> </span><span class="o">*</span><span class="p">,</span><span class="w"> </span><span class="s2">&quot;using skip connections: &quot;</span><span class="p">,</span><span class="w"> </span><span class="nb">merge</span><span class="p">(</span><span class="s2">&quot;true &quot;</span><span class="p">,</span><span class="w"> </span><span class="s2">&quot;false&quot;</span><span class="p">,</span><span class="w"> </span><span class="n">inference_engine</span><span class="p">%</span><span class="n">skip</span><span class="p">())</span><span class="w"></span>
 <span class="w">    </span><span class="k">print</span><span class="w"> </span><span class="o">*</span><span class="p">,</span><span class="w"> </span><span class="s2">&quot;Performing inference:&quot;</span><span class="w"></span>
-<span class="w">    </span><span class="n">network_outputs</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">inference_engine</span><span class="p">%</span><span class="n">infer</span><span class="p">([</span><span class="kt">real</span><span class="p">(</span><span class="n">rkind</span><span class="p">)</span><span class="kd">::</span><span class="w"> </span><span class="mf">0.</span><span class="p">,</span><span class="mf">1.</span><span class="p">],</span><span class="w"> </span><span class="n">matmul_t</span><span class="p">())</span><span class="w"></span>
+<span class="w">    </span><span class="n">network_outputs</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">inference_engine</span><span class="p">%</span><span class="n">infer</span><span class="p">(</span><span class="n">inputs_t</span><span class="p">([</span><span class="kt">real</span><span class="p">(</span><span class="n">rkind</span><span class="p">)</span><span class="kd">::</span><span class="w"> </span><span class="n">false</span><span class="p">,</span><span class="n">true</span><span class="p">]))</span><span class="w"></span>
 <span class="w">    </span><span class="k">print</span><span class="w"> </span><span class="o">*</span><span class="p">,</span><span class="w"> </span><span class="s2">&quot;inference_engine%infer([0.,1.]) =&quot;</span><span class="p">,</span><span class="w"> </span><span class="n">network_outputs</span><span class="p">%</span><span class="n">outputs</span><span class="p">()</span><span class="w"></span>
 <span class="w">    </span><span class="k">print</span><span class="w"> </span><span class="o">*</span><span class="p">,</span><span class="w"> </span><span class="s2">&quot;Correct answer for the XOR neural network: &quot;</span><span class="p">,</span><span class="w"> </span><span class="mf">1.</span><span class="w"></span>
 <span class="w">  </span><span class="k">end subroutine </span><span class="n">write_read_query_infer</span><span class="w"></span>
@@ -444,7 +444,7 @@
           <p class="text-right">
             Documentation generated by 
             <a href="https://github.com/Fortran-FOSS-Programmers/ford">FORD</a>
- on 2023-06-30 12:39            </p>
+ on 2023-07-10 06:10            </p>
         </div>
       </div>
       <br>

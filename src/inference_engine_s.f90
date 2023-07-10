@@ -3,7 +3,6 @@
 submodule(inference_engine_m_) inference_engine_s
   use assert_m, only : assert
   use intrinsic_array_m, only : intrinsic_array_t
-  use matmul_m, only : matmul_t
   use step_m, only : step_t
   use swish_m, only : swish_t
   use sigmoid_m, only : sigmoid_t
@@ -11,15 +10,62 @@ submodule(inference_engine_m_) inference_engine_s
   use neuron_m, only : neuron_t
   use file_m, only : file_t
   use formats_m, only : separated_values
-  use iso_fortran_env, only : iostat_end
-  use activation_strategy_m, only : activation_i
-  use differentiable_activation_strategy_m, only : differentiable_activation_strategy_t
   use outputs_m, only : outputs_t
   implicit none
 
 contains
 
-  pure subroutine set_activation_name(inference_engine)
+  module procedure infer
+
+    real(rkind), allocatable :: z(:,:), a(:,:)
+    integer, parameter :: input_layer = 0
+    integer j, k, l
+
+    call assert_consistency(self)
+
+    associate(w => self%weights_, b => self%biases__, n => self%nodes_, output_layer => ubound(self%nodes_,1))
+
+      allocate(a(maxval(n), input_layer:output_layer))
+
+      a(1:n(input_layer),input_layer) = inputs%values()
+
+      feed_forward: &
+      do l = input_layer+1, output_layer
+        associate(z => matmul(w(1:n(l),1:n(l-1),l), a(1:n(l-1),l-1)) + b(1:n(l),l))
+          a(1:n(l),l) = self%activation_strategy_%activation(z)
+        end associate
+      end do feed_forward
+ 
+      outputs = outputs_t(a(1:n(output_layer), output_layer), reshape([real(rkind)::],[0,0]), [real(rkind)::])
+
+    end associate
+
+  end procedure
+
+  pure module subroutine assert_consistency(self)
+
+    type(inference_engine_t), intent(in) :: self
+
+    integer, parameter :: input_layer=0
+
+    associate( &
+      all_allocated=>[allocated(self%weights_),allocated(self%biases__),allocated(self%nodes_),allocated(self%activation_strategy_)]&
+    )   
+      call assert(all(all_allocated),"inference_engine_s(assert_consistency): fully_allocated",intrinsic_array_t(all_allocated))
+    end associate
+
+    associate(max_width=>maxval(self%nodes_), component_dims=>[size(self%biases__,1), size(self%weights_,1), size(self%weights_,2)])
+      call assert(all(component_dims == max_width), "inference_engine_s(assert_consistency): conformable arrays", &
+        intrinsic_array_t([max_width,component_dims]))
+    end associate
+
+    associate(input_subscript => lbound(self%nodes_,1))
+      call assert(input_subscript == input_layer, "inference_engine_s(assert_consistency): n base subsscript", input_subscript)
+    end associate
+
+  end subroutine
+
+  pure subroutine set_activation_strategy(inference_engine)
     type(inference_engine_t), intent(inout) :: inference_engine
     ! This code is called in both constructors and and can't be refactored into a factory method
     ! pattern because the result would need to be allocatable and polymorphic, which would preclude
@@ -33,14 +79,25 @@ contains
       case("step")
         inference_engine%activation_strategy_ = step_t()
       case default
-        error stop "inference_engine_t construct_from_components: unrecognized activation strategy"
+        error stop "inference_engine_s(set_activation_strategy): unrecognized activation strategy"
     end select
   end subroutine
 
-  module procedure construct_from_components
+  module procedure construct_from_padded_arrays
+
+    inference_engine%metadata_ = metadata
+    inference_engine%weights_ = weights
+    inference_engine%biases__ = biases
+    inference_engine%nodes_ = nodes
+    call set_activation_strategy(inference_engine)
+    call assert_consistency(inference_engine)
+
+  end procedure construct_from_padded_arrays
+
+  module procedure construct_from_legacy_arrays
 
     real(rkind), allocatable :: transposed(:,:,:)
-    integer layer
+    integer layer, j, l
 
     allocate(transposed(size(hidden_weights,2), size(hidden_weights,1), size(hidden_weights,3)))
     do concurrent(layer = 1:size(hidden_weights,3))
@@ -54,8 +111,50 @@ contains
     inference_engine%biases_ = biases
     inference_engine%output_biases_ = output_biases
 
-    call set_activation_name(inference_engine)
-    call inference_engine%assert_consistent
+    associate( &
+      n_max => max(size(inference_engine%biases_,1),size(inference_engine%output_biases_,1),size(inference_engine%input_weights_,1)),&
+      n_hidden => size(inference_engine%biases_,2), &
+      n_inputs => size(inference_engine%input_weights_,1), &
+      n_outputs => size(inference_engine%output_biases_) &
+    )
+      associate(layers =>  n_hidden + 2)
+
+        allocate(inference_engine%weights_(n_max, n_max, layers))
+        allocate(inference_engine%biases__(n_max, n_max))
+        associate(n => [n_inputs, [(size(biases,1), l=1,size(biases,2))], n_outputs])
+          allocate(inference_engine%nodes_(0:size(n)-1), source = n)
+        end associate
+
+        associate(n => inference_engine%nodes_)
+          l = 1
+          do concurrent(j = 1:n(l))
+            inference_engine%weights_(j,1:n(l-1),l) = inference_engine%input_weights_(j,1:n(l-1))
+          end do
+
+          do concurrent(l = 2:n_hidden)
+            do concurrent(j = 1:n(l))
+              inference_engine%weights_(j,1:n(l-1),l) = inference_engine%hidden_weights_(j,1:n(l-1),l-1)
+            end do
+          end do
+
+          l = n_hidden + 1
+          do concurrent(j = 1:n(l))
+            inference_engine%weights_(j,1:n(l-1),l) = inference_engine%output_weights_(j,1:n(l-1))
+          end do
+
+          do concurrent(l = 1:n_hidden)
+            inference_engine%biases_(1:n(l),l) = inference_engine%biases__(1:n(l),l)
+          end do
+
+          l = n_hidden + 1
+          inference_engine%biases_(1:n(l),l) = inference_engine%output_biases_(1:n(l))
+        end associate
+      end associate
+    end associate
+
+    call set_activation_strategy(inference_engine)
+    call assert_consistent(inference_engine)
+    call assert_consistency(inference_engine)
 
   end procedure
 
@@ -136,8 +235,8 @@ contains
     inference_engine%output_weights_ = output_layer%output_weights()
     inference_engine%output_biases_ = output_layer%output_biases()
 
-    call set_activation_name(inference_engine)
-    call inference_engine%assert_consistent
+    call set_activation_strategy(inference_engine)
+    call assert_consistent(inference_engine)
 
   contains
 
@@ -173,8 +272,8 @@ contains
 
   module procedure assert_conformable_with
 
-    call self%assert_consistent
-    call inference_engine%assert_consistent
+    call assert_consistent(self)
+    call assert_consistent(inference_engine)
 
     associate(equal_shapes => [ &
       shape(self%input_weights_ ) == shape(inference_engine%input_weights_ ), &
@@ -201,16 +300,17 @@ contains
     difference%output_biases_  = self%output_biases_  - rhs%output_biases_ 
     difference%activation_strategy_ = self%activation_strategy_
 
-    call difference%assert_consistent
+    call assert_consistent(difference)
   end procedure
 
   module procedure norm 
-    call self%assert_consistent
+    call assert_consistent(self)
     norm_of_self = maxval(abs(self%input_weights_)) + maxval(abs(self%hidden_weights_)) + maxval(abs(self%output_weights_)) + & 
            maxval(abs(self%biases_)) + maxval(abs(self%output_biases_))
   end procedure
 
-  module procedure assert_consistent
+  pure subroutine assert_consistent(self)
+    type(inference_engine_t), intent(in) :: self
 
     call assert(all(self%metadata_%is_allocated()), "inference_engine_t%assert_consistent: self%metadata_s%is_allocated()")
     call assert(allocated(self%activation_strategy_), "inference_engine_t%assert_consistent: allocated(self%activation_strategy_)")
@@ -243,60 +343,21 @@ contains
         intrinsic_array_t(output_count) &
       )
     end associate
-  end procedure
+  end subroutine
 
   module procedure num_outputs
-    call assert_consistent(self)
-    output_count = ubound(self%output_weights_,1) - lbound(self%output_weights_,1) + 1
+    call assert_consistency(self)
+    output_count = self%nodes_(ubound(self%nodes_,1))
   end procedure
 
   module procedure num_inputs
-    call assert_consistent(self)
-    input_count = ubound(self%input_weights_,2) - lbound(self%input_weights_,2) + 1
+    call assert_consistency(self)
+    input_count = self%nodes_(lbound(self%nodes_,1))
   end procedure
 
-  module procedure neurons_per_layer
-    call assert_consistent(self)
-    neuron_count = ubound(self%input_weights_,1) - lbound(self%input_weights_,1) + 1
-  end procedure
-
-  module procedure num_hidden_layers
-    call assert_consistent(self)
-    hidden_layer_count = size(self%hidden_weights_,3) + 1
-  end procedure
-
-  module procedure infer_from_array_of_inputs
-    integer layer
-
-    call assert_consistent(self)
-
-    outputs = inference_strategy%infer( &
-      input = input, &
-      input_weights = self%input_weights_, &
-      hidden_weights = self%hidden_weights_ , &
-      biases = self%biases_, &
-      output_biases = self%output_biases_, &
-      output_weights = self%output_weights_, &
-      activation_strategy = self%activation_strategy_, &
-      skip = self%skip() &
-    )
-  end procedure
-
-  module procedure infer_from_inputs_object
-    integer layer
-
-    call assert_consistent(self)
-
-    outputs = inference_strategy%infer( &
-      input = inputs%values(), &
-      input_weights = self%input_weights_, &
-      hidden_weights = self%hidden_weights_ , &
-      biases = self%biases_, &
-      output_biases = self%output_biases_, &
-      output_weights = self%output_weights_, &
-      activation_strategy = self%activation_strategy_, &
-      skip = self%skip() &
-    )
+  module procedure nodes_per_layer
+    call assert_consistency(self)
+    node_count = self%nodes_
   end procedure
 
   module procedure to_json
@@ -314,7 +375,8 @@ contains
 
     csv_format = separated_values(separator=",", mold=[real(rkind)::])
 
-    associate(num_hidden_layers => self%num_hidden_layers(),  neurons_per_layer => self%neurons_per_layer(), &
+    associate(num_hidden_layers => size(self%hidden_weights_,3)+1, &
+      neurons_per_layer => ubound(self%input_weights_,1) - lbound(self%input_weights_,1) + 1, &
       num_outputs => self%num_outputs(), num_inputs => self%num_inputs())
       associate(num_lines => &
         outer_object_braces &
@@ -434,26 +496,6 @@ contains
 
   module procedure activation_function_name
     activation_name = self%metadata_(findloc(key, "activationFunction", dim=1))
-  end procedure
-
-  module procedure input_weights
-    w = self%input_weights_
-  end procedure
-
-  module procedure hidden_weights
-    w = self%hidden_weights_
-  end procedure
-
-  module procedure output_weights
-    w = self%output_weights_
-  end procedure
-
-  module procedure increment
-    self%input_weights_ = self%input_weights_ + network_increment%delta_w_in()
-    self%hidden_weights_ = self%hidden_weights_ + network_increment%delta_w_hidden()
-    self%output_weights_ = self%output_weights_ + network_increment%delta_w_out()
-    self%biases_ = self%biases_ + network_increment%delta_b_hidden()
-    self%output_biases_ = self%output_biases_ + network_increment%delta_b_out()
   end procedure
 
 end submodule inference_engine_s

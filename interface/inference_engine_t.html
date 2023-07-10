@@ -90,7 +90,7 @@
      <li><i class="fa fa-list-ol"></i>
        <a data-toggle="tooltip"
     data-placement="bottom" data-html="true"
-    title="<p> 0.5% of total for procedures.</p>Including implementation: 14 statements,  0.5% of total for procedures.">14 statements</a>
+    title="<p> 1.2% of total for procedures.</p>Including implementation: 21 statements,  1.2% of total for procedures.">21 statements</a>
      </li> 
     <li><i class="fa fa-code"></i><a href="../src/inference_engine_m_.f90"> Source File</a></li>
   </ul>
@@ -119,8 +119,9 @@
   <div class="panel-heading text-left"><h3 class="panel-title"><a data-toggle="collapse" href="#funcs-0">Functions</a></h3></div>
   <div id="funcs-0" class="panel-collapse collapse">
     <div class="list-group">
-      <a class="list-group-item" href="../interface/inference_engine_t.html#proc-construct_from_components">construct_from_components</a>
       <a class="list-group-item" href="../interface/inference_engine_t.html#proc-construct_from_json">construct_from_json</a>
+      <a class="list-group-item" href="../interface/inference_engine_t.html#proc-construct_from_legacy_arrays">construct_from_legacy_arrays</a>
+      <a class="list-group-item" href="../interface/inference_engine_t.html#proc-construct_from_padded_arrays">construct_from_padded_arrays</a>
     </div>
   </div>
 </div>
@@ -140,8 +141,9 @@
   <div class="panel-heading text-left"><h3 class="panel-title"><a data-toggle="collapse" href="#funcs-1">Functions</a></h3></div>
   <div id="funcs-1" class="panel-collapse collapse">
     <div class="list-group">
-      <a class="list-group-item" href="../interface/inference_engine_t.html#proc-construct_from_components">construct_from_components</a>
       <a class="list-group-item" href="../interface/inference_engine_t.html#proc-construct_from_json">construct_from_json</a>
+      <a class="list-group-item" href="../interface/inference_engine_t.html#proc-construct_from_legacy_arrays">construct_from_legacy_arrays</a>
+      <a class="list-group-item" href="../interface/inference_engine_t.html#proc-construct_from_padded_arrays">construct_from_padded_arrays</a>
     </div>
   </div>
 </div>
@@ -151,7 +153,28 @@
      
    <h2>Functions</h2>
       <div class="panel panel-default">
-  <div class="panel-heading codesum"><span class="anchor" id="proc-construct_from_components"></span><h3>private pure module function construct_from_components(metadata, input_weights, hidden_weights, output_weights, biases, output_biases) result(inference_engine)</h3></div>
+  <div class="panel-heading codesum"><span class="anchor" id="proc-construct_from_json"></span><h3>private impure elemental module function construct_from_json(file_) result(inference_engine)</h3></div>
+  <div class="panel-body">
+           
+<h4>Arguments</h4>      <table class="table table-striped varlist">
+<thead><tr><th>Type</th><th>Intent</th><th>Optional</th><th>Attributes</th><th></th><th>Name</th><th></th></thead>
+<tbody>
+<tr>
+  <td><span class="anchor" ></span>type(file_t),</td>
+<td>intent(in)</td>
+  <td></td>  <td></td><td>::</td>
+  <td><strong>file_</strong></td><td></td>
+</tr>
+</tbody>
+</table>
+
+<h4>Return Value <small>type(<a href='../type/inference_engine_t.html'>inference_engine_t</a>)</small></h4>  
+
+  </div>
+  </div>
+
+      <div class="panel panel-default">
+  <div class="panel-heading codesum"><span class="anchor" id="proc-construct_from_legacy_arrays"></span><h3>private pure module function construct_from_legacy_arrays(metadata, input_weights, hidden_weights, output_weights, biases, output_biases) result(inference_engine)</h3></div>
   <div class="panel-body">
            
 <h4>Arguments</h4>      <table class="table table-striped varlist">
@@ -202,17 +225,35 @@
   </div>
 
       <div class="panel panel-default">
-  <div class="panel-heading codesum"><span class="anchor" id="proc-construct_from_json"></span><h3>private impure elemental module function construct_from_json(file_) result(inference_engine)</h3></div>
+  <div class="panel-heading codesum"><span class="anchor" id="proc-construct_from_padded_arrays"></span><h3>private pure module function construct_from_padded_arrays(metadata, weights, biases, nodes) result(inference_engine)</h3></div>
   <div class="panel-body">
            
 <h4>Arguments</h4>      <table class="table table-striped varlist">
 <thead><tr><th>Type</th><th>Intent</th><th>Optional</th><th>Attributes</th><th></th><th>Name</th><th></th></thead>
 <tbody>
 <tr>
-  <td><span class="anchor" ></span>type(file_t),</td>
+  <td><span class="anchor" ></span>type(string_t),</td>
 <td>intent(in)</td>
   <td></td>  <td></td><td>::</td>
-  <td><strong>file_</strong></td><td></td>
+  <td><strong>metadata</strong>(:)</td><td></td>
+</tr>
+<tr>
+  <td><span class="anchor" ></span>real(kind=rkind),</td>
+<td>intent(in)</td>
+  <td></td>  <td></td><td>::</td>
+  <td><strong>weights</strong>(:,:,:)</td><td></td>
+</tr>
+<tr>
+  <td><span class="anchor" ></span>real(kind=rkind),</td>
+<td>intent(in)</td>
+  <td></td>  <td></td><td>::</td>
+  <td><strong>biases</strong>(:,:)</td><td></td>
+</tr>
+<tr>
+  <td><span class="anchor" ></span>integer,</td>
+<td>intent(in)</td>
+  <td></td>  <td></td><td>::</td>
+  <td><strong>nodes</strong>(0:)</td><td></td>
 </tr>
 </tbody>
 </table>
@@ -240,7 +281,7 @@
           <p class="text-right">
             Documentation generated by 
             <a href="https://github.com/Fortran-FOSS-Programmers/ford">FORD</a>
- on 2023-06-30 12:39            </p>
+ on 2023-07-10 06:10            </p>
         </div>
       </div>
       <br>

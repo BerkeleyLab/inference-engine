@@ -90,7 +90,7 @@
      <li><i class="fa fa-list-ol"></i>
        <a data-toggle="tooltip"
     data-placement="bottom" data-html="true"
-    title="18.4% of total for modules and submodules.">312 statements</a>
+    title="22.2% of total for modules and submodules.">346 statements</a>
      </li> 
     <li><i class="fa fa-code"></i><a href="../src/inference_engine_s.f90"> Source File</a></li>
   </ul>
@@ -118,7 +118,16 @@
   <div class="panel-heading text-left"><h3 class="panel-title"><a data-toggle="collapse" href="#subs-0">Subroutines</a></h3></div>
   <div class="list-group">
     <div id="subs-0" class="panel-collapse collapse">
-      <a class="list-group-item" href="../module/inference_engine_s.html#proc-set_activation_name">set_activation_name</a>
+      <a class="list-group-item" href="../module/inference_engine_s.html#proc-assert_consistent">assert_consistent</a>
+      <a class="list-group-item" href="../module/inference_engine_s.html#proc-set_activation_strategy">set_activation_strategy</a>
+    </div>
+  </div>
+</div>
+<div class="panel panel-primary">
+  <div class="panel-heading text-left"><h3 class="panel-title"><a data-toggle="collapse" href="#modsubs-0">Module Subroutines</a></h3></div>
+  <div id="modsubs-0" class="panel-collapse collapse">
+    <div class="list-group">
+      <a class="list-group-item" href="../module/inference_engine_s.html#proc-assert_consistency">assert_consistency</a>
     </div>
   </div>
 </div>
@@ -128,20 +137,14 @@
     <div class="list-group">
       <a class="list-group-item" href="../module/inference_engine_s.html#proc-activation_function_name">activation_function_name</a>
       <a class="list-group-item" href="../module/inference_engine_s.html#proc-assert_conformable_with">assert_conformable_with</a>
-      <a class="list-group-item" href="../module/inference_engine_s.html#proc-assert_consistent">assert_consistent</a>
-      <a class="list-group-item" href="../module/inference_engine_s.html#proc-construct_from_components">construct_from_components</a>
       <a class="list-group-item" href="../module/inference_engine_s.html#proc-construct_from_json">construct_from_json</a>
-      <a class="list-group-item" href="../module/inference_engine_s.html#proc-hidden_weights~2">hidden_weights</a>
-      <a class="list-group-item" href="../module/inference_engine_s.html#proc-increment">increment</a>
-      <a class="list-group-item" href="../module/inference_engine_s.html#proc-infer_from_array_of_inputs">infer_from_array_of_inputs</a>
-      <a class="list-group-item" href="../module/inference_engine_s.html#proc-infer_from_inputs_object">infer_from_inputs_object</a>
-      <a class="list-group-item" href="../module/inference_engine_s.html#proc-input_weights~2">input_weights</a>
-      <a class="list-group-item" href="../module/inference_engine_s.html#proc-neurons_per_layer~2">neurons_per_layer</a>
+      <a class="list-group-item" href="../module/inference_engine_s.html#proc-construct_from_legacy_arrays">construct_from_legacy_arrays</a>
+      <a class="list-group-item" href="../module/inference_engine_s.html#proc-construct_from_padded_arrays">construct_from_padded_arrays</a>
+      <a class="list-group-item" href="../module/inference_engine_s.html#proc-infer">infer</a>
+      <a class="list-group-item" href="../module/inference_engine_s.html#proc-nodes_per_layer">nodes_per_layer</a>
       <a class="list-group-item" href="../module/inference_engine_s.html#proc-norm">norm</a>
-      <a class="list-group-item" href="../module/inference_engine_s.html#proc-num_hidden_layers">num_hidden_layers</a>
       <a class="list-group-item" href="../module/inference_engine_s.html#proc-num_inputs">num_inputs</a>
       <a class="list-group-item" href="../module/inference_engine_s.html#proc-num_outputs">num_outputs</a>
-      <a class="list-group-item" href="../module/inference_engine_s.html#proc-output_weights~2">output_weights</a>
       <a class="list-group-item" href="../module/inference_engine_s.html#proc-skip">skip</a>
       <a class="list-group-item" href="../module/inference_engine_s.html#proc-subtract">subtract</a>
       <a class="list-group-item" href="../module/inference_engine_s.html#proc-to_json">to_json</a>
@@ -162,20 +165,16 @@
       <ul class="list-group">
       <li class="list-group-item">
   <ul class="list-inline">
-    <li><a href='../module/step_m.html'>step_m</a></li>
-    <li><a href='../module/matmul_m.html'>matmul_m</a></li>
     <li><a href='../module/sigmoid_m.html'>sigmoid_m</a></li>
-    <li><a href='../module/swish_m.html'>swish_m</a></li>
-    <li><a href='../module/activation_strategy_m.html'>activation_strategy_m</a></li>
-    <li><a href='../module/outputs_m.html'>outputs_m</a></li>
-    <li><a href='../module/differentiable_activation_strategy_m.html'>differentiable_activation_strategy_m</a></li>
     <li>intrinsic_array_m</li>
+    <li><a href='../module/outputs_m.html'>outputs_m</a></li>
     <li>assert_m</li>
+    <li><a href='../module/neuron_m.html'>neuron_m</a></li>
+    <li><a href='../module/step_m.html'>step_m</a></li>
     <li>formats_m</li>
-    <li><a href="https://gcc.gnu.org/onlinedocs/gfortran/ISO_005fFORTRAN_005fENV.html">iso_fortran_env</a></li>
     <li>file_m</li>
     <li><a href='../module/layer_m.html'>layer_m</a></li>
-    <li><a href='../module/neuron_m.html'>neuron_m</a></li>
+    <li><a href='../module/swish_m.html'>swish_m</a></li>
   </ul>
       </li>
       <li class="list-group-item">
@@ -191,491 +190,370 @@
 <!-- Generated by graphviz version 2.43.0 (0)
  -->
 <!-- Title: module~~inference_engine_s~~UsesGraph Pages: 1 -->
-<svg id="moduleinference_engine_sUsesGraph" width="641pt" height="461pt"
- viewBox="0.00 0.00 641.00 460.87" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
-<g id="module~~inference_engine_s~~UsesGraph" class="graph" transform="scale(1.32 1.32) rotate(0) translate(4 604.98)">
+<svg id="moduleinference_engine_sUsesGraph" width="641pt" height="388pt"
+ viewBox="0.00 0.00 641.00 388.32" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+<g id="module~~inference_engine_s~~UsesGraph" class="graph" transform="scale(1.32 1.32) rotate(0) translate(4 509.12)">
 <title>module~~inference_engine_s~~UsesGraph</title>
-<polygon fill="white" stroke="transparent" points="-4,4 -4,-604.98 843,-604.98 843,4 -4,4"/>
+<polygon fill="white" stroke="transparent" points="-4,4 -4,-509.12 843,-509.12 843,4 -4,4"/>
 <!-- module~inference_engine_s -->
 <g id="module~~inference_engine_s~~UsesGraph_node1" class="node">
 <title>module~inference_engine_s</title>
-<polygon fill="none" stroke="black" points="839,-284.15 724,-284.15 724,-260.15 839,-260.15 839,-284.15"/>
-<text text-anchor="middle" x="781.5" y="-269.75" font-family="Helvetica,sans-Serif" font-size="10.50">inference_engine_s</text>
-</g>
-<!-- module~step_m -->
-<g id="module~~inference_engine_s~~UsesGraph_node2" class="node">
-<title>module~step_m</title>
-<g id="a_module~~inference_engine_s~~UsesGraph_node2"><a xlink:href=".././module/step_m.html" xlink:title="step_m">
-<polygon fill="#337ab7" stroke="#337ab7" points="450,-146.15 396,-146.15 396,-122.15 450,-122.15 450,-146.15"/>
-<text text-anchor="middle" x="423" y="-131.75" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">step_m</text>
-</a>
-</g>
-</g>
-<!-- module~inference_engine_s&#45;&gt;module~step_m -->
-<g id="module~~inference_engine_s~~UsesGraph_edge1" class="edge">
-<title>module~inference_engine_s&#45;&gt;module~step_m</title>
-<path fill="none" stroke="#ff0000" stroke-dasharray="5,2" d="M624,-152.15C570.91,-128.29 501.99,-127.9 460.48,-130.51"/>
-<polygon fill="#ff0000" stroke="#ff0000" points="460.01,-127.03 450.29,-131.25 460.52,-134.02 460.01,-127.03"/>
-</g>
-<!-- module~differentiable_activation_strategy_m -->
-<g id="module~~inference_engine_s~~UsesGraph_node3" class="node">
-<title>module~differentiable_activation_strategy_m</title>
-<g id="a_module~~inference_engine_s~~UsesGraph_node3"><a xlink:href=".././module/differentiable_activation_strategy_m.html" xlink:title="differentiable_activation_strategy_m">
-<polygon fill="#337ab7" stroke="#337ab7" points="526,-264.15 320,-264.15 320,-240.15 526,-240.15 526,-264.15"/>
-<text text-anchor="middle" x="423" y="-249.75" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">differentiable_activation_strategy_m</text>
-</a>
-</g>
-</g>
-<!-- module~inference_engine_s&#45;&gt;module~differentiable_activation_strategy_m -->
-<g id="module~~inference_engine_s~~UsesGraph_edge3" class="edge">
-<title>module~inference_engine_s&#45;&gt;module~differentiable_activation_strategy_m</title>
-<path fill="none" stroke="#ff0000" stroke-dasharray="5,2" d="M723.86,-282.64C694.73,-287.23 658.59,-291.69 626,-292.15"/>
-<path fill="none" stroke="#ff0000" stroke-dasharray="5,2" d="M624,-292.15C596.92,-292.54 530.8,-278.18 481.96,-266.56"/>
-<polygon fill="#ff0000" stroke="#ff0000" points="482.67,-263.13 472.13,-264.21 481.04,-269.94 482.67,-263.13"/>
-</g>
-<!-- module~matmul_m -->
-<g id="module~~inference_engine_s~~UsesGraph_node4" class="node">
-<title>module~matmul_m</title>
-<g id="a_module~~inference_engine_s~~UsesGraph_node4"><a xlink:href=".././module/matmul_m.html" xlink:title="matmul_m">
-<polygon fill="#337ab7" stroke="#337ab7" points="660,-484.15 590,-484.15 590,-460.15 660,-460.15 660,-484.15"/>
-<text text-anchor="middle" x="625" y="-469.75" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">matmul_m</text>
-</a>
-</g>
-</g>
-<!-- module~inference_engine_s&#45;&gt;module~matmul_m -->
-<g id="module~~inference_engine_s~~UsesGraph_edge2" class="edge">
-<title>module~inference_engine_s&#45;&gt;module~matmul_m</title>
-<path fill="none" stroke="#ff0000" stroke-dasharray="5,2" d="M776.3,-284.37C765.65,-313.85 735.07,-389.94 688,-437.15 681,-444.17 672.31,-450.22 663.67,-455.23"/>
-<polygon fill="#ff0000" stroke="#ff0000" points="661.88,-452.22 654.76,-460.06 665.21,-458.37 661.88,-452.22"/>
-</g>
-<!-- intrinsic_array_m -->
-<g id="module~~inference_engine_s~~UsesGraph_node5" class="node">
-<title>intrinsic_array_m</title>
-<polygon fill="#337ab7" stroke="#337ab7" points="677,-428.15 573,-428.15 573,-404.15 677,-404.15 677,-428.15"/>
-<text text-anchor="middle" x="625" y="-413.75" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">intrinsic_array_m</text>
-</g>
-<!-- module~inference_engine_s&#45;&gt;intrinsic_array_m -->
-<g id="module~~inference_engine_s~~UsesGraph_edge4" class="edge">
-<title>module~inference_engine_s&#45;&gt;intrinsic_array_m</title>
-<path fill="none" stroke="#ff0000" stroke-dasharray="5,2" d="M774.63,-284.2C762.11,-308.66 730.43,-364.46 688,-395.15 685.79,-396.75 683.45,-398.24 681.02,-399.61"/>
-<polygon fill="#ff0000" stroke="#ff0000" points="679.32,-396.55 671.92,-404.14 682.43,-402.82 679.32,-396.55"/>
-</g>
-<!-- formats_m -->
-<g id="module~~inference_engine_s~~UsesGraph_node6" class="node">
-<title>formats_m</title>
-<polygon fill="#337ab7" stroke="#337ab7" points="660,-386.15 590,-386.15 590,-362.15 660,-362.15 660,-386.15"/>
-<text text-anchor="middle" x="625" y="-371.75" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">formats_m</text>
-</g>
-<!-- module~inference_engine_s&#45;&gt;formats_m -->
-<g id="module~~inference_engine_s~~UsesGraph_edge5" class="edge">
-<title>module~inference_engine_s&#45;&gt;formats_m</title>
-<path fill="none" stroke="#ff0000" stroke-dasharray="5,2" d="M769.68,-284.26C753.5,-301.71 721.29,-333.96 688,-353.15 682.38,-356.39 676.18,-359.23 669.94,-361.69"/>
-<polygon fill="#ff0000" stroke="#ff0000" points="668.39,-358.53 660.19,-365.24 670.78,-365.11 668.39,-358.53"/>
-</g>
-<!-- file_m -->
-<g id="module~~inference_engine_s~~UsesGraph_node7" class="node">
-<title>file_m</title>
-<polygon fill="#337ab7" stroke="#337ab7" points="450,-538.15 396,-538.15 396,-514.15 450,-514.15 450,-538.15"/>
-<text text-anchor="middle" x="423" y="-523.75" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">file_m</text>
-</g>
-<!-- module~inference_engine_s&#45;&gt;file_m -->
-<g id="module~~inference_engine_s~~UsesGraph_edge6" class="edge">
-<title>module~inference_engine_s&#45;&gt;file_m</title>
-<path fill="none" stroke="#ff0000" stroke-dasharray="5,2" d="M778.83,-284.41C771.56,-332.19 737.84,-506.29 626,-566.15"/>
-<path fill="none" stroke="#ff0000" stroke-dasharray="5,2" d="M624,-566.15C616.78,-570.02 515.56,-547.41 459.96,-534.57"/>
-<polygon fill="#ff0000" stroke="#ff0000" points="460.68,-531.14 450.15,-532.3 459.1,-537.96 460.68,-531.14"/>
-</g>
-<!-- module~neuron_m -->
-<g id="module~~inference_engine_s~~UsesGraph_node8" class="node">
-<title>module~neuron_m</title>
-<g id="a_module~~inference_engine_s~~UsesGraph_node8"><a xlink:href=".././module/neuron_m.html" xlink:title="neuron_m">
-<polygon fill="#337ab7" stroke="#337ab7" points="252,-105.15 186,-105.15 186,-81.15 252,-81.15 252,-105.15"/>
-<text text-anchor="middle" x="219" y="-90.75" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">neuron_m</text>
-</a>
-</g>
-</g>
-<!-- module~inference_engine_s&#45;&gt;module~neuron_m -->
-<g id="module~~inference_engine_s~~UsesGraph_edge7" class="edge">
-<title>module~inference_engine_s&#45;&gt;module~neuron_m</title>
-<path fill="none" stroke="#ff0000" stroke-dasharray="5,2" d="M779.87,-260.14C777.11,-221.33 762.59,-98.97 688,-49.15 618.94,-3.03 363.92,-58.05 262.25,-82.54"/>
-<polygon fill="#ff0000" stroke="#ff0000" points="261.22,-79.19 252.33,-84.96 262.87,-85.99 261.22,-79.19"/>
-</g>
-<!-- module~inference_engine_m_ -->
-<g id="module~~inference_engine_s~~UsesGraph_node9" class="node">
-<title>module~inference_engine_m_</title>
-<g id="a_module~~inference_engine_s~~UsesGraph_node9"><a xlink:href=".././module/inference_engine_m_.html" xlink:title="inference_engine_m_">
-<polygon fill="#337ab7" stroke="#337ab7" points="688,-344.15 562,-344.15 562,-320.15 688,-320.15 688,-344.15"/>
-<text text-anchor="middle" x="625" y="-329.75" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">inference_engine_m_</text>
-</a>
-</g>
-</g>
-<!-- module~inference_engine_s&#45;&gt;module~inference_engine_m_ -->
-<g id="module~~inference_engine_s~~UsesGraph_edge15" class="edge">
-<title>module~inference_engine_s&#45;&gt;module~inference_engine_m_</title>
-<path fill="none" stroke="#ff0000" d="M749.23,-284.29C725.39,-293.55 692.35,-306.39 666.48,-316.43"/>
-<polygon fill="#ff0000" stroke="#ff0000" points="665.01,-313.25 656.95,-320.13 667.54,-319.77 665.01,-313.25"/>
+<polygon fill="none" stroke="black" points="839,-168 724,-168 724,-144 839,-144 839,-168"/>
+<text text-anchor="middle" x="781.5" y="-153.6" font-family="Helvetica,sans-Serif" font-size="10.50">inference_engine_s</text>
 </g>
 <!-- module~sigmoid_m -->
-<g id="module~~inference_engine_s~~UsesGraph_node10" class="node">
+<g id="module~~inference_engine_s~~UsesGraph_node2" class="node">
 <title>module~sigmoid_m</title>
-<g id="a_module~~inference_engine_s~~UsesGraph_node10"><a xlink:href=".././module/sigmoid_m.html" xlink:title="sigmoid_m">
-<polygon fill="#337ab7" stroke="#337ab7" points="660,-246.15 590,-246.15 590,-222.15 660,-222.15 660,-246.15"/>
-<text text-anchor="middle" x="625" y="-231.75" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">sigmoid_m</text>
+<g id="a_module~~inference_engine_s~~UsesGraph_node2"><a xlink:href=".././module/sigmoid_m.html" xlink:title="sigmoid_m">
+<polygon fill="#337ab7" stroke="#337ab7" points="660,-462 590,-462 590,-438 660,-438 660,-462"/>
+<text text-anchor="middle" x="625" y="-447.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">sigmoid_m</text>
 </a>
 </g>
 </g>
 <!-- module~inference_engine_s&#45;&gt;module~sigmoid_m -->
-<g id="module~~inference_engine_s~~UsesGraph_edge8" class="edge">
+<g id="module~~inference_engine_s~~UsesGraph_edge1" class="edge">
 <title>module~inference_engine_s&#45;&gt;module~sigmoid_m</title>
-<path fill="none" stroke="#ff0000" stroke-dasharray="5,2" d="M731.62,-260.13C711.98,-255.3 689.51,-249.77 670.35,-245.06"/>
-<polygon fill="#ff0000" stroke="#ff0000" points="670.93,-241.6 660.38,-242.61 669.26,-248.4 670.93,-241.6"/>
+<path fill="none" stroke="#ff0000" stroke-dasharray="5,2" d="M779.79,-168.27C776.73,-209.96 761.27,-347.81 688,-425 682.84,-430.44 676.33,-434.73 669.48,-438.1"/>
+<polygon fill="#ff0000" stroke="#ff0000" points="667.85,-434.99 660.04,-442.14 670.61,-441.42 667.85,-434.99"/>
 </g>
-<!-- module~swish_m -->
-<g id="module~~inference_engine_s~~UsesGraph_node11" class="node">
-<title>module~swish_m</title>
-<g id="a_module~~inference_engine_s~~UsesGraph_node11"><a xlink:href=".././module/swish_m.html" xlink:title="swish_m">
-<polygon fill="#337ab7" stroke="#337ab7" points="653.5,-204.15 596.5,-204.15 596.5,-180.15 653.5,-180.15 653.5,-204.15"/>
-<text text-anchor="middle" x="625" y="-189.75" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">swish_m</text>
+<!-- module~step_m -->
+<g id="module~~inference_engine_s~~UsesGraph_node3" class="node">
+<title>module~step_m</title>
+<g id="a_module~~inference_engine_s~~UsesGraph_node3"><a xlink:href=".././module/step_m.html" xlink:title="step_m">
+<polygon fill="#337ab7" stroke="#337ab7" points="450,-362 396,-362 396,-338 450,-338 450,-362"/>
+<text text-anchor="middle" x="423" y="-347.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">step_m</text>
 </a>
 </g>
 </g>
-<!-- module~inference_engine_s&#45;&gt;module~swish_m -->
-<g id="module~~inference_engine_s~~UsesGraph_edge9" class="edge">
-<title>module~inference_engine_s&#45;&gt;module~swish_m</title>
-<path fill="none" stroke="#ff0000" stroke-dasharray="5,2" d="M764.16,-260C746.21,-247.07 716.17,-226.66 688,-213.15 680.19,-209.41 671.54,-206.03 663.24,-203.14"/>
-<polygon fill="#ff0000" stroke="#ff0000" points="664.32,-199.81 653.73,-199.97 662.11,-206.45 664.32,-199.81"/>
-</g>
-<!-- module~activation_strategy_m -->
-<g id="module~~inference_engine_s~~UsesGraph_node12" class="node">
-<title>module~activation_strategy_m</title>
-<g id="a_module~~inference_engine_s~~UsesGraph_node12"><a xlink:href=".././module/activation_strategy_m.html" xlink:title="activation_strategy_m">
-<polygon fill="#337ab7" stroke="#337ab7" points="284,-301.15 154,-301.15 154,-277.15 284,-277.15 284,-301.15"/>
-<text text-anchor="middle" x="219" y="-286.75" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">activation_strategy_m</text>
-</a>
-</g>
-</g>
-<!-- module~inference_engine_s&#45;&gt;module~activation_strategy_m -->
-<g id="module~~inference_engine_s~~UsesGraph_edge10" class="edge">
-<title>module~inference_engine_s&#45;&gt;module~activation_strategy_m</title>
-<path fill="none" stroke="#ff0000" stroke-dasharray="5,2" d="M624,-292.15C508.82,-293.79 375.16,-292.09 294.13,-290.66"/>
-<polygon fill="#ff0000" stroke="#ff0000" points="294.09,-287.16 284.03,-290.48 293.96,-294.16 294.09,-287.16"/>
-</g>
-<!-- module~outputs_m -->
-<g id="module~~inference_engine_s~~UsesGraph_node13" class="node">
-<title>module~outputs_m</title>
-<g id="a_module~~inference_engine_s~~UsesGraph_node13"><a xlink:href=".././module/outputs_m.html" xlink:title="outputs_m">
-<polygon fill="#337ab7" stroke="#337ab7" points="253,-482.15 185,-482.15 185,-458.15 253,-458.15 253,-482.15"/>
-<text text-anchor="middle" x="219" y="-467.75" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">outputs_m</text>
-</a>
-</g>
-</g>
-<!-- module~inference_engine_s&#45;&gt;module~outputs_m -->
-<g id="module~~inference_engine_s~~UsesGraph_edge11" class="edge">
-<title>module~inference_engine_s&#45;&gt;module~outputs_m</title>
-<path fill="none" stroke="#ff0000" stroke-dasharray="5,2" d="M624,-566.15C504.65,-630.04 446.73,-594.75 320,-547.15 287.33,-534.88 256.61,-508.08 238.06,-489.58"/>
-<polygon fill="#ff0000" stroke="#ff0000" points="240.37,-486.93 230.88,-482.22 235.36,-491.82 240.37,-486.93"/>
-</g>
-<!-- assert_m -->
-<g id="module~~inference_engine_s~~UsesGraph_node14" class="node">
-<title>assert_m</title>
-<polygon fill="#337ab7" stroke="#337ab7" points="655.5,-124.15 594.5,-124.15 594.5,-100.15 655.5,-100.15 655.5,-124.15"/>
-<text text-anchor="middle" x="625" y="-109.75" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">assert_m</text>
-</g>
-<!-- module~inference_engine_s&#45;&gt;assert_m -->
-<g id="module~~inference_engine_s~~UsesGraph_edge12" class="edge">
-<title>module~inference_engine_s&#45;&gt;assert_m</title>
-<path fill="none" stroke="#ff0000" stroke-dasharray="5,2" d="M775.1,-260.07C763.03,-234.3 731.46,-173.43 688,-138.15 681.23,-132.65 673.12,-128.15 665.04,-124.53"/>
-<polygon fill="#ff0000" stroke="#ff0000" points="666.23,-121.23 655.65,-120.67 663.57,-127.71 666.23,-121.23"/>
-</g>
-<!-- iso_fortran_env -->
-<g id="module~~inference_engine_s~~UsesGraph_node15" class="node">
-<title>iso_fortran_env</title>
-<g id="a_module~~inference_engine_s~~UsesGraph_node15"><a xlink:href="https://gcc.gnu.org/onlinedocs/gfortran/ISO_005fFORTRAN_005fENV.html" xlink:title="iso_fortran_env">
-<polygon fill="#337ab7" stroke="#337ab7" points="672,-82.15 578,-82.15 578,-58.15 672,-58.15 672,-82.15"/>
-<text text-anchor="middle" x="625" y="-67.75" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">iso_fortran_env</text>
-</a>
-</g>
-</g>
-<!-- module~inference_engine_s&#45;&gt;iso_fortran_env -->
-<g id="module~~inference_engine_s~~UsesGraph_edge13" class="edge">
-<title>module~inference_engine_s&#45;&gt;iso_fortran_env</title>
-<path fill="none" stroke="#ff0000" stroke-dasharray="5,2" d="M777.71,-260.05C769.64,-227.77 743.28,-138.9 688,-91.15 685.97,-89.4 683.78,-87.79 681.49,-86.31"/>
-<polygon fill="#ff0000" stroke="#ff0000" points="682.67,-82.97 672.21,-81.25 679.32,-89.11 682.67,-82.97"/>
+<!-- module~inference_engine_s&#45;&gt;module~step_m -->
+<g id="module~~inference_engine_s~~UsesGraph_edge3" class="edge">
+<title>module~inference_engine_s&#45;&gt;module~step_m</title>
+<path fill="none" stroke="#ff0000" stroke-dasharray="5,2" d="M624,-310C568.92,-330.57 501.15,-341.28 460.32,-346.27"/>
+<polygon fill="#ff0000" stroke="#ff0000" points="459.83,-342.81 450.3,-347.45 460.64,-349.76 459.83,-342.81"/>
 </g>
 <!-- module~layer_m -->
-<g id="module~~inference_engine_s~~UsesGraph_node16" class="node">
+<g id="module~~inference_engine_s~~UsesGraph_node4" class="node">
 <title>module~layer_m</title>
-<g id="a_module~~inference_engine_s~~UsesGraph_node16"><a xlink:href=".././module/layer_m.html" xlink:title="layer_m">
-<polygon fill="#337ab7" stroke="#337ab7" points="450.5,-104.15 395.5,-104.15 395.5,-80.15 450.5,-80.15 450.5,-104.15"/>
-<text text-anchor="middle" x="423" y="-89.75" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">layer_m</text>
+<g id="a_module~~inference_engine_s~~UsesGraph_node4"><a xlink:href=".././module/layer_m.html" xlink:title="layer_m">
+<polygon fill="#337ab7" stroke="#337ab7" points="450.5,-244 395.5,-244 395.5,-220 450.5,-220 450.5,-244"/>
+<text text-anchor="middle" x="423" y="-229.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">layer_m</text>
 </a>
 </g>
 </g>
 <!-- module~inference_engine_s&#45;&gt;module~layer_m -->
-<g id="module~~inference_engine_s~~UsesGraph_edge14" class="edge">
+<g id="module~~inference_engine_s~~UsesGraph_edge5" class="edge">
 <title>module~inference_engine_s&#45;&gt;module~layer_m</title>
-<path fill="none" stroke="#ff0000" stroke-dasharray="5,2" d="M772.62,-259.95C758.31,-238.76 726,-195.15 688,-171.15 663.63,-155.76 652.29,-163.97 626,-152.15"/>
-<path fill="none" stroke="#ff0000" stroke-dasharray="5,2" d="M624,-152.15C597.71,-140.34 588.52,-144.43 562,-133.15 545.16,-125.99 543.16,-119.52 526,-113.15 505.02,-105.37 480.49,-100.21 460.74,-96.95"/>
-<polygon fill="#ff0000" stroke="#ff0000" points="461.02,-93.45 450.6,-95.37 459.95,-100.37 461.02,-93.45"/>
+<path fill="none" stroke="#ff0000" stroke-dasharray="5,2" d="M773.49,-168.21C754.59,-199.62 699.09,-282.71 626,-310"/>
+<path fill="none" stroke="#ff0000" stroke-dasharray="5,2" d="M624,-310C591.59,-322.1 501.03,-275.64 453.69,-249.19"/>
+<polygon fill="#ff0000" stroke="#ff0000" points="455.25,-246.05 444.82,-244.18 451.81,-252.15 455.25,-246.05"/>
 </g>
-<!-- module~step_m&#45;&gt;module~activation_strategy_m -->
-<g id="module~~inference_engine_s~~UsesGraph_edge16" class="edge">
-<title>module~step_m&#45;&gt;module~activation_strategy_m</title>
-<path fill="none" stroke="#ff0000" stroke-dasharray="5,2" d="M406.15,-146.31C370.82,-173.42 285.46,-238.92 243.75,-270.93"/>
-<polygon fill="#ff0000" stroke="#ff0000" points="241.58,-268.18 235.78,-277.05 245.84,-273.74 241.58,-268.18"/>
+<!-- assert_m -->
+<g id="module~~inference_engine_s~~UsesGraph_node5" class="node">
+<title>assert_m</title>
+<polygon fill="#337ab7" stroke="#337ab7" points="655.5,-108 594.5,-108 594.5,-84 655.5,-84 655.5,-108"/>
+<text text-anchor="middle" x="625" y="-93.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">assert_m</text>
+</g>
+<!-- module~inference_engine_s&#45;&gt;assert_m -->
+<g id="module~~inference_engine_s~~UsesGraph_edge2" class="edge">
+<title>module~inference_engine_s&#45;&gt;assert_m</title>
+<path fill="none" stroke="#ff0000" stroke-dasharray="5,2" d="M749.23,-143.86C725,-134.45 691.26,-121.35 665.22,-111.23"/>
+<polygon fill="#ff0000" stroke="#ff0000" points="666.24,-107.87 655.65,-107.51 663.7,-114.4 666.24,-107.87"/>
+</g>
+<!-- file_m -->
+<g id="module~~inference_engine_s~~UsesGraph_node6" class="node">
+<title>file_m</title>
+<polygon fill="#337ab7" stroke="#337ab7" points="450,-106 396,-106 396,-82 450,-82 450,-106"/>
+<text text-anchor="middle" x="423" y="-91.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">file_m</text>
+</g>
+<!-- module~inference_engine_s&#45;&gt;file_m -->
+<g id="module~~inference_engine_s~~UsesGraph_edge4" class="edge">
+<title>module~inference_engine_s&#45;&gt;file_m</title>
+<path fill="none" stroke="#ff0000" stroke-dasharray="5,2" d="M723.68,-148.27C694.5,-144.4 658.37,-139.75 626,-136"/>
+<path fill="none" stroke="#ff0000" stroke-dasharray="5,2" d="M624,-136C579.75,-130.87 569.59,-124.16 526,-115 504.1,-110.4 479.54,-105.34 460,-101.34"/>
+<polygon fill="#ff0000" stroke="#ff0000" points="460.5,-97.87 450,-99.29 459.1,-104.73 460.5,-97.87"/>
+</g>
+<!-- module~swish_m -->
+<g id="module~~inference_engine_s~~UsesGraph_node7" class="node">
+<title>module~swish_m</title>
+<g id="a_module~~inference_engine_s~~UsesGraph_node7"><a xlink:href=".././module/swish_m.html" xlink:title="swish_m">
+<polygon fill="#337ab7" stroke="#337ab7" points="653.5,-416 596.5,-416 596.5,-392 653.5,-392 653.5,-416"/>
+<text text-anchor="middle" x="625" y="-401.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">swish_m</text>
+</a>
+</g>
+</g>
+<!-- module~inference_engine_s&#45;&gt;module~swish_m -->
+<g id="module~~inference_engine_s~~UsesGraph_edge6" class="edge">
+<title>module~inference_engine_s&#45;&gt;module~swish_m</title>
+<path fill="none" stroke="#ff0000" stroke-dasharray="5,2" d="M774.61,-168.19C760.81,-196.4 724.75,-268.07 688,-324 674,-345.31 655.95,-368.17 642.94,-383.97"/>
+<polygon fill="#ff0000" stroke="#ff0000" points="639.99,-382.04 636.28,-391.97 645.37,-386.52 639.99,-382.04"/>
+</g>
+<!-- module~outputs_m -->
+<g id="module~~inference_engine_s~~UsesGraph_node8" class="node">
+<title>module~outputs_m</title>
+<g id="a_module~~inference_engine_s~~UsesGraph_node8"><a xlink:href=".././module/outputs_m.html" xlink:title="outputs_m">
+<polygon fill="#337ab7" stroke="#337ab7" points="457,-148 389,-148 389,-124 457,-124 457,-148"/>
+<text text-anchor="middle" x="423" y="-133.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">outputs_m</text>
+</a>
+</g>
+</g>
+<!-- module~inference_engine_s&#45;&gt;module~outputs_m -->
+<g id="module~~inference_engine_s~~UsesGraph_edge7" class="edge">
+<title>module~inference_engine_s&#45;&gt;module~outputs_m</title>
+<path fill="none" stroke="#ff0000" stroke-dasharray="5,2" d="M624,-136C570.22,-129.77 507.75,-131.13 467.14,-133.14"/>
+<polygon fill="#ff0000" stroke="#ff0000" points="466.85,-129.65 457.05,-133.68 467.22,-136.64 466.85,-129.65"/>
+</g>
+<!-- module~neuron_m -->
+<g id="module~~inference_engine_s~~UsesGraph_node9" class="node">
+<title>module~neuron_m</title>
+<g id="a_module~~inference_engine_s~~UsesGraph_node9"><a xlink:href=".././module/neuron_m.html" xlink:title="neuron_m">
+<polygon fill="#337ab7" stroke="#337ab7" points="252,-266 186,-266 186,-242 252,-242 252,-266"/>
+<text text-anchor="middle" x="219" y="-251.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">neuron_m</text>
+</a>
+</g>
+</g>
+<!-- module~inference_engine_s&#45;&gt;module~neuron_m -->
+<g id="module~~inference_engine_s~~UsesGraph_edge8" class="edge">
+<title>module~inference_engine_s&#45;&gt;module~neuron_m</title>
+<path fill="none" stroke="#ff0000" stroke-dasharray="5,2" d="M624,-310C558.13,-334.6 351.33,-287.33 261.89,-264.89"/>
+<polygon fill="#ff0000" stroke="#ff0000" points="262.64,-261.47 252.09,-262.42 260.93,-268.26 262.64,-261.47"/>
+</g>
+<!-- intrinsic_array_m -->
+<g id="module~~inference_engine_s~~UsesGraph_node10" class="node">
+<title>intrinsic_array_m</title>
+<polygon fill="#337ab7" stroke="#337ab7" points="677,-66 573,-66 573,-42 677,-42 677,-66"/>
+<text text-anchor="middle" x="625" y="-51.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">intrinsic_array_m</text>
+</g>
+<!-- module~inference_engine_s&#45;&gt;intrinsic_array_m -->
+<g id="module~~inference_engine_s~~UsesGraph_edge9" class="edge">
+<title>module~inference_engine_s&#45;&gt;intrinsic_array_m</title>
+<path fill="none" stroke="#ff0000" stroke-dasharray="5,2" d="M769.68,-143.9C753.5,-126.44 721.29,-94.19 688,-75 684.95,-73.24 681.74,-71.61 678.44,-70.08"/>
+<polygon fill="#ff0000" stroke="#ff0000" points="679.56,-66.76 668.99,-66.09 676.84,-73.21 679.56,-66.76"/>
+</g>
+<!-- formats_m -->
+<g id="module~~inference_engine_s~~UsesGraph_node11" class="node">
+<title>formats_m</title>
+<polygon fill="#337ab7" stroke="#337ab7" points="660,-24 590,-24 590,0 660,0 660,-24"/>
+<text text-anchor="middle" x="625" y="-9.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">formats_m</text>
+</g>
+<!-- module~inference_engine_s&#45;&gt;formats_m -->
+<g id="module~~inference_engine_s~~UsesGraph_edge10" class="edge">
+<title>module~inference_engine_s&#45;&gt;formats_m</title>
+<path fill="none" stroke="#ff0000" stroke-dasharray="5,2" d="M774.63,-143.96C762.11,-119.49 730.43,-63.7 688,-33 682.49,-29.02 676.18,-25.75 669.73,-23.08"/>
+<polygon fill="#ff0000" stroke="#ff0000" points="670.86,-19.77 660.27,-19.58 668.43,-26.33 670.86,-19.77"/>
+</g>
+<!-- module~inference_engine_m_ -->
+<g id="module~~inference_engine_s~~UsesGraph_node12" class="node">
+<title>module~inference_engine_m_</title>
+<g id="a_module~~inference_engine_s~~UsesGraph_node12"><a xlink:href=".././module/inference_engine_m_.html" xlink:title="inference_engine_m_">
+<polygon fill="#337ab7" stroke="#337ab7" points="688,-188 562,-188 562,-164 688,-164 688,-188"/>
+<text text-anchor="middle" x="625" y="-173.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">inference_engine_m_</text>
+</a>
+</g>
+</g>
+<!-- module~inference_engine_s&#45;&gt;module~inference_engine_m_ -->
+<g id="module~~inference_engine_s~~UsesGraph_edge11" class="edge">
+<title>module~inference_engine_s&#45;&gt;module~inference_engine_m_</title>
+<path fill="none" stroke="#ff0000" d="M723.85,-163.33C715.49,-164.42 706.79,-165.54 698.17,-166.66"/>
+<polygon fill="#ff0000" stroke="#ff0000" points="697.58,-163.2 688.12,-167.96 698.48,-170.15 697.58,-163.2"/>
+</g>
+<!-- string_m -->
+<g id="module~~inference_engine_s~~UsesGraph_node13" class="node">
+<title>string_m</title>
+<polygon fill="#337ab7" stroke="#337ab7" points="88,-346 30,-346 30,-322 88,-322 88,-346"/>
+<text text-anchor="middle" x="59" y="-331.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">string_m</text>
+</g>
+<!-- module~sigmoid_m&#45;&gt;string_m -->
+<g id="module~~inference_engine_s~~UsesGraph_edge12" class="edge">
+<title>module~sigmoid_m&#45;&gt;string_m</title>
+<path fill="none" stroke="#ff0000" stroke-dasharray="5,2" d="M589.85,-457.59C550.17,-466.15 482.65,-479.92 424,-488"/>
+</g>
+<!-- module~differentiable_activation_strategy_m -->
+<g id="module~~inference_engine_s~~UsesGraph_node15" class="node">
+<title>module~differentiable_activation_strategy_m</title>
+<g id="a_module~~inference_engine_s~~UsesGraph_node15"><a xlink:href=".././module/differentiable_activation_strategy_m.html" xlink:title="differentiable_activation_strategy_m">
+<polygon fill="#337ab7" stroke="#337ab7" points="526,-408 320,-408 320,-384 526,-384 526,-408"/>
+<text text-anchor="middle" x="423" y="-393.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">differentiable_activation_strategy_m</text>
+</a>
+</g>
+</g>
+<!-- module~sigmoid_m&#45;&gt;module~differentiable_activation_strategy_m -->
+<g id="module~~inference_engine_s~~UsesGraph_edge13" class="edge">
+<title>module~sigmoid_m&#45;&gt;module~differentiable_activation_strategy_m</title>
+<path fill="none" stroke="#ff0000" stroke-dasharray="5,2" d="M589.62,-440.72C559.09,-432.48 513.97,-420.29 478.52,-410.72"/>
+<polygon fill="#ff0000" stroke="#ff0000" points="479.37,-407.32 468.8,-408.1 477.55,-414.08 479.37,-407.32"/>
 </g>
 <!-- module~kind_parameters_m -->
 <g id="module~~inference_engine_s~~UsesGraph_node17" class="node">
 <title>module~kind_parameters_m</title>
 <g id="a_module~~inference_engine_s~~UsesGraph_node17"><a xlink:href=".././module/kind_parameters_m.html" xlink:title="kind_parameters_m">
-<polygon fill="#337ab7" stroke="#337ab7" points="118,-343.15 0,-343.15 0,-319.15 118,-319.15 118,-343.15"/>
-<text text-anchor="middle" x="59" y="-328.75" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">kind_parameters_m</text>
+<polygon fill="#337ab7" stroke="#337ab7" points="118,-266 0,-266 0,-242 118,-242 118,-266"/>
+<text text-anchor="middle" x="59" y="-251.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">kind_parameters_m</text>
 </a>
 </g>
+</g>
+<!-- module~sigmoid_m&#45;&gt;module~kind_parameters_m -->
+<g id="module~~inference_engine_s~~UsesGraph_edge14" class="edge">
+<title>module~sigmoid_m&#45;&gt;module~kind_parameters_m</title>
+<path fill="none" stroke="#ff0000" stroke-dasharray="5,2" d="M589.67,-450.19C549.83,-450.37 482.16,-450.53 424,-450"/>
+</g>
+<!-- module~step_m&#45;&gt;string_m -->
+<g id="module~~inference_engine_s~~UsesGraph_edge15" class="edge">
+<title>module~step_m&#45;&gt;string_m</title>
+<path fill="none" stroke="#ff8b00" stroke-dasharray="5,2" d="M395.95,-354.71C375.06,-358.89 345.16,-365.76 320,-375 303.21,-381.17 301.41,-388.89 284,-393 227.77,-406.27 209.52,-408.98 154,-393 126.79,-385.17 99.84,-366.89 81.83,-352.73"/>
+<polygon fill="#ff8b00" stroke="#ff8b00" points="83.71,-349.75 73.74,-346.18 79.3,-355.19 83.71,-349.75"/>
+</g>
+<!-- module~activation_strategy_m -->
+<g id="module~~inference_engine_s~~UsesGraph_node16" class="node">
+<title>module~activation_strategy_m</title>
+<g id="a_module~~inference_engine_s~~UsesGraph_node16"><a xlink:href=".././module/activation_strategy_m.html" xlink:title="activation_strategy_m">
+<polygon fill="#337ab7" stroke="#337ab7" points="284,-384 154,-384 154,-360 284,-360 284,-384"/>
+<text text-anchor="middle" x="219" y="-369.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">activation_strategy_m</text>
+</a>
+</g>
+</g>
+<!-- module~step_m&#45;&gt;module~activation_strategy_m -->
+<g id="module~~inference_engine_s~~UsesGraph_edge16" class="edge">
+<title>module~step_m&#45;&gt;module~activation_strategy_m</title>
+<path fill="none" stroke="#ff8b00" stroke-dasharray="5,2" d="M395.59,-352.88C369.99,-355.66 329.95,-360.03 294.56,-363.88"/>
+<polygon fill="#ff8b00" stroke="#ff8b00" points="293.8,-360.44 284.24,-365 294.56,-367.4 293.8,-360.44"/>
 </g>
 <!-- module~step_m&#45;&gt;module~kind_parameters_m -->
 <g id="module~~inference_engine_s~~UsesGraph_edge17" class="edge">
 <title>module~step_m&#45;&gt;module~kind_parameters_m</title>
-<path fill="none" stroke="#ff0000" stroke-dasharray="5,2" d="M395.86,-134.43C355.76,-135.86 277.65,-142.73 220,-173.15"/>
+<path fill="none" stroke="#ff8b00" stroke-dasharray="5,2" d="M395.98,-343.47C375.36,-338.27 345.81,-330.76 320,-324 248.63,-305.3 166.44,-283.05 113.89,-268.74"/>
+<polygon fill="#ff8b00" stroke="#ff8b00" points="114.68,-265.32 104.12,-266.07 112.84,-272.08 114.68,-265.32"/>
 </g>
-<!-- string_m -->
-<g id="module~~inference_engine_s~~UsesGraph_node21" class="node">
-<title>string_m</title>
-<polygon fill="#337ab7" stroke="#337ab7" points="88,-146.15 30,-146.15 30,-122.15 88,-122.15 88,-146.15"/>
-<text text-anchor="middle" x="59" y="-131.75" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">string_m</text>
-</g>
-<!-- module~step_m&#45;&gt;string_m -->
-<g id="module~~inference_engine_s~~UsesGraph_edge18" class="edge">
-<title>module~step_m&#45;&gt;string_m</title>
-<path fill="none" stroke="#ff0000" stroke-dasharray="5,2" d="M395.83,-133.3C357.3,-132.23 283.04,-130.92 220,-134.15"/>
-</g>
-<!-- module~differentiable_activation_strategy_m&#45;&gt;module~activation_strategy_m -->
-<g id="module~~inference_engine_s~~UsesGraph_edge19" class="edge">
-<title>module~differentiable_activation_strategy_m&#45;&gt;module~activation_strategy_m</title>
-<path fill="none" stroke="#ff6600" stroke-dasharray="5,2" d="M356.42,-264.16C336.52,-267.81 314.52,-271.84 294.1,-275.58"/>
-<polygon fill="#ff6600" stroke="#ff6600" points="293.43,-272.14 284.22,-277.39 294.69,-279.03 293.43,-272.14"/>
-</g>
-<!-- module~matmul_m&#45;&gt;module~activation_strategy_m -->
+<!-- module~layer_m&#45;&gt;module~neuron_m -->
 <g id="module~~inference_engine_s~~UsesGraph_edge20" class="edge">
-<title>module~matmul_m&#45;&gt;module~activation_strategy_m</title>
-<path fill="none" stroke="#ffcc00" stroke-dasharray="5,2" d="M597.53,-460.06C585.96,-454.08 572.64,-446.2 562,-437.15 542.49,-420.55 547.67,-405.81 526,-392.15 446.48,-342.02 402.82,-388.63 320,-344.15 300.61,-333.74 302.91,-321.41 284,-310.15 280.99,-308.36 277.82,-306.71 274.55,-305.17"/>
-<polygon fill="#ffcc00" stroke="#ffcc00" points="275.75,-301.88 265.17,-301.18 273,-308.32 275.75,-301.88"/>
+<title>module~layer_m&#45;&gt;module~neuron_m</title>
+<path fill="none" stroke="#e7ff00" stroke-dasharray="5,2" d="M395.18,-234.92C361.21,-238.62 302.31,-245.04 262.28,-249.4"/>
+<polygon fill="#e7ff00" stroke="#e7ff00" points="261.84,-245.92 252.28,-250.48 262.6,-252.88 261.84,-245.92"/>
 </g>
-<!-- module~matmul_m&#45;&gt;module~outputs_m -->
-<g id="module~~inference_engine_s~~UsesGraph_edge23" class="edge">
-<title>module~matmul_m&#45;&gt;module~outputs_m</title>
-<path fill="none" stroke="#ffcc00" stroke-dasharray="5,2" d="M589.82,-472.72C549.83,-473.8 481.75,-476.96 424,-486.15"/>
+<!-- module~layer_m&#45;&gt;string_m -->
+<g id="module~~inference_engine_s~~UsesGraph_edge18" class="edge">
+<title>module~layer_m&#45;&gt;string_m</title>
+<path fill="none" stroke="#e7ff00" stroke-dasharray="5,2" d="M395.16,-237.37C374.35,-241.88 344.93,-249.03 320,-258 303.35,-263.99 300.63,-268.94 284,-275 220.2,-298.24 143.11,-316.49 98.02,-326.22"/>
+<polygon fill="#e7ff00" stroke="#e7ff00" points="97.14,-322.83 88.09,-328.34 98.6,-329.68 97.14,-322.83"/>
 </g>
-<!-- module~matmul_m&#45;&gt;module~kind_parameters_m -->
+<!-- module~layer_m&#45;&gt;module~kind_parameters_m -->
+<g id="module~~inference_engine_s~~UsesGraph_edge19" class="edge">
+<title>module~layer_m&#45;&gt;module~kind_parameters_m</title>
+<path fill="none" stroke="#e7ff00" stroke-dasharray="5,2" d="M395.26,-230.2C346.92,-227.37 241.85,-223.14 154,-233 141.15,-234.44 127.49,-236.93 114.67,-239.7"/>
+<polygon fill="#e7ff00" stroke="#e7ff00" points="113.6,-236.35 104.61,-241.96 115.14,-243.18 113.6,-236.35"/>
+</g>
+<!-- module~swish_m&#45;&gt;string_m -->
 <g id="module~~inference_engine_s~~UsesGraph_edge21" class="edge">
-<title>module~matmul_m&#45;&gt;module~kind_parameters_m</title>
-<path fill="none" stroke="#ffcc00" stroke-dasharray="5,2" d="M613.43,-484.19C596.88,-502.01 562.93,-534.64 526,-547.15 439.28,-576.53 410.35,-561.98 320,-547.15 243.17,-534.54 214.42,-540.26 154,-491.15 108.01,-453.77 79.57,-387.49 67.21,-353.15"/>
-<polygon fill="#ffcc00" stroke="#ffcc00" points="70.48,-351.88 63.89,-343.58 63.87,-354.18 70.48,-351.88"/>
+<title>module~swish_m&#45;&gt;string_m</title>
+<path fill="none" stroke="#00ffb9" stroke-dasharray="5,2" d="M596.32,-412.55C585.18,-416.64 572.5,-422.16 562,-429 543.3,-441.18 545.57,-453.28 526,-464 485.16,-486.38 470.07,-481.2 424,-488"/>
+<path fill="none" stroke="#00ffb9" stroke-dasharray="5,2" d="M422,-488C303.7,-505.47 257.96,-523.11 154,-464 110.71,-439.39 82.04,-385.74 68.68,-355.63"/>
+<polygon fill="#00ffb9" stroke="#00ffb9" points="71.88,-354.21 64.74,-346.39 65.45,-356.96 71.88,-354.21"/>
 </g>
-<!-- module~inference_strategy_m -->
-<g id="module~~inference_engine_s~~UsesGraph_node19" class="node">
-<title>module~inference_strategy_m</title>
-<g id="a_module~~inference_engine_s~~UsesGraph_node19"><a xlink:href=".././module/inference_strategy_m.html" xlink:title="inference_strategy_m">
-<polygon fill="#337ab7" stroke="#337ab7" points="486.5,-458.15 359.5,-458.15 359.5,-434.15 486.5,-434.15 486.5,-458.15"/>
-<text text-anchor="middle" x="423" y="-443.75" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">inference_strategy_m</text>
-</a>
-</g>
-</g>
-<!-- module~matmul_m&#45;&gt;module~inference_strategy_m -->
+<!-- module~swish_m&#45;&gt;module~differentiable_activation_strategy_m -->
 <g id="module~~inference_engine_s~~UsesGraph_edge22" class="edge">
-<title>module~matmul_m&#45;&gt;module~inference_strategy_m</title>
-<path fill="none" stroke="#ffcc00" stroke-dasharray="5,2" d="M589.62,-467.68C564.12,-464.37 528.44,-459.73 496.71,-455.6"/>
-<polygon fill="#ffcc00" stroke="#ffcc00" points="496.94,-452.1 486.57,-454.29 496.04,-459.05 496.94,-452.1"/>
+<title>module~swish_m&#45;&gt;module~differentiable_activation_strategy_m</title>
+<path fill="none" stroke="#00ffb9" stroke-dasharray="5,2" d="M596.19,-402.89C580.09,-402.24 558.64,-401.39 536.36,-400.49"/>
+<polygon fill="#00ffb9" stroke="#00ffb9" points="536.21,-396.99 526.08,-400.08 535.93,-403.98 536.21,-396.99"/>
 </g>
-<!-- module~neuron_m&#45;&gt;module~kind_parameters_m -->
+<!-- module~swish_m&#45;&gt;module~kind_parameters_m -->
+<g id="module~~inference_engine_s~~UsesGraph_edge23" class="edge">
+<title>module~swish_m&#45;&gt;module~kind_parameters_m</title>
+<path fill="none" stroke="#00ffb9" stroke-dasharray="5,2" d="M596.28,-413.52C558.06,-425.92 486.78,-446.44 424,-450"/>
+<path fill="none" stroke="#00ffb9" stroke-dasharray="5,2" d="M422,-450C300.42,-456.9 248.78,-469.45 154,-393 123.65,-368.52 140.01,-345.18 118,-313 107.99,-298.36 94.14,-284.11 82.48,-273.29"/>
+<polygon fill="#00ffb9" stroke="#00ffb9" points="84.6,-270.49 74.84,-266.38 79.91,-275.68 84.6,-270.49"/>
+</g>
+<!-- module~outputs_m&#45;&gt;module~kind_parameters_m -->
 <g id="module~~inference_engine_s~~UsesGraph_edge24" class="edge">
-<title>module~neuron_m&#45;&gt;module~kind_parameters_m</title>
-<path fill="none" stroke="#00ff66" stroke-dasharray="5,2" d="M204.14,-105.36C190.36,-117.95 169.15,-138.59 154,-159.15 117.04,-209.3 84.87,-275.68 69.54,-309.43"/>
-<polygon fill="#00ff66" stroke="#00ff66" points="66.24,-308.25 65.34,-318.81 72.63,-311.12 66.24,-308.25"/>
+<title>module~outputs_m&#45;&gt;module~kind_parameters_m</title>
+<path fill="none" stroke="#00b9ff" stroke-dasharray="5,2" d="M388.61,-129.2C331.75,-117.65 222.05,-95.48 220,-96"/>
+<path fill="none" stroke="#00b9ff" stroke-dasharray="5,2" d="M218,-96C189.23,-103.24 177.93,-97.46 154,-115 111.78,-145.94 82.52,-201.93 68.82,-232.56"/>
+<polygon fill="#00b9ff" stroke="#00b9ff" points="65.54,-231.33 64.78,-241.9 71.96,-234.11 65.54,-231.33"/>
 </g>
 <!-- module~neuron_m&#45;&gt;string_m -->
 <g id="module~~inference_engine_s~~UsesGraph_edge25" class="edge">
 <title>module~neuron_m&#45;&gt;string_m</title>
-<path fill="none" stroke="#00ff66" stroke-dasharray="5,2" d="M185.65,-101.55C160.19,-108.15 124.66,-117.37 97.88,-124.32"/>
-<polygon fill="#00ff66" stroke="#00ff66" points="96.88,-120.97 88.08,-126.87 98.64,-127.74 96.88,-120.97"/>
+<path fill="none" stroke="#002eff" stroke-dasharray="5,2" d="M185.72,-266.12C175.45,-270.24 164.13,-275.06 154,-280 131.28,-291.08 106.53,-305.4 88.13,-316.5"/>
+<polygon fill="#002eff" stroke="#002eff" points="86.1,-313.64 79.38,-321.83 89.75,-319.62 86.1,-313.64"/>
 </g>
-<!-- module~inference_engine_m_&#45;&gt;module~differentiable_activation_strategy_m -->
+<!-- module~neuron_m&#45;&gt;module~kind_parameters_m -->
 <g id="module~~inference_engine_s~~UsesGraph_edge26" class="edge">
-<title>module~inference_engine_m_&#45;&gt;module~differentiable_activation_strategy_m</title>
-<path fill="none" stroke="#00ffcb" stroke-dasharray="5,2" d="M593.62,-320C558.92,-306.12 501.99,-283.35 463.77,-268.06"/>
-<polygon fill="#00ffcb" stroke="#00ffcb" points="464.59,-264.62 454.01,-264.15 461.99,-271.12 464.59,-264.62"/>
+<title>module~neuron_m&#45;&gt;module~kind_parameters_m</title>
+<path fill="none" stroke="#002eff" stroke-dasharray="5,2" d="M185.65,-254C169.04,-254 148.15,-254 128.2,-254"/>
+<polygon fill="#002eff" stroke="#002eff" points="128.19,-250.5 118.19,-254 128.19,-257.5 128.19,-250.5"/>
 </g>
 <!-- module~inference_engine_m_&#45;&gt;file_m -->
-<g id="module~~inference_engine_s~~UsesGraph_edge29" class="edge">
+<g id="module~~inference_engine_s~~UsesGraph_edge28" class="edge">
 <title>module~inference_engine_m_&#45;&gt;file_m</title>
-<path fill="none" stroke="#00ffcb" stroke-dasharray="5,2" d="M573.22,-344.27C569.06,-346.71 565.23,-349.63 562,-353.15 516.54,-402.72 573.34,-452.37 526,-500.15 508.98,-517.33 482.3,-523.7 460.49,-525.84"/>
-<polygon fill="#00ffcb" stroke="#00ffcb" points="459.96,-522.37 450.24,-526.58 460.47,-529.35 459.96,-522.37"/>
-</g>
-<!-- module~inference_engine_m_&#45;&gt;module~activation_strategy_m -->
-<g id="module~~inference_engine_s~~UsesGraph_edge32" class="edge">
-<title>module~inference_engine_m_&#45;&gt;module~activation_strategy_m</title>
-<path fill="none" stroke="#00ffcb" stroke-dasharray="5,2" d="M422,-330.15C373.6,-323.72 319.41,-312.5 279.36,-303.42"/>
-<polygon fill="#00ffcb" stroke="#00ffcb" points="280.02,-299.98 269.49,-301.16 278.46,-306.81 280.02,-299.98"/>
+<path fill="none" stroke="#ff008b" stroke-dasharray="5,2" d="M588.72,-163.88C579.67,-160.07 570.18,-155.41 562,-150 543.39,-137.69 545.72,-125.45 526,-115 505.73,-104.26 480.5,-99.01 460.2,-96.44"/>
+<polygon fill="#ff008b" stroke="#ff008b" points="460.41,-92.94 450.09,-95.33 459.64,-99.9 460.41,-92.94"/>
 </g>
 <!-- module~inference_engine_m_&#45;&gt;module~outputs_m -->
-<g id="module~~inference_engine_s~~UsesGraph_edge33" class="edge">
+<g id="module~~inference_engine_s~~UsesGraph_edge31" class="edge">
 <title>module~inference_engine_m_&#45;&gt;module~outputs_m</title>
-<path fill="none" stroke="#00ffcb" stroke-dasharray="5,2" d="M574.06,-344.15C569.63,-346.62 565.5,-349.58 562,-353.15 524.82,-391.11 565.79,-431.94 526,-467.15 491.47,-497.72 469.54,-478.9 424,-486.15"/>
-<path fill="none" stroke="#00ffcb" stroke-dasharray="5,2" d="M422,-486.15C367.55,-494.82 304.07,-486.88 263.01,-479.42"/>
-<polygon fill="#00ffcb" stroke="#00ffcb" points="263.55,-475.96 253.08,-477.54 262.25,-482.84 263.55,-475.96"/>
+<path fill="none" stroke="#ff008b" stroke-dasharray="5,2" d="M563.99,-164C532.84,-157.77 495.49,-150.3 467.2,-144.64"/>
+<polygon fill="#ff008b" stroke="#ff008b" points="467.71,-141.17 457.22,-142.64 466.34,-148.04 467.71,-141.17"/>
 </g>
-<!-- module~inference_engine_m_&#45;&gt;module~kind_parameters_m -->
-<g id="module~~inference_engine_s~~UsesGraph_edge28" class="edge">
-<title>module~inference_engine_m_&#45;&gt;module~kind_parameters_m</title>
-<path fill="none" stroke="#00ffcb" stroke-dasharray="5,2" d="M422,-406.15C333.09,-419.02 306.61,-436.99 220,-413.15"/>
-<path fill="none" stroke="#00ffcb" stroke-dasharray="5,2" d="M218,-413.15C189.39,-405.28 180.85,-406.78 154,-394.15 128.33,-382.08 101.72,-363.59 83.39,-349.76"/>
-<polygon fill="#00ffcb" stroke="#00ffcb" points="85.16,-346.7 75.1,-343.39 80.9,-352.26 85.16,-346.7"/>
+<!-- module~inference_engine_m_&#45;&gt;string_m -->
+<g id="module~~inference_engine_s~~UsesGraph_edge29" class="edge">
+<title>module~inference_engine_m_&#45;&gt;string_m</title>
+<path fill="none" stroke="#ff008b" stroke-dasharray="5,2" d="M422,-176C300.79,-164.23 258.71,-170.82 154,-233 132.86,-245.55 134.63,-256.89 118,-275 105.69,-288.41 91.35,-303.01 80.01,-314.32"/>
+<polygon fill="#ff008b" stroke="#ff008b" points="77.33,-312.05 72.7,-321.58 82.26,-317.02 77.33,-312.05"/>
 </g>
 <!-- module~inputs_m -->
-<g id="module~~inference_engine_s~~UsesGraph_node18" class="node">
+<g id="module~~inference_engine_s~~UsesGraph_node14" class="node">
 <title>module~inputs_m</title>
-<g id="a_module~~inference_engine_s~~UsesGraph_node18"><a xlink:href=".././module/inputs_m.html" xlink:title="inputs_m">
-<polygon fill="#337ab7" stroke="#337ab7" points="249.5,-385.15 188.5,-385.15 188.5,-361.15 249.5,-361.15 249.5,-385.15"/>
-<text text-anchor="middle" x="219" y="-370.75" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">inputs_m</text>
+<g id="a_module~~inference_engine_s~~UsesGraph_node14"><a xlink:href=".././module/inputs_m.html" xlink:title="inputs_m">
+<polygon fill="#337ab7" stroke="#337ab7" points="249.5,-148 188.5,-148 188.5,-124 249.5,-124 249.5,-148"/>
+<text text-anchor="middle" x="219" y="-133.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">inputs_m</text>
 </a>
 </g>
 </g>
 <!-- module~inference_engine_m_&#45;&gt;module~inputs_m -->
-<g id="module~~inference_engine_s~~UsesGraph_edge30" class="edge">
-<title>module~inference_engine_m_&#45;&gt;module~inputs_m</title>
-<path fill="none" stroke="#00ffcb" stroke-dasharray="5,2" d="M587.52,-344.23C579.12,-347.09 570.23,-350.18 562,-353.15 500.21,-375.47 489.02,-396.74 424,-406.15"/>
-<path fill="none" stroke="#00ffcb" stroke-dasharray="5,2" d="M422,-406.15C365.43,-414.34 300.19,-399.21 259.52,-386.83"/>
-<polygon fill="#00ffcb" stroke="#00ffcb" points="260.31,-383.41 249.72,-383.76 258.22,-390.09 260.31,-383.41"/>
-</g>
-<!-- module~inference_engine_m_&#45;&gt;module~inference_strategy_m -->
 <g id="module~~inference_engine_s~~UsesGraph_edge27" class="edge">
-<title>module~inference_engine_m_&#45;&gt;module~inference_strategy_m</title>
-<path fill="none" stroke="#00ffcb" stroke-dasharray="5,2" d="M575.97,-344.24C570.95,-346.69 566.16,-349.63 562,-353.15 536.19,-374.99 552.63,-399.33 526,-420.15 517.29,-426.96 507.01,-432 496.37,-435.74"/>
-<polygon fill="#00ffcb" stroke="#00ffcb" points="495.05,-432.48 486.54,-438.81 497.13,-439.16 495.05,-432.48"/>
+<title>module~inference_engine_m_&#45;&gt;module~inputs_m</title>
+<path fill="none" stroke="#ff008b" stroke-dasharray="5,2" d="M422,-176C364.76,-170.44 299.69,-156.07 259.24,-146.16"/>
+<polygon fill="#ff008b" stroke="#ff008b" points="260.05,-142.76 249.5,-143.75 258.37,-149.55 260.05,-142.76"/>
 </g>
-<!-- module~network_increment_m -->
-<g id="module~~inference_engine_s~~UsesGraph_node20" class="node">
-<title>module~network_increment_m</title>
-<g id="a_module~~inference_engine_s~~UsesGraph_node20"><a xlink:href=".././module/network_increment_m.html" xlink:title="network_increment_m">
-<polygon fill="#337ab7" stroke="#337ab7" points="284,-343.15 154,-343.15 154,-319.15 284,-319.15 284,-343.15"/>
-<text text-anchor="middle" x="219" y="-328.75" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">network_increment_m</text>
-</a>
+<!-- module~inference_engine_m_&#45;&gt;module~differentiable_activation_strategy_m -->
+<g id="module~~inference_engine_s~~UsesGraph_edge32" class="edge">
+<title>module~inference_engine_m_&#45;&gt;module~differentiable_activation_strategy_m</title>
+<path fill="none" stroke="#ff008b" stroke-dasharray="5,2" d="M617.54,-188.2C606.14,-209.83 581.76,-256.33 562,-296 545.51,-329.09 554.71,-347.7 526,-371 521.99,-374.26 517.62,-377.1 513.01,-379.58"/>
+<polygon fill="#ff008b" stroke="#ff008b" points="511.43,-376.45 503.9,-383.91 514.44,-382.77 511.43,-376.45"/>
 </g>
+<!-- module~inference_engine_m_&#45;&gt;module~activation_strategy_m -->
+<g id="module~~inference_engine_s~~UsesGraph_edge30" class="edge">
+<title>module~inference_engine_m_&#45;&gt;module~activation_strategy_m</title>
+<path fill="none" stroke="#ff008b" stroke-dasharray="5,2" d="M611.31,-188.13C593.48,-204.66 559.43,-234.31 526,-253 440.82,-300.61 410.63,-292.82 320,-329 298.78,-337.47 275.29,-347.53 256.42,-355.79"/>
+<polygon fill="#ff008b" stroke="#ff008b" points="254.75,-352.7 247,-359.93 257.57,-359.11 254.75,-352.7"/>
 </g>
-<!-- module~inference_engine_m_&#45;&gt;module~network_increment_m -->
-<g id="module~~inference_engine_s~~UsesGraph_edge31" class="edge">
-<title>module~inference_engine_m_&#45;&gt;module~network_increment_m</title>
-<path fill="none" stroke="#00ffcb" stroke-dasharray="5,2" d="M422,-330.15C380.03,-324.58 332.73,-324.48 294.46,-325.94"/>
-<polygon fill="#00ffcb" stroke="#00ffcb" points="294.26,-322.44 284.42,-326.36 294.56,-329.44 294.26,-322.44"/>
-</g>
-<!-- module~inference_engine_m_&#45;&gt;string_m -->
-<g id="module~~inference_engine_s~~UsesGraph_edge34" class="edge">
-<title>module~inference_engine_m_&#45;&gt;string_m</title>
-<path fill="none" stroke="#00ffcb" stroke-dasharray="5,2" d="M561.56,-335.42C521.98,-336.53 469.78,-336.23 424,-330.15"/>
-<path fill="none" stroke="#00ffcb" stroke-dasharray="5,2" d="M422,-330.15C385.15,-325.26 169.12,-198.87 89.47,-151.69"/>
-<polygon fill="#00ffcb" stroke="#00ffcb" points="90.84,-148.44 80.46,-146.35 87.27,-154.46 90.84,-148.44"/>
-</g>
-<!-- module~sigmoid_m&#45;&gt;module~differentiable_activation_strategy_m -->
-<g id="module~~inference_engine_s~~UsesGraph_edge35" class="edge">
-<title>module~sigmoid_m&#45;&gt;module~differentiable_activation_strategy_m</title>
-<path fill="none" stroke="#00cbff" stroke-dasharray="5,2" d="M589.62,-237.25C574.5,-238.61 555.79,-240.29 536.45,-242.03"/>
-<polygon fill="#00cbff" stroke="#00cbff" points="535.94,-238.56 526.3,-242.95 536.57,-245.53 535.94,-238.56"/>
-</g>
-<!-- module~sigmoid_m&#45;&gt;module~kind_parameters_m -->
-<g id="module~~inference_engine_s~~UsesGraph_edge36" class="edge">
-<title>module~sigmoid_m&#45;&gt;module~kind_parameters_m</title>
-<path fill="none" stroke="#00cbff" stroke-dasharray="5,2" d="M589.77,-229.29C509.7,-219.44 305.52,-203.22 154,-268.15 127.62,-279.46 100.74,-298.38 82.51,-312.54"/>
-<polygon fill="#00cbff" stroke="#00cbff" points="79.96,-310.1 74.3,-319.05 84.31,-315.58 79.96,-310.1"/>
-</g>
-<!-- module~sigmoid_m&#45;&gt;string_m -->
-<g id="module~~inference_engine_s~~UsesGraph_edge37" class="edge">
-<title>module~sigmoid_m&#45;&gt;string_m</title>
-<path fill="none" stroke="#00cbff" stroke-dasharray="5,2" d="M589.97,-229.09C579.76,-226.01 569.33,-221.08 562,-213.15 517.8,-165.35 565.65,-122.8 526,-71.15 494.38,-29.96 473.12,-31 424,-14.15"/>
-</g>
-<!-- module~swish_m&#45;&gt;module~differentiable_activation_strategy_m -->
-<g id="module~~inference_engine_s~~UsesGraph_edge38" class="edge">
-<title>module~swish_m&#45;&gt;module~differentiable_activation_strategy_m</title>
-<path fill="none" stroke="#0066ff" stroke-dasharray="5,2" d="M596.19,-200.49C564.76,-209.92 512.96,-225.47 474.37,-237.04"/>
-<polygon fill="#0066ff" stroke="#0066ff" points="472.93,-233.82 464.36,-240.04 474.94,-240.52 472.93,-233.82"/>
-</g>
-<!-- module~swish_m&#45;&gt;module~kind_parameters_m -->
-<g id="module~~inference_engine_s~~UsesGraph_edge39" class="edge">
-<title>module~swish_m&#45;&gt;module~kind_parameters_m</title>
-<path fill="none" stroke="#0066ff" stroke-dasharray="5,2" d="M596.44,-187.3C516.39,-173.74 285.36,-138.66 220,-173.15"/>
-</g>
-<!-- module~swish_m&#45;&gt;string_m -->
-<g id="module~~inference_engine_s~~UsesGraph_edge40" class="edge">
-<title>module~swish_m&#45;&gt;string_m</title>
-<path fill="none" stroke="#0066ff" stroke-dasharray="5,2" d="M596.47,-185.86C584.55,-181.93 571.24,-175.72 562,-166.15 530.63,-133.67 555.49,-105.34 526,-71.15 492.08,-31.83 472.05,-33.85 424,-14.15"/>
-<path fill="none" stroke="#0066ff" stroke-dasharray="5,2" d="M422,-14.15C296.42,37.31 139.86,-70.57 82.44,-115.62"/>
-<polygon fill="#0066ff" stroke="#0066ff" points="80.04,-113.06 74.4,-122.03 84.4,-118.53 80.04,-113.06"/>
-</g>
-<!-- module~activation_strategy_m&#45;&gt;module~kind_parameters_m -->
-<g id="module~~inference_engine_s~~UsesGraph_edge41" class="edge">
-<title>module~activation_strategy_m&#45;&gt;module~kind_parameters_m</title>
-<path fill="none" stroke="#0000ff" stroke-dasharray="5,2" d="M172.72,-301.19C154.79,-305.95 134,-311.48 115.2,-316.48"/>
-<polygon fill="#0000ff" stroke="#0000ff" points="114.05,-313.16 105.28,-319.11 115.85,-319.93 114.05,-313.16"/>
-</g>
-<!-- module~activation_strategy_m&#45;&gt;string_m -->
-<g id="module~~inference_engine_s~~UsesGraph_edge42" class="edge">
-<title>module~activation_strategy_m&#45;&gt;string_m</title>
-<path fill="none" stroke="#0000ff" stroke-dasharray="5,2" d="M205.6,-276.99C178.26,-250.17 112.59,-185.75 79.61,-153.39"/>
-<polygon fill="#0000ff" stroke="#0000ff" points="81.93,-150.76 72.34,-146.26 77.03,-155.76 81.93,-150.76"/>
-</g>
-<!-- module~outputs_m&#45;&gt;module~kind_parameters_m -->
-<g id="module~~inference_engine_s~~UsesGraph_edge43" class="edge">
-<title>module~outputs_m&#45;&gt;module~kind_parameters_m</title>
-<path fill="none" stroke="#6500ff" stroke-dasharray="5,2" d="M197.64,-457.98C184.68,-449.87 167.79,-438.62 154,-427.15 125.15,-403.16 95.45,-371.42 77.35,-351.14"/>
-<polygon fill="#6500ff" stroke="#6500ff" points="79.81,-348.64 70.57,-343.46 74.56,-353.27 79.81,-348.64"/>
-</g>
-<!-- module~layer_m&#45;&gt;module~neuron_m -->
-<g id="module~~inference_engine_s~~UsesGraph_edge44" class="edge">
-<title>module~layer_m&#45;&gt;module~neuron_m</title>
-<path fill="none" stroke="#ff0066" stroke-dasharray="5,2" d="M395.18,-92.28C361.29,-92.45 302.56,-92.74 262.53,-92.94"/>
-<polygon fill="#ff0066" stroke="#ff0066" points="262.26,-89.44 252.28,-92.99 262.3,-96.44 262.26,-89.44"/>
-</g>
-<!-- module~layer_m&#45;&gt;module~kind_parameters_m -->
-<g id="module~~inference_engine_s~~UsesGraph_edge45" class="edge">
-<title>module~layer_m&#45;&gt;module~kind_parameters_m</title>
-<path fill="none" stroke="#ff0066" stroke-dasharray="5,2" d="M395.48,-93.52C374.04,-95.56 343.64,-100.63 320,-113.15 300.28,-123.6 302.76,-136.08 284,-148.15 258.32,-164.68 247.01,-158.9 220,-173.15"/>
-<path fill="none" stroke="#ff0066" stroke-dasharray="5,2" d="M218,-173.15C153.75,-207.06 98.95,-275.9 74.16,-310.43"/>
-<polygon fill="#ff0066" stroke="#ff0066" points="71.15,-308.63 68.25,-318.82 76.87,-312.66 71.15,-308.63"/>
-</g>
-<!-- module~layer_m&#45;&gt;string_m -->
-<g id="module~~inference_engine_s~~UsesGraph_edge46" class="edge">
-<title>module~layer_m&#45;&gt;string_m</title>
-<path fill="none" stroke="#ff0066" stroke-dasharray="5,2" d="M395.15,-97.65C374.58,-101.87 345.49,-107.85 320,-113.15 275.54,-122.4 265.35,-131.82 220,-134.15"/>
-<path fill="none" stroke="#ff0066" stroke-dasharray="5,2" d="M218,-134.15C177.27,-136.24 130.55,-135.91 98.54,-135.25"/>
-<polygon fill="#ff0066" stroke="#ff0066" points="98.35,-131.75 88.28,-135.02 98.2,-138.75 98.35,-131.75"/>
+<!-- module~inference_engine_m_&#45;&gt;module~kind_parameters_m -->
+<g id="module~~inference_engine_s~~UsesGraph_edge33" class="edge">
+<title>module~inference_engine_m_&#45;&gt;module~kind_parameters_m</title>
+<path fill="none" stroke="#ff008b" stroke-dasharray="5,2" d="M561.69,-179.09C522.15,-180.29 469.96,-180.46 424,-176"/>
+<path fill="none" stroke="#ff008b" stroke-dasharray="5,2" d="M422,-176C376.1,-171.54 359.95,-180.04 320,-157 298.7,-144.72 304.63,-128.38 284,-115 259.11,-98.85 248.77,-88.76 220,-96"/>
 </g>
 <!-- module~inputs_m&#45;&gt;module~kind_parameters_m -->
-<g id="module~~inference_engine_s~~UsesGraph_edge47" class="edge">
+<g id="module~~inference_engine_s~~UsesGraph_edge34" class="edge">
 <title>module~inputs_m&#45;&gt;module~kind_parameters_m</title>
-<path fill="none" stroke="#cbff00" stroke-dasharray="5,2" d="M188.28,-365.25C167.78,-359.8 139.89,-352.39 115.36,-345.87"/>
-<polygon fill="#cbff00" stroke="#cbff00" points="116,-342.42 105.44,-343.23 114.21,-349.18 116,-342.42"/>
+<path fill="none" stroke="#cbff00" stroke-dasharray="5,2" d="M188.46,-145.26C177.19,-149.48 164.53,-155.1 154,-162 123.12,-182.25 93.74,-213.63 76.29,-233.99"/>
+<polygon fill="#cbff00" stroke="#cbff00" points="73.54,-231.82 69.79,-241.73 78.9,-236.33 73.54,-231.82"/>
 </g>
-<!-- module~inference_strategy_m&#45;&gt;module~activation_strategy_m -->
-<g id="module~~inference_engine_s~~UsesGraph_edge48" class="edge">
-<title>module~inference_strategy_m&#45;&gt;module~activation_strategy_m</title>
-<path fill="none" stroke="#00ff66" stroke-dasharray="5,2" d="M359.33,-440.49C344.99,-436.58 330.81,-430.26 320,-420.15 282.43,-385.01 320.36,-346.54 284,-310.15 282.89,-309.04 281.72,-307.99 280.5,-306.99"/>
-<polygon fill="#00ff66" stroke="#00ff66" points="282.07,-303.83 271.81,-301.19 278.18,-309.65 282.07,-303.83"/>
+<!-- module~differentiable_activation_strategy_m&#45;&gt;module~activation_strategy_m -->
+<g id="module~~inference_engine_s~~UsesGraph_edge35" class="edge">
+<title>module~differentiable_activation_strategy_m&#45;&gt;module~activation_strategy_m</title>
+<path fill="none" stroke="#00ff66" stroke-dasharray="5,2" d="M320.7,-383.96C311.79,-382.91 302.88,-381.85 294.25,-380.82"/>
+<polygon fill="#00ff66" stroke="#00ff66" points="294.6,-377.34 284.26,-379.63 293.78,-384.29 294.6,-377.34"/>
 </g>
-<!-- module~inference_strategy_m&#45;&gt;module~outputs_m -->
-<g id="module~~inference_engine_s~~UsesGraph_edge50" class="edge">
-<title>module~inference_strategy_m&#45;&gt;module~outputs_m</title>
-<path fill="none" stroke="#00ff66" stroke-dasharray="5,2" d="M359.47,-453.58C328.34,-457.28 291.47,-461.66 263.47,-464.99"/>
-<polygon fill="#00ff66" stroke="#00ff66" points="262.71,-461.55 253.2,-466.21 263.54,-468.5 262.71,-461.55"/>
+<!-- module~activation_strategy_m&#45;&gt;string_m -->
+<g id="module~~inference_engine_s~~UsesGraph_edge36" class="edge">
+<title>module~activation_strategy_m&#45;&gt;string_m</title>
+<path fill="none" stroke="#0066ff" stroke-dasharray="5,2" d="M168.01,-359.98C145.32,-354.52 118.93,-348.17 97.91,-343.12"/>
+<polygon fill="#0066ff" stroke="#0066ff" points="98.61,-339.69 88.07,-340.75 96.97,-346.49 98.61,-339.69"/>
 </g>
-<!-- module~inference_strategy_m&#45;&gt;module~kind_parameters_m -->
-<g id="module~~inference_engine_s~~UsesGraph_edge49" class="edge">
-<title>module~inference_strategy_m&#45;&gt;module~kind_parameters_m</title>
-<path fill="none" stroke="#00ff66" stroke-dasharray="5,2" d="M359.38,-439.42C319.1,-434.24 265.91,-425.79 220,-413.15"/>
-</g>
-<!-- module~network_increment_m&#45;&gt;module~kind_parameters_m -->
-<g id="module~~inference_engine_s~~UsesGraph_edge51" class="edge">
-<title>module~network_increment_m&#45;&gt;module~kind_parameters_m</title>
-<path fill="none" stroke="#0066ff" stroke-dasharray="5,2" d="M153.74,-331.15C145.35,-331.15 136.74,-331.15 128.3,-331.15"/>
-<polygon fill="#0066ff" stroke="#0066ff" points="128.1,-327.65 118.1,-331.15 128.1,-334.65 128.1,-327.65"/>
+<!-- module~activation_strategy_m&#45;&gt;module~kind_parameters_m -->
+<g id="module~~inference_engine_s~~UsesGraph_edge37" class="edge">
+<title>module~activation_strategy_m&#45;&gt;module~kind_parameters_m</title>
+<path fill="none" stroke="#0066ff" stroke-dasharray="5,2" d="M181.23,-359.9C171.98,-356.11 162.32,-351.46 154,-346 145.56,-340.47 103.98,-298.73 79.03,-273.41"/>
+<polygon fill="#0066ff" stroke="#0066ff" points="81.39,-270.82 71.88,-266.14 76.4,-275.73 81.39,-270.82"/>
 </g>
 </g>
 </svg>
@@ -751,7 +629,16 @@
   <div class="panel-heading text-left"><h3 class="panel-title"><a data-toggle="collapse" href="#subs-1">Subroutines</a></h3></div>
   <div class="list-group">
     <div id="subs-1" class="panel-collapse collapse">
-      <a class="list-group-item" href="../module/inference_engine_s.html#proc-set_activation_name">set_activation_name</a>
+      <a class="list-group-item" href="../module/inference_engine_s.html#proc-assert_consistent">assert_consistent</a>
+      <a class="list-group-item" href="../module/inference_engine_s.html#proc-set_activation_strategy">set_activation_strategy</a>
+    </div>
+  </div>
+</div>
+<div class="panel panel-primary">
+  <div class="panel-heading text-left"><h3 class="panel-title"><a data-toggle="collapse" href="#modsubs-1">Module Subroutines</a></h3></div>
+  <div id="modsubs-1" class="panel-collapse collapse">
+    <div class="list-group">
+      <a class="list-group-item" href="../module/inference_engine_s.html#proc-assert_consistency">assert_consistency</a>
     </div>
   </div>
 </div>
@@ -761,20 +648,14 @@
     <div class="list-group">
       <a class="list-group-item" href="../module/inference_engine_s.html#proc-activation_function_name">activation_function_name</a>
       <a class="list-group-item" href="../module/inference_engine_s.html#proc-assert_conformable_with">assert_conformable_with</a>
-      <a class="list-group-item" href="../module/inference_engine_s.html#proc-assert_consistent">assert_consistent</a>
-      <a class="list-group-item" href="../module/inference_engine_s.html#proc-construct_from_components">construct_from_components</a>
       <a class="list-group-item" href="../module/inference_engine_s.html#proc-construct_from_json">construct_from_json</a>
-      <a class="list-group-item" href="../module/inference_engine_s.html#proc-hidden_weights~2">hidden_weights</a>
-      <a class="list-group-item" href="../module/inference_engine_s.html#proc-increment">increment</a>
-      <a class="list-group-item" href="../module/inference_engine_s.html#proc-infer_from_array_of_inputs">infer_from_array_of_inputs</a>
-      <a class="list-group-item" href="../module/inference_engine_s.html#proc-infer_from_inputs_object">infer_from_inputs_object</a>
-      <a class="list-group-item" href="../module/inference_engine_s.html#proc-input_weights~2">input_weights</a>
-      <a class="list-group-item" href="../module/inference_engine_s.html#proc-neurons_per_layer~2">neurons_per_layer</a>
+      <a class="list-group-item" href="../module/inference_engine_s.html#proc-construct_from_legacy_arrays">construct_from_legacy_arrays</a>
+      <a class="list-group-item" href="../module/inference_engine_s.html#proc-construct_from_padded_arrays">construct_from_padded_arrays</a>
+      <a class="list-group-item" href="../module/inference_engine_s.html#proc-infer">infer</a>
+      <a class="list-group-item" href="../module/inference_engine_s.html#proc-nodes_per_layer">nodes_per_layer</a>
       <a class="list-group-item" href="../module/inference_engine_s.html#proc-norm">norm</a>
-      <a class="list-group-item" href="../module/inference_engine_s.html#proc-num_hidden_layers">num_hidden_layers</a>
       <a class="list-group-item" href="../module/inference_engine_s.html#proc-num_inputs">num_inputs</a>
       <a class="list-group-item" href="../module/inference_engine_s.html#proc-num_outputs">num_outputs</a>
-      <a class="list-group-item" href="../module/inference_engine_s.html#proc-output_weights~2">output_weights</a>
       <a class="list-group-item" href="../module/inference_engine_s.html#proc-skip">skip</a>
       <a class="list-group-item" href="../module/inference_engine_s.html#proc-subtract">subtract</a>
       <a class="list-group-item" href="../module/inference_engine_s.html#proc-to_json">to_json</a>
@@ -795,7 +676,27 @@
     <section>
     <h2>Subroutines</h2>
       <div class="panel panel-default">
-  <div class="panel-heading codesum"><span class="anchor" id="proc-set_activation_name"></span><h3>pure subroutine <a href='../proc/set_activation_name.html'>set_activation_name</a>(inference_engine)</h3></div>
+  <div class="panel-heading codesum"><span class="anchor" id="proc-assert_consistent"></span><h3>pure subroutine <a href='../proc/assert_consistent.html'>assert_consistent</a>(self)</h3></div>
+  <div class="panel-body">
+           
+<h4>Arguments</h4>      <table class="table table-striped varlist">
+<thead><tr><th>Type</th><th>Intent</th><th>Optional</th><th>Attributes</th><th></th><th>Name</th><th></th></thead>
+<tbody>
+<tr>
+  <td><span class="anchor" ></span>type(<a href='../type/inference_engine_t.html'>inference_engine_t</a>),</td>
+<td>intent(in)</td>
+  <td></td>  <td></td><td>::</td>
+  <td><strong>self</strong></td><td></td>
+</tr>
+</tbody>
+</table>
+
+
+  </div>
+  </div>
+
+      <div class="panel panel-default">
+  <div class="panel-heading codesum"><span class="anchor" id="proc-set_activation_strategy"></span><h3>pure subroutine <a href='../proc/set_activation_strategy.html'>set_activation_strategy</a>(inference_engine)</h3></div>
   <div class="panel-body">
            
 <h4>Arguments</h4>      <table class="table table-striped varlist">
@@ -819,6 +720,30 @@
     
     
 
+        <section>
+        <h2>Module Subroutines</h2>
+          <div class="panel panel-default">
+  <div class="panel-heading codesum"><span class="anchor" id="proc-assert_consistency"></span><h3>pure module subroutine <a href='../proc/assert_consistency.html'>assert_consistency</a>(self)</h3></div>
+  <div class="panel-body">
+           
+<h4>Arguments</h4>      <table class="table table-striped varlist">
+<thead><tr><th>Type</th><th>Intent</th><th>Optional</th><th>Attributes</th><th></th><th>Name</th><th></th></thead>
+<tbody>
+<tr>
+  <td><span class="anchor" ></span>type(<a href='../type/inference_engine_t.html'>inference_engine_t</a>),</td>
+<td>intent(in)</td>
+  <td></td>  <td></td><td>::</td>
+  <td><strong>self</strong></td><td></td>
+</tr>
+</tbody>
+</table>
+
+
+  </div>
+  </div>
+
+        </section>
+        <br>
 
         <section>
         <h2>Module Procedures</h2>
@@ -872,36 +797,6 @@
   </div>
 
           <div class="panel panel-default">
-  <div class="panel-heading codesum"><span class="anchor" id="proc-assert_consistent"></span><h3>module procedure <a href='../proc/assert_consistent.html'>assert_consistent</a> <small>pure module module subroutine assert_consistent(self)</small>   <a href='../interface/assert_consistent.html'><button type="button" class="btn btn-info depwarn">Interface &rarr;</button></a>
-</h3></div>
-  <div class="panel-body">
-           
-<h4>Arguments</h4>      <table class="table table-striped varlist">
-<thead><tr><th>Type</th><th>Intent</th><th>Optional</th><th>Attributes</th><th></th><th>Name</th><th></th></thead>
-<tbody>
-<tr>
-  <td><span class="anchor" ></span>class(<a href='../type/inference_engine_t.html'>inference_engine_t</a>),</td>
-<td>intent(in)</td>
-  <td></td>  <td></td><td>::</td>
-  <td><strong>self</strong></td><td></td>
-</tr>
-</tbody>
-</table>
-
-
-  </div>
-  </div>
-
-          <div class="panel panel-default">
-  <div class="panel-heading codesum"><span class="anchor" id="proc-construct_from_components"></span><h3>module procedure <a href='../proc/construct_from_components.html'>construct_from_components</a> <small>module procedure construct_from_components()</small></h3></div>
-  <div class="panel-body">
-           
-<h4>Arguments</h4>      <em>None</em>
-
-  </div>
-  </div>
-
-          <div class="panel panel-default">
   <div class="panel-heading codesum"><span class="anchor" id="proc-construct_from_json"></span><h3>module procedure <a href='../proc/construct_from_json.html'>construct_from_json</a> <small>module procedure construct_from_json()</small></h3></div>
   <div class="panel-body">
            
@@ -911,90 +806,25 @@
   </div>
 
           <div class="panel panel-default">
-  <div class="panel-heading codesum"><span class="anchor" id="proc-hidden_weights~2"></span><h3>module procedure <a href='../proc/hidden_weights~2.html'>hidden_weights</a> <small>pure module module function hidden_weights(self) result(w)</small>   <a href='../interface/hidden_weights~2.html'><button type="button" class="btn btn-info depwarn">Interface &rarr;</button></a>
-</h3></div>
+  <div class="panel-heading codesum"><span class="anchor" id="proc-construct_from_legacy_arrays"></span><h3>module procedure <a href='../proc/construct_from_legacy_arrays.html'>construct_from_legacy_arrays</a> <small>module procedure construct_from_legacy_arrays()</small></h3></div>
   <div class="panel-body">
            
-<h4>Arguments</h4>      <table class="table table-striped varlist">
-<thead><tr><th>Type</th><th>Intent</th><th>Optional</th><th>Attributes</th><th></th><th>Name</th><th></th></thead>
-<tbody>
-<tr>
-  <td><span class="anchor" ></span>class(<a href='../type/inference_engine_t.html'>inference_engine_t</a>),</td>
-<td>intent(in)</td>
-  <td></td>  <td></td><td>::</td>
-  <td><strong>self</strong></td><td></td>
-</tr>
-</tbody>
-</table>
-
-<h4>Return Value <small>real(kind=rkind),allocatable, (:,:,:)</small></h4>  
+<h4>Arguments</h4>      <em>None</em>
 
   </div>
   </div>
 
           <div class="panel panel-default">
-  <div class="panel-heading codesum"><span class="anchor" id="proc-increment"></span><h3>module procedure <a href='../proc/increment.html'>increment</a> <small>pure module module subroutine increment(self, network_increment)</small>   <a href='../interface/increment.html'><button type="button" class="btn btn-info depwarn">Interface &rarr;</button></a>
-</h3></div>
+  <div class="panel-heading codesum"><span class="anchor" id="proc-construct_from_padded_arrays"></span><h3>module procedure <a href='../proc/construct_from_padded_arrays.html'>construct_from_padded_arrays</a> <small>module procedure construct_from_padded_arrays()</small></h3></div>
   <div class="panel-body">
            
-<h4>Arguments</h4>      <table class="table table-striped varlist">
-<thead><tr><th>Type</th><th>Intent</th><th>Optional</th><th>Attributes</th><th></th><th>Name</th><th></th></thead>
-<tbody>
-<tr>
-  <td><span class="anchor" ></span>class(<a href='../type/inference_engine_t.html'>inference_engine_t</a>),</td>
-<td>intent(inout)</td>
-  <td></td>  <td></td><td>::</td>
-  <td><strong>self</strong></td><td></td>
-</tr>
-<tr>
-  <td><span class="anchor" ></span>type(<a href='../type/network_increment_t.html'>network_increment_t</a>),</td>
-<td>intent(in)</td>
-  <td></td>  <td></td><td>::</td>
-  <td><strong>network_increment</strong></td><td></td>
-</tr>
-</tbody>
-</table>
-
+<h4>Arguments</h4>      <em>None</em>
 
   </div>
   </div>
 
           <div class="panel panel-default">
-  <div class="panel-heading codesum"><span class="anchor" id="proc-infer_from_array_of_inputs"></span><h3>module procedure <a href='../proc/infer_from_array_of_inputs.html'>infer_from_array_of_inputs</a> <small>pure module module function infer_from_array_of_inputs(self, input, inference_strategy) result(outputs)</small>   <a href='../interface/infer_from_array_of_inputs.html'><button type="button" class="btn btn-info depwarn">Interface &rarr;</button></a>
-</h3></div>
-  <div class="panel-body">
-           
-<h4>Arguments</h4>      <table class="table table-striped varlist">
-<thead><tr><th>Type</th><th>Intent</th><th>Optional</th><th>Attributes</th><th></th><th>Name</th><th></th></thead>
-<tbody>
-<tr>
-  <td><span class="anchor" ></span>class(<a href='../type/inference_engine_t.html'>inference_engine_t</a>),</td>
-<td>intent(in)</td>
-  <td></td>  <td></td><td>::</td>
-  <td><strong>self</strong></td><td></td>
-</tr>
-<tr>
-  <td><span class="anchor" ></span>real(kind=rkind),</td>
-<td>intent(in)</td>
-  <td></td>  <td></td><td>::</td>
-  <td><strong>input</strong>(:)</td><td></td>
-</tr>
-<tr>
-  <td><span class="anchor" ></span>class(<a href='../type/inference_strategy_t.html'>inference_strategy_t</a>),</td>
-<td>intent(in)</td>
-  <td></td>  <td></td><td>::</td>
-  <td><strong>inference_strategy</strong></td><td></td>
-</tr>
-</tbody>
-</table>
-
-<h4>Return Value <small>type(<a href='../type/outputs_t.html'>outputs_t</a>)</small></h4>  
-
-  </div>
-  </div>
-
-          <div class="panel panel-default">
-  <div class="panel-heading codesum"><span class="anchor" id="proc-infer_from_inputs_object"></span><h3>module procedure <a href='../proc/infer_from_inputs_object.html'>infer_from_inputs_object</a> <small>elemental module module function infer_from_inputs_object(self, inputs, inference_strategy) result(outputs)</small>   <a href='../interface/infer_from_inputs_object.html'><button type="button" class="btn btn-info depwarn">Interface &rarr;</button></a>
+  <div class="panel-heading codesum"><span class="anchor" id="proc-infer"></span><h3>module procedure <a href='../proc/infer.html'>infer</a> <small>elemental module module function infer(self, inputs) result(outputs)</small>   <a href='../interface/infer.html'><button type="button" class="btn btn-info depwarn">Interface &rarr;</button></a>
 </h3></div>
   <div class="panel-body">
            
@@ -1013,12 +843,6 @@
   <td></td>  <td></td><td>::</td>
   <td><strong>inputs</strong></td><td></td>
 </tr>
-<tr>
-  <td><span class="anchor" ></span>class(<a href='../type/inference_strategy_t.html'>inference_strategy_t</a>),</td>
-<td>intent(in)</td>
-  <td></td>  <td></td><td>::</td>
-  <td><strong>inference_strategy</strong></td><td></td>
-</tr>
 </tbody>
 </table>
 
@@ -1028,7 +852,7 @@
   </div>
 
           <div class="panel panel-default">
-  <div class="panel-heading codesum"><span class="anchor" id="proc-input_weights~2"></span><h3>module procedure <a href='../proc/input_weights~2.html'>input_weights</a> <small>pure module module function input_weights(self) result(w)</small>   <a href='../interface/input_weights~2.html'><button type="button" class="btn btn-info depwarn">Interface &rarr;</button></a>
+  <div class="panel-heading codesum"><span class="anchor" id="proc-nodes_per_layer"></span><h3>module procedure <a href='../proc/nodes_per_layer.html'>nodes_per_layer</a> <small>pure module module function nodes_per_layer(self) result(node_count)</small>   <a href='../interface/nodes_per_layer.html'><button type="button" class="btn btn-info depwarn">Interface &rarr;</button></a>
 </h3></div>
   <div class="panel-body">
            
@@ -1044,29 +868,7 @@
 </tbody>
 </table>
 
-<h4>Return Value <small>real(kind=rkind),allocatable, (:,:)</small></h4>  
-
-  </div>
-  </div>
-
-          <div class="panel panel-default">
-  <div class="panel-heading codesum"><span class="anchor" id="proc-neurons_per_layer~2"></span><h3>module procedure <a href='../proc/neurons_per_layer~2.html'>neurons_per_layer</a> <small>elemental module module function neurons_per_layer(self) result(neuron_count)</small>   <a href='../interface/neurons_per_layer~2.html'><button type="button" class="btn btn-info depwarn">Interface &rarr;</button></a>
-</h3></div>
-  <div class="panel-body">
-           
-<h4>Arguments</h4>      <table class="table table-striped varlist">
-<thead><tr><th>Type</th><th>Intent</th><th>Optional</th><th>Attributes</th><th></th><th>Name</th><th></th></thead>
-<tbody>
-<tr>
-  <td><span class="anchor" ></span>class(<a href='../type/inference_engine_t.html'>inference_engine_t</a>),</td>
-<td>intent(in)</td>
-  <td></td>  <td></td><td>::</td>
-  <td><strong>self</strong></td><td></td>
-</tr>
-</tbody>
-</table>
-
-<h4>Return Value <small>integer</small></h4>  
+<h4>Return Value <small>integer,allocatable, (:)</small></h4>  
 
   </div>
   </div>
@@ -1089,28 +891,6 @@
 </table>
 
 <h4>Return Value <small>real(kind=rkind)</small></h4>  
-
-  </div>
-  </div>
-
-          <div class="panel panel-default">
-  <div class="panel-heading codesum"><span class="anchor" id="proc-num_hidden_layers"></span><h3>module procedure <a href='../proc/num_hidden_layers.html'>num_hidden_layers</a> <small>elemental module module function num_hidden_layers(self) result(hidden_layer_count)</small>   <a href='../interface/num_hidden_layers.html'><button type="button" class="btn btn-info depwarn">Interface &rarr;</button></a>
-</h3></div>
-  <div class="panel-body">
-           
-<h4>Arguments</h4>      <table class="table table-striped varlist">
-<thead><tr><th>Type</th><th>Intent</th><th>Optional</th><th>Attributes</th><th></th><th>Name</th><th></th></thead>
-<tbody>
-<tr>
-  <td><span class="anchor" ></span>class(<a href='../type/inference_engine_t.html'>inference_engine_t</a>),</td>
-<td>intent(in)</td>
-  <td></td>  <td></td><td>::</td>
-  <td><strong>self</strong></td><td></td>
-</tr>
-</tbody>
-</table>
-
-<h4>Return Value <small>integer</small></h4>  
 
   </div>
   </div>
@@ -1160,29 +940,7 @@
   </div>
 
           <div class="panel panel-default">
-  <div class="panel-heading codesum"><span class="anchor" id="proc-output_weights~2"></span><h3>module procedure <a href='../proc/output_weights~2.html'>output_weights</a> <small>pure module module function output_weights(self) result(w)</small>   <a href='../interface/output_weights~2.html'><button type="button" class="btn btn-info depwarn">Interface &rarr;</button></a>
-</h3></div>
-  <div class="panel-body">
-           
-<h4>Arguments</h4>      <table class="table table-striped varlist">
-<thead><tr><th>Type</th><th>Intent</th><th>Optional</th><th>Attributes</th><th></th><th>Name</th><th></th></thead>
-<tbody>
-<tr>
-  <td><span class="anchor" ></span>class(<a href='../type/inference_engine_t.html'>inference_engine_t</a>),</td>
-<td>intent(in)</td>
-  <td></td>  <td></td><td>::</td>
-  <td><strong>self</strong></td><td></td>
-</tr>
-</tbody>
-</table>
-
-<h4>Return Value <small>real(kind=rkind),allocatable, (:,:)</small></h4>  
-
-  </div>
-  </div>
-
-          <div class="panel panel-default">
-  <div class="panel-heading codesum"><span class="anchor" id="proc-skip"></span><h3>module procedure <a href='../proc/skip.html'>skip</a> <small>elemental module module function skip(self) result(use_skip_connections)</small>   <a href='../interface/skip.html'><button type="button" class="btn btn-info depwarn">Interface &rarr;</button></a>
+  <div class="panel-heading codesum"><span class="anchor" id="proc-skip"></span><h3>module procedure <a href='../proc/skip.html'>skip</a> <small>pure module module function skip(self) result(use_skip_connections)</small>   <a href='../interface/skip.html'><button type="button" class="btn btn-info depwarn">Interface &rarr;</button></a>
 </h3></div>
   <div class="panel-body">
            
@@ -1270,7 +1028,7 @@
           <p class="text-right">
             Documentation generated by 
             <a href="https://github.com/Fortran-FOSS-Programmers/ford">FORD</a>
- on 2023-06-30 12:39            </p>
+ on 2023-07-10 06:10            </p>
         </div>
       </div>
       <br>
