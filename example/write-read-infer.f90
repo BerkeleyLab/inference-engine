@@ -64,8 +64,7 @@ contains
 
     print *, "Querying the new inference_engine_t object for several properties:"
     print *, "number of outputs:", inference_engine%num_outputs()
-    print *, "number of hidden layers:", inference_engine%num_hidden_layers()
-    print *, "number of neurons per layer:", inference_engine%neurons_per_layer()
+    print *, "nodes per layer:", inference_engine%nodes_per_layer()
     activation_name = inference_engine%activation_function_name()
     print *, "activation function: ", activation_name%string()
     print *, "using skip connections: ", merge("true ", "false", inference_engine%skip())

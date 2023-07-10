@@ -36,18 +36,13 @@ module inference_engine_m_
     procedure :: to_json
     procedure :: num_inputs
     procedure :: num_outputs
-    procedure :: neurons_per_layer
-    procedure :: num_hidden_layers
+    procedure :: nodes_per_layer
     procedure :: norm
     procedure :: assert_conformable_with
+    procedure :: skip
     procedure, private :: subtract
     generic :: operator(-) => subtract
-    procedure :: skip
     procedure :: activation_function_name
-    procedure :: assert_consistent
-    procedure :: input_weights
-    procedure :: hidden_weights
-    procedure :: output_weights
   end type
 
   interface inference_engine_t
@@ -78,11 +73,6 @@ module inference_engine_m_
   end interface
 
   interface
-
-    pure module subroutine assert_consistent(self)
-      implicit none
-      class(inference_engine_t), intent(in) :: self
-    end subroutine
 
     impure elemental module function to_json(self) result(json_file)
       implicit none
@@ -128,22 +118,10 @@ module inference_engine_m_
       integer input_count
     end function
 
-    elemental module function neurons_per_layer(self) result(neuron_count)
+    pure module function nodes_per_layer(self) result(node_count)
       implicit none
       class(inference_engine_t), intent(in) :: self
-      integer neuron_count
-    end function
-
-    elemental module function num_hidden_layers(self) result(hidden_layer_count)
-      implicit none
-      class(inference_engine_t), intent(in) :: self
-      integer hidden_layer_count
-    end function
-
-    elemental module function skip(self) result(use_skip_connections)
-      implicit none
-      class(inference_engine_t), intent(in) :: self
-      logical use_skip_connections
+      integer, allocatable :: node_count(:)
     end function
 
     elemental module function activation_function_name(self) result(activation_name)
@@ -152,22 +130,10 @@ module inference_engine_m_
       type(string_t) activation_name
     end function
 
-    pure module function input_weights(self) result(w)
+    pure module function skip(self) result(use_skip_connections)
       implicit none
       class(inference_engine_t), intent(in) :: self
-      real(rkind), allocatable :: w(:,:)
-    end function
-
-    pure module function hidden_weights(self) result(w)
-      implicit none
-      class(inference_engine_t), intent(in) :: self
-      real(rkind), allocatable :: w(:,:,:)
-    end function
-
-    pure module function output_weights(self) result(w)
-      implicit none
-      class(inference_engine_t), intent(in) :: self
-      real(rkind), allocatable :: w(:,:)
+      logical use_skip_connections
     end function
 
   end interface

@@ -152,7 +152,7 @@ contains
     end associate
 
     call set_activation_strategy(inference_engine)
-    call inference_engine%assert_consistent
+    call assert_consistent(inference_engine)
     call assert_consistency(inference_engine)
 
   end procedure
@@ -235,7 +235,7 @@ contains
     inference_engine%output_biases_ = output_layer%output_biases()
 
     call set_activation_strategy(inference_engine)
-    call inference_engine%assert_consistent
+    call assert_consistent(inference_engine)
 
   contains
 
@@ -271,8 +271,8 @@ contains
 
   module procedure assert_conformable_with
 
-    call self%assert_consistent
-    call inference_engine%assert_consistent
+    call assert_consistent(self)
+    call assert_consistent(inference_engine)
 
     associate(equal_shapes => [ &
       shape(self%input_weights_ ) == shape(inference_engine%input_weights_ ), &
@@ -299,16 +299,17 @@ contains
     difference%output_biases_  = self%output_biases_  - rhs%output_biases_ 
     difference%activation_strategy_ = self%activation_strategy_
 
-    call difference%assert_consistent
+    call assert_consistent(difference)
   end procedure
 
   module procedure norm 
-    call self%assert_consistent
+    call assert_consistent(self)
     norm_of_self = maxval(abs(self%input_weights_)) + maxval(abs(self%hidden_weights_)) + maxval(abs(self%output_weights_)) + & 
            maxval(abs(self%biases_)) + maxval(abs(self%output_biases_))
   end procedure
 
-  module procedure assert_consistent
+  pure subroutine assert_consistent(self)
+    type(inference_engine_t), intent(in) :: self
 
     call assert(all(self%metadata_%is_allocated()), "inference_engine_t%assert_consistent: self%metadata_s%is_allocated()")
     call assert(allocated(self%activation_strategy_), "inference_engine_t%assert_consistent: allocated(self%activation_strategy_)")
@@ -341,26 +342,21 @@ contains
         intrinsic_array_t(output_count) &
       )
     end associate
-  end procedure
+  end subroutine
 
   module procedure num_outputs
-    call assert_consistent(self)
-    output_count = ubound(self%output_weights_,1) - lbound(self%output_weights_,1) + 1
+    call assert_consistency(self)
+    output_count = self%nodes_(ubound(self%nodes_,1))
   end procedure
 
   module procedure num_inputs
-    call assert_consistent(self)
-    input_count = ubound(self%input_weights_,2) - lbound(self%input_weights_,2) + 1
+    call assert_consistency(self)
+    input_count = self%nodes_(lbound(self%nodes_,1))
   end procedure
 
-  module procedure neurons_per_layer
-    call assert_consistent(self)
-    neuron_count = ubound(self%input_weights_,1) - lbound(self%input_weights_,1) + 1
-  end procedure
-
-  module procedure num_hidden_layers
-    call assert_consistent(self)
-    hidden_layer_count = size(self%hidden_weights_,3) + 1
+  module procedure nodes_per_layer
+    call assert_consistency(self)
+    node_count = self%nodes_
   end procedure
 
   module procedure to_json
@@ -378,7 +374,8 @@ contains
 
     csv_format = separated_values(separator=",", mold=[real(rkind)::])
 
-    associate(num_hidden_layers => self%num_hidden_layers(),  neurons_per_layer => self%neurons_per_layer(), &
+    associate(num_hidden_layers => size(self%hidden_weights_,3)+1, &
+      neurons_per_layer => ubound(self%input_weights_,1) - lbound(self%input_weights_,1) + 1, &
       num_outputs => self%num_outputs(), num_inputs => self%num_inputs())
       associate(num_lines => &
         outer_object_braces &
@@ -498,18 +495,6 @@ contains
 
   module procedure activation_function_name
     activation_name = self%metadata_(findloc(key, "activationFunction", dim=1))
-  end procedure
-
-  module procedure input_weights
-    w = self%input_weights_
-  end procedure
-
-  module procedure hidden_weights
-    w = self%hidden_weights_
-  end procedure
-
-  module procedure output_weights
-    w = self%output_weights_
   end procedure
 
 end submodule inference_engine_s
