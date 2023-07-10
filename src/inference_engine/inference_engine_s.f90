@@ -94,7 +94,7 @@ contains
 
   end procedure construct_from_padded_arrays
 
-  module procedure construct_from_components
+  module procedure construct_from_legacy_arrays
 
     real(rkind), allocatable :: transposed(:,:,:)
     integer layer, j, l
@@ -112,7 +112,7 @@ contains
     inference_engine%output_biases_ = output_biases
 
     associate( &
-      n_max => max(size(inference_engine%biases_,1),size(inference_engine%output_biases_),size(inference_engine%input_weights_,1)),&
+      n_max => max(size(inference_engine%biases_,1),size(inference_engine%output_biases_,1),size(inference_engine%input_weights_,1)),&
       n_hidden => size(inference_engine%biases_,2), &
       n_inputs => size(inference_engine%input_weights_,1), &
       n_outputs => size(inference_engine%output_biases_) &
@@ -126,14 +126,15 @@ contains
         end associate
 
         associate(n => inference_engine%nodes_)
-
           l = 1
           do concurrent(j = 1:n(l))
-            inference_engine%weights_(j,1:n(l-1),l)  = inference_engine%input_weights_(j,1:n(l-1))
+            inference_engine%weights_(j,1:n(l-1),l) = inference_engine%input_weights_(j,1:n(l-1))
           end do
 
-          do concurrent(j = 1:n(l), l = 2:n_hidden)
-            inference_engine%weights_(j,1:n(l-1),l) = inference_engine%hidden_weights_(j,1:n(l-1),l-1)
+          do concurrent(l = 2:n_hidden)
+            do concurrent(j = 1:n(l))
+              inference_engine%weights_(j,1:n(l-1),l) = inference_engine%hidden_weights_(j,1:n(l-1),l-1)
+            end do
           end do
 
           l = n_hidden + 1

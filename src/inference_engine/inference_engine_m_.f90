@@ -55,8 +55,9 @@ module inference_engine_m_
       type(inference_engine_t) inference_engine
     end function
 
-    pure module function construct_from_components(metadata, input_weights, hidden_weights, output_weights, biases, output_biases) &
-      result(inference_engine)
+    pure module function construct_from_legacy_arrays( &
+      metadata, input_weights, hidden_weights, output_weights, biases, output_biases &
+    ) result(inference_engine)
       implicit none
       type(string_t), intent(in) :: metadata(:)
       real(rkind), intent(in), dimension(:,:) :: input_weights, output_weights, biases
