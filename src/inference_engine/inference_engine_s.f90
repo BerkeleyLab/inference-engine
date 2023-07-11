@@ -178,7 +178,6 @@ contains
     inference_engine%output_biases_ = output_biases
 
     call set_activation_strategy(inference_engine)
-    call assert_consistent(inference_engine)
     call assert_consistency(inference_engine)
 
   end procedure
@@ -262,7 +261,7 @@ contains
     end block
 
     call set_activation_strategy(inference_engine)
-    call assert_consistent(inference_engine)
+    call assert_consistency(inference_engine)
 
   contains
 
@@ -298,15 +297,13 @@ contains
 
   module procedure assert_conformable_with
 
-    call assert_consistent(self)
-    call assert_consistent(inference_engine)
+    call assert_consistency(self)
+    call assert_consistency(inference_engine)
 
     associate(equal_shapes => [ &
-      shape(self%input_weights_ ) == shape(inference_engine%input_weights_ ), &
-      shape(self%hidden_weights_) == shape(inference_engine%hidden_weights_), &
-      shape(self%output_weights_) == shape(inference_engine%output_weights_), &
-      shape(self%biases_        ) == shape(inference_engine%biases_        ), &
-      shape(self%output_biases_ ) == shape(inference_engine%output_biases_ )  &
+      shape(self%weights_) == shape(inference_engine%weights_), &
+      shape(self%biases__) == shape(inference_engine%biases__), &
+      shape(self%nodes_) == shape(inference_engine%nodes_)  &
      ])
       call assert(all(equal_shapes), "assert_conformable_with: all(equal_shapes)", intrinsic_array_t(equal_shapes))
     end associate
@@ -316,6 +313,10 @@ contains
   end procedure
 
   module procedure subtract
+
+    call assert_consistency(self)
+    call assert_consistency(rhs)
+    call self%assert_conformable_with(rhs)
 
     difference%weights_ = self%weights_  - rhs%weights_ 
     difference%biases_  = self%biases_ - rhs%biases_
@@ -327,42 +328,6 @@ contains
   module procedure norm 
     norm_of_self = maxval(abs(self%weights_)) + maxval(abs(self%biases_)) + maxval(abs(self%nodes_))
   end procedure
-
-  pure subroutine assert_consistent(self)
-    type(inference_engine_t), intent(in) :: self
-
-    call assert(all(self%metadata_%is_allocated()), "inference_engine_t%assert_consistent: self%metadata_s%is_allocated()")
-    call assert(allocated(self%activation_strategy_), "inference_engine_t%assert_consistent: allocated(self%activation_strategy_)")
-
-    associate(allocated_components => &
-      [allocated(self%input_weights_), allocated(self%hidden_weights_), allocated(self%output_weights_), &
-       allocated(self%biases_), allocated(self%output_biases_)] &
-    )
-      call assert(all(allocated_components), "inference_engine_s(assert_consistent): fully allocated object", &
-        intrinsic_array_t(allocated_components))
-    end associate
-
-    associate(num_neurons => 1 + &
-      [ ubound(self%biases_,         1) - lbound(self%biases_,         1), & 
-        ubound(self%hidden_weights_, 1) - lbound(self%hidden_weights_, 1), &
-        ubound(self%hidden_weights_, 2) - lbound(self%hidden_weights_, 2), &
-        ubound(self%input_weights_,  1) - lbound(self%input_weights_,  1), &
-        ubound(self%output_weights_, 2) - lbound(self%output_weights_, 2)  &
-    ] ) 
-      call assert(all(num_neurons == num_neurons(1)), "inference_engine_s(assert_consistent): num_neurons", &
-        intrinsic_array_t(num_neurons) &
-      )
-    end associate
-
-    associate(output_count => 1 + &
-      [ ubound(self%output_weights_, 1) - lbound(self%output_weights_, 1), & 
-        ubound(self%output_biases_,  1) - lbound(self%output_biases_,  1)  &
-    ] )
-      call assert(all(output_count == output_count(1)), "inference_engine_s(assert_consistent): output_count", &
-        intrinsic_array_t(output_count) &
-      )
-    end associate
-  end subroutine
 
   module procedure num_outputs
     call assert_consistency(self)
@@ -390,7 +355,7 @@ contains
       outer_object_braces = 2, hidden_layer_outer_brackets = 2, lines_per_neuron = 4, inner_brackets_per_layer  = 2, &
       output_layer_brackets = 2, metadata_outer_braces = 2
 
-    call assert_consistent(self)
+    call assert_consistency(self)
 
     csv_format = separated_values(separator=",", mold=[real(rkind)::])
 
