@@ -22,16 +22,9 @@ module inference_engine_m_
     !! Encapsulate the minimal information needed to perform inference
     private
     type(string_t) metadata_(size(key))
-    real(rkind), allocatable :: weights_(:,:,:), biases__(:,:)
+    real(rkind), allocatable :: weights_(:,:,:), biases_(:,:)
     integer, allocatable :: nodes_(:)
     class(activation_strategy_t), allocatable :: activation_strategy_ ! Strategy Pattern facilitates elemental activation
-
-    ! TODO: rm these legacy components
-    real(rkind), allocatable :: input_weights_(:,:)    ! weights applied to go from the inputs to first hidden layer
-    real(rkind), allocatable :: hidden_weights_(:,:,:) ! weights applied to go from one hidden layer to the next
-    real(rkind), allocatable :: output_weights_(:,:)   ! weights applied to go from the final hidden layer to the outputs
-    real(rkind), allocatable :: biases_(:,:)           ! neuronal offsets for each hidden layer
-    real(rkind), allocatable :: output_biases_(:)      ! neuronal offsets applied to outputs
   contains
     procedure :: infer
     procedure :: to_json
