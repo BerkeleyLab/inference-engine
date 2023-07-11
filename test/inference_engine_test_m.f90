@@ -11,7 +11,7 @@ module inference_engine_test_m
   use test_result_m, only : test_result_t
 
   ! Internal dependencies
-  use inference_engine_m, only : inference_engine_t, inputs_t, outputs_t
+  use inference_engine_m, only : inference_engine_t, inputs_t, outputs_t, difference_t
 
   implicit none
 
@@ -121,7 +121,8 @@ contains
 
   function multi_hidden_layer_net_to_from_json() result(test_passes)
     logical, allocatable :: test_passes
-    type(inference_engine_t) xor, difference
+    type(inference_engine_t) xor
+    type(difference_t) difference
     real, parameter :: tolerance = 1.0E-06
 
     xor = xor_network()
@@ -131,7 +132,8 @@ contains
 
   function single_hidden_layer_net_to_from_json() result(test_passes)
     logical, allocatable :: test_passes
-    type(inference_engine_t) one_hidden_layer_network, difference
+    type(inference_engine_t) one_hidden_layer_network
+    type(difference_t) difference
 
     real, parameter :: tolerance = 1.0E-06
 

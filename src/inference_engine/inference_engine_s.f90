@@ -13,6 +13,11 @@ submodule(inference_engine_m_) inference_engine_s
   use outputs_m, only : outputs_t
   implicit none
 
+  interface assert_consistency
+    module procedure inference_engine_consistency
+    module procedure difference_consistency
+  end interface
+
 contains
 
   module procedure infer
@@ -42,7 +47,7 @@ contains
 
   end procedure
 
-  pure module subroutine assert_consistency(self)
+  pure module subroutine inference_engine_consistency(self)
 
     type(inference_engine_t), intent(in) :: self
 
@@ -51,17 +56,37 @@ contains
     associate( &
       all_allocated=>[allocated(self%weights_),allocated(self%biases__),allocated(self%nodes_),allocated(self%activation_strategy_)]&
     )   
-      call assert(all(all_allocated),"inference_engine_s(assert_consistency): fully_allocated",intrinsic_array_t(all_allocated))
+      call assert(all(all_allocated),"inference_engine_s(inference_engine_consistency): fully_allocated", &
+        intrinsic_array_t(all_allocated))
     end associate
 
     associate(max_width=>maxval(self%nodes_), component_dims=>[size(self%biases__,1), size(self%weights_,1), size(self%weights_,2)])
-      call assert(all(component_dims == max_width), "inference_engine_s(assert_consistency): conformable arrays", &
+      call assert(all(component_dims == max_width), "inference_engine_s(inference_engine_consistency): conformable arrays", &
         intrinsic_array_t([max_width,component_dims]))
     end associate
 
     associate(input_subscript => lbound(self%nodes_,1))
-      call assert(input_subscript == input_layer, "inference_engine_s(assert_consistency): n base subsscript", input_subscript)
+      call assert(input_subscript == input_layer, "inference_engine_s(inference_engine_consistency): n base subsscript", &
+        input_subscript)
     end associate
+
+  end subroutine
+
+  pure module subroutine difference_consistency(self)
+
+    type(difference_t), intent(in) :: self
+
+    integer, parameter :: input_layer=0
+
+    associate( &
+      all_allocated=>[allocated(self%weights_),allocated(self%biases_),allocated(self%nodes_)] &
+    )   
+      call assert(all(all_allocated),"inference_engine_s(difference_consistency): fully_allocated",intrinsic_array_t(all_allocated))
+    end associate
+
+    call assert(all(size(self%biases_,1)==[size(self%weights_,1), size(self%weights_,2)]), &
+      "inference_engine_s(difference_consistency): conformable arrays" &
+    )
 
   end subroutine
 
@@ -291,23 +316,16 @@ contains
   end procedure
 
   module procedure subtract
-    call self%assert_conformable_with(rhs)
 
-    difference%metadata_       = self%metadata_
-    difference%input_weights_  = self%input_weights_  - rhs%input_weights_ 
-    difference%hidden_weights_ = self%hidden_weights_ - rhs%hidden_weights_
-    difference%output_weights_ = self%output_weights_ - rhs%output_weights_
-    difference%biases_         = self%biases_         - rhs%biases_         
-    difference%output_biases_  = self%output_biases_  - rhs%output_biases_ 
-    difference%activation_strategy_ = self%activation_strategy_
+    difference%weights_ = self%weights_  - rhs%weights_ 
+    difference%biases_  = self%biases_ - rhs%biases_
+    difference%nodes_   = self%nodes_ - rhs%nodes_
 
-    call assert_consistent(difference)
+    call assert_consistency(difference)
   end procedure
 
   module procedure norm 
-    call assert_consistent(self)
-    norm_of_self = maxval(abs(self%input_weights_)) + maxval(abs(self%hidden_weights_)) + maxval(abs(self%output_weights_)) + & 
-           maxval(abs(self%biases_)) + maxval(abs(self%output_biases_))
+    norm_of_self = maxval(abs(self%weights_)) + maxval(abs(self%biases_)) + maxval(abs(self%nodes_))
   end procedure
 
   pure subroutine assert_consistent(self)

@@ -13,6 +13,7 @@ module inference_engine_m_
 
   private
   public :: inference_engine_t
+  public :: difference_t
 
   character(len=*), parameter :: key(*) = [character(len=len("usingSkipConnections")) :: &
     "modelName", "modelAuthor", "compilationDate", "activationFunction", "usingSkipConnections"]
@@ -37,12 +38,19 @@ module inference_engine_m_
     procedure :: num_inputs
     procedure :: num_outputs
     procedure :: nodes_per_layer
-    procedure :: norm
     procedure :: assert_conformable_with
     procedure :: skip
     procedure, private :: subtract
     generic :: operator(-) => subtract
     procedure :: activation_function_name
+  end type
+
+  type difference_t
+    private
+    real(rkind), allocatable :: weights_(:,:,:), biases_(:,:)
+    integer, allocatable :: nodes_(:)
+  contains
+    procedure :: norm
   end type
 
   interface inference_engine_t
@@ -83,7 +91,7 @@ module inference_engine_m_
 
     elemental module function norm(self) result(norm_of_self)
       implicit none
-      class(inference_engine_t), intent(in) :: self
+      class(difference_t), intent(in) :: self
       real(rkind)  norm_of_self
     end function
 
@@ -91,7 +99,7 @@ module inference_engine_m_
       implicit none
       class(inference_engine_t), intent(in) :: self
       type(inference_engine_t), intent(in) :: rhs
-      type(inference_engine_t)  difference
+      type(difference_t)  difference
     end function
 
     elemental module subroutine assert_conformable_with(self, inference_engine)
