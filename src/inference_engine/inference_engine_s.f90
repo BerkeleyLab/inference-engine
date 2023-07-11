@@ -160,7 +160,7 @@ contains
 
   module procedure construct_from_json
 
-    type(string_t), allocatable :: lines(:)
+    type(string_t), allocatable :: lines(:), metadata(:)
     type(layer_t) hidden_layers, output_layer
     type(neuron_t) output_neuron
     real(rkind), allocatable :: hidden_weights(:,:,:)
@@ -172,7 +172,7 @@ contains
     call assert(adjustl(lines(l)%string())=="{", "construct_from_json: expecting '{' to start outermost object", lines(l)%string())
 
     l = 2
-    inference_engine%metadata_ = [string_t(""),string_t(""),string_t(""),string_t(""),string_t("false")]
+    metadata = [string_t(""),string_t(""),string_t(""),string_t(""),string_t("false")]
     if (adjustl(lines(l)%string()) == '"metadata": {') then
       block
         character(len=:), allocatable :: justified_line
@@ -180,7 +180,7 @@ contains
           l = l + 1
           justified_line = adjustl(lines(l)%string())
           if (justified_line == "},") exit
-          inference_engine%metadata_(findloc(key, trim(get_key_string(justified_line)), dim=1)) = get_key_value(justified_line)
+          metadata(findloc(key, trim(get_key_string(justified_line)), dim=1)) = get_key_value(justified_line)
         end do
         l = l + 1
       end block
@@ -226,11 +226,14 @@ contains
         transposed(:,:,layer) = transpose(hidden_weights(:,:,layer))
       end do
 
-      inference_engine%input_weights_ = transpose(hidden_layers%input_weights())
-      inference_engine%hidden_weights_ = transposed
-      inference_engine%output_weights_ = output_layer%output_weights()
-      inference_engine%biases_ = hidden_layers%hidden_biases()
-      inference_engine%output_biases_ = output_layer%output_biases()
+      inference_engine = inference_engine_t( &
+        metadata = metadata, &
+        input_weights = hidden_layers%input_weights(), & ! should this be transposed?
+        hidden_weights = transposed, & 
+        output_weights = output_layer%output_weights(), &
+        biases = hidden_layers%hidden_biases(), &
+        output_biases = output_layer%output_biases() & 
+      ) 
     end block
 
     call set_activation_strategy(inference_engine)
