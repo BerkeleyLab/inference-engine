@@ -104,18 +104,11 @@ contains
       transposed(:,:,layer) = transpose(hidden_weights(:,:,layer))
     end do
 
-    inference_engine%metadata_ = metadata
-    inference_engine%input_weights_ = transpose(input_weights)
-    inference_engine%hidden_weights_ = transposed
-    inference_engine%output_weights_ = output_weights
-    inference_engine%biases_ = biases
-    inference_engine%output_biases_ = output_biases
-
     associate( &
-      n_max => max(size(inference_engine%biases_,1),size(inference_engine%output_biases_,1),size(inference_engine%input_weights_,1)),&
-      n_hidden => size(inference_engine%biases_,2), &
-      n_inputs => size(inference_engine%input_weights_,1), &
-      n_outputs => size(inference_engine%output_biases_) &
+      n_max => max(size(biases,1),size(output_biases,1),size(transpose(input_weights),1)),&
+      n_hidden => size(biases,2), &
+      n_inputs => size(input_weights,1), &
+      n_outputs => size(output_biases) &
     )
       associate(layers =>  n_hidden + 2)
 
@@ -128,29 +121,36 @@ contains
         associate(n => inference_engine%nodes_)
           l = 1
           do concurrent(j = 1:n(l))
-            inference_engine%weights_(j,1:n(l-1),l) = inference_engine%input_weights_(j,1:n(l-1))
+            inference_engine%weights_(j,1:n(l-1),l) = input_weights(j,1:n(l-1))
           end do
 
           do concurrent(l = 2:n_hidden)
             do concurrent(j = 1:n(l))
-              inference_engine%weights_(j,1:n(l-1),l) = inference_engine%hidden_weights_(j,1:n(l-1),l-1)
+              inference_engine%weights_(j,1:n(l-1),l) = hidden_weights(j,1:n(l-1),l-1)
             end do
           end do
 
           l = n_hidden + 1
           do concurrent(j = 1:n(l))
-            inference_engine%weights_(j,1:n(l-1),l) = inference_engine%output_weights_(j,1:n(l-1))
+            inference_engine%weights_(j,1:n(l-1),l) = output_weights(j,1:n(l-1))
           end do
 
           do concurrent(l = 1:n_hidden)
-            inference_engine%biases_(1:n(l),l) = inference_engine%biases__(1:n(l),l)
+            inference_engine%biases__(1:n(l),l) = biases(1:n(l),l)
           end do
 
           l = n_hidden + 1
-          inference_engine%biases_(1:n(l),l) = inference_engine%output_biases_(1:n(l))
+          inference_engine%biases__(1:n(l),l) = output_biases(1:n(l))
         end associate
       end associate
     end associate
+
+    inference_engine%metadata_ = metadata
+    inference_engine%input_weights_ = transpose(input_weights)
+    inference_engine%hidden_weights_ = transposed
+    inference_engine%output_weights_ = output_weights
+    inference_engine%biases_ = biases
+    inference_engine%output_biases_ = output_biases
 
     call set_activation_strategy(inference_engine)
     call assert_consistent(inference_engine)
@@ -206,8 +206,6 @@ contains
        end associate
     end block
 
-    inference_engine%input_weights_ = transpose(hidden_layers%input_weights())
-
     block 
       type(layer_t), pointer :: next_layer
       real(rkind), allocatable :: transposed(:,:,:)
@@ -218,22 +216,22 @@ contains
       if (hidden_layers%next_allocated()) then
         hidden_weights = next_layer%hidden_weights()
       else
-        associate(neurons_per_layer => size(inference_engine%input_weights_,1)) ! keep consistent with the eponymous function
+        associate(neurons_per_layer => size(transpose(hidden_layers%input_weights()),1)) ! keep consistent with the eponymous function
           allocate(hidden_weights(neurons_per_layer, neurons_per_layer, 0))
         end associate
       end if
-
-      inference_engine%biases_ = hidden_layers%hidden_biases()
 
       allocate(transposed(size(hidden_weights,2), size(hidden_weights,1), size(hidden_weights,3)))
       do concurrent(layer = 1:size(hidden_weights,3)) 
         transposed(:,:,layer) = transpose(hidden_weights(:,:,layer))
       end do
-      inference_engine%hidden_weights_ = transposed
-    end block
 
-    inference_engine%output_weights_ = output_layer%output_weights()
-    inference_engine%output_biases_ = output_layer%output_biases()
+      inference_engine%input_weights_ = transpose(hidden_layers%input_weights())
+      inference_engine%hidden_weights_ = transposed
+      inference_engine%output_weights_ = output_layer%output_weights()
+      inference_engine%biases_ = hidden_layers%hidden_biases()
+      inference_engine%output_biases_ = output_layer%output_biases()
+    end block
 
     call set_activation_strategy(inference_engine)
     call assert_consistent(inference_engine)
@@ -375,9 +373,15 @@ contains
 
     csv_format = separated_values(separator=",", mold=[real(rkind)::])
 
-    associate(num_hidden_layers => size(self%hidden_weights_,3)+1, &
-      neurons_per_layer => ubound(self%input_weights_,1) - lbound(self%input_weights_,1) + 1, &
-      num_outputs => self%num_outputs(), num_inputs => self%num_inputs())
+    associate(num_hidden_layers => size(self%nodes_)-2, &
+      neurons_per_layer => self%nodes_(lbound(self%nodes_,1)+1), &
+      num_outputs => self%num_outputs(), &
+      num_inputs => self%num_inputs() &
+    )
+
+      call assert(all(neurons_per_layer==self%nodes_(lbound(self%nodes_,1)+1 : ubound(self%nodes_,1)-1)), &
+        "to_json: uniform hidden layers")
+
       associate(num_lines => &
         outer_object_braces &
         + metadata_outer_braces + size(key) &
@@ -422,11 +426,24 @@ contains
           lines(line) = string_t('             {')
           line = line + 1
           allocate(character(len=num_inputs*(characters_per_value+1)-1)::comma_separated_values)
-          write(comma_separated_values, fmt = csv_format) self%input_weights_(neuron,:)
+          block
+            real(rkind), allocatable :: input_layer_weights(:,:)
+            integer j, l
+          
+            associate(n => self%nodes_)
+              l = 1
+              allocate(input_layer_weights(n(l),n(l-1)))
+              do concurrent(j = 1:n(l))
+                input_layer_weights(j,1:n(l-1)) = self%weights_(j,1:n(l-1),l)
+              end do
+              input_layer_weights = transpose(input_layer_weights)
+              write(comma_separated_values, fmt = csv_format) input_layer_weights(neuron,1:n(l-1)) ! replaces legacy array self%input_weights_(neuron,:)
+            end associate
+          end block
           lines(line) = string_t('                "weights": [' // trim(comma_separated_values) // '],')
           deallocate(comma_separated_values)
           line = line + 1
-          write(single_value, fmt = csv_format) self%biases_(neuron,layer)
+          write(single_value, fmt = csv_format) self%biases__(neuron,layer) ! replaces legacy array self%biases_(neuron,layer)
           lines(line) = string_t('                 "bias": ' // trim(single_value))
           line = line + 1
           lines(line) = string_t("             }" // trim(merge(' ',',',neuron==neurons_per_layer)))
@@ -437,20 +454,32 @@ contains
         do layer = 1, num_hidden_layers-1
           line = line + 1
           lines(line) = string_t('         [')
+          block
+            real(rkind), allocatable :: hidden_layer_weights(:,:)
+            integer j, l
+          
+            associate(n => self%nodes_, l => layer + 1)
+              allocate(hidden_layer_weights(n(l),n(l-1)))
+              do concurrent(j = 1:n(l))
+                hidden_layer_weights(j,1:n(l-1)) = self%weights_(j,1:n(l-1),l)
+              end do
+              hidden_layer_weights = transpose(hidden_layer_weights)
+            end associate
           do neuron = 1, neurons_per_layer
             line = line + 1
             lines(line) = string_t('             {')
             line = line + 1
             allocate(character(len=neurons_per_layer*(characters_per_value+1)-1)::comma_separated_values)
-            write(comma_separated_values, fmt = csv_format) self%hidden_weights_(:, neuron, layer)
+            write(comma_separated_values, fmt = csv_format) hidden_layer_weights(:, neuron) ! replaces legacy array self%hidden_weights_(:, neuron, layer)
             lines(line) = string_t('                "weights": [' // trim(comma_separated_values) // '],')
             deallocate(comma_separated_values)
             line = line + 1
-            write(single_value, fmt = csv_format) self%biases_(neuron,layer+1)
+            write(single_value, fmt = csv_format) self%biases__(neuron,layer+1) ! replaces legacy array self%biases_(neuron,layer+1)
             lines(line) = string_t('                 "bias": ' // trim(single_value))
             line = line + 1
             lines(line) = string_t("             }" // trim(merge(' ',',',neuron==neurons_per_layer)))
           end do
+          end block
           line = line + 1
           lines(line) = string_t("         ]" // trim(merge(' ',',',layer==num_hidden_layers-1)))
         end do
@@ -466,11 +495,13 @@ contains
           lines(line) = string_t('             {')
           line = line + 1
           allocate(character(len=neurons_per_layer*(characters_per_value+1)-1)::comma_separated_values)
-          write(comma_separated_values, fmt = csv_format) self%output_weights_(neuron,:)
+          associate(n => self%nodes_, l => ubound(self%nodes_,1))
+            write(comma_separated_values, fmt = csv_format) self%weights_(neuron,1:n(l-1),l) ! replaces legacy array self%output_weights_(neuron,:)
+          end associate
           lines(line) = string_t('                "weights": [' // trim(comma_separated_values) // '],')
           deallocate(comma_separated_values)
           line = line + 1
-          write(single_value, fmt = csv_format) self%output_biases_(neuron)
+          write(single_value, fmt = csv_format) self%biases__(neuron,ubound(self%biases__,2)) ! replaces legacy array self%output_biases_(neuron) 
           lines(line) = string_t('                 "bias": ' // trim(single_value))
           line = line + 1
           lines(line) = string_t("             }")
