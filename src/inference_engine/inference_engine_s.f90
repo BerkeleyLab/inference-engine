@@ -485,7 +485,7 @@ contains
           write(single_value, fmt = csv_format) self%biases_(neuron,ubound(self%biases_,2))
           lines(line) = string_t('                 "bias": ' // trim(single_value))
           line = line + 1
-          lines(line) = string_t("             }")
+          lines(line) = string_t("             }" // trim(merge(' ',',',neuron==num_outputs)))
         end do
 
         line = line + 1
