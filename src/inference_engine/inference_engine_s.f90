@@ -137,8 +137,8 @@ contains
     )
       associate(layers =>  n_hidden + 2)
 
-        allocate(inference_engine%weights_(n_max, n_max, layers))
-        allocate(inference_engine%biases_(n_max, n_max))
+        allocate(inference_engine%weights_(n_max, n_max, layers-1))
+        allocate(inference_engine%biases_(n_max, layers-1))
         associate(n => [n_inputs, [(size(biases,1), l=1,size(biases,2))], n_outputs])
           allocate(inference_engine%nodes_(0:size(n)-1), source = n)
         end associate
@@ -247,7 +247,7 @@ contains
 
       inference_engine = inference_engine_t( &
         metadata = metadata, &
-        input_weights = hidden_layers%input_weights(), & ! should this be transposed?
+        input_weights = hidden_layers%input_weights(), &
         hidden_weights = transposed, & 
         output_weights = output_layer%output_weights(), &
         biases = hidden_layers%hidden_biases(), &
