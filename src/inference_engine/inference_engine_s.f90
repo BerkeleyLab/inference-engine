@@ -119,8 +119,14 @@ contains
 
   end procedure construct_from_padded_arrays
 
-  module procedure construct_from_legacy_arrays
+  pure function construct_from_legacy_arrays(metadata, input_weights, hidden_weights, output_weights, biases, output_biases) &
+    result(inference_engine)
+    type(inference_engine_t) inference_engine
+    type(string_t), intent(in) :: metadata(:)
+    real(rkind), intent(in), dimension(:,:) :: input_weights, output_weights, biases
+    real(rkind), intent(in) :: hidden_weights(:,:,:), output_biases(:)
 
+    ! Local variables
     real(rkind), allocatable :: transposed(:,:,:)
     integer layer, j, l
 
@@ -175,7 +181,7 @@ contains
     call set_activation_strategy(inference_engine)
     call assert_consistency(inference_engine)
 
-  end procedure
+  end function
 
   module procedure construct_from_json
 
@@ -245,7 +251,7 @@ contains
         transposed(:,:,layer) = transpose(hidden_weights(:,:,layer))
       end do
 
-      inference_engine = inference_engine_t( &
+      inference_engine = construct_from_legacy_arrays( &
         metadata = metadata, &
         input_weights = hidden_layers%input_weights(), &
         hidden_weights = transposed, & 

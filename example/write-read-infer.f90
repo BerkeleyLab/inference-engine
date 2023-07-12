@@ -29,6 +29,19 @@ program write_read_infer
 
 contains
 
+  function single_hidden_layer_xor_network() result(inference_engine)
+    type(inference_engine_t) inference_engine
+    integer, parameter :: nodes_per_layer(*) = [2, 3, 1]
+    integer, parameter :: max_n = maxval(nodes_per_layer), layers = size(nodes_per_layer)
+
+    inference_engine = inference_engine_t( &
+      metadata = [string_t("XOR"), string_t("Damian Rouson"), string_t("2023-07-02"), string_t("step"), string_t("false")], &
+      weights = reshape([real(rkind):: [1,1,0, 0,1,1, 0,0,0], [1,0,0, -2,0,0, 1,0,0]], [max_n, max_n, layers-1]), &
+      biases = reshape([[0.,-1.99,0.], [0., 0., 0.]], [max_n, layers-1]), &
+      nodes = nodes_per_layer &
+    )
+  end function
+
   subroutine write_read_query_infer(output_file_name)
     type(string_t), intent(in) :: output_file_name
     type(string_t) activation_name
@@ -42,14 +55,8 @@ contains
     real(rkind), parameter :: false = 0._rkind, true = 1._rkind
 
     print *, "Constructing an inference_engine_t neural-network object from scratch."
-    xor_network = inference_engine_t( &
-      metadata = [string_t("XOR"), string_t("Damian Rouson"), string_t("2023-02-18"), string_t("step"), string_t("false")], &
-      input_weights = real(reshape([1,0,1,1,0,1], [num_inputs, num_neurons]), rkind), &
-      hidden_weights = real(identity, rkind), &
-      output_weights = real(reshape([1,-2,1], [num_outputs, num_neurons]), rkind), &
-      biases = reshape([real(rkind):: 0.,-1.99,0., 0.,0.,0.], [num_neurons, num_hidden_layers]), &
-      output_biases = [real(rkind):: 0.] &
-    ) 
+    xor_network = single_hidden_layer_xor_network()
+
     print *, "Converting an inference_engine_t object to a file_t object."
     json_output_file = xor_network%to_json()
 
