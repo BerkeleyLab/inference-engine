@@ -151,6 +151,7 @@ contains
 
   module procedure construct_from_padded_arrays
 
+     trainable_engine%metadata_ = metadata
      trainable_engine%n = nodes
      trainable_engine%w = weights
      trainable_engine%b = biases
@@ -159,11 +160,8 @@ contains
      call trainable_engine%assert_consistent
   end procedure
 
-  module procedure inference_engine
-    inference_engine_ = inference_engine_t( &
-      metadata = [string_t("random"), string_t("Jeremiah Bailey"), string_t("2023-07-14"), string_t("sigmoid"), string_t("false")], &
-      weights = self%w, biases = self%b, nodes = self%n &
-    )
+  module procedure to_inference_engine
+    inference_engine = inference_engine_t(metadata = self%metadata_, weights = self%w, biases = self%b, nodes = self%n)
   end procedure
 
 end submodule trainable_engine_s

@@ -9,7 +9,6 @@ module inference_engine_m
  use inputs_m, only : inputs_t
  use input_output_pair_m, only : input_output_pair_t
  use inference_engine_m_, only : inference_engine_t, difference_t
- use inference_strategy_m, only :inference_strategy_t
  use kind_parameters_m, only : rkind
  use matmul_m, only : matmul_t
  use mini_batch_m, only : mini_batch_t
