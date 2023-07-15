@@ -43,7 +43,7 @@ contains
 
     call self%assert_consistent
 
-    associate(w => self%w, b => self%b, n => self%n, output_layer => ubound(self%b,2))
+    associate(w => self%w, b => self%b, n => self%n, output_layer => ubound(self%n,1))
 
       allocate(z, mold=b)
       allocate(a(maxval(n), input_layer:output_layer)) ! Activations
