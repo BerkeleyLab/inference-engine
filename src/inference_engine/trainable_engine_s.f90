@@ -159,4 +159,11 @@ contains
      call trainable_engine%assert_consistent
   end procedure
 
+  module procedure inference_engine
+    inference_engine_ = inference_engine_t( &
+      metadata = [string_t("random"), string_t("Jeremiah Bailey"), string_t("2023-07-14"), string_t("sigmoid"), string_t("false")], &
+      weights = self%w, biases = self%b, nodes = self%n &
+    )
+  end procedure
+
 end submodule trainable_engine_s

@@ -10,6 +10,7 @@ module trainable_engine_m
   use inputs_m, only : inputs_t
   use expected_outputs_m, only : expected_outputs_t
   use mini_batch_m, only : mini_batch_t
+  use inference_engine_m_, only : inference_engine_t
   implicit none
 
   private
@@ -28,6 +29,7 @@ module trainable_engine_m
     procedure :: infer
     procedure :: num_layers
     procedure :: num_inputs
+    procedure :: inference_engine
   end type
 
   integer, parameter :: input_layer = 0
@@ -71,13 +73,19 @@ module trainable_engine_m
       class(trainable_engine_t), intent(in) :: self
       integer n_in
     end function
-    
+
     elemental module function num_layers(self) result(n_layers)
       implicit none
       class(trainable_engine_t), intent(in) :: self
       integer n_layers
     end function
-    
+
+    pure module function inference_engine(self) result(inference_engine_)
+      implicit none
+      class(trainable_engine_t), intent(in) :: self
+      type(inference_engine_t) :: inference_engine_
+    end function
+
   end interface
 
 end module trainable_engine_m
