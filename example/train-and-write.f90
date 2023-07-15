@@ -23,12 +23,12 @@ program train_and_write
     type(inference_engine_t) inference_engine
     type(file_t) json_file
     type(mini_batch_t), allocatable :: mini_batches(:)
-    type(inputs_t), allocatable :: training_inputs(:,:), tmp(:)
-    type(expected_outputs_t), allocatable :: training_outputs(:,:), tmp2(:)
+    type(inputs_t), allocatable :: training_inputs(:,:), tmp(:), inputs(:)
+    type(expected_outputs_t), allocatable :: training_outputs(:,:), tmp2(:), expected_outputs(:)
     real(rkind) t_start, t_end
     real(rkind), allocatable :: harvest(:,:,:)
     integer, parameter :: num_inputs=2, mini_batch_size = 1, num_iterations=400000
-    integer batch, iter
+    integer batch, iter, i
 
     allocate(harvest(num_inputs, mini_batch_size, num_iterations))
     call random_number(harvest)
@@ -48,7 +48,15 @@ program train_and_write
     call trainable_engine%train(mini_batches)
     call cpu_time(t_end)
 
-     print *,"Training time: ",t_end - t_start
+    print *,"Training time: ",t_end - t_start
+
+    inputs = [inputs_t([true,true]), inputs_t([true,false]), inputs_t([false,true]), inputs_t([false,false])]
+    print *, "sample inputs:    ",("[",inputs(i)%values(),"]", i=1, size(inputs))
+    expected_outputs = xor(inputs)
+    print *, "expected outputs: ",(expected_outputs(i)%outputs(), i=1, size(expected_outputs))
+    associate(outputs => trainable_engine%infer(inputs))
+      print *, "actual outputs:   ",(outputs(i)%outputs(), i=1, size(outputs))
+    end associate
 
      inference_engine = trainable_engine%to_inference_engine()
      json_file = inference_engine%to_json()
@@ -57,7 +65,7 @@ program train_and_write
 
 contains
 
-  function xor(inputs) result(expected_outputs)
+  elemental function xor(inputs) result(expected_outputs)
     type(inputs_t), intent(in) :: inputs
     type(expected_outputs_t) expected_outputs
     associate(sum_inputs => sum(inputs%values()))
