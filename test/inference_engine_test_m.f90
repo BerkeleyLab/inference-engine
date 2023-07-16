@@ -82,18 +82,20 @@ contains
     )
   end function
 
-  function two_random_hidden_layers() result(inference_engine)
+  function distinct_parameters() result(inference_engine)
     type(inference_engine_t) inference_engine
-    integer, parameter :: inputs = 2, hidden = 3, outputs = 2 ! number of nodes in input, hidden, and output layers
-    integer, parameter :: n(*) = [inputs, hidden, outputs]    ! nodes per layer
+    integer, parameter :: inputs = 2, hidden = 3, outputs = 2 ! number of neurons in input, output, and hidden layers
+    integer, parameter :: n(*) = [inputs, hidden, hidden, outputs]    ! nodes per layer
     integer, parameter :: n_max = maxval(n), layers=size(n)   ! max layer width, number of layers
-    real(rkind) w(n_max, n_max, layers-1), b(n_max, layers-1)
+    integer, parameter :: w_shape(*) = [n_max, n_max, layers-1], b_shape(*) = [n_max, n_max]
+    integer i
+    real(rkind), allocatable :: w(:,:,:), b(:,:)
 
-    call random_number(b)
-    call random_number(w)
+    w = reshape( [(i, i=1,product(w_shape))], w_shape)
+    b = reshape( [(maxval(w) + i, i=1,product(b_shape))], b_shape)
 
     inference_engine = inference_engine_t( &
-      metadata = [string_t("random"), string_t("Damian Rouson"), string_t("2023-07-11"), string_t("step"), string_t("false")], & 
+      metadata = [string_t("distinct"), string_t("Damian Rouson"), string_t("2023-07-15"), string_t("sigmoid"), string_t("false")],&
       weights = w, biases = b, nodes = n &
     )   
   end function
@@ -105,7 +107,7 @@ contains
     real, parameter :: tolerance = 1.0E-06
     type(file_t) to_json, from_json
 
-    xor = two_random_hidden_layers()
+    xor = distinct_parameters()
 
     to_json = xor%to_json()
     call to_json%write_lines(string_t("to.json"))

@@ -412,23 +412,16 @@ contains
           line = line + 1
           lines(line) = string_t('             {')
           line = line + 1
+          if (allocated(comma_separated_values)) deallocate(comma_separated_values)
           allocate(character(len=num_inputs*(characters_per_value+1)-1)::comma_separated_values)
           block
-            real(rkind), allocatable :: input_layer_weights(:,:)
-            integer j, l
-          
+            integer l          
             associate(n => self%nodes_)
               l = 1
-              allocate(input_layer_weights(n(l),n(l-1)))
-              do concurrent(j = 1:n(l))
-                input_layer_weights(j,1:n(l-1)) = self%weights_(j,1:n(l-1),l)
-              end do
-              input_layer_weights = transpose(input_layer_weights)
-              write(comma_separated_values, fmt = csv_format) input_layer_weights(neuron,1:n(l-1))
+              write(comma_separated_values, fmt = csv_format) self%weights_(neuron,1:n(l-1),l)
             end associate
           end block
           lines(line) = string_t('                "weights": [' // trim(comma_separated_values) // '],')
-          deallocate(comma_separated_values)
           line = line + 1
           write(single_value, fmt = csv_format) self%biases_(neuron,layer)
           lines(line) = string_t('                 "bias": ' // trim(single_value))
@@ -456,10 +449,10 @@ contains
             line = line + 1
             lines(line) = string_t('             {')
             line = line + 1
+            if (allocated(comma_separated_values)) deallocate(comma_separated_values)
             allocate(character(len=neurons_per_layer*(characters_per_value+1)-1)::comma_separated_values)
             write(comma_separated_values, fmt = csv_format) hidden_layer_weights(:, neuron)
             lines(line) = string_t('                "weights": [' // trim(comma_separated_values) // '],')
-            deallocate(comma_separated_values)
             line = line + 1
             write(single_value, fmt = csv_format) self%biases_(neuron,layer+1)
             lines(line) = string_t('                 "bias": ' // trim(single_value))
@@ -481,12 +474,12 @@ contains
           line = line + 1
           lines(line) = string_t('             {')
           line = line + 1
+          if (allocated(comma_separated_values)) deallocate(comma_separated_values)
           allocate(character(len=neurons_per_layer*(characters_per_value+1)-1)::comma_separated_values)
           associate(n => self%nodes_, l => ubound(self%nodes_,1))
             write(comma_separated_values, fmt = csv_format) self%weights_(neuron,1:n(l-1),l)
           end associate
           lines(line) = string_t('                "weights": [' // trim(comma_separated_values) // '],')
-          deallocate(comma_separated_values)
           line = line + 1
           write(single_value, fmt = csv_format) self%biases_(neuron,ubound(self%biases_,2))
           lines(line) = string_t('                 "bias": ' // trim(single_value))
