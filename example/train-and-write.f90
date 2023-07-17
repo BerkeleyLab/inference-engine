@@ -27,7 +27,7 @@ program train_and_write
     type(expected_outputs_t), allocatable :: training_outputs(:,:), tmp2(:), expected_outputs(:)
     real(rkind) t_start, t_end
     real(rkind), allocatable :: harvest(:,:,:)
-    integer, parameter :: num_inputs=2, mini_batch_size = 1, num_iterations=400000
+    integer, parameter :: num_inputs=2, mini_batch_size = 1, num_iterations=8000000
     integer batch, iter, i
 
     allocate(harvest(num_inputs, mini_batch_size, num_iterations))
@@ -75,8 +75,8 @@ contains
 
   function one_random_hidden_layer() result(trainable_engine)
     type(trainable_engine_t) trainable_engine
-    integer, parameter :: inputs = 2, outputs = 1, hidden = 3 ! number of neurons in input, output, and hidden layers
-    integer, parameter :: n(*) = [inputs, hidden, hidden, outputs] ! neurons per layer
+    integer, parameter :: inputs = 2, outputs = 1, hidden = 2 ! number of neurons in input, output, and hidden layers
+    integer, parameter :: n(*) = [inputs, hidden, outputs] ! neurons per layer
     integer, parameter :: n_max = maxval(n), layers=size(n) ! max layer width, number of layers
     real(rkind) w(n_max, n_max, layers-1), b(n_max, n_max)
 
@@ -85,7 +85,7 @@ contains
 
     trainable_engine = trainable_engine_t( &
       nodes = n, weights = w, biases = b, differentiable_activation_strategy = sigmoid_t(), & 
-      metadata = [string_t("1 hidden"), string_t("Damian Rouson"), string_t("2023-06-30"), string_t("sigmoid"), string_t("false")] &
+      metadata = [string_t("1 hide|2 wide"), string_t("D. Rouson"), string_t("2023-06-30"), string_t("sigmoid"), string_t("false")]&
     ) 
   end function
 
