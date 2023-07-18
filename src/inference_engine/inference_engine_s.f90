@@ -231,6 +231,10 @@ contains
        end associate
     end block
 
+    inference_engine = hidden_layers%inference_engine(metadata, output_layer) 
+
+    stop "----->  made it <----"
+
     block 
       type(layer_t), pointer :: next_layer
       real(rkind), allocatable :: transposed(:,:,:)

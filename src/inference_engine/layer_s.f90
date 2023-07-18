@@ -38,6 +38,34 @@ contains
 
   end procedure
 
+  module procedure inference_engine
+
+    associate( &
+      num_inputs => hidden_layers%count_inputs(), &
+      num_outputs => output_layer%count_neurons(), &
+      neurons_per_hidden_layer => hidden_layers%count_neurons(), &
+      num_hidden_layers =>  hidden_layers%count_layers(), &
+      num_output_layers => output_layer%count_layers() &
+    )   
+      call assert(num_output_layers==1, "inference_engine_s(construct_from_json): 1 output layer", num_output_layers)
+
+      associate(nodes => [num_inputs, neurons_per_hidden_layer, num_outputs])
+        associate(n_max => maxval(nodes))
+          block
+            real(rkind), allocatable :: weights(:,:,:), biases(:,:)
+
+            allocate(weights(n_max, n_max, num_hidden_layers + num_output_layers))
+            allocate(biases(n_max, num_hidden_layers + num_output_layers))
+            inference_engine_ = inference_engine_t(metadata, weights, biases, nodes)
+          end block
+        end associate
+      end associate
+    end associate
+    
+    stop "-----> here <-----"
+
+  end procedure
+
   module procedure count_layers
 
     type(layer_t), pointer :: layer_ptr
@@ -75,6 +103,10 @@ contains
       layer_ptr => layer_ptr%next
     end do
  
+  end procedure
+
+  module procedure count_inputs
+    num_inputs = layer%neuron%num_inputs() ! assume fully connected input layer
   end procedure
 
   module procedure input_weights
