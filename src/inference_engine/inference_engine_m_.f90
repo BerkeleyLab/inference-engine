@@ -13,6 +13,7 @@ module inference_engine_m_
 
   private
   public :: inference_engine_t
+  public :: difference_t
 
   character(len=*), parameter :: key(*) = [character(len=len("usingSkipConnections")) :: &
     "modelName", "modelAuthor", "compilationDate", "activationFunction", "usingSkipConnections"]
@@ -21,28 +22,28 @@ module inference_engine_m_
     !! Encapsulate the minimal information needed to perform inference
     private
     type(string_t) metadata_(size(key))
-    real(rkind), allocatable :: weights_(:,:,:), biases__(:,:)
+    real(rkind), allocatable :: weights_(:,:,:), biases_(:,:)
     integer, allocatable :: nodes_(:)
     class(activation_strategy_t), allocatable :: activation_strategy_ ! Strategy Pattern facilitates elemental activation
-
-    ! TODO: rm these legacy components
-    real(rkind), allocatable :: input_weights_(:,:)    ! weights applied to go from the inputs to first hidden layer
-    real(rkind), allocatable :: hidden_weights_(:,:,:) ! weights applied to go from one hidden layer to the next
-    real(rkind), allocatable :: output_weights_(:,:)   ! weights applied to go from the final hidden layer to the outputs
-    real(rkind), allocatable :: biases_(:,:)           ! neuronal offsets for each hidden layer
-    real(rkind), allocatable :: output_biases_(:)      ! neuronal offsets applied to outputs
   contains
     procedure :: infer
     procedure :: to_json
     procedure :: num_inputs
     procedure :: num_outputs
     procedure :: nodes_per_layer
-    procedure :: norm
     procedure :: assert_conformable_with
     procedure :: skip
     procedure, private :: subtract
     generic :: operator(-) => subtract
     procedure :: activation_function_name
+  end type
+
+  type difference_t
+    private
+    real(rkind), allocatable :: weights_difference_(:,:,:), biases_difference_(:,:)
+    integer, allocatable :: nodes_difference_(:)
+  contains
+    procedure :: norm
   end type
 
   interface inference_engine_t
@@ -52,16 +53,6 @@ module inference_engine_m_
       type(string_t), intent(in) :: metadata(:)
       real(rkind), intent(in) :: weights(:,:,:), biases(:,:)
       integer, intent(in) :: nodes(0:)
-      type(inference_engine_t) inference_engine
-    end function
-
-    pure module function construct_from_legacy_arrays( &
-      metadata, input_weights, hidden_weights, output_weights, biases, output_biases &
-    ) result(inference_engine)
-      implicit none
-      type(string_t), intent(in) :: metadata(:)
-      real(rkind), intent(in), dimension(:,:) :: input_weights, output_weights, biases
-      real(rkind), intent(in) :: hidden_weights(:,:,:), output_biases(:)
       type(inference_engine_t) inference_engine
     end function
 
@@ -83,7 +74,7 @@ module inference_engine_m_
 
     elemental module function norm(self) result(norm_of_self)
       implicit none
-      class(inference_engine_t), intent(in) :: self
+      class(difference_t), intent(in) :: self
       real(rkind)  norm_of_self
     end function
 
@@ -91,7 +82,7 @@ module inference_engine_m_
       implicit none
       class(inference_engine_t), intent(in) :: self
       type(inference_engine_t), intent(in) :: rhs
-      type(inference_engine_t)  difference
+      type(difference_t)  difference
     end function
 
     elemental module subroutine assert_conformable_with(self, inference_engine)

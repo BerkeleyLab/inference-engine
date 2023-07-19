@@ -9,9 +9,10 @@ module inference_engine_test_m
   use string_m, only : string_t
   use test_m, only : test_t
   use test_result_m, only : test_result_t
+  use file_m, only : file_t
 
   ! Internal dependencies
-  use inference_engine_m, only : inference_engine_t, inputs_t, outputs_t
+  use inference_engine_m, only : inference_engine_t, inputs_t, outputs_t, difference_t
 
   implicit none
 
@@ -35,19 +36,18 @@ contains
     type(test_result_t), allocatable :: test_results(:)
 
     character(len=*), parameter :: longest_description = &
-          "converting a single-hidden-layer network to and from JSON format"
+          "converting a network with 2 hidden layers to and from JSON format"
 
     associate( &
       descriptions => &
         [ character(len=len(longest_description)) :: &
           "performing elemental inference with 1 hidden layer", &
           "performing elemental inference with 2 hidden layers", &
-          "converting a single-hidden-layer network to and from JSON format",  &
-          "converting a multi-hidden-layer network to and from JSON format"  &
+          "converting a network with 2 hidden layers to and from JSON format"  &
         ], &
       outcomes => &
         [ elemental_infer_with_1_hidden_layer_xor_net(), elemental_infer_with_2_hidden_layer_xor_net(), &
-          single_hidden_layer_net_to_from_json(), multi_hidden_layer_net_to_from_json() &
+          multi_hidden_layer_net_to_from_json() &
         ] &
     )
       call assert(size(descriptions) == size(outcomes), "inference_engine_test(results): size(descriptions) == size(outcomes)")
@@ -82,61 +82,40 @@ contains
     )
   end function
 
-  function single_layer_perceptron() result(inference_engine)
+  function distinct_parameters() result(inference_engine)
     type(inference_engine_t) inference_engine
-    integer, parameter :: n_in = 2 ! number of inputs
-    integer, parameter :: n_out = 1 ! number of outputs
-    integer, parameter :: neurons = 3 ! number of neurons per layer
-    integer, parameter :: n_hidden = 1 ! number of hidden layers 
-   
-    inference_engine = inference_engine_t( &
-      metadata = [string_t("Single-Layer XOR"), string_t("Damian Rouson"), string_t("2023-05-09"), string_t("step"), string_t("false")], &
-      input_weights = real(reshape([1,0,1,1,0,1], [n_in, neurons]), rkind), &
-      hidden_weights = reshape([real(rkind)::], [neurons,neurons,n_hidden-1]), &
-      output_weights = real(reshape([1,-2,1], [n_out, neurons]), rkind), &
-      biases = reshape([real(rkind):: 0.,-1.99,0.], [neurons, n_hidden]), &
-      output_biases = [real(rkind):: 0.] &
-    )
-  end function
+    integer, parameter :: inputs = 2, hidden = 3, outputs = 1 ! number of neurons in input, output, and hidden layers
+    integer, parameter :: n(*) = [inputs, hidden, hidden, outputs]    ! nodes per layer
+    integer, parameter :: n_max = maxval(n), layers=size(n)   ! max layer width, number of layers
+    integer, parameter :: w_shape(*) = [n_max, n_max, layers-1], b_shape(*) = [n_max, n_max]
+    integer i
+    real(rkind), allocatable :: w(:,:,:), b(:,:)
 
-  function xor_network() result(inference_engine)
-    type(inference_engine_t) inference_engine
-    integer, parameter :: n_in = 2 ! number of inputs
-    integer, parameter :: n_out = 1 ! number of outputs
-    integer, parameter :: neurons = 3 ! number of neurons per layer
-    integer, parameter :: n_hidden = 2 ! number of hidden layers 
-    integer i, j 
-    integer, parameter :: identity(*,*,*) = &
-      reshape([((merge(1,0,i==j), i=1,neurons), j=1,neurons)], shape=[neurons,neurons,n_hidden-1])
-   
+    w = reshape( [(i, i=1,product(w_shape))], w_shape)
+    b = reshape( [(maxval(w) + i, i=1,product(b_shape))], b_shape)
+
     inference_engine = inference_engine_t( &
-      metadata = [string_t("XOR"), string_t("Damian Rouson"), string_t("2023-02-18"), string_t("step"), string_t("false")], &
-      input_weights = real(reshape([1,0,1,1,0,1], [n_in, neurons]), rkind), &
-      hidden_weights = real(identity, rkind), &
-      output_weights = real(reshape([1,-2,1], [n_out, neurons]), rkind), &
-      biases = reshape([real(rkind):: 0.,-1.99,0., 0.,0.,0.], [neurons, n_hidden]), &
-      output_biases = [real(rkind):: 0.] &
-    )
+      metadata = [string_t("random"), string_t("Damian Rouson"), string_t("2023-07-15"), string_t("sigmoid"), string_t("false")], &
+      weights = w, biases = b, nodes = n &
+    )   
   end function
 
   function multi_hidden_layer_net_to_from_json() result(test_passes)
     logical, allocatable :: test_passes
-    type(inference_engine_t) xor, difference
+    type(inference_engine_t) inference_engine, from_json
+    type(file_t) json_file !, round_trip
+    type(difference_t) difference
     real, parameter :: tolerance = 1.0E-06
 
-    xor = xor_network()
-    difference = inference_engine_t(xor%to_json()) - xor
-    test_passes = difference%norm() < tolerance
-  end function
+    inference_engine = distinct_parameters()
+    json_file = inference_engine%to_json()
+    from_json = inference_engine_t(json_file)
 
-  function single_hidden_layer_net_to_from_json() result(test_passes)
-    logical, allocatable :: test_passes
-    type(inference_engine_t) one_hidden_layer_network, difference
+    !call json_file%write_lines()
+    !round_trip = from_json%to_json()
+    !call round_trip%write_lines()
 
-    real, parameter :: tolerance = 1.0E-06
-
-    one_hidden_layer_network = single_layer_perceptron()
-    difference = inference_engine_t(one_hidden_layer_network%to_json()) - one_hidden_layer_network
+    difference = inference_engine  - from_json
     test_passes = difference%norm() < tolerance
   end function
 

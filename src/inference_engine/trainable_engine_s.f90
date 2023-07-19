@@ -43,7 +43,7 @@ contains
 
     call self%assert_consistent
 
-    associate(w => self%w, b => self%b, n => self%n, output_layer => ubound(self%b,2))
+    associate(w => self%w, b => self%b, n => self%n, output_layer => ubound(self%n,1))
 
       allocate(z, mold=b)
       allocate(a(maxval(n), input_layer:output_layer)) ! Activations
@@ -151,12 +151,17 @@ contains
 
   module procedure construct_from_padded_arrays
 
+     trainable_engine%metadata_ = metadata
      trainable_engine%n = nodes
      trainable_engine%w = weights
      trainable_engine%b = biases
      trainable_engine%differentiable_activation_strategy_ = differentiable_activation_strategy
 
      call trainable_engine%assert_consistent
+  end procedure
+
+  module procedure to_inference_engine
+    inference_engine = inference_engine_t(metadata = self%metadata_, weights = self%w, biases = self%b, nodes = self%n)
   end procedure
 
 end submodule trainable_engine_s

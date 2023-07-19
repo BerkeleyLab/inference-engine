@@ -13,6 +13,11 @@ submodule(inference_engine_m_) inference_engine_s
   use outputs_m, only : outputs_t
   implicit none
 
+  interface assert_consistency
+    module procedure inference_engine_consistency
+    module procedure difference_consistency
+  end interface
+
 contains
 
   module procedure infer
@@ -23,7 +28,7 @@ contains
 
     call assert_consistency(self)
 
-    associate(w => self%weights_, b => self%biases__, n => self%nodes_, output_layer => ubound(self%nodes_,1))
+    associate(w => self%weights_, b => self%biases_, n => self%nodes_, output_layer => ubound(self%nodes_,1))
 
       allocate(a(maxval(n), input_layer:output_layer))
 
@@ -42,26 +47,46 @@ contains
 
   end procedure
 
-  pure module subroutine assert_consistency(self)
+  pure module subroutine inference_engine_consistency(self)
 
     type(inference_engine_t), intent(in) :: self
 
     integer, parameter :: input_layer=0
 
     associate( &
-      all_allocated=>[allocated(self%weights_),allocated(self%biases__),allocated(self%nodes_),allocated(self%activation_strategy_)]&
+      all_allocated=>[allocated(self%weights_),allocated(self%biases_),allocated(self%nodes_),allocated(self%activation_strategy_)]&
     )   
-      call assert(all(all_allocated),"inference_engine_s(assert_consistency): fully_allocated",intrinsic_array_t(all_allocated))
+      call assert(all(all_allocated),"inference_engine_s(inference_engine_consistency): fully_allocated", &
+        intrinsic_array_t(all_allocated))
     end associate
 
-    associate(max_width=>maxval(self%nodes_), component_dims=>[size(self%biases__,1), size(self%weights_,1), size(self%weights_,2)])
-      call assert(all(component_dims == max_width), "inference_engine_s(assert_consistency): conformable arrays", &
+    associate(max_width=>maxval(self%nodes_), component_dims=>[size(self%biases_,1), size(self%weights_,1), size(self%weights_,2)])
+      call assert(all(component_dims == max_width), "inference_engine_s(inference_engine_consistency): conformable arrays", &
         intrinsic_array_t([max_width,component_dims]))
     end associate
 
     associate(input_subscript => lbound(self%nodes_,1))
-      call assert(input_subscript == input_layer, "inference_engine_s(assert_consistency): n base subsscript", input_subscript)
+      call assert(input_subscript == input_layer, "inference_engine_s(inference_engine_consistency): n base subsscript", &
+        input_subscript)
     end associate
+
+  end subroutine
+
+  pure module subroutine difference_consistency(self)
+
+    type(difference_t), intent(in) :: self
+
+    integer, parameter :: input_layer=0
+
+    associate( &
+      all_allocated=>[allocated(self%weights_difference_),allocated(self%biases_difference_),allocated(self%nodes_difference_)] &
+    )   
+      call assert(all(all_allocated),"inference_engine_s(difference_consistency): fully_allocated",intrinsic_array_t(all_allocated))
+    end associate
+
+    call assert(all(size(self%biases_difference_,1)==[size(self%weights_difference_,1), size(self%weights_difference_,2)]), &
+      "inference_engine_s(difference_consistency): conformable arrays" &
+    )
 
   end subroutine
 
@@ -87,80 +112,16 @@ contains
 
     inference_engine%metadata_ = metadata
     inference_engine%weights_ = weights
-    inference_engine%biases__ = biases
+    inference_engine%biases_ = biases
     inference_engine%nodes_ = nodes
     call set_activation_strategy(inference_engine)
     call assert_consistency(inference_engine)
 
   end procedure construct_from_padded_arrays
 
-  module procedure construct_from_legacy_arrays
-
-    real(rkind), allocatable :: transposed(:,:,:)
-    integer layer, j, l
-
-    allocate(transposed(size(hidden_weights,2), size(hidden_weights,1), size(hidden_weights,3)))
-    do concurrent(layer = 1:size(hidden_weights,3))
-      transposed(:,:,layer) = transpose(hidden_weights(:,:,layer))
-    end do
-
-    inference_engine%metadata_ = metadata
-    inference_engine%input_weights_ = transpose(input_weights)
-    inference_engine%hidden_weights_ = transposed
-    inference_engine%output_weights_ = output_weights
-    inference_engine%biases_ = biases
-    inference_engine%output_biases_ = output_biases
-
-    associate( &
-      n_max => max(size(inference_engine%biases_,1),size(inference_engine%output_biases_,1),size(inference_engine%input_weights_,1)),&
-      n_hidden => size(inference_engine%biases_,2), &
-      n_inputs => size(inference_engine%input_weights_,1), &
-      n_outputs => size(inference_engine%output_biases_) &
-    )
-      associate(layers =>  n_hidden + 2)
-
-        allocate(inference_engine%weights_(n_max, n_max, layers))
-        allocate(inference_engine%biases__(n_max, n_max))
-        associate(n => [n_inputs, [(size(biases,1), l=1,size(biases,2))], n_outputs])
-          allocate(inference_engine%nodes_(0:size(n)-1), source = n)
-        end associate
-
-        associate(n => inference_engine%nodes_)
-          l = 1
-          do concurrent(j = 1:n(l))
-            inference_engine%weights_(j,1:n(l-1),l) = inference_engine%input_weights_(j,1:n(l-1))
-          end do
-
-          do concurrent(l = 2:n_hidden)
-            do concurrent(j = 1:n(l))
-              inference_engine%weights_(j,1:n(l-1),l) = inference_engine%hidden_weights_(j,1:n(l-1),l-1)
-            end do
-          end do
-
-          l = n_hidden + 1
-          do concurrent(j = 1:n(l))
-            inference_engine%weights_(j,1:n(l-1),l) = inference_engine%output_weights_(j,1:n(l-1))
-          end do
-
-          do concurrent(l = 1:n_hidden)
-            inference_engine%biases_(1:n(l),l) = inference_engine%biases__(1:n(l),l)
-          end do
-
-          l = n_hidden + 1
-          inference_engine%biases_(1:n(l),l) = inference_engine%output_biases_(1:n(l))
-        end associate
-      end associate
-    end associate
-
-    call set_activation_strategy(inference_engine)
-    call assert_consistent(inference_engine)
-    call assert_consistency(inference_engine)
-
-  end procedure
-
   module procedure construct_from_json
 
-    type(string_t), allocatable :: lines(:)
+    type(string_t), allocatable :: lines(:), metadata(:)
     type(layer_t) hidden_layers, output_layer
     type(neuron_t) output_neuron
     real(rkind), allocatable :: hidden_weights(:,:,:)
@@ -172,7 +133,7 @@ contains
     call assert(adjustl(lines(l)%string())=="{", "construct_from_json: expecting '{' to start outermost object", lines(l)%string())
 
     l = 2
-    inference_engine%metadata_ = [string_t(""),string_t(""),string_t(""),string_t(""),string_t("false")]
+    metadata = [string_t(""),string_t(""),string_t(""),string_t(""),string_t("false")]
     if (adjustl(lines(l)%string()) == '"metadata": {') then
       block
         character(len=:), allocatable :: justified_line
@@ -180,7 +141,7 @@ contains
           l = l + 1
           justified_line = adjustl(lines(l)%string())
           if (justified_line == "},") exit
-          inference_engine%metadata_(findloc(key, trim(get_key_string(justified_line)), dim=1)) = get_key_value(justified_line)
+          metadata(findloc(key, trim(get_key_string(justified_line)), dim=1)) = get_key_value(justified_line)
         end do
         l = l + 1
       end block
@@ -192,7 +153,7 @@ contains
     block 
        integer, parameter :: lines_per_neuron=4, bracket_lines_per_layer=2
        character(len=:), allocatable :: output_layer_line
-       
+             
        hidden_layers = layer_t(lines, start=l)
 
        associate( output_layer_line_number => l + lines_per_neuron*sum(hidden_layers%count_neurons()) &
@@ -206,37 +167,10 @@ contains
        end associate
     end block
 
-    inference_engine%input_weights_ = transpose(hidden_layers%input_weights())
-
-    block 
-      type(layer_t), pointer :: next_layer
-      real(rkind), allocatable :: transposed(:,:,:)
-      integer layer
-
-      next_layer => hidden_layers%next_pointer()
-
-      if (hidden_layers%next_allocated()) then
-        hidden_weights = next_layer%hidden_weights()
-      else
-        associate(neurons_per_layer => size(inference_engine%input_weights_,1)) ! keep consistent with the eponymous function
-          allocate(hidden_weights(neurons_per_layer, neurons_per_layer, 0))
-        end associate
-      end if
-
-      inference_engine%biases_ = hidden_layers%hidden_biases()
-
-      allocate(transposed(size(hidden_weights,2), size(hidden_weights,1), size(hidden_weights,3)))
-      do concurrent(layer = 1:size(hidden_weights,3)) 
-        transposed(:,:,layer) = transpose(hidden_weights(:,:,layer))
-      end do
-      inference_engine%hidden_weights_ = transposed
-    end block
-
-    inference_engine%output_weights_ = output_layer%output_weights()
-    inference_engine%output_biases_ = output_layer%output_biases()
+    inference_engine = hidden_layers%inference_engine(metadata, output_layer) 
 
     call set_activation_strategy(inference_engine)
-    call assert_consistent(inference_engine)
+    call assert_consistency(inference_engine)
 
   contains
 
@@ -272,15 +206,13 @@ contains
 
   module procedure assert_conformable_with
 
-    call assert_consistent(self)
-    call assert_consistent(inference_engine)
+    call assert_consistency(self)
+    call assert_consistency(inference_engine)
 
     associate(equal_shapes => [ &
-      shape(self%input_weights_ ) == shape(inference_engine%input_weights_ ), &
-      shape(self%hidden_weights_) == shape(inference_engine%hidden_weights_), &
-      shape(self%output_weights_) == shape(inference_engine%output_weights_), &
-      shape(self%biases_        ) == shape(inference_engine%biases_        ), &
-      shape(self%output_biases_ ) == shape(inference_engine%output_biases_ )  &
+      shape(self%weights_) == shape(inference_engine%weights_), &
+      shape(self%biases_) == shape(inference_engine%biases_), &
+      shape(self%nodes_) == shape(inference_engine%nodes_)  &
      ])
       call assert(all(equal_shapes), "assert_conformable_with: all(equal_shapes)", intrinsic_array_t(equal_shapes))
     end associate
@@ -290,60 +222,41 @@ contains
   end procedure
 
   module procedure subtract
+
+    call assert_consistency(self)
+    call assert_consistency(rhs)
     call self%assert_conformable_with(rhs)
 
-    difference%metadata_       = self%metadata_
-    difference%input_weights_  = self%input_weights_  - rhs%input_weights_ 
-    difference%hidden_weights_ = self%hidden_weights_ - rhs%hidden_weights_
-    difference%output_weights_ = self%output_weights_ - rhs%output_weights_
-    difference%biases_         = self%biases_         - rhs%biases_         
-    difference%output_biases_  = self%output_biases_  - rhs%output_biases_ 
-    difference%activation_strategy_ = self%activation_strategy_
+    block
+      integer l
 
-    call assert_consistent(difference)
+      allocate(difference%weights_difference_, mold = self%weights_)
+      allocate(difference%biases_difference_, mold = self%biases_)
+      allocate(difference%nodes_difference_, mold = self%nodes_)
+
+      difference%weights_difference_ = 0.
+      difference%biases_difference_ = 0.
+      difference%nodes_difference_ = 0.
+
+      l = 0
+      difference%nodes_difference_(l)  = self%nodes_(l) - rhs%nodes_(l)
+     
+      associate(n => self%nodes_)
+        do concurrent(l = 1:ubound(n,1))
+          difference%weights_difference_(1:n(l),1:n(l-1),l) = self%weights_(1:n(l),1:n(l-1),l) - rhs%weights_(1:n(l),1:n(l-1),l)
+          difference%biases_difference_(1:n(l),l) = self%biases_(1:n(l),l) - rhs%biases_(1:n(l),l)
+          difference%nodes_difference_(l) = self%nodes_(l) - rhs%nodes_(l)
+        end do
+      end associate
+
+    end block
+
+    call assert_consistency(difference)
   end procedure
 
   module procedure norm 
-    call assert_consistent(self)
-    norm_of_self = maxval(abs(self%input_weights_)) + maxval(abs(self%hidden_weights_)) + maxval(abs(self%output_weights_)) + & 
-           maxval(abs(self%biases_)) + maxval(abs(self%output_biases_))
+    norm_of_self = maxval([abs(self%weights_difference_), abs(self%biases_difference_), real(abs(self%nodes_difference_))])
   end procedure
-
-  pure subroutine assert_consistent(self)
-    type(inference_engine_t), intent(in) :: self
-
-    call assert(all(self%metadata_%is_allocated()), "inference_engine_t%assert_consistent: self%metadata_s%is_allocated()")
-    call assert(allocated(self%activation_strategy_), "inference_engine_t%assert_consistent: allocated(self%activation_strategy_)")
-
-    associate(allocated_components => &
-      [allocated(self%input_weights_), allocated(self%hidden_weights_), allocated(self%output_weights_), &
-       allocated(self%biases_), allocated(self%output_biases_)] &
-    )
-      call assert(all(allocated_components), "inference_engine_s(assert_consistent): fully allocated object", &
-        intrinsic_array_t(allocated_components))
-    end associate
-
-    associate(num_neurons => 1 + &
-      [ ubound(self%biases_,         1) - lbound(self%biases_,         1), & 
-        ubound(self%hidden_weights_, 1) - lbound(self%hidden_weights_, 1), &
-        ubound(self%hidden_weights_, 2) - lbound(self%hidden_weights_, 2), &
-        ubound(self%input_weights_,  1) - lbound(self%input_weights_,  1), &
-        ubound(self%output_weights_, 2) - lbound(self%output_weights_, 2)  &
-    ] ) 
-      call assert(all(num_neurons == num_neurons(1)), "inference_engine_s(assert_consistent): num_neurons", &
-        intrinsic_array_t(num_neurons) &
-      )
-    end associate
-
-    associate(output_count => 1 + &
-      [ ubound(self%output_weights_, 1) - lbound(self%output_weights_, 1), & 
-        ubound(self%output_biases_,  1) - lbound(self%output_biases_,  1)  &
-    ] )
-      call assert(all(output_count == output_count(1)), "inference_engine_s(assert_consistent): output_count", &
-        intrinsic_array_t(output_count) &
-      )
-    end associate
-  end subroutine
 
   module procedure num_outputs
     call assert_consistency(self)
@@ -371,13 +284,19 @@ contains
       outer_object_braces = 2, hidden_layer_outer_brackets = 2, lines_per_neuron = 4, inner_brackets_per_layer  = 2, &
       output_layer_brackets = 2, metadata_outer_braces = 2
 
-    call assert_consistent(self)
+    call assert_consistency(self)
 
     csv_format = separated_values(separator=",", mold=[real(rkind)::])
 
-    associate(num_hidden_layers => size(self%hidden_weights_,3)+1, &
-      neurons_per_layer => ubound(self%input_weights_,1) - lbound(self%input_weights_,1) + 1, &
-      num_outputs => self%num_outputs(), num_inputs => self%num_inputs())
+    associate(num_hidden_layers => size(self%nodes_)-2, &
+      neurons_per_layer => self%nodes_(lbound(self%nodes_,1)+1), &
+      num_outputs => self%num_outputs(), &
+      num_inputs => self%num_inputs() &
+    )
+
+      call assert(all(neurons_per_layer==self%nodes_(lbound(self%nodes_,1)+1 : ubound(self%nodes_,1)-1)), &
+        "to_json: uniform hidden layers")
+
       associate(num_lines => &
         outer_object_braces &
         + metadata_outer_braces + size(key) &
@@ -421,10 +340,16 @@ contains
           line = line + 1
           lines(line) = string_t('             {')
           line = line + 1
+          if (allocated(comma_separated_values)) deallocate(comma_separated_values)
           allocate(character(len=num_inputs*(characters_per_value+1)-1)::comma_separated_values)
-          write(comma_separated_values, fmt = csv_format) self%input_weights_(neuron,:)
+          block
+            integer l          
+            associate(n => self%nodes_)
+              l = 1
+              write(comma_separated_values, fmt = csv_format) self%weights_(neuron,1:n(l-1),l)
+            end associate
+          end block
           lines(line) = string_t('                "weights": [' // trim(comma_separated_values) // '],')
-          deallocate(comma_separated_values)
           line = line + 1
           write(single_value, fmt = csv_format) self%biases_(neuron,layer)
           lines(line) = string_t('                 "bias": ' // trim(single_value))
@@ -437,20 +362,32 @@ contains
         do layer = 1, num_hidden_layers-1
           line = line + 1
           lines(line) = string_t('         [')
+          block
+            real(rkind), allocatable :: hidden_layer_weights(:,:)
+            integer j, l
+          
+            associate(n => self%nodes_, l => layer + 1)
+              allocate(hidden_layer_weights(n(l),n(l-1)))
+              do concurrent(j = 1:n(l))
+                hidden_layer_weights(j,1:n(l-1)) = self%weights_(j,1:n(l-1),l)
+              end do
+              hidden_layer_weights = transpose(hidden_layer_weights)
+            end associate
           do neuron = 1, neurons_per_layer
             line = line + 1
             lines(line) = string_t('             {')
             line = line + 1
+            if (allocated(comma_separated_values)) deallocate(comma_separated_values)
             allocate(character(len=neurons_per_layer*(characters_per_value+1)-1)::comma_separated_values)
-            write(comma_separated_values, fmt = csv_format) self%hidden_weights_(:, neuron, layer)
+            write(comma_separated_values, fmt = csv_format) hidden_layer_weights(:, neuron)
             lines(line) = string_t('                "weights": [' // trim(comma_separated_values) // '],')
-            deallocate(comma_separated_values)
             line = line + 1
             write(single_value, fmt = csv_format) self%biases_(neuron,layer+1)
             lines(line) = string_t('                 "bias": ' // trim(single_value))
             line = line + 1
             lines(line) = string_t("             }" // trim(merge(' ',',',neuron==neurons_per_layer)))
           end do
+          end block
           line = line + 1
           lines(line) = string_t("         ]" // trim(merge(' ',',',layer==num_hidden_layers-1)))
         end do
@@ -465,15 +402,17 @@ contains
           line = line + 1
           lines(line) = string_t('             {')
           line = line + 1
+          if (allocated(comma_separated_values)) deallocate(comma_separated_values)
           allocate(character(len=neurons_per_layer*(characters_per_value+1)-1)::comma_separated_values)
-          write(comma_separated_values, fmt = csv_format) self%output_weights_(neuron,:)
+          associate(n => self%nodes_, l => ubound(self%nodes_,1))
+            write(comma_separated_values, fmt = csv_format) self%weights_(neuron,1:n(l-1),l)
+          end associate
           lines(line) = string_t('                "weights": [' // trim(comma_separated_values) // '],')
-          deallocate(comma_separated_values)
           line = line + 1
-          write(single_value, fmt = csv_format) self%output_biases_(neuron)
+          write(single_value, fmt = csv_format) self%biases_(neuron,ubound(self%biases_,2))
           lines(line) = string_t('                 "bias": ' // trim(single_value))
           line = line + 1
-          lines(line) = string_t("             }")
+          lines(line) = string_t("             }" // trim(merge(' ',',',neuron==num_outputs)))
         end do
 
         line = line + 1
