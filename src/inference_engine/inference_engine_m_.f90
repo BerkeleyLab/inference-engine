@@ -40,8 +40,8 @@ module inference_engine_m_
 
   type difference_t
     private
-    real(rkind), allocatable :: weights_(:,:,:), biases_(:,:)
-    integer, allocatable :: nodes_(:)
+    real(rkind), allocatable :: weights_difference_(:,:,:), biases_difference_(:,:)
+    integer, allocatable :: nodes_difference_(:)
   contains
     procedure :: norm
   end type

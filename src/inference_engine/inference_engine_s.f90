@@ -79,12 +79,12 @@ contains
     integer, parameter :: input_layer=0
 
     associate( &
-      all_allocated=>[allocated(self%weights_),allocated(self%biases_),allocated(self%nodes_)] &
+      all_allocated=>[allocated(self%weights_difference_),allocated(self%biases_difference_),allocated(self%nodes_difference_)] &
     )   
       call assert(all(all_allocated),"inference_engine_s(difference_consistency): fully_allocated",intrinsic_array_t(all_allocated))
     end associate
 
-    call assert(all(size(self%biases_,1)==[size(self%weights_,1), size(self%weights_,2)]), &
+    call assert(all(size(self%biases_difference_,1)==[size(self%weights_difference_,1), size(self%weights_difference_,2)]), &
       "inference_engine_s(difference_consistency): conformable arrays" &
     )
 
@@ -227,15 +227,35 @@ contains
     call assert_consistency(rhs)
     call self%assert_conformable_with(rhs)
 
-    difference%weights_ = self%weights_  - rhs%weights_ 
-    difference%biases_  = self%biases_ - rhs%biases_
-    difference%nodes_   = self%nodes_ - rhs%nodes_
+    block
+      integer l
+
+      allocate(difference%weights_difference_, mold = self%weights_)
+      allocate(difference%biases_difference_, mold = self%biases_)
+      allocate(difference%nodes_difference_, mold = self%nodes_)
+
+      difference%weights_difference_ = 0.
+      difference%biases_difference_ = 0.
+      difference%nodes_difference_ = 0.
+
+      l = 0
+      difference%nodes_difference_(l)  = self%nodes_(l) - rhs%nodes_(l)
+     
+      associate(n => self%nodes_)
+        do concurrent(l = 1:ubound(n,1))
+          difference%weights_difference_(1:n(l),1:n(l-1),l) = self%weights_(1:n(l),1:n(l-1),l) - rhs%weights_(1:n(l),1:n(l-1),l)
+          difference%biases_difference_(1:n(l),l) = self%biases_(1:n(l),l) - rhs%biases_(1:n(l),l)
+          difference%nodes_difference_(l) = self%nodes_(l) - rhs%nodes_(l)
+        end do
+      end associate
+
+    end block
 
     call assert_consistency(difference)
   end procedure
 
   module procedure norm 
-    norm_of_self = maxval(abs(self%weights_)) + maxval(abs(self%biases_)) + maxval(abs(self%nodes_))
+    norm_of_self = maxval([abs(self%weights_difference_), abs(self%biases_difference_), real(abs(self%nodes_difference_))])
   end procedure
 
   module procedure num_outputs

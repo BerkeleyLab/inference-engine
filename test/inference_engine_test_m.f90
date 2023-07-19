@@ -36,14 +36,14 @@ contains
     type(test_result_t), allocatable :: test_results(:)
 
     character(len=*), parameter :: longest_description = &
-          "converting a single-hidden-layer network to and from JSON format"
+          "converting a network with 2 hidden layers to and from JSON format"
 
     associate( &
       descriptions => &
         [ character(len=len(longest_description)) :: &
           "performing elemental inference with 1 hidden layer", &
           "performing elemental inference with 2 hidden layers", &
-          "converting a multi-hidden-layer network to and from JSON format"  &
+          "converting a network with 2 hidden layers to and from JSON format"  &
         ], &
       outcomes => &
         [ elemental_infer_with_1_hidden_layer_xor_net(), elemental_infer_with_2_hidden_layer_xor_net(), &
@@ -84,7 +84,7 @@ contains
 
   function distinct_parameters() result(inference_engine)
     type(inference_engine_t) inference_engine
-    integer, parameter :: inputs = 2, hidden = 3, outputs = 2 ! number of neurons in input, output, and hidden layers
+    integer, parameter :: inputs = 2, hidden = 3, outputs = 1 ! number of neurons in input, output, and hidden layers
     integer, parameter :: n(*) = [inputs, hidden, hidden, outputs]    ! nodes per layer
     integer, parameter :: n_max = maxval(n), layers=size(n)   ! max layer width, number of layers
     integer, parameter :: w_shape(*) = [n_max, n_max, layers-1], b_shape(*) = [n_max, n_max]
@@ -95,28 +95,27 @@ contains
     b = reshape( [(maxval(w) + i, i=1,product(b_shape))], b_shape)
 
     inference_engine = inference_engine_t( &
-      metadata = [string_t("distinct"), string_t("Damian Rouson"), string_t("2023-07-15"), string_t("sigmoid"), string_t("false")],&
+      metadata = [string_t("random"), string_t("Damian Rouson"), string_t("2023-07-15"), string_t("sigmoid"), string_t("false")], &
       weights = w, biases = b, nodes = n &
     )   
   end function
 
   function multi_hidden_layer_net_to_from_json() result(test_passes)
     logical, allocatable :: test_passes
-    type(inference_engine_t) xor, xor_from_json
+    type(inference_engine_t) inference_engine, from_json
+    type(file_t) json_file !, round_trip
     type(difference_t) difference
     real, parameter :: tolerance = 1.0E-06
-    type(file_t) to_json, from_json
 
-    xor = distinct_parameters()
+    inference_engine = distinct_parameters()
+    json_file = inference_engine%to_json()
+    from_json = inference_engine_t(json_file)
 
-    to_json = xor%to_json()
-    call to_json%write_lines(string_t("to.json"))
+    !call json_file%write_lines()
+    !round_trip = from_json%to_json()
+    !call round_trip%write_lines()
 
-    xor_from_json = inference_engine_t(to_json)
-    from_json = xor_from_json%to_json()
-    call from_json%write_lines(string_t("from.json"))
-
-    difference = inference_engine_t(xor%to_json()) - xor
+    difference = inference_engine  - from_json
     test_passes = difference%norm() < tolerance
   end function
 
