@@ -90,7 +90,7 @@
      <li><i class="fa fa-list-ol"></i>
        <a data-toggle="tooltip"
     data-placement="bottom" data-html="true"
-    title="<p>10.8% of total for derived types.</p>Including implementation: 16 statements, 11.5% of total for derived types.">16 statements</a>
+    title="<p> 9.7% of total for derived types.</p>Including implementation: 13 statements,  9.4% of total for derived types.">13 statements</a>
      </li> 
     <li><i class="fa fa-code"></i><a href="../src/layer_m.f90"> Source File</a></li>
   </ul>
@@ -136,16 +136,13 @@
   <div class="panel-heading text-left"><h3 class="panel-title"><a data-toggle="collapse" href="#boundprocs-0">Type-Bound Procedures</a></h3></div>
   <div id="boundprocs-0" class="panel-collapse collapse">
     <div class="list-group">
+      <a class="list-group-item" href="../type/layer_t.html#boundprocedure-count_inputs">count_inputs</a>
       <a class="list-group-item" href="../type/layer_t.html#boundprocedure-count_layers">count_layers</a>
       <a class="list-group-item" href="../type/layer_t.html#boundprocedure-count_neurons">count_neurons</a>
-      <a class="list-group-item" href="../type/layer_t.html#boundprocedure-hidden_biases">hidden_biases</a>
-      <a class="list-group-item" href="../type/layer_t.html#boundprocedure-hidden_weights">hidden_weights</a>
-      <a class="list-group-item" href="../type/layer_t.html#boundprocedure-input_weights">input_weights</a>
+      <a class="list-group-item" href="../type/layer_t.html#boundprocedure-inference_engine">inference_engine</a>
       <a class="list-group-item" href="../type/layer_t.html#boundprocedure-neurons_per_layer">neurons_per_layer</a>
       <a class="list-group-item" href="../type/layer_t.html#boundprocedure-next_allocated~2">next_allocated</a>
       <a class="list-group-item" href="../type/layer_t.html#boundprocedure-next_pointer~2">next_pointer</a>
-      <a class="list-group-item" href="../type/layer_t.html#boundprocedure-output_biases">output_biases</a>
-      <a class="list-group-item" href="../type/layer_t.html#boundprocedure-output_weights">output_weights</a>
     </div>
   </div>
 </div>
@@ -274,16 +271,13 @@
   <div class="panel-heading text-left"><h3 class="panel-title"><a data-toggle="collapse" href="#boundprocs-1">Type-Bound Procedures</a></h3></div>
   <div id="boundprocs-1" class="panel-collapse collapse">
     <div class="list-group">
+      <a class="list-group-item" href="../type/layer_t.html#boundprocedure-count_inputs">count_inputs</a>
       <a class="list-group-item" href="../type/layer_t.html#boundprocedure-count_layers">count_layers</a>
       <a class="list-group-item" href="../type/layer_t.html#boundprocedure-count_neurons">count_neurons</a>
-      <a class="list-group-item" href="../type/layer_t.html#boundprocedure-hidden_biases">hidden_biases</a>
-      <a class="list-group-item" href="../type/layer_t.html#boundprocedure-hidden_weights">hidden_weights</a>
-      <a class="list-group-item" href="../type/layer_t.html#boundprocedure-input_weights">input_weights</a>
+      <a class="list-group-item" href="../type/layer_t.html#boundprocedure-inference_engine">inference_engine</a>
       <a class="list-group-item" href="../type/layer_t.html#boundprocedure-neurons_per_layer">neurons_per_layer</a>
       <a class="list-group-item" href="../type/layer_t.html#boundprocedure-next_allocated~2">next_allocated</a>
       <a class="list-group-item" href="../type/layer_t.html#boundprocedure-next_pointer~2">next_pointer</a>
-      <a class="list-group-item" href="../type/layer_t.html#boundprocedure-output_biases">output_biases</a>
-      <a class="list-group-item" href="../type/layer_t.html#boundprocedure-output_weights">output_weights</a>
     </div>
   </div>
 </div>
@@ -352,6 +346,33 @@
     <section>
     <h2>Type-Bound Procedures</h2>
      <div class="panel panel-default">
+  <div class="panel-heading codesum"><span class="anchor" id="boundprocedure-count_inputs"></span><h3>procedure, public :: <strong>count_inputs</strong>    </h3></div>
+  <ul class="list-group">
+      <li class="list-group-item">
+          <h3>interface
+          </h3>
+  
+          <h3>private module module function count_inputs(layer) result(num_inputs)   <a href='../proc/count_inputs.html'><button type="button" class="btn btn-info depwarn">Implementation &rarr;</button></a>
+</h3>    
+<h4>Arguments</h4>      <table class="table table-striped varlist">
+<thead><tr><th>Type</th><th>Intent</th><th>Optional</th><th>Attributes</th><th></th><th>Name</th><th></th></thead>
+<tbody>
+<tr>
+  <td><span class="anchor" ></span>class(<a href='../type/layer_t.html'>layer_t</a>),</td>
+<td>intent(in)</td>
+  <td></td>  <td></td><td>::</td>
+  <td><strong>layer</strong></td><td></td>
+</tr>
+</tbody>
+</table>
+
+<h4>Return Value <small>integer</small></h4>  
+
+      </li>
+  </ul>
+</div>
+
+     <div class="panel panel-default">
   <div class="panel-heading codesum"><span class="anchor" id="boundprocedure-count_layers"></span><h3>procedure, public :: <strong>count_layers</strong>    </h3></div>
   <ul class="list-group">
       <li class="list-group-item">
@@ -406,13 +427,13 @@
 </div>
 
      <div class="panel panel-default">
-  <div class="panel-heading codesum"><span class="anchor" id="boundprocedure-hidden_biases"></span><h3>procedure, public :: <strong>hidden_biases</strong>    </h3></div>
+  <div class="panel-heading codesum"><span class="anchor" id="boundprocedure-inference_engine"></span><h3>procedure, public :: <strong>inference_engine</strong>    </h3></div>
   <ul class="list-group">
       <li class="list-group-item">
           <h3>interface
           </h3>
   
-          <h3>private module module function hidden_biases(self) result(biases)   <a href='../proc/hidden_biases.html'><button type="button" class="btn btn-info depwarn">Implementation &rarr;</button></a>
+          <h3>private module module function inference_engine(hidden_layers, metadata, output_layer) result(inference_engine_)   <a href='../proc/inference_engine.html'><button type="button" class="btn btn-info depwarn">Implementation &rarr;</button></a>
 </h3>    
 <h4>Arguments</h4>      <table class="table table-striped varlist">
 <thead><tr><th>Type</th><th>Intent</th><th>Optional</th><th>Attributes</th><th></th><th>Name</th><th></th></thead>
@@ -421,66 +442,24 @@
   <td><span class="anchor" ></span>class(<a href='../type/layer_t.html'>layer_t</a>),</td>
 <td>intent(in),</td>
   <td></td>  <td>target</td><td>::</td>
-  <td><strong>self</strong></td><td></td>
+  <td><strong>hidden_layers</strong></td><td></td>
 </tr>
-</tbody>
-</table>
-
-<h4>Return Value <small>real(kind=rkind),allocatable, (:,:)</small></h4>  
-
-      </li>
-  </ul>
-</div>
-
-     <div class="panel panel-default">
-  <div class="panel-heading codesum"><span class="anchor" id="boundprocedure-hidden_weights"></span><h3>procedure, public :: <strong>hidden_weights</strong>    </h3></div>
-  <ul class="list-group">
-      <li class="list-group-item">
-          <h3>interface
-          </h3>
-  
-          <h3>private module module function hidden_weights(self) result(weights)   <a href='../proc/hidden_weights.html'><button type="button" class="btn btn-info depwarn">Implementation &rarr;</button></a>
-</h3>    
-<h4>Arguments</h4>      <table class="table table-striped varlist">
-<thead><tr><th>Type</th><th>Intent</th><th>Optional</th><th>Attributes</th><th></th><th>Name</th><th></th></thead>
-<tbody>
 <tr>
-  <td><span class="anchor" ></span>class(<a href='../type/layer_t.html'>layer_t</a>),</td>
+  <td><span class="anchor" ></span>type(string_t),</td>
+<td>intent(in)</td>
+  <td></td>  <td></td><td>::</td>
+  <td><strong>metadata</strong>(:)</td><td></td>
+</tr>
+<tr>
+  <td><span class="anchor" ></span>type(<a href='../type/layer_t.html'>layer_t</a>),</td>
 <td>intent(in),</td>
   <td></td>  <td>target</td><td>::</td>
-  <td><strong>self</strong></td><td></td>
+  <td><strong>output_layer</strong></td><td></td>
 </tr>
 </tbody>
 </table>
 
-<h4>Return Value <small>real(kind=rkind),allocatable, (:,:,:)</small></h4>  
-
-      </li>
-  </ul>
-</div>
-
-     <div class="panel panel-default">
-  <div class="panel-heading codesum"><span class="anchor" id="boundprocedure-input_weights"></span><h3>procedure, public :: <strong>input_weights</strong>    </h3></div>
-  <ul class="list-group">
-      <li class="list-group-item">
-          <h3>interface
-          </h3>
-  
-          <h3>private module module function input_weights(self) result(weights)   <a href='../proc/input_weights.html'><button type="button" class="btn btn-info depwarn">Implementation &rarr;</button></a>
-</h3>    
-<h4>Arguments</h4>      <table class="table table-striped varlist">
-<thead><tr><th>Type</th><th>Intent</th><th>Optional</th><th>Attributes</th><th></th><th>Name</th><th></th></thead>
-<tbody>
-<tr>
-  <td><span class="anchor" ></span>class(<a href='../type/layer_t.html'>layer_t</a>),</td>
-<td>intent(in),</td>
-  <td></td>  <td>target</td><td>::</td>
-  <td><strong>self</strong></td><td></td>
-</tr>
-</tbody>
-</table>
-
-<h4>Return Value <small>real(kind=rkind),allocatable, (:,:)</small></h4>  
+<h4>Return Value <small>type(<a href='../type/inference_engine_t.html'>inference_engine_t</a>)</small></h4>  
 
       </li>
   </ul>
@@ -567,60 +546,6 @@
   </ul>
 </div>
 
-     <div class="panel panel-default">
-  <div class="panel-heading codesum"><span class="anchor" id="boundprocedure-output_biases"></span><h3>procedure, public :: <strong>output_biases</strong>    </h3></div>
-  <ul class="list-group">
-      <li class="list-group-item">
-          <h3>interface
-          </h3>
-  
-          <h3>private module module function output_biases(self) result(biases)   <a href='../proc/output_biases.html'><button type="button" class="btn btn-info depwarn">Implementation &rarr;</button></a>
-</h3>    
-<h4>Arguments</h4>      <table class="table table-striped varlist">
-<thead><tr><th>Type</th><th>Intent</th><th>Optional</th><th>Attributes</th><th></th><th>Name</th><th></th></thead>
-<tbody>
-<tr>
-  <td><span class="anchor" ></span>class(<a href='../type/layer_t.html'>layer_t</a>),</td>
-<td>intent(in),</td>
-  <td></td>  <td>target</td><td>::</td>
-  <td><strong>self</strong></td><td></td>
-</tr>
-</tbody>
-</table>
-
-<h4>Return Value <small>real(kind=rkind),allocatable, (:)</small></h4>  
-
-      </li>
-  </ul>
-</div>
-
-     <div class="panel panel-default">
-  <div class="panel-heading codesum"><span class="anchor" id="boundprocedure-output_weights"></span><h3>procedure, public :: <strong>output_weights</strong>    </h3></div>
-  <ul class="list-group">
-      <li class="list-group-item">
-          <h3>interface
-          </h3>
-  
-          <h3>private module module function output_weights(self) result(weights)   <a href='../proc/output_weights.html'><button type="button" class="btn btn-info depwarn">Implementation &rarr;</button></a>
-</h3>    
-<h4>Arguments</h4>      <table class="table table-striped varlist">
-<thead><tr><th>Type</th><th>Intent</th><th>Optional</th><th>Attributes</th><th></th><th>Name</th><th></th></thead>
-<tbody>
-<tr>
-  <td><span class="anchor" ></span>class(<a href='../type/layer_t.html'>layer_t</a>),</td>
-<td>intent(in),</td>
-  <td></td>  <td>target</td><td>::</td>
-  <td><strong>self</strong></td><td></td>
-</tr>
-</tbody>
-</table>
-
-<h4>Return Value <small>real(kind=rkind),allocatable, (:,:)</small></h4>  
-
-      </li>
-  </ul>
-</div>
-
     </section>
     
     
@@ -639,7 +564,7 @@
           <p class="text-right">
             Documentation generated by 
             <a href="https://github.com/Fortran-FOSS-Programmers/ford">FORD</a>
- on 2023-07-10 06:10            </p>
+ on 2023-07-19 07:03            </p>
         </div>
       </div>
       <br>
