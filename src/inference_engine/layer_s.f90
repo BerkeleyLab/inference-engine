@@ -53,17 +53,61 @@ contains
         associate(n_max => maxval(nodes))
           block
             real(rkind), allocatable :: weights(:,:,:), biases(:,:)
+            type(layer_t), pointer :: layer_ptr
+            type(neuron_t), pointer :: neuron_ptr
+            integer j, l
 
             allocate(weights(n_max, n_max, num_hidden_layers + num_output_layers))
             allocate(biases(n_max, num_hidden_layers + num_output_layers))
+
+            layer_ptr => hidden_layers
+            l = 0 
+            loop_over_hidden_Layers: &
+            do  
+              l = l + 1
+              neuron_ptr => layer_ptr%neuron
+              j = 0
+              loop_over_hidden_neurons: &
+              do  
+                j = j + 1
+                associate(w => neuron_ptr%weights())
+                  weights(j,1:size(w,1),l) = w
+                end associate
+                biases(j,l) = neuron_ptr%bias()
+
+                if (.not. neuron_ptr%next_allocated()) exit
+                neuron_ptr => neuron_ptr%next_pointer()
+
+              end do loop_over_hidden_neurons
+
+              if (.not. allocated(layer_ptr%next)) exit
+              layer_ptr => layer_ptr%next_pointer()
+
+            end do loop_over_hidden_Layers
+
+            layer_ptr => output_layer
+            l = l + 1
+            neuron_ptr => layer_ptr%neuron
+            j = 0
+            loop_over_output_neurons: &
+            do  
+              j = j + 1
+              associate(w => neuron_ptr%weights())
+                weights(j,1:size(w,1),l) = w
+              end associate
+              biases(j,l) = neuron_ptr%bias()
+
+              if (.not. neuron_ptr%next_allocated()) exit
+              neuron_ptr => neuron_ptr%next_pointer()
+
+            end do loop_over_output_neurons
+
             inference_engine_ = inference_engine_t(metadata, weights, biases, nodes)
           end block
         end associate
       end associate
     end associate
     
-    stop "-----> here <-----"
-
   end procedure
 
   module procedure count_layers

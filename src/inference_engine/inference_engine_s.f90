@@ -217,7 +217,7 @@ contains
     block 
        integer, parameter :: lines_per_neuron=4, bracket_lines_per_layer=2
        character(len=:), allocatable :: output_layer_line
-       
+             
        hidden_layers = layer_t(lines, start=l)
 
        associate( output_layer_line_number => l + lines_per_neuron*sum(hidden_layers%count_neurons()) &
@@ -232,38 +232,6 @@ contains
     end block
 
     inference_engine = hidden_layers%inference_engine(metadata, output_layer) 
-
-    stop "----->  made it <----"
-
-    block 
-      type(layer_t), pointer :: next_layer
-      real(rkind), allocatable :: transposed(:,:,:)
-      integer layer
-
-      next_layer => hidden_layers%next_pointer()
-
-      if (hidden_layers%next_allocated()) then
-        hidden_weights = next_layer%hidden_weights()
-      else
-        associate(neurons_per_layer => size(transpose(hidden_layers%input_weights()),1)) ! keep consistent with the eponymous function
-          allocate(hidden_weights(neurons_per_layer, neurons_per_layer, 0))
-        end associate
-      end if
-
-      allocate(transposed(size(hidden_weights,2), size(hidden_weights,1), size(hidden_weights,3)))
-      do concurrent(layer = 1:size(hidden_weights,3)) 
-        transposed(:,:,layer) = transpose(hidden_weights(:,:,layer))
-      end do
-
-      inference_engine = construct_from_legacy_arrays( &
-        metadata = metadata, &
-        input_weights = hidden_layers%input_weights(), &
-        hidden_weights = transposed, & 
-        output_weights = output_layer%output_weights(), &
-        biases = hidden_layers%hidden_biases(), &
-        output_biases = output_layer%output_biases() & 
-      ) 
-    end block
 
     call set_activation_strategy(inference_engine)
     call assert_consistency(inference_engine)

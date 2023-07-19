@@ -46,7 +46,8 @@ module layer_m
 
     module function inference_engine(hidden_layers, metadata, output_layer) result(inference_engine_)
       implicit none
-      class(layer_t), intent(in), target :: hidden_layers, output_layer
+      class(layer_t), intent(in), target :: hidden_layers
+      type(layer_t), intent(in), target :: output_layer
       type(string_t), intent(in) :: metadata(:)
       type(inference_engine_t) inference_engine_
     end function
