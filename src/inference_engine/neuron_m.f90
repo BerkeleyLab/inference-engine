@@ -1,7 +1,8 @@
 ! Copyright (c), The Regents of the University of California
 ! Terms of use are as specified in LICENSE.txt
 module neuron_m
-  use string_m, only : string_t
+  !use string_m, only : string_t
+  use sourcery_m, only : string_t
   use kind_parameters_m, only : rkind
   implicit none
 

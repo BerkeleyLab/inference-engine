@@ -2,13 +2,25 @@
 ! Terms of use are as specified in LICENSE.txt
 module inference_engine_m_
   !! Define an abstraction that supports inference operationsn on a neural network
-  use string_m, only : string_t
+  !use string_m, only : string_t
+  use sourcery_m, only : string_t
   use activation_strategy_m, only : activation_strategy_t
   use file_m, only : file_t
   use kind_parameters_m, only : rkind
   use inputs_m, only : inputs_t
   use outputs_m, only : outputs_t
   use differentiable_activation_strategy_m, only :differentiable_activation_strategy_t
+  
+  !use assert_m, only : assert
+  !use intrinsic_array_m, only : intrinsic_array_t
+  !use step_m, only : step_t
+  !use swish_m, only : swish_t
+  !use sigmoid_m, only : sigmoid_t
+  !use layer_m, only : layer_t
+  !use neuron_m, only : neuron_t
+  !use file_m, only : file_t
+  !use formats_m, only : separated_values
+  !use outputs_m, only : outputs_t
   implicit none
 
   private

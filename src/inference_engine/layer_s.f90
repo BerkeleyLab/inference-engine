@@ -2,13 +2,13 @@
 ! Terms of use are as specified in LICENSE.txt
 submodule(layer_m) layer_s
   use assert_m, only : assert
+  !use sourcery_m, only : string_t
   use intrinsic_array_m, only : intrinsic_array_t
   implicit none
 
 contains
 
   module procedure construct
-
     type(neuron_t), pointer ::  neuron 
     integer num_inputs, neurons_in_layer
     character(len=:), allocatable :: line

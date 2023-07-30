@@ -4,7 +4,8 @@ module activation_strategy_m
 
   ! External dependencies
   use kind_parameters_m, only : rkind
-  use string_m, only : string_t
+  !use string_m, only : string_t
+  use sourcery_m, only : string_t
   implicit none
 
   private
@@ -27,7 +28,8 @@ module activation_strategy_m
       real(rkind) y
     end function
 
-    elemental module function function_name_i() result(string)
+    elemental function function_name_i() result(string)
+      import string_t
       implicit none
       type(string_t) string
     end function

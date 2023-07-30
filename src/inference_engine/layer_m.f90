@@ -5,6 +5,9 @@ module layer_m
   use sourcery_m, only : string_t
   use kind_parameters_m, only : rkind
   use inference_engine_m_, only : inference_engine_t
+  
+  !use assert_m, only : assert
+  !use intrinsic_array_m, only : intrinsic_array_t
   implicit none
 
   private
@@ -29,6 +32,7 @@ module layer_m
 
     recursive module function construct(layer_lines, start) result(layer)
       !! construct a linked list of layer_t objects from an array of JSON-formatted text lines
+      !use layer_m
       implicit none
       type(string_t), intent(in) :: layer_lines(:)
       integer, intent(in) :: start

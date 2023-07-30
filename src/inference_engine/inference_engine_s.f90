@@ -47,7 +47,7 @@ contains
 
   end procedure
 
-  pure module subroutine inference_engine_consistency(self)
+  pure subroutine inference_engine_consistency(self)
 
     type(inference_engine_t), intent(in) :: self
 
@@ -72,7 +72,7 @@ contains
 
   end subroutine
 
-  pure module subroutine difference_consistency(self)
+  pure subroutine difference_consistency(self)
 
     type(difference_t), intent(in) :: self
 
@@ -184,23 +184,50 @@ contains
         end associate
       end associate
     end function
-
+    
     function get_key_value(line) result(value_)
-      character(len=*), intent(in) :: line
-      type(string_t) value_
+        character(len=*), intent(in) :: line
+        type(string_t) value_
+        character(len=:), allocatable :: text_after_colon
+        integer :: opening_value_quotes, closing_value_quotes
 
-      associate(text_after_colon => line(index(line, ':')+1:))
-        associate(opening_value_quotes => index(text_after_colon, '"'))
-          associate(closing_value_quotes => opening_value_quotes + index(text_after_colon(opening_value_quotes+1:), '"'))
-            if (any([opening_value_quotes, closing_value_quotes] == 0)) then
-              value_ = string_t(trim(adjustl((text_after_colon))))
-            else
-              value_ = string_t(text_after_colon(opening_value_quotes+1:closing_value_quotes-1))
-            end if
-          end associate
-        end associate
-      end associate
+        ! Find the text after the colon
+        text_after_colon = line(index(line, ':')+1:)
+
+        ! Find the index of the opening and closing quotes
+        opening_value_quotes = index(text_after_colon, '"')
+        closing_value_quotes = opening_value_quotes + index(text_after_colon(opening_value_quotes+1:), '"')
+
+        ! Check if quotes are missing
+        if (any([opening_value_quotes, closing_value_quotes] == 0)) then
+            ! No quotes found, assign the trimmed value to result
+            value_ = string_t(trim(adjustl((text_after_colon))))
+        else
+            ! Extract the value between the quotes and assign to result
+            value_ = string_t(text_after_colon(opening_value_quotes+1:closing_value_quotes-1))
+        end if
+
+        ! Deallocate the temporary variable
+        !if (allocated(text_after_colon)) deallocate(text_after_colon)
     end function
+
+
+    !function get_key_value_backup(line) result(value_)
+      !character(len=*), intent(in) :: line
+      !type(string_t) value_
+
+       !associate(text_after_colon => line(index(line, ':')+1:))
+        !associate(opening_value_quotes => index(text_after_colon, '"'))
+          !associate(closing_value_quotes => opening_value_quotes + index(text_after_colon(opening_value_quotes+1:), '"'))
+            !if (any([opening_value_quotes, closing_value_quotes] == 0)) then
+              !value_ = string_t(trim(adjustl((text_after_colon))))
+            !else
+              !value_ = string_t(text_after_colon(opening_value_quotes+1:closing_value_quotes-1))
+            !end if
+          !end associate
+        !end associate
+      !end associate
+    !end function
 
   end procedure construct_from_json
 
@@ -274,7 +301,6 @@ contains
   end procedure
 
   module procedure to_json
-
     type(string_t), allocatable :: lines(:)
     integer layer, neuron, line
     integer, parameter :: characters_per_value=17
