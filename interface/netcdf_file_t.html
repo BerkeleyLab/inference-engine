@@ -1,4 +1,3 @@
-
 <!DOCTYPE html>
 <html lang="en">
   <head>
@@ -9,7 +8,7 @@
     <meta name="author" content="Sourcery Institute" >
     <link rel="icon" href="../favicon.png">
 
-    <title>infer_interface &ndash; Inference-Engine</title>
+    <title>netCDF_file_t &ndash; Inference-Engine</title>
 
     <link href="../css/bootstrap.min.css" rel="stylesheet">
     <link href="../css/pygments.css" rel="stylesheet">
@@ -81,8 +80,8 @@
 
     <div class="container">
   <div class="row">
-    <h1>infer_interface
-   <small>Abstract Interface</small>
+    <h1>netCDF_file_t
+   <small>Interface</small>
     </h1>
     <div class="row">
   <div class="col-lg-12">
@@ -91,14 +90,14 @@
      <li><i class="fa fa-list-ol"></i>
        <a data-toggle="tooltip"
     data-placement="bottom" data-html="true"
-    title="38.5% of total for abstract interfaces.">15 statements</a>
+    title="<p> 0.5% of total for procedures.</p>Including implementation: 7 statements,  0.5% of total for procedures.">7 statements</a>
      </li> 
-    <li><i class="fa fa-code"></i><a href="../src/inference_strategy_m.f90"> Source File</a></li>
+    <li><i class="fa fa-code"></i><a href="../src/netCDF_file_m.f90"> Source File</a></li>
   </ul>
   <ol class="breadcrumb in-well text-right">
-     <li><a href='../sourcefile/inference_strategy_m.f90.html'>inference_strategy_m.f90</a></li>
-     <li><a href='../module/inference_strategy_m.html'>inference_strategy_m</a></li>
-     <li class="active">infer_interface</li>
+     <li><a href='../sourcefile/netcdf_file_m.f90.html'>netCDF_file_m.f90</a></li>
+     <li><a href='../module/netcdf_file_m.html'>netCDF_file_m</a></li>
+     <li class="active">netCDF_file_t</li>
   </ol>
 </div>
 </div>
@@ -113,79 +112,65 @@
   
   <div class="row">
     <div class="col-md-3 hidden-xs hidden-sm visible-md visible-lg">
-    <div id="sidebar">
+      <div id="sidebar">
   <h3>Contents</h3>
  
-<em>None</em>
+<div class="panel panel-primary">
+  <div class="panel-heading text-left"><h3 class="panel-title"><a data-toggle="collapse" href="#funcs-0">Functions</a></h3></div>
+  <div id="funcs-0" class="panel-collapse collapse">
+    <div class="list-group">
+      <a class="list-group-item" href="../interface/netcdf_file_t.html#proc-construct~4">construct</a>
+    </div>
+  </div>
+</div>
 
 </div>
 
     </div>
     
     <div class="col-md-9" id='text'>
-      <h2>abstract interface <br>
-      private pure function infer_interface(input, input_weights, hidden_weights, biases, output_biases, output_weights, activation_strategy, skip) result(outputs)</h2>    
+      <h2>public interface netCDF_file_t</h2>
+   
 
-    
+     <section class="visible-xs visible-sm hidden-md">
+       <h3>Contents</h3>
+ 
+<div class="panel panel-primary">
+  <div class="panel-heading text-left"><h3 class="panel-title"><a data-toggle="collapse" href="#funcs-1">Functions</a></h3></div>
+  <div id="funcs-1" class="panel-collapse collapse">
+    <div class="list-group">
+      <a class="list-group-item" href="../interface/netcdf_file_t.html#proc-construct~4">construct</a>
+    </div>
+  </div>
+</div>
 
-    <h3>Arguments</h3>
-      <table class="table table-striped varlist">
+     </section>
+     <br class="visible-xs visible-sm hidden-md">
+     
+   <h2>Functions</h2>
+      <div class="panel panel-default">
+  <div class="panel-heading codesum"><span class="anchor" id="proc-construct~4"></span><h3>private pure module function construct(file_name) result(netCDF_file)</h3></div>
+  <div class="panel-body">
+           
+<h4>Arguments</h4>      <table class="table table-striped varlist">
 <thead><tr><th>Type</th><th>Intent</th><th>Optional</th><th>Attributes</th><th></th><th>Name</th><th></th></thead>
 <tbody>
 <tr>
-  <td><span class="anchor" id="variable-input"></span>real(kind=rkind),</td>
+  <td><span class="anchor" ></span>character(len=*),</td>
 <td>intent(in)</td>
   <td></td>  <td></td><td>::</td>
-  <td><strong>input</strong>(:)</td><td></td>
-</tr>
-<tr>
-  <td><span class="anchor" id="variable-input_weights"></span>real(kind=rkind),</td>
-<td>intent(in)</td>
-  <td></td>  <td></td><td>::</td>
-  <td><strong>input_weights</strong>(:,:)</td><td><p>weights applied to go from the inputs to first hidden layer</p></td>
-</tr>
-<tr>
-  <td><span class="anchor" id="variable-hidden_weights"></span>real(kind=rkind),</td>
-<td>intent(in)</td>
-  <td></td>  <td></td><td>::</td>
-  <td><strong>hidden_weights</strong>(:,:,:)</td><td><p>weights applied to go from one hidden layer to the next</p></td>
-</tr>
-<tr>
-  <td><span class="anchor" id="variable-biases"></span>real(kind=rkind),</td>
-<td>intent(in)</td>
-  <td></td>  <td></td><td>::</td>
-  <td><strong>biases</strong>(:,:)</td><td><p>neuronal offsets for each hidden layer</p></td>
-</tr>
-<tr>
-  <td><span class="anchor" id="variable-output_biases"></span>real(kind=rkind),</td>
-<td>intent(in)</td>
-  <td></td>  <td></td><td>::</td>
-  <td><strong>output_biases</strong>(:)</td><td><p>neuronal offsets applied to outputs</p></td>
-</tr>
-<tr>
-  <td><span class="anchor" id="variable-output_weights"></span>real(kind=rkind),</td>
-<td>intent(in)</td>
-  <td></td>  <td></td><td>::</td>
-  <td><strong>output_weights</strong>(:,:)</td><td><p>weights applied to go from the final hidden layer to the outputs</p></td>
-</tr>
-<tr>
-  <td><span class="anchor" id="variable-activation_strategy"></span>class(<a href='../type/activation_strategy_t.html'>activation_strategy_t</a>),</td>
-<td>intent(in)</td>
-  <td></td>  <td></td><td>::</td>
-  <td><strong>activation_strategy</strong></td><td></td>
-</tr>
-<tr>
-  <td><span class="anchor" id="variable-skip~2"></span>logical,</td>
-<td>intent(in)</td>
-  <td></td>  <td></td><td>::</td>
-  <td><strong>skip</strong></td><td></td>
+  <td><strong>file_name</strong></td><td></td>
 </tr>
 </tbody>
 </table>
 
-      <h3>Return Value <span class="anchor" id="variable-outputs~3"></span><small>type(<a href='../type/outputs_t.html'>outputs_t</a>)</small></h3>
-    
-    <br>
+<h4>Return Value <small>type(<a href='../type/netcdf_file_t.html'>netCDF_file_t</a>)</small></h4>  
+
+  </div>
+  </div>
+
+
+
 
  </div>
 </div>
@@ -202,7 +187,7 @@
           <p class="text-right">
             Documentation generated by 
             <a href="https://github.com/Fortran-FOSS-Programmers/ford">FORD</a>
- on 2023-07-19 07:03            </p>
+ on 2023-07-30 21:26            </p>
         </div>
       </div>
       <br>
