@@ -5,7 +5,6 @@ program read_json
   !! query the network for a some of its properties.
   use command_line_m, only : command_line_t
   use inference_engine_m, only : inference_engine_t
-  !use string_m, only : string_t
   use sourcery_m, only : string_t
   use matmul_m, only : matmul_t
   use file_m, only : file_t

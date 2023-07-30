@@ -18,6 +18,13 @@ program main
   call inference_engine_test%report(passes, tests)
   call asymmetric_engine_test%report(passes, tests)
   call trainable_engine_test%report(passes, tests)
+#ifndef __INTEL_FORTRAN
+  block 
+    use netCDF_file_test_m, only : netCDF_file_test_t
+    type(netCDF_file_test_t) netCDF_file_test
+    call netCDF_file_test%report(passes, tests)
+  end block
+#endif // __INTEL_FORTRAN
   call cpu_time(t_finish)
 
   print *
