@@ -4,11 +4,13 @@ program main
   use inference_engine_test_m, only : inference_engine_test_t  
   use asymmetric_engine_test_m, only : asymmetric_engine_test_t  
   use trainable_engine_test_m, only : trainable_engine_test_t  
+  use netCDF_file_test_m, only : netCDF_file_test_t
   implicit none
 
   type(inference_engine_test_t) inference_engine_test
   type(asymmetric_engine_test_t) asymmetric_engine_test
   type(trainable_engine_test_t) trainable_engine_test
+  type(netCDF_file_test_t) netCDF_file_test
   real t_start, t_finish
 
   integer :: passes=0, tests=0
@@ -18,6 +20,7 @@ program main
   call inference_engine_test%report(passes, tests)
   call asymmetric_engine_test%report(passes, tests)
   call trainable_engine_test%report(passes, tests)
+  call netCDF_file_test%report(passes, tests)
   call cpu_time(t_finish)
 
   print *
