@@ -1,5 +1,8 @@
 ! Copyright (c), The Regents of the University of California
 ! Terms of use are as specified in LICENSE.txt
+#ifndef __INTEL_FORTRAN
+!! Due to a suspected bug in the Intel ifx compiler, the above C preprocessor macro
+!! effectively eliminates this file's source code when building with an Intel compiler.
 module netCDF_file_test_m
   !! Define asymmetric tests and procedures required for reporting results
 
@@ -72,3 +75,4 @@ contains
   end function
 
 end module netCDF_file_test_m
+#endif // __INTEL_FORTRAN
