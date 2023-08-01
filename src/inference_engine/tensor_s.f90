@@ -1,16 +1,16 @@
 ! Copyright (c), The Regents of the University of California
 ! Terms of use are as specified in LICENSE.txt
-submodule(inputs_m) inputs_s
+submodule(tensor_m) tensor_s
   implicit none
 
 contains
 
     module procedure construct_from_components
-      inputs%values_ = values
+      tensor%values_ = values
     end procedure
 
     module procedure values
-      inputs = self%values_
+      tensor_values = self%values_
     end procedure
 
-end submodule inputs_s
+end submodule tensor_s

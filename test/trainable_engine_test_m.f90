@@ -13,7 +13,7 @@ module trainable_engine_test_m
 
   ! Internal dependencies
   use inference_engine_m, only : &
-    trainable_engine_t, inputs_t, outputs_t, expected_outputs_t, sigmoid_t, input_output_pair_t, mini_batch_t
+    trainable_engine_t, tensor_t, sigmoid_t, input_output_pair_t, mini_batch_t
 
   implicit none
 
@@ -31,9 +31,9 @@ module trainable_engine_test_m
   abstract interface
 
     function map_i(inputs) result(expected_outputs)
-      import inputs_t, expected_outputs_t
-      type(inputs_t), intent(in) :: inputs
-      type(expected_outputs_t) expected_outputs
+      import tensor_t
+      type(tensor_t), intent(in) :: inputs
+      type(tensor_t) expected_outputs
     end function
 
   end interface
@@ -91,9 +91,8 @@ contains
     !!   call print_truth_table("XOR", xor_ptr, test_inputs, actual_outputs)
     character(len=*), intent(in) :: gate_name
     procedure(map_i), intent(in), pointer :: gate_function_ptr
-    type(inputs_t), intent(in) :: test_inputs(:)
-    type(outputs_t), intent(in) :: actual_outputs(:)
-    type(expected_outputs_t) expected_outputs
+    type(tensor_t), intent(in), dimension(:) :: test_inputs, actual_outputs
+    type(tensor_t) expected_outputs
     integer i
 
     call assert( size(test_inputs) == size(actual_outputs), &
@@ -103,7 +102,7 @@ contains
 
     do i = 1, size(test_inputs)
       expected_outputs = gate_function_ptr(test_inputs(i))
-      print *,test_inputs(i)%values(), "-->", expected_outputs%outputs(), ":", actual_outputs(i)%outputs()
+      print *,test_inputs(i)%values(), "-->", expected_outputs%values(), ":", actual_outputs(i)%values()
     end do
   end subroutine
 
@@ -142,10 +141,9 @@ contains
   function and_gate_with_skewed_training_data() result(test_passes)
     logical, allocatable :: test_passes(:)
     type(mini_batch_t), allocatable :: mini_batches(:)
-    type(inputs_t), allocatable :: training_inputs(:,:), tmp(:), test_inputs(:)
-    type(expected_outputs_t), allocatable :: training_outputs(:,:), expected_test_outputs(:), tmp2(:)
+    type(tensor_t), allocatable, dimension(:,:) :: training_inputs, training_outputs
+    type(tensor_t), allocatable, dimension(:) :: tmp, tmp2, test_inputs, expected_test_outputs, actual_outputs
     type(trainable_engine_t) trainable_engine
-    type(outputs_t), allocatable :: actual_outputs(:)
     real(rkind), parameter :: tolerance = 1.E-02_rkind
     real(rkind), allocatable :: harvest(:,:,:)
     integer, parameter :: num_inputs=2, mini_batch_size = 1, num_iterations=20000
@@ -157,7 +155,7 @@ contains
 
     ! The following temporary copies are required by gfortran bug 100650 and possibly 49324
     ! See https://gcc.gnu.org/bugzilla/show_bug.cgi?id=100650 and https://gcc.gnu.org/bugzilla/show_bug.cgi?id=49324
-    tmp = [([(inputs_t(merge(true, false, harvest(:,batch,iter) < 0.5E0)), batch=1, mini_batch_size)], iter=1, num_iterations)]
+    tmp = [([(tensor_t(merge(true, false, harvest(:,batch,iter) < 0.5E0)), batch=1, mini_batch_size)], iter=1, num_iterations)]
     training_inputs = reshape(tmp, [mini_batch_size, num_iterations])
 
     tmp2 = [([(and(training_inputs(batch, iter)), batch = 1, mini_batch_size)], iter = 1, num_iterations )]
@@ -168,17 +166,17 @@ contains
 
     call trainable_engine%train(mini_batches)
 
-    test_inputs = [inputs_t([true,true]), inputs_t([false,true]), inputs_t([true,false]), inputs_t([false,false])]
+    test_inputs = [tensor_t([true,true]), tensor_t([false,true]), tensor_t([true,false]), tensor_t([false,false])]
     expected_test_outputs = [(and(test_inputs(i)), i=1, size(test_inputs))]
     actual_outputs = trainable_engine%infer(test_inputs)
-    test_passes = [(abs(actual_outputs(i)%outputs() - expected_test_outputs(i)%outputs()) < tolerance, i=1, size(actual_outputs))]
+    test_passes = [(abs(actual_outputs(i)%values() - expected_test_outputs(i)%values()) < tolerance, i=1, size(actual_outputs))]
 
   contains
 
     elemental function and(inputs_object) result(expected_outputs_object)
-      type(inputs_t), intent(in) :: inputs_object 
-      type(expected_outputs_t) expected_outputs_object 
-      expected_outputs_object = expected_outputs_t([merge(true, false, sum(inputs_object%values()) > 1.99_rkind)])
+      type(tensor_t), intent(in) :: inputs_object 
+      type(tensor_t) expected_outputs_object 
+      expected_outputs_object = tensor_t([merge(true, false, sum(inputs_object%values()) > 1.99_rkind)])
     end function
 
   end function
@@ -186,10 +184,10 @@ contains
   function not_and_gate_with_skewed_training_data() result(test_passes)
     logical, allocatable :: test_passes(:)
     type(mini_batch_t), allocatable :: mini_batches(:)
-    type(inputs_t), allocatable :: training_inputs(:,:), tmp(:), test_inputs(:)
-    type(expected_outputs_t), allocatable :: training_outputs(:,:), expected_test_outputs(:), tmp2(:)
+    type(tensor_t), allocatable :: training_inputs(:,:), tmp(:), test_inputs(:)
+    type(tensor_t), allocatable :: training_outputs(:,:), expected_test_outputs(:), tmp2(:)
     type(trainable_engine_t) trainable_engine
-    type(outputs_t), allocatable :: actual_outputs(:)
+    type(tensor_t), allocatable :: actual_outputs(:)
     real(rkind), parameter :: tolerance = 1.E-02_rkind
     real(rkind), allocatable :: harvest(:,:,:)
     integer, parameter :: num_inputs=2, mini_batch_size = 1, num_iterations=30000
@@ -201,7 +199,7 @@ contains
 
     ! The following temporary copies are required by gfortran bug 100650 and possibly 49324
     ! See https://gcc.gnu.org/bugzilla/show_bug.cgi?id=100650 and https://gcc.gnu.org/bugzilla/show_bug.cgi?id=49324
-    tmp = [([(inputs_t(merge(true, false, harvest(:,batch,iter) < 0.5E0)), batch=1, mini_batch_size)], iter=1, num_iterations)]
+    tmp = [([(tensor_t(merge(true, false, harvest(:,batch,iter) < 0.5E0)), batch=1, mini_batch_size)], iter=1, num_iterations)]
     training_inputs = reshape(tmp, [mini_batch_size, num_iterations])
 
     tmp2 = [([(not_and(training_inputs(batch, iter)), batch = 1, mini_batch_size)], iter = 1, num_iterations )]
@@ -212,17 +210,17 @@ contains
 
     call trainable_engine%train(mini_batches)
 
-    test_inputs = [inputs_t([true,true]), inputs_t([false,true]), inputs_t([true,false]), inputs_t([false,false])]
+    test_inputs = [tensor_t([true,true]), tensor_t([false,true]), tensor_t([true,false]), tensor_t([false,false])]
     expected_test_outputs = [(not_and(test_inputs(i)), i=1, size(test_inputs))]
     actual_outputs = trainable_engine%infer(test_inputs)
-    test_passes = [(abs(actual_outputs(i)%outputs() - expected_test_outputs(i)%outputs()) < tolerance, i=1, size(actual_outputs))]
+    test_passes = [(abs(actual_outputs(i)%values() - expected_test_outputs(i)%values()) < tolerance, i=1, size(actual_outputs))]
 
   contains
     
     function not_and(inputs) result(expected_outputs)
-       type(inputs_t), intent(in) :: inputs
-       type(expected_outputs_t) expected_outputs
-       expected_outputs = expected_outputs_t([merge(true, false, sum(inputs%values()) < 2.)])
+       type(tensor_t), intent(in) :: inputs
+       type(tensor_t) expected_outputs
+       expected_outputs = tensor_t([merge(true, false, sum(inputs%values()) < 2.)])
     end function
 
   end function
@@ -230,10 +228,9 @@ contains
   function or_gate_with_random_weights() result(test_passes)
     logical, allocatable :: test_passes(:)
     type(mini_batch_t), allocatable :: mini_batches(:)
-    type(inputs_t), allocatable :: training_inputs(:,:), tmp(:), test_inputs(:)
-    type(expected_outputs_t), allocatable :: training_outputs(:,:), expected_test_outputs(:), tmp2(:)
+    type(tensor_t), allocatable :: training_inputs(:,:), tmp(:), test_inputs(:), actual_outputs(:)
+    type(tensor_t), allocatable :: training_outputs(:,:), expected_test_outputs(:), tmp2(:)
     type(trainable_engine_t) trainable_engine
-    type(outputs_t), allocatable :: actual_outputs(:)
     real(rkind), parameter :: tolerance = 1.E-02_rkind
     real(rkind), allocatable :: harvest(:,:,:)
     integer, parameter :: num_inputs=2, mini_batch_size = 1, num_iterations=50000
@@ -244,7 +241,7 @@ contains
 
     ! The following temporary copies are required by gfortran bug 100650 and possibly 49324
     ! See https://gcc.gnu.org/bugzilla/show_bug.cgi?id=100650 and https://gcc.gnu.org/bugzilla/show_bug.cgi?id=49324
-    tmp = [([(inputs_t(merge(true, false, harvest(:,batch,iter) < 0.5E0)), batch=1, mini_batch_size)], iter=1, num_iterations)]
+    tmp = [([(tensor_t(merge(true, false, harvest(:,batch,iter) < 0.5E0)), batch=1, mini_batch_size)], iter=1, num_iterations)]
     training_inputs = reshape(tmp, [mini_batch_size, num_iterations])
 
     tmp2 = [([(or(training_inputs(batch, iter)), batch = 1, mini_batch_size)], iter = 1, num_iterations )]
@@ -255,17 +252,17 @@ contains
 
     call trainable_engine%train(mini_batches)
 
-    test_inputs = [inputs_t([true,true]), inputs_t([false,true]), inputs_t([true,false]), inputs_t([false,false])]
+    test_inputs = [tensor_t([true,true]), tensor_t([false,true]), tensor_t([true,false]), tensor_t([false,false])]
     expected_test_outputs = [(or(test_inputs(i)), i=1, size(test_inputs))]
     actual_outputs = trainable_engine%infer(test_inputs)
-    test_passes = [(abs(actual_outputs(i)%outputs() - expected_test_outputs(i)%outputs()) < tolerance, i=1, size(actual_outputs))]
+    test_passes = [(abs(actual_outputs(i)%values() - expected_test_outputs(i)%values()) < tolerance, i=1, size(actual_outputs))]
 
   contains
     
     function or(inputs) result(expected_outputs)
-       type(inputs_t), intent(in) :: inputs
-       type(expected_outputs_t) expected_outputs
-       expected_outputs = expected_outputs_t([merge(true, false, sum(inputs%values()) > 0.99)])
+       type(tensor_t), intent(in) :: inputs
+       type(tensor_t) expected_outputs
+       expected_outputs = tensor_t([merge(true, false, sum(inputs%values()) > 0.99)])
     end function
 
   end function
@@ -273,10 +270,9 @@ contains
   function xor_gate_with_random_weights() result(test_passes)
     logical, allocatable :: test_passes(:)
     type(mini_batch_t), allocatable :: mini_batches(:)
-    type(inputs_t), allocatable :: training_inputs(:,:), tmp(:), test_inputs(:)
-    type(expected_outputs_t), allocatable :: training_outputs(:,:), expected_test_outputs(:), tmp2(:)
+    type(tensor_t), allocatable, dimension(:,:) :: training_inputs, training_outputs 
+    type(tensor_t), allocatable, dimension(:) :: tmp, tmp2, actual_outputs, test_inputs, expected_test_outputs
     type(trainable_engine_t) trainable_engine
-    type(outputs_t), allocatable :: actual_outputs(:)
     real(rkind), parameter :: tolerance = 1.E-02_rkind
     real(rkind), allocatable :: harvest(:,:,:)
     integer, parameter :: num_inputs=2, mini_batch_size = 1, num_iterations=400000
@@ -287,7 +283,7 @@ contains
 
     ! The following temporary copies are required by gfortran bug 100650 and possibly 49324
     ! See https://gcc.gnu.org/bugzilla/show_bug.cgi?id=100650 and https://gcc.gnu.org/bugzilla/show_bug.cgi?id=49324
-    tmp = [([(inputs_t(merge(true, false, harvest(:,batch,iter) < 0.5E0)), batch=1, mini_batch_size)], iter=1, num_iterations)]
+    tmp = [([(tensor_t(merge(true, false, harvest(:,batch,iter) < 0.5E0)), batch=1, mini_batch_size)], iter=1, num_iterations)]
     training_inputs = reshape(tmp, [mini_batch_size, num_iterations])
 
     tmp2 = [([(xor(training_inputs(batch, iter)), batch = 1, mini_batch_size)], iter = 1, num_iterations )]
@@ -298,18 +294,18 @@ contains
 
     call trainable_engine%train(mini_batches)
 
-    test_inputs = [inputs_t([true,true]), inputs_t([false,true]), inputs_t([true,false]), inputs_t([false,false])]
+    test_inputs = [tensor_t([true,true]), tensor_t([false,true]), tensor_t([true,false]), tensor_t([false,false])]
     expected_test_outputs = [(xor(test_inputs(i)), i=1, size(test_inputs))]
     actual_outputs = trainable_engine%infer(test_inputs)
-    test_passes = [(abs(actual_outputs(i)%outputs() - expected_test_outputs(i)%outputs()) < tolerance, i=1, size(actual_outputs))]
+    test_passes = [(abs(actual_outputs(i)%values() - expected_test_outputs(i)%values()) < tolerance, i=1, size(actual_outputs))]
 
   contains
     
     function xor(inputs) result(expected_outputs)
-      type(inputs_t), intent(in) :: inputs
-      type(expected_outputs_t) expected_outputs
+      type(tensor_t), intent(in) :: inputs
+      type(tensor_t) expected_outputs
       associate(sum_inputs => sum(inputs%values()))
-       expected_outputs = expected_outputs_t([merge(true, false, sum_inputs > 0.99 .and. sum_inputs < 1.01)])
+       expected_outputs = tensor_t([merge(true, false, sum_inputs > 0.99 .and. sum_inputs < 1.01)])
       end associate
     end function
 
