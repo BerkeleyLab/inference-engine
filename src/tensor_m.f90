@@ -1,37 +1,37 @@
 ! Copyright (c), The Regents of the University of California
 ! Terms of use are as specified in LICENSE.txt
-module inputs_m
+module tensor_m
   use kind_parameters_m, only : rkind
   implicit none
 
   private
-  public :: inputs_t
+  public :: tensor_t
 
-  type inputs_t
+  type tensor_t
     private
     real(rkind), allocatable :: values_(:)
   contains
     procedure values
   end type
 
-  interface inputs_t
+  interface tensor_t
 
-    pure module function construct_from_components(values) result(inputs)
+    pure module function construct_from_components(values) result(tensor)
       implicit none
       real(rkind), intent(in) :: values(:)
-      type(inputs_t) inputs
+      type(tensor_t) tensor
     end function
 
   end interface
 
   interface
 
-    pure module function values(self) result(inputs)
+    pure module function values(self) result(tensor_values)
       implicit none
-      class(inputs_t), intent(in) :: self
-      real(rkind), allocatable :: inputs(:)
+      class(tensor_t), intent(in) :: self
+      real(rkind), allocatable :: tensor_values(:)
     end function
 
   end interface
 
-end module inputs_m
+end module tensor_m

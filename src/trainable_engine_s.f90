@@ -5,6 +5,7 @@ submodule(trainable_engine_m) trainable_engine_s
   use intrinsic_array_m, only : intrinsic_array_t
   use input_output_pair_m, only : input_output_pair_t
   use sigmoid_m, only : sigmoid_t
+  use tensor_m, only : tensor_t
   implicit none
 
   integer, parameter :: input_layer = 0
@@ -56,13 +57,7 @@ contains
         a(1:n(l),l) = self%differentiable_activation_strategy_%activation(z(1:n(l),l))
       end do feed_forward
  
-      associate(n_hidden => output_layer-1)
-      outputs = outputs_t( &
-        outputs = a(1:n(output_layer),output_layer), &
-        pre_activation_in = z(:,1:n_hidden), &
-        pre_activation_out = z(1:n(output_layer),output_layer) &
-      )
-      end associate
+      outputs = tensor_t(a(1:n(output_layer),output_layer))
 
     end associate
 
@@ -73,8 +68,8 @@ contains
     real(rkind), parameter :: eta = 1.5e0 ! Learning parameter
     real(rkind), allocatable :: z(:,:), a(:,:), y(:), delta(:,:), dcdw(:,:,:), dcdb(:,:)
     real(rkind) cost
-    type(inputs_t), allocatable :: inputs(:)
-    type(expected_outputs_t), allocatable :: expected_outputs(:)
+    type(tensor_t), allocatable :: inputs(:)
+    type(tensor_t), allocatable :: expected_outputs(:)
 
     call self%assert_consistent
 
@@ -103,7 +98,7 @@ contains
           do pair = 1, mini_batch_size
 
             a(1:self%num_inputs(), input_layer) = inputs(pair)%values()
-            y = expected_outputs(pair)%outputs()
+            y = expected_outputs(pair)%values()
 
             feed_forward: &
             do l = 1,output_layer

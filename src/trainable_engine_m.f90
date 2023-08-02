@@ -5,11 +5,9 @@ module trainable_engine_m
 
   use sourcery_m, only : string_t
   use inference_engine_m_, only : inference_engine_t
-  use outputs_m, only : outputs_t
   use differentiable_activation_strategy_m, only : differentiable_activation_strategy_t
   use kind_parameters_m, only : rkind
-  use inputs_m, only :  inputs_t
-  use expected_outputs_m, only : expected_outputs_t 
+  use tensor_m, only :  tensor_t
   use mini_batch_m, only : mini_batch_t
   implicit none
 
@@ -65,8 +63,8 @@ module trainable_engine_m
     elemental module function infer(self, inputs) result(outputs)
       implicit none
       class(trainable_engine_t), intent(in) :: self
-      type(inputs_t), intent(in) :: inputs
-      type(outputs_t) outputs
+      type(tensor_t), intent(in) :: inputs
+      type(tensor_t) outputs
     end function
     
     elemental module function num_inputs(self) result(n_in)
