@@ -3,7 +3,7 @@
 program train_and_write
   !! This program demonstrates how to train a neural network and write it to a JSON file.
   use inference_engine_m, only : &
-    inference_engine_t, trainable_engine_t, rkind, sigmoid_t, mini_batch_t, inputs_t, expected_outputs_t, input_output_pair_t
+    inference_engine_t, trainable_engine_t, rkind, sigmoid_t, mini_batch_t, tensor_t, input_output_pair_t
   use sourcery_m, only : string_t, file_t, command_line_t
   implicit none
 
@@ -23,8 +23,8 @@ program train_and_write
     type(inference_engine_t) inference_engine
     type(file_t) json_file
     type(mini_batch_t), allocatable :: mini_batches(:)
-    type(inputs_t), allocatable :: training_inputs(:,:), tmp(:), inputs(:)
-    type(expected_outputs_t), allocatable :: training_outputs(:,:), tmp2(:), expected_outputs(:)
+    type(tensor_t), allocatable :: training_inputs(:,:), tmp(:), inputs(:)
+    type(tensor_t), allocatable :: training_outputs(:,:), tmp2(:), expected_outputs(:)
     real(rkind) t_start, t_end
     real(rkind), allocatable :: harvest(:,:,:)
     integer, parameter :: num_inputs=2, mini_batch_size = 1, num_iterations=8000000
@@ -35,7 +35,7 @@ program train_and_write
 
     ! The following temporary copies are required by gfortran bug 100650 and possibly 49324
     ! See https://gcc.gnu.org/bugzilla/show_bug.cgi?id=100650 and https://gcc.gnu.org/bugzilla/show_bug.cgi?id=49324
-    tmp = [([(inputs_t(merge(true, false, harvest(:,batch,iter) < 0.5E0)), batch=1, mini_batch_size)], iter=1, num_iterations)]
+    tmp = [([(tensor_t(merge(true, false, harvest(:,batch,iter) < 0.5E0)), batch=1, mini_batch_size)], iter=1, num_iterations)]
     training_inputs = reshape(tmp, [mini_batch_size, num_iterations])
 
     tmp2 = [([(xor(training_inputs(batch, iter)), batch = 1, mini_batch_size)], iter = 1, num_iterations )]
@@ -50,12 +50,12 @@ program train_and_write
 
     print *,"Training time: ",t_end - t_start
 
-    inputs = [inputs_t([true,true]), inputs_t([true,false]), inputs_t([false,true]), inputs_t([false,false])]
+    inputs = [tensor_t([true,true]), tensor_t([true,false]), tensor_t([false,true]), tensor_t([false,false])]
     print *, "sample inputs:    ",("[",inputs(i)%values(),"]", i=1, size(inputs))
     expected_outputs = xor(inputs)
-    print *, "expected outputs: ",(expected_outputs(i)%outputs(), i=1, size(expected_outputs))
+    print *, "expected outputs: ",(expected_outputs(i)%values(), i=1, size(expected_outputs))
     associate(outputs => trainable_engine%infer(inputs))
-      print *, "actual outputs:   ",(outputs(i)%outputs(), i=1, size(outputs))
+      print *, "actual outputs:   ",(outputs(i)%values(), i=1, size(outputs))
     end associate
 
      inference_engine = trainable_engine%to_inference_engine()
@@ -66,10 +66,10 @@ program train_and_write
 contains
 
   elemental function xor(inputs) result(expected_outputs)
-    type(inputs_t), intent(in) :: inputs
-    type(expected_outputs_t) expected_outputs
+    type(tensor_t), intent(in) :: inputs
+    type(tensor_t) expected_outputs
     associate(sum_inputs => sum(inputs%values()))
-     expected_outputs = expected_outputs_t([merge(true, false, sum_inputs > 0.99 .and. sum_inputs < 1.01)])
+     expected_outputs = tensor_t([merge(true, false, sum_inputs > 0.99 .and. sum_inputs < 1.01)])
     end associate
   end function
 

@@ -10,7 +10,6 @@ submodule(inference_engine_m_) inference_engine_s
   use neuron_m, only : neuron_t
   use file_m, only : file_t
   use formats_m, only : separated_values
-  use outputs_m, only : outputs_t
   implicit none
 
   interface assert_consistency
@@ -41,7 +40,7 @@ contains
         end associate
       end do feed_forward
  
-      outputs = outputs_t(a(1:n(output_layer), output_layer), reshape([real(rkind)::],[0,0]), [real(rkind)::])
+      outputs = tensor_t(a(1:n(output_layer), output_layer))
 
     end associate
 

@@ -12,7 +12,7 @@ module inference_engine_test_m
   use file_m, only : file_t
 
   ! Internal dependencies
-  use inference_engine_m, only : inference_engine_t, inputs_t, outputs_t, difference_t
+  use inference_engine_m, only : inference_engine_t, tensor_t, difference_t
 
   implicit none
 
@@ -126,16 +126,16 @@ contains
     inference_engine = single_hidden_layer_xor_network()
 
     block
-      type(outputs_t), allocatable :: truth_table(:)
+      type(tensor_t), allocatable :: truth_table(:)
       real(rkind), parameter :: tolerance = 1.E-08_rkind, false = 0._rkind, true = 1._rkind
       integer i
 
-      associate(array_of_inputs => [inputs_t([true,true]), inputs_t([true,false]), inputs_t([false,true]), inputs_t([false,false])])
+      associate(array_of_inputs => [tensor_t([true,true]), tensor_t([true,false]), tensor_t([false,true]), tensor_t([false,false])])
         truth_table = inference_engine%infer(array_of_inputs)
       end associate
       test_passes = [ &
-        abs(truth_table(1)%outputs() - false) < tolerance .and. abs(truth_table(2)%outputs() - true) < tolerance .and. &
-        abs(truth_table(3)%outputs() - true) < tolerance .and. abs(truth_table(4)%outputs() - false) < tolerance &
+        abs(truth_table(1)%values() - false) < tolerance .and. abs(truth_table(2)%values() - true) < tolerance .and. &
+        abs(truth_table(3)%values() - true) < tolerance .and. abs(truth_table(4)%values() - false) < tolerance &
       ]
     end block
   end function
@@ -147,16 +147,16 @@ contains
     inference_engine = multi_layer_xor_network()
 
     block
-      type(outputs_t), allocatable :: truth_table(:)
+      type(tensor_t), allocatable :: truth_table(:)
       real(rkind), parameter :: tolerance = 1.E-08_rkind, false = 0._rkind, true = 1._rkind
       integer i
 
-      associate(array_of_inputs => [inputs_t([true,true]), inputs_t([true,false]), inputs_t([false,true]), inputs_t([false,false])])
+      associate(array_of_inputs => [tensor_t([true,true]), tensor_t([true,false]), tensor_t([false,true]), tensor_t([false,false])])
         truth_table = inference_engine%infer(array_of_inputs)
       end associate
       test_passes = [ &
-        abs(truth_table(1)%outputs() - false) < tolerance .and. abs(truth_table(2)%outputs() - true) < tolerance .and. &
-        abs(truth_table(3)%outputs() - true) < tolerance .and. abs(truth_table(4)%outputs() - false) < tolerance &
+        abs(truth_table(1)%values() - false) < tolerance .and. abs(truth_table(2)%values() - true) < tolerance .and. &
+        abs(truth_table(3)%values() - true) < tolerance .and. abs(truth_table(4)%values() - false) < tolerance &
       ]
     end block
   end function
