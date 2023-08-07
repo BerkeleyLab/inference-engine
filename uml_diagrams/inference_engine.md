@@ -9,8 +9,8 @@ activation_strategy_t <|-- differentiable_activation_strategy_t
 
 class expected_outputs_t
 
-
 class inference_engine_t
+
 inference_engine_t o-- string_t
 
 input_output_pair_t o-- inputs_t
@@ -33,5 +33,17 @@ activation_strategy_t <|-- step_t
 
 differentiable_activation_strategy_t <|-- swish_t
 
-trainable_engine_t o--"0..*" string_t
+class trainable_engine_t{
+    -metadata_ :
+    -w :,:,:
+    -b :,:
+    -n :
 
+    +assert_consistent()
+    +train()
+    +infer()
+    +num_layers()
+    +num_inputs()
+    +to_inference_engine()
+}
+trainable_engine_t o--"0..*" string_t
