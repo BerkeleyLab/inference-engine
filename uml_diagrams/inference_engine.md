@@ -27,8 +27,9 @@ neuron_t o--"0..*" neuron_t
 
 class outputs_t
 
-differentiable_activation_strategy_t <|--sigmoid_t
 
+differentiable_activation_strategy_t <|--sigmoid_t
+<<abstract>> differentiable_activation_strategy_t
 activation_strategy_t <|-- step_t
 
 differentiable_activation_strategy_t <|-- swish_t
