@@ -34,7 +34,7 @@ activation_strategy_t <|-- step_t
 differentiable_activation_strategy_t <|-- swish_t
 
 class trainable_engine_t{
-    -metadata_ :
+    -metadata_:
     -w :,:,:
     -b :,:
     -n :
