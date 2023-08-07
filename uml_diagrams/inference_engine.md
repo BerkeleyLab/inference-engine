@@ -35,10 +35,10 @@ activation_strategy_t <|-- step_t
 differentiable_activation_strategy_t <|-- swish_t
 
 class trainable_engine_t{
-    -metadata_:
-    -w :,:,:
-    -b :,:
-    -n :
+    -metadata_:string
+    -w : real
+    -b : real
+    -n : integer
 
     +assert_consistent()
     +train()
@@ -46,5 +46,7 @@ class trainable_engine_t{
     +num_layers()
     +num_inputs()
     +to_inference_engine()
+    differentiable_activation_strategy_t()
+
 }
 trainable_engine_t o--"0..*" string_t
