@@ -121,9 +121,9 @@
     <div class="list-group">
       <a class="list-group-item" href="../type/inference_engine_t.html#variable-activation_strategy_">activation_strategy_</a>
       <a class="list-group-item" href="../type/inference_engine_t.html#variable-biases_">biases_</a>
-      <a class="list-group-item" href="../type/inference_engine_t.html#variable-metadata_">metadata_</a>
+      <a class="list-group-item" href="../type/inference_engine_t.html#variable-metadata_~2">metadata_</a>
       <a class="list-group-item" href="../type/inference_engine_t.html#variable-nodes_">nodes_</a>
-      <a class="list-group-item" href="../type/inference_engine_t.html#variable-weights_">weights_</a>
+      <a class="list-group-item" href="../type/inference_engine_t.html#variable-weights_~2">weights_</a>
     </div>
   </div>
 </div>
@@ -141,9 +141,9 @@
     <div class="list-group">
       <a class="list-group-item" href="../type/inference_engine_t.html#boundprocedure-activation_function_name">activation_function_name</a>
       <a class="list-group-item" href="../type/inference_engine_t.html#boundprocedure-assert_conformable_with">assert_conformable_with</a>
-      <a class="list-group-item" href="../type/inference_engine_t.html#boundprocedure-infer">infer</a>
+      <a class="list-group-item" href="../type/inference_engine_t.html#boundprocedure-infer~2">infer</a>
       <a class="list-group-item" href="../type/inference_engine_t.html#boundprocedure-nodes_per_layer">nodes_per_layer</a>
-      <a class="list-group-item" href="../type/inference_engine_t.html#boundprocedure-num_inputs">num_inputs</a>
+      <a class="list-group-item" href="../type/inference_engine_t.html#boundprocedure-num_inputs~3">num_inputs</a>
       <a class="list-group-item" href="../type/inference_engine_t.html#boundprocedure-num_outputs">num_outputs</a>
       <a class="list-group-item" href="../type/inference_engine_t.html#boundprocedure-operator%28-%29">operator(-)</a>
       <a class="list-group-item" href="../type/inference_engine_t.html#boundprocedure-skip">skip</a>
@@ -261,9 +261,9 @@
     <div class="list-group">
       <a class="list-group-item" href="../type/inference_engine_t.html#variable-activation_strategy_">activation_strategy_</a>
       <a class="list-group-item" href="../type/inference_engine_t.html#variable-biases_">biases_</a>
-      <a class="list-group-item" href="../type/inference_engine_t.html#variable-metadata_">metadata_</a>
+      <a class="list-group-item" href="../type/inference_engine_t.html#variable-metadata_~2">metadata_</a>
       <a class="list-group-item" href="../type/inference_engine_t.html#variable-nodes_">nodes_</a>
-      <a class="list-group-item" href="../type/inference_engine_t.html#variable-weights_">weights_</a>
+      <a class="list-group-item" href="../type/inference_engine_t.html#variable-weights_~2">weights_</a>
     </div>
   </div>
 </div>
@@ -281,9 +281,9 @@
     <div class="list-group">
       <a class="list-group-item" href="../type/inference_engine_t.html#boundprocedure-activation_function_name">activation_function_name</a>
       <a class="list-group-item" href="../type/inference_engine_t.html#boundprocedure-assert_conformable_with">assert_conformable_with</a>
-      <a class="list-group-item" href="../type/inference_engine_t.html#boundprocedure-infer">infer</a>
+      <a class="list-group-item" href="../type/inference_engine_t.html#boundprocedure-infer~2">infer</a>
       <a class="list-group-item" href="../type/inference_engine_t.html#boundprocedure-nodes_per_layer">nodes_per_layer</a>
-      <a class="list-group-item" href="../type/inference_engine_t.html#boundprocedure-num_inputs">num_inputs</a>
+      <a class="list-group-item" href="../type/inference_engine_t.html#boundprocedure-num_inputs~3">num_inputs</a>
       <a class="list-group-item" href="../type/inference_engine_t.html#boundprocedure-num_outputs">num_outputs</a>
       <a class="list-group-item" href="../type/inference_engine_t.html#boundprocedure-operator%28-%29">operator(-)</a>
       <a class="list-group-item" href="../type/inference_engine_t.html#boundprocedure-skip">skip</a>
@@ -312,7 +312,7 @@
   <td><strong>biases_</strong>(:,:)</td><td></td><td></td><td></td>
 </tr>
 <tr>
-  <td><span class="anchor" id="variable-metadata_"></span>type(string_t),</td>
+  <td><span class="anchor" id="variable-metadata_~2"></span>type(string_t),</td>
 <td>private</td>  <td></td><td>::</td>
   <td><strong>metadata_</strong>(size(key))</td><td></td><td></td><td></td>
 </tr>
@@ -322,7 +322,7 @@
   <td><strong>nodes_</strong>(:)</td><td></td><td></td><td></td>
 </tr>
 <tr>
-  <td><span class="anchor" id="variable-weights_"></span>real(kind=rkind),</td>
+  <td><span class="anchor" id="variable-weights_~2"></span>real(kind=rkind),</td>
 <td>private,</td>  <td>allocatable</td><td>::</td>
   <td><strong>weights_</strong>(:,:,:)</td><td></td><td></td><td></td>
 </tr>
@@ -459,13 +459,13 @@
 </div>
 
      <div class="panel panel-default">
-  <div class="panel-heading codesum"><span class="anchor" id="boundprocedure-infer"></span><h3>procedure, public :: <strong>infer</strong>    </h3></div>
+  <div class="panel-heading codesum"><span class="anchor" id="boundprocedure-infer~2"></span><h3>procedure, public :: <strong>infer</strong>    </h3></div>
   <ul class="list-group">
       <li class="list-group-item">
           <h3>interface
           </h3>
   
-          <h3>private elemental module module function infer(self, inputs) result(outputs)   <a href='../proc/infer.html'><button type="button" class="btn btn-info depwarn">Implementation &rarr;</button></a>
+          <h3>private elemental module module function infer(self, inputs) result(outputs)   <a href='../proc/infer~2.html'><button type="button" class="btn btn-info depwarn">Implementation &rarr;</button></a>
 </h3>    
 <h4>Arguments</h4>      <table class="table table-striped varlist">
 <thead><tr><th>Type</th><th>Intent</th><th>Optional</th><th>Attributes</th><th></th><th>Name</th><th></th></thead>
@@ -519,13 +519,13 @@
 </div>
 
      <div class="panel panel-default">
-  <div class="panel-heading codesum"><span class="anchor" id="boundprocedure-num_inputs"></span><h3>procedure, public :: <strong>num_inputs</strong>    </h3></div>
+  <div class="panel-heading codesum"><span class="anchor" id="boundprocedure-num_inputs~3"></span><h3>procedure, public :: <strong>num_inputs</strong>    </h3></div>
   <ul class="list-group">
       <li class="list-group-item">
           <h3>interface
           </h3>
   
-          <h3>private elemental module module function num_inputs(self) result(input_count)   <a href='../proc/num_inputs.html'><button type="button" class="btn btn-info depwarn">Implementation &rarr;</button></a>
+          <h3>private elemental module module function num_inputs(self) result(input_count)   <a href='../proc/num_inputs~3.html'><button type="button" class="btn btn-info depwarn">Implementation &rarr;</button></a>
 </h3>    
 <h4>Arguments</h4>      <table class="table table-striped varlist">
 <thead><tr><th>Type</th><th>Intent</th><th>Optional</th><th>Attributes</th><th></th><th>Name</th><th></th></thead>
@@ -688,7 +688,7 @@
           <p class="text-right">
             Documentation generated by 
             <a href="https://github.com/Fortran-FOSS-Programmers/ford">FORD</a>
- on 2023-08-02 01:59            </p>
+ on 2023-08-11 16:06            </p>
         </div>
       </div>
       <br>
