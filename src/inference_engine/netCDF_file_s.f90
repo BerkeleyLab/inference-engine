@@ -69,7 +69,30 @@ contains
       end associate
     end associate
 
-  end procedure 
+  end procedure
+
+  module procedure input_4D_real
+
+    integer ncid, varid
+
+    associate( nf_status => nf90_open(self%file_name_, nf90_nowrite, ncid) ) ! open file with read-only acces
+      call assert(nf_status == nf90_noerr, "nf90_open(self%file_name_, NF90_NOWRITE, ncid) succeeds", trim(nf90_strerror(nf_status)))
+    end associate
+
+    associate( nf_status => nf90_inq_varid(ncid, varname, varid)) ! get variable's ID
+      call assert(nf_status == nf90_noerr, 'nf90_inq_varid(ncid, varname, varid) succeeds', trim(nf90_strerror(nf_status)))
+    end associate
+
+    associate(array_shape => get_shape(ncid, varname))
+      call assert(size(array_shape)==rank(values), "netCDF_file_s(input_4D_real): size(array_shape)==rank(values)", &
+        intrinsic_array_t([size(array_shape),rank(values)]))
+      allocate(values(array_shape(1), array_shape(2), array_shape(3), array_shape(4)))
+      associate( nf_status => nf90_get_var(ncid, varid, values)) ! read data
+        call assert(nf_status == nf90_noerr, "nf90_get_var(ncid, varid, array) succeeds", trim(nf90_strerror(nf_status)))
+      end associate
+    end associate
+
+  end procedure
 
 end submodule netCDF_file_s
 #endif // __INTEL_FORTRAN

@@ -14,7 +14,8 @@ module netCDF_file_m
     character(len=:), allocatable :: file_name_
   contains
     procedure input_2D_integer
-    generic :: input => input_2D_integer
+    procedure input_4D_real
+    generic :: input => input_2D_integer, input_4D_real
   end type
 
   interface netCDF_file_t
@@ -34,6 +35,13 @@ module netCDF_file_m
       class(netCDF_file_t), intent(in) :: self
       character(len=*), intent(in) :: varname
       integer, intent(out), allocatable :: values(:,:)
+    end subroutine
+
+    module subroutine input_4D_real(self, varname, values)
+      implicit none
+      class(netCDF_file_t), intent(in) :: self
+      character(len=*), intent(in) :: varname
+      real, intent(out), allocatable :: values(:,:,:,:)
     end subroutine
 
   end interface
