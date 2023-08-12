@@ -33,7 +33,7 @@ module netCDF_file_m
       implicit none
       class(netCDF_file_t), intent(in) :: self
       character(len=*), intent(in) :: varname
-      integer, intent(inout), allocatable :: data_in(:,:)
+      integer, intent(inout), allocatable :: data_in(..)
     end subroutine
 
     module subroutine output(self, data_out)

@@ -54,18 +54,51 @@ contains
       call assert(nf_status == nf90_noerr, "nf90_open(self%file_name_, NF90_NOWRITE, ncid) succeeds", trim(nf90_strerror(nf_status)))
     end associate
 
-    associate( nf_status => nf90_inq_varid(ncid, varname, varid)) ! Get data variable's ID
-      call assert(nf_status == nf90_noerr, 'nf90_inq_varid(ncid, "data", varid) succeeds', trim(nf90_strerror(nf_status)))
+    associate( nf_status => nf90_inq_varid(ncid, varname, varid)) ! get variable's ID
+      call assert(nf_status == nf90_noerr, 'nf90_inq_varid(ncid, varname, varid) succeeds', trim(nf90_strerror(nf_status)))
     end associate
 
-    associate(data_in_shape => get_shape(ncid, varname))
-      allocate(data_in(data_in_shape(1), data_in_shape(2)))
-    end associate
+    call set_shape(data_in, get_shape(ncid, varname))
 
     associate( nf_status => nf90_get_var(ncid, varid, data_in)) ! Read data
       call assert(nf_status == nf90_noerr, "nf90_get_var(ncid, varid, data_in) succeeds", trim(nf90_strerror(nf_status)))
     end associate
   contains
+
+    subroutine set_shape(array, s)
+      class(*), intent(inout) :: array(..)
+      integer, intent(in) :: s(:) ! array shape
+
+      call assert(size(s)==rank(array), "netCDF_file_s(set_shape): size(s)==rank(array)")
+      
+      select rank(array)
+        rank(1)
+          select type(array)
+            type is(integer)
+              !allocate(array(s(1)))
+            type is(real)
+              !allocate(array(s(1)))
+            type is(double precision)
+              !allocate(array(s(1)))
+            class default
+              error stop "netCDF_file_s(set_shape): unsupported rank-1 type"
+          end select
+        rank(2)
+          select type(array)
+            type is(integer)
+              !allocate(array(s(1),s(2)))
+            type is(real)
+              !allocate(array(s(1),s(2)))
+            type is(double precision)
+             !allocate(array(s(1),s(2)))
+            class default
+              error stop "netCDF_file_s(set_shape): unsupported rank-2 type"
+          end select
+        rank default
+          error stop "netCDF_file_s(set_shape): unsupported rank"
+      end select
+
+    end subroutine
 
     function get_shape(ncid, varname) result(array_shape)
       implicit none
