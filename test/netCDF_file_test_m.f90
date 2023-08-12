@@ -46,13 +46,13 @@ contains
     associate( &
       descriptions => &
         [ character(len=len(longest_description)) :: &
-          "written and the read gives input matching the output" &
+          "written and then read gives input matching the output" &
         ], &
       outcomes => &
         [ write_then_read() & 
         ] & 
     )
-      call assert(size(descriptions) == size(outcomes),"asymetric_engine_test_m(results): size(descriptions) == size(outcomes)")
+      call assert(size(descriptions) == size(outcomes),"asymmetric_engine_test_m(results): size(descriptions) == size(outcomes)")
       test_results = test_result_t(descriptions, outcomes)
     end associate
        
@@ -65,12 +65,12 @@ contains
     integer, parameter :: data_written(*,*) = reshape([((i*j, i=1,nx), j=1,ny)], [ny,nx])
     integer, allocatable :: data_read(:,:)
   
-   associate(netCDF_file => netCDF_file_t(file_name = "netCDF_example.nc"))
-     call netCDF_file%output(data_written)
-     call netCDF_file%input("data", data_read)
-   end associate
+    associate(netCDF_file => netCDF_file_t(file_name = "netCDF_example.nc"))
+      call netCDF_file%output(data_written)
+      call netCDF_file%input("data", data_read)
+    end associate
 
-   test_passes = [all(data_written == data_read)]
+    test_passes = [all(data_written == data_read)]
 
   end function
 

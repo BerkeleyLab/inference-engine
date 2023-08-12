@@ -13,7 +13,8 @@ module netCDF_file_m
     private
     character(len=:), allocatable :: file_name_
   contains
-    procedure input
+    procedure input_2D_integer
+    generic :: input => input_2D_integer
     procedure output
   end type
 
@@ -29,11 +30,11 @@ module netCDF_file_m
 
   interface
 
-    module subroutine input(self, varname, data_in)
+    module subroutine input_2D_integer(self, varname, values)
       implicit none
       class(netCDF_file_t), intent(in) :: self
       character(len=*), intent(in) :: varname
-      integer, intent(inout), allocatable :: data_in(..)
+      integer, intent(out), allocatable :: values(:,:)
     end subroutine
 
     module subroutine output(self, data_out)
