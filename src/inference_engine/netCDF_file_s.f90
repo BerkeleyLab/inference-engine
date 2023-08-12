@@ -54,11 +54,11 @@ contains
       call assert(nf_status == nf90_noerr, "nf90_open(self%file_name_, NF90_NOWRITE, ncid) succeeds", trim(nf90_strerror(nf_status)))
     end associate
 
-    associate( nf_status => nf90_inq_varid(ncid, "data", varid)) ! Get data variable's ID
+    associate( nf_status => nf90_inq_varid(ncid, varname, varid)) ! Get data variable's ID
       call assert(nf_status == nf90_noerr, 'nf90_inq_varid(ncid, "data", varid) succeeds', trim(nf90_strerror(nf_status)))
     end associate
 
-    associate(data_in_shape => get_shape(ncid, "data"))
+    associate(data_in_shape => get_shape(ncid, varname))
       allocate(data_in(data_in_shape(1), data_in_shape(2)))
     end associate
 

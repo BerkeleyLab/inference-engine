@@ -67,7 +67,7 @@ contains
   
    associate(netCDF_file => netCDF_file_t(file_name = "netCDF_example.nc"))
      call netCDF_file%output(data_written)
-     call netCDF_file%input(data_read)
+     call netCDF_file%input("data", data_read)
    end associate
 
    test_passes = [all(data_written == data_read)]

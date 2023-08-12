@@ -29,9 +29,10 @@ module netCDF_file_m
 
   interface
 
-    module subroutine input(self, data_in)
+    module subroutine input(self, varname, data_in)
       implicit none
       class(netCDF_file_t), intent(in) :: self
+      character(len=*), intent(in) :: varname
       integer, intent(inout), allocatable :: data_in(:,:)
     end subroutine
 
