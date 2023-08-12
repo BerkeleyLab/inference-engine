@@ -58,15 +58,47 @@ contains
        
   end function
 
+  subroutine output(file_name, data_out)
+    character(len=*), intent(in) :: file_name
+    integer, intent(in) :: data_out(:,:)
+
+    integer ncid, varid, x_dimid, y_dimid
+
+    associate(nf_status => nf90_create(file_name, nf90_clobber, ncid)) ! create or ovewrite file
+      call assert(nf_status == nf90_noerr, "nf90_create(file_name, nf90_clobber, ncid) succeeds",trim(nf90_strerror(nf_status)))
+    end associate
+    associate(nf_status => nf90_def_dim(ncid, "x", size(data_out,2), x_dimid)) ! define x dimension & get its ID
+      call assert(nf_status == nf90_noerr,'nf90_def_dim(ncid,"x",size(data_out,2),x_dimid) succeeds',trim(nf90_strerror(nf_status)))
+    end associate
+    associate(nf_status => nf90_def_dim(ncid, "y", size(data_out,1), y_dimid)) ! define y dimension & get its ID
+      call assert(nf_status==nf90_noerr, 'nf90_def_dim(ncid,"y",size(data_out,2),y_dimid) succeeds', trim(nf90_strerror(nf_status)))
+    end associate
+    associate(nf_status => nf90_def_var(ncid, "data", nf90_int, [y_dimid, x_dimid], varid))!define integer 'data' variable & get ID
+      call assert(nf_status == nf90_noerr, 'nf90_def_var(ncid,"data",nf90_int,[y_dimid,x_dimid],varid) succeds', &
+        trim(nf90_strerror(nf_status)))
+    end associate
+    associate(nf_status => nf90_enddef(ncid)) ! exit define mode: tell netCDF we are done defining metadata
+      call assert(nf_status == nf90_noerr, 'nff90_noerr == nf90_enddef(ncid)', trim(nf90_strerror(nf_status)))
+    end associate
+    associate(nf_status => nf90_put_var(ncid, varid, data_out)) ! write all data to file
+      call assert(nf_status == nf90_noerr, 'nff90_noerr == nf90_put_var(ncid, varid, data_out)', trim(nf90_strerror(nf_status)))
+    end associate
+    associate(nf_status => nf90_close(ncid)) ! close file to free associated netCDF resources and flush buffers
+      call assert(nf_status == nf90_noerr, 'nff90_noerr == nf90_close(ncid)', trim(nf90_strerror(nf_status)))
+    end associate
+  end subroutine
+
   function write_then_read() result(test_passes)
     logical, allocatable :: test_passes(:)
     integer i, j
     integer, parameter :: ny = 12,  nx = 6
     integer, parameter :: data_written(*,*) = reshape([((i*j, i=1,nx), j=1,ny)], [ny,nx])
     integer, allocatable :: data_read(:,:)
+    character(len=*), parameter :: file_name = "netCDF_example.nc"
   
-    associate(netCDF_file => netCDF_file_t(file_name = "netCDF_example.nc"))
-      call netCDF_file%output(data_written)
+    call output(file_name, data_written)
+
+    associate(netCDF_file => netCDF_file_t(file_name))
       call netCDF_file%input("data", data_read)
     end associate
 

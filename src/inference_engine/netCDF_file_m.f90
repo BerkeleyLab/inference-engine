@@ -15,7 +15,6 @@ module netCDF_file_m
   contains
     procedure input_2D_integer
     generic :: input => input_2D_integer
-    procedure output
   end type
 
   interface netCDF_file_t
@@ -35,12 +34,6 @@ module netCDF_file_m
       class(netCDF_file_t), intent(in) :: self
       character(len=*), intent(in) :: varname
       integer, intent(out), allocatable :: values(:,:)
-    end subroutine
-
-    module subroutine output(self, data_out)
-      implicit none
-      class(netCDF_file_t), intent(in) :: self
-      integer, intent(in) :: data_out(:,:)
     end subroutine
 
   end interface
