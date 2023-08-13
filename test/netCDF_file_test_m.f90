@@ -3,7 +3,7 @@
 #ifndef __INTEL_FORTRAN
 !! Due to a suspected bug in the Intel ifx compiler, the above C preprocessor macro
 !! effectively eliminates this file's source code when building with an Intel compiler.
-module netCDF_file_test_m
+module NetCDF_file_test_m
   !! Define asymmetric tests and procedures required for reporting results
 
   ! External dependencies
@@ -17,14 +17,14 @@ module netCDF_file_test_m
      nf90_clobber, nf90_noerr, nf90_strerror, nf90_int, nf90_nowrite ! constants
 
   ! Internal dependencies
-  use netCDF_file_m, only : netCDF_file_t
+  use NetCDF_file_m, only : NetCDF_file_t
 
   implicit none
 
   private
-  public :: netCDF_file_test_t
+  public :: NetCDF_file_test_t
 
-  type, extends(test_t) :: netCDF_file_test_t
+  type, extends(test_t) :: NetCDF_file_test_t
   contains
     procedure, nopass :: subject
     procedure, nopass :: results
@@ -34,7 +34,7 @@ contains
 
   pure function subject() result(specimen)
     character(len=:), allocatable :: specimen
-    specimen = "A netCDF_file_t object"
+    specimen = "A NetCDF_file_t object"
   end function
 
   function results() result(test_results)
@@ -46,17 +46,47 @@ contains
     associate( &
       descriptions => &
         [ character(len=len(longest_description)) :: &
-          "written and the read gives input matching the output" &
+          "written and then read gives input matching the output" &
         ], &
       outcomes => &
         [ write_then_read() & 
         ] & 
     )
-      call assert(size(descriptions) == size(outcomes),"asymetric_engine_test_m(results): size(descriptions) == size(outcomes)")
+      call assert(size(descriptions) == size(outcomes),"asymmetric_engine_test_m(results): size(descriptions) == size(outcomes)")
       test_results = test_result_t(descriptions, outcomes)
     end associate
        
   end function
+
+  subroutine output(file_name, data_out)
+    character(len=*), intent(in) :: file_name
+    integer, intent(in) :: data_out(:,:)
+
+    integer ncid, varid, x_dimid, y_dimid
+
+    associate(nf_status => nf90_create(file_name, nf90_clobber, ncid)) ! create or ovewrite file
+      call assert(nf_status == nf90_noerr, "nf90_create(file_name, nf90_clobber, ncid) succeeds",trim(nf90_strerror(nf_status)))
+    end associate
+    associate(nf_status => nf90_def_dim(ncid, "x", size(data_out,2), x_dimid)) ! define x dimension & get its ID
+      call assert(nf_status == nf90_noerr,'nf90_def_dim(ncid,"x",size(data_out,2),x_dimid) succeeds',trim(nf90_strerror(nf_status)))
+    end associate
+    associate(nf_status => nf90_def_dim(ncid, "y", size(data_out,1), y_dimid)) ! define y dimension & get its ID
+      call assert(nf_status==nf90_noerr, 'nf90_def_dim(ncid,"y",size(data_out,2),y_dimid) succeeds', trim(nf90_strerror(nf_status)))
+    end associate
+    associate(nf_status => nf90_def_var(ncid, "data", nf90_int, [y_dimid, x_dimid], varid))!define integer 'data' variable & get ID
+      call assert(nf_status == nf90_noerr, 'nf90_def_var(ncid,"data",nf90_int,[y_dimid,x_dimid],varid) succeds', &
+        trim(nf90_strerror(nf_status)))
+    end associate
+    associate(nf_status => nf90_enddef(ncid)) ! exit define mode: tell NetCDF we are done defining metadata
+      call assert(nf_status == nf90_noerr, 'nff90_noerr == nf90_enddef(ncid)', trim(nf90_strerror(nf_status)))
+    end associate
+    associate(nf_status => nf90_put_var(ncid, varid, data_out)) ! write all data to file
+      call assert(nf_status == nf90_noerr, 'nff90_noerr == nf90_put_var(ncid, varid, data_out)', trim(nf90_strerror(nf_status)))
+    end associate
+    associate(nf_status => nf90_close(ncid)) ! close file to free associated NetCDF resources and flush buffers
+      call assert(nf_status == nf90_noerr, 'nff90_noerr == nf90_close(ncid)', trim(nf90_strerror(nf_status)))
+    end associate
+  end subroutine
 
   function write_then_read() result(test_passes)
     logical, allocatable :: test_passes(:)
@@ -64,15 +94,17 @@ contains
     integer, parameter :: ny = 12,  nx = 6
     integer, parameter :: data_written(*,*) = reshape([((i*j, i=1,nx), j=1,ny)], [ny,nx])
     integer, allocatable :: data_read(:,:)
+    character(len=*), parameter :: file_name = "NetCDF_example.nc"
   
-   associate(netCDF_file => netCDF_file_t(file_name = "netCDF_example.nc"))
-     call netCDF_file%output(data_written)
-     call netCDF_file%input(data_read)
-   end associate
+    call output(file_name, data_written)
 
-   test_passes = [all(data_written == data_read)]
+    associate(NetCDF_file => NetCDF_file_t(file_name))
+      call NetCDF_file%input("data", data_read)
+    end associate
+
+    test_passes = [all(data_written == data_read)]
 
   end function
 
-end module netCDF_file_test_m
+end module NetCDF_file_test_m
 #endif // __INTEL_FORTRAN

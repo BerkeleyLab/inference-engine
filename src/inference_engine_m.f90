@@ -8,6 +8,7 @@ module inference_engine_m
  use inference_engine_m_, only : inference_engine_t, difference_t
  use kind_parameters_m, only : rkind
  use mini_batch_m, only : mini_batch_t
+ use NetCDF_file_m, only : NetCDF_file_t 
  use sigmoid_m, only : sigmoid_t
  use step_m, only : step_t
  use swish_m, only : swish_t
