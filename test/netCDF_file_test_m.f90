@@ -3,7 +3,7 @@
 #ifndef __INTEL_FORTRAN
 !! Due to a suspected bug in the Intel ifx compiler, the above C preprocessor macro
 !! effectively eliminates this file's source code when building with an Intel compiler.
-module netCDF_file_test_m
+module NetCDF_file_test_m
   !! Define asymmetric tests and procedures required for reporting results
 
   ! External dependencies
@@ -17,14 +17,14 @@ module netCDF_file_test_m
      nf90_clobber, nf90_noerr, nf90_strerror, nf90_int, nf90_nowrite ! constants
 
   ! Internal dependencies
-  use netCDF_file_m, only : netCDF_file_t
+  use NetCDF_file_m, only : NetCDF_file_t
 
   implicit none
 
   private
-  public :: netCDF_file_test_t
+  public :: NetCDF_file_test_t
 
-  type, extends(test_t) :: netCDF_file_test_t
+  type, extends(test_t) :: NetCDF_file_test_t
   contains
     procedure, nopass :: subject
     procedure, nopass :: results
@@ -34,7 +34,7 @@ contains
 
   pure function subject() result(specimen)
     character(len=:), allocatable :: specimen
-    specimen = "A netCDF_file_t object"
+    specimen = "A NetCDF_file_t object"
   end function
 
   function results() result(test_results)
@@ -77,13 +77,13 @@ contains
       call assert(nf_status == nf90_noerr, 'nf90_def_var(ncid,"data",nf90_int,[y_dimid,x_dimid],varid) succeds', &
         trim(nf90_strerror(nf_status)))
     end associate
-    associate(nf_status => nf90_enddef(ncid)) ! exit define mode: tell netCDF we are done defining metadata
+    associate(nf_status => nf90_enddef(ncid)) ! exit define mode: tell NetCDF we are done defining metadata
       call assert(nf_status == nf90_noerr, 'nff90_noerr == nf90_enddef(ncid)', trim(nf90_strerror(nf_status)))
     end associate
     associate(nf_status => nf90_put_var(ncid, varid, data_out)) ! write all data to file
       call assert(nf_status == nf90_noerr, 'nff90_noerr == nf90_put_var(ncid, varid, data_out)', trim(nf90_strerror(nf_status)))
     end associate
-    associate(nf_status => nf90_close(ncid)) ! close file to free associated netCDF resources and flush buffers
+    associate(nf_status => nf90_close(ncid)) ! close file to free associated NetCDF resources and flush buffers
       call assert(nf_status == nf90_noerr, 'nff90_noerr == nf90_close(ncid)', trim(nf90_strerror(nf_status)))
     end associate
   end subroutine
@@ -94,17 +94,17 @@ contains
     integer, parameter :: ny = 12,  nx = 6
     integer, parameter :: data_written(*,*) = reshape([((i*j, i=1,nx), j=1,ny)], [ny,nx])
     integer, allocatable :: data_read(:,:)
-    character(len=*), parameter :: file_name = "netCDF_example.nc"
+    character(len=*), parameter :: file_name = "NetCDF_example.nc"
   
     call output(file_name, data_written)
 
-    associate(netCDF_file => netCDF_file_t(file_name))
-      call netCDF_file%input("data", data_read)
+    associate(NetCDF_file => NetCDF_file_t(file_name))
+      call NetCDF_file%input("data", data_read)
     end associate
 
     test_passes = [all(data_written == data_read)]
 
   end function
 
-end module netCDF_file_test_m
+end module NetCDF_file_test_m
 #endif // __INTEL_FORTRAN
