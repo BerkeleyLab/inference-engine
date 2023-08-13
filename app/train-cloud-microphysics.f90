@@ -21,6 +21,7 @@ program train_cloud_microphysics
 
   associate(network_input => base // "_input.nc", network_output => base // "_output.nc", network => base // "_network.json")
 
+    read_and_train: &
     block
       real, allocatable, dimension(:,:,:,:) :: pressure_in, potential_temperature_in, temperature_in, &
                                                qv_in, qc_in, qi_in, qr_in, qs_in
@@ -28,6 +29,7 @@ program train_cloud_microphysics
                                                qv_out, qc_out, qi_out, qr_out, qs_out
       real, allocatable, dimension(:,:,:) :: precipitation_in, snowfall_in
       real, allocatable, dimension(:,:,:) :: precipitation_out, snowfall_out
+      real time_in, time_out
 
       associate(network_input_file => netCDF_file_t(network_input))
         call network_input_file%input("pressure", pressure_in)
@@ -36,10 +38,11 @@ program train_cloud_microphysics
         call network_input_file%input("precipitation", precipitation_in)
         call network_input_file%input("snowfall", snowfall_in)
         call network_input_file%input("qv", qv_in)
-        call network_input_file%input("qc", qv_in)
+        call network_input_file%input("qc", qc_in)
         call network_input_file%input("qi", qi_in)
         call network_input_file%input("qr", qr_in)
         call network_input_file%input("qs", qs_in)
+        call network_input_file%input("time", time_in)
       end associate
 
       associate(network_output_file => netCDF_file_t(network_output))
@@ -48,14 +51,31 @@ program train_cloud_microphysics
         call network_output_file%input("temperature", temperature_out)
         call network_output_file%input("precipitation", precipitation_out)
         call network_output_file%input("snowfall", snowfall_out)
-        call network_output_file%input("qv", qv_in)
-        call network_output_file%input("qc", qv_in)
-        call network_output_file%input("qi", qi_in)
-        call network_output_file%input("qr", qr_in)
-        call network_output_file%input("qs", qs_in)
+        call network_output_file%input("qv", qv_out)
+        call network_output_file%input("qc", qc_out)
+        call network_output_file%input("qi", qi_out)
+        call network_output_file%input("qr", qr_out)
+        call network_output_file%input("qs", qs_out)
+        call network_output_file%input("time", time_out)
       end associate
 
-    end block
+      associate(dt => time_out - time_in)
+        associate( &
+          dp_dt => (pressure_out - pressure_in)/dt, &
+          dpt_dt => (potential_temperature_out - potential_temperature_in)/dt, &
+          dtemp_dt => (temperature_out - temperature_in)/dt, &
+          dprecip_dt => (precipitation_out - precipitation_in)/dt, &
+          dsnow_dt => (snowfall_out - snowfall_in)/dt, &
+          dqv_dt => (qv_out - qv_in)/dt, &
+          dqc_dt => (qc_out - qc_in)/dt, &
+          dqi_dt => (qi_out - qi_in)/dt, &
+          dqr_dt => (qr_out - qr_in)/dt, &
+          dqs_dt => (qs_out - qs_in)/dt  &
+        )
+        end associate
+      end associate
+
+    end block read_and_train
 
   end associate
 

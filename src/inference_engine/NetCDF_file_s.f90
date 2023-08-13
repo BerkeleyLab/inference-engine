@@ -49,6 +49,29 @@ contains
     array_shape = dims(2:var_rank+1)
   end function 
 
+  module procedure input_real_scalar
+
+    character(len=32) varid_string
+    integer ncid, varid
+    
+    associate( nf_status => nf90_open(self%file_name_, nf90_nowrite, ncid) ) ! open file with read-only acces
+      call assert(nf_status == nf90_noerr, &
+        "Net_CDF_file_m(input_real_scalar): nf90_open" // trim(nf90_strerror(nf_status)), &
+        diagnostic_data = trim(nf90_strerror(nf_status)) // self%file_name_)
+    end associate
+
+    associate( nf_status => nf90_inq_varid(ncid, varname, varid)) ! get variable's ID
+      write(varid_string, *) varid
+      call assert(nf_status == nf90_noerr, "Net_CDF_file_m(input_real_scalar): nf90_inq_varid " // trim(nf90_strerror(nf_status)), &
+        diagnostic_data = "varname '" // varname // "', varid " // trim(adjustl(varid_string)))
+    end associate
+
+    associate( nf_status => nf90_get_var(ncid, varid, scalar)) ! read data
+      call assert(nf_status == nf90_noerr, "NetCDF_file_s(input_real_scalar): nf90_get_var", trim(nf90_strerror(nf_status)))
+    end associate
+
+  end procedure
+
   module procedure input_2D_integer
 
     character(len=32) varid_string
@@ -56,7 +79,7 @@ contains
 
     associate( nf_status => nf90_open(self%file_name_, nf90_nowrite, ncid) ) ! open file with read-only acces
       call assert(nf_status == nf90_noerr, &
-        "Net_CDF_file_m(input_2D_integer): nf90_inquire_dimension" // trim(nf90_strerror(nf_status)), &
+        "Net_CDF_file_m(input_2D_integer): nf90_open" // trim(nf90_strerror(nf_status)), &
         diagnostic_data = trim(nf90_strerror(nf_status)) // self%file_name_)
     end associate
 

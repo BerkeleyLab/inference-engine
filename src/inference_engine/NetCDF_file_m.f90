@@ -13,8 +13,8 @@ module NetCDF_file_m
     private
     character(len=:), allocatable :: file_name_
   contains
-    procedure :: input_2D_integer, input_4D_real, input_3D_real
-    generic :: input => input_2D_integer, input_4D_real, input_3D_real
+    procedure :: input_2D_integer, input_4D_real, input_3D_real, input_real_scalar
+    generic :: input => input_2D_integer, input_4D_real, input_3D_real, input_real_scalar
   end type
 
   interface NetCDF_file_t
@@ -28,6 +28,13 @@ module NetCDF_file_m
   end interface
 
   interface
+
+    module subroutine input_real_scalar(self, varname, scalar)
+      implicit none
+      class(NetCDF_file_t), intent(in) :: self
+      character(len=*), intent(in) :: varname
+      real, intent(out) :: scalar
+    end subroutine
 
     module subroutine input_2D_integer(self, varname, values)
       implicit none
