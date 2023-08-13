@@ -22,9 +22,11 @@ program train_cloud_microphysics
   associate(network_input => base // "_input.nc", network_output => base // "_output.nc", network => base // "_network.json")
 
     block
-      real, allocatable, dimension(:,:,:,:) :: pressure_in, potential_temperature_in, temperature_in
+      real, allocatable, dimension(:,:,:,:) :: pressure_in, potential_temperature_in, temperature_in, &
+                                               qv_in, qc_in, qi_in, qr_in, qs_in
+      real, allocatable, dimension(:,:,:,:) :: pressure_out, potential_temperature_out, temperature_out, &
+                                               qv_out, qc_out, qi_out, qr_out, qs_out
       real, allocatable, dimension(:,:,:) :: precipitation_in, snowfall_in
-      real, allocatable, dimension(:,:,:,:) :: pressure_out, potential_temperature_out, temperature_out
       real, allocatable, dimension(:,:,:) :: precipitation_out, snowfall_out
 
       associate(network_input_file => netCDF_file_t(network_input))
@@ -33,6 +35,11 @@ program train_cloud_microphysics
         call network_input_file%input("temperature", temperature_in)
         call network_input_file%input("precipitation", precipitation_in)
         call network_input_file%input("snowfall", snowfall_in)
+        call network_input_file%input("qv", qv_in)
+        call network_input_file%input("qc", qv_in)
+        call network_input_file%input("qi", qi_in)
+        call network_input_file%input("qr", qr_in)
+        call network_input_file%input("qs", qs_in)
       end associate
 
       associate(network_output_file => netCDF_file_t(network_output))
@@ -41,6 +48,11 @@ program train_cloud_microphysics
         call network_output_file%input("temperature", temperature_out)
         call network_output_file%input("precipitation", precipitation_out)
         call network_output_file%input("snowfall", snowfall_out)
+        call network_output_file%input("qv", qv_in)
+        call network_output_file%input("qc", qv_in)
+        call network_output_file%input("qi", qi_in)
+        call network_output_file%input("qr", qr_in)
+        call network_output_file%input("qs", qs_in)
       end associate
 
     end block
