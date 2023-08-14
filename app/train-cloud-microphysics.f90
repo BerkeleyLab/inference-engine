@@ -3,12 +3,39 @@
 #ifndef __INTEL_FORTRAN
 !! Due to a suspected bug in the Intel ifx compiler, the above C preprocessor macro
 !! effectively eliminates this file's source code when building with an Intel compiler.
+
+module ubounds_m
+  !! This module serves only to support array bounds checking in the main program below
+  implicit none
+
+  type ubounds_t
+    integer, allocatable :: ubounds_(:)
+  contains
+    procedure equals
+    generic :: operator(==) => equals
+  end type
+ 
+contains
+
+  elemental function equals(lhs, rhs) result(lhs_equals_rhs)
+    class(ubounds_t), intent(in) :: lhs, rhs
+    logical lhs_equals_rhs
+    lhs_equals_rhs = all(lhs%ubounds_ == rhs%ubounds_)
+  end function
+
+end module
+
 program train_cloud_microphysics
   !! Train a neural network to represent the simplest cloud microphysics model from
   !! the Intermediate Complexity Atmospheric Research Model (ICAR) at
   !! https://github.com/BerkeleyLab/icar.
+
+  !! External dependencies:
   use sourcery_m, only : string_t, file_t, command_line_t
+  use assert_m, only : assert, intrinsic_array_t
+  !! Internal dependencies;
   use NetCDF_file_m, only : NetCDF_file_t
+  use ubounds_m, only : ubounds_t
   implicit none
 
   type(command_line_t) command_line
@@ -30,42 +57,48 @@ program train_cloud_microphysics
       real, allocatable, dimension(:,:,:) :: precipitation_in, snowfall_in
       real, allocatable, dimension(:,:,:) :: precipitation_out, snowfall_out
       real time_in, time_out
+      integer, allocatable :: lbounds(:)
+      type(ubounds_t), allocatable :: ubounds(:)
 
       associate(network_input_file => netCDF_file_t(network_input))
+        ! Skipping the following unnecessary inputs that are in the current file format as of 14 Aug 2023:
+        ! precipitation, snowfall
         call network_input_file%input("pressure", pressure_in)
         call network_input_file%input("potential_temperature", potential_temperature_in)
         call network_input_file%input("temperature", temperature_in)
-        call network_input_file%input("precipitation", precipitation_in)
-        call network_input_file%input("snowfall", snowfall_in)
         call network_input_file%input("qv", qv_in)
         call network_input_file%input("qc", qc_in)
         call network_input_file%input("qi", qi_in)
         call network_input_file%input("qr", qr_in)
         call network_input_file%input("qs", qs_in)
         call network_input_file%input("time", time_in)
+        lbounds = &
+          [lbound(pressure_in), lbound(temperature_in), lbound(qv_in), lbound(qc_in), lbound(qi_in), lbound(qr_in), lbound(qs_in)]
+        ubounds = &
+          [ubounds_t(ubound(pressure_in)), ubounds_t(ubound(temperature_in)), ubounds_t(ubound(qv_in)), ubounds_t(ubound(qc_in)),&
+           ubounds_t(ubound(qi_in)), ubounds_t(ubound(qr_in)), ubounds_t(ubound(qs_in))]
       end associate
 
       associate(network_output_file => netCDF_file_t(network_output))
-        call network_output_file%input("pressure", pressure_out)
         call network_output_file%input("potential_temperature", potential_temperature_out)
-        call network_output_file%input("temperature", temperature_out)
-        call network_output_file%input("precipitation", precipitation_out)
-        call network_output_file%input("snowfall", snowfall_out)
+        ! Skipping the following unnecessary outputs that are in the current file format as of 14 Aug 2023:
+        ! pressure, temperature, precipitation, snowfall
         call network_output_file%input("qv", qv_out)
         call network_output_file%input("qc", qc_out)
         call network_output_file%input("qi", qi_out)
         call network_output_file%input("qr", qr_out)
         call network_output_file%input("qs", qs_out)
         call network_output_file%input("time", time_out)
+        lbounds = [lbounds, lbound(qv_out), lbound(qc_out), lbound(qi_out), lbound(qr_out), lbound(qs_out)]
+        ubounds = [ubounds, ubounds_t(ubound(qv_out)), ubounds_t(ubound(qc_out)), ubounds_t(ubound(qi_out)), &
+          ubounds_t(ubound(qr_out)), ubounds_t(ubound(qs_out))]
+        call assert(all(lbounds == 1), "main: default input/output lower bounds", intrinsic_array_t(lbounds))
+        call assert(all(ubounds == ubounds(1)), "main: matching input/output upper bounds")
       end associate
 
       associate(dt => time_out - time_in)
         associate( &
-          dp_dt => (pressure_out - pressure_in)/dt, &
           dpt_dt => (potential_temperature_out - potential_temperature_in)/dt, &
-          dtemp_dt => (temperature_out - temperature_in)/dt, &
-          dprecip_dt => (precipitation_out - precipitation_in)/dt, &
-          dsnow_dt => (snowfall_out - snowfall_in)/dt, &
           dqv_dt => (qv_out - qv_in)/dt, &
           dqc_dt => (qc_out - qc_in)/dt, &
           dqi_dt => (qi_out - qi_in)/dt, &
