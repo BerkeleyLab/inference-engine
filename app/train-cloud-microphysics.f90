@@ -33,29 +33,32 @@ program train_cloud_microphysics
   !! External dependencies:
   use sourcery_m, only : string_t, file_t, command_line_t
   use assert_m, only : assert, intrinsic_array_t
+
   !! Internal dependencies;
-  use NetCDF_file_m, only : NetCDF_file_t
+  use inference_engine_m, only : &
+    inference_engine_t, mini_batch_t, input_output_pair_t, tensor_t, trainable_engine_t, rkind, NetCDF_file_t, sigmoid_t
   use ubounds_m, only : ubounds_t
   implicit none
 
   type(command_line_t) command_line
-  character(len=:), allocatable :: base
+  character(len=:), allocatable :: base_name
 
-  base = command_line%flag_value("--base-name") ! gfortran 13 seg faults if this is an association
+  base_name = command_line%flag_value("--base-name") ! gfortran 13 seg faults if this is an association
 
-  if (len(base)==0) error stop new_line('a') // new_line('a') // &
+  if (len(base_name)==0) error stop new_line('a') // new_line('a') // &
     'Usage: ./build/run-fpm.sh run train-cloud-microphysics -- --base-name "<file-base-name>"'
 
-  associate(network_input => base // "_input.nc", network_output => base // "_output.nc", network => base // "_network.json")
-
+  associate( &
+    network_input => base_name // "_input.nc", &
+    network_output => base_name // "_output.nc", &
+    network_file => base_name // "_network.json" &
+  )
     read_and_train: &
     block
-      real, allocatable, dimension(:,:,:,:) :: pressure_in, potential_temperature_in, temperature_in, &
-                                               qv_in, qc_in, qi_in, qr_in, qs_in
-      real, allocatable, dimension(:,:,:,:) :: pressure_out, potential_temperature_out, temperature_out, &
-                                               qv_out, qc_out, qi_out, qr_out, qs_out
-      real, allocatable, dimension(:,:,:) :: precipitation_in, snowfall_in
-      real, allocatable, dimension(:,:,:) :: precipitation_out, snowfall_out
+      real, allocatable, dimension(:,:,:,:) :: &
+        pressure_in, potential_temperature_in, temperature_in, qv_in, qc_in, qi_in, qr_in, qs_in, &
+        pressure_out, potential_temperature_out, temperature_out, qv_out, qc_out, qi_out, qr_out, qs_out
+      real, allocatable, dimension(:,:,:) :: precipitation_in, precipitation_out, snowfall_in, snowfall_out
       real time_in, time_out
       integer, allocatable :: lbounds(:)
       type(ubounds_t), allocatable :: ubounds(:)
@@ -105,6 +108,62 @@ program train_cloud_microphysics
           dqr_dt => (qr_out - qr_in)/dt, &
           dqs_dt => (qs_out - qs_in)/dt  &
         )
+        train_network: &
+          block
+            ! As a first test, let's check whether we can train based on a tiny subset of the training data.
+            ! For this purposes, we somewhat arbitrarily gather input/output pairs along a line of constsant 
+            ! longitude and mid-level elevation at the final time step
+            type(trainable_engine_t) trainable_engine
+            type(inference_engine_t) inference_engine
+            type(mini_batch_t), allocatable :: mini_batches(:)
+            type(tensor_t), allocatable, dimension(:,:) :: inputs, outputs
+            type(tensor_t), allocatable, dimension(:) :: tmp1, tmp2
+            real(rkind) t_start, t_end
+            integer, parameter :: mini_batch_size=1
+            integer batch, lon, num_in, num_out
+            type(file_t) json_file
+
+            associate(t => ubound(qc_in,1), level => ubound(qc_in,2)/2, lat => ubound(qc_in,3)/2, num_batches => ubound(qc_in,4))
+
+              ! The following temporary copies are required by gfortran bug 100650 and possibly 49324
+              ! See https://gcc.gnu.org/bugzilla/show_bug.cgi?id=100650 and https://gcc.gnu.org/bugzilla/show_bug.cgi?id=49324
+              tmp1 = [( &
+                tensor_t( &
+                  [pressure_in(t,level,lat,lon), potential_temperature_in(t,level,lat,lon), temperature_in(t,level,lat,lon), &
+                   qv_in(t,level,lat,lon), qc_in(t,level,lat,lon), qi_in(t,level,lat,lon), qr_in(t,level,lat,lon), &
+                   qs_in(t,level,lat,lon) &
+                  ] &
+                ), lon = 1, num_batches)]
+              inputs = reshape(tmp1, [mini_batch_size, num_batches])
+
+              tmp2 = [( &
+                tensor_t( &
+                  [dpt_dt(t,level,lat,lon), dqv_dt(t,level,lat,lon), dqc_dt(t,level,lat,lon), &
+                   dqi_dt(t,level,lat,lon), dqr_dt(t,level,lat,lon), dqs_dt(t,level,lat,lon) &
+                  ] &
+                ), lon = 1, num_batches)]
+              outputs = reshape(tmp2, [mini_batch_size, num_batches])
+
+              mini_batches = [(mini_batch_t(input_output_pair_t(inputs(:,batch), outputs(:,batch))), batch = 1, num_batches)]
+
+              num_in = inputs(1,1)%num_components()
+              num_out = outputs(1,1)%num_components()
+
+              trainable_engine = random_hidden_layers( &
+                num_inputs = inputs(1,1)%num_components(), num_outputs = outputs(1,1)%num_components() &
+              )
+              call cpu_time(t_start)
+              call trainable_engine%train(mini_batches)
+              call cpu_time(t_end)
+
+              print *, "Training time: ", t_end - t_start
+ 
+              inference_engine = trainable_engine%to_inference_engine()
+              json_file = inference_engine%to_json()
+              call json_file%write_lines(string_t(network_file))
+            end associate
+
+          end block train_network
         end associate
       end associate
 
@@ -113,6 +172,32 @@ program train_cloud_microphysics
   end associate
 
   print *,new_line('a') // "______training_cloud_microhpysics done _______"
+
+contains
+
+  function random_hidden_layers(num_inputs, num_outputs) result(trainable_engine)
+    integer, intent(in) :: num_inputs, num_outputs
+    type(trainable_engine_t) trainable_engine
+    integer l
+    integer, parameter :: nodes_per_hidden_layer = 8, num_hidden_layers = 4
+    real(rkind), allocatable :: w(:,:,:), b(:,:)
+
+    associate(nodes => [num_inputs, [(nodes_per_hidden_layer, l = 1, num_hidden_layers)], num_outputs])
+      associate(max_nodes => maxval(nodes), layers => size(nodes))
+
+        allocate(w(max_nodes, max_nodes, layers-1), b(max_nodes, max_nodes))
+
+        call random_number(b)
+        call random_number(w)
+
+        trainable_engine = trainable_engine_t( &
+          nodes = nodes, weights = w, biases = b, differentiable_activation_strategy = sigmoid_t(), metadata = & 
+          [string_t("Microphysics"), string_t("Damian Rouson"), string_t("2023-08-18"), string_t("sigmoid"), string_t("false")] &
+        )
+      end associate
+    end associate
+   
+  end function
 
 end program train_cloud_microphysics
 #endif // __INTEL_FORTRAN
