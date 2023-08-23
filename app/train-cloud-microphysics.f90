@@ -58,10 +58,11 @@ program train_cloud_microphysics
       real, allocatable, dimension(:,:,:,:) :: &
         pressure_in, potential_temperature_in, temperature_in, qv_in, qc_in, qi_in, qr_in, qs_in, &
         pressure_out, potential_temperature_out, temperature_out, qv_out, qc_out, qi_out, qr_out, qs_out
-      real, allocatable, dimension(:,:,:) :: precipitation_in, precipitation_out, snowfall_in, snowfall_out
-      real time_in, time_out
+      double precision, allocatable, dimension(:) :: time_in, time_out
       integer, allocatable :: lbounds(:)
       type(ubounds_t), allocatable :: ubounds(:)
+      double precision, parameter :: tolerance = 1.E-07
+      integer, parameter :: initial = 1
 
       associate(network_input_file => netCDF_file_t(network_input))
         ! Skipping the following unnecessary inputs that are in the current file format as of 14 Aug 2023:
@@ -97,9 +98,13 @@ program train_cloud_microphysics
           ubounds_t(ubound(qr_out)), ubounds_t(ubound(qs_out))]
         call assert(all(lbounds == 1), "main: default input/output lower bounds", intrinsic_array_t(lbounds))
         call assert(all(ubounds == ubounds(1)), "main: matching input/output upper bounds")
+        call assert(all(abs(time_in - time_out)<tolerance), "main: matching time stamps")
       end associate
 
-      associate(dt => time_out - time_in)
+      print *,"time stamps:"
+      print *,time_in
+
+      associate(dt => real(time_in(initial+1) - time_in(initial), rkind))
         associate( &
           dpt_dt => (potential_temperature_out - potential_temperature_in)/dt, &
           dqv_dt => (qv_out - qv_in)/dt, &
