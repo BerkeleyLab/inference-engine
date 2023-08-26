@@ -152,30 +152,30 @@ program train_cloud_microphysics
         type(tensor_t), allocatable, dimension(:) :: tmp1, tmp2
         real(rkind) t_start, t_end
         integer, parameter :: mini_batch_size=1
-        integer batch, lon, num_in, num_out
+        integer batch, lon, lat, level
         type(file_t) json_file
 
-        associate(num_mini_batches => size(qc_in,1), lat => ubound(qc_in,2)/2, level => ubound(qc_in,3)/2, time=> ubound(qc_in,4))
+        associate(num_mini_batches => size(qc_in,1)*size(qc_in,2)*size(qc_in,3), time=> ubound(qc_in,4))
 
           print *,"Defining tensors"
 
           ! The following temporary copies are required by gfortran bug 100650 and possibly 49324
           ! See https://gcc.gnu.org/bugzilla/show_bug.cgi?id=100650 and https://gcc.gnu.org/bugzilla/show_bug.cgi?id=49324
-          tmp1 = [( &
+          tmp1 = [( [( [( &
             tensor_t( &
               [pressure_in(lon,lat,level,time), potential_temperature_in(lon,lat,level,time), temperature_in(lon,lat,level,time),&
                qv_in(lon,lat,level,time), qc_in(lon,lat,level,time), qi_in(lon,lat,level,time), qr_in(lon,lat,level,time), &
                qs_in(lon,lat,level,time) &
               ] &
-            ), lon = 1, num_mini_batches)]
+            ), lon = 1, size(qv_in,1))], lat = 1, size(qv_in,2))], level = 1, size(qv_in,3))]
           inputs = reshape(tmp1, [mini_batch_size, num_mini_batches])
 
-          tmp2 = [( &
+          tmp2 = [( [( [( &
             tensor_t( &
               [dpt_dt(lon,lat,level,time), dqv_dt(lon,lat,level,time), dqc_dt(lon,lat,level,time), &
                dqi_dt(lon,lat,level,time), dqr_dt(lon,lat,level,time), dqs_dt(lon,lat,level,time) &
               ] &
-            ), lon = 1, num_mini_batches)]
+            ), lon = 1, size(qv_in,1))], lat = 1, size(qv_in,2))], level = 1, size(qv_in,3))]
           outputs = reshape(tmp2, [mini_batch_size, num_mini_batches])
 
           mini_batches = [(mini_batch_t(input_output_pair_t(inputs(:,batch), outputs(:,batch))), batch = 1, num_mini_batches)]
