@@ -34,6 +34,7 @@ program train_cloud_microphysics
   use sourcery_m, only : string_t, file_t, command_line_t
   use assert_m, only : assert, intrinsic_array_t
   use ieee_arithmetic, only : ieee_is_nan
+  use iso_fortran_env, only : int64, real64
 
   !! Internal dependencies;
   use inference_engine_m, only : &
@@ -41,8 +42,11 @@ program train_cloud_microphysics
   use ubounds_m, only : ubounds_t
   implicit none
 
+  integer(int64) t_start, t_finish, clock_rate
   type(command_line_t) command_line
   character(len=:), allocatable :: base_name
+
+  call system_clock(t_start, clock_rate)
 
   base_name = command_line%flag_value("--base-name") ! gfortran 13 seg faults if this is an association
 
@@ -150,48 +154,46 @@ program train_cloud_microphysics
         type(mini_batch_t), allocatable :: mini_batches(:)
         type(tensor_t), allocatable, dimension(:,:) :: inputs, outputs
         type(tensor_t), allocatable, dimension(:) :: tmp1, tmp2
-        real(rkind) t_start, t_end
         integer, parameter :: mini_batch_size=1
         integer batch, lon, lat, level, time
         type(file_t) json_file
 
-        associate(num_mini_batches => size(qc_in,1)*size(qc_in,2)*size(qc_in,3)*size(qc_in,4)/72)
+        trainable_engine = random_hidden_layers(num_inputs=8, num_outputs=6)
+        
+        associate(num_mini_batches => size(qc_in,1)*size(qc_in,2)*size(qc_in,3))
+          do time = 1,size(qc_in,4)
 
-          print *,"Defining tensors"
+            print *,"Defining tensors for step ",time
 
-          ! The following temporary copies are required by gfortran bug 100650 and possibly 49324
-          ! See https://gcc.gnu.org/bugzilla/show_bug.cgi?id=100650 and https://gcc.gnu.org/bugzilla/show_bug.cgi?id=49324
-          tmp1 = [( [( [( [( &
-            tensor_t( &
-              [pressure_in(lon,lat,level,time), potential_temperature_in(lon,lat,level,time), temperature_in(lon,lat,level,time),&
-               qv_in(lon,lat,level,time), qc_in(lon,lat,level,time), qi_in(lon,lat,level,time), qr_in(lon,lat,level,time), &
-               qs_in(lon,lat,level,time) &
+            ! The following temporary copies are required by gfortran bug 100650 and possibly 49324
+            ! See https://gcc.gnu.org/bugzilla/show_bug.cgi?id=100650 and https://gcc.gnu.org/bugzilla/show_bug.cgi?id=49324
+            tmp1 = [( [( [( &
+              tensor_t( &
+              [ pressure_in(lon,lat,level,time), potential_temperature_in(lon,lat,level,time), temperature_in(lon,lat,level,time),&
+                qv_in(lon,lat,level,time), qc_in(lon,lat,level,time), qi_in(lon,lat,level,time), qr_in(lon,lat,level,time), &
+                qs_in(lon,lat,level,time) &
               ] &
-            ), lon = 1, size(qv_in,1))], lat = 1, size(qv_in,2))], level = 1, size(qv_in,3))], time = 1,size(qv_in,4)/72 )] ! size(qv_in,4))]
-          inputs = reshape(tmp1, [mini_batch_size, num_mini_batches])
+              ), lon = 1, size(qv_in,1))], lat = 1, size(qv_in,2))], level = 1, size(qv_in,3))]
 
-          tmp2 = [( [( [( [( &
-            tensor_t( &
-              [dpt_dt(lon,lat,level,time), dqv_dt(lon,lat,level,time), dqc_dt(lon,lat,level,time), &
-               dqi_dt(lon,lat,level,time), dqr_dt(lon,lat,level,time), dqs_dt(lon,lat,level,time) &
-              ] &
-            ), lon = 1, size(dpt_dt,1))], lat = 1, size(dpt_dt,2))], level = 1, size(dpt_dt,3))], time = 1,size(qv_in,4)/72 )] ! size(dpt_dt,4))]
-          outputs = reshape(tmp2, [mini_batch_size, num_mini_batches])
+            inputs = reshape(tmp1, [mini_batch_size, num_mini_batches])
 
-          mini_batches = [(mini_batch_t(input_output_pair_t(inputs(:,batch), outputs(:,batch))), batch = 1, num_mini_batches)]
+            tmp2 = [( [( [( &
+              tensor_t( &
+                [dpt_dt(lon,lat,level,time), dqv_dt(lon,lat,level,time), dqc_dt(lon,lat,level,time), &
+                 dqi_dt(lon,lat,level,time), dqr_dt(lon,lat,level,time), dqs_dt(lon,lat,level,time) &
+                ] &
+              ), lon = 1, size(qv_in,1))], lat = 1, size(qv_in,2))], level = 1, size(qv_in,3))]
+
+            outputs = reshape(tmp2, [mini_batch_size, num_mini_batches])
+
+            mini_batches = [(mini_batch_t(input_output_pair_t(inputs(:,batch), outputs(:,batch))), batch = 1, num_mini_batches)]
+
+            print *,"Training network"
+            call trainable_engine%train(mini_batches)
+
+          end do
         end associate
 
-        print *,"Training network"
-
-        trainable_engine = random_hidden_layers( &
-          num_inputs = inputs(1,1)%num_components(), num_outputs = outputs(1,1)%num_components() &
-        )
-        call cpu_time(t_start)
-        call trainable_engine%train(mini_batches)
-        call cpu_time(t_end)
-
-        print *, "Training time: ", t_end - t_start
- 
         inference_engine = trainable_engine%to_inference_engine()
         json_file = inference_engine%to_json()
         call json_file%write_lines(string_t(network_file))
@@ -200,6 +202,8 @@ program train_cloud_microphysics
     end block read_and_train
   end associate
 
+  call system_clock(t_finish)
+  print *, real(t_finish - t_start, real64)/real(clock_rate, real64)
   print *,new_line('a') // "______training_cloud_microhpysics done _______"
 
 contains
