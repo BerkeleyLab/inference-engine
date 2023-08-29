@@ -13,4 +13,8 @@ contains
       tensor_values = self%values_
     end procedure
 
+    module procedure num_components
+      n = size(self%values_)
+    end procedure
+
 end submodule tensor_s
