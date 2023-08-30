@@ -64,12 +64,10 @@ contains
   end procedure
 
   module procedure train
-    integer i, j, k, l, batch, iter, mini_batch_size, pair
+    integer l, batch, mini_batch_size, pair
     real(rkind), parameter :: eta = 1.5e0 ! Learning parameter
-    real(rkind), allocatable :: z(:,:), a(:,:), y(:), delta(:,:), dcdw(:,:,:), dcdb(:,:)
-    real(rkind) cost
-    type(tensor_t), allocatable :: inputs(:)
-    type(tensor_t), allocatable :: expected_outputs(:)
+    real(rkind), allocatable :: z(:,:), a(:,:), delta(:,:), dcdw(:,:,:), dcdb(:,:)
+    type(tensor_t), allocatable :: inputs(:), expected_outputs(:)
 
     call self%assert_consistent
 
@@ -81,14 +79,17 @@ contains
       allocate(delta, mold=self%b)
       allocate(dcdb,  mold=self%b) ! Gradient of cost function with respect with biases
 
-      associate(w => self%w, b => self%b, n => self%n)
+      associate(w => self%w, b => self%b, n => self%n, num_mini_batches => size(mini_batches))
+
+        if (present(cost)) allocate(cost(num_mini_batches))
       
         iterate_across_batches: &
-        do iter = 1, size(mini_batches)
+        do batch = 1, num_mini_batches
 
-          cost = 0.; dcdw = 0.; dcdb = 0.
+          if (present(cost)) cost(batch) = 0.
+          dcdw = 0.; dcdb = 0.
           
-          associate(input_output_pairs => mini_batches(iter)%input_output_pairs())
+          associate(input_output_pairs => mini_batches(batch)%input_output_pairs())
             inputs = input_output_pairs%inputs()
             expected_outputs = input_output_pairs%expected_outputs()
             mini_batch_size = size(input_output_pairs)
@@ -98,7 +99,6 @@ contains
           do pair = 1, mini_batch_size
 
             a(1:self%num_inputs(), input_layer) = inputs(pair)%values()
-            y = expected_outputs(pair)%values()
 
             feed_forward: &
             do l = 1,output_layer
@@ -106,11 +106,14 @@ contains
               a(1:n(l),l) = self%differentiable_activation_strategy_%activation(z(1:n(l),l))
             end do feed_forward
 
-            cost = cost + sum((y(1:n(output_layer))-a(1:n(output_layer),output_layer))**2)/(2.e0*mini_batch_size)
+            associate(y => expected_outputs(pair)%values())
+              if (present(cost)) &
+                cost(batch) = cost(batch) + sum((y(1:n(output_layer))-a(1:n(output_layer),output_layer))**2)/(2.e0*mini_batch_size)
           
-            delta(1:n(output_layer),output_layer) = &
-              (a(1:n(output_layer),output_layer) - y(1:n(output_layer))) &
-              * self%differentiable_activation_strategy_%activation_derivative(z(1:n(output_layer),output_layer))
+              delta(1:n(output_layer),output_layer) = &
+                (a(1:n(output_layer),output_layer) - y(1:n(output_layer))) &
+                * self%differentiable_activation_strategy_%activation_derivative(z(1:n(output_layer),output_layer))
+            end associate
             
             associate(n_hidden => self%num_layers()-2)
               back_propagate_error: &
@@ -120,13 +123,17 @@ contains
               end do back_propagate_error
             end associate
 
-            sum_gradients: &
-            do l = 1,output_layer
-              dcdb(1:n(l),l) = dcdb(1:n(l),l) + delta(1:n(l),l)
-              do concurrent(j = 1:n(l))
-                dcdw(j,1:n(l-1),l) = dcdw(j,1:n(l-1),l) + a(1:n(l-1),l-1)*delta(j,l)
-              end do
-            end do sum_gradients
+            block
+              integer j
+
+              sum_gradients: &
+              do l = 1,output_layer
+                dcdb(1:n(l),l) = dcdb(1:n(l),l) + delta(1:n(l),l)
+                do concurrent(j = 1:n(l))
+                  dcdw(j,1:n(l-1),l) = dcdw(j,1:n(l-1),l) + a(1:n(l-1),l-1)*delta(j,l)
+                end do
+              end do sum_gradients
+            end block
     
           end do iterate_through_batch
         
@@ -137,6 +144,7 @@ contains
             dcdw(1:n(l),1:n(l-1),l) = dcdw(1:n(l),1:n(l-1),l)/mini_batch_size
             w(1:n(l),1:n(l-1),l) = w(1:n(l),1:n(l-1),l) - eta*dcdw(1:n(l),1:n(l-1),l) ! Adjust weights
           end do adjust_weights_and_biases
+
         end do iterate_across_batches
 
       end associate

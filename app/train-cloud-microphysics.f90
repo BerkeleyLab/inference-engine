@@ -70,7 +70,6 @@ program train_cloud_microphysics
       double precision, allocatable, dimension(:) :: time_in, time_out
       double precision, parameter :: tolerance = 1.E-07
       integer, allocatable :: lbounds(:)
-      integer, parameter :: initial = 1
       integer t_end, t
  
       print *,"Starting to read network inputs from " // network_input
@@ -79,7 +78,6 @@ program train_cloud_microphysics
         ! Skipping the following unnecessary inputs that are in the current file format as of 14 Aug 2023:
         ! precipitation, snowfall
         call network_input_file%input("pressure", pressure_in)
-
         call network_input_file%input("potential_temperature", potential_temperature_in)
         call network_input_file%input("temperature", temperature_in)
         call network_input_file%input("qv", qv_in)
@@ -157,6 +155,7 @@ program train_cloud_microphysics
         integer, parameter :: mini_batch_size=1
         integer batch, lon, lat, level, time
         type(file_t) json_file
+        real(rkind), allocatable :: cost(:)
 
         trainable_engine = random_hidden_layers(num_inputs=8, num_outputs=6)
         
@@ -189,7 +188,7 @@ program train_cloud_microphysics
             mini_batches = [(mini_batch_t(input_output_pair_t(inputs(:,batch), outputs(:,batch))), batch = 1, num_mini_batches)]
 
             print *,"Training network"
-            call trainable_engine%train(mini_batches)
+            call trainable_engine%train(mini_batches, cost)
 
           end do
         end associate
