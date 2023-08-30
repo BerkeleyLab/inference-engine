@@ -113,7 +113,7 @@ contains
               delta(1:n(output_layer),output_layer) = &
                 (a(1:n(output_layer),output_layer) - y(1:n(output_layer))) &
                 * self%differentiable_activation_strategy_%activation_derivative(z(1:n(output_layer),output_layer))
-           end associate
+            end associate
             
             associate(n_hidden => self%num_layers()-2)
               back_propagate_error: &

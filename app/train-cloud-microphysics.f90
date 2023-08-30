@@ -70,7 +70,6 @@ program train_cloud_microphysics
       double precision, allocatable, dimension(:) :: time_in, time_out
       double precision, parameter :: tolerance = 1.E-07
       integer, allocatable :: lbounds(:)
-      integer, parameter :: initial = 1
       integer t_end, t
  
       print *,"Starting to read network inputs from " // network_input
