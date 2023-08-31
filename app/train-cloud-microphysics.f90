@@ -45,6 +45,7 @@ program train_cloud_microphysics
   integer(int64) t_start, t_finish, clock_rate
   type(command_line_t) command_line
   character(len=:), allocatable :: base_name
+  integer plot_file
 
   call system_clock(t_start, clock_rate)
 
@@ -72,7 +73,7 @@ program train_cloud_microphysics
       integer, allocatable :: lbounds(:)
       integer t_end, t
  
-      print *,"Starting to read network inputs from " // network_input
+      print *,"Reading network inputs from " // network_input
 
       associate(network_input_file => netCDF_file_t(network_input))
         ! Skipping the following unnecessary inputs that are in the current file format as of 14 Aug 2023:
@@ -95,7 +96,7 @@ program train_cloud_microphysics
           ]
       end associate
 
-      print *,"Starting to read network outputs from " // network_output
+      print *,"Reading network outputs from " // network_output
 
       associate(network_output_file => netCDF_file_t(network_output))
         call network_output_file%input("potential_temperature", potential_temperature_out)
@@ -115,7 +116,7 @@ program train_cloud_microphysics
         call assert(all(abs(time_in(2:t_end) - time_out(1:t_end-1))<tolerance), "main: matching time stamps")
       end associate
 
-      print *,"Estimating time derivatives"
+      print *,"Calculating time derivatives"
   
       allocate(dpt_dt, mold = potential_temperature_out)
       allocate(dqv_dt, mold = qv_out)
@@ -144,9 +145,6 @@ program train_cloud_microphysics
 
       train_network: &
       block
-        ! As a first test, let's check whether we can train based on a tiny subset of the training data.
-        ! For this purposes, we somewhat arbitrarily gather input/output pairs along a line of constsant 
-        ! longitude and mid-level elevation at the final time step
         type(trainable_engine_t) trainable_engine
         type(inference_engine_t) inference_engine
         type(mini_batch_t), allocatable :: mini_batches(:)
@@ -160,9 +158,13 @@ program train_cloud_microphysics
         trainable_engine = random_hidden_layers(num_inputs=8, num_outputs=6)
         
         associate(num_mini_batches => size(qc_in,1)*size(qc_in,2)*size(qc_in,3))
+
+          open(newunit=plot_file,file="cost.plt",status="replace")
+          write(plot_file,*) "step       min(cost)       max(cost)        avg(cost)"
+
           do time = 1,size(qc_in,4)
 
-            print *,"Defining tensors for step ",time
+            if (time==1) print *,"Defining tensors for step ",time
 
             ! The following temporary copies are required by gfortran bug 100650 and possibly 49324
             ! See https://gcc.gnu.org/bugzilla/show_bug.cgi?id=100650 and https://gcc.gnu.org/bugzilla/show_bug.cgi?id=49324
@@ -174,21 +176,38 @@ program train_cloud_microphysics
               ] &
               ), lon = 1, size(qv_in,1))], lat = 1, size(qv_in,2))], level = 1, size(qv_in,3))]
 
-            inputs = reshape(tmp1, [mini_batch_size, num_mini_batches])
-
             tmp2 = [( [( [( &
               tensor_t( &
                 [dpt_dt(lon,lat,level,time), dqv_dt(lon,lat,level,time), dqc_dt(lon,lat,level,time), &
                  dqi_dt(lon,lat,level,time), dqr_dt(lon,lat,level,time), dqs_dt(lon,lat,level,time) &
                 ] &
               ), lon = 1, size(qv_in,1))], lat = 1, size(qv_in,2))], level = 1, size(qv_in,3))]
+            
+            eliminate_zeros: &
+            block
+              integer i
 
-            outputs = reshape(tmp2, [mini_batch_size, num_mini_batches])
+              if (time==1) print *,"Eliminating grid points where all time derivatives are zero"
 
-            mini_batches = [(mini_batch_t(input_output_pair_t(inputs(:,batch), outputs(:,batch))), batch = 1, num_mini_batches)]
+              associate(num_grid_pts => size(tmp2))
+                associate(non_zero_derivatives => [(any(tmp2(i)%values()/=0.), i=1,num_grid_pts)])
+                  tmp2 = pack(tmp2, non_zero_derivatives)
+                  tmp1 = pack(tmp1, non_zero_derivatives)
+                  if (time==1) print *, size(tmp2), "points with non-zero derivatives out of ", num_grid_pts, " points total"
+                end associate
+              end associate
 
-            print *,"Training network"
+            end block eliminate_zeros
+
+            inputs = reshape(tmp1, [mini_batch_size, size(tmp1)])
+            outputs = reshape(tmp2, shape(inputs))
+
+            mini_batches = [(mini_batch_t(input_output_pair_t(inputs(:,batch), outputs(:,batch))), batch = 1, size(tmp1))]
+
+            if (time==1) print *,"Training network"
             call trainable_engine%train(mini_batches, cost)
+            print *, "step, cost_{min,max,avg}: ", time, minval(cost), maxval(cost), sum(cost)/size(cost)
+            write(plot_file,*) time, minval(cost), maxval(cost), sum(cost)/size(cost)
 
           end do
         end associate
@@ -200,6 +219,8 @@ program train_cloud_microphysics
       end block train_network
     end block read_and_train
   end associate
+
+  close(plot_file)
 
   call system_clock(t_finish)
   print *, real(t_finish - t_start, real64)/real(clock_rate, real64)
