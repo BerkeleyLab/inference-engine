@@ -155,7 +155,7 @@ program train_cloud_microphysics
         type(file_t) json_file
         real(rkind), allocatable :: cost(:)
 
-        trainable_engine = random_hidden_layers(num_inputs=8, num_outputs=6)
+        trainable_engine = hidden_layers(num_hidden_layers=8, nodes_per_hidden_layer=16, num_inputs=8, num_outputs=6, random=.true.)
         
         associate(num_mini_batches => size(qc_in,1)*size(qc_in,2)*size(qc_in,3))
 
@@ -228,20 +228,25 @@ program train_cloud_microphysics
 
 contains
 
-  function random_hidden_layers(num_inputs, num_outputs) result(trainable_engine)
-    integer, intent(in) :: num_inputs, num_outputs
+  function hidden_layers(num_hidden_layers, nodes_per_hidden_layer, num_inputs, num_outputs, random) result(trainable_engine)
+    integer, intent(in) ::  num_hidden_layers, nodes_per_hidden_layer, num_inputs, num_outputs
+    logical, intent(in) :: random
     type(trainable_engine_t) trainable_engine
-    integer l
-    integer, parameter :: nodes_per_hidden_layer = 8, num_hidden_layers = 4
     real(rkind), allocatable :: w(:,:,:), b(:,:)
+    integer l
 
     associate(nodes => [num_inputs, [(nodes_per_hidden_layer, l = 1, num_hidden_layers)], num_outputs])
       associate(max_nodes => maxval(nodes), layers => size(nodes))
 
         allocate(w(max_nodes, max_nodes, layers-1), b(max_nodes, max_nodes))
 
-        call random_number(b)
-        call random_number(w)
+        if (random) then
+          call random_number(b)
+          call random_number(w)
+        else
+          b = 0.
+          w = 0.
+        end if
 
         trainable_engine = trainable_engine_t( &
           nodes = nodes, weights = w, biases = b, differentiable_activation_strategy = sigmoid_t(), metadata = & 
