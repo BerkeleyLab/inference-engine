@@ -131,6 +131,8 @@ contains
 
     call random_number(b)
     call random_number(w)
+    b = 2*b
+    w = 2*w
 
     trainable_engine = trainable_engine_t( &
       nodes = neurons, weights = w, biases = b, differentiable_activation_strategy = sigmoid_t(), metadata = &
@@ -164,7 +166,7 @@ contains
     mini_batches = [(mini_batch_t(input_output_pair_t(training_inputs(:,iter), training_outputs(:,iter))), iter=1, num_iterations)]        
     trainable_engine = two_zeroed_hidden_layers()
 
-    call trainable_engine%train(mini_batches)
+    call trainable_engine%train(mini_batches,adam=.true.)
 
     test_inputs = [tensor_t([true,true]), tensor_t([false,true]), tensor_t([true,false]), tensor_t([false,false])]
     expected_test_outputs = [(and(test_inputs(i)), i=1, size(test_inputs))]
@@ -208,7 +210,7 @@ contains
     mini_batches = [(mini_batch_t(input_output_pair_t(training_inputs(:,iter), training_outputs(:,iter))), iter=1, num_iterations)]        
     trainable_engine = two_zeroed_hidden_layers()
 
-    call trainable_engine%train(mini_batches)
+    call trainable_engine%train(mini_batches, adam=.true.)
 
     test_inputs = [tensor_t([true,true]), tensor_t([false,true]), tensor_t([true,false]), tensor_t([false,false])]
     expected_test_outputs = [(not_and(test_inputs(i)), i=1, size(test_inputs))]
@@ -250,7 +252,7 @@ contains
     mini_batches = [(mini_batch_t(input_output_pair_t(training_inputs(:,iter), training_outputs(:,iter))), iter=1, num_iterations)]        
     trainable_engine = two_random_hidden_layers()
 
-    call trainable_engine%train(mini_batches)
+    call trainable_engine%train(mini_batches, adam=.true.)
 
     test_inputs = [tensor_t([true,true]), tensor_t([false,true]), tensor_t([true,false]), tensor_t([false,false])]
     expected_test_outputs = [(or(test_inputs(i)), i=1, size(test_inputs))]
@@ -292,7 +294,7 @@ contains
     mini_batches = [(mini_batch_t(input_output_pair_t(training_inputs(:,iter), training_outputs(:,iter))), iter=1, num_iterations)]        
     trainable_engine = two_random_hidden_layers()
 
-    call trainable_engine%train(mini_batches)
+    call trainable_engine%train(mini_batches, adam=.true.)
 
     test_inputs = [tensor_t([true,true]), tensor_t([false,true]), tensor_t([true,false]), tensor_t([false,false])]
     expected_test_outputs = [(xor(test_inputs(i)), i=1, size(test_inputs))]
