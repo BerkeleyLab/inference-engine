@@ -31,7 +31,7 @@ program train_cloud_microphysics
   !! https://github.com/BerkeleyLab/icar.
 
   !! External dependencies:
-  use sourcery_m, only : string_t, file_t, command_line_t
+  use sourcery_m, only : string_t, file_t, command_line_t, bin_t
   use assert_m, only : assert, intrinsic_array_t
   use ieee_arithmetic, only : ieee_is_nan
   use iso_fortran_env, only : int64, real64
@@ -71,7 +71,7 @@ program train_cloud_microphysics
       double precision, allocatable, dimension(:) :: time_in, time_out
       double precision, parameter :: tolerance = 1.E-07
       integer, allocatable :: lbounds(:)
-      integer t_end, t
+      integer t_end, t, b
  
       print *,"Reading network inputs from " // network_input
 
@@ -148,14 +148,15 @@ program train_cloud_microphysics
         type(trainable_engine_t) trainable_engine
         type(inference_engine_t) inference_engine
         type(mini_batch_t), allocatable :: mini_batches(:)
-        type(tensor_t), allocatable, dimension(:,:) :: inputs, outputs
-        type(tensor_t), allocatable, dimension(:) :: tmp1, tmp2
+        type(bin_t), allocatable :: bins(:)
+        type(input_output_pair_t), allocatable :: input_output_pairs(:)
+        type(tensor_t), allocatable, dimension(:) :: inputs, outputs
         integer, parameter :: mini_batch_size=1
         integer batch, lon, lat, level, time
         type(file_t) json_file
         real(rkind), allocatable :: cost(:)
 
-        trainable_engine = hidden_layers(num_hidden_layers=8, nodes_per_hidden_layer=16, num_inputs=8, num_outputs=6, random=.true.)
+        trainable_engine= hidden_layers(num_hidden_layers=12, nodes_per_hidden_layer=16, num_inputs=8, num_outputs=6, random=.true.)
         
         associate(num_mini_batches => size(qc_in,1)*size(qc_in,2)*size(qc_in,3))
 
@@ -168,7 +169,7 @@ program train_cloud_microphysics
 
             ! The following temporary copies are required by gfortran bug 100650 and possibly 49324
             ! See https://gcc.gnu.org/bugzilla/show_bug.cgi?id=100650 and https://gcc.gnu.org/bugzilla/show_bug.cgi?id=49324
-            tmp1 = [( [( [( &
+            inputs = [( [( [( &
               tensor_t( &
               [ pressure_in(lon,lat,level,time), potential_temperature_in(lon,lat,level,time), temperature_in(lon,lat,level,time),&
                 qv_in(lon,lat,level,time), qc_in(lon,lat,level,time), qi_in(lon,lat,level,time), qr_in(lon,lat,level,time), &
@@ -176,33 +177,40 @@ program train_cloud_microphysics
               ] &
               ), lon = 1, size(qv_in,1))], lat = 1, size(qv_in,2))], level = 1, size(qv_in,3))]
 
-            tmp2 = [( [( [( &
+            outputs = [( [( [( &
               tensor_t( &
                 [dpt_dt(lon,lat,level,time), dqv_dt(lon,lat,level,time), dqc_dt(lon,lat,level,time), &
                  dqi_dt(lon,lat,level,time), dqr_dt(lon,lat,level,time), dqs_dt(lon,lat,level,time) &
                 ] &
               ), lon = 1, size(qv_in,1))], lat = 1, size(qv_in,2))], level = 1, size(qv_in,3))]
             
-            eliminate_zeros: &
+            eliminate_zero_derivatives: &
             block
               integer i
+              real, allocatable :: harvest(:)
 
               if (time==1) print *,"Eliminating grid points where all time derivatives are zero"
 
-              associate(num_grid_pts => size(tmp2))
-                associate(non_zero_derivatives => [(any(tmp2(i)%values()/=0.), i=1,num_grid_pts)])
-                  tmp2 = pack(tmp2, non_zero_derivatives)
-                  tmp1 = pack(tmp1, non_zero_derivatives)
-                  if (time==1) print *, size(tmp2), "points with non-zero derivatives out of ", num_grid_pts, " points total"
+              associate(num_grid_pts => size(outputs))
+                allocate(harvest(num_grid_pts))
+                call random_number(harvest)
+                associate(non_zero_derivatives => [(any(outputs(i)%values()/=0.) .or. harvest(i)<0.3, i=1,num_grid_pts)])
+                  outputs = pack(outputs, non_zero_derivatives)
+                  inputs = pack(inputs, non_zero_derivatives)
+                  if (time==1) print *, size(outputs), "points with non-zero derivatives out of ", num_grid_pts, " points total"
                 end associate
               end associate
 
-            end block eliminate_zeros
+            end block eliminate_zero_derivatives
 
-            inputs = reshape(tmp1, [mini_batch_size, size(tmp1)])
-            outputs = reshape(tmp2, shape(inputs))
+            input_output_pairs = input_output_pair_t(inputs, outputs)
 
-            mini_batches = [(mini_batch_t(input_output_pair_t(inputs(:,batch), outputs(:,batch))), batch = 1, size(tmp1))]
+            call shuffle(input_output_pairs) ! set up for stochastic gradient descent
+
+            associate(num_pairs => size(input_output_pairs), n_bins => size(input_output_pairs)/10000)
+              bins = [(bin_t(num_items=num_pairs, num_bins=n_bins, bin_number=b), b = 1, n_bins)]
+              mini_batches = [(mini_batch_t(input_output_pairs(bins(b)%first():bins(b)%last())), b = 1, size(bins))]
+            end associate
 
             if (time==1) print *,"Training network"
             call trainable_engine%train(mini_batches, cost)
@@ -256,6 +264,25 @@ contains
     end associate
    
   end function
+
+  subroutine shuffle(pairs)
+    type(input_output_pair_t), intent(inout) :: pairs(:)
+    type(input_output_pair_t) temp
+    real harvest(2:size(pairs))
+    integer i, j
+
+    call random_init(image_distinct=.true., repeatable=.true.)
+    call random_number(harvest)
+
+    durstenfeld_shuffle: &
+    do i = size(pairs), 2, -1
+      j = 1 + int(harvest(i)*i)
+      temp     = pairs(i) 
+      pairs(i) = pairs(j)
+      pairs(j) = temp
+    end do durstenfeld_shuffle
+
+  end subroutine
 
 end program train_cloud_microphysics
 #endif // __INTEL_FORTRAN
