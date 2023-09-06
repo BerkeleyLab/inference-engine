@@ -66,7 +66,10 @@ contains
   module procedure train
     integer l, batch, mini_batch_size, pair
     real(rkind), parameter :: eta = 1.5e0 ! Learning parameter
-    real(rkind), allocatable :: z(:,:), a(:,:), delta(:,:), dcdw(:,:,:), dcdb(:,:)
+    real(rkind), allocatable :: &
+      z(:,:), a(:,:), delta(:,:), dcdw(:,:,:), dcdb(:,:), vdw(:,:,:), sdw(:,:,:), vdb(:,:), sdb(:,:), vdwc(:,:,:), sdwc(:,:,:), &
+      vdbc(:,:), sdbc(:,:)
+
     type(tensor_t), allocatable :: inputs(:), expected_outputs(:)
 
     call self%assert_consistent
@@ -74,10 +77,25 @@ contains
     associate(output_layer => ubound(self%n,1))
       
       allocate(a(maxval(self%n), input_layer:output_layer)) ! Activations
+
       allocate(dcdw,  mold=self%w) ! Gradient of cost function with respect to weights
+      allocate(vdw,   mold=self%w) 
+      allocate(sdw,   mold=self%w) 
+      allocate(vdwc,  mold=self%w) 
+      allocate(sdwc,  mold=self%w) 
+
       allocate(z,     mold=self%b) ! z-values: Sum z_j^l = w_jk^{l} a_k^{l-1} + b_j^l
       allocate(delta, mold=self%b)
       allocate(dcdb,  mold=self%b) ! Gradient of cost function with respect with biases
+      allocate(vdb,   mold=self%b) 
+      allocate(sdb,   mold=self%b) 
+      allocate(vdbc,  mold=self%b) 
+      allocate(sdbc,  mold=self%b) 
+
+      vdw = 0.d0
+      sdw = 1.d0
+      vdb = 0.d0
+      sdb = 1.d0
 
       associate(w => self%w, b => self%b, n => self%n, num_mini_batches => size(mini_batches))
 
@@ -137,13 +155,48 @@ contains
     
           end do iterate_through_batch
         
-          adjust_weights_and_biases: &
-          do l = 1,output_layer
-            dcdb(1:n(l),l) = dcdb(1:n(l),l)/mini_batch_size
-            b(1:n(l),l) = b(1:n(l),l) - eta*dcdb(1:n(l),l) ! Adjust biases
-            dcdw(1:n(l),1:n(l-1),l) = dcdw(1:n(l),1:n(l-1),l)/mini_batch_size
-            w(1:n(l),1:n(l-1),l) = w(1:n(l),1:n(l-1),l) - eta*dcdw(1:n(l),1:n(l-1),l) ! Adjust weights
-          end do adjust_weights_and_biases
+          if (present(adam)) then
+            if (adam) then
+
+              block
+                ! Adam parameters  
+                real, parameter :: beta1 = .9
+                real, parameter :: beta2 = .999
+                real, parameter :: obeta1 = 1.d0 - beta1
+                real, parameter :: obeta2 = 1.d0 - beta2
+                real, parameter :: epsilon = 1.d-8
+                real, parameter :: alpha = 1.5d0 ! Learning parameter
+
+                adjust_weights_and_biases: &
+                do l = 1,output_layer
+                  dcdw(1:n(l),1:n(l-1),l) = dcdw(1:n(l),1:n(l-1),l)/(mini_batch_size)
+                  vdw(1:n(l),1:n(l-1),l)  = beta1*vdw(1:n(l),1:n(l-1),l) + obeta1*dcdw(1:n(l),1:n(l-1),l)
+                  sdw (1:n(l),1:n(l-1),l) = beta2*sdw(1:n(l),1:n(l-1),l) + obeta2*(dcdw(1:n(l),1:n(l-1),l)**2)
+                  vdwc(1:n(l),1:n(l-1),l) = vdw(1:n(l),1:n(l-1),l)/(1.D0 - beta1**num_mini_batches)
+                  sdwc(1:n(l),1:n(l-1),l) = sdw(1:n(l),1:n(l-1),l)/(1.D0 - beta2**num_mini_batches)
+                  w(1:n(l),1:n(l-1),l) = w(1:n(l),1:n(l-1),l) &
+                    - alpha*vdwc(1:n(l),1:n(l-1),l)/(sqrt(sdwc(1:n(l),1:n(l-1),l))+epsilon) ! Adjust weights
+
+                  dcdb(1:n(l),l) = dcdb(1:n(l),l)/mini_batch_size
+                  vdb(1:n(l),l) = beta1*vdb(1:n(l),l) + obeta1*dcdb(1:n(l),l)
+                  sdb(1:n(l),l) = beta2*sdb(1:n(l),l) + obeta2*(dcdb(1:n(l),l)**2)
+                  vdbc(1:n(l),l) = vdb(1:n(l),l)/(1.D0 - beta1**num_mini_batches)
+                  sdbc(1:n(l),l) = sdb(1:n(l),l)/(1.D0 - beta2**num_mini_batches)
+                  b(1:n(l),l) = b(1:n(l),l) - alpha*vdbc(1:n(l),l)/(sqrt(sdbc(1:n(l),l))+epsilon) ! Adjust weights
+                end do adjust_weights_and_biases
+              end block
+            else
+              error stop "trainable_engine_s(train): for non-adam runs, please rerun without adam argument present"
+            end if
+          else
+            adjust_weights_and_biases: &
+            do l = 1,output_layer
+              dcdb(1:n(l),l) = dcdb(1:n(l),l)/mini_batch_size
+              b(1:n(l),l) = b(1:n(l),l) - eta*dcdb(1:n(l),l) ! Adjust biases
+              dcdw(1:n(l),1:n(l-1),l) = dcdw(1:n(l),1:n(l-1),l)/mini_batch_size
+              w(1:n(l),1:n(l-1),l) = w(1:n(l),1:n(l-1),l) - eta*dcdw(1:n(l),1:n(l-1),l) ! Adjust weights
+            end do adjust_weights_and_biases
+          end if
 
         end do iterate_across_batches
 
