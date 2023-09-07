@@ -20,6 +20,19 @@ contains
     n_layers = size(self%n,1)
   end procedure
 
+  module procedure from_inference_engine
+    trainable_engine%metadata_ = inference_engine_exchange%metadata
+    trainable_engine%w = inference_engine_exchange%w
+    trainable_engine%b = inference_engine_exchange%b
+    trainable_engine%n = inference_engine_exchange%n
+    select type(activation => inference_engine_exchange%activation_strategy)
+      class is(differentiable_activation_strategy_t)
+         trainable_engine%differentiable_activation_strategy_ = activation
+      class default
+         error stop "trainable_engine_s(from_inference_engine): activation strategy must be a differentiable_activation_stragegy_t"
+    end select
+  end procedure
+
   module procedure assert_consistent
 
     associate( &

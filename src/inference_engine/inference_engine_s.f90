@@ -19,6 +19,10 @@ submodule(inference_engine_m_) inference_engine_s
 
 contains
 
+  module procedure to_exchange
+    inference_engine_exchange = inference_engine_exchange_t(self%metadata_, self%weights_, self%biases_, self%nodes_, self%activation_strategy_)
+  end procedure
+
   module procedure infer
 
     real(rkind), allocatable :: z(:,:), a(:,:)

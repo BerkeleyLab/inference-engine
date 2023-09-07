@@ -59,6 +59,7 @@ program train_cloud_microphysics
     network_output => base_name // "_output.nc", &
     network_file => base_name // "_network.json" &
   )
+
     read_and_train: &
     block
       real, allocatable, dimension(:,:,:,:) :: &
@@ -155,8 +156,18 @@ program train_cloud_microphysics
         integer batch, lon, lat, level, time
         type(file_t) json_file
         real(rkind), allocatable :: cost(:)
+        integer file_unit, io_status
 
-        trainable_engine= hidden_layers(num_hidden_layers=12, nodes_per_hidden_layer=16, num_inputs=8, num_outputs=6, random=.true.)
+        open(newunit=file_unit, file=network_file, form='formatted', status='unknown', iostat=io_status, action='write')
+        if (io_status==0) then
+          print *,"Reading network from file " // network_file
+          inference_engine = inference_engine_t(file_t(string_t(network_file)))
+          trainable_engine = trainable_engine_t(inference_engine%to_exchange())
+        else
+          print *,"Initializing a new network"
+          trainable_engine= hidden_layers(num_hidden_layers=12, nodes_per_hidden_layer=16, num_inputs=8, num_outputs=6, random=.true.)
+        end if
+
         
         associate(num_mini_batches => size(qc_in,1)*size(qc_in,2)*size(qc_in,3))
 
