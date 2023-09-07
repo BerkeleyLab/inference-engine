@@ -44,15 +44,28 @@ program train_cloud_microphysics
 
   integer(int64) t_start, t_finish, clock_rate
   type(command_line_t) command_line
-  character(len=:), allocatable :: base_name
-  integer plot_file
+  character(len=:), allocatable :: base_name, steps
+  integer plot_file, dash, starting_step, ending_step
+  logical user_specified_time_range
 
   call system_clock(t_start, clock_rate)
 
   base_name = command_line%flag_value("--base-name") ! gfortran 13 seg faults if this is an association
+  steps = command_line%flag_value("--steps")
 
   if (len(base_name)==0) error stop new_line('a') // new_line('a') // &
     'Usage: ./build/run-fpm.sh run train-cloud-microphysics -- --base-name "<file-base-name>"'
+
+  if (len(steps)==0) then
+    user_specified_time_range = .false.
+    print *,"No user-specified time step range. All steps will be used."
+  else
+    dash = scan(steps,"-")
+    read(steps(1:dash-1),*) starting_step
+    read(steps(dash+1:len(steps)),*) ending_step 
+    user_specified_time_range = .true.
+    print *,"User-specified time step range: ", starting_step, "-", ending_step
+  end if
 
   associate( &
     network_input => base_name // "_input.nc", &
@@ -72,7 +85,7 @@ program train_cloud_microphysics
       double precision, allocatable, dimension(:) :: time_in, time_out
       double precision, parameter :: tolerance = 1.E-07
       integer, allocatable :: lbounds(:)
-      integer t_end, t, b
+      integer t, b, t_end
  
       print *,"Reading network inputs from " // network_input
 
@@ -152,11 +165,11 @@ program train_cloud_microphysics
         type(bin_t), allocatable :: bins(:)
         type(input_output_pair_t), allocatable :: input_output_pairs(:)
         type(tensor_t), allocatable, dimension(:) :: inputs, outputs
-        integer, parameter :: mini_batch_size=1
-        integer batch, lon, lat, level, time
         type(file_t) json_file
         real(rkind), allocatable :: cost(:)
-        integer file_unit, io_status
+        real(rkind), parameter :: keep = 0.3
+        integer, parameter :: mini_batch_size=1
+        integer batch, lon, lat, level, time, file_unit, io_status, final_step
 
         open(newunit=file_unit, file=network_file, form='formatted', status='unknown', iostat=io_status, action='write')
         if (io_status==0) then
@@ -167,72 +180,76 @@ program train_cloud_microphysics
           print *,"Initializing a new network"
           trainable_engine= hidden_layers(num_hidden_layers=12, nodes_per_hidden_layer=16, num_inputs=8, num_outputs=6, random=.true.)
         end if
-
         
-        associate(num_mini_batches => size(qc_in,1)*size(qc_in,2)*size(qc_in,3))
+        open(newunit=plot_file,file="cost.plt",status="replace")
+        write(plot_file,*) "step       min(cost)       max(cost)        avg(cost)"
 
-          open(newunit=plot_file,file="cost.plt",status="replace")
-          write(plot_file,*) "step       min(cost)       max(cost)        avg(cost)"
+        if (.not. user_specified_time_range) then
+          starting_step = 1
+          ending_step = size(time_in)
+        end if
 
-          do time = 1,size(qc_in,4)
+        print *,"Training using data from step", starting_step, "to", ending_step
 
-            if (time==1) print *,"Defining tensors for step ",time
+        do time = starting_step, ending_step
 
-            ! The following temporary copies are required by gfortran bug 100650 and possibly 49324
-            ! See https://gcc.gnu.org/bugzilla/show_bug.cgi?id=100650 and https://gcc.gnu.org/bugzilla/show_bug.cgi?id=49324
-            inputs = [( [( [( &
-              tensor_t( &
-              [ pressure_in(lon,lat,level,time), potential_temperature_in(lon,lat,level,time), temperature_in(lon,lat,level,time),&
-                qv_in(lon,lat,level,time), qc_in(lon,lat,level,time), qi_in(lon,lat,level,time), qr_in(lon,lat,level,time), &
-                qs_in(lon,lat,level,time) &
+          if (time==1) print *,"Defining tensors for step ",time
+
+          ! The following temporary copies are required by gfortran bug 100650 and possibly 49324
+          ! See https://gcc.gnu.org/bugzilla/show_bug.cgi?id=100650 and https://gcc.gnu.org/bugzilla/show_bug.cgi?id=49324
+          inputs = [( [( [( &
+            tensor_t( &
+            [ pressure_in(lon,lat,level,time), potential_temperature_in(lon,lat,level,time), temperature_in(lon,lat,level,time),&
+              qv_in(lon,lat,level,time), qc_in(lon,lat,level,time), qi_in(lon,lat,level,time), qr_in(lon,lat,level,time), &
+              qs_in(lon,lat,level,time) &
+            ] &
+            ), lon = 1, size(qv_in,1))], lat = 1, size(qv_in,2))], level = 1, size(qv_in,3))]
+
+          outputs = [( [( [( &
+            tensor_t( &
+              [dpt_dt(lon,lat,level,time), dqv_dt(lon,lat,level,time), dqc_dt(lon,lat,level,time), &
+               dqi_dt(lon,lat,level,time), dqr_dt(lon,lat,level,time), dqs_dt(lon,lat,level,time) &
               ] &
-              ), lon = 1, size(qv_in,1))], lat = 1, size(qv_in,2))], level = 1, size(qv_in,3))]
+            ), lon = 1, size(qv_in,1))], lat = 1, size(qv_in,2))], level = 1, size(qv_in,3))]
+          
+          eliminate_zero_derivatives: &
+          block
+            integer i
+            real, allocatable :: harvest(:)
 
-            outputs = [( [( [( &
-              tensor_t( &
-                [dpt_dt(lon,lat,level,time), dqv_dt(lon,lat,level,time), dqc_dt(lon,lat,level,time), &
-                 dqi_dt(lon,lat,level,time), dqr_dt(lon,lat,level,time), dqs_dt(lon,lat,level,time) &
-                ] &
-              ), lon = 1, size(qv_in,1))], lat = 1, size(qv_in,2))], level = 1, size(qv_in,3))]
-            
-            eliminate_zero_derivatives: &
-            block
-              integer i
-              real, allocatable :: harvest(:)
+            if (time==1) print *,"Eliminating",100*(1._rkind-keep),"% of the grid points where all time derivatives are zero"
 
-              if (time==1) print *,"Eliminating grid points where all time derivatives are zero"
-
-              associate(num_grid_pts => size(outputs))
-                allocate(harvest(num_grid_pts))
-                call random_number(harvest)
-                associate(non_zero_derivatives => [(any(outputs(i)%values()/=0.) .or. harvest(i)<0.3, i=1,num_grid_pts)])
-                  outputs = pack(outputs, non_zero_derivatives)
-                  inputs = pack(inputs, non_zero_derivatives)
-                  if (time==1) print *, size(outputs), "points with non-zero derivatives out of ", num_grid_pts, " points total"
-                end associate
+            associate(num_grid_pts => size(outputs))
+              allocate(harvest(num_grid_pts))
+              call random_number(harvest)
+              associate(non_zero_derivatives => [(any(outputs(i)%values()/=0.) .or. harvest(i)<keep, i=1,num_grid_pts)])
+                outputs = pack(outputs, non_zero_derivatives)
+                inputs = pack(inputs, non_zero_derivatives)
+                if (time==1) print *, size(outputs), "points retained out of ", num_grid_pts, " points total"
               end associate
-
-            end block eliminate_zero_derivatives
-
-            input_output_pairs = input_output_pair_t(inputs, outputs)
-
-            call shuffle(input_output_pairs) ! set up for stochastic gradient descent
-
-            associate(num_pairs => size(input_output_pairs), n_bins => size(input_output_pairs)/10000)
-              bins = [(bin_t(num_items=num_pairs, num_bins=n_bins, bin_number=b), b = 1, n_bins)]
-              mini_batches = [(mini_batch_t(input_output_pairs(bins(b)%first():bins(b)%last())), b = 1, size(bins))]
             end associate
 
-            if (time==1) print *,"Training network"
-            call trainable_engine%train(mini_batches, cost)
-            print *, "step, cost_{min,max,avg}: ", time, minval(cost), maxval(cost), sum(cost)/size(cost)
-            write(plot_file,*) time, minval(cost), maxval(cost), sum(cost)/size(cost)
+          end block eliminate_zero_derivatives
 
-          end do
-        end associate
+          input_output_pairs = input_output_pair_t(inputs, outputs)
+
+          call shuffle(input_output_pairs) ! set up for stochastic gradient descent
+
+          associate(num_pairs => size(input_output_pairs), n_bins => size(input_output_pairs)/10000)
+            bins = [(bin_t(num_items=num_pairs, num_bins=n_bins, bin_number=b), b = 1, n_bins)]
+            mini_batches = [(mini_batch_t(input_output_pairs(bins(b)%first():bins(b)%last())), b = 1, size(bins))]
+          end associate
+
+          if (time==1) print *,"Training network"
+          call trainable_engine%train(mini_batches, cost)
+          print *, "step, cost_{min,max,avg}: ", time, minval(cost), maxval(cost), sum(cost)/size(cost)
+          write(plot_file,*) time, minval(cost), maxval(cost), sum(cost)/size(cost)
+
+        end do
 
         inference_engine = trainable_engine%to_inference_engine()
         json_file = inference_engine%to_json()
+        print *,"Writing network to " // network_file
         call json_file%write_lines(string_t(network_file))
 
       end block train_network
@@ -242,7 +259,7 @@ program train_cloud_microphysics
   close(plot_file)
 
   call system_clock(t_finish)
-  print *, real(t_finish - t_start, real64)/real(clock_rate, real64)
+  print *,"System clock time: ", real(t_finish - t_start, real64)/real(clock_rate, real64)
   print *,new_line('a') // "______training_cloud_microhpysics done _______"
 
 contains
