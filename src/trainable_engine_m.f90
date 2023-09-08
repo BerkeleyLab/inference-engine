@@ -45,6 +45,12 @@ module trainable_engine_m
       type(trainable_engine_t) trainable_engine
     end function
 
+    pure module function construct_from_inference_engine(inference_engine) result(trainable_engine)
+      implicit none
+      type(inference_engine_t), intent(in) :: inference_engine
+      type(trainable_engine_t) trainable_engine
+    end function
+
   end interface
 
   interface

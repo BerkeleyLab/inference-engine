@@ -20,6 +20,23 @@ contains
     n_layers = size(self%n,1)
   end procedure
 
+  module procedure construct_from_inference_engine
+
+    associate(exchange => inference_engine%to_exchange())
+      trainable_engine%metadata_ = exchange%metadata_
+      trainable_engine%w = exchange%weights_
+      trainable_engine%b = exchange%biases_
+      trainable_engine%n = exchange%nodes_
+      select type(activation => exchange%activation_strategy_)
+        class is(differentiable_activation_strategy_t)
+           trainable_engine%differentiable_activation_strategy_ = activation
+        class default
+           error stop "trainable_engine_s(from_inference_engine): activation strategy must be a differentiable_activation_stragegy_t"
+      end select
+    end associate
+
+  end procedure
+
   module procedure assert_consistent
 
     associate( &
@@ -160,28 +177,26 @@ contains
 
               block
                 ! Adam parameters  
-                real, parameter :: beta1 = .9
-                real, parameter :: beta2 = .999
-                real, parameter :: obeta1 = 1.d0 - beta1
-                real, parameter :: obeta2 = 1.d0 - beta2
-                real, parameter :: epsilon = 1.d-8
-                real, parameter :: alpha = 1.5d0 ! Learning parameter
+                real, parameter :: beta(*) = [.9_rkind, .999_rkind]
+                real, parameter :: obeta(*) = [1._rkind - beta(1), 1._rkind - beta(2)]
+                real, parameter :: epsilon = real(1.D-08,rkind)
+                real, parameter :: alpha = 1.5_rkind ! Learning parameter
 
                 adjust_weights_and_biases: &
                 do l = 1,output_layer
                   dcdw(1:n(l),1:n(l-1),l) = dcdw(1:n(l),1:n(l-1),l)/(mini_batch_size)
-                  vdw(1:n(l),1:n(l-1),l)  = beta1*vdw(1:n(l),1:n(l-1),l) + obeta1*dcdw(1:n(l),1:n(l-1),l)
-                  sdw (1:n(l),1:n(l-1),l) = beta2*sdw(1:n(l),1:n(l-1),l) + obeta2*(dcdw(1:n(l),1:n(l-1),l)**2)
-                  vdwc(1:n(l),1:n(l-1),l) = vdw(1:n(l),1:n(l-1),l)/(1.D0 - beta1**num_mini_batches)
-                  sdwc(1:n(l),1:n(l-1),l) = sdw(1:n(l),1:n(l-1),l)/(1.D0 - beta2**num_mini_batches)
+                  vdw(1:n(l),1:n(l-1),l)  = beta(1)*vdw(1:n(l),1:n(l-1),l) + obeta(1)*dcdw(1:n(l),1:n(l-1),l)
+                  sdw (1:n(l),1:n(l-1),l) = beta(2)*sdw(1:n(l),1:n(l-1),l) + obeta(2)*(dcdw(1:n(l),1:n(l-1),l)**2)
+                  vdwc(1:n(l),1:n(l-1),l) = vdw(1:n(l),1:n(l-1),l)/(1._rkind - beta(1)**num_mini_batches)
+                  sdwc(1:n(l),1:n(l-1),l) = sdw(1:n(l),1:n(l-1),l)/(1._rkind - beta(2)**num_mini_batches)
                   w(1:n(l),1:n(l-1),l) = w(1:n(l),1:n(l-1),l) &
                     - alpha*vdwc(1:n(l),1:n(l-1),l)/(sqrt(sdwc(1:n(l),1:n(l-1),l))+epsilon) ! Adjust weights
 
                   dcdb(1:n(l),l) = dcdb(1:n(l),l)/mini_batch_size
-                  vdb(1:n(l),l) = beta1*vdb(1:n(l),l) + obeta1*dcdb(1:n(l),l)
-                  sdb(1:n(l),l) = beta2*sdb(1:n(l),l) + obeta2*(dcdb(1:n(l),l)**2)
-                  vdbc(1:n(l),l) = vdb(1:n(l),l)/(1.D0 - beta1**num_mini_batches)
-                  sdbc(1:n(l),l) = sdb(1:n(l),l)/(1.D0 - beta2**num_mini_batches)
+                  vdb(1:n(l),l) = beta(1)*vdb(1:n(l),l) + obeta(1)*dcdb(1:n(l),l)
+                  sdb(1:n(l),l) = beta(2)*sdb(1:n(l),l) + obeta(2)*(dcdb(1:n(l),l)**2)
+                  vdbc(1:n(l),l) = vdb(1:n(l),l)/(1._rkind - beta(1)**num_mini_batches)
+                  sdbc(1:n(l),l) = sdb(1:n(l),l)/(1._rkind - beta(2)**num_mini_batches)
                   b(1:n(l),l) = b(1:n(l),l) - alpha*vdbc(1:n(l),l)/(sqrt(sdbc(1:n(l),l))+epsilon) ! Adjust weights
                 end do adjust_weights_and_biases
               end block
