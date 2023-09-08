@@ -166,12 +166,10 @@ contains
     train_network: &
     block
       type(trainable_engine_t) trainable_engine
-      type(inference_engine_t) inference_engine
       type(mini_batch_t), allocatable :: mini_batches(:)
       type(bin_t), allocatable :: bins(:)
       type(input_output_pair_t), allocatable :: input_output_pairs(:)
       type(tensor_t), allocatable, dimension(:) :: inputs, outputs
-      type(file_t) json_file
       real(rkind), parameter :: keep = 0.3
       real(rkind), allocatable :: cost(:)
       real(rkind), allocatable :: harvest(:)
@@ -181,8 +179,7 @@ contains
       open(newunit=file_unit, file=network_file, form='formatted', status='unknown', iostat=io_status, action='write')
       if (io_status==0) then
         print *,"Reading network from file " // network_file
-        inference_engine = inference_engine_t(file_t(string_t(network_file)))
-        trainable_engine = trainable_engine_t(inference_engine%to_exchange())
+        trainable_engine = trainable_engine_t(inference_engine_t(file_t(string_t(network_file))))
       else
         print *,"Initializing a new network"
         trainable_engine = new_engine(num_hidden_layers=12, nodes_per_hidden_layer=16, num_inputs=8, num_outputs=6, random=.true.)
@@ -196,7 +193,7 @@ contains
         ending_step = size(time_in)
       end if
 
-      print *,"Training using data from step", starting_step, "to", ending_step
+      print *,"Training based on data from step", starting_step, "to", ending_step
 
       do time = starting_step, ending_step
 
@@ -219,7 +216,7 @@ contains
             ] &
           ), lon = 1, size(qv_in,1))], lat = 1, size(qv_in,2))], level = 1, size(qv_in,3))]
         
-        if (time==1) print *,"Eliminating",100*(1._rkind-keep),"% of the grid points where all time derivatives are zero"
+        if (time==1) print *, "Eliminating",int(100*(1.-keep)),"% of the grid points that have all-zero time derivatives"
 
         associate(num_grid_pts => size(outputs))
           if (allocated(harvest)) deallocate(harvest)
@@ -239,16 +236,21 @@ contains
         end associate
 
         if (time==1) print *,"Training network"
+
         call trainable_engine%train(mini_batches, cost)
+
         print *, "step, cost_{min,max,avg}: ", time, minval(cost), maxval(cost), sum(cost)/size(cost)
+
         write(plot_file,*) time, minval(cost), maxval(cost), sum(cost)/size(cost)
 
       end do
 
-      inference_engine = trainable_engine%to_inference_engine()
-      json_file = inference_engine%to_json()
-      print *,"Writing network to " // network_file
-      call json_file%write_lines(string_t(network_file))
+      associate(inference_engine => trainable_engine%to_inference_engine())
+        associate(json_file => inference_engine%to_json())
+          print *,"Writing network to " // network_file
+          call json_file%write_lines(string_t(network_file))
+        end associate
+      end associate
 
       close(plot_file)
 

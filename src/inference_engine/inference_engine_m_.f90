@@ -13,17 +13,10 @@ module inference_engine_m_
   private
   public :: inference_engine_t
   public :: difference_t
-  public :: inference_engine_exchange_t
+  public :: exchange_t
 
   character(len=*), parameter :: key(*) = [character(len=len("usingSkipConnections")) :: &
     "modelName", "modelAuthor", "compilationDate", "activationFunction", "usingSkipConnections"]
-
-  type inference_engine_exchange_t
-    type(string_t), allocatable :: metadata(:)
-    real(rkind), allocatable :: w(:,:,:), b(:,:)
-    integer, allocatable :: n(:)
-    class(activation_strategy_t), allocatable :: activation_strategy
-  end type
 
   type inference_engine_t
     !! Encapsulate the minimal information needed to perform inference
@@ -35,7 +28,6 @@ module inference_engine_m_
   contains
     procedure :: infer
     procedure :: to_json
-    procedure :: to_exchange
     procedure :: num_inputs
     procedure :: num_outputs
     procedure :: nodes_per_layer
@@ -44,6 +36,14 @@ module inference_engine_m_
     procedure, private :: subtract
     generic :: operator(-) => subtract
     procedure :: activation_function_name
+    procedure :: to_exchange
+  end type
+
+  type exchange_t
+    type(string_t) metadata_(size(key))
+    real(rkind), allocatable :: weights_(:,:,:), biases_(:,:)
+    integer, allocatable :: nodes_(:)
+    class(activation_strategy_t), allocatable :: activation_strategy_ ! Strategy Pattern facilitates elemental activation
   end type
 
   type difference_t
@@ -73,6 +73,12 @@ module inference_engine_m_
   end interface
 
   interface
+
+    pure module function to_exchange(self) result(exchange)
+      implicit none
+      class(inference_engine_t), intent(in) :: self
+      type(exchange_t) exchange
+    end function
 
     impure elemental module function to_json(self) result(json_file)
       implicit none
@@ -134,12 +140,6 @@ module inference_engine_m_
       implicit none
       class(inference_engine_t), intent(in) :: self
       logical use_skip_connections
-    end function
-
-    pure module function to_exchange(self) result(inference_engine_exchange)
-      implicit none
-      class(inference_engine_t), intent(in) :: self
-      type(inference_engine_exchange_t) inference_engine_exchange
     end function
 
   end interface

@@ -4,7 +4,7 @@ module trainable_engine_m
   !! Define an abstraction that supports training a neural network
 
   use sourcery_m, only : string_t
-  use inference_engine_m_, only : inference_engine_t, inference_engine_exchange_t
+  use inference_engine_m_, only : inference_engine_t
   use differentiable_activation_strategy_m, only : differentiable_activation_strategy_t
   use kind_parameters_m, only : rkind
   use tensor_m, only :  tensor_t
@@ -45,9 +45,9 @@ module trainable_engine_m
       type(trainable_engine_t) trainable_engine
     end function
 
-    pure module function from_inference_engine(inference_engine_exchange) result(trainable_engine)
+    pure module function construct_from_inference_engine(inference_engine) result(trainable_engine)
       implicit none
-      type(inference_engine_exchange_t), intent(in) :: inference_engine_exchange
+      type(inference_engine_t), intent(in) :: inference_engine
       type(trainable_engine_t) trainable_engine
     end function
 
