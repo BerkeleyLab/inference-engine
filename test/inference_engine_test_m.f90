@@ -103,18 +103,13 @@ contains
   function multi_hidden_layer_net_to_from_json() result(test_passes)
     logical, allocatable :: test_passes
     type(inference_engine_t) inference_engine, from_json
-    type(file_t) json_file !, round_trip
+    type(file_t) json_file
     type(difference_t) difference
     real, parameter :: tolerance = 1.0E-06
 
     inference_engine = distinct_parameters()
     json_file = inference_engine%to_json()
     from_json = inference_engine_t(json_file)
-
-    !call json_file%write_lines()
-    !round_trip = from_json%to_json()
-    !call round_trip%write_lines()
-
     difference = inference_engine  - from_json
     test_passes = difference%norm() < tolerance
   end function
