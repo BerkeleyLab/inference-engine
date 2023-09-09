@@ -176,11 +176,14 @@ contains
       integer, parameter :: mini_batch_size=1
       integer i, batch, lon, lat, level, time, file_unit, io_status, final_step
 
-      open(newunit=file_unit, file=network_file, form='formatted', status='unknown', iostat=io_status, action='write')
+      open(newunit=file_unit, file=network_file, form='formatted', status='old', iostat=io_status, action='read')
+
       if (io_status==0) then
         print *,"Reading network from file " // network_file
         trainable_engine = trainable_engine_t(inference_engine_t(file_t(string_t(network_file))))
+        close(file_unit)
       else
+        close(file_unit)
         print *,"Initializing a new network"
         trainable_engine = new_engine(num_hidden_layers=12, nodes_per_hidden_layer=16, num_inputs=8, num_outputs=6, random=.true.)
       end if
@@ -245,6 +248,8 @@ contains
 
       end do
 
+      open(newunit=file_unit, file=network_file, form='formatted', status='unknown', iostat=io_status, action='write')
+
       associate(inference_engine => trainable_engine%to_inference_engine())
         associate(json_file => inference_engine%to_json())
           print *,"Writing network to " // network_file
@@ -252,6 +257,7 @@ contains
         end associate
       end associate
 
+      close(file_unit)
       close(plot_file)
 
     end block train_network
