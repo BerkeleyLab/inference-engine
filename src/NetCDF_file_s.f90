@@ -56,7 +56,7 @@ contains
     
     associate( nf_status => nf90_open(self%file_name_, nf90_nowrite, ncid) ) ! open file with read-only acces
       call assert(nf_status == nf90_noerr, &
-        "Net_CDF_file_m(input_real_scalar): nf90_open" // trim(nf90_strerror(nf_status)), &
+        "Net_CDF_file_m(input_real_scalar): nf90_open " // trim(nf90_strerror(nf_status)), &
         diagnostic_data = trim(nf90_strerror(nf_status)) // self%file_name_)
     end associate
 
@@ -67,7 +67,7 @@ contains
     end associate
 
     associate( nf_status => nf90_get_var(ncid, varid, scalar)) ! read data
-      call assert(nf_status == nf90_noerr, "NetCDF_file_s(input_real_scalar): nf90_get_var", trim(nf90_strerror(nf_status)))
+      call assert(nf_status == nf90_noerr, "NetCDF_file_s(input_real_scalar): nf90_get_var ", trim(nf90_strerror(nf_status)))
     end associate
 
   end procedure
