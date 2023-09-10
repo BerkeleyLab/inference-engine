@@ -186,7 +186,7 @@ contains
       real(rkind), allocatable :: cost(:)
       real(rkind), allocatable :: harvest(:)
       integer, parameter :: mini_batch_size=1
-      integer i, batch, lon, lat, level, time, network_unit, io_status, final_step
+      integer i, batch, lon, lat, level, time, network_unit, io_status, final_step, epoch
 
       open(newunit=network_unit, file=network_file, form='formatted', status='old', iostat=io_status, action='read')
 
@@ -231,24 +231,18 @@ contains
         end associate
       end associate
 
-      call shuffle(input_output_pairs) ! set up for stochastic gradient descent
 
       associate(num_pairs => size(input_output_pairs), n_bins => size(input_output_pairs)/10000)
         bins = [(bin_t(num_items=num_pairs, num_bins=n_bins, bin_number=b), b = 1, n_bins)]
-        mini_batches = [(mini_batch_t(input_output_pairs(bins(b)%first():bins(b)%last())), b = 1, size(bins))]
-      end associate
 
-      print *,"Training network"
-
-      block
-        integer epoch
-
+        print *,"Training network"
         print *, "       Epoch   Cost (min)       Cost (max)       Cost (avg)"
 
         do epoch = starting_epoch, ending_epoch
 
+          call shuffle(input_output_pairs) ! set up for stochastic gradient descent
+          mini_batches = [(mini_batch_t(input_output_pairs(bins(b)%first():bins(b)%last())), b = 1, size(bins))]
           call trainable_engine%train(mini_batches, cost)
-
           print *, epoch, minval(cost), maxval(cost), sum(cost)/size(cost)
           write(plot_unit,*) epoch, minval(cost), maxval(cost), sum(cost)/size(cost)
 
@@ -262,7 +256,7 @@ contains
           close(network_unit)
 
         end do
-      end block
+      end associate
 
       close(plot_unit)
 
