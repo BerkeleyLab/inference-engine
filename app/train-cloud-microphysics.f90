@@ -194,7 +194,7 @@ contains
       else
         close(network_unit)
         print *,"Initializing a new network"
-        trainable_engine = new_engine(num_hidden_layers=12, nodes_per_hidden_layer=16, num_inputs=8, num_outputs=6, random=.true.)
+        trainable_engine = new_engine(num_hidden_layers=12, nodes_per_hidden_layer=16, num_inputs=8, num_outputs=6, random=.false.)
       end if
       
       print *,"Defining tensors from time steps 1 through", t_end, "with strides of", stride
@@ -229,7 +229,7 @@ contains
       end associate
 
 
-      associate(num_pairs => size(input_output_pairs), n_bins => size(input_output_pairs)/10000)
+      associate(num_pairs => size(input_output_pairs), n_bins => 1) ! also tried n_bins => size(input_output_pairs)/10000
         bins = [(bin_t(num_items=num_pairs, num_bins=n_bins, bin_number=b), b = 1, n_bins)]
 
         print *,"Training network"
