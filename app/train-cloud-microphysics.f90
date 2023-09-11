@@ -246,7 +246,6 @@ contains
           open(newunit=network_unit, file=network_file, form='formatted', status='unknown', iostat=io_status, action='write')
           associate(inference_engine => trainable_engine%to_inference_engine())
             associate(json_file => inference_engine%to_json())
-              print *,"Writing network to " // network_file
               call json_file%write_lines(string_t(network_file))
             end associate
           end associate
