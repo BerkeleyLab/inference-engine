@@ -48,7 +48,7 @@ program train_cloud_microphysics
   type(string_t), allocatable :: lines(:)
   character(len=*), parameter :: plot_file_name = "cost.plt"
   character(len=:), allocatable :: base_name, stride_string, epochs_string, last_line
-  integer plot_unit, stride, starting_epoch, ending_epoch, num_epochs, last_epoch_in_file
+  integer plot_unit, stride, num_epochs, previous_epoch
   logical preexisting_plot_file
 
   call system_clock(t_start, clock_rate)
@@ -68,16 +68,13 @@ program train_cloud_microphysics
 
   if (.not. preexisting_plot_file) then
     write(plot_unit,*) "      Epoch   Cost (min)       Cost (max)       Cost (avg)"
-    starting_epoch = 1
+    previous_epoch = 0
   else
     plot_file = file_t(string_t(plot_file_name))
     lines = plot_file%lines()
     last_line = lines(size(lines))%string()
-    read(last_line,*) last_epoch_in_file
-    starting_epoch = last_epoch_in_file + 1
+    read(last_line,*) previous_epoch
   end if
-
-  ending_epoch = starting_epoch + num_epochs - 1
 
   call read_train_write
 
@@ -238,7 +235,7 @@ contains
         print *,"Training network"
         print *, "       Epoch   Cost (min)       Cost (max)       Cost (avg)"
 
-        do epoch = starting_epoch, ending_epoch
+        do epoch = previous_epoch + 1, previous_epoch + num_epochs
 
           call shuffle(input_output_pairs) ! set up for stochastic gradient descent
           mini_batches = [(mini_batch_t(input_output_pairs(bins(b)%first():bins(b)%last())), b = 1, size(bins))]
