@@ -78,6 +78,7 @@ program train_cloud_microphysics
 
   call read_train_write
 
+  close(plot_unit)
   call system_clock(t_finish)
   print *,"System clock time: ", real(t_finish - t_start, real64)/real(clock_rate, real64)
   print *,new_line('a') // "______training_cloud_microhpysics done _______"
@@ -97,6 +98,7 @@ contains
     integer, allocatable :: lbounds(:)
     integer t, b, t_end
     character(len=:), allocatable :: network_input, network_output, network_file
+    logical stop_requested
  
     network_input = base_name // "_input.nc"
     network_output = base_name // "_output.nc"
@@ -182,7 +184,6 @@ contains
       real(rkind), parameter :: keep = 0.01
       real(rkind), allocatable :: cost(:)
       real(rkind), allocatable :: harvest(:)
-      integer, parameter :: mini_batch_size=1
       integer i, batch, lon, lat, level, time, network_unit, io_status, final_step, epoch
 
       open(newunit=network_unit, file=network_file, form='formatted', status='old', iostat=io_status, action='read')
@@ -249,12 +250,19 @@ contains
               call json_file%write_lines(string_t(network_file))
             end associate
           end associate
+
           close(network_unit)
+
+          inquire(file="stop-training", exist=stop_requested)
+
+          graceful_exit: &
+          if (stop_requested) then
+            print *,'Shutting down because a file named "stop-training" was found.'
+            return
+          end if graceful_exit
 
         end do
       end associate
-
-      close(plot_unit)
 
     end block train_network
 
