@@ -25,7 +25,10 @@ program read_json
   inference_engine = inference_engine_t(file_t(input_file_name))
   print *, "number of inputs: ", inference_engine%num_inputs()
   print *, "number of outputs: ", inference_engine%num_outputs()
-  print *, "number of nodes per layer: ", inference_engine%nodes_per_layer()
+  associate(nodes => inference_engine%nodes_per_layer())
+    print *, "number of layers: ", size(nodes) 
+    print *, "number of nodes per layer: ", nodes 
+  end associate
   activation_name = inference_engine%activation_function_name()
   print *, "activation function: ", activation_name%string()
   print *, "using skip connections: ", merge("true ", "false", inference_engine%skip())
