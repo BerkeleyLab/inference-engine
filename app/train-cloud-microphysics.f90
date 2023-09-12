@@ -48,7 +48,7 @@ program train_cloud_microphysics
   type(string_t), allocatable :: lines(:)
   character(len=*), parameter :: plot_file_name = "cost.plt"
   character(len=:), allocatable :: base_name, stride_string, epochs_string, last_line
-  integer plot_unit, stride, starting_epoch, ending_epoch, num_epochs, last_epoch_in_file
+  integer plot_unit, stride, num_epochs, previous_epoch
   logical preexisting_plot_file
 
   call system_clock(t_start, clock_rate)
@@ -68,19 +68,17 @@ program train_cloud_microphysics
 
   if (.not. preexisting_plot_file) then
     write(plot_unit,*) "      Epoch   Cost (min)       Cost (max)       Cost (avg)"
-    starting_epoch = 1
+    previous_epoch = 0
   else
     plot_file = file_t(string_t(plot_file_name))
     lines = plot_file%lines()
     last_line = lines(size(lines))%string()
-    read(last_line,*) last_epoch_in_file
-    starting_epoch = last_epoch_in_file + 1
+    read(last_line,*) previous_epoch
   end if
-
-  ending_epoch = starting_epoch + num_epochs - 1
 
   call read_train_write
 
+  close(plot_unit)
   call system_clock(t_finish)
   print *,"System clock time: ", real(t_finish - t_start, real64)/real(clock_rate, real64)
   print *,new_line('a') // "______training_cloud_microhpysics done _______"
@@ -100,6 +98,7 @@ contains
     integer, allocatable :: lbounds(:)
     integer t, b, t_end
     character(len=:), allocatable :: network_input, network_output, network_file
+    logical stop_requested
  
     network_input = base_name // "_input.nc"
     network_output = base_name // "_output.nc"
@@ -182,10 +181,9 @@ contains
       type(bin_t), allocatable :: bins(:)
       type(input_output_pair_t), allocatable :: input_output_pairs(:)
       type(tensor_t), allocatable, dimension(:) :: inputs, outputs
-      real(rkind), parameter :: keep = 0.3
+      real(rkind), parameter :: keep = 0.01
       real(rkind), allocatable :: cost(:)
       real(rkind), allocatable :: harvest(:)
-      integer, parameter :: mini_batch_size=1
       integer i, batch, lon, lat, level, time, network_unit, io_status, final_step, epoch
 
       open(newunit=network_unit, file=network_file, form='formatted', status='old', iostat=io_status, action='read')
@@ -197,7 +195,7 @@ contains
       else
         close(network_unit)
         print *,"Initializing a new network"
-        trainable_engine = new_engine(num_hidden_layers=12, nodes_per_hidden_layer=16, num_inputs=8, num_outputs=6, random=.true.)
+        trainable_engine = new_engine(num_hidden_layers=6, nodes_per_hidden_layer=16, num_inputs=8, num_outputs=6, random=.false.)
       end if
       
       print *,"Defining tensors from time steps 1 through", t_end, "with strides of", stride
@@ -232,13 +230,13 @@ contains
       end associate
 
 
-      associate(num_pairs => size(input_output_pairs), n_bins => size(input_output_pairs)/10000)
+      associate(num_pairs => size(input_output_pairs), n_bins => 1) ! also tried n_bins => size(input_output_pairs)/10000
         bins = [(bin_t(num_items=num_pairs, num_bins=n_bins, bin_number=b), b = 1, n_bins)]
 
         print *,"Training network"
         print *, "       Epoch   Cost (min)       Cost (max)       Cost (avg)"
 
-        do epoch = starting_epoch, ending_epoch
+        do epoch = previous_epoch + 1, previous_epoch + num_epochs
 
           call shuffle(input_output_pairs) ! set up for stochastic gradient descent
           mini_batches = [(mini_batch_t(input_output_pairs(bins(b)%first():bins(b)%last())), b = 1, size(bins))]
@@ -249,16 +247,22 @@ contains
           open(newunit=network_unit, file=network_file, form='formatted', status='unknown', iostat=io_status, action='write')
           associate(inference_engine => trainable_engine%to_inference_engine())
             associate(json_file => inference_engine%to_json())
-              print *,"Writing network to " // network_file
               call json_file%write_lines(string_t(network_file))
             end associate
           end associate
+
           close(network_unit)
+
+          inquire(file="stop-training", exist=stop_requested)
+
+          graceful_exit: &
+          if (stop_requested) then
+            print *,'Shutting down because a file named "stop-training" was found.'
+            return
+          end if graceful_exit
 
         end do
       end associate
-
-      close(plot_unit)
 
     end block train_network
 
