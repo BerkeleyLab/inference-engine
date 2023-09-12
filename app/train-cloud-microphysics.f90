@@ -179,7 +179,7 @@ contains
       type(bin_t), allocatable :: bins(:)
       type(input_output_pair_t), allocatable :: input_output_pairs(:)
       type(tensor_t), allocatable, dimension(:) :: inputs, outputs
-      real(rkind), parameter :: keep = 0.3
+      real(rkind), parameter :: keep = 0.01
       real(rkind), allocatable :: cost(:)
       real(rkind), allocatable :: harvest(:)
       integer, parameter :: mini_batch_size=1
@@ -194,7 +194,7 @@ contains
       else
         close(network_unit)
         print *,"Initializing a new network"
-        trainable_engine = new_engine(num_hidden_layers=12, nodes_per_hidden_layer=16, num_inputs=8, num_outputs=6, random=.false.)
+        trainable_engine = new_engine(num_hidden_layers=6, nodes_per_hidden_layer=16, num_inputs=8, num_outputs=6, random=.false.)
       end if
       
       print *,"Defining tensors from time steps 1 through", t_end, "with strides of", stride
