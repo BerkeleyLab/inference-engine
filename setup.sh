@@ -56,7 +56,7 @@ fi
 
 
 brew tap fortran-lang/fortran # required for building fpm
-brew install fpm cmake netcdf netcdf-fortran pkg-config coreutils # coreutils supports `realpath` below
+brew install fpm netcdf netcdf-fortran pkg-config coreutils # coreutils supports `realpath` below
 
 PREFIX=`realpath $PREFIX`
 
