@@ -4,10 +4,16 @@ submodule(relu_m) relu_s
   use kind_parameters_m, only : rkind
   implicit none
 
+  real(rkind), parameter :: zero = 0._rkind, one = 1._rkind
+
 contains
 
     module procedure activation
-      y = max(0._rkind, x)
+      y = max(zero, x)
+    end procedure
+
+    module procedure activation_derivative
+      y = merge(one, zero, x>zero)
     end procedure
 
     module procedure function_name
