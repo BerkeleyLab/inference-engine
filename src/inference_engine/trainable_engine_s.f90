@@ -20,6 +20,10 @@ contains
     n_layers = size(self%n,1)
   end procedure
 
+  module procedure num_outputs
+    n_out = self%n(ubound(self%n,1))
+  end procedure
+
   module procedure construct_from_inference_engine
 
     associate(exchange => inference_engine%to_exchange())
