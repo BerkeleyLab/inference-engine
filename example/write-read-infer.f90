@@ -46,8 +46,6 @@ contains
     type(string_t) activation_name
     integer i, j
     integer, parameter :: num_neurons = 3, num_hidden_layers = 2
-    integer, parameter :: identity(*,*,*) = & 
-      reshape([((merge(1,0,i==j), i=1,num_neurons), j=1,num_neurons)], shape=[num_neurons,num_neurons,num_hidden_layers-1])
     type(inference_engine_t) xor_network, inference_engine
     type(file_t) json_output_file, json_input_file
     type(tensor_t) network_outputs
