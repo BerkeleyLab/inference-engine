@@ -28,6 +28,7 @@ module trainable_engine_m
     procedure :: infer
     procedure :: num_layers
     procedure :: num_inputs
+    procedure :: num_outputs
     procedure :: to_inference_engine
   end type
 
@@ -79,6 +80,12 @@ module trainable_engine_m
       implicit none
       class(trainable_engine_t), intent(in) :: self
       integer n_in
+    end function
+
+    elemental module function num_outputs(self) result(n_out)
+      implicit none
+      class(trainable_engine_t), intent(in) :: self
+      integer n_out
     end function
 
     elemental module function num_layers(self) result(n_layers)

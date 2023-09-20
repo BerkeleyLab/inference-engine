@@ -229,7 +229,6 @@ contains
         end associate
       end associate
 
-
       associate(num_pairs => size(input_output_pairs), n_bins => 1) ! also tried n_bins => size(input_output_pairs)/10000
         bins = [(bin_t(num_items=num_pairs, num_bins=n_bins, bin_number=b), b = 1, n_bins)]
 
