@@ -51,7 +51,8 @@ contains
     associate( &
       descriptions => &
       [ character(len=len(longest_description)) :: &
-        "preserving an identity mapping with 2 hidden layers"                                                                    ,&
+        "preserving an identity mapping with 2 hidden layers"                                                                   ,&
+        "training a perturbed identity mapping to converge to an identity mapping using the Adam optimizer"                     ,&
         "learning the mapping (true,true) -> true with 2 hidden layers trained on skewed AND-gate data"                         ,&
         "learning the mapping (false,true) -> false with 2 hidden layers trained on skewed AND-gate data"                       ,&
         "learning the mapping (true,false) -> false with 2 hidden layers trained on skewed AND-gate data"                       ,&
@@ -70,6 +71,7 @@ contains
         "learning the mapping (false,false) -> false with 2 hidden layers trained on symmetric XOR-gate data and random weights" &
       ], outcomes => [ &
         preserves_identity_mapping(), &
+        perturbed_identity_converges(), &
         and_gate_with_skewed_training_data(), &
         not_and_gate_with_skewed_training_data(), &
         or_gate_with_random_weights(), &
@@ -165,7 +167,7 @@ contains
     mini_batches = [(mini_batch_t(input_output_pair_t(training_inputs(:,iter), training_outputs(:,iter))), iter=1, num_iterations)]        
     trainable_engine = two_zeroed_hidden_layers()
 
-    call trainable_engine%train(mini_batches,adam=.true.)
+    call trainable_engine%train(mini_batches)
 
     test_inputs = [tensor_t([true,true]), tensor_t([false,true]), tensor_t([true,false]), tensor_t([false,false])]
     expected_test_outputs = [(and(test_inputs(i)), i=1, size(test_inputs))]
@@ -209,7 +211,7 @@ contains
     mini_batches = [(mini_batch_t(input_output_pair_t(training_inputs(:,iter), training_outputs(:,iter))), iter=1, num_iterations)]        
     trainable_engine = two_zeroed_hidden_layers()
 
-    call trainable_engine%train(mini_batches, adam=.true.)
+    call trainable_engine%train(mini_batches)
 
     test_inputs = [tensor_t([true,true]), tensor_t([false,true]), tensor_t([true,false]), tensor_t([false,false])]
     expected_test_outputs = [(not_and(test_inputs(i)), i=1, size(test_inputs))]
@@ -251,7 +253,7 @@ contains
     mini_batches = [(mini_batch_t(input_output_pair_t(training_inputs(:,iter), training_outputs(:,iter))), iter=1, num_iterations)]        
     trainable_engine = two_random_hidden_layers()
 
-    call trainable_engine%train(mini_batches, adam=.true.)
+    call trainable_engine%train(mini_batches)
 
     test_inputs = [tensor_t([true,true]), tensor_t([false,true]), tensor_t([true,false]), tensor_t([false,false])]
     expected_test_outputs = [(or(test_inputs(i)), i=1, size(test_inputs))]
@@ -293,7 +295,7 @@ contains
     mini_batches = [(mini_batch_t(input_output_pair_t(training_inputs(:,iter), training_outputs(:,iter))), iter=1, num_iterations)]        
     trainable_engine = two_random_hidden_layers()
 
-    call trainable_engine%train(mini_batches, adam=.true.)
+    call trainable_engine%train(mini_batches)
 
     test_inputs = [tensor_t([true,true]), tensor_t([false,true]), tensor_t([true,false]), tensor_t([false,false])]
     expected_test_outputs = [(xor(test_inputs(i)), i=1, size(test_inputs))]
@@ -312,6 +314,46 @@ contains
 
   end function
 
+  subroutine shuffle(pairs)
+    type(input_output_pair_t), intent(inout) :: pairs(:)
+    type(input_output_pair_t) temp
+    real harvest(2:size(pairs))
+    integer i, j
+
+    call random_init(image_distinct=.true., repeatable=.true.)
+    call random_number(harvest)
+
+    durstenfeld_shuffle: &
+    do i = size(pairs), 2, -1
+      j = 1 + int(harvest(i)*i)
+      temp     = pairs(i)
+      pairs(i) = pairs(j)
+      pairs(j) = temp
+    end do durstenfeld_shuffle
+
+  end subroutine
+
+  function perturbed_identity_network(perturbation_magnitude) result(trainable_engine)
+    type(trainable_engine_t) trainable_engine
+    real(rkind), intent(in) :: perturbation_magnitude
+    integer, parameter :: nodes_per_layer(*) = [2, 2, 2, 2]
+    integer, parameter :: max_n = maxval(nodes_per_layer), layers = size(nodes_per_layer)
+    real(rkind), parameter :: identity(*,*,*) = &
+      reshape([real(rkind):: [1,0], [0,1] ,[1,0], [0,1], [1,0], [0,1]], [max_n, max_n, layers-1])
+    real(rkind) harvest(size(identity,1), size(identity,2), size(identity,3))
+
+    call random_number(harvest)
+    harvest = perturbation_magnitude*harvest
+
+    trainable_engine = trainable_engine_t( &
+      nodes = nodes_per_layer, &
+      weights = identity + harvest , & 
+      biases = reshape([real(rkind):: [0,0], [0,0], [0,0]], [max_n, layers-1]), &
+      differentiable_activation_strategy = relu_t(), &
+      metadata = [string_t("Identity"), string_t("Damian Rouson"), string_t("2023-09-18"), string_t("relu"), string_t("false")] &
+    )
+  end function
+
   function preserves_identity_mapping() result(test_passes)
     logical, allocatable :: test_passes(:)
     type(mini_batch_t), allocatable :: mini_batches(:)
@@ -321,10 +363,10 @@ contains
     type(bin_t), allocatable :: bins(:)
     real(rkind), allocatable :: cost(:)
     integer, allocatable :: neurons(:)
-    integer, parameter :: num_pairs = 100, num_epochs = 10, n_bins = 3
+    integer, parameter :: num_pairs = 100, num_epochs = 100, n_bins = 3
     integer i, bin, epoch
 
-    trainable_engine = identity_network()
+    trainable_engine = perturbed_identity_network(perturbation_magnitude=0.)
 
     associate(num_inputs => trainable_engine%num_inputs(), num_outputs => trainable_engine%num_outputs())
 
@@ -355,37 +397,47 @@ contains
 
   end function
 
-  subroutine shuffle(pairs)
-    type(input_output_pair_t), intent(inout) :: pairs(:)
-    type(input_output_pair_t) temp
-    real harvest(2:size(pairs))
-    integer i, j
+  function perturbed_identity_converges() result(test_passes)
+    logical, allocatable :: test_passes(:)
+    type(mini_batch_t), allocatable :: mini_batches(:)
+    type(input_output_pair_t), allocatable :: input_output_pairs(:)
+    type(tensor_t), allocatable :: inputs(:)
+    type(trainable_engine_t)  trainable_engine
+    type(bin_t), allocatable :: bins(:)
+    real(rkind), allocatable :: cost(:)
+    integer, allocatable :: neurons(:)
+    integer, parameter :: num_pairs = 5, num_epochs = 400, n_bins = 3
+    integer i, bin, epoch
 
-    call random_init(image_distinct=.true., repeatable=.true.)
-    call random_number(harvest)
+    trainable_engine = perturbed_identity_network(perturbation_magnitude=0.1)
 
-    durstenfeld_shuffle: &
-    do i = size(pairs), 2, -1
-      j = 1 + int(harvest(i)*i)
-      temp     = pairs(i)
-      pairs(i) = pairs(j)
-      pairs(j) = temp
-    end do durstenfeld_shuffle
+    associate(num_inputs => trainable_engine%num_inputs(), num_outputs => trainable_engine%num_outputs())
 
-  end subroutine
+      call assert(num_inputs == num_outputs,"trainable_engine_test_m(identity_mapping): # inputs == # outputs", &
+        intrinsic_array_t([num_inputs, num_outputs]) &
+      )
+      inputs = [(tensor_t(real([i,2*i], rkind)/(2*num_pairs)), i = 1, num_pairs)]
+      associate(outputs => inputs)
+        input_output_pairs = input_output_pair_t(inputs, outputs)
+      end associate
+      bins = [(bin_t(num_items=num_pairs, num_bins=n_bins, bin_number=bin), bin = 1, n_bins)]
 
-  function identity_network() result(trainable_engine)
-    type(trainable_engine_t) trainable_engine
-    integer, parameter :: nodes_per_layer(*) = [2, 2, 2, 2]
-    integer, parameter :: max_n = maxval(nodes_per_layer), layers = size(nodes_per_layer)
+      do epoch = 1,num_epochs
+        call shuffle(input_output_pairs)
+        mini_batches = [(mini_batch_t(input_output_pairs(bins(bin)%first():bins(bin)%last())), bin = 1, size(bins))]
+        call trainable_engine%train(mini_batches, cost, adam=.true.)
+      end do
 
-    trainable_engine = trainable_engine_t( &
-      nodes = nodes_per_layer, &
-      weights = reshape([real(rkind):: [1,0], [0,1] ,[1,0], [0,1], [1,0], [0,1]], [max_n, max_n, layers-1]), &
-      biases = reshape([real(rkind):: [0,0], [0,0], [0,0]], [max_n, layers-1]), &
-      differentiable_activation_strategy = relu_t(), &
-      metadata = [string_t("Identity"), string_t("Damian Rouson"), string_t("2023-09-18"), string_t("relu"), string_t("false")] &
-    )
+      block
+        real(rkind), parameter :: tolerance = 1.E-06
+
+        associate(network_outputs => trainable_engine%infer(inputs))
+          test_passes = [maxval(abs([(network_outputs(i)%values() - inputs(i)%values(), i=1,num_pairs)])) < tolerance]
+        end associate
+      end block
+
+   end associate
+
   end function
 
 end module trainable_engine_test_m

@@ -86,7 +86,7 @@ contains
 
   module procedure train
     integer l, batch, mini_batch_size, pair
-    real(rkind), parameter :: eta = 3.e0 ! Learning parameter
+    real(rkind), parameter :: eta = 1.5e0 ! Learning parameter
     real(rkind), allocatable :: &
       z(:,:), a(:,:), delta(:,:), dcdw(:,:,:), dcdb(:,:), vdw(:,:,:), sdw(:,:,:), vdb(:,:), sdb(:,:), vdwc(:,:,:), sdwc(:,:,:), &
       vdbc(:,:), sdbc(:,:)
