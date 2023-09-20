@@ -1,0 +1,499 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+   <meta name="description" content="A library supporting concurrent forward propagation on multiple fully-connected deep neural networks">
+    <meta name="author" content="Sourcery Institute" >
+    <link rel="icon" href="../favicon.png">
+
+    <title>relu_s &ndash; Inference-Engine</title>
+
+    <link href="../css/bootstrap.min.css" rel="stylesheet">
+    <link href="../css/pygments.css" rel="stylesheet">
+    <link href="../css/font-awesome.min.css" rel="stylesheet">
+    <link href="../css/local.css" rel="stylesheet">
+    <link  href="../tipuesearch/tipuesearch.css" rel="stylesheet">
+
+    <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
+    <!--[if lt IE 9]>
+      <script src="https://oss.maxcdn.com/html5shiv/3.7.2/html5shiv.min.js"></script>
+      <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
+    <![endif]-->
+    
+    <script src="../js/jquery-2.1.3.min.js"></script>
+    <script src="../js/svg-pan-zoom.min.js"></script>
+
+  </head>
+
+  <body>
+
+    <!-- Fixed navbar -->
+    <nav class="navbar navbar-inverse navbar-fixed-top">
+      <div class="container">
+        <div class="navbar-header">
+          <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
+            <span class="sr-only">Toggle navigation</span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+          </button>
+          <a class="navbar-brand" href="../index.html">Inference-Engine </a>
+        </div>
+        <div id="navbar" class="navbar-collapse collapse">
+          <ul class="nav navbar-nav">
+            <li class="dropdown hidden-xs visible-sm visible-md hidden-lg">
+              <a href="#" class="dropdown-toggle"
+              data-toggle="dropdown" role="button"
+              aria-haspopup="true"
+     aria-expanded="false">Contents <span class="caret"></span></a>
+        <ul class="dropdown-menu">
+            <li><a href="../lists/files.html">Source Files</a></li>
+            <li><a href="../lists/modules.html">Modules</a></li>
+            <li><a href="../lists/procedures.html">Procedures</a></li>
+            <li><a href="../lists/absint.html">Abstract Interfaces</a></li>
+                   <li><a href="../lists/types.html">Derived Types</a></li>
+            <li><a href="../lists/programs.html">Programs</a></li>
+       
+            </ul>
+        
+            </li>
+<li class="visible-xs hidden-sm visible-lg"><a href="../lists/files.html">Source Files</a></li>
+<li class="visible-xs hidden-sm visible-lg"><a href="../lists/modules.html">Modules</a></li>
+<li class="visible-xs hidden-sm visible-lg"><a href="../lists/procedures.html">Procedures</a></li>
+<li class="visible-xs hidden-sm visible-lg"><a href="../lists/absint.html">Abstract Interfaces</a></li>
+                             <li class="visible-xs hidden-sm visible-lg"><a href="../lists/types.html">Derived Types</a></li>
+<li class="visible-xs hidden-sm visible-lg"><a href="../lists/programs.html">Programs</a></li>
+          </ul>
+        <form action="../search.html" class="navbar-form navbar-right" role="search">
+        <div class="form-group">
+          <input type="text" class="form-control" placeholder="Search" name="q" id="tipue_search_input" autocomplete="off" required>
+        </div>
+<!--
+        <button type="submit" class="btn btn-default">Submit</button>
+-->
+        </form>
+        </div><!--/.nav-collapse -->
+      </div>
+    </nav>
+
+    <div class="container">
+  <div class="row">
+    <h1>relu_s 
+    <small>Submodule</small>
+    </h1>
+    <div class="row">
+  <div class="col-lg-12">
+<div class="well well-sm">
+  <ul class="list-inline" style="margin-bottom:0px;display:inline">
+     <li><i class="fa fa-list-ol"></i>
+       <a data-toggle="tooltip"
+    data-placement="bottom" data-html="true"
+    title=" 1.0% of total for modules and submodules.">15 statements</a>
+     </li> 
+    <li><i class="fa fa-code"></i><a href="../src/relu_s.f90"> Source File</a></li>
+  </ul>
+  <ol class="breadcrumb in-well text-right">
+     <li><a href='../sourcefile/relu_s.f90.html'>relu_s.f90</a></li>
+     <li class="active">relu_s</li>
+  </ol>
+</div>
+</div>
+</div>
+<script>
+  $(function () {
+  $('[data-toggle="tooltip"]').tooltip()
+  })
+</script>
+
+  </div>
+  
+  <div class="row">
+    <div class="col-md-3 hidden-xs hidden-sm visible-md visible-lg">
+    <div id="sidebar">
+  <h3>Contents</h3>
+ 
+<div class="panel panel-primary">
+  <div class="panel-heading text-left"><h3 class="panel-title"><a data-toggle="collapse" href="#vars-0">Variables</a></h3></div>
+  <div id="vars-0" class="panel-collapse collapse">
+    <div class="list-group">
+      <a class="list-group-item" href="../module/relu_s.html#variable-one">one</a>
+      <a class="list-group-item" href="../module/relu_s.html#variable-zero">zero</a>
+    </div>
+  </div>
+</div>
+<div class="panel panel-primary">
+  <div class="panel-heading text-left"><h3 class="panel-title"><a data-toggle="collapse" href="#modprocs-0">Module Procedures</a></h3></div>
+  <div id="modprocs-0" class="panel-collapse collapse">
+    <div class="list-group">
+      <a class="list-group-item" href="../module/relu_s.html#proc-activation~2">activation</a>
+      <a class="list-group-item" href="../module/relu_s.html#proc-activation_derivative~2">activation_derivative</a>
+      <a class="list-group-item" href="../module/relu_s.html#proc-function_name~2">function_name</a>
+    </div>
+  </div>
+</div>
+
+</div>
+
+    </div>
+    
+    <div class="col-md-9" id='text'>
+    
+<br>        <div class="panel panel-default">
+      <div class="panel-heading">
+  <h3 class="panel-title">Uses</h3>
+      </div>
+      <ul class="list-group">
+      <li class="list-group-item">
+  <ul class="list-inline">
+    <li><a href='../module/kind_parameters_m.html'>kind_parameters_m</a></li>
+  </ul>
+      </li>
+      <li class="list-group-item">
+  <ul class="list-inline">
+    <li><h5>Ancestors:</h5></li>
+    <li><a href='../module/relu_m.html'>relu_m</a></li>
+  </ul>
+      </li>
+      <li class="list-group-item">
+  <div class="depgraph"><?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN"
+ "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
+<!-- Generated by graphviz version 2.43.0 (0)
+ -->
+<!-- Title: module~~relu_s~~UsesGraph Pages: 1 -->
+<svg id="modulerelu_sUsesGraph" width="641pt" height="78pt"
+ viewBox="0.00 0.00 641.00 78.24" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+<g id="module~~relu_s~~UsesGraph" class="graph" transform="scale(1.11 1.11) rotate(0) translate(4 83.15)">
+<title>module~~relu_s~~UsesGraph</title>
+<polygon fill="white" stroke="transparent" points="-4,4 -4,-83.15 710,-83.15 710,4 -4,4"/>
+<!-- module~relu_s -->
+<g id="module~~relu_s~~UsesGraph_node1" class="node">
+<title>module~relu_s</title>
+<polygon fill="none" stroke="black" points="706,-68.32 652,-68.32 652,-44.32 706,-44.32 706,-68.32"/>
+<text text-anchor="middle" x="679" y="-53.92" font-family="Helvetica,sans-Serif" font-size="10.50">relu_s</text>
+</g>
+<!-- module~kind_parameters_m -->
+<g id="module~~relu_s~~UsesGraph_node2" class="node">
+<title>module~kind_parameters_m</title>
+<g id="a_module~~relu_s~~UsesGraph_node2"><a xlink:href=".././module/kind_parameters_m.html" xlink:title="kind_parameters_m">
+<polygon fill="#337ab7" stroke="#337ab7" points="118,-78.32 0,-78.32 0,-54.32 118,-54.32 118,-78.32"/>
+<text text-anchor="middle" x="59" y="-63.92" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">kind_parameters_m</text>
+</a>
+</g>
+</g>
+<!-- module~relu_s&#45;&gt;module~kind_parameters_m -->
+<g id="module~~relu_s~~UsesGraph_edge1" class="edge">
+<title>module~relu_s&#45;&gt;module~kind_parameters_m</title>
+<path fill="none" stroke="#ff0000" stroke-dasharray="5,2" d="M651.7,-58.76C605.61,-62.95 507.24,-71.53 424,-76.32"/>
+</g>
+<!-- module~relu_m -->
+<g id="module~~relu_s~~UsesGraph_node3" class="node">
+<title>module~relu_m</title>
+<g id="a_module~~relu_s~~UsesGraph_node3"><a xlink:href=".././module/relu_m.html" xlink:title="relu_m">
+<polygon fill="#337ab7" stroke="#337ab7" points="616,-48.32 562,-48.32 562,-24.32 616,-24.32 616,-48.32"/>
+<text text-anchor="middle" x="589" y="-33.92" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">relu_m</text>
+</a>
+</g>
+</g>
+<!-- module~relu_s&#45;&gt;module~relu_m -->
+<g id="module~~relu_s~~UsesGraph_edge2" class="edge">
+<title>module~relu_s&#45;&gt;module~relu_m</title>
+<path fill="none" stroke="#ff0000" d="M651.6,-50.32C643.52,-48.49 634.49,-46.44 625.9,-44.48"/>
+<polygon fill="#ff0000" stroke="#ff0000" points="626.61,-41.05 616.08,-42.25 625.06,-47.88 626.61,-41.05"/>
+</g>
+<!-- module~relu_m&#45;&gt;module~kind_parameters_m -->
+<g id="module~~relu_s~~UsesGraph_edge4" class="edge">
+<title>module~relu_m&#45;&gt;module~kind_parameters_m</title>
+<path fill="none" stroke="#00ffff" stroke-dasharray="5,2" d="M561.7,-46.16C550.77,-50 537.88,-54.22 526,-57.32 481.38,-68.97 470.03,-73.56 424,-76.32"/>
+<path fill="none" stroke="#00ffff" stroke-dasharray="5,2" d="M422,-76.32C319.86,-82.45 201.29,-76.75 128.45,-71.78"/>
+<polygon fill="#00ffff" stroke="#00ffff" points="128.26,-68.26 118.04,-71.05 127.78,-75.24 128.26,-68.26"/>
+</g>
+<!-- module~differentiable_activation_strategy_m -->
+<g id="module~~relu_s~~UsesGraph_node4" class="node">
+<title>module~differentiable_activation_strategy_m</title>
+<g id="a_module~~relu_s~~UsesGraph_node4"><a xlink:href=".././module/differentiable_activation_strategy_m.html" xlink:title="differentiable_activation_strategy_m">
+<polygon fill="#337ab7" stroke="#337ab7" points="526,-48.32 320,-48.32 320,-24.32 526,-24.32 526,-48.32"/>
+<text text-anchor="middle" x="423" y="-33.92" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">differentiable_activation_strategy_m</text>
+</a>
+</g>
+</g>
+<!-- module~relu_m&#45;&gt;module~differentiable_activation_strategy_m -->
+<g id="module~~relu_s~~UsesGraph_edge3" class="edge">
+<title>module~relu_m&#45;&gt;module~differentiable_activation_strategy_m</title>
+<path fill="none" stroke="#00ffff" stroke-dasharray="5,2" d="M561.65,-36.32C554.2,-36.32 545.6,-36.32 536.39,-36.32"/>
+<polygon fill="#00ffff" stroke="#00ffff" points="536.2,-32.82 526.2,-36.32 536.2,-39.82 536.2,-32.82"/>
+</g>
+<!-- string_m -->
+<g id="module~~relu_s~~UsesGraph_node5" class="node">
+<title>string_m</title>
+<polygon fill="#337ab7" stroke="#337ab7" points="88,-27.32 30,-27.32 30,-3.32 88,-3.32 88,-27.32"/>
+<text text-anchor="middle" x="59" y="-12.92" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">string_m</text>
+</g>
+<!-- module~relu_m&#45;&gt;string_m -->
+<g id="module~~relu_s~~UsesGraph_edge5" class="edge">
+<title>module~relu_m&#45;&gt;string_m</title>
+<path fill="none" stroke="#00ffff" stroke-dasharray="5,2" d="M561.94,-25.38C551.04,-21.37 538.11,-17.32 526,-15.32 369.01,10.54 178.2,-3.33 98.19,-11.16"/>
+<polygon fill="#00ffff" stroke="#00ffff" points="97.7,-7.69 88.1,-12.17 98.4,-14.65 97.7,-7.69"/>
+</g>
+<!-- module~activation_strategy_m -->
+<g id="module~~relu_s~~UsesGraph_node6" class="node">
+<title>module~activation_strategy_m</title>
+<g id="a_module~~relu_s~~UsesGraph_node6"><a xlink:href=".././module/activation_strategy_m.html" xlink:title="activation_strategy_m">
+<polygon fill="#337ab7" stroke="#337ab7" points="284,-48.32 154,-48.32 154,-24.32 284,-24.32 284,-48.32"/>
+<text text-anchor="middle" x="219" y="-33.92" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">activation_strategy_m</text>
+</a>
+</g>
+</g>
+<!-- module~differentiable_activation_strategy_m&#45;&gt;module~activation_strategy_m -->
+<g id="module~~relu_s~~UsesGraph_edge6" class="edge">
+<title>module~differentiable_activation_strategy_m&#45;&gt;module~activation_strategy_m</title>
+<path fill="none" stroke="#ff0000" stroke-dasharray="5,2" d="M319.82,-36.32C311.19,-36.32 302.57,-36.32 294.22,-36.32"/>
+<polygon fill="#ff0000" stroke="#ff0000" points="294.18,-32.82 284.18,-36.32 294.18,-39.82 294.18,-32.82"/>
+</g>
+<!-- module~activation_strategy_m&#45;&gt;module~kind_parameters_m -->
+<g id="module~~relu_s~~UsesGraph_edge7" class="edge">
+<title>module~activation_strategy_m&#45;&gt;module~kind_parameters_m</title>
+<path fill="none" stroke="#ff0000" stroke-dasharray="5,2" d="M154.65,-48.35C145.91,-50.01 136.91,-51.72 128.1,-53.39"/>
+<polygon fill="#ff0000" stroke="#ff0000" points="127.42,-49.96 118.25,-55.26 128.73,-56.84 127.42,-49.96"/>
+</g>
+<!-- module~activation_strategy_m&#45;&gt;string_m -->
+<g id="module~~relu_s~~UsesGraph_edge8" class="edge">
+<title>module~activation_strategy_m&#45;&gt;string_m</title>
+<path fill="none" stroke="#ff0000" stroke-dasharray="5,2" d="M153.74,-27.78C135.09,-25.3 115.32,-22.68 98.76,-20.47"/>
+<polygon fill="#ff0000" stroke="#ff0000" points="98.76,-16.94 88.38,-19.1 97.84,-23.88 98.76,-16.94"/>
+</g>
+</g>
+</svg>
+</div><script>var panmodulerelu_sUsesGraph = svgPanZoom('#modulerelu_sUsesGraph', {zoomEnabled: true,controlIconsEnabled: true, fit: true, center: true,}); </script><div><a type="button" class="graph-help" data-toggle="modal" href="#graph-help-text">Help</a></div><div class="modal fade" id="graph-help-text" tabindex="-1" role="dialog"><div class="modal-dialog modal-lg" role="document"><div class="modal-content"><div class="modal-header"><button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button><h4 class="modal-title" id="-graph-help-label">Graph Key</h4></div><div class="modal-body">
+    <p>Nodes of different colours represent the following: </p>
+    <?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN"
+ "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
+<!-- Generated by graphviz version 2.43.0 (0)
+ -->
+<!-- Title: Graph Key Pages: 1 -->
+<svg width="518pt" height="32pt"
+ viewBox="0.00 0.00 517.50 32.00" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+<g id="graph0" class="graph" transform="scale(1 1) rotate(0) translate(4 28)">
+<title>Graph Key</title>
+<polygon fill="white" stroke="transparent" points="-4,4 -4,-28 513.5,-28 513.5,4 -4,4"/>
+<!-- Module -->
+<g id="node1" class="node">
+<title>Module</title>
+<polygon fill="#337ab7" stroke="#337ab7" points="54,-24 0,-24 0,0 54,0 54,-24"/>
+<text text-anchor="middle" x="27" y="-9.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">Module</text>
+</g>
+<!-- Submodule -->
+<g id="node2" class="node">
+<title>Submodule</title>
+<polygon fill="#5bc0de" stroke="#5bc0de" points="145.5,-24 72.5,-24 72.5,0 145.5,0 145.5,-24"/>
+<text text-anchor="middle" x="109" y="-9.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">Submodule</text>
+</g>
+<!-- Subroutine -->
+<g id="node3" class="node">
+<title>Subroutine</title>
+<polygon fill="#d9534f" stroke="#d9534f" points="234,-24 164,-24 164,0 234,0 234,-24"/>
+<text text-anchor="middle" x="199" y="-9.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">Subroutine</text>
+</g>
+<!-- Function -->
+<g id="node4" class="node">
+<title>Function</title>
+<polygon fill="#d94e8f" stroke="#d94e8f" points="310,-24 252,-24 252,0 310,0 310,-24"/>
+<text text-anchor="middle" x="281" y="-9.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">Function</text>
+</g>
+<!-- Program -->
+<g id="node5" class="node">
+<title>Program</title>
+<polygon fill="#f0ad4e" stroke="#f0ad4e" points="386,-24 328,-24 328,0 386,0 386,-24"/>
+<text text-anchor="middle" x="357" y="-9.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">Program</text>
+</g>
+<!-- This Page&#39;s Entity -->
+<g id="node6" class="node">
+<title>This Page&#39;s Entity</title>
+<polygon fill="none" stroke="black" points="509.5,-24 404.5,-24 404.5,0 509.5,0 509.5,-24"/>
+<text text-anchor="middle" x="457" y="-9.6" font-family="Helvetica,sans-Serif" font-size="10.50">This Page&#39;s Entity</text>
+</g>
+</g>
+</svg>
+
+    
+    <p>Solid arrows point from a submodule to the (sub)module which it is
+    descended from. Dashed arrows point from a module or program unit to 
+    modules which it uses. Where possible, edges connecting nodes are given different colours to make them easier to distinguish in large graphs.
+    </p>
+    </div></div></div></div>
+      </li>
+      </ul>
+    </div>
+
+    
+    <br>
+
+    <section class="visible-xs visible-sm hidden-md">
+      <h3>Contents</h3>
+ 
+<div class="panel panel-primary">
+  <div class="panel-heading text-left"><h3 class="panel-title"><a data-toggle="collapse" href="#vars-1">Variables</a></h3></div>
+  <div id="vars-1" class="panel-collapse collapse">
+    <div class="list-group">
+      <a class="list-group-item" href="../module/relu_s.html#variable-one">one</a>
+      <a class="list-group-item" href="../module/relu_s.html#variable-zero">zero</a>
+    </div>
+  </div>
+</div>
+<div class="panel panel-primary">
+  <div class="panel-heading text-left"><h3 class="panel-title"><a data-toggle="collapse" href="#modprocs-1">Module Procedures</a></h3></div>
+  <div id="modprocs-1" class="panel-collapse collapse">
+    <div class="list-group">
+      <a class="list-group-item" href="../module/relu_s.html#proc-activation~2">activation</a>
+      <a class="list-group-item" href="../module/relu_s.html#proc-activation_derivative~2">activation_derivative</a>
+      <a class="list-group-item" href="../module/relu_s.html#proc-function_name~2">function_name</a>
+    </div>
+  </div>
+</div>
+
+    </section>
+    <br class="visible-xs visible-sm hidden-md">
+
+
+    <section>
+    <h2>Variables</h2>
+    <table class="table table-striped varlist">
+<thead><tr><th>Type</th><th>Visibility</th><th>Attributes</th><th></th><th>Name</th><th></th><th>Initial</th><th></th></thead>
+<tbody>
+<tr>
+  <td><span class="anchor" id="variable-one"></span>real(kind=rkind),</td>
+<td>private,</td>  <td>parameter</td><td>::</td>
+  <td><strong>one</strong></td><td> =</td><td>1._rkind</td><td></td>
+</tr>
+<tr>
+  <td><span class="anchor" id="variable-zero"></span>real(kind=rkind),</td>
+<td>private,</td>  <td>parameter</td><td>::</td>
+  <td><strong>zero</strong></td><td> =</td><td>0._rkind</td><td></td>
+</tr>
+</tbody>
+</table>
+
+    </section>
+    <br>
+    
+    
+
+    
+    
+
+    
+    
+
+
+        <section>
+        <h2>Module Procedures</h2>
+          <div class="panel panel-default">
+  <div class="panel-heading codesum"><span class="anchor" id="proc-activation~2"></span><h3>module procedure <a href='../proc/activation~2.html'>activation</a> <small>elemental module module function activation(x) result(y)</small>   <a href='../interface/activation~2.html'><button type="button" class="btn btn-info depwarn">Interface &rarr;</button></a>
+</h3></div>
+  <div class="panel-body">
+           
+<h4>Arguments</h4>      <table class="table table-striped varlist">
+<thead><tr><th>Type</th><th>Intent</th><th>Optional</th><th>Attributes</th><th></th><th>Name</th><th></th></thead>
+<tbody>
+<tr>
+  <td><span class="anchor" ></span>real(kind=rkind),</td>
+<td>intent(in)</td>
+  <td></td>  <td></td><td>::</td>
+  <td><strong>x</strong></td><td></td>
+</tr>
+</tbody>
+</table>
+
+<h4>Return Value <small>real(kind=rkind)</small></h4>  
+
+  </div>
+  </div>
+
+          <div class="panel panel-default">
+  <div class="panel-heading codesum"><span class="anchor" id="proc-activation_derivative~2"></span><h3>module procedure <a href='../proc/activation_derivative~2.html'>activation_derivative</a> <small>elemental module module function activation_derivative(x) result(y)</small>   <a href='../interface/activation_derivative~2.html'><button type="button" class="btn btn-info depwarn">Interface &rarr;</button></a>
+</h3></div>
+  <div class="panel-body">
+           
+<h4>Arguments</h4>      <table class="table table-striped varlist">
+<thead><tr><th>Type</th><th>Intent</th><th>Optional</th><th>Attributes</th><th></th><th>Name</th><th></th></thead>
+<tbody>
+<tr>
+  <td><span class="anchor" ></span>real(kind=rkind),</td>
+<td>intent(in)</td>
+  <td></td>  <td></td><td>::</td>
+  <td><strong>x</strong></td><td></td>
+</tr>
+</tbody>
+</table>
+
+<h4>Return Value <small>real(kind=rkind)</small></h4>  
+
+  </div>
+  </div>
+
+          <div class="panel panel-default">
+  <div class="panel-heading codesum"><span class="anchor" id="proc-function_name~2"></span><h3>module procedure <a href='../proc/function_name~2.html'>function_name</a> <small>elemental module module function function_name() result(string)</small>   <a href='../interface/function_name~2.html'><button type="button" class="btn btn-info depwarn">Interface &rarr;</button></a>
+</h3></div>
+  <div class="panel-body">
+           
+<h4>Arguments</h4>      <em>None</em>
+<h4>Return Value <small>type(string_t)</small></h4>  
+
+  </div>
+  </div>
+
+        </section>    
+    
+    </div>
+  </div>
+
+    <hr>    
+    </div> <!-- /container -->
+    <footer>
+      <div class="container">
+      <div class="row">
+        <div class="col-xs-6 col-md-6"><p>Inference-Engine was developed by Sourcery Institute<br>&copy; 2023 
+</p>
+        </div>
+        <div class="col-xs-6 col-md-6">
+          <p class="text-right">
+            Documentation generated by 
+            <a href="https://github.com/Fortran-FOSS-Programmers/ford">FORD</a>
+ on 2023-09-20 03:56            </p>
+        </div>
+      </div>
+      <br>
+      </div> <!-- /container -->    
+    </footer>
+
+    <!-- Bootstrap core JavaScript
+    ================================================== -->
+    <!-- Placed at the end of the document so the pages load faster -->
+<!--
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
+-->
+    <script src="../js/bootstrap.min.js"></script>
+    <!-- IE10 viewport hack for Surface/desktop Windows 8 bug -->
+    <script src="../js/ie10-viewport-bug-workaround.js"></script>
+
+    <!-- MathJax JavaScript
+    ================================================== -->
+    <!-- Placed at the end of the document so the pages load faster -->
+    <script type="text/x-mathjax-config">
+      MathJax.Hub.Config({
+        TeX: { extensions: ['AMSmath.js','AMSsymbols.js','noErrors.js','noUndefined.js'], equationNumbers: { autoNumber: 'AMS' } },
+        jax: ['input/TeX','input/MathML','output/HTML-CSS'],
+        extensions: ['tex2jax.js','mml2jax.js','MathMenu.js','MathZoom.js']
+      });
+    </script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    
+    <script src="../tipuesearch/tipuesearch_content.js"></script>
+    <script src="../tipuesearch/tipuesearch_set.js"></script>
+    <script src="../tipuesearch/tipuesearch.js"></script>
+    
+  </body>
+</html>

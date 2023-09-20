@@ -20,6 +20,10 @@ contains
     n_layers = size(self%n,1)
   end procedure
 
+  module procedure num_outputs
+    n_out = self%n(ubound(self%n,1))
+  end procedure
+
   module procedure construct_from_inference_engine
 
     associate(exchange => inference_engine%to_exchange())
@@ -82,7 +86,7 @@ contains
 
   module procedure train
     integer l, batch, mini_batch_size, pair
-    real(rkind), parameter :: eta = 3.e0 ! Learning parameter
+    real(rkind), parameter :: eta = 1.5e0 ! Learning parameter
     real(rkind), allocatable :: &
       z(:,:), a(:,:), delta(:,:), dcdw(:,:,:), dcdb(:,:), vdw(:,:,:), sdw(:,:,:), vdb(:,:), sdb(:,:), vdwc(:,:,:), sdwc(:,:,:), &
       vdbc(:,:), sdbc(:,:)

@@ -90,7 +90,7 @@
      <li><i class="fa fa-list-ol"></i>
        <a data-toggle="tooltip"
     data-placement="bottom" data-html="true"
-    title="11.2% of total for modules and submodules.">162 statements</a>
+    title="10.9% of total for modules and submodules.">165 statements</a>
      </li> 
     <li><i class="fa fa-code"></i><a href="../src/trainable_engine_s.f90"> Source File</a></li>
   </ul>
@@ -132,6 +132,7 @@
       <a class="list-group-item" href="../module/trainable_engine_s.html#proc-infer">infer</a>
       <a class="list-group-item" href="../module/trainable_engine_s.html#proc-num_inputs">num_inputs</a>
       <a class="list-group-item" href="../module/trainable_engine_s.html#proc-num_layers">num_layers</a>
+      <a class="list-group-item" href="../module/trainable_engine_s.html#proc-num_outputs">num_outputs</a>
       <a class="list-group-item" href="../module/trainable_engine_s.html#proc-to_inference_engine">to_inference_engine</a>
       <a class="list-group-item" href="../module/trainable_engine_s.html#proc-train">train</a>
     </div>
@@ -152,10 +153,10 @@
       <li class="list-group-item">
   <ul class="list-inline">
     <li><a href='../module/sigmoid_m.html'>sigmoid_m</a></li>
-    <li><a href='../module/input_output_pair_m.html'>input_output_pair_m</a></li>
     <li>intrinsic_array_m</li>
-    <li><a href='../module/tensor_m.html'>tensor_m</a></li>
+    <li><a href='../module/input_output_pair_m.html'>input_output_pair_m</a></li>
     <li>assert_m</li>
+    <li><a href='../module/tensor_m.html'>tensor_m</a></li>
   </ul>
       </li>
       <li class="list-group-item">
@@ -182,52 +183,64 @@
 <polygon fill="none" stroke="black" points="991,-134.52 878,-134.52 878,-110.52 991,-110.52 991,-134.52"/>
 <text text-anchor="middle" x="934.5" y="-120.12" font-family="Helvetica,sans-Serif" font-size="10.50">trainable_engine_s</text>
 </g>
-<!-- module~sigmoid_m -->
-<g id="module~~trainable_engine_s~~UsesGraph_node2" class="node">
-<title>module~sigmoid_m</title>
-<g id="a_module~~trainable_engine_s~~UsesGraph_node2"><a xlink:href=".././module/sigmoid_m.html" xlink:title="sigmoid_m">
-<polygon fill="#337ab7" stroke="#337ab7" points="660,-52.52 590,-52.52 590,-28.52 660,-28.52 660,-52.52"/>
-<text text-anchor="middle" x="625" y="-38.12" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">sigmoid_m</text>
-</a>
-</g>
-</g>
-<!-- module~trainable_engine_s&#45;&gt;module~sigmoid_m -->
-<g id="module~~trainable_engine_s~~UsesGraph_edge1" class="edge">
-<title>module~trainable_engine_s&#45;&gt;module~sigmoid_m</title>
-<path fill="none" stroke="#ff0000" stroke-dasharray="5,2" d="M877.81,-127.7C833.93,-129.43 772.3,-126.54 724,-103.52 703.29,-93.64 706.96,-79.44 688,-66.52 682.3,-62.63 675.92,-59.15 669.49,-56.1"/>
-<polygon fill="#ff0000" stroke="#ff0000" points="670.65,-52.79 660.09,-51.94 667.82,-59.19 670.65,-52.79"/>
-</g>
 <!-- module~tensor_m -->
-<g id="module~~trainable_engine_s~~UsesGraph_node3" class="node">
+<g id="module~~trainable_engine_s~~UsesGraph_node2" class="node">
 <title>module~tensor_m</title>
-<g id="a_module~~trainable_engine_s~~UsesGraph_node3"><a xlink:href=".././module/tensor_m.html" xlink:title="tensor_m">
+<g id="a_module~~trainable_engine_s~~UsesGraph_node2"><a xlink:href=".././module/tensor_m.html" xlink:title="tensor_m">
 <polygon fill="#337ab7" stroke="#337ab7" points="250,-215.52 188,-215.52 188,-191.52 250,-191.52 250,-215.52"/>
 <text text-anchor="middle" x="219" y="-201.12" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">tensor_m</text>
 </a>
 </g>
 </g>
 <!-- module~trainable_engine_s&#45;&gt;module~tensor_m -->
-<g id="module~~trainable_engine_s~~UsesGraph_edge2" class="edge">
+<g id="module~~trainable_engine_s~~UsesGraph_edge1" class="edge">
 <title>module~trainable_engine_s&#45;&gt;module~tensor_m</title>
 <path fill="none" stroke="#ff0000" stroke-dasharray="5,2" d="M624,-320.52C489.76,-337.98 432.88,-376.25 320,-301.52 290.17,-281.77 310.26,-253.81 284,-229.52 277.08,-223.12 268.38,-218.2 259.64,-214.45"/>
 <polygon fill="#ff0000" stroke="#ff0000" points="260.82,-211.15 250.23,-210.83 258.31,-217.69 260.82,-211.15"/>
 </g>
+<!-- assert_m -->
+<g id="module~~trainable_engine_s~~UsesGraph_node3" class="node">
+<title>assert_m</title>
+<polygon fill="#337ab7" stroke="#337ab7" points="813.5,-94.52 752.5,-94.52 752.5,-70.52 813.5,-70.52 813.5,-94.52"/>
+<text text-anchor="middle" x="783" y="-80.12" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">assert_m</text>
+</g>
+<!-- module~trainable_engine_s&#45;&gt;assert_m -->
+<g id="module~~trainable_engine_s~~UsesGraph_edge2" class="edge">
+<title>module~trainable_engine_s&#45;&gt;assert_m</title>
+<path fill="none" stroke="#ff0000" stroke-dasharray="5,2" d="M888.65,-110.52C867.9,-104.96 843.47,-98.43 823.43,-93.07"/>
+<polygon fill="#ff0000" stroke="#ff0000" points="824.26,-89.67 813.7,-90.46 822.45,-96.43 824.26,-89.67"/>
+</g>
 <!-- intrinsic_array_m -->
 <g id="module~~trainable_engine_s~~UsesGraph_node4" class="node">
 <title>intrinsic_array_m</title>
-<polygon fill="#337ab7" stroke="#337ab7" points="835,-94.52 731,-94.52 731,-70.52 835,-70.52 835,-94.52"/>
-<text text-anchor="middle" x="783" y="-80.12" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">intrinsic_array_m</text>
+<polygon fill="#337ab7" stroke="#337ab7" points="835,-52.52 731,-52.52 731,-28.52 835,-28.52 835,-52.52"/>
+<text text-anchor="middle" x="783" y="-38.12" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">intrinsic_array_m</text>
 </g>
 <!-- module~trainable_engine_s&#45;&gt;intrinsic_array_m -->
 <g id="module~~trainable_engine_s~~UsesGraph_edge3" class="edge">
 <title>module~trainable_engine_s&#45;&gt;intrinsic_array_m</title>
-<path fill="none" stroke="#ff0000" stroke-dasharray="5,2" d="M888.65,-110.52C873.05,-106.34 855.37,-101.61 839.04,-97.24"/>
-<polygon fill="#ff0000" stroke="#ff0000" points="839.65,-93.78 829.08,-94.58 837.84,-100.54 839.65,-93.78"/>
+<path fill="none" stroke="#ff0000" stroke-dasharray="5,2" d="M918.01,-110.5C900.36,-97.21 870.29,-75.8 842,-61.52 838.45,-59.72 834.7,-58 830.89,-56.38"/>
+<polygon fill="#ff0000" stroke="#ff0000" points="831.96,-53.04 821.38,-52.55 829.35,-59.53 831.96,-53.04"/>
+</g>
+<!-- module~sigmoid_m -->
+<g id="module~~trainable_engine_s~~UsesGraph_node5" class="node">
+<title>module~sigmoid_m</title>
+<g id="a_module~~trainable_engine_s~~UsesGraph_node5"><a xlink:href=".././module/sigmoid_m.html" xlink:title="sigmoid_m">
+<polygon fill="#337ab7" stroke="#337ab7" points="660,-52.52 590,-52.52 590,-28.52 660,-28.52 660,-52.52"/>
+<text text-anchor="middle" x="625" y="-38.12" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">sigmoid_m</text>
+</a>
+</g>
+</g>
+<!-- module~trainable_engine_s&#45;&gt;module~sigmoid_m -->
+<g id="module~~trainable_engine_s~~UsesGraph_edge4" class="edge">
+<title>module~trainable_engine_s&#45;&gt;module~sigmoid_m</title>
+<path fill="none" stroke="#ff0000" stroke-dasharray="5,2" d="M877.81,-127.7C833.93,-129.43 772.3,-126.54 724,-103.52 703.29,-93.64 706.96,-79.44 688,-66.52 682.3,-62.63 675.92,-59.15 669.49,-56.1"/>
+<polygon fill="#ff0000" stroke="#ff0000" points="670.65,-52.79 660.09,-51.94 667.82,-59.19 670.65,-52.79"/>
 </g>
 <!-- module~input_output_pair_m -->
-<g id="module~~trainable_engine_s~~UsesGraph_node5" class="node">
+<g id="module~~trainable_engine_s~~UsesGraph_node6" class="node">
 <title>module~input_output_pair_m</title>
-<g id="a_module~~trainable_engine_s~~UsesGraph_node5"><a xlink:href=".././module/input_output_pair_m.html" xlink:title="input_output_pair_m">
+<g id="a_module~~trainable_engine_s~~UsesGraph_node6"><a xlink:href=".././module/input_output_pair_m.html" xlink:title="input_output_pair_m">
 <polygon fill="#337ab7" stroke="#337ab7" points="483.5,-292.52 362.5,-292.52 362.5,-268.52 483.5,-268.52 483.5,-292.52"/>
 <text text-anchor="middle" x="423" y="-278.12" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">input_output_pair_m</text>
 </a>
@@ -239,18 +252,6 @@
 <path fill="none" stroke="#ff0000" stroke-dasharray="5,2" d="M924.32,-134.76C890.03,-178.96 764.25,-327.34 626,-320.52"/>
 <path fill="none" stroke="#ff0000" stroke-dasharray="5,2" d="M624,-320.52C610.28,-322.3 538.78,-307 485.16,-294.81"/>
 <polygon fill="#ff0000" stroke="#ff0000" points="485.9,-291.39 475.37,-292.57 484.34,-298.21 485.9,-291.39"/>
-</g>
-<!-- assert_m -->
-<g id="module~~trainable_engine_s~~UsesGraph_node6" class="node">
-<title>assert_m</title>
-<polygon fill="#337ab7" stroke="#337ab7" points="813.5,-52.52 752.5,-52.52 752.5,-28.52 813.5,-28.52 813.5,-52.52"/>
-<text text-anchor="middle" x="783" y="-38.12" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">assert_m</text>
-</g>
-<!-- module~trainable_engine_s&#45;&gt;assert_m -->
-<g id="module~~trainable_engine_s~~UsesGraph_edge4" class="edge">
-<title>module~trainable_engine_s&#45;&gt;assert_m</title>
-<path fill="none" stroke="#ff0000" stroke-dasharray="5,2" d="M918.01,-110.5C900.36,-97.21 870.29,-75.8 842,-61.52 836.17,-58.57 829.82,-55.83 823.53,-53.38"/>
-<polygon fill="#ff0000" stroke="#ff0000" points="824.38,-49.96 813.79,-49.75 821.94,-56.52 824.38,-49.96"/>
 </g>
 <!-- module~trainable_engine_m -->
 <g id="module~~trainable_engine_s~~UsesGraph_node7" class="node">
@@ -267,21 +268,6 @@
 <path fill="none" stroke="#ff0000" d="M888.65,-134.52C873.05,-138.69 855.37,-143.42 839.04,-147.79"/>
 <polygon fill="#ff0000" stroke="#ff0000" points="837.84,-144.49 829.08,-150.45 839.65,-151.25 837.84,-144.49"/>
 </g>
-<!-- module~differentiable_activation_strategy_m -->
-<g id="module~~trainable_engine_s~~UsesGraph_node8" class="node">
-<title>module~differentiable_activation_strategy_m</title>
-<g id="a_module~~trainable_engine_s~~UsesGraph_node8"><a xlink:href=".././module/differentiable_activation_strategy_m.html" xlink:title="differentiable_activation_strategy_m">
-<polygon fill="#337ab7" stroke="#337ab7" points="526,-56.52 320,-56.52 320,-32.52 526,-32.52 526,-56.52"/>
-<text text-anchor="middle" x="423" y="-42.12" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">differentiable_activation_strategy_m</text>
-</a>
-</g>
-</g>
-<!-- module~sigmoid_m&#45;&gt;module~differentiable_activation_strategy_m -->
-<g id="module~~trainable_engine_s~~UsesGraph_edge8" class="edge">
-<title>module~sigmoid_m&#45;&gt;module~differentiable_activation_strategy_m</title>
-<path fill="none" stroke="#ff0000" stroke-dasharray="5,2" d="M589.62,-41.2C574.5,-41.51 555.79,-41.88 536.45,-42.27"/>
-<polygon fill="#ff0000" stroke="#ff0000" points="536.23,-38.77 526.3,-42.47 536.37,-45.77 536.23,-38.77"/>
-</g>
 <!-- module~kind_parameters_m -->
 <g id="module~~trainable_engine_s~~UsesGraph_node11" class="node">
 <title>module~kind_parameters_m</title>
@@ -291,69 +277,78 @@
 </a>
 </g>
 </g>
-<!-- module~sigmoid_m&#45;&gt;module~kind_parameters_m -->
-<g id="module~~trainable_engine_s~~UsesGraph_edge9" class="edge">
-<title>module~sigmoid_m&#45;&gt;module~kind_parameters_m</title>
-<path fill="none" stroke="#ff0000" stroke-dasharray="5,2" d="M422,-4.52C283.01,1.29 137.22,-101.74 82.5,-144.93"/>
-<polygon fill="#ff0000" stroke="#ff0000" points="80.13,-142.34 74.51,-151.32 84.51,-147.8 80.13,-142.34"/>
+<!-- module~tensor_m&#45;&gt;module~kind_parameters_m -->
+<g id="module~~trainable_engine_s~~UsesGraph_edge7" class="edge">
+<title>module~tensor_m&#45;&gt;module~kind_parameters_m</title>
+<path fill="none" stroke="#ff0000" stroke-dasharray="5,2" d="M187.91,-195.9C168.09,-190.88 141.5,-184.15 117.69,-178.12"/>
+<polygon fill="#ff0000" stroke="#ff0000" points="118.24,-174.65 107.69,-175.59 116.52,-181.44 118.24,-174.65"/>
 </g>
 <!-- string_m -->
-<g id="module~~trainable_engine_s~~UsesGraph_node12" class="node">
+<g id="module~~trainable_engine_s~~UsesGraph_node9" class="node">
 <title>string_m</title>
 <polygon fill="#337ab7" stroke="#337ab7" points="88,-75.52 30,-75.52 30,-51.52 88,-51.52 88,-75.52"/>
 <text text-anchor="middle" x="59" y="-61.12" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">string_m</text>
 </g>
 <!-- module~sigmoid_m&#45;&gt;string_m -->
-<g id="module~~trainable_engine_s~~UsesGraph_edge7" class="edge">
-<title>module~sigmoid_m&#45;&gt;string_m</title>
-<path fill="none" stroke="#ff0000" stroke-dasharray="5,2" d="M589.99,-31.47C550.44,-21.63 483.04,-6.98 424,-4.52"/>
-<path fill="none" stroke="#ff0000" stroke-dasharray="5,2" d="M422,-4.52C332.3,-0.77 309.49,2.64 220,-4.52"/>
-<path fill="none" stroke="#ff0000" stroke-dasharray="5,2" d="M218,-4.52C171.18,-8.26 121,-30.48 90.06,-46.55"/>
-<polygon fill="#ff0000" stroke="#ff0000" points="88.28,-43.53 81.09,-51.31 91.57,-49.71 88.28,-43.53"/>
-</g>
-<!-- module~tensor_m&#45;&gt;module~kind_parameters_m -->
 <g id="module~~trainable_engine_s~~UsesGraph_edge10" class="edge">
-<title>module~tensor_m&#45;&gt;module~kind_parameters_m</title>
-<path fill="none" stroke="#ffff00" stroke-dasharray="5,2" d="M187.91,-195.9C168.09,-190.88 141.5,-184.15 117.69,-178.12"/>
-<polygon fill="#ffff00" stroke="#ffff00" points="118.24,-174.65 107.69,-175.59 116.52,-181.44 118.24,-174.65"/>
+<title>module~sigmoid_m&#45;&gt;string_m</title>
+<path fill="none" stroke="#00ffff" stroke-dasharray="5,2" d="M589.99,-31.47C550.44,-21.63 483.04,-6.98 424,-4.52"/>
+<path fill="none" stroke="#00ffff" stroke-dasharray="5,2" d="M422,-4.52C332.3,-0.77 309.49,2.64 220,-4.52"/>
+<path fill="none" stroke="#00ffff" stroke-dasharray="5,2" d="M218,-4.52C171.18,-8.26 121,-30.48 90.06,-46.55"/>
+<polygon fill="#00ffff" stroke="#00ffff" points="88.28,-43.53 81.09,-51.31 91.57,-49.71 88.28,-43.53"/>
+</g>
+<!-- module~sigmoid_m&#45;&gt;module~kind_parameters_m -->
+<g id="module~~trainable_engine_s~~UsesGraph_edge9" class="edge">
+<title>module~sigmoid_m&#45;&gt;module~kind_parameters_m</title>
+<path fill="none" stroke="#00ffff" stroke-dasharray="5,2" d="M422,-4.52C360.09,-1.93 207.57,-50.37 154,-81.52 124.51,-98.66 95.73,-125.75 77.94,-144.05"/>
+<polygon fill="#00ffff" stroke="#00ffff" points="75.4,-141.66 71.03,-151.31 80.46,-146.49 75.4,-141.66"/>
+</g>
+<!-- module~differentiable_activation_strategy_m -->
+<g id="module~~trainable_engine_s~~UsesGraph_node12" class="node">
+<title>module~differentiable_activation_strategy_m</title>
+<g id="a_module~~trainable_engine_s~~UsesGraph_node12"><a xlink:href=".././module/differentiable_activation_strategy_m.html" xlink:title="differentiable_activation_strategy_m">
+<polygon fill="#337ab7" stroke="#337ab7" points="526,-56.52 320,-56.52 320,-32.52 526,-32.52 526,-56.52"/>
+<text text-anchor="middle" x="423" y="-42.12" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">differentiable_activation_strategy_m</text>
+</a>
+</g>
+</g>
+<!-- module~sigmoid_m&#45;&gt;module~differentiable_activation_strategy_m -->
+<g id="module~~trainable_engine_s~~UsesGraph_edge8" class="edge">
+<title>module~sigmoid_m&#45;&gt;module~differentiable_activation_strategy_m</title>
+<path fill="none" stroke="#00ffff" stroke-dasharray="5,2" d="M589.62,-41.2C574.5,-41.51 555.79,-41.88 536.45,-42.27"/>
+<polygon fill="#00ffff" stroke="#00ffff" points="536.23,-38.77 526.3,-42.47 536.37,-45.77 536.23,-38.77"/>
 </g>
 <!-- module~input_output_pair_m&#45;&gt;module~tensor_m -->
-<g id="module~~trainable_engine_s~~UsesGraph_edge11" class="edge">
+<g id="module~~trainable_engine_s~~UsesGraph_edge12" class="edge">
 <title>module~input_output_pair_m&#45;&gt;module~tensor_m</title>
-<path fill="none" stroke="#00ffff" stroke-dasharray="5,2" d="M390.44,-268.49C355.19,-255.05 298.09,-233.28 259.81,-218.69"/>
-<polygon fill="#00ffff" stroke="#00ffff" points="260.61,-215.25 250.02,-214.96 258.12,-221.79 260.61,-215.25"/>
+<path fill="none" stroke="#0000ff" stroke-dasharray="5,2" d="M390.44,-268.49C355.19,-255.05 298.09,-233.28 259.81,-218.69"/>
+<polygon fill="#0000ff" stroke="#0000ff" points="260.61,-215.25 250.02,-214.96 258.12,-221.79 260.61,-215.25"/>
 </g>
 <!-- module~input_output_pair_m&#45;&gt;module~kind_parameters_m -->
-<g id="module~~trainable_engine_s~~UsesGraph_edge12" class="edge">
+<g id="module~~trainable_engine_s~~UsesGraph_edge11" class="edge">
 <title>module~input_output_pair_m&#45;&gt;module~kind_parameters_m</title>
-<path fill="none" stroke="#00ffff" stroke-dasharray="5,2" d="M362.12,-272.51C321.57,-266.37 267.03,-256.7 220,-243.52"/>
+<path fill="none" stroke="#0000ff" stroke-dasharray="5,2" d="M362.12,-272.51C321.57,-266.37 267.03,-256.7 220,-243.52"/>
 </g>
 <!-- module~trainable_engine_m&#45;&gt;module~tensor_m -->
-<g id="module~~trainable_engine_s~~UsesGraph_edge13" class="edge">
+<g id="module~~trainable_engine_s~~UsesGraph_edge15" class="edge">
 <title>module~trainable_engine_m&#45;&gt;module~tensor_m</title>
 <path fill="none" stroke="#ff00ff" stroke-dasharray="5,2" d="M422,-202.52C365.93,-199.91 301,-200.95 260.22,-202.1"/>
 <polygon fill="#ff00ff" stroke="#ff00ff" points="260.03,-198.61 250.14,-202.4 260.24,-205.6 260.03,-198.61"/>
 </g>
-<!-- module~trainable_engine_m&#45;&gt;module~differentiable_activation_strategy_m -->
-<g id="module~~trainable_engine_s~~UsesGraph_edge14" class="edge">
-<title>module~trainable_engine_m&#45;&gt;module~differentiable_activation_strategy_m</title>
-<path fill="none" stroke="#ff00ff" stroke-dasharray="5,2" d="M758.56,-150.42C747.77,-144.54 734.95,-137.11 724,-129.52 706.88,-117.65 706.75,-108.58 688,-99.52 657.44,-84.75 576.81,-69.07 512.63,-58.24"/>
-<polygon fill="#ff00ff" stroke="#ff00ff" points="512.92,-54.74 502.48,-56.55 511.77,-61.65 512.92,-54.74"/>
-</g>
-<!-- module~inference_engine_m_ -->
-<g id="module~~trainable_engine_s~~UsesGraph_node9" class="node">
-<title>module~inference_engine_m_</title>
-<g id="a_module~~trainable_engine_s~~UsesGraph_node9"><a xlink:href=".././module/inference_engine_m_.html" xlink:title="inference_engine_m_">
-<polygon fill="#337ab7" stroke="#337ab7" points="688,-132.52 562,-132.52 562,-108.52 688,-108.52 688,-132.52"/>
-<text text-anchor="middle" x="625" y="-118.12" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">inference_engine_m_</text>
+<!-- module~mini_batch_m -->
+<g id="module~~trainable_engine_s~~UsesGraph_node8" class="node">
+<title>module~mini_batch_m</title>
+<g id="a_module~~trainable_engine_s~~UsesGraph_node8"><a xlink:href=".././module/mini_batch_m.html" xlink:title="mini_batch_m">
+<polygon fill="#337ab7" stroke="#337ab7" points="668.5,-254.52 581.5,-254.52 581.5,-230.52 668.5,-230.52 668.5,-254.52"/>
+<text text-anchor="middle" x="625" y="-240.12" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">mini_batch_m</text>
 </a>
 </g>
 </g>
-<!-- module~trainable_engine_m&#45;&gt;module~inference_engine_m_ -->
-<g id="module~~trainable_engine_s~~UsesGraph_edge15" class="edge">
-<title>module~trainable_engine_m&#45;&gt;module~inference_engine_m_</title>
-<path fill="none" stroke="#ff00ff" stroke-dasharray="5,2" d="M737.3,-150.48C719.59,-145.71 699.07,-140.19 680.5,-135.19"/>
-<polygon fill="#ff00ff" stroke="#ff00ff" points="681.28,-131.77 670.71,-132.55 679.46,-138.53 681.28,-131.77"/>
+<!-- module~trainable_engine_m&#45;&gt;module~mini_batch_m -->
+<g id="module~~trainable_engine_s~~UsesGraph_edge13" class="edge">
+<title>module~trainable_engine_m&#45;&gt;module~mini_batch_m</title>
+<path fill="none" stroke="#ff00ff" stroke-dasharray="5,2" d="M762.58,-174.62C743.84,-186.08 714.49,-203.42 688,-216.52 681.17,-219.9 673.78,-223.24 666.58,-226.35"/>
+<polygon fill="#ff00ff" stroke="#ff00ff" points="664.78,-223.32 656.93,-230.43 667.5,-229.76 664.78,-223.32"/>
 </g>
 <!-- sourcery_m -->
 <g id="module~~trainable_engine_s~~UsesGraph_node10" class="node">
@@ -362,77 +357,96 @@
 <text text-anchor="middle" x="625" y="-160.12" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">sourcery_m</text>
 </g>
 <!-- module~trainable_engine_m&#45;&gt;sourcery_m -->
-<g id="module~~trainable_engine_s~~UsesGraph_edge17" class="edge">
+<g id="module~~trainable_engine_s~~UsesGraph_edge14" class="edge">
 <title>module~trainable_engine_m&#45;&gt;sourcery_m</title>
 <path fill="none" stroke="#ff00ff" stroke-dasharray="5,2" d="M723.91,-162.52C707,-162.52 688.75,-162.52 672.64,-162.52"/>
 <polygon fill="#ff00ff" stroke="#ff00ff" points="672.4,-159.02 662.4,-162.52 672.4,-166.02 672.4,-159.02"/>
 </g>
 <!-- module~trainable_engine_m&#45;&gt;module~kind_parameters_m -->
-<g id="module~~trainable_engine_s~~UsesGraph_edge16" class="edge">
+<g id="module~~trainable_engine_s~~UsesGraph_edge17" class="edge">
 <title>module~trainable_engine_m&#45;&gt;module~kind_parameters_m</title>
 <path fill="none" stroke="#ff00ff" stroke-dasharray="5,2" d="M734.43,-174.58C719.64,-177.94 703.22,-181.28 688,-183.52 571.61,-200.61 541.51,-207.98 424,-202.52"/>
 <path fill="none" stroke="#ff00ff" stroke-dasharray="5,2" d="M422,-202.52C330.58,-200.76 311.33,-167.98 220,-163.52"/>
 </g>
-<!-- module~mini_batch_m -->
+<!-- module~trainable_engine_m&#45;&gt;module~differentiable_activation_strategy_m -->
+<g id="module~~trainable_engine_s~~UsesGraph_edge16" class="edge">
+<title>module~trainable_engine_m&#45;&gt;module~differentiable_activation_strategy_m</title>
+<path fill="none" stroke="#ff00ff" stroke-dasharray="5,2" d="M758.56,-150.42C747.77,-144.54 734.95,-137.11 724,-129.52 706.88,-117.65 706.75,-108.58 688,-99.52 657.44,-84.75 576.81,-69.07 512.63,-58.24"/>
+<polygon fill="#ff00ff" stroke="#ff00ff" points="512.92,-54.74 502.48,-56.55 511.77,-61.65 512.92,-54.74"/>
+</g>
+<!-- module~inference_engine_m_ -->
 <g id="module~~trainable_engine_s~~UsesGraph_node13" class="node">
-<title>module~mini_batch_m</title>
-<g id="a_module~~trainable_engine_s~~UsesGraph_node13"><a xlink:href=".././module/mini_batch_m.html" xlink:title="mini_batch_m">
-<polygon fill="#337ab7" stroke="#337ab7" points="668.5,-254.52 581.5,-254.52 581.5,-230.52 668.5,-230.52 668.5,-254.52"/>
-<text text-anchor="middle" x="625" y="-240.12" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">mini_batch_m</text>
+<title>module~inference_engine_m_</title>
+<g id="a_module~~trainable_engine_s~~UsesGraph_node13"><a xlink:href=".././module/inference_engine_m_.html" xlink:title="inference_engine_m_">
+<polygon fill="#337ab7" stroke="#337ab7" points="688,-132.52 562,-132.52 562,-108.52 688,-108.52 688,-132.52"/>
+<text text-anchor="middle" x="625" y="-118.12" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">inference_engine_m_</text>
 </a>
 </g>
 </g>
-<!-- module~trainable_engine_m&#45;&gt;module~mini_batch_m -->
+<!-- module~trainable_engine_m&#45;&gt;module~inference_engine_m_ -->
 <g id="module~~trainable_engine_s~~UsesGraph_edge18" class="edge">
-<title>module~trainable_engine_m&#45;&gt;module~mini_batch_m</title>
-<path fill="none" stroke="#ff00ff" stroke-dasharray="5,2" d="M762.58,-174.62C743.84,-186.08 714.49,-203.42 688,-216.52 681.17,-219.9 673.78,-223.24 666.58,-226.35"/>
-<polygon fill="#ff00ff" stroke="#ff00ff" points="664.78,-223.32 656.93,-230.43 667.5,-229.76 664.78,-223.32"/>
+<title>module~trainable_engine_m&#45;&gt;module~inference_engine_m_</title>
+<path fill="none" stroke="#ff00ff" stroke-dasharray="5,2" d="M737.3,-150.48C719.59,-145.71 699.07,-140.19 680.5,-135.19"/>
+<polygon fill="#ff00ff" stroke="#ff00ff" points="681.28,-131.77 670.71,-132.55 679.46,-138.53 681.28,-131.77"/>
+</g>
+<!-- module~mini_batch_m&#45;&gt;module~input_output_pair_m -->
+<g id="module~~trainable_engine_s~~UsesGraph_edge19" class="edge">
+<title>module~mini_batch_m&#45;&gt;module~input_output_pair_m</title>
+<path fill="none" stroke="#ff0000" stroke-dasharray="5,2" d="M581.09,-250.67C555.63,-255.51 522.74,-261.76 493.64,-267.28"/>
+<polygon fill="#ff0000" stroke="#ff0000" points="492.7,-263.9 483.52,-269.21 494,-270.78 492.7,-263.9"/>
+</g>
+<!-- module~mini_batch_m&#45;&gt;module~kind_parameters_m -->
+<g id="module~~trainable_engine_s~~UsesGraph_edge20" class="edge">
+<title>module~mini_batch_m&#45;&gt;module~kind_parameters_m</title>
+<path fill="none" stroke="#ff0000" stroke-dasharray="5,2" d="M581.48,-245.53C491.97,-251.41 286.86,-262.26 220,-243.52"/>
+<path fill="none" stroke="#ff0000" stroke-dasharray="5,2" d="M218,-243.52C189.54,-235.12 180.94,-236.94 154,-224.52 128.65,-212.82 102.18,-195.07 83.81,-181.73"/>
+<polygon fill="#ff0000" stroke="#ff0000" points="85.61,-178.7 75.49,-175.57 81.45,-184.33 85.61,-178.7"/>
 </g>
 <!-- module~activation_strategy_m -->
 <g id="module~~trainable_engine_s~~UsesGraph_node14" class="node">
 <title>module~activation_strategy_m</title>
 <g id="a_module~~trainable_engine_s~~UsesGraph_node14"><a xlink:href=".././module/activation_strategy_m.html" xlink:title="activation_strategy_m">
-<polygon fill="#337ab7" stroke="#337ab7" points="284,-134.52 154,-134.52 154,-110.52 284,-110.52 284,-134.52"/>
-<text text-anchor="middle" x="219" y="-120.12" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">activation_strategy_m</text>
+<polygon fill="#337ab7" stroke="#337ab7" points="284,-114.52 154,-114.52 154,-90.52 284,-90.52 284,-114.52"/>
+<text text-anchor="middle" x="219" y="-100.12" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">activation_strategy_m</text>
 </a>
 </g>
 </g>
 <!-- module~differentiable_activation_strategy_m&#45;&gt;module~activation_strategy_m -->
-<g id="module~~trainable_engine_s~~UsesGraph_edge19" class="edge">
+<g id="module~~trainable_engine_s~~UsesGraph_edge21" class="edge">
 <title>module~differentiable_activation_strategy_m&#45;&gt;module~activation_strategy_m</title>
-<path fill="none" stroke="#ff0000" stroke-dasharray="5,2" d="M390.88,-56.53C355.89,-70.05 298.94,-92.03 260.5,-106.88"/>
-<polygon fill="#ff0000" stroke="#ff0000" points="259.22,-103.62 251.16,-110.49 261.74,-110.15 259.22,-103.62"/>
+<path fill="none" stroke="#0000ff" stroke-dasharray="5,2" d="M380.15,-56.53C348.59,-65.59 305.15,-78.07 271.47,-87.74"/>
+<polygon fill="#0000ff" stroke="#0000ff" points="270.45,-84.39 261.8,-90.51 272.38,-91.12 270.45,-84.39"/>
 </g>
 <!-- module~inference_engine_m_&#45;&gt;module~tensor_m -->
-<g id="module~~trainable_engine_s~~UsesGraph_edge20" class="edge">
+<g id="module~~trainable_engine_s~~UsesGraph_edge25" class="edge">
 <title>module~inference_engine_m_&#45;&gt;module~tensor_m</title>
-<path fill="none" stroke="#ffff00" stroke-dasharray="5,2" d="M422,-164.52C365.18,-170.45 300.51,-184.19 259.98,-193.67"/>
-<polygon fill="#ffff00" stroke="#ffff00" points="259.14,-190.27 250.21,-195.98 260.75,-197.08 259.14,-190.27"/>
-</g>
-<!-- module~inference_engine_m_&#45;&gt;module~differentiable_activation_strategy_m -->
-<g id="module~~trainable_engine_s~~UsesGraph_edge22" class="edge">
-<title>module~inference_engine_m_&#45;&gt;module~differentiable_activation_strategy_m</title>
-<path fill="none" stroke="#ffff00" stroke-dasharray="5,2" d="M591.92,-108.43C582.13,-104.38 571.46,-99.59 562,-94.52 545.06,-85.42 543.57,-78.34 526,-70.52 516.22,-66.16 505.58,-62.44 494.98,-59.29"/>
-<polygon fill="#ffff00" stroke="#ffff00" points="495.86,-55.9 485.28,-56.55 493.95,-62.64 495.86,-55.9"/>
-</g>
-<!-- module~inference_engine_m_&#45;&gt;module~kind_parameters_m -->
-<g id="module~~trainable_engine_s~~UsesGraph_edge21" class="edge">
-<title>module~inference_engine_m_&#45;&gt;module~kind_parameters_m</title>
-<path fill="none" stroke="#ffff00" stroke-dasharray="5,2" d="M422,-164.52C332.71,-173.83 309.67,-167.9 220,-163.52"/>
-<path fill="none" stroke="#ffff00" stroke-dasharray="5,2" d="M218,-163.52C188.6,-162.08 156.08,-161.85 128.22,-162.06"/>
-<polygon fill="#ffff00" stroke="#ffff00" points="128.15,-158.56 118.19,-162.16 128.22,-165.56 128.15,-158.56"/>
+<path fill="none" stroke="#ff00ff" stroke-dasharray="5,2" d="M422,-164.52C365.09,-169.52 300.44,-183.49 259.94,-193.28"/>
+<polygon fill="#ff00ff" stroke="#ff00ff" points="259.06,-189.89 250.18,-195.67 260.73,-196.69 259.06,-189.89"/>
 </g>
 <!-- module~inference_engine_m_&#45;&gt;string_m -->
-<g id="module~~trainable_engine_s~~UsesGraph_edge25" class="edge">
+<g id="module~~trainable_engine_s~~UsesGraph_edge24" class="edge">
 <title>module~inference_engine_m_&#45;&gt;string_m</title>
-<path fill="none" stroke="#ffff00" stroke-dasharray="5,2" d="M561.75,-109.55C474.47,-94.13 325.66,-67.67 320,-65.52 271.34,-47.01 271.89,-0.36 220,-4.52"/>
+<path fill="none" stroke="#ff00ff" stroke-dasharray="5,2" d="M561.75,-109.55C474.47,-94.13 325.66,-67.67 320,-65.52 271.34,-47.01 271.89,-0.36 220,-4.52"/>
+</g>
+<!-- module~inference_engine_m_&#45;&gt;module~kind_parameters_m -->
+<g id="module~~trainable_engine_s~~UsesGraph_edge27" class="edge">
+<title>module~inference_engine_m_&#45;&gt;module~kind_parameters_m</title>
+<path fill="none" stroke="#ff00ff" stroke-dasharray="5,2" d="M422,-164.52C332.57,-172.37 309.67,-167.9 220,-163.52"/>
+<path fill="none" stroke="#ff00ff" stroke-dasharray="5,2" d="M218,-163.52C188.6,-162.08 156.08,-161.85 128.22,-162.06"/>
+<polygon fill="#ff00ff" stroke="#ff00ff" points="128.15,-158.56 118.19,-162.16 128.22,-165.56 128.15,-158.56"/>
+</g>
+<!-- module~inference_engine_m_&#45;&gt;module~differentiable_activation_strategy_m -->
+<g id="module~~trainable_engine_s~~UsesGraph_edge26" class="edge">
+<title>module~inference_engine_m_&#45;&gt;module~differentiable_activation_strategy_m</title>
+<path fill="none" stroke="#ff00ff" stroke-dasharray="5,2" d="M591.92,-108.43C582.13,-104.38 571.46,-99.59 562,-94.52 545.06,-85.42 543.57,-78.34 526,-70.52 516.22,-66.16 505.58,-62.44 494.98,-59.29"/>
+<polygon fill="#ff00ff" stroke="#ff00ff" points="495.86,-55.9 485.28,-56.55 493.95,-62.64 495.86,-55.9"/>
 </g>
 <!-- module~inference_engine_m_&#45;&gt;module~activation_strategy_m -->
-<g id="module~~trainable_engine_s~~UsesGraph_edge24" class="edge">
+<g id="module~~trainable_engine_s~~UsesGraph_edge23" class="edge">
 <title>module~inference_engine_m_&#45;&gt;module~activation_strategy_m</title>
-<path fill="none" stroke="#ffff00" stroke-dasharray="5,2" d="M582.31,-132.57C542.16,-143.49 479.52,-158.72 424,-164.52"/>
-<path fill="none" stroke="#ffff00" stroke-dasharray="5,2" d="M422,-164.52C364.57,-170.51 299.37,-152.3 258.95,-137.99"/>
-<polygon fill="#ffff00" stroke="#ffff00" points="260.08,-134.68 249.48,-134.55 257.68,-141.25 260.08,-134.68"/>
+<path fill="none" stroke="#ff00ff" stroke-dasharray="5,2" d="M583.87,-132.55C543.83,-143.79 480.31,-159.57 424,-164.52"/>
+<path fill="none" stroke="#ff00ff" stroke-dasharray="5,2" d="M422,-164.52C358.67,-170.08 288.5,-139.69 249.79,-119.48"/>
+<polygon fill="#ff00ff" stroke="#ff00ff" points="251.11,-116.22 240.64,-114.59 247.81,-122.4 251.11,-116.22"/>
 </g>
 <!-- file_m -->
 <g id="module~~trainable_engine_s~~UsesGraph_node15" class="node">
@@ -441,35 +455,22 @@
 <text text-anchor="middle" x="423" y="-122.12" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">file_m</text>
 </g>
 <!-- module~inference_engine_m_&#45;&gt;file_m -->
-<g id="module~~trainable_engine_s~~UsesGraph_edge23" class="edge">
+<g id="module~~trainable_engine_s~~UsesGraph_edge22" class="edge">
 <title>module~inference_engine_m_&#45;&gt;file_m</title>
-<path fill="none" stroke="#ffff00" stroke-dasharray="5,2" d="M561.82,-121.76C528.46,-122.43 488.53,-123.23 460.26,-123.79"/>
-<polygon fill="#ffff00" stroke="#ffff00" points="459.96,-120.3 450.03,-124 460.1,-127.3 459.96,-120.3"/>
-</g>
-<!-- module~mini_batch_m&#45;&gt;module~input_output_pair_m -->
-<g id="module~~trainable_engine_s~~UsesGraph_edge26" class="edge">
-<title>module~mini_batch_m&#45;&gt;module~input_output_pair_m</title>
-<path fill="none" stroke="#ff00ff" stroke-dasharray="5,2" d="M581.09,-250.67C555.63,-255.51 522.74,-261.76 493.64,-267.28"/>
-<polygon fill="#ff00ff" stroke="#ff00ff" points="492.7,-263.9 483.52,-269.21 494,-270.78 492.7,-263.9"/>
-</g>
-<!-- module~mini_batch_m&#45;&gt;module~kind_parameters_m -->
-<g id="module~~trainable_engine_s~~UsesGraph_edge27" class="edge">
-<title>module~mini_batch_m&#45;&gt;module~kind_parameters_m</title>
-<path fill="none" stroke="#ff00ff" stroke-dasharray="5,2" d="M581.48,-245.53C491.97,-251.41 286.86,-262.26 220,-243.52"/>
-<path fill="none" stroke="#ff00ff" stroke-dasharray="5,2" d="M218,-243.52C189.54,-235.12 180.94,-236.94 154,-224.52 128.65,-212.82 102.18,-195.07 83.81,-181.73"/>
-<polygon fill="#ff00ff" stroke="#ff00ff" points="85.61,-178.7 75.49,-175.57 81.45,-184.33 85.61,-178.7"/>
-</g>
-<!-- module~activation_strategy_m&#45;&gt;module~kind_parameters_m -->
-<g id="module~~trainable_engine_s~~UsesGraph_edge29" class="edge">
-<title>module~activation_strategy_m&#45;&gt;module~kind_parameters_m</title>
-<path fill="none" stroke="#ff0000" stroke-dasharray="5,2" d="M171.45,-134.6C154.17,-139.08 134.38,-144.22 116.32,-148.9"/>
-<polygon fill="#ff0000" stroke="#ff0000" points="115.29,-145.55 106.49,-151.45 117.05,-152.33 115.29,-145.55"/>
+<path fill="none" stroke="#ff00ff" stroke-dasharray="5,2" d="M561.82,-121.76C528.46,-122.43 488.53,-123.23 460.26,-123.79"/>
+<polygon fill="#ff00ff" stroke="#ff00ff" points="459.96,-120.3 450.03,-124 460.1,-127.3 459.96,-120.3"/>
 </g>
 <!-- module~activation_strategy_m&#45;&gt;string_m -->
-<g id="module~~trainable_engine_s~~UsesGraph_edge28" class="edge">
+<g id="module~~trainable_engine_s~~UsesGraph_edge29" class="edge">
 <title>module~activation_strategy_m&#45;&gt;string_m</title>
-<path fill="none" stroke="#ff0000" stroke-dasharray="5,2" d="M185.65,-110.43C160.08,-100.89 124.35,-87.55 97.52,-77.53"/>
-<polygon fill="#ff0000" stroke="#ff0000" points="98.67,-74.22 88.08,-74 96.22,-80.78 98.67,-74.22"/>
+<path fill="none" stroke="#ff0000" stroke-dasharray="5,2" d="M169.31,-90.5C146.29,-84.82 119.24,-78.14 97.8,-72.85"/>
+<polygon fill="#ff0000" stroke="#ff0000" points="98.62,-69.44 88.08,-70.45 96.94,-76.24 98.62,-69.44"/>
+</g>
+<!-- module~activation_strategy_m&#45;&gt;module~kind_parameters_m -->
+<g id="module~~trainable_engine_s~~UsesGraph_edge28" class="edge">
+<title>module~activation_strategy_m&#45;&gt;module~kind_parameters_m</title>
+<path fill="none" stroke="#ff0000" stroke-dasharray="5,2" d="M186.78,-114.57C162.11,-124.09 127.49,-137.46 100.65,-147.82"/>
+<polygon fill="#ff0000" stroke="#ff0000" points="99.22,-144.62 91.15,-151.49 101.74,-151.15 99.22,-144.62"/>
 </g>
 </g>
 </svg>
@@ -559,6 +560,7 @@
       <a class="list-group-item" href="../module/trainable_engine_s.html#proc-infer">infer</a>
       <a class="list-group-item" href="../module/trainable_engine_s.html#proc-num_inputs">num_inputs</a>
       <a class="list-group-item" href="../module/trainable_engine_s.html#proc-num_layers">num_layers</a>
+      <a class="list-group-item" href="../module/trainable_engine_s.html#proc-num_outputs">num_outputs</a>
       <a class="list-group-item" href="../module/trainable_engine_s.html#proc-to_inference_engine">to_inference_engine</a>
       <a class="list-group-item" href="../module/trainable_engine_s.html#proc-train">train</a>
     </div>
@@ -708,6 +710,28 @@
   </div>
 
           <div class="panel panel-default">
+  <div class="panel-heading codesum"><span class="anchor" id="proc-num_outputs"></span><h3>module procedure <a href='../proc/num_outputs.html'>num_outputs</a> <small>elemental module module function num_outputs(self) result(n_out)</small>   <a href='../interface/num_outputs.html'><button type="button" class="btn btn-info depwarn">Interface &rarr;</button></a>
+</h3></div>
+  <div class="panel-body">
+           
+<h4>Arguments</h4>      <table class="table table-striped varlist">
+<thead><tr><th>Type</th><th>Intent</th><th>Optional</th><th>Attributes</th><th></th><th>Name</th><th></th></thead>
+<tbody>
+<tr>
+  <td><span class="anchor" ></span>class(<a href='../type/trainable_engine_t.html'>trainable_engine_t</a>),</td>
+<td>intent(in)</td>
+  <td></td>  <td></td><td>::</td>
+  <td><strong>self</strong></td><td></td>
+</tr>
+</tbody>
+</table>
+
+<h4>Return Value <small>integer</small></h4>  
+
+  </div>
+  </div>
+
+          <div class="panel panel-default">
   <div class="panel-heading codesum"><span class="anchor" id="proc-to_inference_engine"></span><h3>module procedure <a href='../proc/to_inference_engine.html'>to_inference_engine</a> <small>pure module module function to_inference_engine(self) result(inference_engine)</small>   <a href='../interface/to_inference_engine.html'><button type="button" class="btn btn-info depwarn">Interface &rarr;</button></a>
 </h3></div>
   <div class="panel-body">
@@ -785,7 +809,7 @@
           <p class="text-right">
             Documentation generated by 
             <a href="https://github.com/Fortran-FOSS-Programmers/ford">FORD</a>
- on 2023-09-19 15:02            </p>
+ on 2023-09-20 03:56            </p>
         </div>
       </div>
       <br>
