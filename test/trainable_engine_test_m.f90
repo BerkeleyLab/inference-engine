@@ -9,7 +9,7 @@ module trainable_engine_test_m
 
   ! Internal dependencies
   use inference_engine_m, only : &
-    trainable_engine_t, tensor_t, sigmoid_t, input_output_pair_t, mini_batch_t, relu_t
+    trainable_engine_t, tensor_t, sigmoid_t, input_output_pair_t, mini_batch_t, relu_t, shuffle
   use kind_parameters_m, only : rkind
 
   implicit none
@@ -278,7 +278,9 @@ contains
     type(trainable_engine_t) trainable_engine
     real(rkind), parameter :: tolerance = 1.E-02_rkind
     real(rkind), allocatable :: harvest(:,:,:)
-    integer, parameter :: num_inputs=2, mini_batch_size = 1, num_iterations=400000
+    integer, parameter :: num_inputs=2, mini_batch_size = 1, num_iterations=500000
+      !! Depending on where in the random-number sequence the weights start, this test can pass for lower
+      !! numbers of iterations, e.g., 400000. Using more iterations gives more robust convergence.
     integer batch, iter, i
 
     allocate(harvest(num_inputs, mini_batch_size, num_iterations))
@@ -313,25 +315,6 @@ contains
     end function
 
   end function
-
-  subroutine shuffle(pairs)
-    type(input_output_pair_t), intent(inout) :: pairs(:)
-    type(input_output_pair_t) temp
-    real harvest(2:size(pairs))
-    integer i, j
-
-    call random_init(image_distinct=.true., repeatable=.true.)
-    call random_number(harvest)
-
-    durstenfeld_shuffle: &
-    do i = size(pairs), 2, -1
-      j = 1 + int(harvest(i)*i)
-      temp     = pairs(i)
-      pairs(i) = pairs(j)
-      pairs(j) = temp
-    end do durstenfeld_shuffle
-
-  end subroutine
 
   function perturbed_identity_network(perturbation_magnitude) result(trainable_engine)
     type(trainable_engine_t) trainable_engine
@@ -380,7 +363,6 @@ contains
       bins = [(bin_t(num_items=num_pairs, num_bins=n_bins, bin_number=bin), bin = 1, n_bins)]
 
       do epoch = 1,num_epochs
-        call shuffle(input_output_pairs)
         mini_batches = [(mini_batch_t(input_output_pairs(bins(bin)%first():bins(bin)%last())), bin = 1, size(bins))]
         call trainable_engine%train(mini_batches, cost)
       end do
@@ -398,17 +380,22 @@ contains
   end function
 
   function perturbed_identity_converges() result(test_passes)
+    ! test that a network that represents a randomly perturbed identity mapping converges to an identity,
+    ! (i.e., mapping inputs to outputs identically). This test operates at the edge of a radius of
+    ! non-convergence, i.e., for the given size training data set, decrementing num_epochs or num_bins
+    ! or negating adam or not shuffling doesn't converge within the specified output-value tolerance.
     logical, allocatable :: test_passes(:)
     type(mini_batch_t), allocatable :: mini_batches(:)
     type(input_output_pair_t), allocatable :: input_output_pairs(:)
     type(tensor_t), allocatable :: inputs(:)
     type(trainable_engine_t)  trainable_engine
     type(bin_t), allocatable :: bins(:)
-    real(rkind), allocatable :: cost(:)
+    real(rkind), allocatable :: cost(:), random_numbers(:)
     integer, allocatable :: neurons(:)
-    integer, parameter :: num_pairs = 5, num_epochs = 400, n_bins = 3
+    integer, parameter :: num_pairs = 6
+    integer, parameter :: num_epochs = 148
+    integer, parameter :: num_bins = 5 
     integer i, bin, epoch
-
     trainable_engine = perturbed_identity_network(perturbation_magnitude=0.1)
 
     associate(num_inputs => trainable_engine%num_inputs(), num_outputs => trainable_engine%num_outputs())
@@ -420,10 +407,13 @@ contains
       associate(outputs => inputs)
         input_output_pairs = input_output_pair_t(inputs, outputs)
       end associate
-      bins = [(bin_t(num_items=num_pairs, num_bins=n_bins, bin_number=bin), bin = 1, n_bins)]
+      bins = [(bin_t(num_items=num_pairs, num_bins=num_bins, bin_number=bin), bin = 1, num_bins)]
+
+      allocate(random_numbers(2:size(input_output_pairs)))
 
       do epoch = 1,num_epochs
-        call shuffle(input_output_pairs)
+        call random_number(random_numbers)
+        call shuffle(input_output_pairs, random_numbers)
         mini_batches = [(mini_batch_t(input_output_pairs(bins(bin)%first():bins(bin)%last())), bin = 1, size(bins))]
         call trainable_engine%train(mini_batches, cost, adam=.true.)
       end do

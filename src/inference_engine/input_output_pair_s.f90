@@ -1,6 +1,7 @@
 ! Copyright (c), The Regents of the University of California
 ! Terms of use are as specified in LICENSE.txt
 submodule(input_output_pair_m) input_output_pair_s
+  use assert_m, only : assert
   implicit none
 
 contains
@@ -16,6 +17,22 @@ contains
 
   module procedure expected_outputs
     my_expected_outputs = self%expected_outputs_
+  end procedure
+
+  module procedure shuffle
+    type(input_output_pair_t) temp
+    integer i, j
+
+    call assert(size(random_numbers) >= size(pairs)-1, "input_output_pair_s(shuffle): size(random_numbers) >= size(pairs)-1")
+
+    durstenfeld_shuffle: &
+    do i = size(pairs), 2, -1
+      j = 1 + int(random_numbers(i)*i)
+      temp     = pairs(i)
+      pairs(i) = pairs(j)
+      pairs(j) = temp
+    end do durstenfeld_shuffle
+
   end procedure
 
 end submodule input_output_pair_s
