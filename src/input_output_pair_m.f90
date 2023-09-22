@@ -7,6 +7,7 @@ module input_output_pair_m
 
   private
   public :: input_output_pair_t
+  public :: shuffle
 
   type input_output_pair_t
     private
@@ -39,6 +40,12 @@ module input_output_pair_m
       class(input_output_pair_t), intent(in) :: self
       type(tensor_t) :: my_expected_outputs
     end function
+
+    pure module subroutine shuffle(pairs, random_numbers)
+      implicit none
+      type(input_output_pair_t), intent(inout) :: pairs(:)
+      real, intent(in) :: random_numbers(2:)
+    end subroutine
 
   end interface
 
