@@ -45,8 +45,8 @@ program train_and_write
         intrinsic_array_t([num_inputs, num_outputs]) &
       )
       block
-        integer i
-        inputs = [(tensor_t(real([i,2*i])/(2*num_pairs)), i = 1, num_pairs)]
+        integer i, j
+        inputs = [(tensor_t(real([(j*i, j = 1,num_inputs)])/(num_inputs*num_pairs)), i = 1, num_pairs)]
       end block
       associate(outputs => inputs)
         input_output_pairs = input_output_pair_t(inputs, outputs)
@@ -75,9 +75,11 @@ program train_and_write
         integer p
 
         associate(network_outputs => trainable_engine%infer(inputs))
-          print *,"Outputs                           |   Desired outputs"
+          print *," Outputs                          |&
+                   Desired outputs                    |&
+                   Errors"
           do p = 1, num_pairs
-            print *,network_outputs(p)%values(),    "|", inputs(p)%values()
+            print *,network_outputs(p)%values(),"|", inputs(p)%values(), "|",  network_outputs(p)%values() - inputs(p)%values()
           end do
         end associate
       end block
@@ -103,8 +105,9 @@ contains
     real, intent(in) :: perturbation_magnitude
     integer, parameter :: nodes_per_layer(*) = [2, 2, 2, 2]
     integer, parameter :: max_n = maxval(nodes_per_layer), layers = size(nodes_per_layer)
+    integer i
     real, parameter :: identity(*,*,*) = &
-      reshape([real:: [1,0], [0,1] ,[1,0], [0,1], [1,0], [0,1]], [max_n, max_n, layers-1])
+      reshape(real([( [1,0], [0,1], i=1,layers-1 )]), [max_n, max_n, layers-1])
     real w_harvest(size(identity,1), size(identity,2), size(identity,3)), b_harvest(size(identity,1), size(identity,3))
 
     call random_number(w_harvest)
