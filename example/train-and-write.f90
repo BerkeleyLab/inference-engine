@@ -25,7 +25,7 @@ program train_and_write
   end if
 
   block
-    integer, parameter :: num_pairs = 5, num_epochs = 100, num_mini_batches= 3 ! num_pairs =  # input/output pairs in training data
+    integer, parameter :: num_pairs = 5, num_epochs = 500, num_mini_batches= 3 ! num_pairs =  # input/output pairs in training data
 
     type(mini_batch_t), allocatable :: mini_batches(:)
     type(input_output_pair_t), allocatable :: input_output_pairs(:)
@@ -36,7 +36,7 @@ program train_and_write
 
     call random_init(image_distinct=.true., repeatable=.true.)
 
-    trainable_engine = perturbed_identity_network(perturbation_magnitude=0.1)
+    trainable_engine = perturbed_identity_network(perturbation_magnitude=0.2)
     call output(trainable_engine%to_inference_engine(), string_t("initial-network.json"))
 
     associate(num_inputs => trainable_engine%num_inputs(), num_outputs => trainable_engine%num_outputs())
@@ -105,18 +105,20 @@ contains
     integer, parameter :: max_n = maxval(nodes_per_layer), layers = size(nodes_per_layer)
     real, parameter :: identity(*,*,*) = &
       reshape([real:: [1,0], [0,1] ,[1,0], [0,1], [1,0], [0,1]], [max_n, max_n, layers-1])
-    real harvest(size(identity,1), size(identity,2), size(identity,3))
+    real w_harvest(size(identity,1), size(identity,2), size(identity,3)), b_harvest(size(identity,1), size(identity,3))
 
-    call random_number(harvest)
-    harvest = perturbation_magnitude*harvest
+    call random_number(w_harvest)
+    call random_number(b_harvest)
 
-    trainable_engine = trainable_engine_t( &
-      nodes = nodes_per_layer, &
-      weights = identity + harvest , & 
-      biases = reshape([real:: [0,0], [0,0], [0,0]], [max_n, layers-1]), &
-      differentiable_activation_strategy = relu_t(), &
-      metadata = [string_t("Perturbed Identity"), string_t("Rouson"), string_t("2023-09-18"), string_t("relu"), string_t("false")] &
-    )
+    associate(w => identity + perturbation_magnitude*(w_harvest-0.5)/0.5, b => perturbation_magnitude*(b_harvest-0.5)/0.5)
+
+      trainable_engine = trainable_engine_t( &
+        nodes = nodes_per_layer, weights = w, biases = b, differentiable_activation_strategy = relu_t(), &
+        metadata = &
+          [string_t("Perturbed Identity"), string_t("Damian Rouson"), string_t("2023-09-23"), string_t("relu"), string_t("false")] &
+      )
+
+    end associate
   end function
 
 end program
