@@ -34,6 +34,8 @@ program train_and_write
     type(bin_t), allocatable :: bins(:)
     real, allocatable :: cost(:), random_numbers(:)
 
+    call random_init(image_distinct=.true., repeatable=.true.)
+
     trainable_engine = perturbed_identity_network(perturbation_magnitude=0.1)
     call output(trainable_engine%to_inference_engine(), string_t("initial-network.json"))
 
