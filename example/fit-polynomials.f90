@@ -1,13 +1,7 @@
 ! Copyright (c), The Regents of the University of California
 ! Terms of use are as specified in LICENSE.txt
-program train_and_write
-  !! This program demonstrates how to train a simple neural network starting from a randomized initial condition and 
-  !! how to write the initial network and the trained network to separate JSON files.  The network has two hiden layers.
-  !! The input, hidden, and output layers are all two nodes wide.  The training data has outputs that identically match
-  !! the corresponding inputs.  Hence, the desired network represents an identity mapping.  With RELU activation functions,
-  !! the desired network therefore contains weights corresponding to identity matrices and biases that vanish everywhere.
-  !! The initial condition corresponds to the desired network with all weights and biases perturbed by a random variable
-  !! that is uniformly distributed on the range [0,0.1].
+program train_polynomials
+  !! This trains a neural network to learn the following six polynomial functions of its eight inputs.
   use inference_engine_m, only : &
     inference_engine_t, trainable_engine_t, mini_batch_t, tensor_t, input_output_pair_t, shuffle, relu_t
   use sourcery_m, only : string_t, file_t, command_line_t, bin_t
@@ -21,7 +15,7 @@ program train_and_write
 
   if (len(final_network_file%string())==0) then
     error stop new_line('a') // new_line('a') // &
-      'Usage: ./build/run-fpm.sh run --example train-and-write -- --output-file "<file-name>"' 
+      'Usage: ./build/run-fpm.sh run --example train-polynomials -- --output-file "<file-name>"' 
   end if
 
   block
@@ -29,28 +23,27 @@ program train_and_write
 
     type(mini_batch_t), allocatable :: mini_batches(:)
     type(input_output_pair_t), allocatable :: input_output_pairs(:)
-    type(tensor_t), allocatable :: inputs(:)
+    type(tensor_t), allocatable :: inputs(:), desired_outputs(:)
     type(trainable_engine_t)  trainable_engine
     type(bin_t), allocatable :: bins(:)
     real, allocatable :: cost(:), random_numbers(:)
 
     call random_init(image_distinct=.true., repeatable=.true.)
 
-    trainable_engine = perturbed_identity_network(perturbation_magnitude=0.2)
+    trainable_engine = perturbed_identity_network(perturbation_magnitude=0.1)
     call output(trainable_engine%to_inference_engine(), string_t("initial-network.json"))
 
     associate(num_inputs => trainable_engine%num_inputs(), num_outputs => trainable_engine%num_outputs())
 
-      call assert(num_inputs == num_outputs,"trainable_engine_test_m(identity_mapping): # inputs == # outputs", &
-        intrinsic_array_t([num_inputs, num_outputs]) &
-      )
       block
         integer i, j
         inputs = [(tensor_t(real([(j*i, j = 1,num_inputs)])/(num_inputs*num_pairs)), i = 1, num_pairs)]
+        desired_outputs = y(inputs)
+        call assert(num_outputs == size(desired_outputs(1)%values()), &
+          "fit-polynomials: # outputs", intrinsic_array_t([num_outputs,  size(desired_outputs(1)%values())]) &
+         )
       end block
-      associate(outputs => inputs)
-        input_output_pairs = input_output_pair_t(inputs, outputs)
-      end associate
+      input_output_pairs = input_output_pair_t(inputs, desired_outputs)
       block 
         integer b
         bins = [(bin_t(num_items=num_pairs, num_bins=num_mini_batches, bin_number=b), b = 1, num_mini_batches)]
@@ -75,11 +68,9 @@ program train_and_write
         integer p
 
         associate(network_outputs => trainable_engine%infer(inputs))
-          print *," Outputs                          |&
-                   Desired outputs                    |&
-                   Errors"
+          print *," Outputs                                             | Desired outputs"
           do p = 1, num_pairs
-            print *,network_outputs(p)%values(),"|", inputs(p)%values(), "|",  network_outputs(p)%values() - inputs(p)%values()
+            print *,network_outputs(p)%values(),                       "|", desired_outputs(p)%values()
           end do
         end associate
       end block
@@ -100,15 +91,34 @@ contains
     call json_file%write_lines(file_name)
   end subroutine
 
+  pure function e(j,n) result(unit_vector)
+    integer, intent(in) :: j, n
+    integer k
+    real, allocatable :: unit_vector(:)
+    unit_vector = real([(merge(1,0,j==k),k=1,n)])
+  end function
+
+  elemental function y(x_tensor) result(a_tensor)
+    type(tensor_t), intent(in) :: x_tensor
+    type(tensor_t) a_tensor
+    associate(x => x_tensor%values())
+      call assert(ubound(x,1)>=7 .and. lbound(x,1)<=2,"y(x) :: sufficient input")
+      a_tensor = tensor_t([x(1), x(2) + x(3), x(4), x(5), 0.5*x(6) + 1.5*x(7), x(8)])
+    end associate
+  end function
+
   function perturbed_identity_network(perturbation_magnitude) result(trainable_engine)
     type(trainable_engine_t) trainable_engine
     real, intent(in) :: perturbation_magnitude
-    integer, parameter :: nodes_per_layer(*) = [2, 2, 2, 2]
-    integer, parameter :: max_n = maxval(nodes_per_layer), layers = size(nodes_per_layer)
-    integer i
-    real, parameter :: identity(*,*,*) = &
-      reshape(real([( [1,0], [0,1], i=1,layers-1 )]), [max_n, max_n, layers-1])
-    real w_harvest(size(identity,1), size(identity,2), size(identity,3)), b_harvest(size(identity,1), size(identity,3))
+    integer, parameter :: n(*) = [8, 8, 8, 8, 6]
+    integer, parameter :: n_max = maxval(n), layers = size(n)
+    integer j, k, l
+    real, allocatable :: identity(:,:,:), w_harvest(:,:,:), b_harvest(:,:)
+
+    identity =  reshape( [( [(e(k,n_max), k=1,n_max)], l = 1, layers-1 )], [n_max, n_max, layers-1])
+
+    allocate(w_harvest, mold = identity)
+    allocate(b_harvest(size(identity,1), size(identity,3)))
 
     call random_number(w_harvest)
     call random_number(b_harvest)
@@ -116,7 +126,7 @@ contains
     associate(w => identity + perturbation_magnitude*(w_harvest-0.5)/0.5, b => perturbation_magnitude*(b_harvest-0.5)/0.5)
 
       trainable_engine = trainable_engine_t( &
-        nodes = nodes_per_layer, weights = w, biases = b, differentiable_activation_strategy = relu_t(), &
+        nodes = n, weights = w, biases = b, differentiable_activation_strategy = relu_t(), &
         metadata = &
           [string_t("Perturbed Identity"), string_t("Damian Rouson"), string_t("2023-09-23"), string_t("relu"), string_t("false")] &
       )
