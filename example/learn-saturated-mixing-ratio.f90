@@ -75,7 +75,7 @@ program train_polynomials
   end if
 
   block
-    integer, parameter :: num_epochs = 1000000, num_mini_batches = 6
+    integer, parameter :: num_epochs = 10000, num_mini_batches = 6
     integer num_pairs ! number of input/output pairs
 
     type(mini_batch_t), allocatable :: mini_batches(:)
@@ -122,16 +122,17 @@ program train_polynomials
 
       allocate(random_numbers(2:size(input_output_pairs)))
 
-      print *,"Cost"
+      print *,"Epoch         Cost"
       block
-        integer e, b
+        integer e, b, stop_unit
         do e = 1,num_epochs
           call random_number(random_numbers)
           call shuffle(input_output_pairs, random_numbers)
           mini_batches = [(mini_batch_t(input_output_pairs(bins(b)%first():bins(b)%last())), b = 1, size(bins))]
           call trainable_engine%train(mini_batches, cost, adam=.true.)
-
-          print *,sum(cost)/size(cost)
+          print *,e, sum(cost)/size(cost)
+          open(newunit=stop_unit, file="stop", form='formatted', status='old', iostat=io_status)
+          if (io_status == io_success) exit
         end do
       end block
 
@@ -173,7 +174,7 @@ contains
   function perturbed_identity_network(perturbation_magnitude) result(trainable_engine)
     type(trainable_engine_t) trainable_engine
     real, intent(in) :: perturbation_magnitude
-    integer, parameter :: n(*) = [2, 24, 24, 24, 1]
+    integer, parameter :: n(*) = [2, 1024, 1]
     integer, parameter :: n_max = maxval(n), layers = size(n)
     integer j, k, l
     real, allocatable :: identity(:,:,:), w_harvest(:,:,:), b_harvest(:,:)
