@@ -56,7 +56,7 @@ contains
 end module
 
 program train_polynomials
-  !! This trains a neural network to learn the following six polynomial functions of its eight inputs.
+  !! This program trains a neural network to learn the saturated mixing ratio function of ICAR.
   use inference_engine_m, only : &
     inference_engine_t, trainable_engine_t, mini_batch_t, tensor_t, input_output_pair_t, shuffle, relu_t
   use sourcery_m, only : string_t, file_t, command_line_t, bin_t, csv
@@ -68,7 +68,6 @@ program train_polynomials
   type(string_t) network_file
   type(command_line_t) command_line
   integer(int64) counter_start, counter_end, clock_rate
-
 
   network_file = string_t(command_line%flag_value("--output-file"))
 
@@ -91,7 +90,7 @@ program train_polynomials
     real, allocatable :: cost(:), random_numbers(:)
     integer io_status, network_unit
     integer, parameter :: io_success=0
-    integer, parameter :: nodes_per_layer(*) = [2, 72, 72, 1]
+    integer, parameter :: nodes_per_layer(*) = [2, 72, 1]
 
     call random_init(image_distinct=.true., repeatable=.true.)
 
@@ -128,7 +127,7 @@ program train_polynomials
 
       allocate(random_numbers(2:size(input_output_pairs)))
 
-      print *,"Epoch         Cost"
+      print *,"Layer | System_clock |         Epoch  | Cost Function"
       block
         integer e, b, stop_unit
         do e = 1,num_epochs
