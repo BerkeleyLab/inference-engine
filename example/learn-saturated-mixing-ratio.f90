@@ -55,7 +55,7 @@ contains
 
 end module
 
-program train_polynomials
+program train_saturated_mixture_ratio
   !! This program trains a neural network to learn the saturated mixing ratio function of ICAR.
   use inference_engine_m, only : &
     inference_engine_t, trainable_engine_t, mini_batch_t, tensor_t, input_output_pair_t, shuffle, relu_t
@@ -88,9 +88,9 @@ program train_polynomials
     type(trainable_engine_t)  trainable_engine
     type(bin_t), allocatable :: bins(:)
     real, allocatable :: cost(:), random_numbers(:)
-    integer io_status, network_unit
+    integer io_status, network_unit, plot_unit, previous_epoch
     integer, parameter :: io_success=0
-    integer, parameter :: nodes_per_layer(*) = [2, 72, 1]
+    integer, parameter :: nodes_per_layer(*) = [2, 24, 24, 1]
 
     call random_init(image_distinct=.true., repeatable=.true.)
 
@@ -127,10 +127,13 @@ program train_polynomials
 
       allocate(random_numbers(2:size(input_output_pairs)))
 
-      print *,"Layer | System_clock |         Epoch  | Cost Function"
+      print *, "Nodes/layer    | System_clock     | Epoch         | Cost function"
+
+      call open_plot_file_for_appending("cost.plt", plot_unit, previous_epoch)
+
       block
         integer e, b, stop_unit
-        do e = 1,num_epochs
+        do e = previous_epoch + 1, previous_epoch + num_epochs
           call random_number(random_numbers)
           call shuffle(input_output_pairs, random_numbers)
           mini_batches = [(mini_batch_t(input_output_pairs(bins(b)%first():bins(b)%last())), b = 1, size(bins))]
@@ -139,14 +142,18 @@ program train_polynomials
             call system_clock(counter_end, clock_rate)
             write(output_unit, fmt=csv, advance='no') nodes_per_layer
             write(output_unit,*) real(counter_end - counter_start) / real(clock_rate), e, sum(cost)/size(cost)
+            write(plot_unit, fmt=csv, advance='no') nodes_per_layer
+            write(plot_unit,*) real(counter_end - counter_start) / real(clock_rate), e, sum(cost)/size(cost)
           end if
           if (mod(e, 10000)==0) call output(trainable_engine%to_inference_engine(), network_file)
           if (sum(cost)/size(cost) < 1.E-08) exit
           open(newunit=stop_unit, file="stop", form='formatted', status='old', iostat=io_status)
           if (io_status==0) exit
         end do
-   
+
         call system_clock(counter_end, clock_rate)
+
+        close(plot_unit)
 
         block
           real, parameter :: tolerance = 1.E-06
@@ -214,5 +221,34 @@ contains
       end associate
     end associate
   end function
+
+  subroutine open_plot_file_for_appending(plot_file_name, plot_unit, previous_epoch)
+    character(len=*), intent(in) :: plot_file_name
+    integer, intent(out) :: plot_unit, previous_epoch
+
+    type(file_t) plot_file
+    type(string_t), allocatable :: lines(:)
+    character(len=:), allocatable :: last_line
+    integer io_status
+    integer, parameter :: io_success = 0
+    logical preexisting_plot_file
+
+    inquire(file=plot_file_name, exist=preexisting_plot_file)
+    open(newunit=plot_unit,file="cost.plt",status="unknown",position="append")
+
+    associate(header => "Nodes/layer | System_clock      | Epoch | Cost function")
+      if (.not. preexisting_plot_file) then
+        write(plot_unit,*) header
+        previous_epoch = 0
+      else
+        plot_file = file_t(string_t(plot_file_name))
+        lines = plot_file%lines()
+        last_line = lines(size(lines))%string()
+        read(last_line,*, iostat=io_status) previous_epoch
+        if ((io_status /= io_success .and. last_line == header) .or. len(trim(last_line))==0) previous_epoch = 0
+      end if
+    end associate
+
+  end subroutine
 
 end program
