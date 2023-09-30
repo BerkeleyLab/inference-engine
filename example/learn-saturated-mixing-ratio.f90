@@ -62,10 +62,13 @@ program train_polynomials
   use sourcery_m, only : string_t, file_t, command_line_t, bin_t, csv
   use assert_m, only : assert, intrinsic_array_t
   use saturated_mixing_ratio_m, only : y, T, p
+  use iso_fortran_env, only : int64
   implicit none
 
   type(string_t) network_file
   type(command_line_t) command_line
+  integer(int64) counter_start, counter_end, clock_rate
+
 
   network_file = string_t(command_line%flag_value("--output-file"))
 
@@ -74,8 +77,10 @@ program train_polynomials
       'Usage: ./build/run-fpm.sh run --example learn-saturated-mixing-ratio -- --output-file "<file-name>"' 
   end if
 
+  call system_clock(counter_start, clock_rate)
+
   block
-    integer, parameter :: num_epochs = 10000, num_mini_batches = 6
+    integer, parameter :: num_epochs = 4000, num_mini_batches = 6
     integer num_pairs ! number of input/output pairs
 
     type(mini_batch_t), allocatable :: mini_batches(:)
@@ -154,6 +159,9 @@ program train_polynomials
 
   end block
 
+  call system_clock(counter_end, clock_rate)
+  print *, "walltime: ", real(counter_end - counter_start) / real(clock_rate)
+
 contains
 
   subroutine output(inference_engine, file_name)
@@ -174,7 +182,7 @@ contains
   function perturbed_identity_network(perturbation_magnitude) result(trainable_engine)
     type(trainable_engine_t) trainable_engine
     real, intent(in) :: perturbation_magnitude
-    integer, parameter :: n(*) = [2, 1024, 1]
+    integer, parameter :: n(*) = [2, 16, 16, 16, 1]
     integer, parameter :: n_max = maxval(n), layers = size(n)
     integer j, k, l
     real, allocatable :: identity(:,:,:), w_harvest(:,:,:), b_harvest(:,:)
