@@ -62,7 +62,7 @@ program train_polynomials
   use sourcery_m, only : string_t, file_t, command_line_t, bin_t, csv
   use assert_m, only : assert, intrinsic_array_t
   use saturated_mixing_ratio_m, only : y, T, p
-  use iso_fortran_env, only : int64
+  use iso_fortran_env, only : int64, output_unit
   implicit none
 
   type(string_t) network_file
@@ -80,7 +80,7 @@ program train_polynomials
   call system_clock(counter_start, clock_rate)
 
   block
-    integer, parameter :: num_epochs = 4000, num_mini_batches = 6
+    integer, parameter :: num_epochs = 10000000, num_mini_batches = 6
     integer num_pairs ! number of input/output pairs
 
     type(mini_batch_t), allocatable :: mini_batches(:)
@@ -91,6 +91,7 @@ program train_polynomials
     real, allocatable :: cost(:), random_numbers(:)
     integer io_status, network_unit
     integer, parameter :: io_success=0
+    integer, parameter :: nodes_per_layer(*) = [2, 72, 72, 1]
 
     call random_init(image_distinct=.true., repeatable=.true.)
 
@@ -103,7 +104,7 @@ program train_polynomials
     else
       close(network_unit)
       print *,"Initializing a new network"
-      trainable_engine = perturbed_identity_network(perturbation_magnitude=0.05)
+      trainable_engine = perturbed_identity_network(perturbation_magnitude=0.05, n = nodes_per_layer)
     end if
     call output(trainable_engine%to_inference_engine(), string_t("initial-network.json"))
 
@@ -135,22 +136,34 @@ program train_polynomials
           call shuffle(input_output_pairs, random_numbers)
           mini_batches = [(mini_batch_t(input_output_pairs(bins(b)%first():bins(b)%last())), b = 1, size(bins))]
           call trainable_engine%train(mini_batches, cost, adam=.true.)
-          print *,e, sum(cost)/size(cost)
+          if (mod(e, 1000)==0) then
+            call system_clock(counter_end, clock_rate)
+            write(output_unit, fmt=csv, advance='no') nodes_per_layer
+            write(output_unit,*) real(counter_end - counter_start) / real(clock_rate), e, sum(cost)/size(cost)
+          end if
+          if (mod(e, 10000)==0) call output(trainable_engine%to_inference_engine(), network_file)
+          if (sum(cost)/size(cost) < 1.E-08) exit
           open(newunit=stop_unit, file="stop", form='formatted', status='old', iostat=io_status)
-          if (io_status == io_success) exit
+          if (io_status==0) exit
         end do
-      end block
+   
+        call system_clock(counter_end, clock_rate)
 
-      block
-        real, parameter :: tolerance = 1.E-06
-        integer p
+        block
+          real, parameter :: tolerance = 1.E-06
+          integer p
 
-        associate(network_outputs => trainable_engine%infer(inputs))
-          print "(a,69x,a)","  Outputs", "| Desired outputs"
-          do p = 1, num_pairs
-            print "(6G13.5, a1, 6G13.5)",network_outputs(p)%values(),       "|", desired_outputs(p)%values()
-          end do
-        end associate
+          associate(network_outputs => trainable_engine%infer(inputs))
+            print "(a,69x,a)","  Outputs", "| Desired outputs"
+            do p = 1, num_pairs
+              print "(6G13.5, a1, 6G13.5)",network_outputs(p)%values(),       "|", desired_outputs(p)%values()
+            end do
+          end associate
+        end block
+
+        write(output_unit, fmt=csv, advance='no') nodes_per_layer
+        write(output_unit,*) real(counter_end - counter_start) / real(clock_rate), e, sum(cost)/size(cost)
+
       end block
 
    end associate
@@ -158,9 +171,6 @@ program train_polynomials
    call output(trainable_engine%to_inference_engine(), network_file)
 
   end block
-
-  call system_clock(counter_end, clock_rate)
-  print *, "walltime: ", real(counter_end - counter_start) / real(clock_rate)
 
 contains
 
@@ -179,30 +189,30 @@ contains
     unit_vector = real([(merge(1,0,j==k),k=1,n)])
   end function
 
-  function perturbed_identity_network(perturbation_magnitude) result(trainable_engine)
+  function perturbed_identity_network(perturbation_magnitude, n) result(trainable_engine)
     type(trainable_engine_t) trainable_engine
     real, intent(in) :: perturbation_magnitude
-    integer, parameter :: n(*) = [2, 16, 16, 16, 1]
-    integer, parameter :: n_max = maxval(n), layers = size(n)
+    integer, intent(in)  :: n(:)
     integer j, k, l
     real, allocatable :: identity(:,:,:), w_harvest(:,:,:), b_harvest(:,:)
 
-    identity =  reshape( [( [(e(k,n_max), k=1,n_max)], l = 1, layers-1 )], [n_max, n_max, layers-1])
+    associate(n_max => maxval(n), layers => size(n))
+      identity =  reshape( [( [(e(k,n_max), k=1,n_max)], l = 1, layers-1 )], [n_max, n_max, layers-1])
 
-    allocate(w_harvest, mold = identity)
-    allocate(b_harvest(size(identity,1), size(identity,3)))
+      allocate(w_harvest, mold = identity)
+      allocate(b_harvest(size(identity,1), size(identity,3)))
 
-    call random_number(w_harvest)
-    call random_number(b_harvest)
+      call random_number(w_harvest)
+      call random_number(b_harvest)
 
-    associate(w => identity + perturbation_magnitude*(w_harvest-0.5)/0.5, b => perturbation_magnitude*(b_harvest-0.5)/0.5)
+      associate(w => identity + perturbation_magnitude*(w_harvest-0.5)/0.5, b => perturbation_magnitude*(b_harvest-0.5)/0.5)
 
-      trainable_engine = trainable_engine_t( &
-        nodes = n, weights = w, biases = b, differentiable_activation_strategy = relu_t(), &
-        metadata = &
-          [string_t("Perturbed Identity"), string_t("Damian Rouson"), string_t("2023-09-23"), string_t("relu"), string_t("false")] &
-      )
-
+        trainable_engine = trainable_engine_t( &
+          nodes = n, weights = w, biases = b, differentiable_activation_strategy = relu_t(), &
+          metadata = &
+            [string_t("Perturbed Identity"), string_t("Damian Rouson"), string_t("2023-09-23"), string_t("relu"), string_t("false")] &
+        )
+      end associate
     end associate
   end function
 
