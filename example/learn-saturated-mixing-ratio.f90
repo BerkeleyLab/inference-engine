@@ -1,60 +1,5 @@
 ! Copyright (c), The Regents of the University of California
 ! Terms of use are as specified in LICENSE.txt
-module saturated_mixing_ratio_m
-  !! Define a function that produces the desired network output for a given network input
-  use inference_engine_m, only : tensor_t
-  use assert_m, only : assert
-  implicit none
- 
-  private
-  public :: T, p, y
-
-  real, parameter :: freezing_threshold = 273.15       ! [K]
-  real, parameter :: T_min = 236.352524, T_max = 307.610779
-  real, parameter :: p_min = 29671.1348, p_max = 98596.7578
-  integer, parameter :: resolution = 10
-  integer i
-  real, parameter :: T(*) = [(real(i)/real(resolution), i=0,resolution)]
-  real, parameter :: p(*) = [(real(i)/real(resolution), i=0,resolution)]
-
-contains
-
-  pure function saturated_mixing_ratio(T_normalized, p_normalized) result(sat_mr)
-    !! Calculate the saturated mixing ratio for normalized tempetatures (k) and pressures (Pa)
-    real,intent(in) :: T_normalized, p_normalized
-    real sat_mr
-
-    associate( &
-     temperature => T_min + (T_max - T_min)*T_normalized, &
-     pressure => p_min + (p_max - p_min)*p_normalized &
-    )
-      associate(below_freezing => temperature < freezing_threshold)
-        associate( &
-          a => merge(21.8745584, 17.2693882, below_freezing), &
-          b => merge(7.66, 35.86, below_freezing) &
-        )
-          associate(p_threshold => 610.78 * exp(a * (temperature - 273.16) / (temperature - b))) !(Pa))
-            associate(e_s => merge(pressure * 0.99999, p_threshold, (pressure - p_threshold) <= 0))
-              sat_mr = 0.6219907 * e_s / (pressure - e_s) !(kg/kg)
-            end associate
-          end associate
-        end associate
-      end associate
-    end associate
-  end function
-
-  elemental function y(x_in) result(a)
-    type(tensor_t), intent(in) :: x_in
-    type(tensor_t) a
-    associate(x => x_in%values())
-      call assert(lbound(x,1)==1 .and. ubound(x,1)==2,"y(x) :: sufficient input")
-      a = tensor_t([saturated_mixing_ratio(x(1),x(2))])
-    end associate
-  end function
- 
-
-end module
-
 program train_saturated_mixture_ratio
   !! This program trains a neural network to learn the saturated mixing ratio function of ICAR.
   use inference_engine_m, only : &
@@ -119,20 +64,22 @@ program train_saturated_mixture_ratio
         output_sizes = [(size(desired_outputs(i)%values()),i=1,size(desired_outputs))]
         call assert(all([num_outputs==output_sizes]), "fit-polynomials: # outputs", intrinsic_array_t([num_outputs,output_sizes])) 
       end block
+
       input_output_pairs = input_output_pair_t(inputs, desired_outputs)
+
       block 
         integer b
         bins = [(bin_t(num_items=num_pairs, num_bins=num_mini_batches, bin_number=b), b = 1, num_mini_batches)]
       end block
 
-      allocate(random_numbers(2:size(input_output_pairs)))
-
-      print *, "        Epoch | Cost Function| System_Clock | Nodes per Layer"
-
-      call open_plot_file_for_appending("cost.plt", plot_unit, previous_epoch)
-
       block
         integer e, b, stop_unit
+        real previous_clock_time
+
+        call open_plot_file_for_appending("cost.plt", plot_unit, previous_epoch, previous_clock_time)
+        print *, "        Epoch | Cost Function| System_Clock | Nodes per Layer"
+        allocate(random_numbers(2:size(input_output_pairs)))
+
         do e = previous_epoch + 1, previous_epoch + num_epochs
           call random_number(random_numbers)
           call shuffle(input_output_pairs, random_numbers)
@@ -141,10 +88,12 @@ program train_saturated_mixture_ratio
           associate(cost_avg => sum(cost)/size(cost))
             if (mod(e, 1000)==0) then
               call system_clock(counter_end, clock_rate)
-              write(output_unit,fmt='(3(g13.5,2x))', advance='no') e, cost_avg,  real(counter_end - counter_start) / real(clock_rate)
-              write(output_unit, fmt=csv) nodes_per_layer
-              write(plot_unit,fmt='(3(g13.5,2x))', advance='no') e, cost_avg,  real(counter_end - counter_start) / real(clock_rate)
-              write(plot_unit, fmt=csv) nodes_per_layer
+              associate(cumulative_clock_time => previous_clock_time +  real(counter_end - counter_start) / real(clock_rate))
+                write(output_unit,fmt='(3(g13.5,2x))', advance='no') e, cost_avg, cumulative_clock_time
+                write(output_unit, fmt=csv) nodes_per_layer
+                write(plot_unit,fmt='(3(g13.5,2x))', advance='no') e, cost_avg, cumulative_clock_time
+                write(plot_unit, fmt=csv) nodes_per_layer
+              end associate
             end if
             if (mod(e, 10000)==0) call output(trainable_engine%to_inference_engine(), network_file)
             if (cost_avg < 1.E-08) exit
@@ -225,9 +174,10 @@ contains
     end associate
   end function
 
-  subroutine open_plot_file_for_appending(plot_file_name, plot_unit, previous_epoch)
+  subroutine open_plot_file_for_appending(plot_file_name, plot_unit, previous_epoch, previous_clock)
     character(len=*), intent(in) :: plot_file_name
     integer, intent(out) :: plot_unit, previous_epoch
+    real, intent(out) :: previous_clock
 
     type(file_t) plot_file
     type(string_t), allocatable :: lines(:)
@@ -235,6 +185,7 @@ contains
     integer io_status
     integer, parameter :: io_success = 0
     logical preexisting_plot_file
+    real cost
 
     inquire(file=plot_file_name, exist=preexisting_plot_file)
     open(newunit=plot_unit,file="cost.plt",status="unknown",position="append")
@@ -247,7 +198,7 @@ contains
         plot_file = file_t(string_t(plot_file_name))
         lines = plot_file%lines()
         last_line = lines(size(lines))%string()
-        read(last_line,*, iostat=io_status) previous_epoch
+        read(last_line,*, iostat=io_status) previous_epoch, cost, previous_clock
         if ((io_status /= io_success .and. last_line == header) .or. len(trim(last_line))==0) previous_epoch = 0
       end if
     end associate
