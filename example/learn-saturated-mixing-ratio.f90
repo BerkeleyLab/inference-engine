@@ -90,7 +90,7 @@ program train_saturated_mixture_ratio
     real, allocatable :: cost(:), random_numbers(:)
     integer io_status, network_unit, plot_unit, previous_epoch
     integer, parameter :: io_success=0
-    integer, parameter :: nodes_per_layer(*) = [2, 24, 24, 1]
+    integer, parameter :: nodes_per_layer(*) = [2, 31, 31, 1]
 
     call random_init(image_distinct=.true., repeatable=.true.)
 
@@ -127,7 +127,7 @@ program train_saturated_mixture_ratio
 
       allocate(random_numbers(2:size(input_output_pairs)))
 
-      print *, "Nodes/layer    | System_clock     | Epoch         | Cost function"
+      print *, "        Epoch | Cost Function| System_Clock | Nodes per Layer"
 
       call open_plot_file_for_appending("cost.plt", plot_unit, previous_epoch)
 
@@ -138,39 +138,42 @@ program train_saturated_mixture_ratio
           call shuffle(input_output_pairs, random_numbers)
           mini_batches = [(mini_batch_t(input_output_pairs(bins(b)%first():bins(b)%last())), b = 1, size(bins))]
           call trainable_engine%train(mini_batches, cost, adam=.true.)
-          if (mod(e, 1000)==0) then
-            call system_clock(counter_end, clock_rate)
-            write(output_unit, fmt=csv, advance='no') nodes_per_layer
-            write(output_unit,*) real(counter_end - counter_start) / real(clock_rate), e, sum(cost)/size(cost)
-            write(plot_unit, fmt=csv, advance='no') nodes_per_layer
-            write(plot_unit,*) real(counter_end - counter_start) / real(clock_rate), e, sum(cost)/size(cost)
-          end if
-          if (mod(e, 10000)==0) call output(trainable_engine%to_inference_engine(), network_file)
-          if (sum(cost)/size(cost) < 1.E-08) exit
-          open(newunit=stop_unit, file="stop", form='formatted', status='old', iostat=io_status)
-          if (io_status==0) exit
+          associate(cost_avg => sum(cost)/size(cost))
+            if (mod(e, 1000)==0) then
+              call system_clock(counter_end, clock_rate)
+              write(output_unit,fmt='(3(g13.5,2x))', advance='no') e, cost_avg,  real(counter_end - counter_start) / real(clock_rate)
+              write(output_unit, fmt=csv) nodes_per_layer
+              write(plot_unit,fmt='(3(g13.5,2x))', advance='no') e, cost_avg,  real(counter_end - counter_start) / real(clock_rate)
+              write(plot_unit, fmt=csv) nodes_per_layer
+            end if
+            if (mod(e, 10000)==0) call output(trainable_engine%to_inference_engine(), network_file)
+            if (cost_avg < 1.E-08) exit
+            open(newunit=stop_unit, file="stop", form='formatted', status='old', iostat=io_status)
+            if (io_status==0) exit
+          end associate
         end do
 
         call system_clock(counter_end, clock_rate)
 
-        close(plot_unit)
+        write(output_unit,fmt='(3(g13.5,2x))', advance='no') e, sum(cost)/size(cost),  real(counter_end - counter_start) / real(clock_rate)
+        write(output_unit, fmt=csv) nodes_per_layer
+        write(plot_unit,fmt='(3(g13.5,2x))', advance='no') e, sum(cost)/size(cost),  real(counter_end - counter_start) / real(clock_rate)
+        write(plot_unit, fmt=csv) nodes_per_layer
 
         block
-          real, parameter :: tolerance = 1.E-06
           integer p
 
           associate(network_outputs => trainable_engine%infer(inputs))
-            print "(a,69x,a)","  Outputs", "| Desired outputs"
+            print *,"Inputs (normalized)          | Outputs      | Desired outputs"
             do p = 1, num_pairs
-              print "(6G13.5, a1, 6G13.5)",network_outputs(p)%values(),       "|", desired_outputs(p)%values()
+              print "(4(G13.5,2x))", inputs(p)%values(), network_outputs(p)%values(), desired_outputs(p)%values()
             end do
           end associate
         end block
 
-        write(output_unit, fmt=csv, advance='no') nodes_per_layer
-        write(output_unit,*) real(counter_end - counter_start) / real(clock_rate), e, sum(cost)/size(cost)
-
       end block
+
+      close(plot_unit)
 
    end associate
 
@@ -236,7 +239,7 @@ contains
     inquire(file=plot_file_name, exist=preexisting_plot_file)
     open(newunit=plot_unit,file="cost.plt",status="unknown",position="append")
 
-    associate(header => "Nodes/layer | System_clock      | Epoch | Cost function")
+    associate(header => "Epoch | Nodes/layer | System_clock      | Cost function")
       if (.not. preexisting_plot_file) then
         write(plot_unit,*) header
         previous_epoch = 0
