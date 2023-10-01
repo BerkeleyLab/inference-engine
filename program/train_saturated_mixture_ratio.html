@@ -1,0 +1,1491 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+   <meta name="description" content="A library supporting concurrent forward propagation on multiple fully-connected deep neural networks">
+    <meta name="author" content="Sourcery Institute" >
+    <link rel="icon" href="../favicon.png">
+
+    <title>train_saturated_mixture_ratio &ndash; Inference-Engine</title>
+
+    <link href="../css/bootstrap.min.css" rel="stylesheet">
+    <link href="../css/pygments.css" rel="stylesheet">
+    <link href="../css/font-awesome.min.css" rel="stylesheet">
+    <link href="../css/local.css" rel="stylesheet">
+    <link  href="../tipuesearch/tipuesearch.css" rel="stylesheet">
+
+    <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
+    <!--[if lt IE 9]>
+      <script src="https://oss.maxcdn.com/html5shiv/3.7.2/html5shiv.min.js"></script>
+      <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
+    <![endif]-->
+    
+    <script src="../js/jquery-2.1.3.min.js"></script>
+    <script src="../js/svg-pan-zoom.min.js"></script>
+
+  </head>
+
+  <body>
+
+    <!-- Fixed navbar -->
+    <nav class="navbar navbar-inverse navbar-fixed-top">
+      <div class="container">
+        <div class="navbar-header">
+          <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
+            <span class="sr-only">Toggle navigation</span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+          </button>
+          <a class="navbar-brand" href="../index.html">Inference-Engine </a>
+        </div>
+        <div id="navbar" class="navbar-collapse collapse">
+          <ul class="nav navbar-nav">
+            <li class="dropdown hidden-xs visible-sm visible-md hidden-lg">
+              <a href="#" class="dropdown-toggle"
+              data-toggle="dropdown" role="button"
+              aria-haspopup="true"
+     aria-expanded="false">Contents <span class="caret"></span></a>
+        <ul class="dropdown-menu">
+            <li><a href="../lists/files.html">Source Files</a></li>
+            <li><a href="../lists/modules.html">Modules</a></li>
+            <li><a href="../lists/procedures.html">Procedures</a></li>
+            <li><a href="../lists/absint.html">Abstract Interfaces</a></li>
+                   <li><a href="../lists/types.html">Derived Types</a></li>
+            <li><a href="../lists/programs.html">Programs</a></li>
+       
+            </ul>
+        
+            </li>
+<li class="visible-xs hidden-sm visible-lg"><a href="../lists/files.html">Source Files</a></li>
+<li class="visible-xs hidden-sm visible-lg"><a href="../lists/modules.html">Modules</a></li>
+<li class="visible-xs hidden-sm visible-lg"><a href="../lists/procedures.html">Procedures</a></li>
+<li class="visible-xs hidden-sm visible-lg"><a href="../lists/absint.html">Abstract Interfaces</a></li>
+                             <li class="visible-xs hidden-sm visible-lg"><a href="../lists/types.html">Derived Types</a></li>
+<li class="visible-xs hidden-sm visible-lg"><a href="../lists/programs.html">Programs</a></li>
+          </ul>
+        <form action="../search.html" class="navbar-form navbar-right" role="search">
+        <div class="form-group">
+          <input type="text" class="form-control" placeholder="Search" name="q" id="tipue_search_input" autocomplete="off" required>
+        </div>
+<!--
+        <button type="submit" class="btn btn-default">Submit</button>
+-->
+        </form>
+        </div><!--/.nav-collapse -->
+      </div>
+    </nav>
+
+    <div class="container">
+  <div class="row">
+    <h1>train_saturated_mixture_ratio    <small>Program</small>
+    </h1>
+    <div class="row">
+  <div class="col-lg-12">
+<div class="well well-sm">
+  <ul class="list-inline" style="margin-bottom:0px;display:inline">
+     <li><i class="fa fa-list-ol"></i>
+       <a data-toggle="tooltip"
+    data-placement="bottom" data-html="true"
+    title="21.0% of total for programs.">168 statements</a>
+     </li> 
+    <li><i class="fa fa-code"></i><a href="../src/learn-saturated-mixing-ratio.f90"> Source File</a></li>
+  </ul>
+  <ol class="breadcrumb in-well text-right">
+     <li><a href='../sourcefile/learn-saturated-mixing-ratio.f90.html'>learn-saturated-mixing-ratio.f90</a></li>
+     <li class="active">train_saturated_mixture_ratio</li>
+  </ol>
+</div>
+</div>
+</div>
+<script>
+  $(function () {
+  $('[data-toggle="tooltip"]').tooltip()
+  })
+</script>
+
+  </div>
+  
+  <div class="row">
+    <div class="col-md-3 hidden-xs hidden-sm visible-md visible-lg">
+    <div id="sidebar">
+  <h3>Contents</h3>
+ 
+<div class="panel panel-primary">
+  <div class="panel-heading text-left"><h3 class="panel-title"><a data-toggle="collapse" href="#vars-0">Variables</a></h3></div>
+  <div id="vars-0" class="panel-collapse collapse">
+    <div class="list-group">
+      <a class="list-group-item" href="../program/train_saturated_mixture_ratio.html#variable-clock_rate">clock_rate</a>
+      <a class="list-group-item" href="../program/train_saturated_mixture_ratio.html#variable-command_line~2">command_line</a>
+      <a class="list-group-item" href="../program/train_saturated_mixture_ratio.html#variable-counter_end">counter_end</a>
+      <a class="list-group-item" href="../program/train_saturated_mixture_ratio.html#variable-counter_start">counter_start</a>
+      <a class="list-group-item" href="../program/train_saturated_mixture_ratio.html#variable-network_file">network_file</a>
+    </div>
+  </div>
+</div>
+<div class="panel panel-primary">
+  <div class="panel-heading text-left"><h3 class="panel-title"><a data-toggle="collapse" href="#funcs-0">Functions</a></h3></div>
+  <div id="funcs-0" class="panel-collapse collapse">
+    <div class="list-group">
+      <a class="list-group-item" href="../program/train_saturated_mixture_ratio.html#proc-e~2">e</a>
+      <a class="list-group-item" href="../program/train_saturated_mixture_ratio.html#proc-perturbed_identity_network~2">perturbed_identity_network</a>
+    </div>
+  </div>
+</div>
+<div class="panel panel-primary">
+  <div class="panel-heading text-left"><h3 class="panel-title"><a data-toggle="collapse" href="#subs-0">Subroutines</a></h3></div>
+  <div class="list-group">
+    <div id="subs-0" class="panel-collapse collapse">
+      <a class="list-group-item" href="../program/train_saturated_mixture_ratio.html#proc-open_plot_file_for_appending">open_plot_file_for_appending</a>
+      <a class="list-group-item" href="../program/train_saturated_mixture_ratio.html#proc-output~2">output</a>
+      <a class="list-group-item" href="../program/train_saturated_mixture_ratio.html#proc-print_diagnostics">print_diagnostics</a>
+    </div>
+  </div>
+</div>
+
+</div>
+
+    </div>
+    
+    <div class="col-md-9" id='text'>
+        <div class="panel panel-default">
+      <div class="panel-heading">
+  <h3 class="panel-title">Uses</h3>
+      </div>
+      <ul class="list-group">
+      <li class="list-group-item">
+  <ul class="list-inline">
+    <li><a href='../module/saturated_mixing_ratio_m.html'>saturated_mixing_ratio_m</a></li>
+    <li><a href="https://gcc.gnu.org/onlinedocs/gfortran/ISO_005fFORTRAN_005fENV.html">iso_fortran_env</a></li>
+    <li><a href='../module/inference_engine_m.html'>inference_engine_m</a></li>
+    <li>sourcery_m</li>
+    <li>assert_m</li>
+  </ul>
+      </li>
+      <li class="list-group-item">
+  <div class="depgraph"><?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN"
+ "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
+<!-- Generated by graphviz version 2.43.0 (0)
+ -->
+<!-- Title: program~~train_saturated_mixture_ratio~~UsesGraph Pages: 1 -->
+<svg id="programtrain_saturated_mixture_ratioUsesGraph" width="641pt" height="239pt"
+ viewBox="0.00 0.00 641.00 238.54" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+<g id="program~~train_saturated_mixture_ratio~~UsesGraph" class="graph" transform="scale(2.18 2.18) rotate(0) translate(4 516.62)">
+<title>program~~train_saturated_mixture_ratio~~UsesGraph</title>
+<polygon fill="white" stroke="transparent" points="-4,4 -4,-516.62 1395,-516.62 1395,4 -4,4"/>
+<!-- program~train_saturated_mixture_ratio -->
+<g id="program~~train_saturated_mixture_ratio~~UsesGraph_node1" class="node">
+<title>program~train_saturated_mixture_ratio</title>
+<polygon fill="none" stroke="black" points="1391,-256.72 1222,-256.72 1222,-232.72 1391,-232.72 1391,-256.72"/>
+<text text-anchor="middle" x="1306.5" y="-242.32" font-family="Helvetica,sans-Serif" font-size="10.50">train_saturated_mixture_ratio</text>
+</g>
+<!-- iso_fortran_env -->
+<g id="program~~train_saturated_mixture_ratio~~UsesGraph_node2" class="node">
+<title>iso_fortran_env</title>
+<g id="a_program~~train_saturated_mixture_ratio~~UsesGraph_node2"><a xlink:href="https://gcc.gnu.org/onlinedocs/gfortran/ISO_005fFORTRAN_005fENV.html" xlink:title="iso_fortran_env">
+<polygon fill="#337ab7" stroke="#337ab7" points="1157.5,-316.72 1063.5,-316.72 1063.5,-292.72 1157.5,-292.72 1157.5,-316.72"/>
+<text text-anchor="middle" x="1110.5" y="-302.32" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">iso_fortran_env</text>
+</a>
+</g>
+</g>
+<!-- program~train_saturated_mixture_ratio&#45;&gt;iso_fortran_env -->
+<g id="program~~train_saturated_mixture_ratio~~UsesGraph_edge1" class="edge">
+<title>program~train_saturated_mixture_ratio&#45;&gt;iso_fortran_env</title>
+<path fill="none" stroke="#ff0000" stroke-dasharray="5,2" d="M1266.24,-256.86C1235.64,-266.32 1192.98,-279.52 1160.2,-289.66"/>
+<polygon fill="#ff0000" stroke="#ff0000" points="1158.89,-286.4 1150.37,-292.7 1160.96,-293.09 1158.89,-286.4"/>
+</g>
+<!-- assert_m -->
+<g id="program~~train_saturated_mixture_ratio~~UsesGraph_node3" class="node">
+<title>assert_m</title>
+<polygon fill="#337ab7" stroke="#337ab7" points="969,-277.72 908,-277.72 908,-253.72 969,-253.72 969,-277.72"/>
+<text text-anchor="middle" x="938.5" y="-263.32" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">assert_m</text>
+</g>
+<!-- program~train_saturated_mixture_ratio&#45;&gt;assert_m -->
+<g id="program~~train_saturated_mixture_ratio~~UsesGraph_edge3" class="edge">
+<title>program~train_saturated_mixture_ratio&#45;&gt;assert_m</title>
+<path fill="none" stroke="#ff0000" stroke-dasharray="5,2" d="M1221.99,-249.51C1146.12,-253.86 1037.47,-260.1 979.51,-263.42"/>
+<polygon fill="#ff0000" stroke="#ff0000" points="979.08,-259.94 969.3,-264.01 979.48,-266.93 979.08,-259.94"/>
+</g>
+<!-- module~inference_engine_m -->
+<g id="program~~train_saturated_mixture_ratio~~UsesGraph_node4" class="node">
+<title>module~inference_engine_m</title>
+<g id="a_program~~train_saturated_mixture_ratio~~UsesGraph_node4"><a xlink:href=".././module/inference_engine_m.html" xlink:title="inference_engine_m">
+<polygon fill="#337ab7" stroke="#337ab7" points="999,-235.72 878,-235.72 878,-211.72 999,-211.72 999,-235.72"/>
+<text text-anchor="middle" x="938.5" y="-221.32" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">inference_engine_m</text>
+</a>
+</g>
+</g>
+<!-- program~train_saturated_mixture_ratio&#45;&gt;module~inference_engine_m -->
+<g id="program~~train_saturated_mixture_ratio~~UsesGraph_edge4" class="edge">
+<title>program~train_saturated_mixture_ratio&#45;&gt;module~inference_engine_m</title>
+<path fill="none" stroke="#ff0000" stroke-dasharray="5,2" d="M1109.5,-125.72C1046.59,-117.23 985.19,-173.03 956.43,-204.02"/>
+<polygon fill="#ff0000" stroke="#ff0000" points="953.63,-201.9 949.53,-211.67 958.83,-206.59 953.63,-201.9"/>
+</g>
+<!-- module~saturated_mixing_ratio_m -->
+<g id="program~~train_saturated_mixture_ratio~~UsesGraph_node5" class="node">
+<title>module~saturated_mixing_ratio_m</title>
+<g id="a_program~~train_saturated_mixture_ratio~~UsesGraph_node5"><a xlink:href=".././module/saturated_mixing_ratio_m.html" xlink:title="saturated_mixing_ratio_m">
+<polygon fill="#337ab7" stroke="#337ab7" points="1186,-236.72 1035,-236.72 1035,-212.72 1186,-212.72 1186,-236.72"/>
+<text text-anchor="middle" x="1110.5" y="-222.32" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">saturated_mixing_ratio_m</text>
+</a>
+</g>
+</g>
+<!-- program~train_saturated_mixture_ratio&#45;&gt;module~saturated_mixing_ratio_m -->
+<g id="program~~train_saturated_mixture_ratio~~UsesGraph_edge2" class="edge">
+<title>program~train_saturated_mixture_ratio&#45;&gt;module~saturated_mixing_ratio_m</title>
+<path fill="none" stroke="#ff0000" stroke-dasharray="5,2" d="M1221.82,-236.09C1213.27,-235.21 1204.58,-234.31 1196.02,-233.43"/>
+<polygon fill="#ff0000" stroke="#ff0000" points="1196.35,-229.95 1186.05,-232.4 1195.64,-236.91 1196.35,-229.95"/>
+</g>
+<!-- sourcery_m -->
+<g id="program~~train_saturated_mixture_ratio~~UsesGraph_node6" class="node">
+<title>sourcery_m</title>
+<polygon fill="#337ab7" stroke="#337ab7" points="662,-215.72 588,-215.72 588,-191.72 662,-191.72 662,-215.72"/>
+<text text-anchor="middle" x="625" y="-201.32" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">sourcery_m</text>
+</g>
+<!-- program~train_saturated_mixture_ratio&#45;&gt;sourcery_m -->
+<g id="program~~train_saturated_mixture_ratio~~UsesGraph_edge5" class="edge">
+<title>program~train_saturated_mixture_ratio&#45;&gt;sourcery_m</title>
+<path fill="none" stroke="#ff0000" stroke-dasharray="5,2" d="M1293.8,-232.49C1265.66,-204.31 1190.6,-136.39 1111.5,-125.72"/>
+<path fill="none" stroke="#ff0000" stroke-dasharray="5,2" d="M1109.5,-125.72C939.38,-102.77 884.56,-88.99 724,-149.72 705.04,-156.89 705.5,-167.49 688,-177.72 681.97,-181.24 675.38,-184.54 668.81,-187.52"/>
+<polygon fill="#ff0000" stroke="#ff0000" points="667.06,-184.46 659.28,-191.65 669.85,-190.89 667.06,-184.46"/>
+</g>
+<!-- module~differentiable_activation_strategy_m -->
+<g id="program~~train_saturated_mixture_ratio~~UsesGraph_node7" class="node">
+<title>module~differentiable_activation_strategy_m</title>
+<g id="a_program~~train_saturated_mixture_ratio~~UsesGraph_node7"><a xlink:href=".././module/differentiable_activation_strategy_m.html" xlink:title="differentiable_activation_strategy_m">
+<polygon fill="#337ab7" stroke="#337ab7" points="526,-175.72 320,-175.72 320,-151.72 526,-151.72 526,-175.72"/>
+<text text-anchor="middle" x="423" y="-161.32" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">differentiable_activation_strategy_m</text>
+</a>
+</g>
+</g>
+<!-- module~inference_engine_m&#45;&gt;module~differentiable_activation_strategy_m -->
+<g id="program~~train_saturated_mixture_ratio~~UsesGraph_edge6" class="edge">
+<title>module~inference_engine_m&#45;&gt;module~differentiable_activation_strategy_m</title>
+<path fill="none" stroke="#00ff66" stroke-dasharray="5,2" d="M782,-163.72C716.47,-141.08 695.25,-160.3 626,-163.72"/>
+<path fill="none" stroke="#00ff66" stroke-dasharray="5,2" d="M624,-163.72C595.54,-165.12 564.77,-165.63 536.1,-165.66"/>
+<polygon fill="#00ff66" stroke="#00ff66" points="536.05,-162.16 526.05,-165.66 536.05,-169.16 536.05,-162.16"/>
+</g>
+<!-- module~inference_engine_m_ -->
+<g id="program~~train_saturated_mixture_ratio~~UsesGraph_node8" class="node">
+<title>module~inference_engine_m_</title>
+<g id="a_program~~train_saturated_mixture_ratio~~UsesGraph_node8"><a xlink:href=".././module/inference_engine_m_.html" xlink:title="inference_engine_m_">
+<polygon fill="#337ab7" stroke="#337ab7" points="688,-295.72 562,-295.72 562,-271.72 688,-271.72 688,-295.72"/>
+<text text-anchor="middle" x="625" y="-281.32" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">inference_engine_m_</text>
+</a>
+</g>
+</g>
+<!-- module~inference_engine_m&#45;&gt;module~inference_engine_m_ -->
+<g id="program~~train_saturated_mixture_ratio~~UsesGraph_edge9" class="edge">
+<title>module~inference_engine_m&#45;&gt;module~inference_engine_m_</title>
+<path fill="none" stroke="#00ff66" stroke-dasharray="5,2" d="M782,-163.72C766.4,-158.33 685.45,-229.46 646.71,-264.65"/>
+<polygon fill="#00ff66" stroke="#00ff66" points="644.15,-262.25 639.12,-271.58 648.87,-267.42 644.15,-262.25"/>
+</g>
+<!-- module~netcdf_file_m -->
+<g id="program~~train_saturated_mixture_ratio~~UsesGraph_node9" class="node">
+<title>module~netcdf_file_m</title>
+<g id="a_program~~train_saturated_mixture_ratio~~UsesGraph_node9"><a xlink:href=".././module/netcdf_file_m.html" xlink:title="NetCDF_file_m">
+<polygon fill="#337ab7" stroke="#337ab7" points="828,-451.72 738,-451.72 738,-427.72 828,-427.72 828,-451.72"/>
+<text text-anchor="middle" x="783" y="-437.32" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">NetCDF_file_m</text>
+</a>
+</g>
+</g>
+<!-- module~inference_engine_m&#45;&gt;module~netcdf_file_m -->
+<g id="program~~train_saturated_mixture_ratio~~UsesGraph_edge7" class="edge">
+<title>module~inference_engine_m&#45;&gt;module~netcdf_file_m</title>
+<path fill="none" stroke="#00ff66" stroke-dasharray="5,2" d="M888.93,-235.79C884.85,-238.24 881.11,-241.18 878,-244.72 827.32,-302.42 890.27,-353.99 842,-413.72 839.42,-416.91 836.37,-419.72 833.03,-422.2"/>
+<polygon fill="#00ff66" stroke="#00ff66" points="830.88,-419.41 824.27,-427.69 834.6,-425.35 830.88,-419.41"/>
+</g>
+<!-- module~trainable_engine_m -->
+<g id="program~~train_saturated_mixture_ratio~~UsesGraph_node10" class="node">
+<title>module~trainable_engine_m</title>
+<g id="a_program~~train_saturated_mixture_ratio~~UsesGraph_node10"><a xlink:href=".././module/trainable_engine_m.html" xlink:title="trainable_engine_m">
+<polygon fill="#337ab7" stroke="#337ab7" points="842,-275.72 724,-275.72 724,-251.72 842,-251.72 842,-275.72"/>
+<text text-anchor="middle" x="783" y="-261.32" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">trainable_engine_m</text>
+</a>
+</g>
+</g>
+<!-- module~inference_engine_m&#45;&gt;module~trainable_engine_m -->
+<g id="program~~train_saturated_mixture_ratio~~UsesGraph_edge10" class="edge">
+<title>module~inference_engine_m&#45;&gt;module~trainable_engine_m</title>
+<path fill="none" stroke="#00ff66" stroke-dasharray="5,2" d="M891.44,-235.72C875.28,-239.93 856.94,-244.71 840.04,-249.11"/>
+<polygon fill="#00ff66" stroke="#00ff66" points="839.08,-245.75 830.29,-251.66 840.85,-252.52 839.08,-245.75"/>
+</g>
+<!-- module~sigmoid_m -->
+<g id="program~~train_saturated_mixture_ratio~~UsesGraph_node11" class="node">
+<title>module~sigmoid_m</title>
+<g id="a_program~~train_saturated_mixture_ratio~~UsesGraph_node11"><a xlink:href=".././module/sigmoid_m.html" xlink:title="sigmoid_m">
+<polygon fill="#337ab7" stroke="#337ab7" points="660,-93.72 590,-93.72 590,-69.72 660,-69.72 660,-93.72"/>
+<text text-anchor="middle" x="625" y="-79.32" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">sigmoid_m</text>
+</a>
+</g>
+</g>
+<!-- module~inference_engine_m&#45;&gt;module~sigmoid_m -->
+<g id="program~~train_saturated_mixture_ratio~~UsesGraph_edge8" class="edge">
+<title>module~inference_engine_m&#45;&gt;module~sigmoid_m</title>
+<path fill="none" stroke="#00ff66" stroke-dasharray="5,2" d="M782,-163.72C734.93,-147.46 732.82,-124.43 688,-102.72 682.23,-99.92 675.99,-97.34 669.77,-95.01"/>
+<polygon fill="#00ff66" stroke="#00ff66" points="670.67,-91.61 660.07,-91.56 668.32,-98.21 670.67,-91.61"/>
+</g>
+<!-- module~mini_batch_m -->
+<g id="program~~train_saturated_mixture_ratio~~UsesGraph_node12" class="node">
+<title>module~mini_batch_m</title>
+<g id="a_program~~train_saturated_mixture_ratio~~UsesGraph_node12"><a xlink:href=".././module/mini_batch_m.html" xlink:title="mini_batch_m">
+<polygon fill="#337ab7" stroke="#337ab7" points="668.5,-413.72 581.5,-413.72 581.5,-389.72 668.5,-389.72 668.5,-413.72"/>
+<text text-anchor="middle" x="625" y="-399.32" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">mini_batch_m</text>
+</a>
+</g>
+</g>
+<!-- module~inference_engine_m&#45;&gt;module~mini_batch_m -->
+<g id="program~~train_saturated_mixture_ratio~~UsesGraph_edge11" class="edge">
+<title>module~inference_engine_m&#45;&gt;module~mini_batch_m</title>
+<path fill="none" stroke="#00ff66" stroke-dasharray="5,2" d="M782,-399.72C750.04,-414.37 710.37,-414.68 679.04,-411.42"/>
+<polygon fill="#00ff66" stroke="#00ff66" points="679.1,-407.9 668.75,-410.19 678.27,-414.85 679.1,-407.9"/>
+</g>
+<!-- module~step_m -->
+<g id="program~~train_saturated_mixture_ratio~~UsesGraph_node13" class="node">
+<title>module~step_m</title>
+<g id="a_program~~train_saturated_mixture_ratio~~UsesGraph_node13"><a xlink:href=".././module/step_m.html" xlink:title="step_m">
+<polygon fill="#337ab7" stroke="#337ab7" points="450,-95.72 396,-95.72 396,-71.72 450,-71.72 450,-95.72"/>
+<text text-anchor="middle" x="423" y="-81.32" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">step_m</text>
+</a>
+</g>
+</g>
+<!-- module~inference_engine_m&#45;&gt;module~step_m -->
+<g id="program~~train_saturated_mixture_ratio~~UsesGraph_edge12" class="edge">
+<title>module~inference_engine_m&#45;&gt;module~step_m</title>
+<path fill="none" stroke="#00ff66" stroke-dasharray="5,2" d="M908.62,-211.63C877.95,-198.98 827.95,-178.9 784,-163.72"/>
+<path fill="none" stroke="#00ff66" stroke-dasharray="5,2" d="M782,-163.72C709.41,-138.64 755.48,-55.39 688,-18.72 638.8,8.02 613.3,3.74 562,-18.72 540.39,-28.18 546.26,-45.64 526,-57.72 505.99,-69.64 480.62,-76.14 460.19,-79.66"/>
+<polygon fill="#00ff66" stroke="#00ff66" points="459.65,-76.2 450.3,-81.19 460.72,-83.11 459.65,-76.2"/>
+</g>
+<!-- module~kind_parameters_m -->
+<g id="program~~train_saturated_mixture_ratio~~UsesGraph_node14" class="node">
+<title>module~kind_parameters_m</title>
+<g id="a_program~~train_saturated_mixture_ratio~~UsesGraph_node14"><a xlink:href=".././module/kind_parameters_m.html" xlink:title="kind_parameters_m">
+<polygon fill="#337ab7" stroke="#337ab7" points="118,-175.72 0,-175.72 0,-151.72 118,-151.72 118,-175.72"/>
+<text text-anchor="middle" x="59" y="-161.32" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">kind_parameters_m</text>
+</a>
+</g>
+</g>
+<!-- module~inference_engine_m&#45;&gt;module~kind_parameters_m -->
+<g id="program~~train_saturated_mixture_ratio~~UsesGraph_edge13" class="edge">
+<title>module~inference_engine_m&#45;&gt;module~kind_parameters_m</title>
+<path fill="none" stroke="#00ff66" stroke-dasharray="5,2" d="M888.48,-235.82C884.55,-238.26 880.96,-241.19 878,-244.72 815.43,-319.26 916.26,-397.81 842,-460.72 736.47,-550.11 339.21,-509.84 220,-439.72"/>
+</g>
+<!-- module~relu_m -->
+<g id="program~~train_saturated_mixture_ratio~~UsesGraph_node15" class="node">
+<title>module~relu_m</title>
+<g id="a_program~~train_saturated_mixture_ratio~~UsesGraph_node15"><a xlink:href=".././module/relu_m.html" xlink:title="relu_m">
+<polygon fill="#337ab7" stroke="#337ab7" points="652,-135.72 598,-135.72 598,-111.72 652,-111.72 652,-135.72"/>
+<text text-anchor="middle" x="625" y="-121.32" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">relu_m</text>
+</a>
+</g>
+</g>
+<!-- module~inference_engine_m&#45;&gt;module~relu_m -->
+<g id="program~~train_saturated_mixture_ratio~~UsesGraph_edge14" class="edge">
+<title>module~inference_engine_m&#45;&gt;module~relu_m</title>
+<path fill="none" stroke="#00ff66" stroke-dasharray="5,2" d="M782,-163.72C741.58,-149.76 693.77,-138.2 661.84,-131.16"/>
+<polygon fill="#00ff66" stroke="#00ff66" points="662.57,-127.74 652.05,-129.03 661.08,-134.58 662.57,-127.74"/>
+</g>
+<!-- module~tensor_m -->
+<g id="program~~train_saturated_mixture_ratio~~UsesGraph_node16" class="node">
+<title>module~tensor_m</title>
+<g id="a_program~~train_saturated_mixture_ratio~~UsesGraph_node16"><a xlink:href=".././module/tensor_m.html" xlink:title="tensor_m">
+<polygon fill="#337ab7" stroke="#337ab7" points="250,-375.72 188,-375.72 188,-351.72 250,-351.72 250,-375.72"/>
+<text text-anchor="middle" x="219" y="-361.32" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">tensor_m</text>
+</a>
+</g>
+</g>
+<!-- module~inference_engine_m&#45;&gt;module~tensor_m -->
+<g id="program~~train_saturated_mixture_ratio~~UsesGraph_edge15" class="edge">
+<title>module~inference_engine_m&#45;&gt;module~tensor_m</title>
+<path fill="none" stroke="#00ff66" stroke-dasharray="5,2" d="M892.48,-235.77C887.3,-238.24 882.34,-241.19 878,-244.72 815.48,-295.53 857.69,-367.15 784,-399.72"/>
+<path fill="none" stroke="#00ff66" stroke-dasharray="5,2" d="M782,-399.72C743.02,-416.95 730.23,-386.48 688,-380.72 571.44,-364.81 541.06,-350.04 424,-361.72"/>
+</g>
+<!-- module~activation_strategy_m -->
+<g id="program~~train_saturated_mixture_ratio~~UsesGraph_node17" class="node">
+<title>module~activation_strategy_m</title>
+<g id="a_program~~train_saturated_mixture_ratio~~UsesGraph_node17"><a xlink:href=".././module/activation_strategy_m.html" xlink:title="activation_strategy_m">
+<polygon fill="#337ab7" stroke="#337ab7" points="284,-175.72 154,-175.72 154,-151.72 284,-151.72 284,-175.72"/>
+<text text-anchor="middle" x="219" y="-161.32" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">activation_strategy_m</text>
+</a>
+</g>
+</g>
+<!-- module~inference_engine_m&#45;&gt;module~activation_strategy_m -->
+<g id="program~~train_saturated_mixture_ratio~~UsesGraph_edge16" class="edge">
+<title>module~inference_engine_m&#45;&gt;module~activation_strategy_m</title>
+<path fill="none" stroke="#00ff66" stroke-dasharray="5,2" d="M624,-163.72C579.51,-165.91 570.3,-180.02 526,-184.72 434.95,-194.36 411.07,-194.18 320,-184.72 306.01,-183.27 291.1,-180.7 277.18,-177.85"/>
+<polygon fill="#00ff66" stroke="#00ff66" points="277.75,-174.39 267.24,-175.73 276.3,-181.24 277.75,-174.39"/>
+</g>
+<!-- module~swish_m -->
+<g id="program~~train_saturated_mixture_ratio~~UsesGraph_node18" class="node">
+<title>module~swish_m</title>
+<g id="a_program~~train_saturated_mixture_ratio~~UsesGraph_node18"><a xlink:href=".././module/swish_m.html" xlink:title="swish_m">
+<polygon fill="#337ab7" stroke="#337ab7" points="653.5,-51.72 596.5,-51.72 596.5,-27.72 653.5,-27.72 653.5,-51.72"/>
+<text text-anchor="middle" x="625" y="-37.32" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">swish_m</text>
+</a>
+</g>
+</g>
+<!-- module~inference_engine_m&#45;&gt;module~swish_m -->
+<g id="program~~train_saturated_mixture_ratio~~UsesGraph_edge17" class="edge">
+<title>module~inference_engine_m&#45;&gt;module~swish_m</title>
+<path fill="none" stroke="#00ff66" stroke-dasharray="5,2" d="M782,-163.72C723.42,-143.48 739.88,-94.62 688,-60.72 680.55,-55.85 671.85,-51.99 663.37,-48.98"/>
+<polygon fill="#00ff66" stroke="#00ff66" points="664.19,-45.57 653.59,-45.84 662.04,-52.23 664.19,-45.57"/>
+</g>
+<!-- module~input_output_pair_m -->
+<g id="program~~train_saturated_mixture_ratio~~UsesGraph_node19" class="node">
+<title>module~input_output_pair_m</title>
+<g id="a_program~~train_saturated_mixture_ratio~~UsesGraph_node19"><a xlink:href=".././module/input_output_pair_m.html" xlink:title="input_output_pair_m">
+<polygon fill="#337ab7" stroke="#337ab7" points="483.5,-451.72 362.5,-451.72 362.5,-427.72 483.5,-427.72 483.5,-451.72"/>
+<text text-anchor="middle" x="423" y="-437.32" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">input_output_pair_m</text>
+</a>
+</g>
+</g>
+<!-- module~inference_engine_m&#45;&gt;module~input_output_pair_m -->
+<g id="program~~train_saturated_mixture_ratio~~UsesGraph_edge18" class="edge">
+<title>module~inference_engine_m&#45;&gt;module~input_output_pair_m</title>
+<path fill="none" stroke="#00ff66" stroke-dasharray="5,2" d="M782,-399.72C742.9,-417.64 730.51,-416.2 688,-422.72 622.53,-432.76 547.05,-436.88 493.61,-438.57"/>
+<polygon fill="#00ff66" stroke="#00ff66" points="493.45,-435.07 483.56,-438.86 493.66,-442.07 493.45,-435.07"/>
+</g>
+<!-- module~saturated_mixing_ratio_m&#45;&gt;assert_m -->
+<g id="program~~train_saturated_mixture_ratio~~UsesGraph_edge19" class="edge">
+<title>module~saturated_mixing_ratio_m&#45;&gt;assert_m</title>
+<path fill="none" stroke="#0066ff" stroke-dasharray="5,2" d="M1059.41,-236.8C1033.7,-243 1002.84,-250.44 978.86,-256.23"/>
+<polygon fill="#0066ff" stroke="#0066ff" points="977.94,-252.85 969.04,-258.59 979.58,-259.65 977.94,-252.85"/>
+</g>
+<!-- module~saturated_mixing_ratio_m&#45;&gt;module~inference_engine_m -->
+<g id="program~~train_saturated_mixture_ratio~~UsesGraph_edge20" class="edge">
+<title>module~saturated_mixing_ratio_m&#45;&gt;module~inference_engine_m</title>
+<path fill="none" stroke="#0066ff" stroke-dasharray="5,2" d="M1034.94,-224.28C1026.44,-224.23 1017.8,-224.18 1009.36,-224.13"/>
+<polygon fill="#0066ff" stroke="#0066ff" points="1009.22,-220.63 999.2,-224.07 1009.18,-227.63 1009.22,-220.63"/>
+</g>
+<!-- module~differentiable_activation_strategy_m&#45;&gt;module~activation_strategy_m -->
+<g id="program~~train_saturated_mixture_ratio~~UsesGraph_edge21" class="edge">
+<title>module~differentiable_activation_strategy_m&#45;&gt;module~activation_strategy_m</title>
+<path fill="none" stroke="#ff0000" stroke-dasharray="5,2" d="M319.82,-163.72C311.19,-163.72 302.57,-163.72 294.22,-163.72"/>
+<polygon fill="#ff0000" stroke="#ff0000" points="294.18,-160.22 284.18,-163.72 294.18,-167.22 294.18,-160.22"/>
+</g>
+<!-- module~inference_engine_m_&#45;&gt;module~differentiable_activation_strategy_m -->
+<g id="program~~train_saturated_mixture_ratio~~UsesGraph_edge22" class="edge">
+<title>module~inference_engine_m_&#45;&gt;module~differentiable_activation_strategy_m</title>
+<path fill="none" stroke="#ff7500" stroke-dasharray="5,2" d="M590.28,-271.71C580.85,-267.79 570.78,-263.05 562,-257.72 544.2,-246.9 542.86,-239.95 526,-227.72 502.56,-210.72 474.63,-193.38 453.92,-181.04"/>
+<polygon fill="#ff7500" stroke="#ff7500" points="455.64,-177.99 445.25,-175.91 452.07,-184.02 455.64,-177.99"/>
+</g>
+<!-- module~inference_engine_m_&#45;&gt;module~kind_parameters_m -->
+<g id="program~~train_saturated_mixture_ratio~~UsesGraph_edge23" class="edge">
+<title>module~inference_engine_m_&#45;&gt;module~kind_parameters_m</title>
+<path fill="none" stroke="#ff7500" stroke-dasharray="5,2" d="M582.31,-295.81C542.17,-306.55 479.53,-320.98 424,-323.72"/>
+<path fill="none" stroke="#ff7500" stroke-dasharray="5,2" d="M422,-323.72C299.26,-329.78 259.97,-317.93 154,-255.72 121.81,-236.82 92.4,-204.54 75.35,-183.68"/>
+<polygon fill="#ff7500" stroke="#ff7500" points="78,-181.4 69.03,-175.77 72.53,-185.77 78,-181.4"/>
+</g>
+<!-- module~inference_engine_m_&#45;&gt;module~tensor_m -->
+<g id="program~~train_saturated_mixture_ratio~~UsesGraph_edge26" class="edge">
+<title>module~inference_engine_m_&#45;&gt;module~tensor_m</title>
+<path fill="none" stroke="#ff7500" stroke-dasharray="5,2" d="M590.72,-295.78C581.19,-299.73 570.97,-304.47 562,-309.72 544.5,-319.95 544.29,-328.97 526,-337.72 483.99,-357.81 470.34,-357.09 424,-361.72"/>
+<path fill="none" stroke="#ff7500" stroke-dasharray="5,2" d="M422,-361.72C366.14,-367.29 301.16,-366.68 260.31,-365.43"/>
+<polygon fill="#ff7500" stroke="#ff7500" points="260.32,-361.93 250.21,-365.1 260.09,-368.93 260.32,-361.93"/>
+</g>
+<!-- module~inference_engine_m_&#45;&gt;module~activation_strategy_m -->
+<g id="program~~train_saturated_mixture_ratio~~UsesGraph_edge25" class="edge">
+<title>module~inference_engine_m_&#45;&gt;module~activation_strategy_m</title>
+<path fill="none" stroke="#ff7500" stroke-dasharray="5,2" d="M568.3,-271.7C554.49,-268.74 539.71,-265.6 526,-262.72 480.7,-253.2 469.39,-250.77 424,-241.72"/>
+<path fill="none" stroke="#ff7500" stroke-dasharray="5,2" d="M422,-241.72C376.33,-232.6 363.53,-234.26 320,-217.72 294.36,-207.98 267.09,-192.9 247.51,-181.14"/>
+<polygon fill="#ff7500" stroke="#ff7500" points="249.18,-178.07 238.82,-175.85 245.54,-184.04 249.18,-178.07"/>
+</g>
+<!-- string_m -->
+<g id="program~~train_saturated_mixture_ratio~~UsesGraph_node20" class="node">
+<title>string_m</title>
+<polygon fill="#337ab7" stroke="#337ab7" points="88,-115.72 30,-115.72 30,-91.72 88,-91.72 88,-115.72"/>
+<text text-anchor="middle" x="59" y="-101.32" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">string_m</text>
+</g>
+<!-- module~inference_engine_m_&#45;&gt;string_m -->
+<g id="program~~train_saturated_mixture_ratio~~UsesGraph_edge24" class="edge">
+<title>module~inference_engine_m_&#45;&gt;string_m</title>
+<path fill="none" stroke="#ff7500" stroke-dasharray="5,2" d="M422,-241.72C302.58,-217.89 258.71,-246.89 154,-184.72 132.86,-172.16 136.37,-159.06 118,-142.72 109.25,-134.94 98.86,-127.48 89.31,-121.21"/>
+<polygon fill="#ff7500" stroke="#ff7500" points="91.16,-118.24 80.84,-115.81 87.39,-124.14 91.16,-118.24"/>
+</g>
+<!-- file_m -->
+<g id="program~~train_saturated_mixture_ratio~~UsesGraph_node21" class="node">
+<title>file_m</title>
+<polygon fill="#337ab7" stroke="#337ab7" points="450,-295.72 396,-295.72 396,-271.72 450,-271.72 450,-295.72"/>
+<text text-anchor="middle" x="423" y="-281.32" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">file_m</text>
+</g>
+<!-- module~inference_engine_m_&#45;&gt;file_m -->
+<g id="program~~train_saturated_mixture_ratio~~UsesGraph_edge27" class="edge">
+<title>module~inference_engine_m_&#45;&gt;file_m</title>
+<path fill="none" stroke="#ff7500" stroke-dasharray="5,2" d="M561.82,-283.72C528.46,-283.72 488.53,-283.72 460.26,-283.72"/>
+<polygon fill="#ff7500" stroke="#ff7500" points="460.03,-280.22 450.03,-283.72 460.03,-287.22 460.03,-280.22"/>
+</g>
+<!-- module~trainable_engine_m&#45;&gt;sourcery_m -->
+<g id="program~~train_saturated_mixture_ratio~~UsesGraph_edge32" class="edge">
+<title>module~trainable_engine_m&#45;&gt;sourcery_m</title>
+<path fill="none" stroke="#9cff00" stroke-dasharray="5,2" d="M750.43,-251.58C726.35,-242.31 692.99,-229.48 666.88,-219.44"/>
+<polygon fill="#9cff00" stroke="#9cff00" points="667.85,-216.06 657.26,-215.74 665.33,-222.6 667.85,-216.06"/>
+</g>
+<!-- module~trainable_engine_m&#45;&gt;module~differentiable_activation_strategy_m -->
+<g id="program~~train_saturated_mixture_ratio~~UsesGraph_edge28" class="edge">
+<title>module~trainable_engine_m&#45;&gt;module~differentiable_activation_strategy_m</title>
+<path fill="none" stroke="#9cff00" stroke-dasharray="5,2" d="M723.67,-257.27C678.8,-251.38 615.62,-241.06 562,-224.72 524.34,-213.24 483.34,-194.22 455.9,-180.46"/>
+<polygon fill="#9cff00" stroke="#9cff00" points="457.29,-177.24 446.79,-175.84 454.12,-183.48 457.29,-177.24"/>
+</g>
+<!-- module~trainable_engine_m&#45;&gt;module~inference_engine_m_ -->
+<g id="program~~train_saturated_mixture_ratio~~UsesGraph_edge29" class="edge">
+<title>module~trainable_engine_m&#45;&gt;module~inference_engine_m_</title>
+<path fill="none" stroke="#9cff00" stroke-dasharray="5,2" d="M723.91,-271.17C715.51,-272.24 706.77,-273.36 698.13,-274.47"/>
+<polygon fill="#9cff00" stroke="#9cff00" points="697.53,-271.02 688.06,-275.76 698.42,-277.96 697.53,-271.02"/>
+</g>
+<!-- module~trainable_engine_m&#45;&gt;module~mini_batch_m -->
+<g id="program~~train_saturated_mixture_ratio~~UsesGraph_edge30" class="edge">
+<title>module~trainable_engine_m&#45;&gt;module~mini_batch_m</title>
+<path fill="none" stroke="#9cff00" stroke-dasharray="5,2" d="M768.43,-275.72C741.23,-299.78 679.87,-354.06 647.28,-382.89"/>
+<polygon fill="#9cff00" stroke="#9cff00" points="644.82,-380.39 639.65,-389.64 649.46,-385.64 644.82,-380.39"/>
+</g>
+<!-- module~trainable_engine_m&#45;&gt;module~kind_parameters_m -->
+<g id="program~~train_saturated_mixture_ratio~~UsesGraph_edge31" class="edge">
+<title>module~trainable_engine_m&#45;&gt;module~kind_parameters_m</title>
+<path fill="none" stroke="#9cff00" stroke-dasharray="5,2" d="M756.39,-275.83C737.67,-284.45 711.54,-296.01 688,-304.72 660.97,-314.72 654.07,-317.19 626,-323.72"/>
+<path fill="none" stroke="#9cff00" stroke-dasharray="5,2" d="M624,-323.72C537.42,-343.84 512.8,-327.73 424,-323.72"/>
+</g>
+<!-- module~trainable_engine_m&#45;&gt;module~tensor_m -->
+<g id="program~~train_saturated_mixture_ratio~~UsesGraph_edge33" class="edge">
+<title>module~trainable_engine_m&#45;&gt;module~tensor_m</title>
+<path fill="none" stroke="#9cff00" stroke-dasharray="5,2" d="M624,-323.72C535.87,-344.2 514.03,-352.73 424,-361.72"/>
+</g>
+<!-- module~sigmoid_m&#45;&gt;module~differentiable_activation_strategy_m -->
+<g id="program~~train_saturated_mixture_ratio~~UsesGraph_edge34" class="edge">
+<title>module~sigmoid_m&#45;&gt;module~differentiable_activation_strategy_m</title>
+<path fill="none" stroke="#27ff00" stroke-dasharray="5,2" d="M589.96,-90.24C580.52,-93.39 570.53,-97.5 562,-102.72 542.96,-114.36 545.47,-126.82 526,-137.72 518.41,-141.97 510.12,-145.53 501.65,-148.53"/>
+<polygon fill="#27ff00" stroke="#27ff00" points="500.45,-145.24 492.04,-151.67 502.63,-151.89 500.45,-145.24"/>
+</g>
+<!-- module~sigmoid_m&#45;&gt;module~kind_parameters_m -->
+<g id="program~~train_saturated_mixture_ratio~~UsesGraph_edge36" class="edge">
+<title>module~sigmoid_m&#45;&gt;module~kind_parameters_m</title>
+<path fill="none" stroke="#27ff00" stroke-dasharray="5,2" d="M589.66,-91.22C550.09,-101.63 482.94,-117.66 424,-123.72"/>
+</g>
+<!-- module~sigmoid_m&#45;&gt;string_m -->
+<g id="program~~train_saturated_mixture_ratio~~UsesGraph_edge35" class="edge">
+<title>module~sigmoid_m&#45;&gt;string_m</title>
+<path fill="none" stroke="#27ff00" stroke-dasharray="5,2" d="M589.95,-73.2C550.38,-63.79 482.94,-49.21 424,-43.72"/>
+</g>
+<!-- module~mini_batch_m&#45;&gt;module~kind_parameters_m -->
+<g id="program~~train_saturated_mixture_ratio~~UsesGraph_edge37" class="edge">
+<title>module~mini_batch_m&#45;&gt;module~kind_parameters_m</title>
+<path fill="none" stroke="#00ff4e" stroke-dasharray="5,2" d="M581.27,-402.08C522.26,-403.03 412.62,-406.47 320,-418.72 274.98,-424.67 259.35,-462.39 220,-439.72"/>
+<path fill="none" stroke="#00ff4e" stroke-dasharray="5,2" d="M218,-439.72C185.67,-420.7 176.14,-414.99 154,-384.72 106.56,-319.86 77.27,-227.4 65.69,-185.66"/>
+<polygon fill="#00ff4e" stroke="#00ff4e" points="69.06,-184.7 63.07,-175.97 62.3,-186.53 69.06,-184.7"/>
+</g>
+<!-- module~mini_batch_m&#45;&gt;module~input_output_pair_m -->
+<g id="program~~train_saturated_mixture_ratio~~UsesGraph_edge38" class="edge">
+<title>module~mini_batch_m&#45;&gt;module~input_output_pair_m</title>
+<path fill="none" stroke="#00ff4e" stroke-dasharray="5,2" d="M581.09,-409.87C555.63,-414.71 522.74,-420.96 493.64,-426.49"/>
+<polygon fill="#00ff4e" stroke="#00ff4e" points="492.7,-423.1 483.52,-428.41 494,-429.98 492.7,-423.1"/>
+</g>
+<!-- module~step_m&#45;&gt;module~kind_parameters_m -->
+<g id="program~~train_saturated_mixture_ratio~~UsesGraph_edge41" class="edge">
+<title>module~step_m&#45;&gt;module~kind_parameters_m</title>
+<path fill="none" stroke="#00ffc4" stroke-dasharray="5,2" d="M218,-85.72C187.97,-90.28 181.48,-96.78 154,-109.72 130.99,-120.56 106.07,-135 87.68,-146.23"/>
+<polygon fill="#00ffc4" stroke="#00ffc4" points="85.63,-143.38 78.95,-151.61 89.3,-149.34 85.63,-143.38"/>
+</g>
+<!-- module~step_m&#45;&gt;module~activation_strategy_m -->
+<g id="program~~train_saturated_mixture_ratio~~UsesGraph_edge39" class="edge">
+<title>module~step_m&#45;&gt;module~activation_strategy_m</title>
+<path fill="none" stroke="#00ffc4" stroke-dasharray="5,2" d="M395.59,-94.18C361.01,-107.87 300.08,-132 259.87,-147.93"/>
+<polygon fill="#00ffc4" stroke="#00ffc4" points="258.38,-144.75 250.37,-151.69 260.96,-151.26 258.38,-144.75"/>
+</g>
+<!-- module~step_m&#45;&gt;string_m -->
+<g id="program~~train_saturated_mixture_ratio~~UsesGraph_edge40" class="edge">
+<title>module~step_m&#45;&gt;string_m</title>
+<path fill="none" stroke="#00ffc4" stroke-dasharray="5,2" d="M395.99,-81.66C357.34,-79.12 282.59,-76.22 220,-85.72"/>
+<path fill="none" stroke="#00ffc4" stroke-dasharray="5,2" d="M218,-85.72C177.29,-91.9 130.39,-96.99 98.33,-100.16"/>
+<polygon fill="#00ffc4" stroke="#00ffc4" points="97.67,-96.7 88.05,-101.16 98.35,-103.67 97.67,-96.7"/>
+</g>
+<!-- module~relu_m&#45;&gt;module~differentiable_activation_strategy_m -->
+<g id="program~~train_saturated_mixture_ratio~~UsesGraph_edge42" class="edge">
+<title>module~relu_m&#45;&gt;module~differentiable_activation_strategy_m</title>
+<path fill="none" stroke="#004eff" stroke-dasharray="5,2" d="M597.85,-128.95C571.62,-134.19 530.08,-142.5 494.18,-149.68"/>
+<polygon fill="#004eff" stroke="#004eff" points="493.34,-146.28 484.22,-151.67 494.71,-153.14 493.34,-146.28"/>
+</g>
+<!-- module~relu_m&#45;&gt;module~kind_parameters_m -->
+<g id="program~~train_saturated_mixture_ratio~~UsesGraph_edge44" class="edge">
+<title>module~relu_m&#45;&gt;module~kind_parameters_m</title>
+<path fill="none" stroke="#004eff" stroke-dasharray="5,2" d="M597.7,-122.01C559.38,-119.91 486,-117.34 424,-123.72"/>
+</g>
+<!-- module~relu_m&#45;&gt;string_m -->
+<g id="program~~train_saturated_mixture_ratio~~UsesGraph_edge43" class="edge">
+<title>module~relu_m&#45;&gt;string_m</title>
+<path fill="none" stroke="#004eff" stroke-dasharray="5,2" d="M597.92,-118.08C586.3,-114.79 572.82,-109.84 562,-102.72 542.02,-89.56 546.86,-74.42 526,-62.72 485.78,-40.16 469.91,-48 424,-43.72"/>
+</g>
+<!-- module~tensor_m&#45;&gt;module~kind_parameters_m -->
+<g id="program~~train_saturated_mixture_ratio~~UsesGraph_edge45" class="edge">
+<title>module~tensor_m&#45;&gt;module~kind_parameters_m</title>
+<path fill="none" stroke="#2700ff" stroke-dasharray="5,2" d="M187.91,-356.25C176.31,-352.23 163.56,-346.28 154,-337.72 106.29,-294.96 78.19,-222.1 66.46,-185.73"/>
+<polygon fill="#2700ff" stroke="#2700ff" points="69.78,-184.6 63.46,-176.09 63.09,-186.68 69.78,-184.6"/>
+</g>
+<!-- module~activation_strategy_m&#45;&gt;module~kind_parameters_m -->
+<g id="program~~train_saturated_mixture_ratio~~UsesGraph_edge46" class="edge">
+<title>module~activation_strategy_m&#45;&gt;module~kind_parameters_m</title>
+<path fill="none" stroke="#9c00ff" stroke-dasharray="5,2" d="M153.74,-163.72C145.35,-163.72 136.74,-163.72 128.3,-163.72"/>
+<polygon fill="#9c00ff" stroke="#9c00ff" points="128.1,-160.22 118.1,-163.72 128.1,-167.22 128.1,-160.22"/>
+</g>
+<!-- module~activation_strategy_m&#45;&gt;string_m -->
+<g id="program~~train_saturated_mixture_ratio~~UsesGraph_edge47" class="edge">
+<title>module~activation_strategy_m&#45;&gt;string_m</title>
+<path fill="none" stroke="#9c00ff" stroke-dasharray="5,2" d="M186.03,-151.58C160.49,-141.88 124.64,-128.26 97.7,-118.04"/>
+<polygon fill="#9c00ff" stroke="#9c00ff" points="98.81,-114.71 88.22,-114.43 96.32,-121.26 98.81,-114.71"/>
+</g>
+<!-- module~swish_m&#45;&gt;module~differentiable_activation_strategy_m -->
+<g id="program~~train_saturated_mixture_ratio~~UsesGraph_edge48" class="edge">
+<title>module~swish_m&#45;&gt;module~differentiable_activation_strategy_m</title>
+<path fill="none" stroke="#ff00eb" stroke-dasharray="5,2" d="M596.22,-44.12C584.54,-47.15 571.48,-52.23 562,-60.72 533.85,-85.91 555.1,-113.63 526,-137.72 521.49,-141.45 516.51,-144.66 511.26,-147.41"/>
+<polygon fill="#ff00eb" stroke="#ff00eb" points="509.77,-144.24 502.17,-151.63 512.72,-150.59 509.77,-144.24"/>
+</g>
+<!-- module~swish_m&#45;&gt;module~kind_parameters_m -->
+<g id="program~~train_saturated_mixture_ratio~~UsesGraph_edge50" class="edge">
+<title>module~swish_m&#45;&gt;module~kind_parameters_m</title>
+<path fill="none" stroke="#ff00eb" stroke-dasharray="5,2" d="M596.22,-45.56C584.93,-48.81 572.18,-53.66 562,-60.72 541.23,-75.11 547.74,-91.84 526,-104.72 486.32,-128.21 469.87,-119 424,-123.72"/>
+<path fill="none" stroke="#ff00eb" stroke-dasharray="5,2" d="M422,-123.72C303.22,-135.94 272.15,-125.43 154,-142.72 142.11,-144.46 129.48,-146.88 117.48,-149.45"/>
+<polygon fill="#ff00eb" stroke="#ff00eb" points="116.57,-146.07 107.56,-151.65 118.08,-152.9 116.57,-146.07"/>
+</g>
+<!-- module~swish_m&#45;&gt;string_m -->
+<g id="program~~train_saturated_mixture_ratio~~UsesGraph_edge49" class="edge">
+<title>module~swish_m&#45;&gt;string_m</title>
+<path fill="none" stroke="#ff00eb" stroke-dasharray="5,2" d="M596.43,-42.23C557.79,-45.3 485.38,-49.44 424,-43.72"/>
+<path fill="none" stroke="#ff00eb" stroke-dasharray="5,2" d="M422,-43.72C302.76,-32.6 270.97,-46.04 154,-71.72 135.14,-75.86 114.79,-82.5 97.86,-88.67"/>
+<polygon fill="#ff00eb" stroke="#ff00eb" points="96.47,-85.45 88.32,-92.22 98.92,-92.01 96.47,-85.45"/>
+</g>
+<!-- module~input_output_pair_m&#45;&gt;module~kind_parameters_m -->
+<g id="program~~train_saturated_mixture_ratio~~UsesGraph_edge51" class="edge">
+<title>module~input_output_pair_m&#45;&gt;module~kind_parameters_m</title>
+<path fill="none" stroke="#ff0075" stroke-dasharray="5,2" d="M377.37,-451.79C334.12,-460.86 268.16,-467.47 220,-439.72"/>
+</g>
+<!-- module~input_output_pair_m&#45;&gt;module~tensor_m -->
+<g id="program~~train_saturated_mixture_ratio~~UsesGraph_edge52" class="edge">
+<title>module~input_output_pair_m&#45;&gt;module~tensor_m</title>
+<path fill="none" stroke="#ff0075" stroke-dasharray="5,2" d="M389.99,-427.68C354.76,-414.42 298.07,-393.09 259.95,-378.75"/>
+<polygon fill="#ff0075" stroke="#ff0075" points="260.8,-375.33 250.21,-375.08 258.34,-381.88 260.8,-375.33"/>
+</g>
+</g>
+</svg>
+</div><script>var panprogramtrain_saturated_mixture_ratioUsesGraph = svgPanZoom('#programtrain_saturated_mixture_ratioUsesGraph', {zoomEnabled: true,controlIconsEnabled: true, fit: true, center: true,}); </script><div><a type="button" class="graph-help" data-toggle="modal" href="#graph-help-text">Help</a></div><div class="modal fade" id="graph-help-text" tabindex="-1" role="dialog"><div class="modal-dialog modal-lg" role="document"><div class="modal-content"><div class="modal-header"><button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button><h4 class="modal-title" id="-graph-help-label">Graph Key</h4></div><div class="modal-body">
+    <p>Nodes of different colours represent the following: </p>
+    <?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN"
+ "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
+<!-- Generated by graphviz version 2.43.0 (0)
+ -->
+<!-- Title: Graph Key Pages: 1 -->
+<svg width="518pt" height="32pt"
+ viewBox="0.00 0.00 517.50 32.00" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+<g id="graph0" class="graph" transform="scale(1 1) rotate(0) translate(4 28)">
+<title>Graph Key</title>
+<polygon fill="white" stroke="transparent" points="-4,4 -4,-28 513.5,-28 513.5,4 -4,4"/>
+<!-- Module -->
+<g id="node1" class="node">
+<title>Module</title>
+<polygon fill="#337ab7" stroke="#337ab7" points="54,-24 0,-24 0,0 54,0 54,-24"/>
+<text text-anchor="middle" x="27" y="-9.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">Module</text>
+</g>
+<!-- Submodule -->
+<g id="node2" class="node">
+<title>Submodule</title>
+<polygon fill="#5bc0de" stroke="#5bc0de" points="145.5,-24 72.5,-24 72.5,0 145.5,0 145.5,-24"/>
+<text text-anchor="middle" x="109" y="-9.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">Submodule</text>
+</g>
+<!-- Subroutine -->
+<g id="node3" class="node">
+<title>Subroutine</title>
+<polygon fill="#d9534f" stroke="#d9534f" points="234,-24 164,-24 164,0 234,0 234,-24"/>
+<text text-anchor="middle" x="199" y="-9.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">Subroutine</text>
+</g>
+<!-- Function -->
+<g id="node4" class="node">
+<title>Function</title>
+<polygon fill="#d94e8f" stroke="#d94e8f" points="310,-24 252,-24 252,0 310,0 310,-24"/>
+<text text-anchor="middle" x="281" y="-9.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">Function</text>
+</g>
+<!-- Program -->
+<g id="node5" class="node">
+<title>Program</title>
+<polygon fill="#f0ad4e" stroke="#f0ad4e" points="386,-24 328,-24 328,0 386,0 386,-24"/>
+<text text-anchor="middle" x="357" y="-9.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">Program</text>
+</g>
+<!-- This Page&#39;s Entity -->
+<g id="node6" class="node">
+<title>This Page&#39;s Entity</title>
+<polygon fill="none" stroke="black" points="509.5,-24 404.5,-24 404.5,0 509.5,0 509.5,-24"/>
+<text text-anchor="middle" x="457" y="-9.6" font-family="Helvetica,sans-Serif" font-size="10.50">This Page&#39;s Entity</text>
+</g>
+</g>
+</svg>
+
+    
+    <p>Solid arrows point from a submodule to the (sub)module which it is
+    descended from. Dashed arrows point from a module or program unit to 
+    modules which it uses. Where possible, edges connecting nodes are given different colours to make them easier to distinguish in large graphs.
+    </p>
+    </div></div></div></div>
+      </li>
+      </ul>
+    </div>
+
+    <p>This program trains a neural network to learn the saturated mixing ratio function of ICAR.</p>
+    <br>
+    <div class="panel panel-default">
+      <div class="panel-heading">
+  <h3 class="panel-title">Calls</h3>
+      </div>
+      <div class="panel-body">
+  <div class="depgraph"><?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN"
+ "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
+<!-- Generated by graphviz version 2.43.0 (0)
+ -->
+<!-- Title: program~~train_saturated_mixture_ratio~~CallsGraph Pages: 1 -->
+<svg id="programtrain_saturated_mixture_ratioCallsGraph" width="641pt" height="899pt"
+ viewBox="0.00 0.00 641.00 899.19" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+<g id="program~~train_saturated_mixture_ratio~~CallsGraph" class="graph" transform="scale(1 1) rotate(0) translate(4 898)">
+<title>program~~train_saturated_mixture_ratio~~CallsGraph</title>
+<polygon fill="white" stroke="transparent" points="-4,4 -4,-898 639,-898 639,4 -4,4"/>
+<!-- program~train_saturated_mixture_ratio -->
+<g id="program~~train_saturated_mixture_ratio~~CallsGraph_node1" class="node">
+<title>program~train_saturated_mixture_ratio</title>
+<polygon fill="none" stroke="black" points="169,-461 0,-461 0,-437 169,-437 169,-461"/>
+<text text-anchor="middle" x="84.5" y="-446.6" font-family="Helvetica,sans-Serif" font-size="10.50">train_saturated_mixture_ratio</text>
+</g>
+<!-- cost -->
+<g id="program~~train_saturated_mixture_ratio~~CallsGraph_node2" class="node">
+<title>cost</title>
+<polygon fill="#777777" stroke="#777777" points="316.5,-894 262.5,-894 262.5,-870 316.5,-870 316.5,-894"/>
+<text text-anchor="middle" x="289.5" y="-879.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">cost</text>
+</g>
+<!-- program~train_saturated_mixture_ratio&#45;&gt;cost -->
+<g id="program~~train_saturated_mixture_ratio~~CallsGraph_edge1" class="edge">
+<title>program~train_saturated_mixture_ratio&#45;&gt;cost</title>
+<path fill="none" stroke="#ff0000" d="M85.01,-461.27C83.49,-516.61 84.94,-745.17 205,-861 217.44,-873 235.69,-878.45 251.95,-880.81"/>
+<polygon fill="#ff0000" stroke="#ff0000" points="251.95,-884.33 262.27,-881.95 252.72,-877.37 251.95,-884.33"/>
+</g>
+<!-- nodes_per_layer -->
+<g id="program~~train_saturated_mixture_ratio~~CallsGraph_node3" class="node">
+<title>nodes_per_layer</title>
+<polygon fill="#777777" stroke="#777777" points="339.5,-852 239.5,-852 239.5,-828 339.5,-828 339.5,-852"/>
+<text text-anchor="middle" x="289.5" y="-837.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">nodes_per_layer</text>
+</g>
+<!-- program~train_saturated_mixture_ratio&#45;&gt;nodes_per_layer -->
+<g id="program~~train_saturated_mixture_ratio~~CallsGraph_edge2" class="edge">
+<title>program~train_saturated_mixture_ratio&#45;&gt;nodes_per_layer</title>
+<path fill="none" stroke="#ff0000" d="M85.47,-461.08C86.03,-512.64 95.35,-716.36 205,-819 211.97,-825.52 220.65,-830.09 229.76,-833.29"/>
+<polygon fill="#ff0000" stroke="#ff0000" points="228.77,-836.65 239.35,-836.14 230.77,-829.94 228.77,-836.65"/>
+</g>
+<!-- mini_batches -->
+<g id="program~~train_saturated_mixture_ratio~~CallsGraph_node4" class="node">
+<title>mini_batches</title>
+<polygon fill="#777777" stroke="#777777" points="331,-810 248,-810 248,-786 331,-786 331,-810"/>
+<text text-anchor="middle" x="289.5" y="-795.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">mini_batches</text>
+</g>
+<!-- program~train_saturated_mixture_ratio&#45;&gt;mini_batches -->
+<g id="program~~train_saturated_mixture_ratio~~CallsGraph_edge3" class="edge">
+<title>program~train_saturated_mixture_ratio&#45;&gt;mini_batches</title>
+<path fill="none" stroke="#ff0000" d="M86.03,-461.01C88.82,-508.84 105.77,-687.49 205,-777 214.11,-785.21 225.95,-790.32 237.84,-793.47"/>
+<polygon fill="#ff0000" stroke="#ff0000" points="237.26,-796.92 247.78,-795.67 238.78,-790.09 237.26,-796.92"/>
+</g>
+<!-- proc~perturbed_identity_network~2 -->
+<g id="program~~train_saturated_mixture_ratio~~CallsGraph_node5" class="node">
+<title>proc~perturbed_identity_network~2</title>
+<g id="a_program~~train_saturated_mixture_ratio~~CallsGraph_node5"><a xlink:href=".././proc/perturbed_identity_network~2.html" xlink:title="perturbed_identity_network">
+<polygon fill="#d94e8f" stroke="#d94e8f" points="369,-768 210,-768 210,-744 369,-744 369,-768"/>
+<text text-anchor="middle" x="289.5" y="-753.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">perturbed_identity_network</text>
+</a>
+</g>
+</g>
+<!-- program~train_saturated_mixture_ratio&#45;&gt;proc~perturbed_identity_network~2 -->
+<g id="program~~train_saturated_mixture_ratio~~CallsGraph_edge4" class="edge">
+<title>program~train_saturated_mixture_ratio&#45;&gt;proc~perturbed_identity_network~2</title>
+<path fill="none" stroke="#ff0000" d="M87.03,-461.2C93.14,-504.58 119.68,-652.83 205,-730 208.91,-733.54 213.3,-736.59 217.96,-739.23"/>
+<polygon fill="#ff0000" stroke="#ff0000" points="216.7,-742.51 227.21,-743.82 219.8,-736.24 216.7,-742.51"/>
+</g>
+<!-- output_sizes -->
+<g id="program~~train_saturated_mixture_ratio~~CallsGraph_node6" class="node">
+<title>output_sizes</title>
+<polygon fill="#777777" stroke="#777777" points="328.5,-608 250.5,-608 250.5,-584 328.5,-584 328.5,-608"/>
+<text text-anchor="middle" x="289.5" y="-593.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">output_sizes</text>
+</g>
+<!-- program~train_saturated_mixture_ratio&#45;&gt;output_sizes -->
+<g id="program~~train_saturated_mixture_ratio~~CallsGraph_edge5" class="edge">
+<title>program~train_saturated_mixture_ratio&#45;&gt;output_sizes</title>
+<path fill="none" stroke="#ff0000" d="M93.45,-461.22C110.6,-486.57 153.73,-545.02 205,-575 215.69,-581.25 228.2,-585.65 240.23,-588.75"/>
+<polygon fill="#ff0000" stroke="#ff0000" points="239.65,-592.21 250.18,-591.06 241.23,-585.39 239.65,-592.21"/>
+</g>
+<!-- desired_outputs -->
+<g id="program~~train_saturated_mixture_ratio~~CallsGraph_node7" class="node">
+<title>desired_outputs</title>
+<polygon fill="#777777" stroke="#777777" points="338,-566 241,-566 241,-542 338,-542 338,-566"/>
+<text text-anchor="middle" x="289.5" y="-551.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">desired_outputs</text>
+</g>
+<!-- program~train_saturated_mixture_ratio&#45;&gt;desired_outputs -->
+<g id="program~~train_saturated_mixture_ratio~~CallsGraph_edge6" class="edge">
+<title>program~train_saturated_mixture_ratio&#45;&gt;desired_outputs</title>
+<path fill="none" stroke="#ff0000" d="M99.16,-461.18C120.34,-479.43 163.04,-513.78 205,-533 213.1,-536.71 221.95,-539.83 230.76,-542.43"/>
+<polygon fill="#ff0000" stroke="#ff0000" points="230.09,-545.88 240.66,-545.16 231.95,-539.13 230.09,-545.88"/>
+</g>
+<!-- file_t -->
+<g id="program~~train_saturated_mixture_ratio~~CallsGraph_node8" class="node">
+<title>file_t</title>
+<polygon fill="#777777" stroke="#777777" points="504.5,-667 450.5,-667 450.5,-643 504.5,-643 504.5,-667"/>
+<text text-anchor="middle" x="477.5" y="-652.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">file_t</text>
+</g>
+<!-- program~train_saturated_mixture_ratio&#45;&gt;file_t -->
+<g id="program~~train_saturated_mixture_ratio~~CallsGraph_edge7" class="edge">
+<title>program~train_saturated_mixture_ratio&#45;&gt;file_t</title>
+<path fill="none" stroke="#ff0000" d="M90.18,-461.34C103,-493.27 141.98,-578.73 205,-617 243.82,-640.58 375.69,-650.12 440.26,-653.45"/>
+<polygon fill="#ff0000" stroke="#ff0000" points="440.24,-656.95 450.4,-653.95 440.58,-649.96 440.24,-656.95"/>
+</g>
+<!-- proc~print_diagnostics -->
+<g id="program~~train_saturated_mixture_ratio~~CallsGraph_node9" class="node">
+<title>proc~print_diagnostics</title>
+<g id="a_program~~train_saturated_mixture_ratio~~CallsGraph_node9"><a xlink:href=".././proc/print_diagnostics.html" xlink:title="print_diagnostics">
+<polygon fill="#d9534f" stroke="#d9534f" points="341,-524 238,-524 238,-500 341,-500 341,-524"/>
+<text text-anchor="middle" x="289.5" y="-509.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">print_diagnostics</text>
+</a>
+</g>
+</g>
+<!-- program~train_saturated_mixture_ratio&#45;&gt;proc~print_diagnostics -->
+<g id="program~~train_saturated_mixture_ratio~~CallsGraph_edge8" class="edge">
+<title>program~train_saturated_mixture_ratio&#45;&gt;proc~print_diagnostics</title>
+<path fill="none" stroke="#ff0000" d="M117.19,-461.03C141.13,-469.9 174.89,-481.94 205,-491 212.45,-493.24 220.32,-495.44 228.13,-497.52"/>
+<polygon fill="#ff0000" stroke="#ff0000" points="227.4,-500.94 237.96,-500.08 229.17,-494.17 227.4,-500.94"/>
+</g>
+<!-- random_numbers -->
+<g id="program~~train_saturated_mixture_ratio~~CallsGraph_node10" class="node">
+<title>random_numbers</title>
+<polygon fill="#777777" stroke="#777777" points="343,-482 236,-482 236,-458 343,-458 343,-482"/>
+<text text-anchor="middle" x="289.5" y="-467.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">random_numbers</text>
+</g>
+<!-- program~train_saturated_mixture_ratio&#45;&gt;random_numbers -->
+<g id="program~~train_saturated_mixture_ratio~~CallsGraph_edge9" class="edge">
+<title>program~train_saturated_mixture_ratio&#45;&gt;random_numbers</title>
+<path fill="none" stroke="#ff0000" d="M169.24,-457.66C188.05,-459.61 207.69,-461.64 225.49,-463.48"/>
+<polygon fill="#ff0000" stroke="#ff0000" points="225.42,-466.99 235.73,-464.54 226.14,-460.03 225.42,-466.99"/>
+</g>
+<!-- input_output_pairs -->
+<g id="program~~train_saturated_mixture_ratio~~CallsGraph_node11" class="node">
+<title>input_output_pairs</title>
+<polygon fill="#777777" stroke="#777777" points="345,-440 234,-440 234,-416 345,-416 345,-440"/>
+<text text-anchor="middle" x="289.5" y="-425.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">input_output_pairs</text>
+</g>
+<!-- program~train_saturated_mixture_ratio&#45;&gt;input_output_pairs -->
+<g id="program~~train_saturated_mixture_ratio~~CallsGraph_edge10" class="edge">
+<title>program~train_saturated_mixture_ratio&#45;&gt;input_output_pairs</title>
+<path fill="none" stroke="#ff0000" d="M169.24,-440.34C187.5,-438.45 206.55,-436.48 223.93,-434.68"/>
+<polygon fill="#ff0000" stroke="#ff0000" points="224.36,-438.15 233.95,-433.64 223.64,-431.19 224.36,-438.15"/>
+</g>
+<!-- bin_t -->
+<g id="program~~train_saturated_mixture_ratio~~CallsGraph_node12" class="node">
+<title>bin_t</title>
+<polygon fill="#777777" stroke="#777777" points="316.5,-398 262.5,-398 262.5,-374 316.5,-374 316.5,-398"/>
+<text text-anchor="middle" x="289.5" y="-383.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">bin_t</text>
+</g>
+<!-- program~train_saturated_mixture_ratio&#45;&gt;bin_t -->
+<g id="program~~train_saturated_mixture_ratio~~CallsGraph_edge11" class="edge">
+<title>program~train_saturated_mixture_ratio&#45;&gt;bin_t</title>
+<path fill="none" stroke="#ff0000" d="M117.19,-436.97C141.13,-428.1 174.89,-416.06 205,-407 220.47,-402.35 237.76,-397.88 252.57,-394.27"/>
+<polygon fill="#ff0000" stroke="#ff0000" points="253.47,-397.66 262.38,-391.92 251.84,-390.85 253.47,-397.66"/>
+</g>
+<!-- proc~open_plot_file_for_appending -->
+<g id="program~~train_saturated_mixture_ratio~~CallsGraph_node13" class="node">
+<title>proc~open_plot_file_for_appending</title>
+<g id="a_program~~train_saturated_mixture_ratio~~CallsGraph_node13"><a xlink:href=".././proc/open_plot_file_for_appending.html" xlink:title="open_plot_file_for_appending">
+<polygon fill="#d9534f" stroke="#d9534f" points="374,-688 205,-688 205,-664 374,-664 374,-688"/>
+<text text-anchor="middle" x="289.5" y="-673.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">open_plot_file_for_appending</text>
+</a>
+</g>
+</g>
+<!-- program~train_saturated_mixture_ratio&#45;&gt;proc~open_plot_file_for_appending -->
+<g id="program~~train_saturated_mixture_ratio~~CallsGraph_edge12" class="edge">
+<title>program~train_saturated_mixture_ratio&#45;&gt;proc~open_plot_file_for_appending</title>
+<path fill="none" stroke="#ff0000" d="M89.21,-461.02C100.54,-495.76 138.08,-597.18 205,-650 209.73,-653.74 215.01,-656.94 220.54,-659.68"/>
+<polygon fill="#ff0000" stroke="#ff0000" points="219.49,-663.04 230.05,-663.88 222.32,-656.64 219.49,-663.04"/>
+</g>
+<!-- intrinsic_array_t -->
+<g id="program~~train_saturated_mixture_ratio~~CallsGraph_node14" class="node">
+<title>intrinsic_array_t</title>
+<polygon fill="#777777" stroke="#777777" points="338,-356 241,-356 241,-332 338,-332 338,-356"/>
+<text text-anchor="middle" x="289.5" y="-341.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">intrinsic_array_t</text>
+</g>
+<!-- program~train_saturated_mixture_ratio&#45;&gt;intrinsic_array_t -->
+<g id="program~~train_saturated_mixture_ratio~~CallsGraph_edge13" class="edge">
+<title>program~train_saturated_mixture_ratio&#45;&gt;intrinsic_array_t</title>
+<path fill="none" stroke="#ff0000" d="M99.16,-436.82C120.34,-418.57 163.04,-384.22 205,-365 213.1,-361.29 221.95,-358.17 230.76,-355.57"/>
+<polygon fill="#ff0000" stroke="#ff0000" points="231.95,-358.87 240.66,-352.84 230.09,-352.12 231.95,-358.87"/>
+</g>
+<!-- bins -->
+<g id="program~~train_saturated_mixture_ratio~~CallsGraph_node15" class="node">
+<title>bins</title>
+<polygon fill="#777777" stroke="#777777" points="316.5,-314 262.5,-314 262.5,-290 316.5,-290 316.5,-314"/>
+<text text-anchor="middle" x="289.5" y="-299.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">bins</text>
+</g>
+<!-- program~train_saturated_mixture_ratio&#45;&gt;bins -->
+<g id="program~~train_saturated_mixture_ratio~~CallsGraph_edge14" class="edge">
+<title>program~train_saturated_mixture_ratio&#45;&gt;bins</title>
+<path fill="none" stroke="#ff0000" d="M93.45,-436.78C110.6,-411.43 153.73,-352.98 205,-323 219.26,-314.66 236.77,-309.61 252.06,-306.56"/>
+<polygon fill="#ff0000" stroke="#ff0000" points="252.99,-309.95 262.23,-304.75 251.77,-303.06 252.99,-309.95"/>
+</g>
+<!-- assert -->
+<g id="program~~train_saturated_mixture_ratio~~CallsGraph_node16" class="node">
+<title>assert</title>
+<polygon fill="#777777" stroke="#777777" points="635,-232 581,-232 581,-208 635,-208 635,-232"/>
+<text text-anchor="middle" x="608" y="-217.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">assert</text>
+</g>
+<!-- program~train_saturated_mixture_ratio&#45;&gt;assert -->
+<g id="program~~train_saturated_mixture_ratio~~CallsGraph_edge15" class="edge">
+<title>program~train_saturated_mixture_ratio&#45;&gt;assert</title>
+<path fill="none" stroke="#ff0000" d="M88.1,-436.91C96.84,-399.54 129.02,-285.62 205,-239 265.53,-201.86 483.39,-211.72 570.57,-217.36"/>
+<polygon fill="#ff0000" stroke="#ff0000" points="570.56,-220.87 580.77,-218.04 571.03,-213.88 570.56,-220.87"/>
+</g>
+<!-- proc~y~3 -->
+<g id="program~~train_saturated_mixture_ratio~~CallsGraph_node17" class="node">
+<title>proc~y~3</title>
+<g id="a_program~~train_saturated_mixture_ratio~~CallsGraph_node17"><a xlink:href=".././proc/y~3.html" xlink:title="y">
+<polygon fill="#d94e8f" stroke="#d94e8f" points="316.5,-272 262.5,-272 262.5,-248 316.5,-248 316.5,-272"/>
+<text text-anchor="middle" x="289.5" y="-257.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">y</text>
+</a>
+</g>
+</g>
+<!-- program~train_saturated_mixture_ratio&#45;&gt;proc~y~3 -->
+<g id="program~~train_saturated_mixture_ratio~~CallsGraph_edge16" class="edge">
+<title>program~train_saturated_mixture_ratio&#45;&gt;proc~y~3</title>
+<path fill="none" stroke="#ff0000" d="M90.63,-436.58C104.23,-405.22 144.42,-322.4 205,-281 218.97,-271.45 236.91,-266.24 252.58,-263.4"/>
+<polygon fill="#ff0000" stroke="#ff0000" points="253.15,-266.86 262.49,-261.85 252.07,-259.94 253.15,-266.86"/>
+</g>
+<!-- random_init -->
+<g id="program~~train_saturated_mixture_ratio~~CallsGraph_node18" class="node">
+<title>random_init</title>
+<polygon fill="#777777" stroke="#777777" points="327.5,-150 251.5,-150 251.5,-126 327.5,-126 327.5,-150"/>
+<text text-anchor="middle" x="289.5" y="-135.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">random_init</text>
+</g>
+<!-- program~train_saturated_mixture_ratio&#45;&gt;random_init -->
+<g id="program~~train_saturated_mixture_ratio~~CallsGraph_edge17" class="edge">
+<title>program~train_saturated_mixture_ratio&#45;&gt;random_init</title>
+<path fill="none" stroke="#ff0000" d="M86.68,-436.86C91.69,-392.35 115.22,-236.66 205,-159 215.18,-150.19 228.53,-144.98 241.56,-141.93"/>
+<polygon fill="#ff0000" stroke="#ff0000" points="242.27,-145.36 251.4,-139.99 240.92,-138.49 242.27,-145.36"/>
+</g>
+<!-- interface~shuffle -->
+<g id="program~~train_saturated_mixture_ratio~~CallsGraph_node19" class="node">
+<title>interface~shuffle</title>
+<g id="a_program~~train_saturated_mixture_ratio~~CallsGraph_node19"><a xlink:href=".././interface/shuffle.html" xlink:title="shuffle">
+<polygon fill="#a7506f" stroke="#a7506f" points="316.5,-192 262.5,-192 262.5,-168 316.5,-168 316.5,-192"/>
+<text text-anchor="middle" x="289.5" y="-177.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">shuffle</text>
+</a>
+</g>
+</g>
+<!-- program~train_saturated_mixture_ratio&#45;&gt;interface~shuffle -->
+<g id="program~~train_saturated_mixture_ratio~~CallsGraph_edge18" class="edge">
+<title>program~train_saturated_mixture_ratio&#45;&gt;interface~shuffle</title>
+<path fill="none" stroke="#ff0000" d="M87.92,-436.81C96.41,-397.27 128.56,-271.41 205,-206 218.15,-194.74 236.16,-188.36 252.08,-184.73"/>
+<polygon fill="#ff0000" stroke="#ff0000" points="253.04,-188.11 262.17,-182.73 251.68,-181.25 253.04,-188.11"/>
+</g>
+<!-- string_t -->
+<g id="program~~train_saturated_mixture_ratio~~CallsGraph_node20" class="node">
+<title>string_t</title>
+<polygon fill="#777777" stroke="#777777" points="504.5,-727 450.5,-727 450.5,-703 504.5,-703 504.5,-727"/>
+<text text-anchor="middle" x="477.5" y="-712.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">string_t</text>
+</g>
+<!-- program~train_saturated_mixture_ratio&#45;&gt;string_t -->
+<g id="program~~train_saturated_mixture_ratio~~CallsGraph_edge19" class="edge">
+<title>program~train_saturated_mixture_ratio&#45;&gt;string_t</title>
+<path fill="none" stroke="#ff0000" d="M87.07,-461.04C93.19,-502.39 119.45,-639.22 205,-697 276.53,-745.31 384.27,-733.83 440.08,-723.29"/>
+<polygon fill="#ff0000" stroke="#ff0000" points="441.08,-726.67 450.2,-721.29 439.71,-719.8 441.08,-726.67"/>
+</g>
+<!-- inputs -->
+<g id="program~~train_saturated_mixture_ratio~~CallsGraph_node21" class="node">
+<title>inputs</title>
+<polygon fill="#777777" stroke="#777777" points="316.5,-108 262.5,-108 262.5,-84 316.5,-84 316.5,-108"/>
+<text text-anchor="middle" x="289.5" y="-93.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">inputs</text>
+</g>
+<!-- program~train_saturated_mixture_ratio&#45;&gt;inputs -->
+<g id="program~~train_saturated_mixture_ratio~~CallsGraph_edge20" class="edge">
+<title>program~train_saturated_mixture_ratio&#45;&gt;inputs</title>
+<path fill="none" stroke="#ff0000" d="M85.98,-436.85C88.57,-388.45 104.87,-207.66 205,-117 217.73,-105.48 235.84,-100.07 251.94,-97.6"/>
+<polygon fill="#ff0000" stroke="#ff0000" points="252.65,-101.04 262.16,-96.38 251.81,-94.09 252.65,-101.04"/>
+</g>
+<!-- proc~output~2 -->
+<g id="program~~train_saturated_mixture_ratio~~CallsGraph_node22" class="node">
+<title>proc~output~2</title>
+<g id="a_program~~train_saturated_mixture_ratio~~CallsGraph_node22"><a xlink:href=".././proc/output~2.html" xlink:title="output">
+<polygon fill="#d9534f" stroke="#d9534f" points="316.5,-66 262.5,-66 262.5,-42 316.5,-42 316.5,-66"/>
+<text text-anchor="middle" x="289.5" y="-51.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">output</text>
+</a>
+</g>
+</g>
+<!-- program~train_saturated_mixture_ratio&#45;&gt;proc~output~2 -->
+<g id="program~~train_saturated_mixture_ratio~~CallsGraph_edge21" class="edge">
+<title>program~train_saturated_mixture_ratio&#45;&gt;proc~output~2</title>
+<path fill="none" stroke="#ff0000" d="M85.42,-436.8C85.79,-384.69 94.44,-178.82 205,-75 217.6,-63.16 235.86,-57.74 252.1,-55.34"/>
+<polygon fill="#ff0000" stroke="#ff0000" points="252.85,-58.78 262.39,-54.17 252.06,-51.83 252.85,-58.78"/>
+</g>
+<!-- network_outputs -->
+<g id="program~~train_saturated_mixture_ratio~~CallsGraph_node23" class="node">
+<title>network_outputs</title>
+<polygon fill="#777777" stroke="#777777" points="339.5,-24 239.5,-24 239.5,0 339.5,0 339.5,-24"/>
+<text text-anchor="middle" x="289.5" y="-9.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">network_outputs</text>
+</g>
+<!-- program~train_saturated_mixture_ratio&#45;&gt;network_outputs -->
+<g id="program~~train_saturated_mixture_ratio~~CallsGraph_edge22" class="edge">
+<title>program~train_saturated_mixture_ratio&#45;&gt;network_outputs</title>
+<path fill="none" stroke="#ff0000" d="M84.97,-436.98C83.26,-381.79 83.74,-150.28 205,-33 211.86,-26.37 220.49,-21.74 229.58,-18.52"/>
+<polygon fill="#ff0000" stroke="#ff0000" points="230.58,-21.87 239.16,-15.66 228.58,-15.17 230.58,-21.87"/>
+</g>
+<!-- proc~perturbed_identity_network~2&#45;&gt;string_t -->
+<g id="program~~train_saturated_mixture_ratio~~CallsGraph_edge24" class="edge">
+<title>proc~perturbed_identity_network~2&#45;&gt;string_t</title>
+<path fill="none" stroke="#ffd000" d="M345.05,-743.98C375.85,-737.19 413.47,-728.89 440.56,-722.92"/>
+<polygon fill="#ffd000" stroke="#ffd000" points="441.38,-726.33 450.39,-720.75 439.88,-719.49 441.38,-726.33"/>
+</g>
+<!-- proc~e~2 -->
+<g id="program~~train_saturated_mixture_ratio~~CallsGraph_node24" class="node">
+<title>proc~e~2</title>
+<g id="a_program~~train_saturated_mixture_ratio~~CallsGraph_node24"><a xlink:href=".././proc/e~2.html" xlink:title="e">
+<polygon fill="#d94e8f" stroke="#d94e8f" points="504.5,-769 450.5,-769 450.5,-745 504.5,-745 504.5,-769"/>
+<text text-anchor="middle" x="477.5" y="-754.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">e</text>
+</a>
+</g>
+</g>
+<!-- proc~perturbed_identity_network~2&#45;&gt;proc~e~2 -->
+<g id="program~~train_saturated_mixture_ratio~~CallsGraph_edge23" class="edge">
+<title>proc~perturbed_identity_network~2&#45;&gt;proc~e~2</title>
+<path fill="none" stroke="#ffd000" d="M369.11,-756.42C393.76,-756.56 419.8,-756.7 440.06,-756.8"/>
+<polygon fill="#ffd000" stroke="#ffd000" points="440.07,-760.3 450.09,-756.86 440.11,-753.3 440.07,-760.3"/>
+</g>
+<!-- proc~open_plot_file_for_appending&#45;&gt;file_t -->
+<g id="program~~train_saturated_mixture_ratio~~CallsGraph_edge25" class="edge">
+<title>proc~open_plot_file_for_appending&#45;&gt;file_t</title>
+<path fill="none" stroke="#00ffff" d="M374.25,-666.54C397.52,-663.92 421.57,-661.2 440.49,-659.07"/>
+<polygon fill="#00ffff" stroke="#00ffff" points="440.9,-662.54 450.44,-657.94 440.11,-655.59 440.9,-662.54"/>
+</g>
+<!-- proc~open_plot_file_for_appending&#45;&gt;string_t -->
+<g id="program~~train_saturated_mixture_ratio~~CallsGraph_edge26" class="edge">
+<title>proc~open_plot_file_for_appending&#45;&gt;string_t</title>
+<path fill="none" stroke="#00ffff" d="M347.82,-688.02C377.98,-694.34 414.03,-701.9 440.29,-707.41"/>
+<polygon fill="#00ffff" stroke="#00ffff" points="439.69,-710.86 450.2,-709.48 441.13,-704.01 439.69,-710.86"/>
+</g>
+<!-- proc~y~3&#45;&gt;assert -->
+<g id="program~~train_saturated_mixture_ratio~~CallsGraph_edge27" class="edge">
+<title>proc~y~3&#45;&gt;assert</title>
+<path fill="none" stroke="#1700ff" d="M316.57,-262.41C333.9,-264.97 356.59,-270.22 374,-281 394.9,-293.94 387.66,-312.73 410,-323 464.51,-348.07 492.77,-352.52 545,-323 575.68,-305.66 592.87,-266.37 601.01,-241.64"/>
+<polygon fill="#1700ff" stroke="#1700ff" points="604.36,-242.63 603.95,-232.04 597.67,-240.57 604.36,-242.63"/>
+</g>
+<!-- x -->
+<g id="program~~train_saturated_mixture_ratio~~CallsGraph_node25" class="node">
+<title>x</title>
+<polygon fill="#777777" stroke="#777777" points="504.5,-314 450.5,-314 450.5,-290 504.5,-290 504.5,-314"/>
+<text text-anchor="middle" x="477.5" y="-299.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">x</text>
+</g>
+<!-- proc~y~3&#45;&gt;x -->
+<g id="program~~train_saturated_mixture_ratio~~CallsGraph_edge28" class="edge">
+<title>proc~y~3&#45;&gt;x</title>
+<path fill="none" stroke="#1700ff" d="M316.75,-265.93C349.02,-273.21 403.94,-285.61 440.22,-293.81"/>
+<polygon fill="#1700ff" stroke="#1700ff" points="439.85,-297.31 450.38,-296.1 441.4,-290.48 439.85,-297.31"/>
+</g>
+<!-- proc~saturated_mixing_ratio -->
+<g id="program~~train_saturated_mixture_ratio~~CallsGraph_node27" class="node">
+<title>proc~saturated_mixing_ratio</title>
+<g id="a_program~~train_saturated_mixture_ratio~~CallsGraph_node27"><a xlink:href=".././proc/saturated_mixing_ratio.html" xlink:title="saturated_mixing_ratio">
+<polygon fill="#d94e8f" stroke="#d94e8f" points="545,-272 410,-272 410,-248 545,-248 545,-272"/>
+<text text-anchor="middle" x="477.5" y="-257.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">saturated_mixing_ratio</text>
+</a>
+</g>
+</g>
+<!-- proc~y~3&#45;&gt;proc~saturated_mixing_ratio -->
+<g id="program~~train_saturated_mixture_ratio~~CallsGraph_edge29" class="edge">
+<title>proc~y~3&#45;&gt;proc~saturated_mixing_ratio</title>
+<path fill="none" stroke="#1700ff" d="M316.75,-260C338.34,-260 370.07,-260 399.58,-260"/>
+<polygon fill="#1700ff" stroke="#1700ff" points="399.9,-263.5 409.9,-260 399.9,-256.5 399.9,-263.5"/>
+</g>
+<!-- proc~shuffle -->
+<g id="program~~train_saturated_mixture_ratio~~CallsGraph_node26" class="node">
+<title>proc~shuffle</title>
+<g id="a_program~~train_saturated_mixture_ratio~~CallsGraph_node26"><a xlink:href=".././proc/shuffle.html" xlink:title="shuffle">
+<polygon fill="#d9534f" stroke="#d9534f" points="504.5,-192 450.5,-192 450.5,-168 504.5,-168 504.5,-192"/>
+<text text-anchor="middle" x="477.5" y="-177.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">shuffle</text>
+</a>
+</g>
+</g>
+<!-- interface~shuffle&#45;&gt;proc~shuffle -->
+<g id="program~~train_saturated_mixture_ratio~~CallsGraph_edge30" class="edge">
+<title>interface~shuffle&#45;&gt;proc~shuffle</title>
+<path fill="none" stroke="#a200ff" stroke-dasharray="5,2" d="M316.75,-180C349.02,-180 403.94,-180 440.22,-180"/>
+<polygon fill="#a200ff" stroke="#a200ff" points="440.38,-183.5 450.38,-180 440.38,-176.5 440.38,-183.5"/>
+</g>
+<!-- proc~shuffle&#45;&gt;assert -->
+<g id="program~~train_saturated_mixture_ratio~~CallsGraph_edge31" class="edge">
+<title>proc~shuffle&#45;&gt;assert</title>
+<path fill="none" stroke="#00ffff" d="M504.5,-188.09C523.62,-194.05 549.85,-202.21 570.98,-208.79"/>
+<polygon fill="#00ffff" stroke="#00ffff" points="570.01,-212.15 580.59,-211.78 572.09,-205.47 570.01,-212.15"/>
+</g>
+</g>
+</svg>
+</div><script>var panprogramtrain_saturated_mixture_ratioCallsGraph = svgPanZoom('#programtrain_saturated_mixture_ratioCallsGraph', {zoomEnabled: true,controlIconsEnabled: true, fit: true, center: true,}); </script><div><a type="button" class="graph-help" data-toggle="modal" href="#graph-help-text">Help</a></div><div class="modal fade" id="graph-help-text" tabindex="-1" role="dialog"><div class="modal-dialog modal-lg" role="document"><div class="modal-content"><div class="modal-header"><button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button><h4 class="modal-title" id="-graph-help-label">Graph Key</h4></div><div class="modal-body">
+    <p>Nodes of different colours represent the following: </p>
+    <?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN"
+ "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
+<!-- Generated by graphviz version 2.43.0 (0)
+ -->
+<!-- Title: Graph Key Pages: 1 -->
+<svg width="597pt" height="32pt"
+ viewBox="0.00 0.00 596.50 32.00" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+<g id="graph0" class="graph" transform="scale(1 1) rotate(0) translate(4 28)">
+<title>Graph Key</title>
+<polygon fill="white" stroke="transparent" points="-4,4 -4,-28 592.5,-28 592.5,4 -4,4"/>
+<!-- Subroutine -->
+<g id="node1" class="node">
+<title>Subroutine</title>
+<polygon fill="#d9534f" stroke="#d9534f" points="70,-24 0,-24 0,0 70,0 70,-24"/>
+<text text-anchor="middle" x="35" y="-9.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">Subroutine</text>
+</g>
+<!-- Function -->
+<g id="node2" class="node">
+<title>Function</title>
+<polygon fill="#d94e8f" stroke="#d94e8f" points="146,-24 88,-24 88,0 146,0 146,-24"/>
+<text text-anchor="middle" x="117" y="-9.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">Function</text>
+</g>
+<!-- Interface -->
+<g id="node3" class="node">
+<title>Interface</title>
+<polygon fill="#a7506f" stroke="#a7506f" points="225.5,-24 164.5,-24 164.5,0 225.5,0 225.5,-24"/>
+<text text-anchor="middle" x="195" y="-9.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">Interface</text>
+</g>
+<!-- Unknown Procedure Type -->
+<g id="node4" class="node">
+<title>Unknown Procedure Type</title>
+<polygon fill="#777777" stroke="#777777" points="388.5,-24 243.5,-24 243.5,0 388.5,0 388.5,-24"/>
+<text text-anchor="middle" x="316" y="-9.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">Unknown Procedure Type</text>
+</g>
+<!-- Program -->
+<g id="node5" class="node">
+<title>Program</title>
+<polygon fill="#f0ad4e" stroke="#f0ad4e" points="465,-24 407,-24 407,0 465,0 465,-24"/>
+<text text-anchor="middle" x="436" y="-9.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">Program</text>
+</g>
+<!-- This Page&#39;s Entity -->
+<g id="node6" class="node">
+<title>This Page&#39;s Entity</title>
+<polygon fill="none" stroke="black" points="588.5,-24 483.5,-24 483.5,0 588.5,0 588.5,-24"/>
+<text text-anchor="middle" x="536" y="-9.6" font-family="Helvetica,sans-Serif" font-size="10.50">This Page&#39;s Entity</text>
+</g>
+</g>
+</svg>
+
+    
+    <p>Solid arrows point from a procedure to one which it calls. Dashed 
+    arrows point from an interface to procedures which implement that interface.
+    This could include the module procedures in a generic interface or the
+    implementation in a submodule of an interface in a parent module. Where possible, edges connecting nodes are given different colours to make them easier to distinguish in large graphs.
+    </p>
+    </div></div></div></div>
+      </div>
+    </div>
+<br>
+     <section class="visible-xs visible-sm hidden-md">
+       <h3>Contents</h3>
+ 
+<div class="panel panel-primary">
+  <div class="panel-heading text-left"><h3 class="panel-title"><a data-toggle="collapse" href="#vars-1">Variables</a></h3></div>
+  <div id="vars-1" class="panel-collapse collapse">
+    <div class="list-group">
+      <a class="list-group-item" href="../program/train_saturated_mixture_ratio.html#variable-clock_rate">clock_rate</a>
+      <a class="list-group-item" href="../program/train_saturated_mixture_ratio.html#variable-command_line~2">command_line</a>
+      <a class="list-group-item" href="../program/train_saturated_mixture_ratio.html#variable-counter_end">counter_end</a>
+      <a class="list-group-item" href="../program/train_saturated_mixture_ratio.html#variable-counter_start">counter_start</a>
+      <a class="list-group-item" href="../program/train_saturated_mixture_ratio.html#variable-network_file">network_file</a>
+    </div>
+  </div>
+</div>
+<div class="panel panel-primary">
+  <div class="panel-heading text-left"><h3 class="panel-title"><a data-toggle="collapse" href="#funcs-1">Functions</a></h3></div>
+  <div id="funcs-1" class="panel-collapse collapse">
+    <div class="list-group">
+      <a class="list-group-item" href="../program/train_saturated_mixture_ratio.html#proc-e~2">e</a>
+      <a class="list-group-item" href="../program/train_saturated_mixture_ratio.html#proc-perturbed_identity_network~2">perturbed_identity_network</a>
+    </div>
+  </div>
+</div>
+<div class="panel panel-primary">
+  <div class="panel-heading text-left"><h3 class="panel-title"><a data-toggle="collapse" href="#subs-1">Subroutines</a></h3></div>
+  <div class="list-group">
+    <div id="subs-1" class="panel-collapse collapse">
+      <a class="list-group-item" href="../program/train_saturated_mixture_ratio.html#proc-open_plot_file_for_appending">open_plot_file_for_appending</a>
+      <a class="list-group-item" href="../program/train_saturated_mixture_ratio.html#proc-output~2">output</a>
+      <a class="list-group-item" href="../program/train_saturated_mixture_ratio.html#proc-print_diagnostics">print_diagnostics</a>
+    </div>
+  </div>
+</div>
+
+     </section>
+     <br class="visible-xs visible-sm hidden-md">
+
+
+    <section>
+    <h2>Variables</h2>
+    <table class="table table-striped varlist">
+<thead><tr><th>Type</th><th>Attributes</th><th></th><th>Name</th><th></th><th>Initial</th><th></th></thead>
+<tbody>
+<tr>
+  <td><span class="anchor" id="variable-clock_rate"></span>integer(kind=int64)</td>
+  <td></td><td>::</td>
+  <td><strong>clock_rate</strong></td><td></td><td></td><td></td>
+</tr>
+<tr>
+  <td><span class="anchor" id="variable-command_line~2"></span>type(command_line_t)</td>
+  <td></td><td>::</td>
+  <td><strong>command_line</strong></td><td></td><td></td><td></td>
+</tr>
+<tr>
+  <td><span class="anchor" id="variable-counter_end"></span>integer(kind=int64)</td>
+  <td></td><td>::</td>
+  <td><strong>counter_end</strong></td><td></td><td></td><td></td>
+</tr>
+<tr>
+  <td><span class="anchor" id="variable-counter_start"></span>integer(kind=int64)</td>
+  <td></td><td>::</td>
+  <td><strong>counter_start</strong></td><td></td><td></td><td></td>
+</tr>
+<tr>
+  <td><span class="anchor" id="variable-network_file"></span>type(string_t)</td>
+  <td></td><td>::</td>
+  <td><strong>network_file</strong></td><td></td><td></td><td></td>
+</tr>
+</tbody>
+</table>
+
+    </section>
+    <br>
+    
+    
+    
+
+    
+ 
+    <section>
+    <h2>Functions</h2>
+      <div class="panel panel-default">
+  <div class="panel-heading codesum"><span class="anchor" id="proc-e~2"></span><h3>pure function <a href='../proc/e~2.html'>e</a>(j, n) result(unit_vector)</h3></div>
+  <div class="panel-body">
+           
+<h4>Arguments</h4>      <table class="table table-striped varlist">
+<thead><tr><th>Type</th><th>Intent</th><th>Optional</th><th>Attributes</th><th></th><th>Name</th><th></th></thead>
+<tbody>
+<tr>
+  <td><span class="anchor" ></span>integer,</td>
+<td>intent(in)</td>
+  <td></td>  <td></td><td>::</td>
+  <td><strong>j</strong></td><td></td>
+</tr>
+<tr>
+  <td><span class="anchor" ></span>integer,</td>
+<td>intent(in)</td>
+  <td></td>  <td></td><td>::</td>
+  <td><strong>n</strong></td><td></td>
+</tr>
+</tbody>
+</table>
+
+<h4>Return Value <small>real,allocatable, (:)</small></h4>  
+
+  </div>
+  </div>
+
+      <div class="panel panel-default">
+  <div class="panel-heading codesum"><span class="anchor" id="proc-perturbed_identity_network~2"></span><h3>function <a href='../proc/perturbed_identity_network~2.html'>perturbed_identity_network</a>(perturbation_magnitude, n) result(trainable_engine)</h3></div>
+  <div class="panel-body">
+           
+<h4>Arguments</h4>      <table class="table table-striped varlist">
+<thead><tr><th>Type</th><th>Intent</th><th>Optional</th><th>Attributes</th><th></th><th>Name</th><th></th></thead>
+<tbody>
+<tr>
+  <td><span class="anchor" ></span>real,</td>
+<td>intent(in)</td>
+  <td></td>  <td></td><td>::</td>
+  <td><strong>perturbation_magnitude</strong></td><td></td>
+</tr>
+<tr>
+  <td><span class="anchor" ></span>integer,</td>
+<td>intent(in)</td>
+  <td></td>  <td></td><td>::</td>
+  <td><strong>n</strong>(:)</td><td></td>
+</tr>
+</tbody>
+</table>
+
+<h4>Return Value <small>type(<a href='../type/trainable_engine_t.html'>trainable_engine_t</a>)</small></h4>  
+
+  </div>
+  </div>
+
+    </section>
+    <br>
+
+
+    <section>
+    <h2>Subroutines</h2>
+      <div class="panel panel-default">
+  <div class="panel-heading codesum"><span class="anchor" id="proc-open_plot_file_for_appending"></span><h3>subroutine <a href='../proc/open_plot_file_for_appending.html'>open_plot_file_for_appending</a>(plot_file_name, plot_unit, previous_epoch, previous_clock)</h3></div>
+  <div class="panel-body">
+           
+<h4>Arguments</h4>      <table class="table table-striped varlist">
+<thead><tr><th>Type</th><th>Intent</th><th>Optional</th><th>Attributes</th><th></th><th>Name</th><th></th></thead>
+<tbody>
+<tr>
+  <td><span class="anchor" ></span>character(len=*),</td>
+<td>intent(in)</td>
+  <td></td>  <td></td><td>::</td>
+  <td><strong>plot_file_name</strong></td><td></td>
+</tr>
+<tr>
+  <td><span class="anchor" ></span>integer,</td>
+<td>intent(out)</td>
+  <td></td>  <td></td><td>::</td>
+  <td><strong>plot_unit</strong></td><td></td>
+</tr>
+<tr>
+  <td><span class="anchor" ></span>integer,</td>
+<td>intent(out)</td>
+  <td></td>  <td></td><td>::</td>
+  <td><strong>previous_epoch</strong></td><td></td>
+</tr>
+<tr>
+  <td><span class="anchor" ></span>real,</td>
+<td>intent(out)</td>
+  <td></td>  <td></td><td>::</td>
+  <td><strong>previous_clock</strong></td><td></td>
+</tr>
+</tbody>
+</table>
+
+
+  </div>
+  </div>
+
+      <div class="panel panel-default">
+  <div class="panel-heading codesum"><span class="anchor" id="proc-output~2"></span><h3>subroutine <a href='../proc/output~2.html'>output</a>(inference_engine, file_name)</h3></div>
+  <div class="panel-body">
+           
+<h4>Arguments</h4>      <table class="table table-striped varlist">
+<thead><tr><th>Type</th><th>Intent</th><th>Optional</th><th>Attributes</th><th></th><th>Name</th><th></th></thead>
+<tbody>
+<tr>
+  <td><span class="anchor" ></span>type(<a href='../type/inference_engine_t.html'>inference_engine_t</a>),</td>
+<td>intent(in)</td>
+  <td></td>  <td></td><td>::</td>
+  <td><strong>inference_engine</strong></td><td></td>
+</tr>
+<tr>
+  <td><span class="anchor" ></span>type(string_t),</td>
+<td>intent(in)</td>
+  <td></td>  <td></td><td>::</td>
+  <td><strong>file_name</strong></td><td></td>
+</tr>
+</tbody>
+</table>
+
+
+  </div>
+  </div>
+
+      <div class="panel panel-default">
+  <div class="panel-heading codesum"><span class="anchor" id="proc-print_diagnostics"></span><h3>subroutine <a href='../proc/print_diagnostics.html'>print_diagnostics</a>(plot_file_unit, epoch, cost, clock, nodes)</h3></div>
+  <div class="panel-body">
+           
+<h4>Arguments</h4>      <table class="table table-striped varlist">
+<thead><tr><th>Type</th><th>Intent</th><th>Optional</th><th>Attributes</th><th></th><th>Name</th><th></th></thead>
+<tbody>
+<tr>
+  <td><span class="anchor" ></span>integer,</td>
+<td>intent(in)</td>
+  <td></td>  <td></td><td>::</td>
+  <td><strong>plot_file_unit</strong></td><td></td>
+</tr>
+<tr>
+  <td><span class="anchor" ></span>integer,</td>
+<td>intent(in)</td>
+  <td></td>  <td></td><td>::</td>
+  <td><strong>epoch</strong></td><td></td>
+</tr>
+<tr>
+  <td><span class="anchor" ></span>real,</td>
+<td>intent(in)</td>
+  <td></td>  <td></td><td>::</td>
+  <td><strong>cost</strong></td><td></td>
+</tr>
+<tr>
+  <td><span class="anchor" ></span>real,</td>
+<td>intent(in)</td>
+  <td></td>  <td></td><td>::</td>
+  <td><strong>clock</strong></td><td></td>
+</tr>
+<tr>
+  <td><span class="anchor" ></span>integer,</td>
+<td>intent(in)</td>
+  <td></td>  <td></td><td>::</td>
+  <td><strong>nodes</strong>(:)</td><td></td>
+</tr>
+</tbody>
+</table>
+
+
+  </div>
+  </div>
+
+    </section>    
+    
+    
+    </div>
+  </div>
+
+    <hr>    
+    </div> <!-- /container -->
+    <footer>
+      <div class="container">
+      <div class="row">
+        <div class="col-xs-6 col-md-6"><p>Inference-Engine was developed by Sourcery Institute<br>&copy; 2023 
+</p>
+        </div>
+        <div class="col-xs-6 col-md-6">
+          <p class="text-right">
+            Documentation generated by 
+            <a href="https://github.com/Fortran-FOSS-Programmers/ford">FORD</a>
+ on 2023-10-01 23:30            </p>
+        </div>
+      </div>
+      <br>
+      </div> <!-- /container -->    
+    </footer>
+
+    <!-- Bootstrap core JavaScript
+    ================================================== -->
+    <!-- Placed at the end of the document so the pages load faster -->
+<!--
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
+-->
+    <script src="../js/bootstrap.min.js"></script>
+    <!-- IE10 viewport hack for Surface/desktop Windows 8 bug -->
+    <script src="../js/ie10-viewport-bug-workaround.js"></script>
+
+    <!-- MathJax JavaScript
+    ================================================== -->
+    <!-- Placed at the end of the document so the pages load faster -->
+    <script type="text/x-mathjax-config">
+      MathJax.Hub.Config({
+        TeX: { extensions: ['AMSmath.js','AMSsymbols.js','noErrors.js','noUndefined.js'], equationNumbers: { autoNumber: 'AMS' } },
+        jax: ['input/TeX','input/MathML','output/HTML-CSS'],
+        extensions: ['tex2jax.js','mml2jax.js','MathMenu.js','MathZoom.js']
+      });
+    </script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    
+    <script src="../tipuesearch/tipuesearch_content.js"></script>
+    <script src="../tipuesearch/tipuesearch_set.js"></script>
+    <script src="../tipuesearch/tipuesearch.js"></script>
+    
+  </body>
+</html>
