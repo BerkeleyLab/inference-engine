@@ -185,7 +185,8 @@ contains
         trainable_engine = trainable_engine_t( &
           nodes = n, weights = w, biases = b, differentiable_activation_strategy = relu_t(), &
           metadata = &
-            [string_t("Perturbed Identity"), string_t("Damian Rouson"), string_t("2023-09-23"), string_t("relu"), string_t("false")] &
+            [string_t("Saturated Mixing Ratio"), string_t("Damian Rouson"), string_t("2023-09-23"), string_t("relu"), &
+             string_t("false")] &
         )
       end associate
     end associate
@@ -207,7 +208,7 @@ contains
     inquire(file=plot_file_name, exist=preexisting_plot_file)
     open(newunit=plot_unit,file="cost.plt",status="unknown",position="append")
 
-    associate(header => "Epoch | Nodes/layer | System_clock      | Cost function")
+    associate(header => "        Epoch | Cost Function| System_Clock | Nodes per Layer")
       if (.not. preexisting_plot_file) then
         write(plot_unit,*) header
         previous_epoch = 0
