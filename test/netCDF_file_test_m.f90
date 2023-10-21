@@ -45,13 +45,13 @@ contains
     type(test_result_t), allocatable :: test_results(:)
 
     character(len=*), parameter :: longest_description = &
-          "written and then read gives input matching the output for a 1D double precision array"
+          "writing and then reading gives input matching the output for a 1D double precision array"
 
     associate( &
       descriptions => &
         [ character(len=len(longest_description)) :: &
-          "written and then read gives input matching the output for a 2D integer array", &
-          "written and then read gives input matching the output for a 1D double precision array" &
+          "writing and then reading gives input matching the output for a 2D integer array", &
+          "writing and then reading gives input matching the output for a 1D double precision array" &
         ], &
       outcomes => &
         [ write_then_read_2D_integer(), & 
