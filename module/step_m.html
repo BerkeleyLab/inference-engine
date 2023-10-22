@@ -90,7 +90,7 @@
      <li><i class="fa fa-list-ol"></i>
        <a data-toggle="tooltip"
     data-placement="bottom" data-html="true"
-    title=" 1.5% of total for modules and submodules.">24 statements</a>
+    title=" 0.7% of total for modules and submodules.">24 statements</a>
      </li> 
     <li><i class="fa fa-code"></i><a href="../src/step_m.f90"> Source File</a></li>
   </ul>
@@ -145,9 +145,9 @@
       <ul class="list-group">
       <li class="list-group-item">
   <ul class="list-inline">
+    <li>string_m</li>
     <li><a href='../module/kind_parameters_m.html'>kind_parameters_m</a></li>
     <li><a href='../module/activation_strategy_m.html'>activation_strategy_m</a></li>
-    <li>string_m</li>
   </ul>
       </li>
       <li class="list-group-item">
@@ -168,20 +168,17 @@
 <polygon fill="none" stroke="black" points="374,-45 320,-45 320,-21 374,-21 374,-45"/>
 <text text-anchor="middle" x="347" y="-30.6" font-family="Helvetica,sans-Serif" font-size="10.50">step_m</text>
 </g>
-<!-- module~kind_parameters_m -->
+<!-- string_m -->
 <g id="module~~step_m~~UsesGraph_node2" class="node">
-<title>module~kind_parameters_m</title>
-<g id="a_module~~step_m~~UsesGraph_node2"><a xlink:href=".././module/kind_parameters_m.html" xlink:title="kind_parameters_m">
-<polygon fill="#337ab7" stroke="#337ab7" points="118,-75 0,-75 0,-51 118,-51 118,-75"/>
-<text text-anchor="middle" x="59" y="-60.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">kind_parameters_m</text>
-</a>
+<title>string_m</title>
+<polygon fill="#337ab7" stroke="#337ab7" points="88,-75 30,-75 30,-51 88,-51 88,-75"/>
+<text text-anchor="middle" x="59" y="-60.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">string_m</text>
 </g>
-</g>
-<!-- module~step_m&#45;&gt;module~kind_parameters_m -->
+<!-- module~step_m&#45;&gt;string_m -->
 <g id="module~~step_m~~UsesGraph_edge1" class="edge">
-<title>module~step_m&#45;&gt;module~kind_parameters_m</title>
-<path fill="none" stroke="#ff0000" stroke-dasharray="5,2" d="M319.89,-43.7C308.99,-47.67 296.07,-51.76 284,-54 232.34,-63.58 172.88,-65.56 128.21,-65.29"/>
-<polygon fill="#ff0000" stroke="#ff0000" points="128.09,-61.79 118.05,-65.19 128.02,-68.79 128.09,-61.79"/>
+<title>module~step_m&#45;&gt;string_m</title>
+<path fill="none" stroke="#ff0000" stroke-dasharray="5,2" d="M319.89,-43.7C308.99,-47.67 296.07,-51.76 284,-54 219.7,-65.92 143.31,-66.07 98.4,-64.77"/>
+<polygon fill="#ff0000" stroke="#ff0000" points="98.33,-61.26 88.22,-64.43 98.1,-68.26 98.33,-61.26"/>
 </g>
 <!-- module~activation_strategy_m -->
 <g id="module~~step_m~~UsesGraph_node3" class="node">
@@ -198,29 +195,32 @@
 <path fill="none" stroke="#ff0000" stroke-dasharray="5,2" d="M319.89,-33C312.16,-33 303.29,-33 294.09,-33"/>
 <polygon fill="#ff0000" stroke="#ff0000" points="294.02,-29.5 284.02,-33 294.02,-36.5 294.02,-29.5"/>
 </g>
-<!-- string_m -->
+<!-- module~kind_parameters_m -->
 <g id="module~~step_m~~UsesGraph_node4" class="node">
-<title>string_m</title>
-<polygon fill="#337ab7" stroke="#337ab7" points="88,-24 30,-24 30,0 88,0 88,-24"/>
-<text text-anchor="middle" x="59" y="-9.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">string_m</text>
+<title>module~kind_parameters_m</title>
+<g id="a_module~~step_m~~UsesGraph_node4"><a xlink:href=".././module/kind_parameters_m.html" xlink:title="kind_parameters_m">
+<polygon fill="#337ab7" stroke="#337ab7" points="118,-24 0,-24 0,0 118,0 118,-24"/>
+<text text-anchor="middle" x="59" y="-9.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">kind_parameters_m</text>
+</a>
 </g>
-<!-- module~step_m&#45;&gt;string_m -->
+</g>
+<!-- module~step_m&#45;&gt;module~kind_parameters_m -->
 <g id="module~~step_m~~UsesGraph_edge3" class="edge">
-<title>module~step_m&#45;&gt;string_m</title>
-<path fill="none" stroke="#ff0000" stroke-dasharray="5,2" d="M319.94,-22.06C309.04,-18.04 296.11,-14 284,-12 219.52,-1.38 143.19,-4.7 98.33,-8.24"/>
-<polygon fill="#ff0000" stroke="#ff0000" points="97.85,-4.76 88.18,-9.08 98.43,-11.74 97.85,-4.76"/>
-</g>
-<!-- module~activation_strategy_m&#45;&gt;module~kind_parameters_m -->
-<g id="module~~step_m~~UsesGraph_edge4" class="edge">
-<title>module~activation_strategy_m&#45;&gt;module~kind_parameters_m</title>
-<path fill="none" stroke="#00ff00" stroke-dasharray="5,2" d="M154.65,-45.03C145.91,-46.69 136.91,-48.4 128.1,-50.07"/>
-<polygon fill="#00ff00" stroke="#00ff00" points="127.42,-46.64 118.25,-51.94 128.73,-53.51 127.42,-46.64"/>
+<title>module~step_m&#45;&gt;module~kind_parameters_m</title>
+<path fill="none" stroke="#ff0000" stroke-dasharray="5,2" d="M319.94,-22.06C309.04,-18.04 296.11,-14 284,-12 232.38,-3.5 173.16,-3.93 128.58,-6.26"/>
+<polygon fill="#ff0000" stroke="#ff0000" points="128.22,-2.77 118.44,-6.83 128.62,-9.76 128.22,-2.77"/>
 </g>
 <!-- module~activation_strategy_m&#45;&gt;string_m -->
 <g id="module~~step_m~~UsesGraph_edge5" class="edge">
 <title>module~activation_strategy_m&#45;&gt;string_m</title>
-<path fill="none" stroke="#00ff00" stroke-dasharray="5,2" d="M153.74,-24.46C135.09,-21.98 115.32,-19.35 98.76,-17.15"/>
-<polygon fill="#00ff00" stroke="#00ff00" points="98.76,-13.62 88.38,-15.77 97.84,-20.56 98.76,-13.62"/>
+<path fill="none" stroke="#00ff00" stroke-dasharray="5,2" d="M154.65,-45.03C135.59,-48.65 115.27,-52.51 98.37,-55.72"/>
+<polygon fill="#00ff00" stroke="#00ff00" points="97.49,-52.32 88.32,-57.62 98.8,-59.2 97.49,-52.32"/>
+</g>
+<!-- module~activation_strategy_m&#45;&gt;module~kind_parameters_m -->
+<g id="module~~step_m~~UsesGraph_edge4" class="edge">
+<title>module~activation_strategy_m&#45;&gt;module~kind_parameters_m</title>
+<path fill="none" stroke="#00ff00" stroke-dasharray="5,2" d="M153.74,-24.46C145.26,-23.33 136.55,-22.17 128.02,-21.04"/>
+<polygon fill="#00ff00" stroke="#00ff00" points="128.48,-17.57 118.1,-19.72 127.56,-24.51 128.48,-17.57"/>
 </g>
 </g>
 </svg>
@@ -304,286 +304,322 @@
 <!-- Generated by graphviz version 2.43.0 (0)
  -->
 <!-- Title: module~~step_m~~UsedByGraph Pages: 1 -->
-<svg id="modulestep_mUsedByGraph" width="611pt" height="514pt"
- viewBox="0.00 0.00 611.00 514.06" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
-<g id="module~~step_m~~UsedByGraph" class="graph" transform="scale(1 1) rotate(0) translate(4 510.06)">
+<svg id="modulestep_mUsedByGraph" width="621pt" height="598pt"
+ viewBox="0.00 0.00 621.00 598.15" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+<g id="module~~step_m~~UsedByGraph" class="graph" transform="scale(1 1) rotate(0) translate(4 594.15)">
 <title>module~~step_m~~UsedByGraph</title>
-<polygon fill="white" stroke="transparent" points="-4,4 -4,-510.06 607,-510.06 607,4 -4,4"/>
+<polygon fill="white" stroke="transparent" points="-4,4 -4,-594.15 617,-594.15 617,4 -4,4"/>
 <!-- module~step_m -->
 <g id="module~~step_m~~UsedByGraph_node1" class="node">
 <title>module~step_m</title>
-<polygon fill="none" stroke="black" points="54,-226 0,-226 0,-202 54,-202 54,-226"/>
-<text text-anchor="middle" x="27" y="-211.6" font-family="Helvetica,sans-Serif" font-size="10.50">step_m</text>
+<polygon fill="none" stroke="black" points="54,-266 0,-266 0,-242 54,-242 54,-266"/>
+<text text-anchor="middle" x="27" y="-251.6" font-family="Helvetica,sans-Serif" font-size="10.50">step_m</text>
 </g>
 <!-- module~inference_engine_m -->
 <g id="module~~step_m~~UsedByGraph_node2" class="node">
 <title>module~inference_engine_m</title>
 <g id="a_module~~step_m~~UsedByGraph_node2"><a xlink:href=".././module/inference_engine_m.html" xlink:title="inference_engine_m">
-<polygon fill="#337ab7" stroke="#337ab7" points="211,-268 90,-268 90,-244 211,-244 211,-268"/>
-<text text-anchor="middle" x="150.5" y="-253.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">inference_engine_m</text>
+<polygon fill="#337ab7" stroke="#337ab7" points="211,-308 90,-308 90,-284 211,-284 211,-308"/>
+<text text-anchor="middle" x="150.5" y="-293.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">inference_engine_m</text>
 </a>
 </g>
 </g>
 <!-- module~inference_engine_m&#45;&gt;module~step_m -->
 <g id="module~~step_m~~UsedByGraph_edge1" class="edge">
 <title>module~inference_engine_m&#45;&gt;module~step_m</title>
-<path fill="none" stroke="#ff0000" stroke-dasharray="5,2" d="M114.68,-243.96C98.77,-238.46 79.94,-231.95 63.9,-226.41"/>
-<polygon fill="#ff0000" stroke="#ff0000" points="64.92,-223.06 54.32,-223.1 62.63,-229.67 64.92,-223.06"/>
+<path fill="none" stroke="#ff0000" stroke-dasharray="5,2" d="M114.68,-283.96C98.77,-278.46 79.94,-271.95 63.9,-266.41"/>
+<polygon fill="#ff0000" stroke="#ff0000" points="64.92,-263.06 54.32,-263.1 62.63,-269.67 64.92,-263.06"/>
 </g>
 <!-- module~inference_engine_s -->
 <g id="module~~step_m~~UsedByGraph_node3" class="node">
 <title>module~inference_engine_s</title>
 <g id="a_module~~step_m~~UsedByGraph_node3"><a xlink:href=".././module/inference_engine_s.html" xlink:title="inference_engine_s">
-<polygon fill="#5bc0de" stroke="#5bc0de" points="208,-226 93,-226 93,-202 208,-202 208,-226"/>
-<text text-anchor="middle" x="150.5" y="-211.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">inference_engine_s</text>
+<polygon fill="#5bc0de" stroke="#5bc0de" points="208,-266 93,-266 93,-242 208,-242 208,-266"/>
+<text text-anchor="middle" x="150.5" y="-251.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">inference_engine_s</text>
 </a>
 </g>
 </g>
 <!-- module~inference_engine_s&#45;&gt;module~step_m -->
 <g id="module~~step_m~~UsedByGraph_edge2" class="edge">
 <title>module~inference_engine_s&#45;&gt;module~step_m</title>
-<path fill="none" stroke="#ff0000" stroke-dasharray="5,2" d="M92.66,-214C82.99,-214 73.18,-214 64.22,-214"/>
-<polygon fill="#ff0000" stroke="#ff0000" points="64.16,-210.5 54.16,-214 64.16,-217.5 64.16,-210.5"/>
+<path fill="none" stroke="#ff0000" stroke-dasharray="5,2" d="M92.66,-254C82.99,-254 73.18,-254 64.22,-254"/>
+<polygon fill="#ff0000" stroke="#ff0000" points="64.16,-250.5 54.16,-254 64.16,-257.5 64.16,-250.5"/>
 </g>
 <!-- module~step_s -->
 <g id="module~~step_m~~UsedByGraph_node4" class="node">
 <title>module~step_s</title>
 <g id="a_module~~step_m~~UsedByGraph_node4"><a xlink:href=".././module/step_s.html" xlink:title="step_s">
-<polygon fill="#5bc0de" stroke="#5bc0de" points="177.5,-184 123.5,-184 123.5,-160 177.5,-160 177.5,-184"/>
-<text text-anchor="middle" x="150.5" y="-169.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">step_s</text>
+<polygon fill="#5bc0de" stroke="#5bc0de" points="177.5,-224 123.5,-224 123.5,-200 177.5,-200 177.5,-224"/>
+<text text-anchor="middle" x="150.5" y="-209.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">step_s</text>
 </a>
 </g>
 </g>
 <!-- module~step_s&#45;&gt;module~step_m -->
 <g id="module~~step_m~~UsedByGraph_edge3" class="edge">
 <title>module~step_s&#45;&gt;module~step_m</title>
-<path fill="none" stroke="#ff0000" d="M123.44,-181.01C105.98,-187.04 82.77,-195.07 63.62,-201.69"/>
-<polygon fill="#ff0000" stroke="#ff0000" points="62.33,-198.43 54.02,-205 64.62,-205.05 62.33,-198.43"/>
+<path fill="none" stroke="#ff0000" d="M123.44,-221.01C105.98,-227.04 82.77,-235.07 63.62,-241.69"/>
+<polygon fill="#ff0000" stroke="#ff0000" points="62.33,-238.43 54.02,-245 64.62,-245.05 62.33,-238.43"/>
 </g>
 <!-- module~raise_inputs_to_a_power -->
 <g id="module~~step_m~~UsedByGraph_node5" class="node">
 <title>module~raise_inputs_to_a_power</title>
 <g id="a_module~~step_m~~UsedByGraph_node5"><a xlink:href=".././module/raise_inputs_to_a_power.html" xlink:title="raise_inputs_to_a_power">
-<polygon fill="#337ab7" stroke="#337ab7" points="393.5,-470 251.5,-470 251.5,-446 393.5,-446 393.5,-470"/>
-<text text-anchor="middle" x="322.5" y="-455.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">raise_inputs_to_a_power</text>
+<polygon fill="#337ab7" stroke="#337ab7" points="393.5,-550 251.5,-550 251.5,-526 393.5,-526 393.5,-550"/>
+<text text-anchor="middle" x="322.5" y="-535.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">raise_inputs_to_a_power</text>
 </a>
 </g>
 </g>
 <!-- module~raise_inputs_to_a_power&#45;&gt;module~inference_engine_m -->
 <g id="module~~step_m~~UsedByGraph_edge4" class="edge">
 <title>module~raise_inputs_to_a_power&#45;&gt;module~inference_engine_m</title>
-<path fill="none" stroke="#ff0000" stroke-dasharray="5,2" d="M270.68,-445.97C262.18,-442.42 253.89,-437.86 247,-432 197.35,-389.78 169.2,-314.99 157.69,-277.99"/>
-<polygon fill="#ff0000" stroke="#ff0000" points="160.98,-276.79 154.76,-268.21 154.27,-278.79 160.98,-276.79"/>
-</g>
-<!-- module~multiply_inputs -->
-<g id="module~~step_m~~UsedByGraph_node6" class="node">
-<title>module~multiply_inputs</title>
-<g id="a_module~~step_m~~UsedByGraph_node6"><a xlink:href=".././module/multiply_inputs.html" xlink:title="multiply_inputs">
-<polygon fill="#337ab7" stroke="#337ab7" points="369,-390 276,-390 276,-366 369,-366 369,-390"/>
-<text text-anchor="middle" x="322.5" y="-375.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">multiply_inputs</text>
-</a>
-</g>
-</g>
-<!-- module~multiply_inputs&#45;&gt;module~inference_engine_m -->
-<g id="module~~step_m~~UsedByGraph_edge5" class="edge">
-<title>module~multiply_inputs&#45;&gt;module~inference_engine_m</title>
-<path fill="none" stroke="#ff0000" stroke-dasharray="5,2" d="M276.26,-365.88C266.22,-362.21 255.93,-357.62 247,-352 214.3,-331.41 184.23,-297.69 166.88,-276.19"/>
-<polygon fill="#ff0000" stroke="#ff0000" points="169.41,-273.74 160.47,-268.06 163.92,-278.08 169.41,-273.74"/>
-</g>
-<!-- program~train_polynomials~2 -->
-<g id="module~~step_m~~UsedByGraph_node7" class="node">
-<title>program~train_polynomials~2</title>
-<g id="a_module~~step_m~~UsedByGraph_node7"><a xlink:href=".././program/train_polynomials~2.html" xlink:title="train_polynomials">
-<polygon fill="#f0ad4e" stroke="#f0ad4e" points="572,-330 465,-330 465,-306 572,-306 572,-330"/>
-<text text-anchor="middle" x="518.5" y="-315.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">train_polynomials</text>
-</a>
-</g>
-</g>
-<!-- program~train_polynomials~2&#45;&gt;module~inference_engine_m -->
-<g id="module~~step_m~~UsedByGraph_edge7" class="edge">
-<title>program~train_polynomials~2&#45;&gt;module~inference_engine_m</title>
-<path fill="none" stroke="#ff0000" stroke-dasharray="5,2" d="M464.86,-327.08C409.38,-334.62 320.09,-340.94 247,-319 218.29,-310.38 190.25,-290.04 172.06,-274.78"/>
-<polygon fill="#ff0000" stroke="#ff0000" points="174.28,-272.08 164.43,-268.19 169.71,-277.38 174.28,-272.08"/>
-</g>
-<!-- module~power_series -->
-<g id="module~~step_m~~UsedByGraph_node9" class="node">
-<title>module~power_series</title>
-<g id="a_module~~step_m~~UsedByGraph_node9"><a xlink:href=".././module/power_series.html" xlink:title="power_series">
-<polygon fill="#337ab7" stroke="#337ab7" points="363.5,-310 281.5,-310 281.5,-286 363.5,-286 363.5,-310"/>
-<text text-anchor="middle" x="322.5" y="-295.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">power_series</text>
-</a>
-</g>
-</g>
-<!-- program~train_polynomials~2&#45;&gt;module~power_series -->
-<g id="module~~step_m~~UsedByGraph_edge19" class="edge">
-<title>program~train_polynomials~2&#45;&gt;module~power_series</title>
-<path fill="none" stroke="#27ff00" stroke-dasharray="5,2" d="M464.74,-312.56C436.36,-309.64 401.55,-306.05 373.59,-303.16"/>
-<polygon fill="#27ff00" stroke="#27ff00" points="373.93,-299.68 363.63,-302.14 373.21,-306.64 373.93,-299.68"/>
+<path fill="none" stroke="#ff0000" stroke-dasharray="5,2" d="M260.53,-525.94C255.65,-523.49 251.05,-520.54 247,-517 185.52,-463.21 162.25,-362.75 154.68,-318.22"/>
+<polygon fill="#ff0000" stroke="#ff0000" points="158.11,-317.5 153.08,-308.17 151.2,-318.6 158.11,-317.5"/>
 </g>
 <!-- program~train_and_write -->
-<g id="module~~step_m~~UsedByGraph_node8" class="node">
+<g id="module~~step_m~~UsedByGraph_node6" class="node">
 <title>program~train_and_write</title>
-<g id="a_module~~step_m~~UsedByGraph_node8"><a xlink:href=".././program/train_and_write.html" xlink:title="train_and_write">
-<polygon fill="#f0ad4e" stroke="#f0ad4e" points="369.5,-268 275.5,-268 275.5,-244 369.5,-244 369.5,-268"/>
-<text text-anchor="middle" x="322.5" y="-253.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">train_and_write</text>
+<g id="a_module~~step_m~~UsedByGraph_node6"><a xlink:href=".././program/train_and_write.html" xlink:title="train_and_write">
+<polygon fill="#f0ad4e" stroke="#f0ad4e" points="369.5,-508 275.5,-508 275.5,-484 369.5,-484 369.5,-508"/>
+<text text-anchor="middle" x="322.5" y="-493.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">train_and_write</text>
 </a>
 </g>
 </g>
 <!-- program~train_and_write&#45;&gt;module~inference_engine_m -->
 <g id="module~~step_m~~UsedByGraph_edge8" class="edge">
 <title>program~train_and_write&#45;&gt;module~inference_engine_m</title>
-<path fill="none" stroke="#ff0000" stroke-dasharray="5,2" d="M275.5,-256C258.82,-256 239.59,-256 221.32,-256"/>
-<polygon fill="#ff0000" stroke="#ff0000" points="221.29,-252.5 211.29,-256 221.29,-259.5 221.29,-252.5"/>
+<path fill="none" stroke="#ff0000" stroke-dasharray="5,2" d="M275.36,-485.78C265.26,-482.01 255.16,-476.9 247,-470 197.68,-428.26 169.38,-354.33 157.76,-317.75"/>
+<polygon fill="#ff0000" stroke="#ff0000" points="161.07,-316.61 154.8,-308.07 154.38,-318.66 161.07,-316.61"/>
+</g>
+<!-- module~power_series -->
+<g id="module~~step_m~~UsedByGraph_node7" class="node">
+<title>module~power_series</title>
+<g id="a_module~~step_m~~UsedByGraph_node7"><a xlink:href=".././module/power_series.html" xlink:title="power_series">
+<polygon fill="#337ab7" stroke="#337ab7" points="363.5,-428 281.5,-428 281.5,-404 363.5,-404 363.5,-428"/>
+<text text-anchor="middle" x="322.5" y="-413.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">power_series</text>
+</a>
+</g>
 </g>
 <!-- module~power_series&#45;&gt;module~inference_engine_m -->
-<g id="module~~step_m~~UsedByGraph_edge6" class="edge">
+<g id="module~~step_m~~UsedByGraph_edge5" class="edge">
 <title>module~power_series&#45;&gt;module~inference_engine_m</title>
-<path fill="none" stroke="#ff0000" stroke-dasharray="5,2" d="M281.21,-288.05C259.99,-282.8 233.57,-276.28 210.13,-270.48"/>
-<polygon fill="#ff0000" stroke="#ff0000" points="210.83,-267.05 200.28,-268.05 209.15,-273.85 210.83,-267.05"/>
+<path fill="none" stroke="#ff0000" stroke-dasharray="5,2" d="M281.35,-405.6C269.78,-401.66 257.47,-396.51 247,-390 214.71,-369.91 184.72,-337.14 167.25,-316.09"/>
+<polygon fill="#ff0000" stroke="#ff0000" points="169.8,-313.67 160.78,-308.11 164.36,-318.08 169.8,-313.67"/>
+</g>
+<!-- program~train_polynomials~2 -->
+<g id="module~~step_m~~UsedByGraph_node8" class="node">
+<title>program~train_polynomials~2</title>
+<g id="a_module~~step_m~~UsedByGraph_node8"><a xlink:href=".././program/train_polynomials~2.html" xlink:title="train_polynomials">
+<polygon fill="#f0ad4e" stroke="#f0ad4e" points="577,-449 470,-449 470,-425 577,-425 577,-449"/>
+<text text-anchor="middle" x="523.5" y="-434.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">train_polynomials</text>
+</a>
+</g>
+</g>
+<!-- program~train_polynomials~2&#45;&gt;module~inference_engine_m -->
+<g id="module~~step_m~~UsedByGraph_edge7" class="edge">
+<title>program~train_polynomials~2&#45;&gt;module~inference_engine_m</title>
+<path fill="none" stroke="#ff0000" stroke-dasharray="5,2" d="M478.44,-449C421.37,-461.98 320.52,-476 247,-437 199.16,-411.62 170.89,-350.37 158.67,-317.58"/>
+<polygon fill="#ff0000" stroke="#ff0000" points="161.92,-316.26 155.27,-308.01 155.32,-318.61 161.92,-316.26"/>
+</g>
+<!-- program~train_polynomials~2&#45;&gt;module~power_series -->
+<g id="module~~step_m~~UsedByGraph_edge20" class="edge">
+<title>program~train_polynomials~2&#45;&gt;module~power_series</title>
+<path fill="none" stroke="#ffcc00" stroke-dasharray="5,2" d="M469.95,-431.46C440.19,-428.31 403.14,-424.4 373.76,-421.3"/>
+<polygon fill="#ffcc00" stroke="#ffcc00" points="374.02,-417.81 363.71,-420.24 373.28,-424.77 374.02,-417.81"/>
+</g>
+<!-- module~multiply_inputs -->
+<g id="module~~step_m~~UsedByGraph_node9" class="node">
+<title>module~multiply_inputs</title>
+<g id="a_module~~step_m~~UsedByGraph_node9"><a xlink:href=".././module/multiply_inputs.html" xlink:title="multiply_inputs">
+<polygon fill="#337ab7" stroke="#337ab7" points="369,-348 276,-348 276,-324 369,-324 369,-348"/>
+<text text-anchor="middle" x="322.5" y="-333.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">multiply_inputs</text>
+</a>
+</g>
+</g>
+<!-- module~multiply_inputs&#45;&gt;module~inference_engine_m -->
+<g id="module~~step_m~~UsedByGraph_edge6" class="edge">
+<title>module~multiply_inputs&#45;&gt;module~inference_engine_m</title>
+<path fill="none" stroke="#ff0000" stroke-dasharray="5,2" d="M275.94,-325.28C256.41,-320.69 233.32,-315.25 212.36,-310.32"/>
+<polygon fill="#ff0000" stroke="#ff0000" points="213.12,-306.9 202.58,-308.02 211.51,-313.72 213.12,-306.9"/>
 </g>
 <!-- program~train_polynomials~3 -->
 <g id="module~~step_m~~UsedByGraph_node10" class="node">
 <title>program~train_polynomials~3</title>
 <g id="a_module~~step_m~~UsedByGraph_node10"><a xlink:href=".././program/train_polynomials~3.html" xlink:title="train_polynomials">
-<polygon fill="#f0ad4e" stroke="#f0ad4e" points="572,-208 465,-208 465,-184 572,-184 572,-208"/>
-<text text-anchor="middle" x="518.5" y="-193.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">train_polynomials</text>
+<polygon fill="#f0ad4e" stroke="#f0ad4e" points="577,-288 470,-288 470,-264 577,-264 577,-288"/>
+<text text-anchor="middle" x="523.5" y="-273.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">train_polynomials</text>
 </a>
 </g>
 </g>
 <!-- program~train_polynomials~3&#45;&gt;module~inference_engine_m -->
 <g id="module~~step_m~~UsedByGraph_edge9" class="edge">
 <title>program~train_polynomials~3&#45;&gt;module~inference_engine_m</title>
-<path fill="none" stroke="#ff0000" stroke-dasharray="5,2" d="M464.95,-202.42C410.32,-209.36 322.39,-221.29 247,-235 235.89,-237.02 224.11,-239.41 212.75,-241.84"/>
-<polygon fill="#ff0000" stroke="#ff0000" points="211.94,-238.43 202.91,-243.97 213.42,-245.27 211.94,-238.43"/>
+<path fill="none" stroke="#ff0000" stroke-dasharray="5,2" d="M469.74,-278.84C404.62,-282.35 293.68,-288.34 221.5,-292.23"/>
+<polygon fill="#ff0000" stroke="#ff0000" points="220.94,-288.75 211.14,-292.78 221.31,-295.74 220.94,-288.75"/>
 </g>
 <!-- module~add_inputs -->
 <g id="module~~step_m~~UsedByGraph_node12" class="node">
 <title>module~add_inputs</title>
 <g id="a_module~~step_m~~UsedByGraph_node12"><a xlink:href=".././module/add_inputs.html" xlink:title="add_inputs">
-<polygon fill="#337ab7" stroke="#337ab7" points="357.5,-188 287.5,-188 287.5,-164 357.5,-164 357.5,-188"/>
-<text text-anchor="middle" x="322.5" y="-173.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">add_inputs</text>
+<polygon fill="#337ab7" stroke="#337ab7" points="357.5,-268 287.5,-268 287.5,-244 357.5,-244 357.5,-268"/>
+<text text-anchor="middle" x="322.5" y="-253.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">add_inputs</text>
 </a>
 </g>
 </g>
 <!-- program~train_polynomials~3&#45;&gt;module~add_inputs -->
-<g id="module~~step_m~~UsedByGraph_edge20" class="edge">
+<g id="module~~step_m~~UsedByGraph_edge22" class="edge">
 <title>program~train_polynomials~3&#45;&gt;module~add_inputs</title>
-<path fill="none" stroke="#00c4ff" stroke-dasharray="5,2" d="M464.74,-190.56C434.37,-187.43 396.62,-183.54 367.79,-180.57"/>
-<polygon fill="#00c4ff" stroke="#00c4ff" points="367.91,-177.06 357.6,-179.52 367.19,-184.02 367.91,-177.06"/>
+<path fill="none" stroke="#00ffcb" stroke-dasharray="5,2" d="M469.95,-270.72C438.13,-267.52 397.98,-263.49 367.77,-260.45"/>
+<polygon fill="#00ffcb" stroke="#00ffcb" points="367.83,-256.94 357.53,-259.42 367.13,-263.9 367.83,-256.94"/>
 </g>
 <!-- program~train_polynomials~4 -->
 <g id="module~~step_m~~UsedByGraph_node11" class="node">
 <title>program~train_polynomials~4</title>
 <g id="a_module~~step_m~~UsedByGraph_node11"><a xlink:href=".././program/train_polynomials~4.html" xlink:title="train_polynomials">
-<polygon fill="#f0ad4e" stroke="#f0ad4e" points="376,-146 269,-146 269,-122 376,-122 376,-146"/>
-<text text-anchor="middle" x="322.5" y="-131.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">train_polynomials</text>
+<polygon fill="#f0ad4e" stroke="#f0ad4e" points="376,-226 269,-226 269,-202 376,-202 376,-226"/>
+<text text-anchor="middle" x="322.5" y="-211.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">train_polynomials</text>
 </a>
 </g>
 </g>
 <!-- program~train_polynomials~4&#45;&gt;module~inference_engine_m -->
 <g id="module~~step_m~~UsedByGraph_edge10" class="edge">
 <title>program~train_polynomials~4&#45;&gt;module~inference_engine_m</title>
-<path fill="none" stroke="#ff0000" stroke-dasharray="5,2" d="M268.87,-142.53C260.93,-145.52 253.31,-149.56 247,-155 217.47,-180.45 239.7,-208.61 211,-235 209.55,-236.33 208.01,-237.59 206.4,-238.76"/>
-<polygon fill="#ff0000" stroke="#ff0000" points="204.55,-235.78 197.84,-243.99 208.2,-241.76 204.55,-235.78"/>
+<path fill="none" stroke="#ff0000" stroke-dasharray="5,2" d="M268.62,-224.87C261.06,-227.56 253.62,-230.88 247,-235 226.69,-247.63 230.89,-261.72 211,-275 208.57,-276.63 205.99,-278.14 203.33,-279.55"/>
+<polygon fill="#ff0000" stroke="#ff0000" points="201.59,-276.5 194.05,-283.94 204.59,-282.83 201.59,-276.5"/>
 </g>
 <!-- module~add_inputs&#45;&gt;module~inference_engine_m -->
 <g id="module~~step_m~~UsedByGraph_edge11" class="edge">
 <title>module~add_inputs&#45;&gt;module~inference_engine_m</title>
-<path fill="none" stroke="#ff0000" stroke-dasharray="5,2" d="M287.2,-184.76C274.1,-188.92 259.35,-194.62 247,-202 228.37,-213.14 229.61,-223.83 211,-235 208.05,-236.77 204.92,-238.43 201.71,-239.97"/>
-<polygon fill="#ff0000" stroke="#ff0000" points="200.26,-236.78 192.5,-244 203.07,-243.19 200.26,-236.78"/>
+<path fill="none" stroke="#ff0000" stroke-dasharray="5,2" d="M287.1,-264.09C265.69,-269.13 237.54,-275.76 212.44,-281.66"/>
+<polygon fill="#ff0000" stroke="#ff0000" points="211.56,-278.27 202.63,-283.97 213.16,-285.09 211.56,-278.27"/>
 </g>
 <!-- module~saturated_mixing_ratio_m -->
 <g id="module~~step_m~~UsedByGraph_node13" class="node">
 <title>module~saturated_mixing_ratio_m</title>
 <g id="a_module~~step_m~~UsedByGraph_node13"><a xlink:href=".././module/saturated_mixing_ratio_m.html" xlink:title="saturated_mixing_ratio_m">
-<polygon fill="#337ab7" stroke="#337ab7" points="398,-66 247,-66 247,-42 398,-42 398,-66"/>
-<text text-anchor="middle" x="322.5" y="-51.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">saturated_mixing_ratio_m</text>
+<polygon fill="#337ab7" stroke="#337ab7" points="398,-146 247,-146 247,-122 398,-122 398,-146"/>
+<text text-anchor="middle" x="322.5" y="-131.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">saturated_mixing_ratio_m</text>
 </a>
 </g>
 </g>
 <!-- module~saturated_mixing_ratio_m&#45;&gt;module~inference_engine_m -->
 <g id="module~~step_m~~UsedByGraph_edge12" class="edge">
 <title>module~saturated_mixing_ratio_m&#45;&gt;module~inference_engine_m</title>
-<path fill="none" stroke="#ff0000" stroke-dasharray="5,2" d="M265.89,-66.17C258.8,-69.68 252.22,-74.19 247,-80 199.75,-132.62 258.16,-182.29 211,-235 210.12,-235.99 209.18,-236.93 208.21,-237.82"/>
-<polygon fill="#ff0000" stroke="#ff0000" points="205.98,-235.12 200.01,-243.87 210.13,-240.76 205.98,-235.12"/>
+<path fill="none" stroke="#ff0000" stroke-dasharray="5,2" d="M267.03,-146.18C259.61,-149.68 252.62,-154.19 247,-160 209.75,-198.48 248.18,-236.46 211,-275 209.93,-276.11 208.8,-277.16 207.62,-278.15"/>
+<polygon fill="#ff0000" stroke="#ff0000" points="205.43,-275.41 199.16,-283.95 209.38,-281.18 205.43,-275.41"/>
+</g>
+<!-- module~thompson_tensors_m -->
+<g id="module~~step_m~~UsedByGraph_node14" class="node">
+<title>module~thompson_tensors_m</title>
+<g id="a_module~~step_m~~UsedByGraph_node14"><a xlink:href=".././module/thompson_tensors_m.html" xlink:title="thompson_tensors_m">
+<polygon fill="#337ab7" stroke="#337ab7" points="385.5,-66 259.5,-66 259.5,-42 385.5,-42 385.5,-66"/>
+<text text-anchor="middle" x="322.5" y="-51.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">thompson_tensors_m</text>
+</a>
+</g>
+</g>
+<!-- module~thompson_tensors_m&#45;&gt;module~inference_engine_m -->
+<g id="module~~step_m~~UsedByGraph_edge13" class="edge">
+<title>module~thompson_tensors_m&#45;&gt;module~inference_engine_m</title>
+<path fill="none" stroke="#ff0000" stroke-dasharray="5,2" d="M265.28,-66.15C258.37,-69.66 251.99,-74.18 247,-80 189.63,-146.9 268.25,-207.99 211,-275 210.25,-275.87 209.47,-276.71 208.65,-277.52"/>
+<polygon fill="#ff0000" stroke="#ff0000" points="206.23,-274.96 200.46,-283.84 210.51,-280.5 206.23,-274.96"/>
 </g>
 <!-- program~train_polynomials -->
-<g id="module~~step_m~~UsedByGraph_node14" class="node">
+<g id="module~~step_m~~UsedByGraph_node15" class="node">
 <title>program~train_polynomials</title>
-<g id="a_module~~step_m~~UsedByGraph_node14"><a xlink:href=".././program/train_polynomials.html" xlink:title="train_polynomials">
-<polygon fill="#f0ad4e" stroke="#f0ad4e" points="572,-480 465,-480 465,-456 572,-456 572,-480"/>
-<text text-anchor="middle" x="518.5" y="-465.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">train_polynomials</text>
+<g id="a_module~~step_m~~UsedByGraph_node15"><a xlink:href=".././program/train_polynomials.html" xlink:title="train_polynomials">
+<polygon fill="#f0ad4e" stroke="#f0ad4e" points="577,-570 470,-570 470,-546 577,-546 577,-570"/>
+<text text-anchor="middle" x="523.5" y="-555.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">train_polynomials</text>
 </a>
 </g>
 </g>
 <!-- program~train_polynomials&#45;&gt;module~inference_engine_m -->
-<g id="module~~step_m~~UsedByGraph_edge13" class="edge">
+<g id="module~~step_m~~UsedByGraph_edge14" class="edge">
 <title>program~train_polynomials&#45;&gt;module~inference_engine_m</title>
-<path fill="none" stroke="#ff0000" stroke-dasharray="5,2" d="M486.42,-480.07C432.66,-498.76 320.96,-527.78 247,-479 177.35,-433.06 158.31,-324.67 153.26,-278"/>
-<polygon fill="#ff0000" stroke="#ff0000" points="156.74,-277.65 152.29,-268.03 149.77,-278.32 156.74,-277.65"/>
+<path fill="none" stroke="#ff0000" stroke-dasharray="5,2" d="M486.94,-570.04C430.47,-586.77 319.27,-609.64 247,-559 166.58,-502.64 153.62,-371.28 151.72,-318.52"/>
+<polygon fill="#ff0000" stroke="#ff0000" points="155.22,-318.15 151.46,-308.24 148.22,-318.33 155.22,-318.15"/>
 </g>
 <!-- program~train_polynomials&#45;&gt;module~raise_inputs_to_a_power -->
-<g id="module~~step_m~~UsedByGraph_edge17" class="edge">
+<g id="module~~step_m~~UsedByGraph_edge19" class="edge">
 <title>program~train_polynomials&#45;&gt;module~raise_inputs_to_a_power</title>
-<path fill="none" stroke="#ff0000" stroke-dasharray="5,2" d="M464.74,-465.28C445.94,-464.31 424.32,-463.2 403.73,-462.14"/>
-<polygon fill="#ff0000" stroke="#ff0000" points="403.89,-458.64 393.73,-461.62 403.53,-465.63 403.89,-458.64"/>
+<path fill="none" stroke="#ff0000" stroke-dasharray="5,2" d="M469.95,-552.72C449.68,-550.68 426.04,-548.31 403.74,-546.06"/>
+<polygon fill="#ff0000" stroke="#ff0000" points="403.9,-542.56 393.6,-545.05 403.2,-549.53 403.9,-542.56"/>
 </g>
 <!-- program~write_read_infer -->
-<g id="module~~step_m~~UsedByGraph_node15" class="node">
+<g id="module~~step_m~~UsedByGraph_node16" class="node">
 <title>program~write_read_infer</title>
-<g id="a_module~~step_m~~UsedByGraph_node15"><a xlink:href=".././program/write_read_infer.html" xlink:title="write_read_infer">
+<g id="a_module~~step_m~~UsedByGraph_node16"><a xlink:href=".././program/write_read_infer.html" xlink:title="write_read_infer">
 <polygon fill="#f0ad4e" stroke="#f0ad4e" points="371.5,-24 273.5,-24 273.5,0 371.5,0 371.5,-24"/>
 <text text-anchor="middle" x="322.5" y="-9.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">write_read_infer</text>
 </a>
 </g>
 </g>
 <!-- program~write_read_infer&#45;&gt;module~inference_engine_m -->
-<g id="module~~step_m~~UsedByGraph_edge14" class="edge">
+<g id="module~~step_m~~UsedByGraph_edge15" class="edge">
 <title>program~write_read_infer&#45;&gt;module~inference_engine_m</title>
-<path fill="none" stroke="#ff0000" stroke-dasharray="5,2" d="M273.36,-17.2C263.46,-20.38 253.95,-25.33 247,-33 185.77,-100.58 270.02,-165.48 211,-235 210.26,-235.88 209.47,-236.72 208.65,-237.52"/>
-<polygon fill="#ff0000" stroke="#ff0000" points="206.24,-234.97 200.48,-243.86 210.53,-240.5 206.24,-234.97"/>
+<path fill="none" stroke="#ff0000" stroke-dasharray="5,2" d="M273.19,-17.05C263.3,-20.24 253.84,-25.23 247,-33 175.15,-114.62 280.18,-191.11 211,-275 210.27,-275.89 209.5,-276.74 208.69,-277.55"/>
+<polygon fill="#ff0000" stroke="#ff0000" points="206.26,-275.01 200.58,-283.95 210.6,-280.5 206.26,-275.01"/>
 </g>
 <!-- program~train_saturated_mixture_ratio -->
-<g id="module~~step_m~~UsedByGraph_node16" class="node">
+<g id="module~~step_m~~UsedByGraph_node17" class="node">
 <title>program~train_saturated_mixture_ratio</title>
-<g id="a_module~~step_m~~UsedByGraph_node16"><a xlink:href=".././program/train_saturated_mixture_ratio.html" xlink:title="train_saturated_mixture_ratio">
-<polygon fill="#f0ad4e" stroke="#f0ad4e" points="603,-86 434,-86 434,-62 603,-62 603,-86"/>
-<text text-anchor="middle" x="518.5" y="-71.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">train_saturated_mixture_ratio</text>
+<g id="a_module~~step_m~~UsedByGraph_node17"><a xlink:href=".././program/train_saturated_mixture_ratio.html" xlink:title="train_saturated_mixture_ratio">
+<polygon fill="#f0ad4e" stroke="#f0ad4e" points="608,-167 439,-167 439,-143 608,-143 608,-167"/>
+<text text-anchor="middle" x="523.5" y="-152.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">train_saturated_mixture_ratio</text>
 </a>
 </g>
 </g>
 <!-- program~train_saturated_mixture_ratio&#45;&gt;module~inference_engine_m -->
-<g id="module~~step_m~~UsedByGraph_edge15" class="edge">
+<g id="module~~step_m~~UsedByGraph_edge16" class="edge">
 <title>program~train_saturated_mixture_ratio&#45;&gt;module~inference_engine_m</title>
-<path fill="none" stroke="#ff0000" stroke-dasharray="5,2" d="M433.68,-76.38C364.81,-80.04 274.31,-89.36 247,-113 204.26,-150 249.92,-193.99 211,-235 209.96,-236.09 208.87,-237.13 207.72,-238.11"/>
-<polygon fill="#ff0000" stroke="#ff0000" points="205.7,-235.25 199.51,-243.84 209.71,-240.99 205.7,-235.25"/>
+<path fill="none" stroke="#ff0000" stroke-dasharray="5,2" d="M438.9,-157.69C369.12,-161.51 276.47,-170.73 247,-193 215.24,-217 240.17,-247.92 211,-275 209.7,-276.2 208.33,-277.34 206.9,-278.41"/>
+<polygon fill="#ff0000" stroke="#ff0000" points="204.8,-275.6 198.17,-283.87 208.51,-281.53 204.8,-275.6"/>
 </g>
 <!-- program~train_saturated_mixture_ratio&#45;&gt;module~saturated_mixing_ratio_m -->
-<g id="module~~step_m~~UsedByGraph_edge21" class="edge">
+<g id="module~~step_m~~UsedByGraph_edge23" class="edge">
 <title>program~train_saturated_mixture_ratio&#45;&gt;module~saturated_mixing_ratio_m</title>
-<path fill="none" stroke="#004eff" stroke-dasharray="5,2" d="M433.82,-65.37C425.27,-64.49 416.58,-63.6 408.02,-62.71"/>
-<polygon fill="#004eff" stroke="#004eff" points="408.35,-59.23 398.05,-61.69 407.64,-66.19 408.35,-59.23"/>
+<path fill="none" stroke="#00cbff" stroke-dasharray="5,2" d="M438.97,-146.19C428.84,-145.12 418.48,-144.02 408.33,-142.95"/>
+<polygon fill="#00cbff" stroke="#00cbff" points="408.58,-139.46 398.27,-141.89 407.85,-146.42 408.58,-139.46"/>
+</g>
+<!-- program~learn_microphysics_procedures -->
+<g id="module~~step_m~~UsedByGraph_node18" class="node">
+<title>program~learn_microphysics_procedures</title>
+<g id="a_module~~step_m~~UsedByGraph_node18"><a xlink:href=".././program/learn_microphysics_procedures.html" xlink:title="learn_microphysics_procedures">
+<polygon fill="#f0ad4e" stroke="#f0ad4e" points="613,-86 434,-86 434,-62 613,-62 613,-86"/>
+<text text-anchor="middle" x="523.5" y="-71.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">learn_microphysics_procedures</text>
+</a>
+</g>
+</g>
+<!-- program~learn_microphysics_procedures&#45;&gt;module~inference_engine_m -->
+<g id="module~~step_m~~UsedByGraph_edge17" class="edge">
+<title>program~learn_microphysics_procedures&#45;&gt;module~inference_engine_m</title>
+<path fill="none" stroke="#ff0000" stroke-dasharray="5,2" d="M433.94,-75.85C363.91,-79.21 273.64,-88.36 247,-113 192.85,-163.08 259.92,-219.8 211,-275 210.12,-275.99 209.19,-276.94 208.22,-277.84"/>
+<polygon fill="#ff0000" stroke="#ff0000" points="205.99,-275.13 200.04,-283.9 210.16,-280.76 205.99,-275.13"/>
+</g>
+<!-- program~learn_microphysics_procedures&#45;&gt;module~thompson_tensors_m -->
+<g id="module~~step_m~~UsedByGraph_edge24" class="edge">
+<title>program~learn_microphysics_procedures&#45;&gt;module~thompson_tensors_m</title>
+<path fill="none" stroke="#0066ff" stroke-dasharray="5,2" d="M433.77,-65.08C421.05,-63.8 408.1,-62.5 395.76,-61.26"/>
+<polygon fill="#0066ff" stroke="#0066ff" points="395.85,-57.75 385.55,-60.24 395.15,-64.72 395.85,-57.75"/>
 </g>
 <!-- program~train_polynomials~5 -->
-<g id="module~~step_m~~UsedByGraph_node17" class="node">
+<g id="module~~step_m~~UsedByGraph_node19" class="node">
 <title>program~train_polynomials~5</title>
-<g id="a_module~~step_m~~UsedByGraph_node17"><a xlink:href=".././program/train_polynomials~5.html" xlink:title="train_polynomials">
-<polygon fill="#f0ad4e" stroke="#f0ad4e" points="572,-419 465,-419 465,-395 572,-395 572,-419"/>
-<text text-anchor="middle" x="518.5" y="-404.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">train_polynomials</text>
+<g id="a_module~~step_m~~UsedByGraph_node19"><a xlink:href=".././program/train_polynomials~5.html" xlink:title="train_polynomials">
+<polygon fill="#f0ad4e" stroke="#f0ad4e" points="577,-368 470,-368 470,-344 577,-344 577,-368"/>
+<text text-anchor="middle" x="523.5" y="-353.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">train_polynomials</text>
 </a>
 </g>
 </g>
 <!-- program~train_polynomials~5&#45;&gt;module~inference_engine_m -->
-<g id="module~~step_m~~UsedByGraph_edge16" class="edge">
+<g id="module~~step_m~~UsedByGraph_edge18" class="edge">
 <title>program~train_polynomials~5&#45;&gt;module~inference_engine_m</title>
-<path fill="none" stroke="#ff0000" stroke-dasharray="5,2" d="M464.97,-418.92C407.58,-429.02 314.82,-436.56 247,-399 199.16,-372.51 170.89,-310.71 158.67,-277.7"/>
-<polygon fill="#ff0000" stroke="#ff0000" points="161.9,-276.33 155.27,-268.07 155.3,-278.67 161.9,-276.33"/>
+<path fill="none" stroke="#ff0000" stroke-dasharray="5,2" d="M469.99,-364.89C413.62,-372.44 322.07,-378.93 247,-357 218.92,-348.8 191.25,-329.55 172.98,-314.85"/>
+<polygon fill="#ff0000" stroke="#ff0000" points="174.74,-311.76 164.8,-308.07 170.27,-317.15 174.74,-311.76"/>
 </g>
 <!-- program~train_polynomials~5&#45;&gt;module~multiply_inputs -->
-<g id="module~~step_m~~UsedByGraph_edge18" class="edge">
+<g id="module~~step_m~~UsedByGraph_edge21" class="edge">
 <title>program~train_polynomials~5&#45;&gt;module~multiply_inputs</title>
-<path fill="none" stroke="#ff7500" stroke-dasharray="5,2" d="M464.74,-399.11C438.28,-395.16 406.22,-390.37 379.34,-386.35"/>
-<polygon fill="#ff7500" stroke="#ff7500" points="379.72,-382.87 369.32,-384.85 378.69,-389.79 379.72,-382.87"/>
+<path fill="none" stroke="#65ff00" stroke-dasharray="5,2" d="M469.95,-350.72C442.06,-347.92 407.77,-344.47 379.39,-341.62"/>
+<polygon fill="#65ff00" stroke="#65ff00" points="379.52,-338.11 369.22,-340.6 378.82,-345.08 379.52,-338.11"/>
 </g>
 </g>
 </svg>
@@ -759,7 +795,7 @@
           <p class="text-right">
             Documentation generated by 
             <a href="https://github.com/Fortran-FOSS-Programmers/ford">FORD</a>
- on 2023-10-19 21:56            </p>
+ on 2023-10-22 06:28            </p>
         </div>
       </div>
       <br>

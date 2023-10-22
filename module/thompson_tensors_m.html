@@ -1,0 +1,958 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+   <meta name="description" content="A library supporting concurrent forward propagation on multiple fully-connected deep neural networks">
+    <meta name="author" content="Sourcery Institute" >
+    <link rel="icon" href="../favicon.png">
+
+    <title>thompson_tensors_m &ndash; Inference-Engine</title>
+
+    <link href="../css/bootstrap.min.css" rel="stylesheet">
+    <link href="../css/pygments.css" rel="stylesheet">
+    <link href="../css/font-awesome.min.css" rel="stylesheet">
+    <link href="../css/local.css" rel="stylesheet">
+    <link  href="../tipuesearch/tipuesearch.css" rel="stylesheet">
+
+    <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
+    <!--[if lt IE 9]>
+      <script src="https://oss.maxcdn.com/html5shiv/3.7.2/html5shiv.min.js"></script>
+      <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
+    <![endif]-->
+    
+    <script src="../js/jquery-2.1.3.min.js"></script>
+    <script src="../js/svg-pan-zoom.min.js"></script>
+
+  </head>
+
+  <body>
+
+    <!-- Fixed navbar -->
+    <nav class="navbar navbar-inverse navbar-fixed-top">
+      <div class="container">
+        <div class="navbar-header">
+          <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
+            <span class="sr-only">Toggle navigation</span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+          </button>
+          <a class="navbar-brand" href="../index.html">Inference-Engine </a>
+        </div>
+        <div id="navbar" class="navbar-collapse collapse">
+          <ul class="nav navbar-nav">
+            <li class="dropdown hidden-xs visible-sm visible-md hidden-lg">
+              <a href="#" class="dropdown-toggle"
+              data-toggle="dropdown" role="button"
+              aria-haspopup="true"
+     aria-expanded="false">Contents <span class="caret"></span></a>
+        <ul class="dropdown-menu">
+            <li><a href="../lists/files.html">Source Files</a></li>
+            <li><a href="../lists/modules.html">Modules</a></li>
+            <li><a href="../lists/procedures.html">Procedures</a></li>
+            <li><a href="../lists/absint.html">Abstract Interfaces</a></li>
+                   <li><a href="../lists/types.html">Derived Types</a></li>
+            <li><a href="../lists/programs.html">Programs</a></li>
+       
+            </ul>
+        
+            </li>
+<li class="visible-xs hidden-sm visible-lg"><a href="../lists/files.html">Source Files</a></li>
+<li class="visible-xs hidden-sm visible-lg"><a href="../lists/modules.html">Modules</a></li>
+<li class="visible-xs hidden-sm visible-lg"><a href="../lists/procedures.html">Procedures</a></li>
+<li class="visible-xs hidden-sm visible-lg"><a href="../lists/absint.html">Abstract Interfaces</a></li>
+                             <li class="visible-xs hidden-sm visible-lg"><a href="../lists/types.html">Derived Types</a></li>
+<li class="visible-xs hidden-sm visible-lg"><a href="../lists/programs.html">Programs</a></li>
+          </ul>
+        <form action="../search.html" class="navbar-form navbar-right" role="search">
+        <div class="form-group">
+          <input type="text" class="form-control" placeholder="Search" name="q" id="tipue_search_input" autocomplete="off" required>
+        </div>
+<!--
+        <button type="submit" class="btn btn-default">Submit</button>
+-->
+        </form>
+        </div><!--/.nav-collapse -->
+      </div>
+    </nav>
+
+    <div class="container">
+  <div class="row">
+    <h1>thompson_tensors_m 
+    <small>Module</small>
+    </h1>
+    <div class="row">
+  <div class="col-lg-12">
+<div class="well well-sm">
+  <ul class="list-inline" style="margin-bottom:0px;display:inline">
+     <li><i class="fa fa-list-ol"></i>
+       <a data-toggle="tooltip"
+    data-placement="bottom" data-html="true"
+    title=" 0.7% of total for modules and submodules.">25 statements</a>
+     </li> 
+    <li><i class="fa fa-code"></i><a href="../src/thompson_tensors_m.f90"> Source File</a></li>
+  </ul>
+  <ol class="breadcrumb in-well text-right">
+     <li><a href='../sourcefile/thompson_tensors_m.f90.html'>thompson_tensors_m.f90</a></li>
+     <li class="active">thompson_tensors_m</li>
+  </ol>
+</div>
+</div>
+</div>
+<script>
+  $(function () {
+  $('[data-toggle="tooltip"]').tooltip()
+  })
+</script>
+
+  </div>
+  
+  <div class="row">
+    <div class="col-md-3 hidden-xs hidden-sm visible-md visible-lg">
+    <div id="sidebar">
+  <h3>Contents</h3>
+ 
+<div class="panel panel-primary">
+  <div class="panel-heading text-left"><h3 class="panel-title"><a data-toggle="collapse" href="#vars-0">Variables</a></h3></div>
+  <div id="vars-0" class="panel-collapse collapse">
+    <div class="list-group">
+      <a class="list-group-item" href="../module/thompson_tensors_m.html#variable-t~4">T</a>
+      <a class="list-group-item" href="../module/thompson_tensors_m.html#variable-p~3">p</a>
+      <a class="list-group-item" href="../module/thompson_tensors_m.html#variable-t_max~2">T_max</a>
+      <a class="list-group-item" href="../module/thompson_tensors_m.html#variable-t_min~2">T_min</a>
+      <a class="list-group-item" href="../module/thompson_tensors_m.html#variable-i~2">i</a>
+      <a class="list-group-item" href="../module/thompson_tensors_m.html#variable-p_max~2">p_max</a>
+      <a class="list-group-item" href="../module/thompson_tensors_m.html#variable-p_min~2">p_min</a>
+      <a class="list-group-item" href="../module/thompson_tensors_m.html#variable-resolution~2">resolution</a>
+    </div>
+  </div>
+</div>
+<div class="panel panel-primary">
+  <div class="panel-heading text-left"><h3 class="panel-title"><a data-toggle="collapse" href="#funcs-0">Functions</a></h3></div>
+  <div id="funcs-0" class="panel-collapse collapse">
+    <div class="list-group">
+      <a class="list-group-item" href="../module/thompson_tensors_m.html#proc-y~7">y</a>
+    </div>
+  </div>
+</div>
+
+</div>
+
+    </div>
+    
+    <div class="col-md-9" id='text'>
+    <p>This module supports the program in the file example/learn-microphysics-procedures.f90.</p>
+<br>        <div class="panel panel-default">
+      <div class="panel-heading">
+  <h3 class="panel-title">Uses</h3>
+      </div>
+      <ul class="list-group">
+      <li class="list-group-item">
+  <ul class="list-inline">
+    <li><a href='../module/module_mp_thompson.html'>module_mp_thompson</a></li>
+    <li>assert_m</li>
+    <li><a href='../module/inference_engine_m.html'>inference_engine_m</a></li>
+  </ul>
+      </li>
+      <li class="list-group-item">
+  <div class="depgraph"><?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN"
+ "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
+<!-- Generated by graphviz version 2.43.0 (0)
+ -->
+<!-- Title: module~~thompson_tensors_m~~UsesGraph Pages: 1 -->
+<svg id="modulethompson_tensors_mUsesGraph" width="641pt" height="306pt"
+ viewBox="0.00 0.00 641.00 306.43" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+<g id="module~~thompson_tensors_m~~UsesGraph" class="graph" transform="scale(1.84 1.84) rotate(0) translate(4 561.06)">
+<title>module~~thompson_tensors_m~~UsesGraph</title>
+<polygon fill="white" stroke="transparent" points="-4,4 -4,-561.06 1178,-561.06 1178,4 -4,4"/>
+<!-- module~thompson_tensors_m -->
+<g id="module~~thompson_tensors_m~~UsesGraph_node1" class="node">
+<title>module~thompson_tensors_m</title>
+<polygon fill="none" stroke="black" points="1174,-459.77 1048,-459.77 1048,-435.77 1174,-435.77 1174,-459.77"/>
+<text text-anchor="middle" x="1111" y="-445.37" font-family="Helvetica,sans-Serif" font-size="10.50">thompson_tensors_m</text>
+</g>
+<!-- module~module_mp_thompson -->
+<g id="module~~thompson_tensors_m~~UsesGraph_node2" class="node">
+<title>module~module_mp_thompson</title>
+<g id="a_module~~thompson_tensors_m~~UsesGraph_node2"><a xlink:href=".././module/module_mp_thompson.html" xlink:title="module_mp_thompson">
+<polygon fill="#337ab7" stroke="#337ab7" points="1012,-501.77 878,-501.77 878,-477.77 1012,-477.77 1012,-501.77"/>
+<text text-anchor="middle" x="945" y="-487.37" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">module_mp_thompson</text>
+</a>
+</g>
+</g>
+<!-- module~thompson_tensors_m&#45;&gt;module~module_mp_thompson -->
+<g id="module~~thompson_tensors_m~~UsesGraph_edge1" class="edge">
+<title>module~thompson_tensors_m&#45;&gt;module~module_mp_thompson</title>
+<path fill="none" stroke="#ff0000" stroke-dasharray="5,2" d="M1063,-459.8C1044.22,-464.61 1022.42,-470.2 1002.76,-475.23"/>
+<polygon fill="#ff0000" stroke="#ff0000" points="1001.82,-471.86 993,-477.73 1003.56,-478.64 1001.82,-471.86"/>
+</g>
+<!-- assert_m -->
+<g id="module~~thompson_tensors_m~~UsesGraph_node3" class="node">
+<title>assert_m</title>
+<polygon fill="#337ab7" stroke="#337ab7" points="975.5,-459.77 914.5,-459.77 914.5,-435.77 975.5,-435.77 975.5,-459.77"/>
+<text text-anchor="middle" x="945" y="-445.37" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">assert_m</text>
+</g>
+<!-- module~thompson_tensors_m&#45;&gt;assert_m -->
+<g id="module~~thompson_tensors_m~~UsesGraph_edge2" class="edge">
+<title>module~thompson_tensors_m&#45;&gt;assert_m</title>
+<path fill="none" stroke="#ff0000" stroke-dasharray="5,2" d="M1048,-447.77C1027.13,-447.77 1004.41,-447.77 985.73,-447.77"/>
+<polygon fill="#ff0000" stroke="#ff0000" points="985.52,-444.27 975.52,-447.77 985.52,-451.27 985.52,-444.27"/>
+</g>
+<!-- module~inference_engine_m -->
+<g id="module~~thompson_tensors_m~~UsesGraph_node4" class="node">
+<title>module~inference_engine_m</title>
+<g id="a_module~~thompson_tensors_m~~UsesGraph_node4"><a xlink:href=".././module/inference_engine_m.html" xlink:title="inference_engine_m">
+<polygon fill="#337ab7" stroke="#337ab7" points="1005.5,-417.77 884.5,-417.77 884.5,-393.77 1005.5,-393.77 1005.5,-417.77"/>
+<text text-anchor="middle" x="945" y="-403.37" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">inference_engine_m</text>
+</a>
+</g>
+</g>
+<!-- module~thompson_tensors_m&#45;&gt;module~inference_engine_m -->
+<g id="module~~thompson_tensors_m~~UsesGraph_edge3" class="edge">
+<title>module~thompson_tensors_m&#45;&gt;module~inference_engine_m</title>
+<path fill="none" stroke="#ff0000" stroke-dasharray="5,2" d="M1063,-435.73C1044.22,-430.92 1022.42,-425.34 1002.76,-420.3"/>
+<polygon fill="#ff0000" stroke="#ff0000" points="1003.56,-416.9 993,-417.8 1001.82,-423.68 1003.56,-416.9"/>
+</g>
+<!-- module~netcdf_file_m -->
+<g id="module~~thompson_tensors_m~~UsesGraph_node5" class="node">
+<title>module~netcdf_file_m</title>
+<g id="a_module~~thompson_tensors_m~~UsesGraph_node5"><a xlink:href=".././module/netcdf_file_m.html" xlink:title="NetCDF_file_m">
+<polygon fill="#337ab7" stroke="#337ab7" points="828,-477.77 738,-477.77 738,-453.77 828,-453.77 828,-477.77"/>
+<text text-anchor="middle" x="783" y="-463.37" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">NetCDF_file_m</text>
+</a>
+</g>
+</g>
+<!-- module~inference_engine_m&#45;&gt;module~netcdf_file_m -->
+<g id="module~~thompson_tensors_m~~UsesGraph_edge4" class="edge">
+<title>module~inference_engine_m&#45;&gt;module~netcdf_file_m</title>
+<path fill="none" stroke="#0000ff" stroke-dasharray="5,2" d="M904.38,-417.77C895.64,-420.58 886.47,-423.67 878,-426.77 859,-433.72 838.18,-442.26 820.98,-449.57"/>
+<polygon fill="#0000ff" stroke="#0000ff" points="819.13,-446.56 811.32,-453.71 821.89,-452.99 819.13,-446.56"/>
+</g>
+<!-- module~step_m -->
+<g id="module~~thompson_tensors_m~~UsesGraph_node6" class="node">
+<title>module~step_m</title>
+<g id="a_module~~thompson_tensors_m~~UsesGraph_node6"><a xlink:href=".././module/step_m.html" xlink:title="step_m">
+<polygon fill="#337ab7" stroke="#337ab7" points="450,-65.77 396,-65.77 396,-41.77 450,-41.77 450,-65.77"/>
+<text text-anchor="middle" x="423" y="-51.37" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">step_m</text>
+</a>
+</g>
+</g>
+<!-- module~inference_engine_m&#45;&gt;module~step_m -->
+<g id="module~~thompson_tensors_m~~UsesGraph_edge8" class="edge">
+<title>module~inference_engine_m&#45;&gt;module~step_m</title>
+<path fill="none" stroke="#0000ff" stroke-dasharray="5,2" d="M938.33,-393.54C921.03,-357.8 865.16,-253.24 784,-207.77"/>
+<path fill="none" stroke="#0000ff" stroke-dasharray="5,2" d="M782,-207.77C727.36,-177.15 740.77,-136.51 688,-102.77 663.72,-87.24 653,-93.85 626,-83.77"/>
+<path fill="none" stroke="#0000ff" stroke-dasharray="5,2" d="M624,-83.77C569.23,-63.31 501.1,-56.78 460.16,-54.7"/>
+<polygon fill="#0000ff" stroke="#0000ff" points="460.26,-51.2 450.11,-54.26 459.95,-58.2 460.26,-51.2"/>
+</g>
+<!-- module~kind_parameters_m -->
+<g id="module~~thompson_tensors_m~~UsesGraph_node7" class="node">
+<title>module~kind_parameters_m</title>
+<g id="a_module~~thompson_tensors_m~~UsesGraph_node7"><a xlink:href=".././module/kind_parameters_m.html" xlink:title="kind_parameters_m">
+<polygon fill="#337ab7" stroke="#337ab7" points="118,-145.77 0,-145.77 0,-121.77 118,-121.77 118,-145.77"/>
+<text text-anchor="middle" x="59" y="-131.37" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">kind_parameters_m</text>
+</a>
+</g>
+</g>
+<!-- module~inference_engine_m&#45;&gt;module~kind_parameters_m -->
+<g id="module~~thompson_tensors_m~~UsesGraph_edge7" class="edge">
+<title>module~inference_engine_m&#45;&gt;module~kind_parameters_m</title>
+<path fill="none" stroke="#0000ff" stroke-dasharray="5,2" d="M624,-523.77C448.25,-564.59 370.52,-583.26 220,-483.77"/>
+</g>
+<!-- module~trainable_engine_m -->
+<g id="module~~thompson_tensors_m~~UsesGraph_node8" class="node">
+<title>module~trainable_engine_m</title>
+<g id="a_module~~thompson_tensors_m~~UsesGraph_node8"><a xlink:href=".././module/trainable_engine_m.html" xlink:title="trainable_engine_m">
+<polygon fill="#337ab7" stroke="#337ab7" points="842,-377.77 724,-377.77 724,-353.77 842,-353.77 842,-377.77"/>
+<text text-anchor="middle" x="783" y="-363.37" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">trainable_engine_m</text>
+</a>
+</g>
+</g>
+<!-- module~inference_engine_m&#45;&gt;module~trainable_engine_m -->
+<g id="module~~thompson_tensors_m~~UsesGraph_edge6" class="edge">
+<title>module~inference_engine_m&#45;&gt;module~trainable_engine_m</title>
+<path fill="none" stroke="#0000ff" stroke-dasharray="5,2" d="M895.99,-393.77C879.14,-389.55 860.02,-384.77 842.41,-380.37"/>
+<polygon fill="#0000ff" stroke="#0000ff" points="842.8,-376.86 832.25,-377.83 841.1,-383.65 842.8,-376.86"/>
+</g>
+<!-- module~swish_m -->
+<g id="module~~thompson_tensors_m~~UsesGraph_node9" class="node">
+<title>module~swish_m</title>
+<g id="a_module~~thompson_tensors_m~~UsesGraph_node9"><a xlink:href=".././module/swish_m.html" xlink:title="swish_m">
+<polygon fill="#337ab7" stroke="#337ab7" points="653.5,-135.77 596.5,-135.77 596.5,-111.77 653.5,-111.77 653.5,-135.77"/>
+<text text-anchor="middle" x="625" y="-121.37" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">swish_m</text>
+</a>
+</g>
+</g>
+<!-- module~inference_engine_m&#45;&gt;module~swish_m -->
+<g id="module~~thompson_tensors_m~~UsesGraph_edge5" class="edge">
+<title>module~inference_engine_m&#45;&gt;module~swish_m</title>
+<path fill="none" stroke="#0000ff" stroke-dasharray="5,2" d="M782,-207.77C738.12,-183.19 733.1,-167.03 688,-144.77 680.24,-140.94 671.6,-137.52 663.3,-134.62"/>
+<polygon fill="#0000ff" stroke="#0000ff" points="664.38,-131.29 653.79,-131.46 662.17,-137.93 664.38,-131.29"/>
+</g>
+<!-- module~differentiable_activation_strategy_m -->
+<g id="module~~thompson_tensors_m~~UsesGraph_node10" class="node">
+<title>module~differentiable_activation_strategy_m</title>
+<g id="a_module~~thompson_tensors_m~~UsesGraph_node10"><a xlink:href=".././module/differentiable_activation_strategy_m.html" xlink:title="differentiable_activation_strategy_m">
+<polygon fill="#337ab7" stroke="#337ab7" points="526,-221.77 320,-221.77 320,-197.77 526,-197.77 526,-221.77"/>
+<text text-anchor="middle" x="423" y="-207.37" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">differentiable_activation_strategy_m</text>
+</a>
+</g>
+</g>
+<!-- module~inference_engine_m&#45;&gt;module~differentiable_activation_strategy_m -->
+<g id="module~~thompson_tensors_m~~UsesGraph_edge9" class="edge">
+<title>module~inference_engine_m&#45;&gt;module~differentiable_activation_strategy_m</title>
+<path fill="none" stroke="#0000ff" stroke-dasharray="5,2" d="M782,-207.77C719.56,-172.78 695.94,-262.97 626,-247.77"/>
+<path fill="none" stroke="#0000ff" stroke-dasharray="5,2" d="M624,-247.77C584.06,-239.09 539.4,-230.5 502.43,-223.69"/>
+<polygon fill="#0000ff" stroke="#0000ff" points="502.69,-220.17 492.22,-221.81 501.42,-227.06 502.69,-220.17"/>
+</g>
+<!-- module~inference_engine_m_ -->
+<g id="module~~thompson_tensors_m~~UsesGraph_node11" class="node">
+<title>module~inference_engine_m_</title>
+<g id="a_module~~thompson_tensors_m~~UsesGraph_node11"><a xlink:href=".././module/inference_engine_m_.html" xlink:title="inference_engine_m_">
+<polygon fill="#337ab7" stroke="#337ab7" points="688,-299.77 562,-299.77 562,-275.77 688,-275.77 688,-299.77"/>
+<text text-anchor="middle" x="625" y="-285.37" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">inference_engine_m_</text>
+</a>
+</g>
+</g>
+<!-- module~inference_engine_m&#45;&gt;module~inference_engine_m_ -->
+<g id="module~~thompson_tensors_m~~UsesGraph_edge10" class="edge">
+<title>module~inference_engine_m&#45;&gt;module~inference_engine_m_</title>
+<path fill="none" stroke="#0000ff" stroke-dasharray="5,2" d="M782,-207.77C739.97,-184.22 731.19,-240.41 688,-261.77 681.17,-265.15 673.78,-268.49 666.58,-271.61"/>
+<polygon fill="#0000ff" stroke="#0000ff" points="664.78,-268.57 656.93,-275.68 667.5,-275.01 664.78,-268.57"/>
+</g>
+<!-- module~tensor_m -->
+<g id="module~~thompson_tensors_m~~UsesGraph_node12" class="node">
+<title>module~tensor_m</title>
+<g id="a_module~~thompson_tensors_m~~UsesGraph_node12"><a xlink:href=".././module/tensor_m.html" xlink:title="tensor_m">
+<polygon fill="#337ab7" stroke="#337ab7" points="250,-417.77 188,-417.77 188,-393.77 250,-393.77 250,-417.77"/>
+<text text-anchor="middle" x="219" y="-403.37" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">tensor_m</text>
+</a>
+</g>
+</g>
+<!-- module~inference_engine_m&#45;&gt;module~tensor_m -->
+<g id="module~~thompson_tensors_m~~UsesGraph_edge11" class="edge">
+<title>module~inference_engine_m&#45;&gt;module~tensor_m</title>
+<path fill="none" stroke="#0000ff" stroke-dasharray="5,2" d="M884.37,-410.97C854.12,-414.17 816.9,-418.99 784,-425.77"/>
+<path fill="none" stroke="#0000ff" stroke-dasharray="5,2" d="M782,-425.77C714.09,-439.75 695.26,-422.68 626,-425.77"/>
+</g>
+<!-- module~activation_strategy_m -->
+<g id="module~~thompson_tensors_m~~UsesGraph_node13" class="node">
+<title>module~activation_strategy_m</title>
+<g id="a_module~~thompson_tensors_m~~UsesGraph_node13"><a xlink:href=".././module/activation_strategy_m.html" xlink:title="activation_strategy_m">
+<polygon fill="#337ab7" stroke="#337ab7" points="284,-105.77 154,-105.77 154,-81.77 284,-81.77 284,-105.77"/>
+<text text-anchor="middle" x="219" y="-91.37" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">activation_strategy_m</text>
+</a>
+</g>
+</g>
+<!-- module~inference_engine_m&#45;&gt;module~activation_strategy_m -->
+<g id="module~~thompson_tensors_m~~UsesGraph_edge12" class="edge">
+<title>module~inference_engine_m&#45;&gt;module~activation_strategy_m</title>
+<path fill="none" stroke="#0000ff" stroke-dasharray="5,2" d="M624,-83.77C594.11,-72.61 402.76,-82.35 294.47,-88.93"/>
+<polygon fill="#0000ff" stroke="#0000ff" points="294.02,-85.45 284.26,-89.56 294.45,-92.44 294.02,-85.45"/>
+</g>
+<!-- module~input_output_pair_m -->
+<g id="module~~thompson_tensors_m~~UsesGraph_node14" class="node">
+<title>module~input_output_pair_m</title>
+<g id="a_module~~thompson_tensors_m~~UsesGraph_node14"><a xlink:href=".././module/input_output_pair_m.html" xlink:title="input_output_pair_m">
+<polygon fill="#337ab7" stroke="#337ab7" points="483.5,-495.77 362.5,-495.77 362.5,-471.77 483.5,-471.77 483.5,-495.77"/>
+<text text-anchor="middle" x="423" y="-481.37" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">input_output_pair_m</text>
+</a>
+</g>
+</g>
+<!-- module~inference_engine_m&#45;&gt;module~input_output_pair_m -->
+<g id="module~~thompson_tensors_m~~UsesGraph_edge13" class="edge">
+<title>module~inference_engine_m&#45;&gt;module~input_output_pair_m</title>
+<path fill="none" stroke="#0000ff" stroke-dasharray="5,2" d="M782,-425.77C755.43,-431.24 746.55,-429.69 724,-444.77 703.56,-458.43 706.8,-470.93 688,-486.77 663.46,-507.44 657.26,-516.51 626,-523.77"/>
+<path fill="none" stroke="#0000ff" stroke-dasharray="5,2" d="M624,-523.77C610.32,-526.94 536.8,-510.83 482.86,-498.11"/>
+<polygon fill="#0000ff" stroke="#0000ff" points="483.57,-494.68 473.03,-495.77 481.95,-501.49 483.57,-494.68"/>
+</g>
+<!-- module~sigmoid_m -->
+<g id="module~~thompson_tensors_m~~UsesGraph_node15" class="node">
+<title>module~sigmoid_m</title>
+<g id="a_module~~thompson_tensors_m~~UsesGraph_node15"><a xlink:href=".././module/sigmoid_m.html" xlink:title="sigmoid_m">
+<polygon fill="#337ab7" stroke="#337ab7" points="660,-219.77 590,-219.77 590,-195.77 660,-195.77 660,-219.77"/>
+<text text-anchor="middle" x="625" y="-205.37" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">sigmoid_m</text>
+</a>
+</g>
+</g>
+<!-- module~inference_engine_m&#45;&gt;module~sigmoid_m -->
+<g id="module~~thompson_tensors_m~~UsesGraph_edge14" class="edge">
+<title>module~inference_engine_m&#45;&gt;module~sigmoid_m</title>
+<path fill="none" stroke="#0000ff" stroke-dasharray="5,2" d="M782,-207.77C748.1,-188.78 703.2,-191.07 670.28,-196.76"/>
+<polygon fill="#0000ff" stroke="#0000ff" points="669.21,-193.4 660.04,-198.7 670.51,-200.28 669.21,-193.4"/>
+</g>
+<!-- module~mini_batch_m -->
+<g id="module~~thompson_tensors_m~~UsesGraph_node16" class="node">
+<title>module~mini_batch_m</title>
+<g id="a_module~~thompson_tensors_m~~UsesGraph_node16"><a xlink:href=".././module/mini_batch_m.html" xlink:title="mini_batch_m">
+<polygon fill="#337ab7" stroke="#337ab7" points="668.5,-477.77 581.5,-477.77 581.5,-453.77 668.5,-453.77 668.5,-477.77"/>
+<text text-anchor="middle" x="625" y="-463.37" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">mini_batch_m</text>
+</a>
+</g>
+</g>
+<!-- module~inference_engine_m&#45;&gt;module~mini_batch_m -->
+<g id="module~~thompson_tensors_m~~UsesGraph_edge15" class="edge">
+<title>module~inference_engine_m&#45;&gt;module~mini_batch_m</title>
+<path fill="none" stroke="#0000ff" stroke-dasharray="5,2" d="M782,-425.77C747.19,-432.94 708.48,-442.85 678.33,-451.01"/>
+<polygon fill="#0000ff" stroke="#0000ff" points="677.18,-447.7 668.45,-453.71 679.02,-454.45 677.18,-447.7"/>
+</g>
+<!-- module~relu_m -->
+<g id="module~~thompson_tensors_m~~UsesGraph_node17" class="node">
+<title>module~relu_m</title>
+<g id="a_module~~thompson_tensors_m~~UsesGraph_node17"><a xlink:href=".././module/relu_m.html" xlink:title="relu_m">
+<polygon fill="#337ab7" stroke="#337ab7" points="652,-177.77 598,-177.77 598,-153.77 652,-153.77 652,-177.77"/>
+<text text-anchor="middle" x="625" y="-163.37" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">relu_m</text>
+</a>
+</g>
+</g>
+<!-- module~inference_engine_m&#45;&gt;module~relu_m -->
+<g id="module~~thompson_tensors_m~~UsesGraph_edge16" class="edge">
+<title>module~inference_engine_m&#45;&gt;module~relu_m</title>
+<path fill="none" stroke="#0000ff" stroke-dasharray="5,2" d="M782,-207.77C744.13,-186.55 695.04,-175.64 662.13,-170.32"/>
+<polygon fill="#0000ff" stroke="#0000ff" points="662.47,-166.83 652.05,-168.79 661.41,-173.76 662.47,-166.83"/>
+</g>
+<!-- module~step_m&#45;&gt;module~kind_parameters_m -->
+<g id="module~~thompson_tensors_m~~UsesGraph_edge19" class="edge">
+<title>module~step_m&#45;&gt;module~kind_parameters_m</title>
+<path fill="none" stroke="#ff7500" stroke-dasharray="5,2" d="M218,-53.77C188.66,-58.2 180.94,-60.34 154,-72.77 140.21,-79.12 108.3,-100.4 85.49,-116.04"/>
+<polygon fill="#ff7500" stroke="#ff7500" points="83.5,-113.17 77.25,-121.72 87.47,-118.93 83.5,-113.17"/>
+</g>
+<!-- module~step_m&#45;&gt;module~activation_strategy_m -->
+<g id="module~~thompson_tensors_m~~UsesGraph_edge18" class="edge">
+<title>module~step_m&#45;&gt;module~activation_strategy_m</title>
+<path fill="none" stroke="#ff7500" stroke-dasharray="5,2" d="M395.59,-59C369.1,-64.24 327.14,-72.55 290.88,-79.73"/>
+<polygon fill="#ff7500" stroke="#ff7500" points="289.95,-76.35 280.82,-81.72 291.31,-83.21 289.95,-76.35"/>
+</g>
+<!-- string_m -->
+<g id="module~~thompson_tensors_m~~UsesGraph_node18" class="node">
+<title>string_m</title>
+<polygon fill="#337ab7" stroke="#337ab7" points="88,-84.77 30,-84.77 30,-60.77 88,-60.77 88,-84.77"/>
+<text text-anchor="middle" x="59" y="-70.37" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">string_m</text>
+</g>
+<!-- module~step_m&#45;&gt;string_m -->
+<g id="module~~thompson_tensors_m~~UsesGraph_edge17" class="edge">
+<title>module~step_m&#45;&gt;string_m</title>
+<path fill="none" stroke="#ff7500" stroke-dasharray="5,2" d="M395.99,-51.3C357.34,-48.19 282.59,-44.31 220,-53.77"/>
+<path fill="none" stroke="#ff7500" stroke-dasharray="5,2" d="M218,-53.77C177.26,-59.93 130.36,-65.36 98.31,-68.82"/>
+<polygon fill="#ff7500" stroke="#ff7500" points="97.61,-65.37 88.04,-69.92 98.35,-72.33 97.61,-65.37"/>
+</g>
+<!-- module~trainable_engine_m&#45;&gt;module~kind_parameters_m -->
+<g id="module~~thompson_tensors_m~~UsesGraph_edge21" class="edge">
+<title>module~trainable_engine_m&#45;&gt;module~kind_parameters_m</title>
+<path fill="none" stroke="#9cff00" stroke-dasharray="5,2" d="M723.62,-364.4C603.65,-361.49 338.97,-354.48 320,-348.77 270.15,-333.77 268.84,-305.8 220,-287.77"/>
+</g>
+<!-- module~trainable_engine_m&#45;&gt;module~differentiable_activation_strategy_m -->
+<g id="module~~thompson_tensors_m~~UsesGraph_edge20" class="edge">
+<title>module~trainable_engine_m&#45;&gt;module~differentiable_activation_strategy_m</title>
+<path fill="none" stroke="#9cff00" stroke-dasharray="5,2" d="M773.65,-353.49C758.82,-332.62 725.89,-290.22 688,-266.77 663.5,-251.6 654.16,-253.89 626,-247.77"/>
+</g>
+<!-- module~trainable_engine_m&#45;&gt;module~inference_engine_m_ -->
+<g id="module~~thompson_tensors_m~~UsesGraph_edge22" class="edge">
+<title>module~trainable_engine_m&#45;&gt;module~inference_engine_m_</title>
+<path fill="none" stroke="#9cff00" stroke-dasharray="5,2" d="M757.97,-353.75C731.51,-340.52 688.82,-319.18 659.19,-304.36"/>
+<polygon fill="#9cff00" stroke="#9cff00" points="660.57,-301.14 650.06,-299.8 657.44,-307.4 660.57,-301.14"/>
+</g>
+<!-- module~trainable_engine_m&#45;&gt;module~tensor_m -->
+<g id="module~~thompson_tensors_m~~UsesGraph_edge23" class="edge">
+<title>module~trainable_engine_m&#45;&gt;module~tensor_m</title>
+<path fill="none" stroke="#9cff00" stroke-dasharray="5,2" d="M762.71,-377.88C734.11,-394.73 678.18,-423.45 626,-425.77"/>
+<path fill="none" stroke="#9cff00" stroke-dasharray="5,2" d="M624,-425.77C534.76,-429.74 512.7,-395.16 424,-405.77"/>
+</g>
+<!-- module~trainable_engine_m&#45;&gt;module~mini_batch_m -->
+<g id="module~~thompson_tensors_m~~UsesGraph_edge24" class="edge">
+<title>module~trainable_engine_m&#45;&gt;module~mini_batch_m</title>
+<path fill="none" stroke="#9cff00" stroke-dasharray="5,2" d="M766.49,-378.06C740.34,-398.78 690.11,-438.52 688,-439.77 681.99,-443.31 675.4,-446.61 668.83,-449.6"/>
+<polygon fill="#9cff00" stroke="#9cff00" points="667.08,-446.54 659.3,-453.74 669.87,-452.97 667.08,-446.54"/>
+</g>
+<!-- sourcery_m -->
+<g id="module~~thompson_tensors_m~~UsesGraph_node20" class="node">
+<title>sourcery_m</title>
+<polygon fill="#337ab7" stroke="#337ab7" points="662,-397.77 588,-397.77 588,-373.77 662,-373.77 662,-397.77"/>
+<text text-anchor="middle" x="625" y="-383.37" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">sourcery_m</text>
+</g>
+<!-- module~trainable_engine_m&#45;&gt;sourcery_m -->
+<g id="module~~thompson_tensors_m~~UsesGraph_edge25" class="edge">
+<title>module~trainable_engine_m&#45;&gt;sourcery_m</title>
+<path fill="none" stroke="#9cff00" stroke-dasharray="5,2" d="M723.91,-373.21C707,-375.38 688.75,-377.72 672.64,-379.79"/>
+<polygon fill="#9cff00" stroke="#9cff00" points="671.87,-376.36 662.4,-381.1 672.76,-383.3 671.87,-376.36"/>
+</g>
+<!-- module~swish_m&#45;&gt;module~kind_parameters_m -->
+<g id="module~~thompson_tensors_m~~UsesGraph_edge27" class="edge">
+<title>module~swish_m&#45;&gt;module~kind_parameters_m</title>
+<path fill="none" stroke="#27ff00" stroke-dasharray="5,2" d="M596.42,-124.26C511.55,-125.76 252.61,-130.35 128.17,-132.56"/>
+<polygon fill="#27ff00" stroke="#27ff00" points="127.94,-129.06 118,-132.74 128.06,-136.06 127.94,-129.06"/>
+</g>
+<!-- module~swish_m&#45;&gt;module~differentiable_activation_strategy_m -->
+<g id="module~~thompson_tensors_m~~UsesGraph_edge26" class="edge">
+<title>module~swish_m&#45;&gt;module~differentiable_activation_strategy_m</title>
+<path fill="none" stroke="#27ff00" stroke-dasharray="5,2" d="M596.29,-132.41C585.49,-135.97 573.07,-140.3 562,-144.77 525.31,-159.57 484.45,-179.23 456.78,-193.04"/>
+<polygon fill="#27ff00" stroke="#27ff00" points="454.94,-190.05 447.57,-197.66 458.08,-196.3 454.94,-190.05"/>
+</g>
+<!-- module~swish_m&#45;&gt;string_m -->
+<g id="module~~thompson_tensors_m~~UsesGraph_edge28" class="edge">
+<title>module~swish_m&#45;&gt;string_m</title>
+<path fill="none" stroke="#27ff00" stroke-dasharray="5,2" d="M596.46,-116.63C584.82,-112.56 571.73,-106.5 562,-97.77 537.41,-75.72 552.79,-52.08 526,-32.77 488.59,-5.8 467.74,-28.38 424,-13.77"/>
+<path fill="none" stroke="#27ff00" stroke-dasharray="5,2" d="M422,-13.77C305.68,25.11 159.47,-27.91 94.2,-56.56"/>
+<polygon fill="#27ff00" stroke="#27ff00" points="92.5,-53.48 84.8,-60.76 95.36,-59.87 92.5,-53.48"/>
+</g>
+<!-- module~differentiable_activation_strategy_m&#45;&gt;module~activation_strategy_m -->
+<g id="module~~thompson_tensors_m~~UsesGraph_edge29" class="edge">
+<title>module~differentiable_activation_strategy_m&#45;&gt;module~activation_strategy_m</title>
+<path fill="none" stroke="#00ff4e" stroke-dasharray="5,2" d="M400.76,-197.57C364.6,-176.81 290.99,-134.53 249.73,-110.84"/>
+<polygon fill="#00ff4e" stroke="#00ff4e" points="251.37,-107.74 240.95,-105.8 247.88,-113.81 251.37,-107.74"/>
+</g>
+<!-- module~inference_engine_m_&#45;&gt;module~kind_parameters_m -->
+<g id="module~~thompson_tensors_m~~UsesGraph_edge31" class="edge">
+<title>module~inference_engine_m_&#45;&gt;module~kind_parameters_m</title>
+<path fill="none" stroke="#00ffc4" stroke-dasharray="5,2" d="M561.69,-284.65C522.15,-283.44 469.96,-283.26 424,-287.77"/>
+</g>
+<!-- module~inference_engine_m_&#45;&gt;module~differentiable_activation_strategy_m -->
+<g id="module~~thompson_tensors_m~~UsesGraph_edge30" class="edge">
+<title>module~inference_engine_m_&#45;&gt;module~differentiable_activation_strategy_m</title>
+<path fill="none" stroke="#00ffc4" stroke-dasharray="5,2" d="M591.48,-275.76C581.78,-271.75 571.26,-266.96 562,-261.77 544.79,-252.11 543.88,-244.13 526,-235.77 516.72,-231.43 506.61,-227.74 496.48,-224.63"/>
+<polygon fill="#00ffc4" stroke="#00ffc4" points="497.36,-221.24 486.79,-221.82 495.42,-227.96 497.36,-221.24"/>
+</g>
+<!-- module~inference_engine_m_&#45;&gt;module~tensor_m -->
+<g id="module~~thompson_tensors_m~~UsesGraph_edge32" class="edge">
+<title>module~inference_engine_m_&#45;&gt;module~tensor_m</title>
+<path fill="none" stroke="#00ffc4" stroke-dasharray="5,2" d="M611.85,-300.01C582.64,-328.22 504.86,-396.1 424,-405.77"/>
+<path fill="none" stroke="#00ffc4" stroke-dasharray="5,2" d="M422,-405.77C366.26,-412.43 301.25,-410.76 260.36,-408.57"/>
+<polygon fill="#00ffc4" stroke="#00ffc4" points="260.43,-405.07 250.25,-408 260.03,-412.06 260.43,-405.07"/>
+</g>
+<!-- module~inference_engine_m_&#45;&gt;module~activation_strategy_m -->
+<g id="module~~thompson_tensors_m~~UsesGraph_edge34" class="edge">
+<title>module~inference_engine_m_&#45;&gt;module~activation_strategy_m</title>
+<path fill="none" stroke="#00ffc4" stroke-dasharray="5,2" d="M561.63,-278.81C521.84,-272.39 469.4,-262.61 424,-249.77"/>
+<path fill="none" stroke="#00ffc4" stroke-dasharray="5,2" d="M422,-249.77C377.63,-237.22 359.02,-255.35 320,-230.77 275.23,-202.56 244.04,-146.46 229.43,-115.51"/>
+<polygon fill="#00ffc4" stroke="#00ffc4" points="232.45,-113.7 225.11,-106.06 226.08,-116.61 232.45,-113.7"/>
+</g>
+<!-- module~inference_engine_m_&#45;&gt;string_m -->
+<g id="module~~thompson_tensors_m~~UsesGraph_edge35" class="edge">
+<title>module~inference_engine_m_&#45;&gt;string_m</title>
+<path fill="none" stroke="#00ffc4" stroke-dasharray="5,2" d="M422,-249.77C377.63,-237.22 363.07,-247.23 320,-230.77 271.16,-212.1 142.36,-127.81 86.49,-90.56"/>
+<polygon fill="#00ffc4" stroke="#00ffc4" points="88.12,-87.44 77.86,-84.8 84.23,-93.26 88.12,-87.44"/>
+</g>
+<!-- file_m -->
+<g id="module~~thompson_tensors_m~~UsesGraph_node19" class="node">
+<title>file_m</title>
+<polygon fill="#337ab7" stroke="#337ab7" points="450,-339.77 396,-339.77 396,-315.77 450,-315.77 450,-339.77"/>
+<text text-anchor="middle" x="423" y="-325.37" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">file_m</text>
+</g>
+<!-- module~inference_engine_m_&#45;&gt;file_m -->
+<g id="module~~thompson_tensors_m~~UsesGraph_edge33" class="edge">
+<title>module~inference_engine_m_&#45;&gt;file_m</title>
+<path fill="none" stroke="#00ffc4" stroke-dasharray="5,2" d="M563.99,-299.77C530.18,-306.53 489.05,-314.76 460.16,-320.54"/>
+<polygon fill="#00ffc4" stroke="#00ffc4" points="459.22,-317.15 450.1,-322.55 460.59,-324.02 459.22,-317.15"/>
+</g>
+<!-- module~tensor_m&#45;&gt;module~kind_parameters_m -->
+<g id="module~~thompson_tensors_m~~UsesGraph_edge36" class="edge">
+<title>module~tensor_m&#45;&gt;module~kind_parameters_m</title>
+<path fill="none" stroke="#00c4ff" stroke-dasharray="5,2" d="M210.35,-393.7C198.17,-374.42 173.75,-335.41 154,-301.77 123.33,-249.53 88.97,-187.05 71.52,-155.01"/>
+<polygon fill="#00c4ff" stroke="#00c4ff" points="74.52,-153.21 66.67,-146.09 68.37,-156.55 74.52,-153.21"/>
+</g>
+<!-- module~activation_strategy_m&#45;&gt;module~kind_parameters_m -->
+<g id="module~~thompson_tensors_m~~UsesGraph_edge37" class="edge">
+<title>module~activation_strategy_m&#45;&gt;module~kind_parameters_m</title>
+<path fill="none" stroke="#004eff" stroke-dasharray="5,2" d="M170.59,-105.77C153.95,-109.98 135.07,-114.76 117.68,-119.16"/>
+<polygon fill="#004eff" stroke="#004eff" points="116.48,-115.86 107.64,-121.71 118.2,-122.64 116.48,-115.86"/>
+</g>
+<!-- module~activation_strategy_m&#45;&gt;string_m -->
+<g id="module~~thompson_tensors_m~~UsesGraph_edge38" class="edge">
+<title>module~activation_strategy_m&#45;&gt;string_m</title>
+<path fill="none" stroke="#004eff" stroke-dasharray="5,2" d="M153.74,-85.23C135.09,-82.75 115.32,-80.12 98.76,-77.92"/>
+<polygon fill="#004eff" stroke="#004eff" points="98.76,-74.39 88.38,-76.54 97.84,-81.33 98.76,-74.39"/>
+</g>
+<!-- module~input_output_pair_m&#45;&gt;module~kind_parameters_m -->
+<g id="module~~thompson_tensors_m~~UsesGraph_edge40" class="edge">
+<title>module~input_output_pair_m&#45;&gt;module~kind_parameters_m</title>
+<path fill="none" stroke="#2700ff" stroke-dasharray="5,2" d="M381.23,-495.81C337.68,-506.11 268.39,-514.85 220,-483.77"/>
+</g>
+<!-- module~input_output_pair_m&#45;&gt;module~tensor_m -->
+<g id="module~~thompson_tensors_m~~UsesGraph_edge39" class="edge">
+<title>module~input_output_pair_m&#45;&gt;module~tensor_m</title>
+<path fill="none" stroke="#2700ff" stroke-dasharray="5,2" d="M390.88,-471.75C355.58,-458.12 297.94,-435.86 259.5,-421.02"/>
+<polygon fill="#2700ff" stroke="#2700ff" points="260.75,-417.75 250.16,-417.42 258.23,-424.28 260.75,-417.75"/>
+</g>
+<!-- module~sigmoid_m&#45;&gt;module~kind_parameters_m -->
+<g id="module~~thompson_tensors_m~~UsesGraph_edge42" class="edge">
+<title>module~sigmoid_m&#45;&gt;module~kind_parameters_m</title>
+<path fill="none" stroke="#9c00ff" stroke-dasharray="5,2" d="M606.36,-219.94C587.32,-232.56 555.72,-252.06 526,-263.77 482.67,-280.83 470.35,-283.22 424,-287.77"/>
+<path fill="none" stroke="#9c00ff" stroke-dasharray="5,2" d="M422,-287.77C332.65,-296.53 304.22,-318.87 220,-287.77"/>
+</g>
+<!-- module~sigmoid_m&#45;&gt;module~differentiable_activation_strategy_m -->
+<g id="module~~thompson_tensors_m~~UsesGraph_edge41" class="edge">
+<title>module~sigmoid_m&#45;&gt;module~differentiable_activation_strategy_m</title>
+<path fill="none" stroke="#9c00ff" stroke-dasharray="5,2" d="M589.62,-208.11C574.5,-208.26 555.79,-208.45 536.45,-208.64"/>
+<polygon fill="#9c00ff" stroke="#9c00ff" points="536.26,-205.14 526.3,-208.74 536.33,-212.14 536.26,-205.14"/>
+</g>
+<!-- module~sigmoid_m&#45;&gt;string_m -->
+<g id="module~~thompson_tensors_m~~UsesGraph_edge43" class="edge">
+<title>module~sigmoid_m&#45;&gt;string_m</title>
+<path fill="none" stroke="#9c00ff" stroke-dasharray="5,2" d="M589.89,-202.78C579.66,-199.72 569.26,-194.76 562,-186.77 514.76,-134.72 576.82,-81.33 526,-32.77 492.66,-0.91 467.88,-27.95 424,-13.77"/>
+</g>
+<!-- module~mini_batch_m&#45;&gt;module~kind_parameters_m -->
+<g id="module~~thompson_tensors_m~~UsesGraph_edge44" class="edge">
+<title>module~mini_batch_m&#45;&gt;module~kind_parameters_m</title>
+<path fill="none" stroke="#ff00eb" stroke-dasharray="5,2" d="M581.07,-464.17C563.94,-463.61 544.04,-463.04 526,-462.77 434.46,-461.37 411.07,-453.31 320,-462.77 274.83,-467.46 258.21,-508.31 220,-483.77"/>
+<path fill="none" stroke="#ff00eb" stroke-dasharray="5,2" d="M218,-483.77C186.22,-462.76 174.77,-458.69 154,-426.77 95.37,-336.66 70.83,-207.17 63.02,-155.89"/>
+<polygon fill="#ff00eb" stroke="#ff00eb" points="66.47,-155.3 61.56,-145.91 59.54,-156.31 66.47,-155.3"/>
+</g>
+<!-- module~mini_batch_m&#45;&gt;module~input_output_pair_m -->
+<g id="module~~thompson_tensors_m~~UsesGraph_edge45" class="edge">
+<title>module~mini_batch_m&#45;&gt;module~input_output_pair_m</title>
+<path fill="none" stroke="#ff00eb" stroke-dasharray="5,2" d="M581.09,-469.63C555.63,-471.92 522.74,-474.88 493.64,-477.5"/>
+<polygon fill="#ff00eb" stroke="#ff00eb" points="493.17,-474.03 483.52,-478.41 493.8,-481 493.17,-474.03"/>
+</g>
+<!-- module~relu_m&#45;&gt;module~kind_parameters_m -->
+<g id="module~~thompson_tensors_m~~UsesGraph_edge47" class="edge">
+<title>module~relu_m&#45;&gt;module~kind_parameters_m</title>
+<path fill="none" stroke="#ff0075" stroke-dasharray="5,2" d="M597.7,-161.92C543.1,-155.15 414.63,-145.61 320,-188.77 263.1,-214.72 278.7,-309.34 220,-287.77"/>
+<path fill="none" stroke="#ff0075" stroke-dasharray="5,2" d="M218,-287.77C189.5,-277.24 178.15,-282.19 154,-263.77 114.98,-234 85.14,-183.61 70.33,-155.1"/>
+<polygon fill="#ff0075" stroke="#ff0075" points="73.36,-153.34 65.73,-146 67.11,-156.5 73.36,-153.34"/>
+</g>
+<!-- module~relu_m&#45;&gt;module~differentiable_activation_strategy_m -->
+<g id="module~~thompson_tensors_m~~UsesGraph_edge46" class="edge">
+<title>module~relu_m&#45;&gt;module~differentiable_activation_strategy_m</title>
+<path fill="none" stroke="#ff0075" stroke-dasharray="5,2" d="M597.85,-171.52C570.37,-177.57 526.06,-187.31 489.06,-195.46"/>
+<polygon fill="#ff0075" stroke="#ff0075" points="487.85,-192.14 478.83,-197.7 489.35,-198.97 487.85,-192.14"/>
+</g>
+<!-- module~relu_m&#45;&gt;string_m -->
+<g id="module~~thompson_tensors_m~~UsesGraph_edge48" class="edge">
+<title>module~relu_m&#45;&gt;string_m</title>
+<path fill="none" stroke="#ff0075" stroke-dasharray="5,2" d="M597.89,-162.44C585.55,-159.62 571.49,-154.4 562,-144.77 525.32,-107.51 565.24,-67.32 526,-32.77 491.39,-2.29 467.88,-27.95 424,-13.77"/>
+</g>
+</g>
+</svg>
+</div><script>var panmodulethompson_tensors_mUsesGraph = svgPanZoom('#modulethompson_tensors_mUsesGraph', {zoomEnabled: true,controlIconsEnabled: true, fit: true, center: true,}); </script><div><a type="button" class="graph-help" data-toggle="modal" href="#graph-help-text">Help</a></div><div class="modal fade" id="graph-help-text" tabindex="-1" role="dialog"><div class="modal-dialog modal-lg" role="document"><div class="modal-content"><div class="modal-header"><button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button><h4 class="modal-title" id="-graph-help-label">Graph Key</h4></div><div class="modal-body">
+    <p>Nodes of different colours represent the following: </p>
+    <?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN"
+ "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
+<!-- Generated by graphviz version 2.43.0 (0)
+ -->
+<!-- Title: Graph Key Pages: 1 -->
+<svg width="518pt" height="32pt"
+ viewBox="0.00 0.00 517.50 32.00" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+<g id="graph0" class="graph" transform="scale(1 1) rotate(0) translate(4 28)">
+<title>Graph Key</title>
+<polygon fill="white" stroke="transparent" points="-4,4 -4,-28 513.5,-28 513.5,4 -4,4"/>
+<!-- Module -->
+<g id="node1" class="node">
+<title>Module</title>
+<polygon fill="#337ab7" stroke="#337ab7" points="54,-24 0,-24 0,0 54,0 54,-24"/>
+<text text-anchor="middle" x="27" y="-9.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">Module</text>
+</g>
+<!-- Submodule -->
+<g id="node2" class="node">
+<title>Submodule</title>
+<polygon fill="#5bc0de" stroke="#5bc0de" points="145.5,-24 72.5,-24 72.5,0 145.5,0 145.5,-24"/>
+<text text-anchor="middle" x="109" y="-9.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">Submodule</text>
+</g>
+<!-- Subroutine -->
+<g id="node3" class="node">
+<title>Subroutine</title>
+<polygon fill="#d9534f" stroke="#d9534f" points="234,-24 164,-24 164,0 234,0 234,-24"/>
+<text text-anchor="middle" x="199" y="-9.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">Subroutine</text>
+</g>
+<!-- Function -->
+<g id="node4" class="node">
+<title>Function</title>
+<polygon fill="#d94e8f" stroke="#d94e8f" points="310,-24 252,-24 252,0 310,0 310,-24"/>
+<text text-anchor="middle" x="281" y="-9.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">Function</text>
+</g>
+<!-- Program -->
+<g id="node5" class="node">
+<title>Program</title>
+<polygon fill="#f0ad4e" stroke="#f0ad4e" points="386,-24 328,-24 328,0 386,0 386,-24"/>
+<text text-anchor="middle" x="357" y="-9.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">Program</text>
+</g>
+<!-- This Page&#39;s Entity -->
+<g id="node6" class="node">
+<title>This Page&#39;s Entity</title>
+<polygon fill="none" stroke="black" points="509.5,-24 404.5,-24 404.5,0 509.5,0 509.5,-24"/>
+<text text-anchor="middle" x="457" y="-9.6" font-family="Helvetica,sans-Serif" font-size="10.50">This Page&#39;s Entity</text>
+</g>
+</g>
+</svg>
+
+    
+    <p>Solid arrows point from a submodule to the (sub)module which it is
+    descended from. Dashed arrows point from a module or program unit to 
+    modules which it uses. Where possible, edges connecting nodes are given different colours to make them easier to distinguish in large graphs.
+    </p>
+    </div></div></div></div>
+      </li>
+      </ul>
+    </div>
+
+        <div class="panel panel-default">
+      <div class="panel-heading">
+  <h3 class="panel-title">Used by</h3>
+      </div>
+      <ul class="list-group">
+  <li class="list-group-item">
+    <div class="depgraph"><?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN"
+ "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
+<!-- Generated by graphviz version 2.43.0 (0)
+ -->
+<!-- Title: module~~thompson_tensors_m~~UsedByGraph Pages: 1 -->
+<svg id="modulethompson_tensors_mUsedByGraph" width="349pt" height="32pt"
+ viewBox="0.00 0.00 349.00 32.00" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+<g id="module~~thompson_tensors_m~~UsedByGraph" class="graph" transform="scale(1 1) rotate(0) translate(4 28)">
+<title>module~~thompson_tensors_m~~UsedByGraph</title>
+<polygon fill="white" stroke="transparent" points="-4,4 -4,-28 345,-28 345,4 -4,4"/>
+<!-- module~thompson_tensors_m -->
+<g id="module~~thompson_tensors_m~~UsedByGraph_node1" class="node">
+<title>module~thompson_tensors_m</title>
+<polygon fill="none" stroke="black" points="126,-24 0,-24 0,0 126,0 126,-24"/>
+<text text-anchor="middle" x="63" y="-9.6" font-family="Helvetica,sans-Serif" font-size="10.50">thompson_tensors_m</text>
+</g>
+<!-- program~learn_microphysics_procedures -->
+<g id="module~~thompson_tensors_m~~UsedByGraph_node2" class="node">
+<title>program~learn_microphysics_procedures</title>
+<g id="a_module~~thompson_tensors_m~~UsedByGraph_node2"><a xlink:href=".././program/learn_microphysics_procedures.html" xlink:title="learn_microphysics_procedures">
+<polygon fill="#f0ad4e" stroke="#f0ad4e" points="341,-24 162,-24 162,0 341,0 341,-24"/>
+<text text-anchor="middle" x="251.5" y="-9.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">learn_microphysics_procedures</text>
+</a>
+</g>
+</g>
+<!-- program~learn_microphysics_procedures&#45;&gt;module~thompson_tensors_m -->
+<g id="module~~thompson_tensors_m~~UsedByGraph_edge1" class="edge">
+<title>program~learn_microphysics_procedures&#45;&gt;module~thompson_tensors_m</title>
+<path fill="none" stroke="#ff0000" stroke-dasharray="5,2" d="M161.89,-12C153.27,-12 144.6,-12 136.17,-12"/>
+<polygon fill="#ff0000" stroke="#ff0000" points="136.03,-8.5 126.03,-12 136.03,-15.5 136.03,-8.5"/>
+</g>
+</g>
+</svg>
+</div><div><a type="button" class="graph-help" data-toggle="modal" href="#graph-help-text">Help</a></div><div class="modal fade" id="graph-help-text" tabindex="-1" role="dialog"><div class="modal-dialog modal-lg" role="document"><div class="modal-content"><div class="modal-header"><button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button><h4 class="modal-title" id="-graph-help-label">Graph Key</h4></div><div class="modal-body">
+    <p>Nodes of different colours represent the following: </p>
+    <?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN"
+ "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
+<!-- Generated by graphviz version 2.43.0 (0)
+ -->
+<!-- Title: Graph Key Pages: 1 -->
+<svg width="518pt" height="32pt"
+ viewBox="0.00 0.00 517.50 32.00" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+<g id="graph0" class="graph" transform="scale(1 1) rotate(0) translate(4 28)">
+<title>Graph Key</title>
+<polygon fill="white" stroke="transparent" points="-4,4 -4,-28 513.5,-28 513.5,4 -4,4"/>
+<!-- Module -->
+<g id="node1" class="node">
+<title>Module</title>
+<polygon fill="#337ab7" stroke="#337ab7" points="54,-24 0,-24 0,0 54,0 54,-24"/>
+<text text-anchor="middle" x="27" y="-9.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">Module</text>
+</g>
+<!-- Submodule -->
+<g id="node2" class="node">
+<title>Submodule</title>
+<polygon fill="#5bc0de" stroke="#5bc0de" points="145.5,-24 72.5,-24 72.5,0 145.5,0 145.5,-24"/>
+<text text-anchor="middle" x="109" y="-9.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">Submodule</text>
+</g>
+<!-- Subroutine -->
+<g id="node3" class="node">
+<title>Subroutine</title>
+<polygon fill="#d9534f" stroke="#d9534f" points="234,-24 164,-24 164,0 234,0 234,-24"/>
+<text text-anchor="middle" x="199" y="-9.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">Subroutine</text>
+</g>
+<!-- Function -->
+<g id="node4" class="node">
+<title>Function</title>
+<polygon fill="#d94e8f" stroke="#d94e8f" points="310,-24 252,-24 252,0 310,0 310,-24"/>
+<text text-anchor="middle" x="281" y="-9.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">Function</text>
+</g>
+<!-- Program -->
+<g id="node5" class="node">
+<title>Program</title>
+<polygon fill="#f0ad4e" stroke="#f0ad4e" points="386,-24 328,-24 328,0 386,0 386,-24"/>
+<text text-anchor="middle" x="357" y="-9.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">Program</text>
+</g>
+<!-- This Page&#39;s Entity -->
+<g id="node6" class="node">
+<title>This Page&#39;s Entity</title>
+<polygon fill="none" stroke="black" points="509.5,-24 404.5,-24 404.5,0 509.5,0 509.5,-24"/>
+<text text-anchor="middle" x="457" y="-9.6" font-family="Helvetica,sans-Serif" font-size="10.50">This Page&#39;s Entity</text>
+</g>
+</g>
+</svg>
+
+    
+    <p>Solid arrows point from a submodule to the (sub)module which it is
+    descended from. Dashed arrows point from a module or program unit to 
+    modules which it uses. Where possible, edges connecting nodes are given different colours to make them easier to distinguish in large graphs.
+    </p>
+    </div></div></div></div>
+  </li>
+      </ul>
+    </div>
+
+    <br>
+
+    <section class="visible-xs visible-sm hidden-md">
+      <h3>Contents</h3>
+ 
+<div class="panel panel-primary">
+  <div class="panel-heading text-left"><h3 class="panel-title"><a data-toggle="collapse" href="#vars-1">Variables</a></h3></div>
+  <div id="vars-1" class="panel-collapse collapse">
+    <div class="list-group">
+      <a class="list-group-item" href="../module/thompson_tensors_m.html#variable-t~4">T</a>
+      <a class="list-group-item" href="../module/thompson_tensors_m.html#variable-p~3">p</a>
+      <a class="list-group-item" href="../module/thompson_tensors_m.html#variable-t_max~2">T_max</a>
+      <a class="list-group-item" href="../module/thompson_tensors_m.html#variable-t_min~2">T_min</a>
+      <a class="list-group-item" href="../module/thompson_tensors_m.html#variable-i~2">i</a>
+      <a class="list-group-item" href="../module/thompson_tensors_m.html#variable-p_max~2">p_max</a>
+      <a class="list-group-item" href="../module/thompson_tensors_m.html#variable-p_min~2">p_min</a>
+      <a class="list-group-item" href="../module/thompson_tensors_m.html#variable-resolution~2">resolution</a>
+    </div>
+  </div>
+</div>
+<div class="panel panel-primary">
+  <div class="panel-heading text-left"><h3 class="panel-title"><a data-toggle="collapse" href="#funcs-1">Functions</a></h3></div>
+  <div id="funcs-1" class="panel-collapse collapse">
+    <div class="list-group">
+      <a class="list-group-item" href="../module/thompson_tensors_m.html#proc-y~7">y</a>
+    </div>
+  </div>
+</div>
+
+    </section>
+    <br class="visible-xs visible-sm hidden-md">
+
+
+    <section>
+    <h2>Variables</h2>
+    <table class="table table-striped varlist">
+<thead><tr><th>Type</th><th>Visibility</th><th>Attributes</th><th></th><th>Name</th><th></th><th>Initial</th><th></th></thead>
+<tbody>
+<tr>
+  <td><span class="anchor" id="variable-t~4"></span>real,</td>
+<td>public,</td>  <td>parameter</td><td>::</td>
+  <td><strong>T</strong>(*)</td><td> =</td><td>[(real(i)/real(resolution), i=0, resolution)]</td><td></td>
+</tr>
+<tr>
+  <td><span class="anchor" id="variable-p~3"></span>real,</td>
+<td>public,</td>  <td>parameter</td><td>::</td>
+  <td><strong>p</strong>(*)</td><td> =</td><td>[(real(i)/real(resolution), i=0, resolution)]</td><td></td>
+</tr>
+<tr>
+  <td><span class="anchor" id="variable-t_max~2"></span>real,</td>
+<td>private,</td>  <td>parameter</td><td>::</td>
+  <td><strong>T_max</strong></td><td> =</td><td>307.610779</td><td></td>
+</tr>
+<tr>
+  <td><span class="anchor" id="variable-t_min~2"></span>real,</td>
+<td>private,</td>  <td>parameter</td><td>::</td>
+  <td><strong>T_min</strong></td><td> =</td><td>236.352524</td><td></td>
+</tr>
+<tr>
+  <td><span class="anchor" id="variable-i~2"></span>integer,</td>
+<td>private</td>  <td></td><td>::</td>
+  <td><strong>i</strong></td><td></td><td></td><td></td>
+</tr>
+<tr>
+  <td><span class="anchor" id="variable-p_max~2"></span>real,</td>
+<td>private,</td>  <td>parameter</td><td>::</td>
+  <td><strong>p_max</strong></td><td> =</td><td>98596.7578</td><td></td>
+</tr>
+<tr>
+  <td><span class="anchor" id="variable-p_min~2"></span>real,</td>
+<td>private,</td>  <td>parameter</td><td>::</td>
+  <td><strong>p_min</strong></td><td> =</td><td>29671.1348</td><td></td>
+</tr>
+<tr>
+  <td><span class="anchor" id="variable-resolution~2"></span>integer,</td>
+<td>private,</td>  <td>parameter</td><td>::</td>
+  <td><strong>resolution</strong></td><td> =</td><td>10</td><td></td>
+</tr>
+</tbody>
+</table>
+
+    </section>
+    <br>
+    
+    
+
+    
+    
+ 
+    <section>
+    <h2>Functions</h2>
+      <div class="panel panel-default">
+  <div class="panel-heading codesum"><span class="anchor" id="proc-y~7"></span><h3>public impure elemental function <a href='../proc/y~7.html'>y</a>(x_in) result(a)</h3></div>
+  <div class="panel-body">
+           
+<h4>Arguments</h4>      <table class="table table-striped varlist">
+<thead><tr><th>Type</th><th>Intent</th><th>Optional</th><th>Attributes</th><th></th><th>Name</th><th></th></thead>
+<tbody>
+<tr>
+  <td><span class="anchor" ></span>type(<a href='../type/tensor_t.html'>tensor_t</a>),</td>
+<td>intent(in)</td>
+  <td></td>  <td></td><td>::</td>
+  <td><strong>x_in</strong></td><td></td>
+</tr>
+</tbody>
+</table>
+
+<h4>Return Value <small>type(<a href='../type/tensor_t.html'>tensor_t</a>)</small></h4>  
+
+  </div>
+  </div>
+
+    </section>
+    <br>
+
+    
+    </div>
+  </div>
+
+    <hr>    
+    </div> <!-- /container -->
+    <footer>
+      <div class="container">
+      <div class="row">
+        <div class="col-xs-6 col-md-6"><p>Inference-Engine was developed by Sourcery Institute<br>&copy; 2023 
+</p>
+        </div>
+        <div class="col-xs-6 col-md-6">
+          <p class="text-right">
+            Documentation generated by 
+            <a href="https://github.com/Fortran-FOSS-Programmers/ford">FORD</a>
+ on 2023-10-22 06:28            </p>
+        </div>
+      </div>
+      <br>
+      </div> <!-- /container -->    
+    </footer>
+
+    <!-- Bootstrap core JavaScript
+    ================================================== -->
+    <!-- Placed at the end of the document so the pages load faster -->
+<!--
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
+-->
+    <script src="../js/bootstrap.min.js"></script>
+    <!-- IE10 viewport hack for Surface/desktop Windows 8 bug -->
+    <script src="../js/ie10-viewport-bug-workaround.js"></script>
+
+    <!-- MathJax JavaScript
+    ================================================== -->
+    <!-- Placed at the end of the document so the pages load faster -->
+    <script type="text/x-mathjax-config">
+      MathJax.Hub.Config({
+        TeX: { extensions: ['AMSmath.js','AMSsymbols.js','noErrors.js','noUndefined.js'], equationNumbers: { autoNumber: 'AMS' } },
+        jax: ['input/TeX','input/MathML','output/HTML-CSS'],
+        extensions: ['tex2jax.js','mml2jax.js','MathMenu.js','MathZoom.js']
+      });
+    </script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    
+    <script src="../tipuesearch/tipuesearch_content.js"></script>
+    <script src="../tipuesearch/tipuesearch_set.js"></script>
+    <script src="../tipuesearch/tipuesearch.js"></script>
+    
+  </body>
+</html>
