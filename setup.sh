@@ -65,7 +65,7 @@ HDF5_LIB_PATH="`brew --prefix hdf5`/lib"
 NETCDFF_LIB_PATH="`brew --prefix netcdf-fortran`/lib"
 
 FPM_LD_FLAG=" -L$NETCDF_LIB_PATH -L$HDF5_LIB_PATH -L$NETCDFF_LIB_PATH"
-FPM_FLAG="-O3 -fallow-argument-mismatch -ffree-line-length-none -L$NETCDF_LIB_PATH -L$HDF5_LIB_PATH"
+FPM_FLAG="-fcoarray=single -O3 -fallow-argument-mismatch -ffree-line-length-none -L$NETCDF_LIB_PATH -L$HDF5_LIB_PATH"
 FPM_FC=${FC:-"gfortran-13"}
 FPM_CC=${CC:-"gcc-13"}
 
