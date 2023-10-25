@@ -1,0 +1,9 @@
+{
+     "activation" : "sigmoid",
+     "num_mini_batches" : 10,
+     "nodes per layer" : [2, 72, 2],
+     "initialization" : {
+         "type" : "perturbed identity",
+         "parameters" : [ { "spread" :  0.05 } ]
+      }
+}
