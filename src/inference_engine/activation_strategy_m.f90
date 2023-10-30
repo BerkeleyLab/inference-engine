@@ -4,7 +4,7 @@ module activation_strategy_m
 
   ! External dependencies
   use kind_parameters_m, only : rkind
-  use string_m, only : string_t
+  use sourcery_m, only : string_t
   implicit none
 
   private
