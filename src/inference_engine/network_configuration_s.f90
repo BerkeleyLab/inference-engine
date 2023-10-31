@@ -36,7 +36,7 @@ contains
       if (lines(l)%get_json_key() == "network configuration") then
         network_configuration_key_found = .true.
         network_configuration%skip_connections_  = lines(l+1)%get_json_value(string_t(skip_connections_key), mold=.true.)
-        network_configuration%nodes_per_layer_ = lines(l+2)%get_json_integer_array(string_t(nodes_per_layer_key), mold=[0,1])
+        network_configuration%nodes_per_layer_ = lines(l+2)%get_json_value(string_t(nodes_per_layer_key), mold=[integer::])
         network_configuration%activation_function_ = lines(l+3)%get_json_value(string_t(activation_function_key), mold=string_t(""))
         return
       end if
