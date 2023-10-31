@@ -8,15 +8,31 @@ submodule(hyperparameters_m) hyperparameters_s
 
 contains
 
+  module procedure from_components
+    hyperparameters%mini_batches_ = mini_batches
+    hyperparameters%learning_rate_ = learning_rate
+    hyperparameters%optimizer_ = optimizer
+  end procedure 
+
+  module procedure equals
+
+    real, parameter :: tolerance = 1.E-08
+
+    call assert(allocated(lhs%optimizer_) .and. allocated(rhs%optimizer_), "hyperparameters_s(equals): allocated optimizers")
+
+    lhs_equals_rhs = &
+      lhs%mini_batches_ == rhs%mini_batches_ .and. &
+      lhs%optimizer_ == rhs%optimizer_ .and. &
+      abs(lhs%learning_rate_ - rhs%learning_rate_) <= tolerance
+     
+  end procedure 
+
   module procedure from_json
-    type(string_t), allocatable :: lines(:)
     integer l
     logical hyperparameters_key_found 
 
-    lines = file_%lines()
     hyperparameters_key_found = .false.
 
-    loop_through_file: &
     do l=1,size(lines)
       if (lines(l)%get_json_key() == "hyperparameters") then
         hyperparameters_key_found = .true.
@@ -25,24 +41,24 @@ contains
         hyperparameters%optimizer_ = lines(l+3)%get_json_value(string_t(optimizer_key), mold=string_t(""))
         return
       end if
-    end do loop_through_file
+    end do
 
     call assert(hyperparameters_key_found, "hyperparameters_s(from_json): hyperparameters_found")
   end procedure
 
   module procedure to_json
     character(len=*), parameter :: indent = repeat(" ",ncopies=4)
-    integer, parameter :: max_digits = 12
-    character(len=max_digits) mini_batches_string, learning_rate_string
+    integer, parameter :: max_width= 18
+    character(len=max_width) mini_batches_string, learning_rate_string
 
     write(mini_batches_string,*) self%mini_batches_
     write(learning_rate_string,*) self%learning_rate_
 
     lines = [ &
       string_t(indent // '"hyperparameters": {'), &
-      string_t(indent // indent // '"' // mini_batches_key  // '": '  // mini_batches_string   ), &
-      string_t(indent // indent // '"' // learning_rate_key // '": '  // learning_rate_string  ), &
-      string_t(indent // indent // '"' // optimizer_key     // '": "' // self%optimizer_ // '"'), &
+      string_t(indent // indent // '"' // mini_batches_key  // '" : '  // mini_batches_string   ), &
+      string_t(indent // indent // '"' // learning_rate_key // '" : '  // learning_rate_string  ), &
+      string_t(indent // indent // '"' // optimizer_key     // '" : "' // self%optimizer_ // '"'), &
       string_t(indent // '}') &
     ]
   end procedure

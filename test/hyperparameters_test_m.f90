@@ -5,7 +5,8 @@ module hyperparameters_test_m
 
   ! External dependencies
   use assert_m, only : assert
-  use sourcery_m, only : string_t, test_t, test_result_t
+  use sourcery_m, only : string_t, test_t, test_result_t, file_t
+  use inference_engine_m, only : hyperparameters_t
 
   ! Internal dependencies
   use hyperparameters_m, only : hyperparameters_t
@@ -32,15 +33,15 @@ contains
     type(test_result_t), allocatable :: test_results(:)
 
     character(len=*), parameter :: longest_description = &
-          "writing and then reading gives input matching output for perturbed identity network"
+          "component-wise construction followed by conversion to and from JSON"
 
     associate( &
       descriptions => &
         [ character(len=len(longest_description)) :: &
-          "writing and then reading gives input matching output for perturbed identity network" &
+          "component-wise construction followed by conversion to and from JSON" &
         ], &
       outcomes => &
-        [ write_then_read_perturbed_identity() & 
+        [ write_then_read_hyperparameters() & 
         ] & 
     )
       call assert(size(descriptions) == size(outcomes),"hyperparameters_test_m(results): size(descriptions) == size(outcomes)")
@@ -49,9 +50,15 @@ contains
        
   end function
 
-  function write_then_read_perturbed_identity() result(test_passes)
-    logical, allocatable :: test_passes(:)
-    test_passes = [.true.]
+  function write_then_read_hyperparameters() result(test_passes)
+    logical test_passes
+
+    associate(hyperparameters => hyperparameters_t(mini_batches=5, learning_rate=1., optimizer = "stochastic gradient descent"))
+      associate(from_json => hyperparameters_t(hyperparameters%to_json()))
+        test_passes = hyperparameters == from_json
+      end associate
+    end associate
+
   end function
 
 end module hyperparameters_test_m

@@ -15,5 +15,6 @@ module inference_engine_m
  use swish_m, only : swish_t
  use tensor_m, only : tensor_t
  use trainable_engine_m, only : trainable_engine_t
+ use hyperparameters_m, only : hyperparameters_t
  implicit none
 end module
