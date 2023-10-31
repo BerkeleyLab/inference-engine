@@ -16,5 +16,6 @@ module inference_engine_m
  use tensor_m, only : tensor_t
  use trainable_engine_m, only : trainable_engine_t
  use hyperparameters_m, only : hyperparameters_t
+ use network_configuration_m, only : network_configuration_t
  implicit none
 end module
