@@ -82,7 +82,7 @@ Project is up to date
      }
  }
 ```
-As of this writing, the JSON file format is fragile.  Because an Intel `ifx` compiler bug prevents using our preferred JSON interface, [rojff], Inference-Engine currently use a very restricted but valid JSON subset that can be read and written by type-bound procedures on the `string_t` type in the [sourcery] utility.  For this to work, it is important to keep input files as close as possible to the exact form shown above.  In particular, do not split, combine or otherwise significantly rearrange lines in the above format other than adding or removing whitespace if so desired.
+As of this writing, the JSON file format is fragile.  Because an Intel `ifx` compiler bug prevents using our preferred JSON interface, [rojff], Inference-Engine currently uses a very restricted JSON subset written and read by the [sourcery] utility's `string_t` type-bound procedures.  For this to work, it is important to keep input files as close as possible to the exact form shown above.  In particular, do not split, combine or reorder lines. Adding or removing whitespace should be ok.
 
 Documentation
 -------------
