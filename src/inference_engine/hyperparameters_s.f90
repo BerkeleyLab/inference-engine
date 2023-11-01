@@ -56,9 +56,9 @@ contains
 
     lines = [ &
       string_t(indent // '"hyperparameters": {'), &
-      string_t(indent // indent // '"' // mini_batches_key  // '" : '  // mini_batches_string   ), &
-      string_t(indent // indent // '"' // learning_rate_key // '" : '  // learning_rate_string  ), &
-      string_t(indent // indent // '"' // optimizer_key     // '" : "' // self%optimizer_ // '"'), &
+      string_t(indent // indent // '"' // mini_batches_key  // '" : '  // trim(adjustl(mini_batches_string))  // "," ), &
+      string_t(indent // indent // '"' // learning_rate_key // '" : '  // trim(adjustl(learning_rate_string)) // "," ), &
+      string_t(indent // indent // '"' // optimizer_key     // '" : "' // trim(adjustl(self%optimizer_     )) // '"'), &
       string_t(indent // '}') &
     ]
   end procedure

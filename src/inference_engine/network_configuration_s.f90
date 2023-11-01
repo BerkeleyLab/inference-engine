@@ -58,9 +58,9 @@ contains
 
     lines = [ &
       string_t(indent // '"network configuration": {'), &
-      string_t(indent // indent // '"' // skip_connections_key  // '" : '  // skip_connections_string   ), &
-      string_t(indent // indent // '"' // nodes_per_layer_key // '" : ['  // trim(nodes_per_layer_string) // ']'  ), &
-      string_t(indent // indent // '"' // activation_function_key     // '" : "' // self%activation_function_ // '"'), &
+      string_t(indent // indent // '"' // skip_connections_key    // '" : '  // trim(adjustl(skip_connections_string  )) //  ','), &
+      string_t(indent // indent // '"' // nodes_per_layer_key     // '" : [' // trim(adjustl(nodes_per_layer_string   )) // '],'), &
+      string_t(indent // indent // '"' // activation_function_key // '" : "' // trim(adjustl(self%activation_function_)) // '"' ), &
       string_t(indent // '}') &
     ]
   end procedure
