@@ -117,7 +117,7 @@ https://github.com/berkeleylab/inference-engine" role="button">GitHub</a>
 <li><a href="#documentation">Documentation</a></li>
 </ul>
 <h2 id="overview">Overview</h2>
-<p>Inference-Engine supports research in concurrent, large-batch inference and training of deep, feed-forward neural networks.  Inference-Engine targets high-performance computing (HPC) applications with performance-critical inference and training needs.  The initial target application is <em>in situ</em> training of a cloud microphysics model proxy for the Intermediate Complexity Atmospheric Research (<a href="https://github.com/NCAR/icar">ICAR</a>) model.  Such a proxy must support concurrent inference at every grid point at every time step of an ICAR run.  For validation purposes, Inference-Engine also supports the export and import of neural networks to and from Python by the companion package <a href="https://go.lbl.gov/nexport">nexport</a>. </p>
+<p>Inference-Engine supports research in concurrent, large-batch inference and training of deep, feed-forward neural networks. Inference-Engine targets high-performance computing (HPC) applications with performance-critical inference and training needs.  The initial target application is <em>in situ</em> training of a cloud microphysics model proxy for the Intermediate Complexity Atmospheric Research (<a href="https://github.com/NCAR/icar">ICAR</a>) model.  Such a proxy must support concurrent inference at every grid point at every time step of an ICAR run.  For validation purposes, Inference-Engine also supports the export and import of neural networks to and from Python by the companion package <a href="https://go.lbl.gov/nexport">nexport</a>. </p>
 <p>The features of Inference-Engine that make it suitable for use in HPC applications include</p>
 <ol>
 <li>Implementation in Fortran 2018.</li>
@@ -129,6 +129,9 @@ https://github.com/berkeleylab/inference-engine" role="button">GitHub</a>
 <li>User-controlled mini-batch size facilitating <code>in situ</code> training at application runtime.</li>
 </ol>
 <p>Making Inference-Engine's <code>infer</code> functions and <code>train</code> subroutines <code>pure</code> facilitates invoking those procedures inside Fortran <code>do concurrent</code> constructs, which some compilers can offload automatically to graphics processing units (GPUs).  The use of contiguous arrays facilitates spatial locality in memory access patterns.  User control of mini-batch size facilitates in-situ training at application runtime.</p>
+<p>The available optimizers for training neural networks are
+1. Stochastic gradient descent
+2. Adam (recommended)</p>
 <h2 id="downloading-building-and-testing">Downloading, Building and Testing</h2>
 <p>To download, build, and test Inference-Engine, enter the following commands in a Linux, macOS, or Windows Subsystem for Linux shell:</p>
 <div class="codehilite"><pre><span></span><code>git clone https://github.com/berkeleylab/inference-engine
@@ -139,6 +142,26 @@ cd inference-engine
 <p>whereupon the trailing output will provide instructions for running the codes in the <a href="./example">example</a> subdirectory.  </p>
 <h2 id="examples">Examples</h2>
 <p>The <a href="./example">example</a> subdirectory contains demonstrations of several intended use cases.</p>
+<h2 id="configuring-a-training-run">Configuring a Training Run</h2>
+<p>To see the format for a <a href="https://www.json.org/json-en.html">JSON</a> configuration file that defines the hyperparameters and a new network configuration for a training run, execute the provided training-configuration output example program:</p>
+<div class="codehilite"><pre><span></span><code><span class="c">% ./build/run-fpm.sh run --example print-training-configuration</span><span class="w"></span>
+<span class="n">Project</span><span class="w"> </span><span class="s">is</span><span class="w"> </span><span class="s">up</span><span class="w"> </span><span class="s">to</span><span class="w"> </span><span class="s">date</span><span class="w"></span>
+<span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="w">     </span><span class="s">&quot;hyperparameters&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="w">         </span><span class="s">&quot;mini-batches&quot;</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="mi">10</span><span class="p">,</span><span class="w"></span>
+<span class="w">         </span><span class="s">&quot;learning rate&quot;</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="mf">1.50000000</span><span class="p">,</span><span class="w"></span>
+<span class="w">         </span><span class="s">&quot;optimizer&quot;</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="s">&quot;adam&quot;</span><span class="w"></span>
+<span class="w">     </span><span class="p">}</span><span class="w"></span>
+<span class="w"> </span><span class="p">,</span><span class="w"></span>
+<span class="w">     </span><span class="s">&quot;network configuration&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="w">         </span><span class="s">&quot;skip connections&quot;</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="nb">false</span><span class="p">,</span><span class="w"></span>
+<span class="w">         </span><span class="s">&quot;nodes per layer&quot;</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="mi">2</span><span class="p">,</span><span class="mi">72</span><span class="p">,</span><span class="mi">2</span><span class="p">],</span><span class="w"></span>
+<span class="w">         </span><span class="s">&quot;activation function&quot;</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="s">&quot;sigmoid&quot;</span><span class="w"></span>
+<span class="w">     </span><span class="p">}</span><span class="w"></span>
+<span class="w"> </span><span class="p">}</span><span class="w"></span>
+</code></pre></div>
+
+<p>As of this writing, the JSON file format is fragile.  Because an Intel <code>ifx</code> compiler bug prevents using our preferred JSON interface, <a href="https://gitlab.com/everythingfunctional/rojff">rojff</a>, Inference-Engine currently use a very restricted but valid JSON subset that can be read and written by type-bound procedures on the <code>string_t</code> type in the <a href="https://github.com/sourceryinstitute/sourcery">sourcery</a> utility.  For this to work, it is important to keep input files as close as possible to the exact form shown above.  In particular, do not split, combine or otherwise significantly rearrange lines in the above format other than adding or removing whitespace if so desired.</p>
 <h2 id="documentation">Documentation</h2>
 <p>Please see the Inference-Engine GitHub Pages <a href="https://berkeleylab.github.io/inference-engine/">site</a> for HTML documentation generated by [<code>ford</code>].</p>
         </div>
@@ -223,7 +246,7 @@ cd inference-engine
           <p class="text-right">
             Documentation generated by 
             <a href="https://github.com/Fortran-FOSS-Programmers/ford">FORD</a>
- on 2023-11-01 02:17            </p>
+ on 2023-11-01 02:37            </p>
         </div>
       </div>
       <br>
