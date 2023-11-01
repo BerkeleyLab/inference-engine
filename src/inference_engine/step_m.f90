@@ -3,7 +3,7 @@
 module step_m
   use activation_strategy_m, only : activation_strategy_t
   use kind_parameters_m, only : rkind
-  use string_m, only : string_t
+  use sourcery_m, only : string_t
   implicit none
 
   private

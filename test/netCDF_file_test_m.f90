@@ -4,13 +4,11 @@
 !! Due to a suspected bug in the Intel ifx compiler, the above C preprocessor macro
 !! effectively eliminates this file's source code when building with an Intel compiler.
 module NetCDF_file_test_m
-  !! Define asymmetric tests and procedures required for reporting results
+  !! Define asymmetric tests for the NetCDF file interface
 
   ! External dependencies
   use assert_m, only : assert
-  use string_m, only : string_t
-  use test_m, only : test_t
-  use test_result_m, only : test_result_t
+  use sourcery_m, only : string_t, test_t, test_result_t
   use netcdf, only : &
      nf90_create, nf90_def_dim, nf90_def_var, nf90_enddef, nf90_put_var, nf90_inquire_dimension, & ! functions
      nf90_close, nf90_open, nf90_inq_varid, nf90_get_var, nf90_inquire_variable, &

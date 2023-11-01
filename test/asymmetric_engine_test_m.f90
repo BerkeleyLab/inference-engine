@@ -5,9 +5,7 @@ module asymmetric_engine_test_m
 
   ! External dependencies
   use assert_m, only : assert
-  use string_m, only : string_t
-  use test_m, only : test_t
-  use test_result_m, only : test_result_t
+  use sourcery_m, only : string_t, test_t, test_result_t
 
   ! Internal dependencies
   use inference_engine_m, only : inference_engine_t, tensor_t
