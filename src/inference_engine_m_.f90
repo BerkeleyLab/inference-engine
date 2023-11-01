@@ -2,9 +2,8 @@
 ! Terms of use are as specified in LICENSE.txt
 module inference_engine_m_
   !! Define an abstraction that supports inference operationsn on a neural network
-  use string_m, only : string_t
   use activation_strategy_m, only : activation_strategy_t
-  use file_m, only : file_t
+  use sourcery_m, only : file_t, string_t
   use kind_parameters_m, only : rkind
   use tensor_m, only : tensor_t
   use differentiable_activation_strategy_m, only :differentiable_activation_strategy_t

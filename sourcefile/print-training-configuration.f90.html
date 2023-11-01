@@ -1,0 +1,700 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+   <meta name="description" content="A library supporting concurrent forward propagation on multiple fully-connected deep neural networks">
+    <meta name="author" content="Sourcery Institute" >
+    <link rel="icon" href="../favicon.png">
+
+    <title>print-training-configuration.f90 &ndash; Inference-Engine</title>
+
+    <link href="../css/bootstrap.min.css" rel="stylesheet">
+    <link href="../css/pygments.css" rel="stylesheet">
+    <link href="../css/font-awesome.min.css" rel="stylesheet">
+    <link href="../css/local.css" rel="stylesheet">
+    <link  href="../tipuesearch/tipuesearch.css" rel="stylesheet">
+
+    <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
+    <!--[if lt IE 9]>
+      <script src="https://oss.maxcdn.com/html5shiv/3.7.2/html5shiv.min.js"></script>
+      <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
+    <![endif]-->
+    
+    <script src="../js/jquery-2.1.3.min.js"></script>
+    <script src="../js/svg-pan-zoom.min.js"></script>
+
+  </head>
+
+  <body>
+
+    <!-- Fixed navbar -->
+    <nav class="navbar navbar-inverse navbar-fixed-top">
+      <div class="container">
+        <div class="navbar-header">
+          <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
+            <span class="sr-only">Toggle navigation</span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+          </button>
+          <a class="navbar-brand" href="../index.html">Inference-Engine </a>
+        </div>
+        <div id="navbar" class="navbar-collapse collapse">
+          <ul class="nav navbar-nav">
+            <li class="dropdown hidden-xs visible-sm visible-md hidden-lg">
+              <a href="#" class="dropdown-toggle"
+              data-toggle="dropdown" role="button"
+              aria-haspopup="true"
+     aria-expanded="false">Contents <span class="caret"></span></a>
+        <ul class="dropdown-menu">
+            <li><a href="../lists/files.html">Source Files</a></li>
+            <li><a href="../lists/modules.html">Modules</a></li>
+            <li><a href="../lists/procedures.html">Procedures</a></li>
+            <li><a href="../lists/absint.html">Abstract Interfaces</a></li>
+                   <li><a href="../lists/types.html">Derived Types</a></li>
+            <li><a href="../lists/programs.html">Programs</a></li>
+       
+            </ul>
+        
+            </li>
+<li class="visible-xs hidden-sm visible-lg"><a href="../lists/files.html">Source Files</a></li>
+<li class="visible-xs hidden-sm visible-lg"><a href="../lists/modules.html">Modules</a></li>
+<li class="visible-xs hidden-sm visible-lg"><a href="../lists/procedures.html">Procedures</a></li>
+<li class="visible-xs hidden-sm visible-lg"><a href="../lists/absint.html">Abstract Interfaces</a></li>
+                             <li class="visible-xs hidden-sm visible-lg"><a href="../lists/types.html">Derived Types</a></li>
+<li class="visible-xs hidden-sm visible-lg"><a href="../lists/programs.html">Programs</a></li>
+          </ul>
+        <form action="../search.html" class="navbar-form navbar-right" role="search">
+        <div class="form-group">
+          <input type="text" class="form-control" placeholder="Search" name="q" id="tipue_search_input" autocomplete="off" required>
+        </div>
+<!--
+        <button type="submit" class="btn btn-default">Submit</button>
+-->
+        </form>
+        </div><!--/.nav-collapse -->
+      </div>
+    </nav>
+
+    <div class="container">
+  <div class="row">
+    <h1>print-training-configuration.f90
+    <small>Source File</small>
+    </h1>
+    <div class="row">
+  <div class="col-lg-12">
+<div class="well well-sm">
+  <ul class="list-inline" style="margin-bottom:0px;display:inline">
+     <li><i class="fa fa-list-ol"></i>
+       <a data-toggle="tooltip"
+    data-placement="bottom" data-html="true"
+    title=" 0.2% of total for source files.">10 statements</a>
+     </li> 
+    <li><i class="fa fa-code"></i><a href="../src/print-training-configuration.f90"> Source File</a></li>
+  </ul>
+  <ol class="breadcrumb in-well text-right">
+     <li class="active">print-training-configuration.f90</li>
+  </ol>
+</div>
+</div>
+</div>
+<script>
+  $(function () {
+  $('[data-toggle="tooltip"]').tooltip()
+  })
+</script>
+
+  </div>
+  <div class="row">
+    <div class="col-md-3 hidden-xs hidden-sm visible-md visible-lg">
+    <div id="sidebar">
+  <h3>Contents</h3>
+ 
+<div class="panel panel-primary">
+  <div class="panel-heading text-left"><h3 class="panel-title"><a data-toggle="collapse" href="#progs-0">Programs</a></h3></div>
+  <div id="progs-0" class="panel-collapse collapse">
+    <div class="list-group">
+      <a class="list-group-item" href="../program/print_training_configuration.html">print_training_configuration</a>
+    </div>
+  </div>
+</div>
+<div class="panel panel-primary">
+  <div class="panel-heading text-left"><h3 class="panel-title">Source Code</h3></div>
+  <div class="list-group">
+    <a class="list-group-item" href="../sourcefile/print-training-configuration.f90.html#src">print-training-configuration.f90</a>
+  </div>
+</div>
+
+</div>
+
+    </div>
+    <div class="col-md-9" id='text'>
+      
+      <br>
+    <div class="panel panel-default">
+      <div class="panel-heading">
+  <h3 class="panel-title">This file depends on</h3>
+      </div>
+      <div class="panel-body">
+  <div class="depgraph"><?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN"
+ "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
+<!-- Generated by graphviz version 2.43.0 (0)
+ -->
+<!-- Title: sourcefile~~print&#45;training&#45;configuration.f90~~EfferentGraph Pages: 1 -->
+<svg id="sourcefileprinttrainingconfigurationf90EfferentGraph" width="641pt" height="231pt"
+ viewBox="0.00 0.00 641.00 230.70" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+<g id="sourcefile~~print&#45;training&#45;configuration.f90~~EfferentGraph" class="graph" transform="scale(2.17 2.17) rotate(0) translate(4 496.98)">
+<title>sourcefile~~print&#45;training&#45;configuration.f90~~EfferentGraph</title>
+<polygon fill="white" stroke="transparent" points="-4,4 -4,-496.98 1388,-496.98 1388,4 -4,4"/>
+<!-- sourcefile~print&#45;training&#45;configuration.f90 -->
+<g id="sourcefile~~print&#45;training&#45;configuration.f90~~EfferentGraph_node1" class="node">
+<title>sourcefile~print&#45;training&#45;configuration.f90</title>
+<polygon fill="none" stroke="black" points="1384,-144 1206,-144 1206,-120 1384,-120 1384,-144"/>
+<text text-anchor="middle" x="1295" y="-129.6" font-family="Helvetica,sans-Serif" font-size="10.50">print&#45;training&#45;configuration.f90</text>
+</g>
+<!-- sourcefile~inference_engine_m.f90 -->
+<g id="sourcefile~~print&#45;training&#45;configuration.f90~~EfferentGraph_node2" class="node">
+<title>sourcefile~inference_engine_m.f90</title>
+<g id="a_sourcefile~~print&#45;training&#45;configuration.f90~~EfferentGraph_node2"><a xlink:href=".././sourcefile/inference_engine_m.f90.html" xlink:title="inference_engine_m.f90">
+<polygon fill="#f0ad4e" stroke="#f0ad4e" points="1170,-144 1029,-144 1029,-120 1170,-120 1170,-144"/>
+<text text-anchor="middle" x="1099.5" y="-129.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">inference_engine_m.f90</text>
+</a>
+</g>
+</g>
+<!-- sourcefile~print&#45;training&#45;configuration.f90&#45;&gt;sourcefile~inference_engine_m.f90 -->
+<g id="sourcefile~~print&#45;training&#45;configuration.f90~~EfferentGraph_edge1" class="edge">
+<title>sourcefile~print&#45;training&#45;configuration.f90&#45;&gt;sourcefile~inference_engine_m.f90</title>
+<path fill="none" stroke="#ff0000" stroke-dasharray="5,2" d="M1205.74,-132C1197.24,-132 1188.65,-132 1180.23,-132"/>
+<polygon fill="#ff0000" stroke="#ff0000" points="1180.08,-128.5 1170.08,-132 1180.08,-135.5 1180.08,-128.5"/>
+</g>
+<!-- sourcefile~activation_strategy_m.f90 -->
+<g id="sourcefile~~print&#45;training&#45;configuration.f90~~EfferentGraph_node3" class="node">
+<title>sourcefile~activation_strategy_m.f90</title>
+<g id="a_sourcefile~~print&#45;training&#45;configuration.f90~~EfferentGraph_node3"><a xlink:href=".././sourcefile/activation_strategy_m.f90.html" xlink:title="activation_strategy_m.f90">
+<polygon fill="#f0ad4e" stroke="#f0ad4e" points="325,-285 175,-285 175,-261 325,-261 325,-285"/>
+<text text-anchor="middle" x="250" y="-270.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">activation_strategy_m.f90</text>
+</a>
+</g>
+</g>
+<!-- sourcefile~inference_engine_m.f90&#45;&gt;sourcefile~activation_strategy_m.f90 -->
+<g id="sourcefile~~print&#45;training&#45;configuration.f90~~EfferentGraph_edge2" class="edge">
+<title>sourcefile~inference_engine_m.f90&#45;&gt;sourcefile~activation_strategy_m.f90</title>
+<path fill="none" stroke="#ff0000" stroke-dasharray="5,2" d="M706,-330C554.07,-307.67 511.69,-340.58 361,-311 336.18,-306.13 309.33,-296.94 288.38,-288.81"/>
+<polygon fill="#ff0000" stroke="#ff0000" points="289.48,-285.48 278.89,-285.05 286.9,-291.99 289.48,-285.48"/>
+</g>
+<!-- sourcefile~netcdf_file_m.f90 -->
+<g id="sourcefile~~print&#45;training&#45;configuration.f90~~EfferentGraph_node4" class="node">
+<title>sourcefile~netcdf_file_m.f90</title>
+<g id="a_sourcefile~~print&#45;training&#45;configuration.f90~~EfferentGraph_node4"><a xlink:href=".././sourcefile/netcdf_file_m.f90.html" xlink:title="NetCDF_file_m.f90">
+<polygon fill="#f0ad4e" stroke="#f0ad4e" points="965,-144 855,-144 855,-120 965,-120 965,-144"/>
+<text text-anchor="middle" x="910" y="-129.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">NetCDF_file_m.f90</text>
+</a>
+</g>
+</g>
+<!-- sourcefile~inference_engine_m.f90&#45;&gt;sourcefile~netcdf_file_m.f90 -->
+<g id="sourcefile~~print&#45;training&#45;configuration.f90~~EfferentGraph_edge6" class="edge">
+<title>sourcefile~inference_engine_m.f90&#45;&gt;sourcefile~netcdf_file_m.f90</title>
+<path fill="none" stroke="#ff0000" stroke-dasharray="5,2" d="M1028.95,-132C1011.35,-132 992.53,-132 975.21,-132"/>
+<polygon fill="#ff0000" stroke="#ff0000" points="975.2,-128.5 965.2,-132 975.2,-135.5 975.2,-128.5"/>
+</g>
+<!-- sourcefile~input_output_pair_m.f90 -->
+<g id="sourcefile~~print&#45;training&#45;configuration.f90~~EfferentGraph_node5" class="node">
+<title>sourcefile~input_output_pair_m.f90</title>
+<g id="a_sourcefile~~print&#45;training&#45;configuration.f90~~EfferentGraph_node5"><a xlink:href=".././sourcefile/input_output_pair_m.f90.html" xlink:title="input_output_pair_m.f90">
+<polygon fill="#f0ad4e" stroke="#f0ad4e" points="545,-108 403,-108 403,-84 545,-84 545,-108"/>
+<text text-anchor="middle" x="474" y="-93.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">input_output_pair_m.f90</text>
+</a>
+</g>
+</g>
+<!-- sourcefile~inference_engine_m.f90&#45;&gt;sourcefile~input_output_pair_m.f90 -->
+<g id="sourcefile~~print&#45;training&#45;configuration.f90~~EfferentGraph_edge3" class="edge">
+<title>sourcefile~inference_engine_m.f90&#45;&gt;sourcefile~input_output_pair_m.f90</title>
+<path fill="none" stroke="#ff0000" stroke-dasharray="5,2" d="M1062.69,-144.08C1025.31,-155.62 964.75,-171.38 911,-172"/>
+<path fill="none" stroke="#ff0000" stroke-dasharray="5,2" d="M909,-172C871.59,-172.43 859.22,-172 827,-153 806.4,-140.85 812.58,-123.31 791,-113 716.98,-77.62 621.79,-77.73 555.31,-83.97"/>
+<polygon fill="#ff0000" stroke="#ff0000" points="554.91,-80.49 545.31,-84.97 555.61,-87.46 554.91,-80.49"/>
+</g>
+<!-- sourcefile~mini_batch_m.f90 -->
+<g id="sourcefile~~print&#45;training&#45;configuration.f90~~EfferentGraph_node6" class="node">
+<title>sourcefile~mini_batch_m.f90</title>
+<g id="a_sourcefile~~print&#45;training&#45;configuration.f90~~EfferentGraph_node6"><a xlink:href=".././sourcefile/mini_batch_m.f90.html" xlink:title="mini_batch_m.f90">
+<polygon fill="#f0ad4e" stroke="#f0ad4e" points="760.5,-146 653.5,-146 653.5,-122 760.5,-122 760.5,-146"/>
+<text text-anchor="middle" x="707" y="-131.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">mini_batch_m.f90</text>
+</a>
+</g>
+</g>
+<!-- sourcefile~inference_engine_m.f90&#45;&gt;sourcefile~mini_batch_m.f90 -->
+<g id="sourcefile~~print&#45;training&#45;configuration.f90~~EfferentGraph_edge5" class="edge">
+<title>sourcefile~inference_engine_m.f90&#45;&gt;sourcefile~mini_batch_m.f90</title>
+<path fill="none" stroke="#ff0000" stroke-dasharray="5,2" d="M909,-172C856.29,-172.61 797.14,-159.74 756.73,-148.81"/>
+<polygon fill="#ff0000" stroke="#ff0000" points="757.45,-145.38 746.88,-146.09 755.58,-152.13 757.45,-145.38"/>
+</g>
+<!-- sourcefile~differentiable_activation_strategy_m.f90 -->
+<g id="sourcefile~~print&#45;training&#45;configuration.f90~~EfferentGraph_node7" class="node">
+<title>sourcefile~differentiable_activation_strategy_m.f90</title>
+<g id="a_sourcefile~~print&#45;training&#45;configuration.f90~~EfferentGraph_node7"><a xlink:href=".././sourcefile/differentiable_activation_strategy_m.f90.html" xlink:title="differentiable_activation_strategy_m.f90">
+<polygon fill="#f0ad4e" stroke="#f0ad4e" points="587,-382 361,-382 361,-358 587,-358 587,-382"/>
+<text text-anchor="middle" x="474" y="-367.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">differentiable_activation_strategy_m.f90</text>
+</a>
+</g>
+</g>
+<!-- sourcefile~inference_engine_m.f90&#45;&gt;sourcefile~differentiable_activation_strategy_m.f90 -->
+<g id="sourcefile~~print&#45;training&#45;configuration.f90~~EfferentGraph_edge4" class="edge">
+<title>sourcefile~inference_engine_m.f90&#45;&gt;sourcefile~differentiable_activation_strategy_m.f90</title>
+<path fill="none" stroke="#ff0000" stroke-dasharray="5,2" d="M706,-330C690.07,-327.66 605.62,-343.49 543.42,-355.92"/>
+<polygon fill="#ff0000" stroke="#ff0000" points="542.37,-352.56 533.25,-357.96 543.74,-359.42 542.37,-352.56"/>
+</g>
+<!-- sourcefile~relu_m.f90 -->
+<g id="sourcefile~~print&#45;training&#45;configuration.f90~~EfferentGraph_node8" class="node">
+<title>sourcefile~relu_m.f90</title>
+<g id="a_sourcefile~~print&#45;training&#45;configuration.f90~~EfferentGraph_node8"><a xlink:href=".././sourcefile/relu_m.f90.html" xlink:title="relu_m.f90">
+<polygon fill="#f0ad4e" stroke="#f0ad4e" points="741.5,-466 672.5,-466 672.5,-442 741.5,-442 741.5,-466"/>
+<text text-anchor="middle" x="707" y="-451.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">relu_m.f90</text>
+</a>
+</g>
+</g>
+<!-- sourcefile~inference_engine_m.f90&#45;&gt;sourcefile~relu_m.f90 -->
+<g id="sourcefile~~print&#45;training&#45;configuration.f90~~EfferentGraph_edge7" class="edge">
+<title>sourcefile~inference_engine_m.f90&#45;&gt;sourcefile~relu_m.f90</title>
+<path fill="none" stroke="#ff0000" stroke-dasharray="5,2" d="M909,-391C857.27,-416.35 793.11,-434.35 751.39,-444.46"/>
+<polygon fill="#ff0000" stroke="#ff0000" points="750.47,-441.08 741.55,-446.79 752.09,-447.89 750.47,-441.08"/>
+</g>
+<!-- sourcefile~sigmoid_m.f90 -->
+<g id="sourcefile~~print&#45;training&#45;configuration.f90~~EfferentGraph_node9" class="node">
+<title>sourcefile~sigmoid_m.f90</title>
+<g id="a_sourcefile~~print&#45;training&#45;configuration.f90~~EfferentGraph_node9"><a xlink:href=".././sourcefile/sigmoid_m.f90.html" xlink:title="sigmoid_m.f90">
+<polygon fill="#f0ad4e" stroke="#f0ad4e" points="752.5,-424 661.5,-424 661.5,-400 752.5,-400 752.5,-424"/>
+<text text-anchor="middle" x="707" y="-409.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">sigmoid_m.f90</text>
+</a>
+</g>
+</g>
+<!-- sourcefile~inference_engine_m.f90&#45;&gt;sourcefile~sigmoid_m.f90 -->
+<g id="sourcefile~~print&#45;training&#45;configuration.f90~~EfferentGraph_edge8" class="edge">
+<title>sourcefile~inference_engine_m.f90&#45;&gt;sourcefile~sigmoid_m.f90</title>
+<path fill="none" stroke="#ff0000" stroke-dasharray="5,2" d="M909,-391C863.3,-413.39 804.87,-417.15 762.79,-416.2"/>
+<polygon fill="#ff0000" stroke="#ff0000" points="762.84,-412.7 752.74,-415.88 762.62,-419.7 762.84,-412.7"/>
+</g>
+<!-- sourcefile~swish_m.f90 -->
+<g id="sourcefile~~print&#45;training&#45;configuration.f90~~EfferentGraph_node10" class="node">
+<title>sourcefile~swish_m.f90</title>
+<g id="a_sourcefile~~print&#45;training&#45;configuration.f90~~EfferentGraph_node10"><a xlink:href=".././sourcefile/swish_m.f90.html" xlink:title="swish_m.f90">
+<polygon fill="#f0ad4e" stroke="#f0ad4e" points="745.5,-382 668.5,-382 668.5,-358 745.5,-358 745.5,-382"/>
+<text text-anchor="middle" x="707" y="-367.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">swish_m.f90</text>
+</a>
+</g>
+</g>
+<!-- sourcefile~inference_engine_m.f90&#45;&gt;sourcefile~swish_m.f90 -->
+<g id="sourcefile~~print&#45;training&#45;configuration.f90~~EfferentGraph_edge9" class="edge">
+<title>sourcefile~inference_engine_m.f90&#45;&gt;sourcefile~swish_m.f90</title>
+<path fill="none" stroke="#ff0000" stroke-dasharray="5,2" d="M909,-391C882.91,-403.78 806.48,-391.24 755.74,-380.79"/>
+<polygon fill="#ff0000" stroke="#ff0000" points="756.15,-377.3 745.64,-378.67 754.71,-384.15 756.15,-377.3"/>
+</g>
+<!-- sourcefile~training_configuration_m.f90 -->
+<g id="sourcefile~~print&#45;training&#45;configuration.f90~~EfferentGraph_node11" class="node">
+<title>sourcefile~training_configuration_m.f90</title>
+<g id="a_sourcefile~~print&#45;training&#45;configuration.f90~~EfferentGraph_node11"><a xlink:href=".././sourcefile/training_configuration_m.f90.html" xlink:title="training_configuration_m.f90">
+<polygon fill="#f0ad4e" stroke="#f0ad4e" points="993,-64 827,-64 827,-40 993,-40 993,-64"/>
+<text text-anchor="middle" x="910" y="-49.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">training_configuration_m.f90</text>
+</a>
+</g>
+</g>
+<!-- sourcefile~inference_engine_m.f90&#45;&gt;sourcefile~training_configuration_m.f90 -->
+<g id="sourcefile~~print&#45;training&#45;configuration.f90~~EfferentGraph_edge10" class="edge">
+<title>sourcefile~inference_engine_m.f90&#45;&gt;sourcefile~training_configuration_m.f90</title>
+<path fill="none" stroke="#ff0000" stroke-dasharray="5,2" d="M1077.57,-119.97C1056.63,-108.26 1023.26,-90.44 993,-78 983.57,-74.12 973.34,-70.47 963.41,-67.19"/>
+<polygon fill="#ff0000" stroke="#ff0000" points="964.21,-63.77 953.62,-64.04 962.07,-70.43 964.21,-63.77"/>
+</g>
+<!-- sourcefile~inference_engine_m_.f90 -->
+<g id="sourcefile~~print&#45;training&#45;configuration.f90~~EfferentGraph_node12" class="node">
+<title>sourcefile~inference_engine_m_.f90</title>
+<g id="a_sourcefile~~print&#45;training&#45;configuration.f90~~EfferentGraph_node12"><a xlink:href=".././sourcefile/inference_engine_m_.f90.html" xlink:title="inference_engine_m_.f90">
+<polygon fill="#f0ad4e" stroke="#f0ad4e" points="780,-264 634,-264 634,-240 780,-240 780,-264"/>
+<text text-anchor="middle" x="707" y="-249.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">inference_engine_m_.f90</text>
+</a>
+</g>
+</g>
+<!-- sourcefile~inference_engine_m.f90&#45;&gt;sourcefile~inference_engine_m_.f90 -->
+<g id="sourcefile~~print&#45;training&#45;configuration.f90~~EfferentGraph_edge11" class="edge">
+<title>sourcefile~inference_engine_m.f90&#45;&gt;sourcefile~inference_engine_m_.f90</title>
+<path fill="none" stroke="#ff0000" stroke-dasharray="5,2" d="M1094.41,-144.21C1078.96,-188.07 1019.42,-337.87 911,-391"/>
+<path fill="none" stroke="#ff0000" stroke-dasharray="5,2" d="M909,-391C899.52,-395.64 783.34,-309.09 732.06,-270.3"/>
+<polygon fill="#ff0000" stroke="#ff0000" points="733.93,-267.33 723.84,-264.08 729.7,-272.91 733.93,-267.33"/>
+</g>
+<!-- sourcefile~hyperparameters_m.f90 -->
+<g id="sourcefile~~print&#45;training&#45;configuration.f90~~EfferentGraph_node13" class="node">
+<title>sourcefile~hyperparameters_m.f90</title>
+<g id="a_sourcefile~~print&#45;training&#45;configuration.f90~~EfferentGraph_node13"><a xlink:href=".././sourcefile/hyperparameters_m.f90.html" xlink:title="hyperparameters_m.f90">
+<polygon fill="#f0ad4e" stroke="#f0ad4e" points="778,-66 636,-66 636,-42 778,-42 778,-66"/>
+<text text-anchor="middle" x="707" y="-51.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">hyperparameters_m.f90</text>
+</a>
+</g>
+</g>
+<!-- sourcefile~inference_engine_m.f90&#45;&gt;sourcefile~hyperparameters_m.f90 -->
+<g id="sourcefile~~print&#45;training&#45;configuration.f90~~EfferentGraph_edge12" class="edge">
+<title>sourcefile~inference_engine_m.f90&#45;&gt;sourcefile~hyperparameters_m.f90</title>
+<path fill="none" stroke="#ff0000" stroke-dasharray="5,2" d="M1038.34,-119.98C968.25,-105.98 852.62,-82.89 778.41,-68.06"/>
+<polygon fill="#ff0000" stroke="#ff0000" points="778.72,-64.56 768.23,-66.03 777.35,-71.42 778.72,-64.56"/>
+</g>
+<!-- sourcefile~kind_parameters_m.f90 -->
+<g id="sourcefile~~print&#45;training&#45;configuration.f90~~EfferentGraph_node14" class="node">
+<title>sourcefile~kind_parameters_m.f90</title>
+<g id="a_sourcefile~~print&#45;training&#45;configuration.f90~~EfferentGraph_node14"><a xlink:href=".././sourcefile/kind_parameters_m.f90.html" xlink:title="kind_parameters_m.f90">
+<polygon fill="#f0ad4e" stroke="#f0ad4e" points="139,-237 0,-237 0,-213 139,-213 139,-237"/>
+<text text-anchor="middle" x="69.5" y="-222.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">kind_parameters_m.f90</text>
+</a>
+</g>
+</g>
+<!-- sourcefile~inference_engine_m.f90&#45;&gt;sourcefile~kind_parameters_m.f90 -->
+<g id="sourcefile~~print&#45;training&#45;configuration.f90~~EfferentGraph_edge13" class="edge">
+<title>sourcefile~inference_engine_m.f90&#45;&gt;sourcefile~kind_parameters_m.f90</title>
+<path fill="none" stroke="#ff0000" stroke-dasharray="5,2" d="M909,-391C851.19,-419.33 852.32,-455.4 791,-475 656.93,-517.85 614.65,-471.62 475,-454"/>
+</g>
+<!-- sourcefile~network_configuration_m.f90 -->
+<g id="sourcefile~~print&#45;training&#45;configuration.f90~~EfferentGraph_node15" class="node">
+<title>sourcefile~network_configuration_m.f90</title>
+<g id="a_sourcefile~~print&#45;training&#45;configuration.f90~~EfferentGraph_node15"><a xlink:href=".././sourcefile/network_configuration_m.f90.html" xlink:title="network_configuration_m.f90">
+<polygon fill="#f0ad4e" stroke="#f0ad4e" points="791,-24 623,-24 623,0 791,0 791,-24"/>
+<text text-anchor="middle" x="707" y="-9.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">network_configuration_m.f90</text>
+</a>
+</g>
+</g>
+<!-- sourcefile~inference_engine_m.f90&#45;&gt;sourcefile~network_configuration_m.f90 -->
+<g id="sourcefile~~print&#45;training&#45;configuration.f90~~EfferentGraph_edge14" class="edge">
+<title>sourcefile~inference_engine_m.f90&#45;&gt;sourcefile~network_configuration_m.f90</title>
+<path fill="none" stroke="#ff0000" stroke-dasharray="5,2" d="M1090.37,-119.9C1074.62,-97.63 1037.55,-50.63 993,-31 932.96,-4.54 858.86,-0.36 801.26,-2.49"/>
+<polygon fill="#ff0000" stroke="#ff0000" points="800.91,1 791.07,-2.94 801.22,-5.99 800.91,1"/>
+</g>
+<!-- sourcefile~step_m.f90 -->
+<g id="sourcefile~~print&#45;training&#45;configuration.f90~~EfferentGraph_node16" class="node">
+<title>sourcefile~step_m.f90</title>
+<g id="a_sourcefile~~print&#45;training&#45;configuration.f90~~EfferentGraph_node16"><a xlink:href=".././sourcefile/step_m.f90.html" xlink:title="step_m.f90">
+<polygon fill="#f0ad4e" stroke="#f0ad4e" points="509.5,-302 438.5,-302 438.5,-278 509.5,-278 509.5,-302"/>
+<text text-anchor="middle" x="474" y="-287.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">step_m.f90</text>
+</a>
+</g>
+</g>
+<!-- sourcefile~inference_engine_m.f90&#45;&gt;sourcefile~step_m.f90 -->
+<g id="sourcefile~~print&#45;training&#45;configuration.f90~~EfferentGraph_edge15" class="edge">
+<title>sourcefile~inference_engine_m.f90&#45;&gt;sourcefile~step_m.f90</title>
+<path fill="none" stroke="#ff0000" stroke-dasharray="5,2" d="M909,-391C859.01,-415.49 844.45,-364.57 791,-349 754.67,-338.41 745.44,-335.5 708,-330"/>
+<path fill="none" stroke="#ff0000" stroke-dasharray="5,2" d="M706,-330C641.05,-320.45 566.24,-307.06 519.78,-298.45"/>
+<polygon fill="#ff0000" stroke="#ff0000" points="520.21,-294.97 509.74,-296.59 518.93,-301.85 520.21,-294.97"/>
+</g>
+<!-- sourcefile~tensor_m.f90 -->
+<g id="sourcefile~~print&#45;training&#45;configuration.f90~~EfferentGraph_node17" class="node">
+<title>sourcefile~tensor_m.f90</title>
+<g id="a_sourcefile~~print&#45;training&#45;configuration.f90~~EfferentGraph_node17"><a xlink:href=".././sourcefile/tensor_m.f90.html" xlink:title="tensor_m.f90">
+<polygon fill="#f0ad4e" stroke="#f0ad4e" points="291,-197 209,-197 209,-173 291,-173 291,-197"/>
+<text text-anchor="middle" x="250" y="-182.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">tensor_m.f90</text>
+</a>
+</g>
+</g>
+<!-- sourcefile~inference_engine_m.f90&#45;&gt;sourcefile~tensor_m.f90 -->
+<g id="sourcefile~~print&#45;training&#45;configuration.f90~~EfferentGraph_edge16" class="edge">
+<title>sourcefile~inference_engine_m.f90&#45;&gt;sourcefile~tensor_m.f90</title>
+<path fill="none" stroke="#ff0000" stroke-dasharray="5,2" d="M909,-172C682.11,-174.97 411.26,-181.15 301.2,-183.78"/>
+<polygon fill="#ff0000" stroke="#ff0000" points="300.97,-180.28 291.05,-184.02 301.13,-187.28 300.97,-180.28"/>
+</g>
+<!-- sourcefile~trainable_engine_m.f90 -->
+<g id="sourcefile~~print&#45;training&#45;configuration.f90~~EfferentGraph_node18" class="node">
+<title>sourcefile~trainable_engine_m.f90</title>
+<g id="a_sourcefile~~print&#45;training&#45;configuration.f90~~EfferentGraph_node18"><a xlink:href=".././sourcefile/trainable_engine_m.f90.html" xlink:title="trainable_engine_m.f90">
+<polygon fill="#f0ad4e" stroke="#f0ad4e" points="979.5,-224 840.5,-224 840.5,-200 979.5,-200 979.5,-224"/>
+<text text-anchor="middle" x="910" y="-209.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">trainable_engine_m.f90</text>
+</a>
+</g>
+</g>
+<!-- sourcefile~inference_engine_m.f90&#45;&gt;sourcefile~trainable_engine_m.f90 -->
+<g id="sourcefile~~print&#45;training&#45;configuration.f90~~EfferentGraph_edge17" class="edge">
+<title>sourcefile~inference_engine_m.f90&#45;&gt;sourcefile~trainable_engine_m.f90</title>
+<path fill="none" stroke="#ff0000" stroke-dasharray="5,2" d="M1077.57,-144.03C1056.63,-155.74 1023.26,-173.56 993,-186 983.57,-189.88 973.34,-193.53 963.41,-196.81"/>
+<polygon fill="#ff0000" stroke="#ff0000" points="962.07,-193.57 953.62,-199.96 964.21,-200.23 962.07,-193.57"/>
+</g>
+<!-- sourcefile~activation_strategy_m.f90&#45;&gt;sourcefile~kind_parameters_m.f90 -->
+<g id="sourcefile~~print&#45;training&#45;configuration.f90~~EfferentGraph_edge18" class="edge">
+<title>sourcefile~activation_strategy_m.f90&#45;&gt;sourcefile~kind_parameters_m.f90</title>
+<path fill="none" stroke="#ff0000" stroke-dasharray="5,2" d="M203.96,-260.89C179.98,-254.44 150.3,-246.46 125.03,-239.66"/>
+<polygon fill="#ff0000" stroke="#ff0000" points="125.79,-236.24 115.22,-237.03 123.97,-243 125.79,-236.24"/>
+</g>
+<!-- sourcefile~input_output_pair_m.f90&#45;&gt;sourcefile~kind_parameters_m.f90 -->
+<g id="sourcefile~~print&#45;training&#45;configuration.f90~~EfferentGraph_edge19" class="edge">
+<title>sourcefile~input_output_pair_m.f90&#45;&gt;sourcefile~kind_parameters_m.f90</title>
+<path fill="none" stroke="#ffbf00" stroke-dasharray="5,2" d="M402.73,-105.16C358.67,-111.76 300.96,-121.98 251,-136"/>
+<path fill="none" stroke="#ffbf00" stroke-dasharray="5,2" d="M249,-136C215.14,-145.5 206.74,-148.86 175,-164 147.91,-176.92 118.51,-194.42 97.82,-207.36"/>
+<polygon fill="#ffbf00" stroke="#ffbf00" points="95.83,-204.48 89.24,-212.77 99.56,-210.4 95.83,-204.48"/>
+</g>
+<!-- sourcefile~input_output_pair_m.f90&#45;&gt;sourcefile~tensor_m.f90 -->
+<g id="sourcefile~~print&#45;training&#45;configuration.f90~~EfferentGraph_edge20" class="edge">
+<title>sourcefile~input_output_pair_m.f90&#45;&gt;sourcefile~tensor_m.f90</title>
+<path fill="none" stroke="#ffbf00" stroke-dasharray="5,2" d="M443.06,-108C403.67,-123.79 334.33,-151.59 290.63,-169.11"/>
+<polygon fill="#ffbf00" stroke="#ffbf00" points="289.15,-165.93 281.17,-172.9 291.76,-172.43 289.15,-165.93"/>
+</g>
+<!-- sourcefile~mini_batch_m.f90&#45;&gt;sourcefile~input_output_pair_m.f90 -->
+<g id="sourcefile~~print&#45;training&#45;configuration.f90~~EfferentGraph_edge21" class="edge">
+<title>sourcefile~mini_batch_m.f90&#45;&gt;sourcefile~input_output_pair_m.f90</title>
+<path fill="none" stroke="#dfff00" stroke-dasharray="5,2" d="M653.29,-125.33C624.21,-120.55 587.5,-114.51 554.95,-109.15"/>
+<polygon fill="#dfff00" stroke="#dfff00" points="555.44,-105.69 545,-107.52 554.3,-112.59 555.44,-105.69"/>
+</g>
+<!-- sourcefile~mini_batch_m.f90&#45;&gt;sourcefile~kind_parameters_m.f90 -->
+<g id="sourcefile~~print&#45;training&#45;configuration.f90~~EfferentGraph_edge22" class="edge">
+<title>sourcefile~mini_batch_m.f90&#45;&gt;sourcefile~kind_parameters_m.f90</title>
+<path fill="none" stroke="#dfff00" stroke-dasharray="5,2" d="M653.44,-130.74C550.34,-124.92 325.15,-115.19 251,-136"/>
+</g>
+<!-- sourcefile~differentiable_activation_strategy_m.f90&#45;&gt;sourcefile~activation_strategy_m.f90 -->
+<g id="sourcefile~~print&#45;training&#45;configuration.f90~~EfferentGraph_edge23" class="edge">
+<title>sourcefile~differentiable_activation_strategy_m.f90&#45;&gt;sourcefile~activation_strategy_m.f90</title>
+<path fill="none" stroke="#7fff00" stroke-dasharray="5,2" d="M404.29,-358C389.7,-354.36 374.6,-349.76 361,-344 328.81,-330.37 295.59,-307.48 274.2,-291.39"/>
+<polygon fill="#7fff00" stroke="#7fff00" points="276.14,-288.46 266.07,-285.17 271.88,-294.02 276.14,-288.46"/>
+</g>
+<!-- sourcefile~relu_m.f90&#45;&gt;sourcefile~differentiable_activation_strategy_m.f90 -->
+<g id="sourcefile~~print&#45;training&#45;configuration.f90~~EfferentGraph_edge24" class="edge">
+<title>sourcefile~relu_m.f90&#45;&gt;sourcefile~differentiable_activation_strategy_m.f90</title>
+<path fill="none" stroke="#1fff00" stroke-dasharray="5,2" d="M672.14,-446.68C656.95,-443.09 638.92,-438.37 623,-433 583,-419.52 538.65,-400 509.02,-386.26"/>
+<polygon fill="#1fff00" stroke="#1fff00" points="510.48,-383.09 499.94,-382.02 507.52,-389.43 510.48,-383.09"/>
+</g>
+<!-- sourcefile~relu_m.f90&#45;&gt;sourcefile~kind_parameters_m.f90 -->
+<g id="sourcefile~~print&#45;training&#45;configuration.f90~~EfferentGraph_edge25" class="edge">
+<title>sourcefile~relu_m.f90&#45;&gt;sourcefile~kind_parameters_m.f90</title>
+<path fill="none" stroke="#1fff00" stroke-dasharray="5,2" d="M672.17,-456.64C627.01,-459.56 544.63,-462.79 475,-454"/>
+</g>
+<!-- sourcefile~sigmoid_m.f90&#45;&gt;sourcefile~differentiable_activation_strategy_m.f90 -->
+<g id="sourcefile~~print&#45;training&#45;configuration.f90~~EfferentGraph_edge26" class="edge">
+<title>sourcefile~sigmoid_m.f90&#45;&gt;sourcefile~differentiable_activation_strategy_m.f90</title>
+<path fill="none" stroke="#00ff3f" stroke-dasharray="5,2" d="M661.46,-403.9C630.3,-398.24 587.9,-390.53 551.4,-383.89"/>
+<polygon fill="#00ff3f" stroke="#00ff3f" points="551.74,-380.39 541.27,-382.05 550.49,-387.28 551.74,-380.39"/>
+</g>
+<!-- sourcefile~sigmoid_m.f90&#45;&gt;sourcefile~kind_parameters_m.f90 -->
+<g id="sourcefile~~print&#45;training&#45;configuration.f90~~EfferentGraph_edge27" class="edge">
+<title>sourcefile~sigmoid_m.f90&#45;&gt;sourcefile~kind_parameters_m.f90</title>
+<path fill="none" stroke="#00ff3f" stroke-dasharray="5,2" d="M661.4,-423.41C604.8,-437.32 510.28,-458.45 475,-454"/>
+</g>
+<!-- sourcefile~swish_m.f90&#45;&gt;sourcefile~differentiable_activation_strategy_m.f90 -->
+<g id="sourcefile~~print&#45;training&#45;configuration.f90~~EfferentGraph_edge28" class="edge">
+<title>sourcefile~swish_m.f90&#45;&gt;sourcefile~differentiable_activation_strategy_m.f90</title>
+<path fill="none" stroke="#00ff9f" stroke-dasharray="5,2" d="M668.37,-370C648.68,-370 623.33,-370 597.51,-370"/>
+<polygon fill="#00ff9f" stroke="#00ff9f" points="597.22,-366.5 587.22,-370 597.22,-373.5 597.22,-366.5"/>
+</g>
+<!-- sourcefile~swish_m.f90&#45;&gt;sourcefile~kind_parameters_m.f90 -->
+<g id="sourcefile~~print&#45;training&#45;configuration.f90~~EfferentGraph_edge29" class="edge">
+<title>sourcefile~swish_m.f90&#45;&gt;sourcefile~kind_parameters_m.f90</title>
+<path fill="none" stroke="#00ff9f" stroke-dasharray="5,2" d="M668.46,-378.2C654.09,-381.67 637.65,-386.06 623,-391 555.26,-413.84 546.41,-450.71 475,-454"/>
+<path fill="none" stroke="#00ff9f" stroke-dasharray="5,2" d="M473,-454C303.83,-461.79 140.55,-301.72 88,-244.75"/>
+<polygon fill="#00ff9f" stroke="#00ff9f" points="90.38,-242.17 81.06,-237.13 85.2,-246.88 90.38,-242.17"/>
+</g>
+<!-- sourcefile~training_configuration_m.f90&#45;&gt;sourcefile~hyperparameters_m.f90 -->
+<g id="sourcefile~~print&#45;training&#45;configuration.f90~~EfferentGraph_edge30" class="edge">
+<title>sourcefile~training_configuration_m.f90&#45;&gt;sourcefile~hyperparameters_m.f90</title>
+<path fill="none" stroke="#00ffff" stroke-dasharray="5,2" d="M826.96,-52.82C814.19,-52.94 801.02,-53.07 788.3,-53.2"/>
+<polygon fill="#00ffff" stroke="#00ffff" points="788.17,-49.7 778.21,-53.3 788.24,-56.7 788.17,-49.7"/>
+</g>
+<!-- sourcefile~training_configuration_m.f90&#45;&gt;sourcefile~network_configuration_m.f90 -->
+<g id="sourcefile~~print&#45;training&#45;configuration.f90~~EfferentGraph_edge31" class="edge">
+<title>sourcefile~training_configuration_m.f90&#45;&gt;sourcefile~network_configuration_m.f90</title>
+<path fill="none" stroke="#00ffff" stroke-dasharray="5,2" d="M848.69,-40C826.63,-35.61 801.48,-30.6 778.6,-26.05"/>
+<polygon fill="#00ffff" stroke="#00ffff" points="779.1,-22.58 768.61,-24.06 777.74,-29.45 779.1,-22.58"/>
+</g>
+<!-- sourcefile~inference_engine_m_.f90&#45;&gt;sourcefile~activation_strategy_m.f90 -->
+<g id="sourcefile~~print&#45;training&#45;configuration.f90~~EfferentGraph_edge32" class="edge">
+<title>sourcefile~inference_engine_m_.f90&#45;&gt;sourcefile~activation_strategy_m.f90</title>
+<path fill="none" stroke="#009fff" stroke-dasharray="5,2" d="M473,-250C423.75,-247.34 368.59,-253.01 325.57,-259.39"/>
+<polygon fill="#009fff" stroke="#009fff" points="324.82,-255.96 315.47,-260.93 325.88,-262.88 324.82,-255.96"/>
+</g>
+<!-- sourcefile~inference_engine_m_.f90&#45;&gt;sourcefile~differentiable_activation_strategy_m.f90 -->
+<g id="sourcefile~~print&#45;training&#45;configuration.f90~~EfferentGraph_edge35" class="edge">
+<title>sourcefile~inference_engine_m_.f90&#45;&gt;sourcefile~differentiable_activation_strategy_m.f90</title>
+<path fill="none" stroke="#009fff" stroke-dasharray="5,2" d="M654.91,-264.13C644,-267.77 632.81,-272.35 623,-278 604.19,-288.84 604.75,-298.51 587,-311 563.41,-327.6 534.57,-342.69 512.06,-353.45"/>
+<polygon fill="#009fff" stroke="#009fff" points="510.4,-350.37 502.84,-357.79 513.38,-356.7 510.4,-350.37"/>
+</g>
+<!-- sourcefile~inference_engine_m_.f90&#45;&gt;sourcefile~kind_parameters_m.f90 -->
+<g id="sourcefile~~print&#45;training&#45;configuration.f90~~EfferentGraph_edge34" class="edge">
+<title>sourcefile~inference_engine_m_.f90&#45;&gt;sourcefile~kind_parameters_m.f90</title>
+<path fill="none" stroke="#009fff" stroke-dasharray="5,2" d="M473,-250C373.85,-244.64 350.13,-230.66 251,-225"/>
+</g>
+<!-- sourcefile~inference_engine_m_.f90&#45;&gt;sourcefile~tensor_m.f90 -->
+<g id="sourcefile~~print&#45;training&#45;configuration.f90~~EfferentGraph_edge33" class="edge">
+<title>sourcefile~inference_engine_m_.f90&#45;&gt;sourcefile~tensor_m.f90</title>
+<path fill="none" stroke="#009fff" stroke-dasharray="5,2" d="M633.89,-253.05C588.31,-253.3 528.16,-252.87 475,-250"/>
+<path fill="none" stroke="#009fff" stroke-dasharray="5,2" d="M473,-250C422.17,-247.25 409.59,-241.19 361,-226 344.46,-220.83 341.18,-217.21 325,-211 315.75,-207.45 305.79,-203.82 296.26,-200.44"/>
+<polygon fill="#009fff" stroke="#009fff" points="297.13,-197.04 286.53,-197.02 294.81,-203.64 297.13,-197.04"/>
+</g>
+<!-- sourcefile~step_m.f90&#45;&gt;sourcefile~activation_strategy_m.f90 -->
+<g id="sourcefile~~print&#45;training&#45;configuration.f90~~EfferentGraph_edge36" class="edge">
+<title>sourcefile~step_m.f90&#45;&gt;sourcefile~activation_strategy_m.f90</title>
+<path fill="none" stroke="#df00ff" stroke-dasharray="5,2" d="M438.31,-287.34C410.9,-285.24 371.45,-282.22 335.81,-279.49"/>
+<polygon fill="#df00ff" stroke="#df00ff" points="335.62,-275.97 325.39,-278.7 335.09,-282.95 335.62,-275.97"/>
+</g>
+<!-- sourcefile~step_m.f90&#45;&gt;sourcefile~kind_parameters_m.f90 -->
+<g id="sourcefile~~print&#45;training&#45;configuration.f90~~EfferentGraph_edge37" class="edge">
+<title>sourcefile~step_m.f90&#45;&gt;sourcefile~kind_parameters_m.f90</title>
+<path fill="none" stroke="#df00ff" stroke-dasharray="5,2" d="M438.43,-283.03C416.16,-278.28 386.67,-271.51 361,-264 311.21,-249.45 302.79,-227.96 251,-225"/>
+</g>
+<!-- sourcefile~tensor_m.f90&#45;&gt;sourcefile~kind_parameters_m.f90 -->
+<g id="sourcefile~~print&#45;training&#45;configuration.f90~~EfferentGraph_edge38" class="edge">
+<title>sourcefile~tensor_m.f90&#45;&gt;sourcefile~kind_parameters_m.f90</title>
+<path fill="none" stroke="#ff00bf" stroke-dasharray="5,2" d="M208.94,-193.98C186.89,-198.92 159.01,-205.16 134.06,-210.76"/>
+<polygon fill="#ff00bf" stroke="#ff00bf" points="133.3,-207.34 124.3,-212.94 134.83,-214.17 133.3,-207.34"/>
+</g>
+<!-- sourcefile~trainable_engine_m.f90&#45;&gt;sourcefile~mini_batch_m.f90 -->
+<g id="sourcefile~~print&#45;training&#45;configuration.f90~~EfferentGraph_edge39" class="edge">
+<title>sourcefile~trainable_engine_m.f90&#45;&gt;sourcefile~mini_batch_m.f90</title>
+<path fill="none" stroke="#ff005f" stroke-dasharray="5,2" d="M867.84,-199.88C854.69,-195.76 840.14,-190.94 827,-186 798.25,-175.19 766.4,-161.16 742.89,-150.4"/>
+<polygon fill="#ff005f" stroke="#ff005f" points="744.22,-147.16 733.68,-146.15 741.29,-153.52 744.22,-147.16"/>
+</g>
+<!-- sourcefile~trainable_engine_m.f90&#45;&gt;sourcefile~differentiable_activation_strategy_m.f90 -->
+<g id="sourcefile~~print&#45;training&#45;configuration.f90~~EfferentGraph_edge40" class="edge">
+<title>sourcefile~trainable_engine_m.f90&#45;&gt;sourcefile~differentiable_activation_strategy_m.f90</title>
+<path fill="none" stroke="#ff005f" stroke-dasharray="5,2" d="M889.18,-224.02C866.24,-237.51 826.99,-259.29 791,-273 718.97,-300.43 696.63,-293.21 623,-316 585.91,-327.48 544.45,-342.83 514.86,-354.23"/>
+<polygon fill="#ff005f" stroke="#ff005f" points="513.37,-351.06 505.31,-357.94 515.9,-357.59 513.37,-351.06"/>
+</g>
+<!-- sourcefile~trainable_engine_m.f90&#45;&gt;sourcefile~inference_engine_m_.f90 -->
+<g id="sourcefile~~print&#45;training&#45;configuration.f90~~EfferentGraph_edge41" class="edge">
+<title>sourcefile~trainable_engine_m.f90&#45;&gt;sourcefile~inference_engine_m_.f90</title>
+<path fill="none" stroke="#ff005f" stroke-dasharray="5,2" d="M848.69,-224C826.63,-228.39 801.48,-233.4 778.6,-237.95"/>
+<polygon fill="#ff005f" stroke="#ff005f" points="777.74,-234.55 768.61,-239.94 779.1,-241.42 777.74,-234.55"/>
+</g>
+<!-- sourcefile~trainable_engine_m.f90&#45;&gt;sourcefile~kind_parameters_m.f90 -->
+<g id="sourcefile~~print&#45;training&#45;configuration.f90~~EfferentGraph_edge43" class="edge">
+<title>sourcefile~trainable_engine_m.f90&#45;&gt;sourcefile~kind_parameters_m.f90</title>
+<path fill="none" stroke="#ff005f" stroke-dasharray="5,2" d="M473,-212C374.18,-210.24 349.67,-230.63 251,-225"/>
+<path fill="none" stroke="#ff005f" stroke-dasharray="5,2" d="M249,-225C216.48,-223.14 180.57,-222.81 149.54,-223.06"/>
+<polygon fill="#ff005f" stroke="#ff005f" points="149.17,-219.57 139.21,-223.17 149.25,-226.57 149.17,-219.57"/>
+</g>
+<!-- sourcefile~trainable_engine_m.f90&#45;&gt;sourcefile~tensor_m.f90 -->
+<g id="sourcefile~~print&#45;training&#45;configuration.f90~~EfferentGraph_edge42" class="edge">
+<title>sourcefile~trainable_engine_m.f90&#45;&gt;sourcefile~tensor_m.f90</title>
+<path fill="none" stroke="#ff005f" stroke-dasharray="5,2" d="M840.22,-212.66C754.63,-213.33 604.02,-214.02 475,-212"/>
+<path fill="none" stroke="#ff005f" stroke-dasharray="5,2" d="M473,-212C413.76,-210.95 346.25,-201.55 301.39,-194.14"/>
+<polygon fill="#ff005f" stroke="#ff005f" points="301.78,-190.65 291.33,-192.45 300.62,-197.56 301.78,-190.65"/>
+</g>
+</g>
+</svg>
+</div><script>var pansourcefileprinttrainingconfigurationf90EfferentGraph = svgPanZoom('#sourcefileprinttrainingconfigurationf90EfferentGraph', {zoomEnabled: true,controlIconsEnabled: true, fit: true, center: true,}); </script><div><a type="button" class="graph-help" data-toggle="modal" href="#graph-help-text">Help</a></div><div class="modal fade" id="graph-help-text" tabindex="-1" role="dialog"><div class="modal-dialog modal-lg" role="document"><div class="modal-content"><div class="modal-header"><button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button><h4 class="modal-title" id="-graph-help-label">Graph Key</h4></div><div class="modal-body">
+    <p>Nodes of different colours represent the following: </p>
+    <?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN"
+ "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
+<!-- Generated by graphviz version 2.43.0 (0)
+ -->
+<!-- Title: Graph Key Pages: 1 -->
+<svg width="202pt" height="32pt"
+ viewBox="0.00 0.00 201.50 32.00" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+<g id="graph0" class="graph" transform="scale(1 1) rotate(0) translate(4 28)">
+<title>Graph Key</title>
+<polygon fill="white" stroke="transparent" points="-4,4 -4,-28 197.5,-28 197.5,4 -4,4"/>
+<!-- Source File -->
+<g id="node1" class="node">
+<title>Source File</title>
+<polygon fill="#f0ad4e" stroke="#f0ad4e" points="70,-24 0,-24 0,0 70,0 70,-24"/>
+<text text-anchor="middle" x="35" y="-9.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">Source File</text>
+</g>
+<!-- This Page&#39;s Entity -->
+<g id="node2" class="node">
+<title>This Page&#39;s Entity</title>
+<polygon fill="none" stroke="black" points="193.5,-24 88.5,-24 88.5,0 193.5,0 193.5,-24"/>
+<text text-anchor="middle" x="141" y="-9.6" font-family="Helvetica,sans-Serif" font-size="10.50">This Page&#39;s Entity</text>
+</g>
+</g>
+</svg>
+
+    
+    <p>Solid arrows point from a file to a file which it depends on. A file
+    is dependent upon another if the latter must be compiled before the former
+    can be. Where possible, edges connecting nodes are given different colours to make them easier to distinguish in large graphs.
+    </p>
+    </div></div></div></div>
+      </div>
+    </div>
+<br>
+    <section class="visible-xs visible-sm hidden-md">
+      <h3>Contents</h3>
+ 
+<div class="panel panel-primary">
+  <div class="panel-heading text-left"><h3 class="panel-title"><a data-toggle="collapse" href="#progs-1">Programs</a></h3></div>
+  <div id="progs-1" class="panel-collapse collapse">
+    <div class="list-group">
+      <a class="list-group-item" href="../program/print_training_configuration.html">print_training_configuration</a>
+    </div>
+  </div>
+</div>
+<div class="panel panel-primary">
+  <div class="panel-heading text-left"><h3 class="panel-title">Source Code</h3></div>
+  <div class="list-group">
+    <a class="list-group-item" href="../sourcefile/print-training-configuration.f90.html#src">print-training-configuration.f90</a>
+  </div>
+</div>
+
+    </section>
+    <br class="visible-xs visible-sm hidden-md">
+
+    <section>
+      <h2><span class="anchor" id="src"></span>Source Code</h2>
+    <div class="hl"><pre><span></span><a id="ln-1" name="ln-1" href="#ln-1"></a><span class="k">program </span><span class="n">print_training_configuration</span><span class="w"></span>
+<a id="ln-2" name="ln-2" href="#ln-2"></a><span class="w">  </span><span class="c">!! Demonstrate how to construct and print a training_configuration_t object</span>
+<a id="ln-3" name="ln-3" href="#ln-3"></a><span class="w">  </span><span class="k">use </span><span class="n">inference_engine_m</span><span class="p">,</span><span class="w"> </span><span class="k">only</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="n">training_configuration_t</span><span class="p">,</span><span class="w"> </span><span class="n">hyperparameters_t</span><span class="p">,</span><span class="w"> </span><span class="n">network_configuration_t</span><span class="w"></span>
+<a id="ln-4" name="ln-4" href="#ln-4"></a><span class="w">  </span><span class="k">use </span><span class="n">sourcery_m</span><span class="p">,</span><span class="w"> </span><span class="k">only</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="n">file_t</span><span class="w"></span>
+<a id="ln-5" name="ln-5" href="#ln-5"></a><span class="w">  </span><span class="k">implicit none</span>
+<a id="ln-6" name="ln-6" href="#ln-6"></a>
+<a id="ln-7" name="ln-7" href="#ln-7"></a><span class="k">  associate</span><span class="p">(</span><span class="n">training_configuration</span><span class="w"> </span><span class="o">=&gt;</span><span class="w"> </span><span class="n">training_configuration_t</span><span class="p">(</span><span class="w"> </span><span class="p">&amp;</span><span class="w"></span>
+<a id="ln-8" name="ln-8" href="#ln-8"></a><span class="w">    </span><span class="n">hyperparameters_t</span><span class="p">(</span><span class="n">mini_batches</span><span class="o">=</span><span class="mi">10</span><span class="p">,</span><span class="w"> </span><span class="n">learning_rate</span><span class="o">=</span><span class="mf">1.5</span><span class="p">,</span><span class="w"> </span><span class="n">optimizer</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">&quot;adam&quot;</span><span class="p">),</span><span class="w"> </span><span class="p">&amp;</span><span class="w"></span>
+<a id="ln-9" name="ln-9" href="#ln-9"></a><span class="w">    </span><span class="n">network_configuration_t</span><span class="p">(</span><span class="n">skip_connections</span><span class="o">=</span><span class="p">.</span><span class="n">false</span><span class="p">.,</span><span class="w"> </span><span class="n">nodes_per_layer</span><span class="o">=</span><span class="p">[</span><span class="mi">2</span><span class="p">,</span><span class="mi">72</span><span class="p">,</span><span class="mi">2</span><span class="p">],</span><span class="w"> </span><span class="n">activation_function</span><span class="o">=</span><span class="s2">&quot;sigmoid&quot;</span><span class="p">)</span><span class="w"> </span><span class="p">&amp;</span><span class="w"></span>
+<a id="ln-10" name="ln-10" href="#ln-10"></a><span class="w">  </span><span class="p">))</span><span class="w"></span>
+<a id="ln-11" name="ln-11" href="#ln-11"></a><span class="w">    </span><span class="k">associate</span><span class="p">(</span><span class="n">json_file</span><span class="w"> </span><span class="o">=&gt;</span><span class="w"> </span><span class="n">file_t</span><span class="p">(</span><span class="n">training_configuration</span><span class="p">%</span><span class="n">to_json</span><span class="p">()))</span><span class="w"></span>
+<a id="ln-12" name="ln-12" href="#ln-12"></a><span class="w">      </span><span class="k">call </span><span class="n">json_file</span><span class="p">%</span><span class="n">write_lines</span><span class="p">()</span><span class="w"></span>
+<a id="ln-13" name="ln-13" href="#ln-13"></a><span class="w">    </span><span class="k">end associate</span>
+<a id="ln-14" name="ln-14" href="#ln-14"></a><span class="k">  end associate</span>
+<a id="ln-15" name="ln-15" href="#ln-15"></a><span class="k">end program</span><span class="w"></span>
+</pre></div>
+
+    </section>
+    </div>
+  </div>
+
+    <hr>    
+    </div> <!-- /container -->
+    <footer>
+      <div class="container">
+      <div class="row">
+        <div class="col-xs-6 col-md-6"><p>Inference-Engine was developed by Sourcery Institute<br>&copy; 2023 
+</p>
+        </div>
+        <div class="col-xs-6 col-md-6">
+          <p class="text-right">
+            Documentation generated by 
+            <a href="https://github.com/Fortran-FOSS-Programmers/ford">FORD</a>
+ on 2023-11-01 02:17            </p>
+        </div>
+      </div>
+      <br>
+      </div> <!-- /container -->    
+    </footer>
+
+    <!-- Bootstrap core JavaScript
+    ================================================== -->
+    <!-- Placed at the end of the document so the pages load faster -->
+<!--
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
+-->
+    <script src="../js/bootstrap.min.js"></script>
+    <!-- IE10 viewport hack for Surface/desktop Windows 8 bug -->
+    <script src="../js/ie10-viewport-bug-workaround.js"></script>
+
+    <!-- MathJax JavaScript
+    ================================================== -->
+    <!-- Placed at the end of the document so the pages load faster -->
+    <script type="text/x-mathjax-config">
+      MathJax.Hub.Config({
+        TeX: { extensions: ['AMSmath.js','AMSsymbols.js','noErrors.js','noUndefined.js'], equationNumbers: { autoNumber: 'AMS' } },
+        jax: ['input/TeX','input/MathML','output/HTML-CSS'],
+        extensions: ['tex2jax.js','mml2jax.js','MathMenu.js','MathZoom.js']
+      });
+    </script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    
+    <script src="../tipuesearch/tipuesearch_content.js"></script>
+    <script src="../tipuesearch/tipuesearch_set.js"></script>
+    <script src="../tipuesearch/tipuesearch.js"></script>
+    
+  </body>
+</html>

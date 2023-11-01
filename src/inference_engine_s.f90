@@ -1,16 +1,14 @@
 ! Copyright (c), The Regents of the University of California
 ! Terms of use are as specified in LICENSE.txt
 submodule(inference_engine_m_) inference_engine_s
-  use assert_m, only : assert
-  use intrinsic_array_m, only : intrinsic_array_t
+  use assert_m, only : assert, intrinsic_array_t
   use step_m, only : step_t
   use swish_m, only : swish_t
   use sigmoid_m, only : sigmoid_t
   use relu_m, only : relu_t
   use layer_m, only : layer_t
   use neuron_m, only : neuron_t
-  use file_m, only : file_t
-  use formats_m, only : separated_values
+  use sourcery_m, only : separated_values
   implicit none
 
   interface assert_consistency
