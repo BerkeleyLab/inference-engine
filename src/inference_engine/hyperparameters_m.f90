@@ -1,5 +1,5 @@
 module hyperparameters_m
-  use sourcery_m, only : string_t, file_t
+  use sourcery_m, only : string_t
   implicit none
 
   private
