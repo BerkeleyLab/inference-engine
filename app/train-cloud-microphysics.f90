@@ -38,15 +38,17 @@ program train_cloud_microphysics
 
   !! Internal dependencies;
   use inference_engine_m, only : &
-    inference_engine_t, mini_batch_t, input_output_pair_t, tensor_t, trainable_engine_t, rkind, NetCDF_file_t, sigmoid_t
+    inference_engine_t, mini_batch_t, input_output_pair_t, tensor_t, trainable_engine_t, rkind, NetCDF_file_t, sigmoid_t, &
+    training_configuration_t
   use ubounds_m, only : ubounds_t
+  use training_configuration_m, only : training_configuration_t
   implicit none
 
   integer(int64) t_start, t_finish, clock_rate
   type(command_line_t) command_line
   type(file_t) plot_file
   type(string_t), allocatable :: lines(:)
-  character(len=*), parameter :: plot_file_name = "cost.plt"
+  character(len=*), parameter :: plot_file_name = "cost.plt", training_configuration_json = "training_configuration.json "
   character(len=:), allocatable :: base_name, stride_string, epochs_string, last_line
   integer plot_unit, stride, num_epochs, previous_epoch
   logical preexisting_plot_file
@@ -76,7 +78,7 @@ program train_cloud_microphysics
     read(last_line,*) previous_epoch
   end if
 
-  call read_train_write
+  call read_train_write(training_configuration_t(file_t(string_t(training_configuration_json))))
 
   close(plot_unit)
   call system_clock(t_finish)
@@ -85,7 +87,8 @@ program train_cloud_microphysics
 
 contains
 
- subroutine read_train_write
+ subroutine read_train_write(training_configuration)
+    type(training_configuration_t), intent(in) :: training_configuration
     real, allocatable, dimension(:,:,:,:) :: &
       pressure_in , potential_temperature_in , temperature_in , &
       pressure_out, potential_temperature_out, temperature_out, &
@@ -229,7 +232,7 @@ contains
         end associate
       end associate
 
-      associate(num_pairs => size(input_output_pairs), n_bins => 1) ! also tried n_bins => size(input_output_pairs)/10000
+      associate(num_pairs => size(input_output_pairs), n_bins => training_configuration%mini_batches())
         bins = [(bin_t(num_items=num_pairs, num_bins=n_bins, bin_number=b), b = 1, n_bins)]
 
         print *,"Training network"

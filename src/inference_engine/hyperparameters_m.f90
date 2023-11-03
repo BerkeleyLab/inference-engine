@@ -14,6 +14,7 @@ module hyperparameters_m
     procedure :: to_json
     procedure :: equals
     generic :: operator(==) => equals
+    procedure :: mini_batches
   end type
 
   interface hyperparameters_t
@@ -46,6 +47,12 @@ module hyperparameters_m
       implicit none
       class(hyperparameters_t), intent(in) :: lhs, rhs
       logical lhs_equals_rhs
+    end function
+
+    elemental module function mini_batches(self) result(num_mini_batches)
+      implicit none
+      class(hyperparameters_t), intent(in) :: self
+      integer num_mini_batches
     end function
 
   end interface

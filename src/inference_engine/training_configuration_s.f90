@@ -46,4 +46,8 @@ contains
       lhs%network_configuration_ == rhs%network_configuration_
   end procedure
 
+  module procedure mini_batches
+    num_mini_batches = self%hyperparameters_%mini_batches()
+  end procedure
+
 end submodule training_configuration_s

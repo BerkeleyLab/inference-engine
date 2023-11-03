@@ -15,6 +15,7 @@ module training_configuration_m
     procedure :: to_json
     procedure :: equals
     generic :: operator(==) => equals
+    procedure :: mini_batches
   end type
 
   interface training_configuration_t
@@ -46,6 +47,12 @@ module training_configuration_m
       implicit none
       class(training_configuration_t), intent(in) :: lhs, rhs
       logical lhs_eq_rhs
+    end function
+
+    elemental module function mini_batches(self) result(num_mini_batches)
+      implicit none
+      class(training_configuration_t), intent(in) :: self
+      integer num_mini_batches
     end function
 
   end interface

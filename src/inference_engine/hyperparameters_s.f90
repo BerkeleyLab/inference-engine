@@ -63,4 +63,8 @@ contains
     ]
   end procedure
 
+  module procedure mini_batches
+    num_mini_batches = self%mini_batches_
+  end procedure
+
 end submodule hyperparameters_s
