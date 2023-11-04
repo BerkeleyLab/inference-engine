@@ -232,7 +232,12 @@ contains
         end associate
       end associate
 
-      associate(num_pairs => size(input_output_pairs), n_bins => training_configuration%mini_batches())
+      associate( &
+        num_pairs => size(input_output_pairs), &
+        n_bins => training_configuration%mini_batches(), &
+        adam => merge(.true., .false., training_configuration%optimizer_name() == "adam"), &
+        learning_rate => training_configuration%learning_rate() &
+      )
         bins = [(bin_t(num_items=num_pairs, num_bins=n_bins, bin_number=b), b = 1, n_bins)]
 
         print *,"Training network"
@@ -242,7 +247,7 @@ contains
 
           call shuffle(input_output_pairs) ! set up for stochastic gradient descent
           mini_batches = [(mini_batch_t(input_output_pairs(bins(b)%first():bins(b)%last())), b = 1, size(bins))]
-          call trainable_engine%train(mini_batches, cost)
+          call trainable_engine%train(mini_batches, cost, adam, learning_rate)
           print *, epoch, minval(cost), maxval(cost), sum(cost)/size(cost)
           write(plot_unit,*) epoch, minval(cost), maxval(cost), sum(cost)/size(cost)
 

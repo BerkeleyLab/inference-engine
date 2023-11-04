@@ -86,7 +86,7 @@ program learn_microphysics_procedures
           call random_number(random_numbers)
           call shuffle(input_output_pairs, random_numbers)
           mini_batches = [(mini_batch_t(input_output_pairs(bins(b)%first():bins(b)%last())), b = 1, size(bins))]
-          call trainable_engine%train(mini_batches, cost, adam=.true.)
+          call trainable_engine%train(mini_batches, cost, adam=.true., learning_rate=1.5)
           call system_clock(counter_end, clock_rate)
 
           associate( &

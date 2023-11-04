@@ -2,6 +2,7 @@ module training_configuration_m
   use sourcery_m, only : string_t, file_t
   use hyperparameters_m, only : hyperparameters_t
   use network_configuration_m, only : network_configuration_t
+  use kind_parameters_m, only  : rkind
   implicit none
 
   private
@@ -16,6 +17,8 @@ module training_configuration_m
     procedure :: equals
     generic :: operator(==) => equals
     procedure :: mini_batches
+    procedure :: optimizer_name
+    procedure :: learning_rate
   end type
 
   interface training_configuration_t
@@ -55,6 +58,18 @@ module training_configuration_m
       integer num_mini_batches
     end function
 
-  end interface
+    elemental module function optimizer_name(self) result(identifier)
+      implicit none
+      class(training_configuration_t), intent(in) :: self
+      type(string_t) identifier
+    end function
+
+    elemental module function learning_rate(self) result(rate)
+      implicit none
+      class(training_configuration_t), intent(in) :: self
+      real(rkind) rate
+    end function
+ 
+    end interface
 
 end module

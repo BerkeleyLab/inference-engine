@@ -2,7 +2,6 @@
 ! Terms of use are as specified in LICENSE.txt
 module trainable_engine_m
   !! Define an abstraction that supports training a neural network
-
   use sourcery_m, only : string_t
   use inference_engine_m_, only : inference_engine_t
   use differentiable_activation_strategy_m, only : differentiable_activation_strategy_t
@@ -20,7 +19,7 @@ module trainable_engine_m
     type(string_t), allocatable :: metadata_(:)
     real(rkind), allocatable :: w(:,:,:) ! weights
     real(rkind), allocatable :: b(:,:) ! biases
-    integer, allocatable :: n(:) ! nuerons per layer
+    integer, allocatable :: n(:) ! nodes per layer
     class(differentiable_activation_strategy_t), allocatable :: differentiable_activation_strategy_ 
   contains
     procedure :: assert_consistent
@@ -61,12 +60,13 @@ module trainable_engine_m
       class(trainable_engine_t), intent(in) :: self
     end subroutine
 
-    pure module subroutine train(self, mini_batches, cost, adam)
+    pure module subroutine train(self, mini_batches, cost, adam, learning_rate)
       implicit none
       class(trainable_engine_t), intent(inout) :: self
       type(mini_batch_t), intent(in) :: mini_batches(:)
       real(rkind), intent(out), allocatable, optional :: cost(:)
-      logical, intent(in), optional :: adam
+      logical, intent(in) :: adam
+      real(rkind), intent(in) :: learning_rate
     end subroutine
 
     elemental module function infer(self, inputs) result(outputs)

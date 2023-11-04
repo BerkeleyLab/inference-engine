@@ -67,4 +67,12 @@ contains
     num_mini_batches = self%mini_batches_
   end procedure
 
+  module procedure optimizer_name
+    identifier = string_t(self%optimizer_)
+  end procedure
+
+  module procedure learning_rate
+    rate = self%learning_rate_
+  end procedure
+
 end submodule hyperparameters_s

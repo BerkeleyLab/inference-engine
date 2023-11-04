@@ -50,4 +50,12 @@ contains
     num_mini_batches = self%hyperparameters_%mini_batches()
   end procedure
 
+  module procedure optimizer_name
+    identifier = self%hyperparameters_%optimizer_name()
+  end procedure
+
+  module procedure learning_rate
+    rate = self%hyperparameters_%learning_rate()
+  end procedure
+
 end submodule training_configuration_s
