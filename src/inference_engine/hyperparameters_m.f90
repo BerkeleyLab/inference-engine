@@ -1,5 +1,6 @@
 module hyperparameters_m
   use sourcery_m, only : string_t
+  use kind_parameters_m, only : rkind
   implicit none
 
   private
@@ -14,7 +15,10 @@ module hyperparameters_m
     procedure :: to_json
     procedure :: equals
     generic :: operator(==) => equals
-  end type
+    procedure :: mini_batches
+    procedure :: optimizer_name
+    procedure :: learning_rate
+    end type
 
   interface hyperparameters_t
 
@@ -48,6 +52,24 @@ module hyperparameters_m
       logical lhs_equals_rhs
     end function
 
+    elemental module function mini_batches(self) result(num_mini_batches)
+      implicit none
+      class(hyperparameters_t), intent(in) :: self
+      integer num_mini_batches
+    end function
+
+    elemental module function optimizer_name(self) result(identifier)
+      implicit none
+      class(hyperparameters_t), intent(in) :: self
+      type(string_t) identifier
+     end function
+
+
+     elemental module function learning_rate(self) result(rate)
+       implicit none
+       class(hyperparameters_t), intent(in) :: self
+       real(rkind) rate
+     end function
   end interface
 
 end module

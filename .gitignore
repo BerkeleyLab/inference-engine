@@ -1,3 +1,6 @@
+# NetCDF
+*.nc
+
 # Prerequisites
 *.d
 

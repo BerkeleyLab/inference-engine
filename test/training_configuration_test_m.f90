@@ -53,10 +53,9 @@ contains
   function construct_and_convert_to_and_from_json() result(test_passes)
     logical test_passes
 
-
     associate(training_configuration => training_configuration_t( &
       hyperparameters_t(mini_batches=5, learning_rate=1., optimizer = "adam"), &
-      network_configuration_t(skip_connections=.false., nodes_per_layer=[2,72,2], activation_function="sigmoid") &
+      network_configuration_t(skip_connections=.false., nodes_per_layer=[2,72,2], activation_name="sigmoid") &
     ))
       associate(from_json => training_configuration_t(file_t(training_configuration%to_json())))
         test_passes = training_configuration == from_json

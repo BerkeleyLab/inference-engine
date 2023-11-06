@@ -167,7 +167,7 @@ contains
     mini_batches = [(mini_batch_t(input_output_pair_t(training_inputs(:,iter), training_outputs(:,iter))), iter=1, num_iterations)]        
     trainable_engine = two_zeroed_hidden_layers()
 
-    call trainable_engine%train(mini_batches)
+    call trainable_engine%train(mini_batches, adam=.false., learning_rate=1.5)
 
     test_inputs = [tensor_t([true,true]), tensor_t([false,true]), tensor_t([true,false]), tensor_t([false,false])]
     expected_test_outputs = [(and(test_inputs(i)), i=1, size(test_inputs))]
@@ -211,7 +211,7 @@ contains
     mini_batches = [(mini_batch_t(input_output_pair_t(training_inputs(:,iter), training_outputs(:,iter))), iter=1, num_iterations)]        
     trainable_engine = two_zeroed_hidden_layers()
 
-    call trainable_engine%train(mini_batches)
+    call trainable_engine%train(mini_batches, adam=.false., learning_rate=1.5)
 
     test_inputs = [tensor_t([true,true]), tensor_t([false,true]), tensor_t([true,false]), tensor_t([false,false])]
     expected_test_outputs = [(not_and(test_inputs(i)), i=1, size(test_inputs))]
@@ -253,7 +253,7 @@ contains
     mini_batches = [(mini_batch_t(input_output_pair_t(training_inputs(:,iter), training_outputs(:,iter))), iter=1, num_iterations)]        
     trainable_engine = two_random_hidden_layers()
 
-    call trainable_engine%train(mini_batches)
+    call trainable_engine%train(mini_batches, adam=.false., learning_rate=1.5)
 
     test_inputs = [tensor_t([true,true]), tensor_t([false,true]), tensor_t([true,false]), tensor_t([false,false])]
     expected_test_outputs = [(or(test_inputs(i)), i=1, size(test_inputs))]
@@ -297,7 +297,7 @@ contains
     mini_batches = [(mini_batch_t(input_output_pair_t(training_inputs(:,iter), training_outputs(:,iter))), iter=1, num_iterations)]        
     trainable_engine = two_random_hidden_layers()
 
-    call trainable_engine%train(mini_batches)
+    call trainable_engine%train(mini_batches, adam=.false., learning_rate=1.5)
 
     test_inputs = [tensor_t([true,true]), tensor_t([false,true]), tensor_t([true,false]), tensor_t([false,false])]
     expected_test_outputs = [(xor(test_inputs(i)), i=1, size(test_inputs))]
@@ -364,7 +364,7 @@ contains
 
       do epoch = 1,num_epochs
         mini_batches = [(mini_batch_t(input_output_pairs(bins(bin)%first():bins(bin)%last())), bin = 1, size(bins))]
-        call trainable_engine%train(mini_batches, cost)
+        call trainable_engine%train(mini_batches, cost, adam=.false., learning_rate=1.5)
       end do
 
       block
@@ -415,7 +415,7 @@ contains
         call random_number(random_numbers)
         call shuffle(input_output_pairs, random_numbers)
         mini_batches = [(mini_batch_t(input_output_pairs(bins(bin)%first():bins(bin)%last())), bin = 1, size(bins))]
-        call trainable_engine%train(mini_batches, cost, adam=.true.)
+        call trainable_engine%train(mini_batches, cost, adam=.true., learning_rate=1.5)
       end do
 
       block

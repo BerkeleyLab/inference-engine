@@ -9,11 +9,14 @@ module network_configuration_m
     private
     logical :: skip_connections_ = .false.
     integer, allocatable :: nodes_per_layer_(:)
-    character(len=:), allocatable :: activation_function_
+    character(len=:), allocatable :: activation_name_
   contains
     procedure :: to_json
     procedure :: equals
     generic :: operator(==) => equals
+    procedure :: activation_name
+    procedure :: nodes_per_layer
+    procedure :: skip_connections
   end type
 
   interface network_configuration_t
@@ -24,11 +27,11 @@ module network_configuration_m
       type(network_configuration_t) network_configuration
     end function
 
-    pure module function from_components(skip_connections, nodes_per_layer, activation_function) result(network_configuration)
+    pure module function from_components(skip_connections, nodes_per_layer, activation_name) result(network_configuration)
       implicit none
       logical, intent(in) :: skip_connections
       integer, intent(in) :: nodes_per_layer(:)
-      character(len=*), intent(in) :: activation_function
+      character(len=*), intent(in) :: activation_name
       type(network_configuration_t) network_configuration
     end function
 
@@ -47,6 +50,25 @@ module network_configuration_m
       class(network_configuration_t), intent(in) :: lhs, rhs
       logical lhs_equals_rhs
     end function
+
+    elemental module function activation_name(self) result(string)
+      implicit none
+      class(network_configuration_t), intent(in) :: self
+      type(string_t) string
+    end function
+
+    pure module function nodes_per_layer(self) result(nodes)
+      implicit none
+      class(network_configuration_t), intent(in) :: self
+      integer, allocatable :: nodes(:)
+    end function
+
+    elemental module function skip_connections(self) result(using_skip)
+      implicit none
+      class(network_configuration_t), intent(in) :: self
+      logical using_skip
+    end function
+
 
   end interface
 

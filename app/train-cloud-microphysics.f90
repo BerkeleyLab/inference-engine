@@ -38,7 +38,8 @@ program train_cloud_microphysics
 
   !! Internal dependencies;
   use inference_engine_m, only : &
-    inference_engine_t, mini_batch_t, input_output_pair_t, tensor_t, trainable_engine_t, rkind, NetCDF_file_t, sigmoid_t
+    inference_engine_t, mini_batch_t, input_output_pair_t, tensor_t, trainable_engine_t, rkind, NetCDF_file_t, sigmoid_t, &
+    training_configuration_t
   use ubounds_m, only : ubounds_t
   implicit none
 
@@ -46,7 +47,7 @@ program train_cloud_microphysics
   type(command_line_t) command_line
   type(file_t) plot_file
   type(string_t), allocatable :: lines(:)
-  character(len=*), parameter :: plot_file_name = "cost.plt"
+  character(len=*), parameter :: plot_file_name = "cost.plt", training_configuration_json = "training_configuration.json "
   character(len=:), allocatable :: base_name, stride_string, epochs_string, last_line
   integer plot_unit, stride, num_epochs, previous_epoch
   logical preexisting_plot_file
@@ -76,7 +77,7 @@ program train_cloud_microphysics
     read(last_line,*) previous_epoch
   end if
 
-  call read_train_write
+  call read_train_write(training_configuration_t(file_t(string_t(training_configuration_json))))
 
   close(plot_unit)
   call system_clock(t_finish)
@@ -85,7 +86,8 @@ program train_cloud_microphysics
 
 contains
 
- subroutine read_train_write
+ subroutine read_train_write(training_configuration)
+    type(training_configuration_t), intent(in) :: training_configuration
     real, allocatable, dimension(:,:,:,:) :: &
       pressure_in , potential_temperature_in , temperature_in , &
       pressure_out, potential_temperature_out, temperature_out, &
@@ -195,7 +197,7 @@ contains
       else
         close(network_unit)
         print *,"Initializing a new network"
-        trainable_engine = new_engine(num_hidden_layers=6, nodes_per_hidden_layer=16, num_inputs=8, num_outputs=6, random=.false.)
+        trainable_engine = new_engine(training_configuration, randomize=.true.)
       end if
       
       print *,"Defining tensors from time steps 1 through", t_end, "with strides of", stride
@@ -229,7 +231,12 @@ contains
         end associate
       end associate
 
-      associate(num_pairs => size(input_output_pairs), n_bins => 1) ! also tried n_bins => size(input_output_pairs)/10000
+      associate( &
+        num_pairs => size(input_output_pairs), &
+        n_bins => training_configuration%mini_batches(), &
+        adam => merge(.true., .false., training_configuration%optimizer_name() == "adam"), &
+        learning_rate => training_configuration%learning_rate() &
+      )
         bins = [(bin_t(num_items=num_pairs, num_bins=n_bins, bin_number=b), b = 1, n_bins)]
 
         print *,"Training network"
@@ -239,7 +246,7 @@ contains
 
           call shuffle(input_output_pairs) ! set up for stochastic gradient descent
           mini_batches = [(mini_batch_t(input_output_pairs(bins(b)%first():bins(b)%last())), b = 1, size(bins))]
-          call trainable_engine%train(mini_batches, cost)
+          call trainable_engine%train(mini_batches, cost, adam, learning_rate)
           print *, epoch, minval(cost), maxval(cost), sum(cost)/size(cost)
           write(plot_unit,*) epoch, minval(cost), maxval(cost), sum(cost)/size(cost)
 
@@ -267,19 +274,26 @@ contains
 
   end subroutine read_train_write
 
-  function new_engine(num_hidden_layers, nodes_per_hidden_layer, num_inputs, num_outputs, random) result(trainable_engine)
-    integer, intent(in) ::  num_hidden_layers, nodes_per_hidden_layer, num_inputs, num_outputs
-    logical, intent(in) :: random
+  function new_engine(training_configuration, randomize) result(trainable_engine)
+    logical, intent(in) :: randomize
+    type(training_configuration_t), intent(in) :: training_configuration
     type(trainable_engine_t) trainable_engine
     real(rkind), allocatable :: w(:,:,:), b(:,:)
+    character(len=len('YYYMMDD')) date
     integer l
+  
+    call date_and_time(date)
 
-    associate(nodes => [num_inputs, [(nodes_per_hidden_layer, l = 1, num_hidden_layers)], num_outputs])
+    associate( &
+      nodes => training_configuration%nodes_per_layer(), &
+      activation => training_configuration%differentiable_activation_strategy(), &
+      residual_network => string_t(trim(merge("true ", "false", training_configuration%skip_connections()))) &
+    )
       associate(max_nodes => maxval(nodes), layers => size(nodes))
 
         allocate(w(max_nodes, max_nodes, layers-1), b(max_nodes, max_nodes))
 
-        if (random) then
+        if (randomize) then
           call random_number(b)
           call random_number(w)
         else
@@ -288,8 +302,8 @@ contains
         end if
 
         trainable_engine = trainable_engine_t( &
-          nodes = nodes, weights = w, biases = b, differentiable_activation_strategy = sigmoid_t(), metadata = & 
-          [string_t("Microphysics"), string_t("Damian Rouson"), string_t("2023-08-18"), string_t("sigmoid"), string_t("false")] &
+          nodes = nodes, weights = w, biases = b, differentiable_activation_strategy = activation, metadata = & 
+          [string_t("Microphysics"), string_t("Inference Engine"), string_t(date), activation%function_name(), residual_network] &
         )
       end associate
     end associate
