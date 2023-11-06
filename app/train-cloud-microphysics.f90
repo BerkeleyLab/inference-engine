@@ -41,7 +41,6 @@ program train_cloud_microphysics
     inference_engine_t, mini_batch_t, input_output_pair_t, tensor_t, trainable_engine_t, rkind, NetCDF_file_t, sigmoid_t, &
     training_configuration_t
   use ubounds_m, only : ubounds_t
-  use training_configuration_m, only : training_configuration_t
   implicit none
 
   integer(int64) t_start, t_finish, clock_rate
@@ -198,7 +197,7 @@ contains
       else
         close(network_unit)
         print *,"Initializing a new network"
-        trainable_engine = new_engine(num_hidden_layers=6, nodes_per_hidden_layer=16, num_inputs=8, num_outputs=6, random=.false.)
+        trainable_engine = new_engine(training_configuration, randomize=.true.)
       end if
       
       print *,"Defining tensors from time steps 1 through", t_end, "with strides of", stride
@@ -275,19 +274,26 @@ contains
 
   end subroutine read_train_write
 
-  function new_engine(num_hidden_layers, nodes_per_hidden_layer, num_inputs, num_outputs, random) result(trainable_engine)
-    integer, intent(in) ::  num_hidden_layers, nodes_per_hidden_layer, num_inputs, num_outputs
-    logical, intent(in) :: random
+  function new_engine(training_configuration, randomize) result(trainable_engine)
+    logical, intent(in) :: randomize
+    type(training_configuration_t), intent(in) :: training_configuration
     type(trainable_engine_t) trainable_engine
     real(rkind), allocatable :: w(:,:,:), b(:,:)
+    character(len=len('YYYMMDD')) date
     integer l
+  
+    call date_and_time(date)
 
-    associate(nodes => [num_inputs, [(nodes_per_hidden_layer, l = 1, num_hidden_layers)], num_outputs])
+    associate( &
+      nodes => training_configuration%nodes_per_layer(), &
+      activation => training_configuration%differentiable_activation_strategy(), &
+      residual_network => string_t(trim(merge("true ", "false", training_configuration%skip_connections()))) &
+    )
       associate(max_nodes => maxval(nodes), layers => size(nodes))
 
         allocate(w(max_nodes, max_nodes, layers-1), b(max_nodes, max_nodes))
 
-        if (random) then
+        if (randomize) then
           call random_number(b)
           call random_number(w)
         else
@@ -296,8 +302,8 @@ contains
         end if
 
         trainable_engine = trainable_engine_t( &
-          nodes = nodes, weights = w, biases = b, differentiable_activation_strategy = sigmoid_t(), metadata = & 
-          [string_t("Microphysics"), string_t("Damian Rouson"), string_t("2023-08-18"), string_t("sigmoid"), string_t("false")] &
+          nodes = nodes, weights = w, biases = b, differentiable_activation_strategy = activation, metadata = & 
+          [string_t("Microphysics"), string_t("Inference Engine"), string_t(date), activation%function_name(), residual_network] &
         )
       end associate
     end associate

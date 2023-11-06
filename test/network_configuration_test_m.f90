@@ -54,7 +54,7 @@ contains
     logical test_passes
 
     associate(constructed_from_components=> &
-      network_configuration_t(skip_connections=.false., nodes_per_layer=[2,72,2], activation_function="sigmoid"))
+      network_configuration_t(skip_connections=.false., nodes_per_layer=[2,72,2], activation_name="sigmoid"))
       associate(constructed_from_json => network_configuration_t(constructed_from_components%to_json()))
         test_passes = constructed_from_components == constructed_from_json 
       end associate
