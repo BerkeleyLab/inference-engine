@@ -90,7 +90,7 @@
      <li><i class="fa fa-list-ol"></i>
        <a data-toggle="tooltip"
     data-placement="bottom" data-html="true"
-    title="<p> 8.0% of total for derived types.</p>Including implementation: 9 statements,  5.6% of total for derived types.">9 statements</a>
+    title="<p> 9.8% of total for derived types.</p>Including implementation: 15 statements,  8.7% of total for derived types.">15 statements</a>
      </li> 
     <li><i class="fa fa-code"></i><a href="../src/training_configuration_m.f90"> Source File</a></li>
   </ul>
@@ -136,8 +136,14 @@
   <div class="panel-heading text-left"><h3 class="panel-title"><a data-toggle="collapse" href="#boundprocs-0">Type-Bound Procedures</a></h3></div>
   <div id="boundprocs-0" class="panel-collapse collapse">
     <div class="list-group">
+      <a class="list-group-item" href="../type/training_configuration_t.html#boundprocedure-differentiable_activation_strategy">differentiable_activation_strategy</a>
       <a class="list-group-item" href="../type/training_configuration_t.html#boundprocedure-equals~3">equals</a>
+      <a class="list-group-item" href="../type/training_configuration_t.html#boundprocedure-learning_rate~2">learning_rate</a>
+      <a class="list-group-item" href="../type/training_configuration_t.html#boundprocedure-mini_batches~2">mini_batches</a>
+      <a class="list-group-item" href="../type/training_configuration_t.html#boundprocedure-nodes_per_layer~3">nodes_per_layer</a>
       <a class="list-group-item" href="../type/training_configuration_t.html#boundprocedure-operator%28%3D%3D%29~3">operator(==)</a>
+      <a class="list-group-item" href="../type/training_configuration_t.html#boundprocedure-optimizer_name~2">optimizer_name</a>
+      <a class="list-group-item" href="../type/training_configuration_t.html#boundprocedure-skip_connections~2">skip_connections</a>
       <a class="list-group-item" href="../type/training_configuration_t.html#boundprocedure-to_json~4">to_json</a>
     </div>
   </div>
@@ -188,33 +194,33 @@
 <polygon fill="#ff0000" stroke="#ff0000" points="137.73,-83.53 128.3,-88.35 138.68,-90.46 137.73,-83.53"/>
 <text text-anchor="middle" x="215" y="-85.4" font-family="Helvetica,sans-Serif" font-size="9.50">hyperparameters_</text>
 </g>
-<!-- type~network_configuration_t -->
+<!-- file_t -->
 <g id="type~~training_configuration_t~~InheritsGraph_node3" class="node">
+<title>file_t</title>
+<polygon fill="#5cb85c" stroke="#5cb85c" points="97.5,-66 43.5,-66 43.5,-42 97.5,-42 97.5,-66"/>
+<text text-anchor="middle" x="70.5" y="-51.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">file_t</text>
+</g>
+<!-- type~training_configuration_t&#45;&gt;file_t -->
+<g id="type~~training_configuration_t~~InheritsGraph_edge3" class="edge">
+<title>type~training_configuration_t&#45;&gt;file_t</title>
+<path fill="none" stroke="#ff0000" d="M289,-54C232.08,-54 153.33,-54 107.87,-54"/>
+<polygon fill="#ff0000" stroke="#ff0000" points="107.6,-50.5 97.6,-54 107.6,-57.5 107.6,-50.5"/>
+</g>
+<!-- type~network_configuration_t -->
+<g id="type~~training_configuration_t~~InheritsGraph_node4" class="node">
 <title>type~network_configuration_t</title>
-<g id="a_type~~training_configuration_t~~InheritsGraph_node3"><a xlink:href=".././type/network_configuration_t.html" xlink:title="network_configuration_t">
-<polygon fill="#5cb85c" stroke="#5cb85c" points="141,-66 0,-66 0,-42 141,-42 141,-66"/>
-<text text-anchor="middle" x="70.5" y="-51.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">network_configuration_t</text>
+<g id="a_type~~training_configuration_t~~InheritsGraph_node4"><a xlink:href=".././type/network_configuration_t.html" xlink:title="network_configuration_t">
+<polygon fill="#5cb85c" stroke="#5cb85c" points="141,-24 0,-24 0,0 141,0 141,-24"/>
+<text text-anchor="middle" x="70.5" y="-9.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">network_configuration_t</text>
 </a>
 </g>
 </g>
 <!-- type~training_configuration_t&#45;&gt;type~network_configuration_t -->
 <g id="type~~training_configuration_t~~InheritsGraph_edge2" class="edge">
 <title>type~training_configuration_t&#45;&gt;type~network_configuration_t</title>
-<path fill="none" stroke="#ff0000" stroke-dasharray="5,2" d="M289,-54C247.69,-54 194.88,-54 151.64,-54"/>
-<polygon fill="#ff0000" stroke="#ff0000" points="151.43,-50.5 141.43,-54 151.43,-57.5 151.43,-50.5"/>
-<text text-anchor="middle" x="215" y="-56.4" font-family="Helvetica,sans-Serif" font-size="9.50">network_configuration_</text>
-</g>
-<!-- file_t -->
-<g id="type~~training_configuration_t~~InheritsGraph_node4" class="node">
-<title>file_t</title>
-<polygon fill="#5cb85c" stroke="#5cb85c" points="97.5,-24 43.5,-24 43.5,0 97.5,0 97.5,-24"/>
-<text text-anchor="middle" x="70.5" y="-9.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">file_t</text>
-</g>
-<!-- type~training_configuration_t&#45;&gt;file_t -->
-<g id="type~~training_configuration_t~~InheritsGraph_edge3" class="edge">
-<title>type~training_configuration_t&#45;&gt;file_t</title>
-<path fill="none" stroke="#ff0000" d="M289,-43.94C231.96,-35.56 153,-23.97 107.58,-17.3"/>
-<polygon fill="#ff0000" stroke="#ff0000" points="108.01,-13.82 97.6,-15.83 106.99,-20.75 108.01,-13.82"/>
+<path fill="none" stroke="#ff0000" stroke-dasharray="5,2" d="M288.59,-42.71C282.64,-41.78 276.72,-40.86 271,-40 231.64,-34.05 187.86,-27.86 151.35,-22.82"/>
+<polygon fill="#ff0000" stroke="#ff0000" points="151.64,-19.32 141.26,-21.42 150.69,-26.26 151.64,-19.32"/>
+<text text-anchor="middle" x="215" y="-42.4" font-family="Helvetica,sans-Serif" font-size="9.50">network_configuration_</text>
 </g>
 </g>
 </svg>
@@ -281,8 +287,14 @@
   <div class="panel-heading text-left"><h3 class="panel-title"><a data-toggle="collapse" href="#boundprocs-1">Type-Bound Procedures</a></h3></div>
   <div id="boundprocs-1" class="panel-collapse collapse">
     <div class="list-group">
+      <a class="list-group-item" href="../type/training_configuration_t.html#boundprocedure-differentiable_activation_strategy">differentiable_activation_strategy</a>
       <a class="list-group-item" href="../type/training_configuration_t.html#boundprocedure-equals~3">equals</a>
+      <a class="list-group-item" href="../type/training_configuration_t.html#boundprocedure-learning_rate~2">learning_rate</a>
+      <a class="list-group-item" href="../type/training_configuration_t.html#boundprocedure-mini_batches~2">mini_batches</a>
+      <a class="list-group-item" href="../type/training_configuration_t.html#boundprocedure-nodes_per_layer~3">nodes_per_layer</a>
       <a class="list-group-item" href="../type/training_configuration_t.html#boundprocedure-operator%28%3D%3D%29~3">operator(==)</a>
+      <a class="list-group-item" href="../type/training_configuration_t.html#boundprocedure-optimizer_name~2">optimizer_name</a>
+      <a class="list-group-item" href="../type/training_configuration_t.html#boundprocedure-skip_connections~2">skip_connections</a>
       <a class="list-group-item" href="../type/training_configuration_t.html#boundprocedure-to_json~4">to_json</a>
     </div>
   </div>
@@ -368,6 +380,33 @@
     <section>
     <h2>Type-Bound Procedures</h2>
      <div class="panel panel-default">
+  <div class="panel-heading codesum"><span class="anchor" id="boundprocedure-differentiable_activation_strategy"></span><h3>procedure, public :: <strong>differentiable_activation_strategy</strong>    </h3></div>
+  <ul class="list-group">
+      <li class="list-group-item">
+          <h3>interface
+          </h3>
+  
+          <h3>private module module function differentiable_activation_strategy(self) result(strategy)   <a href='../proc/differentiable_activation_strategy.html'><button type="button" class="btn btn-info depwarn">Implementation &rarr;</button></a>
+</h3>    
+<h4>Arguments</h4>      <table class="table table-striped varlist">
+<thead><tr><th>Type</th><th>Intent</th><th>Optional</th><th>Attributes</th><th></th><th>Name</th><th></th></thead>
+<tbody>
+<tr>
+  <td><span class="anchor" ></span>class(<a href='../type/training_configuration_t.html'>training_configuration_t</a>),</td>
+<td>intent(in)</td>
+  <td></td>  <td></td><td>::</td>
+  <td><strong>self</strong></td><td></td>
+</tr>
+</tbody>
+</table>
+
+<h4>Return Value <small>class(<a href='../type/differentiable_activation_strategy_t.html'>differentiable_activation_strategy_t</a>),allocatable</small></h4>  
+
+      </li>
+  </ul>
+</div>
+
+     <div class="panel panel-default">
   <div class="panel-heading codesum"><span class="anchor" id="boundprocedure-equals~3"></span><h3>procedure, public :: <strong>equals</strong>    </h3></div>
   <ul class="list-group">
       <li class="list-group-item">
@@ -401,11 +440,146 @@
 </div>
 
      <div class="panel panel-default">
+  <div class="panel-heading codesum"><span class="anchor" id="boundprocedure-learning_rate~2"></span><h3>procedure, public :: <strong>learning_rate</strong>    </h3></div>
+  <ul class="list-group">
+      <li class="list-group-item">
+          <h3>interface
+          </h3>
+  
+          <h3>private elemental module module function learning_rate(self) result(rate)   <a href='../proc/learning_rate~2.html'><button type="button" class="btn btn-info depwarn">Implementation &rarr;</button></a>
+</h3>    
+<h4>Arguments</h4>      <table class="table table-striped varlist">
+<thead><tr><th>Type</th><th>Intent</th><th>Optional</th><th>Attributes</th><th></th><th>Name</th><th></th></thead>
+<tbody>
+<tr>
+  <td><span class="anchor" ></span>class(<a href='../type/training_configuration_t.html'>training_configuration_t</a>),</td>
+<td>intent(in)</td>
+  <td></td>  <td></td><td>::</td>
+  <td><strong>self</strong></td><td></td>
+</tr>
+</tbody>
+</table>
+
+<h4>Return Value <small>real(kind=rkind)</small></h4>  
+
+      </li>
+  </ul>
+</div>
+
+     <div class="panel panel-default">
+  <div class="panel-heading codesum"><span class="anchor" id="boundprocedure-mini_batches~2"></span><h3>procedure, public :: <strong>mini_batches</strong>    </h3></div>
+  <ul class="list-group">
+      <li class="list-group-item">
+          <h3>interface
+          </h3>
+  
+          <h3>private elemental module module function mini_batches(self) result(num_mini_batches)   <a href='../proc/mini_batches~2.html'><button type="button" class="btn btn-info depwarn">Implementation &rarr;</button></a>
+</h3>    
+<h4>Arguments</h4>      <table class="table table-striped varlist">
+<thead><tr><th>Type</th><th>Intent</th><th>Optional</th><th>Attributes</th><th></th><th>Name</th><th></th></thead>
+<tbody>
+<tr>
+  <td><span class="anchor" ></span>class(<a href='../type/training_configuration_t.html'>training_configuration_t</a>),</td>
+<td>intent(in)</td>
+  <td></td>  <td></td><td>::</td>
+  <td><strong>self</strong></td><td></td>
+</tr>
+</tbody>
+</table>
+
+<h4>Return Value <small>integer</small></h4>  
+
+      </li>
+  </ul>
+</div>
+
+     <div class="panel panel-default">
+  <div class="panel-heading codesum"><span class="anchor" id="boundprocedure-nodes_per_layer~3"></span><h3>procedure, public :: <strong>nodes_per_layer</strong>    </h3></div>
+  <ul class="list-group">
+      <li class="list-group-item">
+          <h3>interface
+          </h3>
+  
+          <h3>private module module function nodes_per_layer(self) result(nodes)   <a href='../proc/nodes_per_layer~3.html'><button type="button" class="btn btn-info depwarn">Implementation &rarr;</button></a>
+</h3>    
+<h4>Arguments</h4>      <table class="table table-striped varlist">
+<thead><tr><th>Type</th><th>Intent</th><th>Optional</th><th>Attributes</th><th></th><th>Name</th><th></th></thead>
+<tbody>
+<tr>
+  <td><span class="anchor" ></span>class(<a href='../type/training_configuration_t.html'>training_configuration_t</a>),</td>
+<td>intent(in)</td>
+  <td></td>  <td></td><td>::</td>
+  <td><strong>self</strong></td><td></td>
+</tr>
+</tbody>
+</table>
+
+<h4>Return Value <small>integer,allocatable, (:)</small></h4>  
+
+      </li>
+  </ul>
+</div>
+
+     <div class="panel panel-default">
   <div class="panel-heading codesum"><span class="anchor" id="boundprocedure-operator%28%3D%3D%29~3"></span><h3>generic, public :: <strong>operator(==)</strong>  => <a href='../type/training_configuration_t.html#boundprocedure-equals~3'>equals</a>   </h3></div>
   <ul class="list-group">
       <li class="list-group-item">
             <h3>private interface <a href='../interface/equals~3.html'>equals</a>()</h3>    
 <h4>Arguments</h4>      <em>None</em>
+
+      </li>
+  </ul>
+</div>
+
+     <div class="panel panel-default">
+  <div class="panel-heading codesum"><span class="anchor" id="boundprocedure-optimizer_name~2"></span><h3>procedure, public :: <strong>optimizer_name</strong>    </h3></div>
+  <ul class="list-group">
+      <li class="list-group-item">
+          <h3>interface
+          </h3>
+  
+          <h3>private elemental module module function optimizer_name(self) result(identifier)   <a href='../proc/optimizer_name~2.html'><button type="button" class="btn btn-info depwarn">Implementation &rarr;</button></a>
+</h3>    
+<h4>Arguments</h4>      <table class="table table-striped varlist">
+<thead><tr><th>Type</th><th>Intent</th><th>Optional</th><th>Attributes</th><th></th><th>Name</th><th></th></thead>
+<tbody>
+<tr>
+  <td><span class="anchor" ></span>class(<a href='../type/training_configuration_t.html'>training_configuration_t</a>),</td>
+<td>intent(in)</td>
+  <td></td>  <td></td><td>::</td>
+  <td><strong>self</strong></td><td></td>
+</tr>
+</tbody>
+</table>
+
+<h4>Return Value <small>type(string_t)</small></h4>  
+
+      </li>
+  </ul>
+</div>
+
+     <div class="panel panel-default">
+  <div class="panel-heading codesum"><span class="anchor" id="boundprocedure-skip_connections~2"></span><h3>procedure, public :: <strong>skip_connections</strong>    </h3></div>
+  <ul class="list-group">
+      <li class="list-group-item">
+          <h3>interface
+          </h3>
+  
+          <h3>private elemental module module function skip_connections(self) result(using_skip)   <a href='../proc/skip_connections~2.html'><button type="button" class="btn btn-info depwarn">Implementation &rarr;</button></a>
+</h3>    
+<h4>Arguments</h4>      <table class="table table-striped varlist">
+<thead><tr><th>Type</th><th>Intent</th><th>Optional</th><th>Attributes</th><th></th><th>Name</th><th></th></thead>
+<tbody>
+<tr>
+  <td><span class="anchor" ></span>class(<a href='../type/training_configuration_t.html'>training_configuration_t</a>),</td>
+<td>intent(in)</td>
+  <td></td>  <td></td><td>::</td>
+  <td><strong>self</strong></td><td></td>
+</tr>
+</tbody>
+</table>
+
+<h4>Return Value <small>logical</small></h4>  
 
       </li>
   </ul>
@@ -456,7 +630,7 @@
           <p class="text-right">
             Documentation generated by 
             <a href="https://github.com/Fortran-FOSS-Programmers/ford">FORD</a>
- on 2023-11-01 02:37            </p>
+ on 2023-11-06 07:53            </p>
         </div>
       </div>
       <br>

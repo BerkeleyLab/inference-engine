@@ -90,7 +90,7 @@
      <li><i class="fa fa-list-ol"></i>
        <a data-toggle="tooltip"
     data-placement="bottom" data-html="true"
-    title=" 2.3% of total for procedures.">97 statements</a>
+    title=" 1.9% of total for procedures.">94 statements</a>
      </li> 
     <li><i class="fa fa-code"></i><a href="../src/trainable_engine_s.f90"> Source File</a></li>
   </ul>
@@ -122,7 +122,7 @@
     </div>
     
     <div class="col-md-9" id='text'>
-    <h2>module procedure train <small>pure module module subroutine train(self, mini_batches, cost, adam)</small>   <a href='../interface/train.html'><button type="button" class="btn btn-info depwarn">Interface &rarr;</button></a>
+    <h2>module procedure train <small>pure module module subroutine train(self, mini_batches, cost, adam, learning_rate)</small>   <a href='../interface/train.html'><button type="button" class="btn btn-info depwarn">Interface &rarr;</button></a>
 </h2>
     
 
@@ -132,13 +132,13 @@
 <thead><tr><th>Type</th><th>Intent</th><th>Optional</th><th>Attributes</th><th></th><th>Name</th><th></th></thead>
 <tbody>
 <tr>
-  <td><span class="anchor" id="variable-self~21"></span>class(<a href='../type/trainable_engine_t.html'>trainable_engine_t</a>),</td>
+  <td><span class="anchor" id="variable-self~34"></span>class(<a href='../type/trainable_engine_t.html'>trainable_engine_t</a>),</td>
 <td>intent(inout)</td>
   <td></td>  <td></td><td>::</td>
   <td><strong>self</strong></td><td></td>
 </tr>
 <tr>
-  <td><span class="anchor" id="variable-mini_batches"></span>type(<a href='../type/mini_batch_t.html'>mini_batch_t</a>),</td>
+  <td><span class="anchor" id="variable-mini_batches~3"></span>type(<a href='../type/mini_batch_t.html'>mini_batch_t</a>),</td>
 <td>intent(in)</td>
   <td></td>  <td></td><td>::</td>
   <td><strong>mini_batches</strong>(:)</td><td></td>
@@ -151,9 +151,15 @@
 </tr>
 <tr>
   <td><span class="anchor" id="variable-adam"></span>logical,</td>
-<td>intent(in),</td>
-  <td>optional</td>  <td></td><td>::</td>
+<td>intent(in)</td>
+  <td></td>  <td></td><td>::</td>
   <td><strong>adam</strong></td><td></td>
+</tr>
+<tr>
+  <td><span class="anchor" id="variable-learning_rate~3"></span>real(kind=rkind),</td>
+<td>intent(in)</td>
+  <td></td>  <td></td><td>::</td>
+  <td><strong>learning_rate</strong></td><td></td>
 </tr>
 </tbody>
 </table>
@@ -181,15 +187,15 @@
 <polygon fill="none" stroke="black" points="54,-129 0,-129 0,-105 54,-105 54,-129"/>
 <text text-anchor="middle" x="27" y="-114.6" font-family="Helvetica,sans-Serif" font-size="10.50">train</text>
 </g>
-<!-- n -->
+<!-- b -->
 <g id="proc~~train~~CallsGraph_node2" class="node">
-<title>n</title>
+<title>b</title>
 <polygon fill="#777777" stroke="#777777" points="144,-234 90,-234 90,-210 144,-210 144,-234"/>
-<text text-anchor="middle" x="117" y="-219.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">n</text>
+<text text-anchor="middle" x="117" y="-219.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">b</text>
 </g>
-<!-- proc~train&#45;&gt;n -->
+<!-- proc~train&#45;&gt;b -->
 <g id="proc~~train~~CallsGraph_edge1" class="edge">
-<title>proc~train&#45;&gt;n</title>
+<title>proc~train&#45;&gt;b</title>
 <path fill="none" stroke="#ff0000" d="M35.55,-129.15C46.43,-146.19 67.69,-177.69 90,-201 90.65,-201.68 91.32,-202.36 92.01,-203.03"/>
 <polygon fill="#ff0000" stroke="#ff0000" points="89.97,-205.9 99.76,-209.95 94.64,-200.68 89.97,-205.9"/>
 </g>
@@ -205,27 +211,27 @@
 <path fill="none" stroke="#ff0000" d="M44.97,-129.15C57.99,-138.47 76.18,-151.49 90.89,-162.02"/>
 <polygon fill="#ff0000" stroke="#ff0000" points="88.92,-164.91 99.08,-167.89 92.99,-159.22 88.92,-164.91"/>
 </g>
-<!-- b -->
-<g id="proc~~train~~CallsGraph_node4" class="node">
-<title>b</title>
-<polygon fill="#777777" stroke="#777777" points="144,-150 90,-150 90,-126 144,-126 144,-150"/>
-<text text-anchor="middle" x="117" y="-135.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">b</text>
-</g>
-<!-- proc~train&#45;&gt;b -->
-<g id="proc~~train~~CallsGraph_edge3" class="edge">
-<title>proc~train&#45;&gt;b</title>
-<path fill="none" stroke="#ff0000" d="M54.4,-123.3C62.48,-125.23 71.51,-127.38 80.1,-129.43"/>
-<polygon fill="#ff0000" stroke="#ff0000" points="79.38,-132.86 89.92,-131.78 81,-126.05 79.38,-132.86"/>
-</g>
 <!-- y -->
-<g id="proc~~train~~CallsGraph_node5" class="node">
+<g id="proc~~train~~CallsGraph_node4" class="node">
 <title>y</title>
-<polygon fill="#777777" stroke="#777777" points="144,-108 90,-108 90,-84 144,-84 144,-108"/>
-<text text-anchor="middle" x="117" y="-93.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">y</text>
+<polygon fill="#777777" stroke="#777777" points="144,-150 90,-150 90,-126 144,-126 144,-150"/>
+<text text-anchor="middle" x="117" y="-135.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">y</text>
 </g>
 <!-- proc~train&#45;&gt;y -->
 <g id="proc~~train~~CallsGraph_edge4" class="edge">
 <title>proc~train&#45;&gt;y</title>
+<path fill="none" stroke="#ff0000" d="M54.4,-123.3C62.48,-125.23 71.51,-127.38 80.1,-129.43"/>
+<polygon fill="#ff0000" stroke="#ff0000" points="79.38,-132.86 89.92,-131.78 81,-126.05 79.38,-132.86"/>
+</g>
+<!-- n -->
+<g id="proc~~train~~CallsGraph_node5" class="node">
+<title>n</title>
+<polygon fill="#777777" stroke="#777777" points="144,-108 90,-108 90,-84 144,-84 144,-108"/>
+<text text-anchor="middle" x="117" y="-93.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">n</text>
+</g>
+<!-- proc~train&#45;&gt;n -->
+<g id="proc~~train~~CallsGraph_edge3" class="edge">
+<title>proc~train&#45;&gt;n</title>
 <path fill="none" stroke="#ff0000" d="M54.4,-110.7C62.48,-108.77 71.51,-106.62 80.1,-104.57"/>
 <polygon fill="#ff0000" stroke="#ff0000" points="81,-107.95 89.92,-102.22 79.38,-101.14 81,-107.95"/>
 </g>
@@ -451,7 +457,7 @@
           <p class="text-right">
             Documentation generated by 
             <a href="https://github.com/Fortran-FOSS-Programmers/ford">FORD</a>
- on 2023-11-01 02:37            </p>
+ on 2023-11-06 07:53            </p>
         </div>
       </div>
       <br>

@@ -90,7 +90,7 @@
      <li><i class="fa fa-list-ol"></i>
        <a data-toggle="tooltip"
     data-placement="bottom" data-html="true"
-    title=" 1.4% of total for modules and submodules.">54 statements</a>
+    title=" 1.3% of total for modules and submodules.">54 statements</a>
      </li> 
     <li><i class="fa fa-code"></i><a href="../src/neuron_m.f90"> Source File</a></li>
   </ul>
@@ -122,7 +122,7 @@
       <a class="list-group-item" href="../module/neuron_m.html#interface-bias">bias</a>
       <a class="list-group-item" href="../module/neuron_m.html#interface-next_allocated~2">next_allocated</a>
       <a class="list-group-item" href="../module/neuron_m.html#interface-next_pointer~2">next_pointer</a>
-      <a class="list-group-item" href="../module/neuron_m.html#interface-num_inputs">num_inputs</a>
+      <a class="list-group-item" href="../module/neuron_m.html#interface-num_inputs~3">num_inputs</a>
       <a class="list-group-item" href="../module/neuron_m.html#interface-weights">weights</a>
     </div>
   </div>
@@ -306,25 +306,10 @@
 <path fill="none" stroke="#ff0000" stroke-dasharray="5,2" d="M104.86,-54C96.08,-54 86.09,-54 76.43,-54"/>
 <polygon fill="#ff0000" stroke="#ff0000" points="76.16,-50.5 66.16,-54 76.16,-57.5 76.16,-50.5"/>
 </g>
-<!-- module~neuron_s -->
-<g id="module~~neuron_m~~UsedByGraph_node3" class="node">
-<title>module~neuron_s</title>
-<g id="a_module~~neuron_m~~UsedByGraph_node3"><a xlink:href=".././module/neuron_s.html" xlink:title="neuron_s">
-<polygon fill="#5bc0de" stroke="#5bc0de" points="163,-24 102,-24 102,0 163,0 163,-24"/>
-<text text-anchor="middle" x="132.5" y="-9.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">neuron_s</text>
-</a>
-</g>
-</g>
-<!-- module~neuron_s&#45;&gt;module~neuron_m -->
-<g id="module~~neuron_m~~UsedByGraph_edge3" class="edge">
-<title>module~neuron_s&#45;&gt;module~neuron_m</title>
-<path fill="none" stroke="#ff0000" d="M103.56,-24.04C93.46,-28.39 81.9,-33.37 71.14,-38"/>
-<polygon fill="#ff0000" stroke="#ff0000" points="69.74,-34.79 61.94,-41.96 72.51,-41.22 69.74,-34.79"/>
-</g>
 <!-- module~inference_engine_s -->
-<g id="module~~neuron_m~~UsedByGraph_node4" class="node">
+<g id="module~~neuron_m~~UsedByGraph_node3" class="node">
 <title>module~inference_engine_s</title>
-<g id="a_module~~neuron_m~~UsedByGraph_node4"><a xlink:href=".././module/inference_engine_s.html" xlink:title="inference_engine_s">
+<g id="a_module~~neuron_m~~UsedByGraph_node3"><a xlink:href=".././module/inference_engine_s.html" xlink:title="inference_engine_s">
 <polygon fill="#5bc0de" stroke="#5bc0de" points="314,-106 199,-106 199,-82 314,-82 314,-106"/>
 <text text-anchor="middle" x="256.5" y="-91.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">inference_engine_s</text>
 </a>
@@ -341,6 +326,21 @@
 <title>module~inference_engine_s&#45;&gt;module~layer_m</title>
 <path fill="none" stroke="#ff0000" stroke-dasharray="5,2" d="M218.9,-82C203.47,-76.94 185.54,-71.06 170.11,-66"/>
 <polygon fill="#ff0000" stroke="#ff0000" points="170.97,-62.6 160.38,-62.81 168.79,-69.26 170.97,-62.6"/>
+</g>
+<!-- module~neuron_s -->
+<g id="module~~neuron_m~~UsedByGraph_node4" class="node">
+<title>module~neuron_s</title>
+<g id="a_module~~neuron_m~~UsedByGraph_node4"><a xlink:href=".././module/neuron_s.html" xlink:title="neuron_s">
+<polygon fill="#5bc0de" stroke="#5bc0de" points="163,-24 102,-24 102,0 163,0 163,-24"/>
+<text text-anchor="middle" x="132.5" y="-9.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">neuron_s</text>
+</a>
+</g>
+</g>
+<!-- module~neuron_s&#45;&gt;module~neuron_m -->
+<g id="module~~neuron_m~~UsedByGraph_edge3" class="edge">
+<title>module~neuron_s&#45;&gt;module~neuron_m</title>
+<path fill="none" stroke="#ff0000" d="M103.56,-24.04C93.46,-28.39 81.9,-33.37 71.14,-38"/>
+<polygon fill="#ff0000" stroke="#ff0000" points="69.74,-34.79 61.94,-41.96 72.51,-41.22 69.74,-34.79"/>
 </g>
 <!-- module~layer_s -->
 <g id="module~~neuron_m~~UsedByGraph_node5" class="node">
@@ -434,7 +434,7 @@
       <a class="list-group-item" href="../module/neuron_m.html#interface-bias">bias</a>
       <a class="list-group-item" href="../module/neuron_m.html#interface-next_allocated~2">next_allocated</a>
       <a class="list-group-item" href="../module/neuron_m.html#interface-next_pointer~2">next_pointer</a>
-      <a class="list-group-item" href="../module/neuron_m.html#interface-num_inputs">num_inputs</a>
+      <a class="list-group-item" href="../module/neuron_m.html#interface-num_inputs~3">num_inputs</a>
       <a class="list-group-item" href="../module/neuron_m.html#interface-weights">weights</a>
     </div>
   </div>
@@ -559,10 +559,10 @@
 </div>
 
      <div class="panel panel-default">
-  <div class="panel-heading codesum"><span class="anchor" id="interface-num_inputs"></span><h3>interface   </h3></div>
+  <div class="panel-heading codesum"><span class="anchor" id="interface-num_inputs~3"></span><h3>interface   </h3></div>
   <ul class="list-group">
     <li class="list-group-item">
-    <h3>private pure module module function num_inputs(self) result(size_weights)   <a href='../proc/num_inputs.html'><button type="button" class="btn btn-info depwarn">Implementation &rarr;</button></a>
+    <h3>private pure module module function num_inputs(self) result(size_weights)   <a href='../proc/num_inputs~3.html'><button type="button" class="btn btn-info depwarn">Implementation &rarr;</button></a>
 </h3>    
 <h4>Arguments</h4>      <table class="table table-striped varlist">
 <thead><tr><th>Type</th><th>Intent</th><th>Optional</th><th>Attributes</th><th></th><th>Name</th><th></th></thead>
@@ -631,7 +631,7 @@
   <td><strong>next</strong></td><td></td><td></td><td></td>
 </tr>
 <tr>
-  <td><span class="anchor" id="variable-weights_"></span>real(kind=rkind),</td>
+  <td><span class="anchor" id="variable-weights_~3"></span>real(kind=rkind),</td>
 <td>private,</td>  <td>allocatable</td><td>::</td>
   <td><strong>weights_</strong>(:)</td><td></td><td></td><td></td>
 </tr>
@@ -655,7 +655,7 @@
        <td></td></tr>
        <tr><td>procedure, public :: <strong><a href='../type/neuron_t.html#boundprocedure-next_pointer~2'>next_pointer</a></strong>  </td>
        <td></td></tr>
-       <tr><td>procedure, public :: <strong><a href='../type/neuron_t.html#boundprocedure-num_inputs'>num_inputs</a></strong>  </td>
+       <tr><td>procedure, public :: <strong><a href='../type/neuron_t.html#boundprocedure-num_inputs~3'>num_inputs</a></strong>  </td>
        <td></td></tr>
        <tr><td>procedure, public :: <strong><a href='../type/neuron_t.html#boundprocedure-weights'>weights</a></strong>  </td>
        <td></td></tr>
@@ -684,7 +684,7 @@
           <p class="text-right">
             Documentation generated by 
             <a href="https://github.com/Fortran-FOSS-Programmers/ford">FORD</a>
- on 2023-11-01 02:37            </p>
+ on 2023-11-06 07:53            </p>
         </div>
       </div>
       <br>
