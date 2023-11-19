@@ -43,15 +43,6 @@ program train_cloud_microphysics
   use ubounds_m, only : ubounds_t
   implicit none
 
-  integer(int64) t_start, t_finish, clock_rate
-  type(command_line_t) command_line
-  type(file_t) plot_file
-  type(string_t), allocatable :: lines(:)
-  character(len=*), parameter :: plot_file_name = "cost.plt", training_configuration_json = "training_configuration.json "
-  character(len=:), allocatable :: last_line, network_input, network_output, network_file
-  integer plot_unit, stride, num_epochs, previous_epoch, start_step
-  integer, allocatable :: end_step
-  logical preexisting_plot_file
   character(len=*), parameter :: usage = &
     new_line('a') // new_line('a') // &
     'Usage: ' // new_line('a') // new_line('a') // &
@@ -61,9 +52,18 @@ program train_cloud_microphysics
     new_line('a') // new_line('a') // &
     'where angular brackets denote user-provided values and square brackets denote optional arguments.'
 
-  call system_clock(t_start, clock_rate)
+  integer(int64) t_start, t_finish, clock_rate
+  type(command_line_t) command_line
+  type(file_t) plot_file
+  type(string_t), allocatable :: lines(:)
+  character(len=*), parameter :: plot_file_name = "cost.plt", training_configuration_json = "training_configuration.json "
+  character(len=:), allocatable :: last_line, base_name
+  integer plot_unit, stride, num_epochs, previous_epoch, start_step
+  integer, allocatable :: end_step
+  logical preexisting_plot_file
 
-  call process_command_line
+  call system_clock(t_start, clock_rate)
+  call get_command_line_arguments(base_name, num_epochs, start_step, end_step, stride)
 
   inquire(file=plot_file_name, exist=preexisting_plot_file)
   open(newunit=plot_unit,file="cost.plt",status="unknown",position="append")
@@ -78,7 +78,7 @@ program train_cloud_microphysics
     read(last_line,*) previous_epoch
   end if
 
-  call read_train_write(training_configuration_t(file_t(string_t(training_configuration_json))))
+  call read_train_write(training_configuration_t(file_t(string_t(training_configuration_json))), base_name)
 
   close(plot_unit)
   call system_clock(t_finish)
@@ -87,8 +87,13 @@ program train_cloud_microphysics
 
 contains
 
-  subroutine process_command_line
-    character(len=:), allocatable :: base_name, stride_string, epochs_string, start_string, end_string
+  subroutine get_command_line_arguments(base_name, num_epochs, start_step, end_step, stride)
+    character(len=:), allocatable, intent(out) :: base_name
+    integer, intent(out) :: num_epochs, start_step, stride
+    integer, intent(out), allocatable :: end_step
+
+    ! local variables
+    character(len=:), allocatable :: stride_string, epochs_string, start_string, end_string
 
     base_name = command_line%flag_value("--base") ! gfortran 13 seg faults if this is an association
     epochs_string = command_line%flag_value("--epochs")
@@ -115,20 +120,17 @@ contains
     end if
 
     if (len(end_string)/=0) then
-      allocate(end_step)
+      if (.not. allocated(end_step)) allocate(end_step)
       read(end_string,*) end_step
     end if
  
-    network_input = base_name // "_input.nc"
-    network_output = base_name // "_output.nc"
-    network_file = base_name // "_network.json"
+  end subroutine get_command_line_arguments
 
-    print *,"Reading network inputs from " // network_input
-
-  end subroutine process_command_line
-
- subroutine read_train_write(training_configuration)
+ subroutine read_train_write(training_configuration, base_name)
     type(training_configuration_t), intent(in) :: training_configuration
+    character(len=*), intent(in) :: base_name
+
+    ! local variables:
     real, allocatable, dimension(:,:,:,:) :: &
       pressure_in , potential_temperature_in , temperature_in , &
       pressure_out, potential_temperature_out, temperature_out, &
@@ -141,6 +143,13 @@ contains
     integer, allocatable :: lbounds(:)
     integer t, b, t_end
     logical stop_requested
+
+    associate( &
+      network_input => base_name // "_input.nc", &
+      network_output => base_name // "_output.nc", &
+      network_file => base_name // "_network.json" &
+    )
+      print *,"Reading network inputs from " // network_input
 
     associate(network_input_file => netCDF_file_t(network_input))
       ! Skipping the following unnecessary inputs that are in the current file format as of 14 Aug 2023:
@@ -307,6 +316,8 @@ contains
       end associate
 
     end block train_network
+
+    end associate
 
   end subroutine read_train_write
 
