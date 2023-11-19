@@ -55,7 +55,7 @@ program train_cloud_microphysics
   character(len=*), parameter :: usage = &
     new_line('a') // new_line('a') // &
     'Usage: ' // new_line('a') // new_line('a') // &
-    '  ./build/run-fpm.sh run train-cloud-microphysics -- \' // new_line('a') // &
+    './build/run-fpm.sh run train-cloud-microphysics -- \' // new_line('a') // &
     '  --base <string> --epochs <integer> \' // new_line('a') // &
     '  [--start <integer>] [--end <integer>] [--stride <integer>]' // &
     new_line('a') // new_line('a') // &
@@ -63,8 +63,31 @@ program train_cloud_microphysics
 
   call system_clock(t_start, clock_rate)
 
-  process_command_line: &
-  block
+  call process_command_line
+
+  inquire(file=plot_file_name, exist=preexisting_plot_file)
+  open(newunit=plot_unit,file="cost.plt",status="unknown",position="append")
+
+  if (.not. preexisting_plot_file) then
+    write(plot_unit,*) "      Epoch   Cost (min)       Cost (max)       Cost (avg)"
+    previous_epoch = 0
+  else
+    plot_file = file_t(string_t(plot_file_name))
+    lines = plot_file%lines()
+    last_line = lines(size(lines))%string()
+    read(last_line,*) previous_epoch
+  end if
+
+  call read_train_write(training_configuration_t(file_t(string_t(training_configuration_json))))
+
+  close(plot_unit)
+  call system_clock(t_finish)
+  print *,"System clock time: ", real(t_finish - t_start, real64)/real(clock_rate, real64)
+  print *,new_line('a') // "______training_cloud_microhpysics done _______"
+
+contains
+
+  subroutine process_command_line
     character(len=:), allocatable :: base_name, stride_string, epochs_string, start_string, end_string
 
     base_name = command_line%flag_value("--base") ! gfortran 13 seg faults if this is an association
@@ -101,29 +124,8 @@ program train_cloud_microphysics
     network_file = base_name // "_network.json"
 
     print *,"Reading network inputs from " // network_input
-  end block process_command_line
 
-  inquire(file=plot_file_name, exist=preexisting_plot_file)
-  open(newunit=plot_unit,file="cost.plt",status="unknown",position="append")
-
-  if (.not. preexisting_plot_file) then
-    write(plot_unit,*) "      Epoch   Cost (min)       Cost (max)       Cost (avg)"
-    previous_epoch = 0
-  else
-    plot_file = file_t(string_t(plot_file_name))
-    lines = plot_file%lines()
-    last_line = lines(size(lines))%string()
-    read(last_line,*) previous_epoch
-  end if
-
-  call read_train_write(training_configuration_t(file_t(string_t(training_configuration_json))))
-
-  close(plot_unit)
-  call system_clock(t_finish)
-  print *,"System clock time: ", real(t_finish - t_start, real64)/real(clock_rate, real64)
-  print *,new_line('a') // "______training_cloud_microhpysics done _______"
-
-contains
+  end subroutine process_command_line
 
  subroutine read_train_write(training_configuration)
     type(training_configuration_t), intent(in) :: training_configuration
