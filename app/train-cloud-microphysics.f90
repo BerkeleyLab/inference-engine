@@ -52,31 +52,34 @@ program train_cloud_microphysics
     new_line('a') // new_line('a') // &
     'where angular brackets denote user-provided values and square brackets denote optional arguments.'
 
-  type(file_t) plot_file
+  character(len=*), parameter :: training_configuration = "training_configuration.json "
+  character(len=*), parameter :: plot_file_name = "cost.plt"
+
   integer(int64) t_start, t_finish, clock_rate
-  type(command_line_t) command_line
-  type(string_t), allocatable :: lines(:)
-  character(len=*), parameter :: training_configuration_json = "training_configuration.json "
-  character(len=:), allocatable :: base_name
-  integer plot_unit, stride, num_epochs, previous_epoch, start_step
+  integer plot_unit, num_epochs, previous_epoch, start_step, stride
   integer, allocatable :: end_step
-  logical preexisting_plot_file
+  character(len=:), allocatable :: base_name
 
   call system_clock(t_start, clock_rate)
-
   call get_command_line_arguments(base_name, num_epochs, start_step, end_step, stride)
-  call create_or_append_to(plot_file_name = "cost.plt")
-  call read_train_write(training_configuration_t(file_t(string_t(training_configuration_json))), base_name)
-
+  call create_or_append_to(plot_file_name, plot_unit, previous_epoch)
+  call read_train_write( &
+    training_configuration_t(file_t(string_t(training_configuration))), base_name, plot_unit, previous_epoch, num_epochs &
+  )
   call system_clock(t_finish)
+
   print *,"System clock time: ", real(t_finish - t_start, real64)/real(clock_rate, real64)
   print *,new_line('a') // "______training_cloud_microhpysics done _______"
 
 contains
 
-  subroutine create_or_append_to(plot_file_name)
+  subroutine create_or_append_to(plot_file_name, plot_unit, previous_epoch)
     character(len=*), intent(in) :: plot_file_name
-    character(len=:), allocatable :: last_line
+    integer, intent(out) :: plot_unit, previous_epoch
+ 
+    !local variables:
+    logical preexisting_plot_file
+    type(file_t) plot_file
 
     inquire(file=plot_file_name, exist=preexisting_plot_file)
     open(newunit=plot_unit,file="cost.plt",status="unknown",position="append")
@@ -86,9 +89,13 @@ contains
       previous_epoch = 0
     else
       plot_file = file_t(string_t(plot_file_name))
-      lines = plot_file%lines()
-      last_line = lines(size(lines))%string()
-      read(last_line,*) previous_epoch
+      block
+        character(len=:), allocatable :: last_line
+        associate(lines => plot_file%lines())
+          last_line = lines(size(lines))%string()
+        end associate
+        read(last_line,*) previous_epoch
+      end block
     end if
   end subroutine
 
@@ -98,6 +105,7 @@ contains
     integer, intent(out), allocatable :: end_step
 
     ! local variables
+    type(command_line_t) command_line
     character(len=:), allocatable :: stride_string, epochs_string, start_string, end_string
 
     base_name = command_line%flag_value("--base") ! gfortran 13 seg faults if this is an association
@@ -131,9 +139,10 @@ contains
  
   end subroutine get_command_line_arguments
 
- subroutine read_train_write(training_configuration, base_name)
+  subroutine read_train_write(training_configuration, base_name, plot_unit, previous_epoch, num_epochs)
     type(training_configuration_t), intent(in) :: training_configuration
     character(len=*), intent(in) :: base_name
+    integer, intent(in) :: plot_unit, previous_epoch, num_epochs
 
     ! local variables:
     real, allocatable, dimension(:,:,:,:) :: &
