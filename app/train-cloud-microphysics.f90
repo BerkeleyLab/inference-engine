@@ -48,21 +48,60 @@ program train_cloud_microphysics
   type(file_t) plot_file
   type(string_t), allocatable :: lines(:)
   character(len=*), parameter :: plot_file_name = "cost.plt", training_configuration_json = "training_configuration.json "
-  character(len=:), allocatable :: base_name, stride_string, epochs_string, last_line
-  integer plot_unit, stride, num_epochs, previous_epoch
+  character(len=:), allocatable :: last_line, network_input, network_output, network_file
+  integer plot_unit, stride, num_epochs, previous_epoch, start_step
+  integer, allocatable :: end_step
   logical preexisting_plot_file
+  character(len=*), parameter :: usage = &
+    new_line('a') // new_line('a') // &
+    'Usage: ' // new_line('a') // new_line('a') // &
+    '  ./build/run-fpm.sh run train-cloud-microphysics -- \' // new_line('a') // &
+    '  --base <string> --epochs <integer> \' // new_line('a') // &
+    '  [--start <integer>] [--end <integer>] [--stride <integer>]' // &
+    new_line('a') // new_line('a') // &
+    'where angular brackets denote user-provided values and square brackets denote optional arguments.'
 
   call system_clock(t_start, clock_rate)
 
-  base_name = command_line%flag_value("--base") ! gfortran 13 seg faults if this is an association
-  stride_string = command_line%flag_value("--stride")
-  epochs_string = command_line%flag_value("--epochs")
+  process_command_line: &
+  block
+    character(len=:), allocatable :: base_name, stride_string, epochs_string, start_string, end_string
 
-  if (any([len(base_name),len(stride_string),len(epochs_string)]==0)) error stop new_line('a') // new_line('a') // &
-    'Usage: ./build/run-fpm.sh run train-cloud-microphysics -- --base <string> --stride <integer> --epochs <integer>'
+    base_name = command_line%flag_value("--base") ! gfortran 13 seg faults if this is an association
+    epochs_string = command_line%flag_value("--epochs")
+    start_string = command_line%flag_value("--start")
+    end_string = command_line%flag_value("--end")
+    stride_string = command_line%flag_value("--stride")
 
-  read(stride_string,*) stride
-  read(epochs_string,*) num_epochs
+    associate(required_arguments => len(base_name)/=0 .and. len(epochs_string)/=0)
+       if (.not. required_arguments) error stop usage 
+    end associate
+
+    read(epochs_string,*) num_epochs
+
+    if (len(stride_string)==0) then
+      stride = 1
+    else
+      read(stride_string,*) stride
+    end if
+
+    if (len(start_string)==0) then
+      start_step = 1
+    else
+      read(start_string,*) start_step
+    end if
+
+    if (len(end_string)/=0) then
+      allocate(end_step)
+      read(end_string,*) end_step
+    end if
+ 
+    network_input = base_name // "_input.nc"
+    network_output = base_name // "_output.nc"
+    network_file = base_name // "_network.json"
+
+    print *,"Reading network inputs from " // network_input
+  end block process_command_line
 
   inquire(file=plot_file_name, exist=preexisting_plot_file)
   open(newunit=plot_unit,file="cost.plt",status="unknown",position="append")
@@ -99,14 +138,7 @@ contains
     double precision, parameter :: tolerance = 1.E-07
     integer, allocatable :: lbounds(:)
     integer t, b, t_end
-    character(len=:), allocatable :: network_input, network_output, network_file
     logical stop_requested
- 
-    network_input = base_name // "_input.nc"
-    network_output = base_name // "_output.nc"
-    network_file = base_name // "_network.json"
-
-    print *,"Reading network inputs from " // network_input
 
     associate(network_input_file => netCDF_file_t(network_input))
       ! Skipping the following unnecessary inputs that are in the current file format as of 14 Aug 2023:
@@ -199,8 +231,10 @@ contains
         print *,"Initializing a new network"
         trainable_engine = new_engine(training_configuration, randomize=.true.)
       end if
+
+      if (.not. allocated(end_step)) end_step = t_end
       
-      print *,"Defining tensors from time steps 1 through", t_end, "with strides of", stride
+      print *,"Defining tensors from time step", start_step, "through", end_step, "with strides of", stride
 
       ! The following temporary copies are required by gfortran bug 100650 and possibly 49324
       ! See https://gcc.gnu.org/bugzilla/show_bug.cgi?id=100650 and https://gcc.gnu.org/bugzilla/show_bug.cgi?id=49324
@@ -210,14 +244,14 @@ contains
           qv_in(lon,lat,level,time), qc_in(lon,lat,level,time), qi_in(lon,lat,level,time), qr_in(lon,lat,level,time), &
           qs_in(lon,lat,level,time) &
         ] &
-        ), lon = 1, size(qv_in,1))], lat = 1, size(qv_in,2))], level = 1, size(qv_in,3))], time = 1, t_end, stride)]
+        ), lon = 1, size(qv_in,1))], lat = 1, size(qv_in,2))], level = 1, size(qv_in,3))], time = start_step, end_step, stride)]
 
       outputs = [( [( [( [( &
         tensor_t( &
           [dpt_dt(lon,lat,level,time), dqv_dt(lon,lat,level,time), dqc_dt(lon,lat,level,time), &
            dqi_dt(lon,lat,level,time), dqr_dt(lon,lat,level,time), dqs_dt(lon,lat,level,time) &
           ] &
-        ), lon = 1, size(qv_in,1))], lat = 1, size(qv_in,2))], level = 1, size(qv_in,3))], time = 1, t_end, stride)]
+        ), lon = 1, size(qv_in,1))], lat = 1, size(qv_in,2))], level = 1, size(qv_in,3))], time = start_step, end_step, stride)]
       
       print *, "Eliminating",int(100*(1.-keep)),"% of the grid points that have all-zero time derivatives"
 
