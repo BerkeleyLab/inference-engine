@@ -52,40 +52,45 @@ program train_cloud_microphysics
     new_line('a') // new_line('a') // &
     'where angular brackets denote user-provided values and square brackets denote optional arguments.'
 
+  type(file_t) plot_file
   integer(int64) t_start, t_finish, clock_rate
   type(command_line_t) command_line
-  type(file_t) plot_file
   type(string_t), allocatable :: lines(:)
-  character(len=*), parameter :: plot_file_name = "cost.plt", training_configuration_json = "training_configuration.json "
-  character(len=:), allocatable :: last_line, base_name
+  character(len=*), parameter :: training_configuration_json = "training_configuration.json "
+  character(len=:), allocatable :: base_name
   integer plot_unit, stride, num_epochs, previous_epoch, start_step
   integer, allocatable :: end_step
   logical preexisting_plot_file
 
   call system_clock(t_start, clock_rate)
+
   call get_command_line_arguments(base_name, num_epochs, start_step, end_step, stride)
-
-  inquire(file=plot_file_name, exist=preexisting_plot_file)
-  open(newunit=plot_unit,file="cost.plt",status="unknown",position="append")
-
-  if (.not. preexisting_plot_file) then
-    write(plot_unit,*) "      Epoch   Cost (min)       Cost (max)       Cost (avg)"
-    previous_epoch = 0
-  else
-    plot_file = file_t(string_t(plot_file_name))
-    lines = plot_file%lines()
-    last_line = lines(size(lines))%string()
-    read(last_line,*) previous_epoch
-  end if
-
+  call create_or_append_to(plot_file_name = "cost.plt")
   call read_train_write(training_configuration_t(file_t(string_t(training_configuration_json))), base_name)
 
-  close(plot_unit)
   call system_clock(t_finish)
   print *,"System clock time: ", real(t_finish - t_start, real64)/real(clock_rate, real64)
   print *,new_line('a') // "______training_cloud_microhpysics done _______"
 
 contains
+
+  subroutine create_or_append_to(plot_file_name)
+    character(len=*), intent(in) :: plot_file_name
+    character(len=:), allocatable :: last_line
+
+    inquire(file=plot_file_name, exist=preexisting_plot_file)
+    open(newunit=plot_unit,file="cost.plt",status="unknown",position="append")
+
+    if (.not. preexisting_plot_file) then
+      write(plot_unit,*) "      Epoch   Cost (min)       Cost (max)       Cost (avg)"
+      previous_epoch = 0
+    else
+      plot_file = file_t(string_t(plot_file_name))
+      lines = plot_file%lines()
+      last_line = lines(size(lines))%string()
+      read(last_line,*) previous_epoch
+    end if
+  end subroutine
 
   subroutine get_command_line_arguments(base_name, num_epochs, start_step, end_step, stride)
     character(len=:), allocatable, intent(out) :: base_name
@@ -318,6 +323,8 @@ contains
     end block train_network
 
     end associate
+
+    close(plot_unit)
 
   end subroutine read_train_write
 
