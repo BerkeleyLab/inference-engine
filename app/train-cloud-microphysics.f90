@@ -58,7 +58,6 @@ contains
  
     !local variables:
     logical preexisting_plot_file
-    type(file_t) plot_file
 
     inquire(file=plot_file_name, exist=preexisting_plot_file)
     open(newunit=plot_unit,file="cost.plt",status="unknown",position="append")
@@ -67,14 +66,19 @@ contains
       write(plot_unit,*) "      Epoch   Cost (min)       Cost (max)       Cost (avg)"
       previous_epoch = 0
     else
-      plot_file = file_t(string_t(plot_file_name))
-      block
-        character(len=:), allocatable :: last_line
+      associate(plot_file => file_t(string_t(plot_file_name)))
         associate(lines => plot_file%lines())
-          last_line = lines(size(lines))%string()
+          associate(num_lines => size(lines))
+            if (num_lines == 0) then
+              previous_epoch = 0
+            else
+              associate(last_line => lines(size(lines))%string())
+                read(last_line,*) previous_epoch
+              end associate
+            end if
+          end associate
         end associate
-        read(last_line,*) previous_epoch
-      end block
+      end associate
     end if
   end subroutine
 
@@ -278,15 +282,15 @@ contains
           bins = [(bin_t(num_items=num_pairs, num_bins=n_bins, bin_number=b), b = 1, n_bins)]
 
           print *,"Training network"
-          print *, "       Epoch   Cost (min)       Cost (max)       Cost (avg)"
+          print *, "       Epoch         Cost (avg)"
 
           do epoch = previous_epoch + 1, previous_epoch + num_epochs
 
             call shuffle(input_output_pairs) ! set up for stochastic gradient descent
             mini_batches = [(mini_batch_t(input_output_pairs(bins(b)%first():bins(b)%last())), b = 1, size(bins))]
             call trainable_engine%train(mini_batches, cost, adam, learning_rate)
-            print *, epoch, minval(cost), maxval(cost), sum(cost)/size(cost)
-            write(plot_unit,*) epoch, minval(cost), maxval(cost), sum(cost)/size(cost)
+            print *, epoch, sum(cost)/size(cost)
+            write(plot_unit,*) epoch, sum(cost)/size(cost)
 
             open(newunit=network_unit, file=network_file, form='formatted', status='unknown', iostat=io_status, action='write')
             associate(inference_engine => trainable_engine%to_inference_engine())
