@@ -29,7 +29,8 @@ program train_cloud_microphysics
     '  --base <string> --epochs <integer> \' // new_line('a') // &
     '  [--start <integer>] [--end <integer>] [--stride <integer>]' // &
     new_line('a') // new_line('a') // &
-    'where angular brackets denote user-provided values and square brackets denote optional arguments.'
+    'where angular brackets denote user-provided values and square brackets denote optional arguments.' // new_line('a') // &
+    'The presence of a file named "stop" halts execution gracefully.'
 
   character(len=*), parameter :: training_configuration = "training_configuration.json "
   character(len=*), parameter :: plot_file_name = "cost.plt"
@@ -301,11 +302,11 @@ contains
 
             close(network_unit)
 
-            inquire(file="stop-training", exist=stop_requested)
+            inquire(file="stop", exist=stop_requested)
 
             graceful_exit: &
             if (stop_requested) then
-              print *,'Shutting down because a file named "stop-training" was found.'
+              print *,'Shutting down because a file named "stop" was found.'
               return
             end if graceful_exit
 
