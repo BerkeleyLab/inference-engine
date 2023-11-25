@@ -243,6 +243,23 @@ contains
 
         if (.not. allocated(end_step)) end_step = t_end
         
+        print *,"Normalizing input tensors"
+        pressure_in = normalize(pressure_in, minval(pressure_in), maxval(pressure_in))
+        potential_temperature_in = &
+          normalize(potential_temperature_in, minval(potential_temperature_in), maxval(potential_temperature_in))
+        temperature_in = normalize(temperature_in, minval(temperature_in), maxval(temperature_in))
+        qv_in = normalize(qv_in, min(minval(qv_in), minval(qv_out)), max(maxval(qv_in), maxval(qv_out)))
+        qc_in = normalize(qc_in, min(minval(qc_in), minval(qc_out)), max(maxval(qc_in), maxval(qc_out)))
+        qr_in = normalize(qr_in, min(minval(qr_in), minval(qr_out)), max(maxval(qr_in), maxval(qr_out)))
+        qs_in = normalize(qs_in, min(minval(qs_in), minval(qs_out)), max(maxval(qs_in), maxval(qs_out)))
+
+        print *,"Normalizing output tensors"
+        dpt_dt = normalize(dpt_dt, minval(dpt_dt), maxval(dpt_dt))
+        dqv_dt = normalize(dqv_dt, minval(dqv_dt), maxval(dqv_dt))
+        dqc_dt = normalize(dqc_dt, minval(dqc_dt), maxval(dqc_dt))
+        dqr_dt = normalize(dqr_dt, minval(dqr_dt), maxval(dqr_dt))
+        dqs_dt = normalize(dqs_dt, minval(dqs_dt), maxval(dqs_dt))
+
         print *,"Defining tensors from time step", start_step, "through", end_step, "with strides of", stride
 
         ! The following temporary copies are required by gfortran bug 100650 and possibly 49324
@@ -250,15 +267,15 @@ contains
         inputs = [( [( [( [( &
           tensor_t( &
           [ pressure_in(lon,lat,level,time), potential_temperature_in(lon,lat,level,time), temperature_in(lon,lat,level,time),&
-            qv_in(lon,lat,level,time), qc_in(lon,lat,level,time), qi_in(lon,lat,level,time), qr_in(lon,lat,level,time), &
-            qs_in(lon,lat,level,time) &
+            qv_in(lon,lat,level,time), qc_in(lon,lat,level,time), qr_in(lon,lat,level,time), qs_in(lon,lat,level,time) &
+           !qi_in(lon,lat,level,time)
           ] &
           ), lon = 1, size(qv_in,1))], lat = 1, size(qv_in,2))], level = 1, size(qv_in,3))], time = start_step, end_step, stride)]
 
         outputs = [( [( [( [( &
           tensor_t( &
-            [dpt_dt(lon,lat,level,time), dqv_dt(lon,lat,level,time), dqc_dt(lon,lat,level,time), &
-             dqi_dt(lon,lat,level,time), dqr_dt(lon,lat,level,time), dqs_dt(lon,lat,level,time) &
+            [dpt_dt(lon,lat,level,time), dqv_dt(lon,lat,level,time), dqc_dt(lon,lat,level,time), dqr_dt(lon,lat,level,time), & 
+             dqs_dt(lon,lat,level,time) & ! dqi_dt(lon,lat,level,time) &
             ] &
           ), lon = 1, size(qv_in,1))], lat = 1, size(qv_in,2))], level = 1, size(qv_in,3))], time = start_step, end_step, stride)]
         
@@ -374,6 +391,13 @@ contains
     end do durstenfeld_shuffle
 
   end subroutine
+
+  pure function normalize(x, x_min, x_max) result(x_normalized)
+    real(rkind), intent(in) :: x(:,:,:,:), x_min, x_max
+    real(rkind), allocatable :: x_normalized(:,:,:,:)
+    call assert(x_min/=x_max, "train_cloud_microphysics(normaliz): x_min/=x_max")
+    x_normalized = (x - x_min)/(x_max - x_min)
+  end function
 
 end program train_cloud_microphysics
 #endif // __INTEL_FORTRAN
