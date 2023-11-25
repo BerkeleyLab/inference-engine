@@ -134,9 +134,9 @@ contains
     real, allocatable, dimension(:,:,:,:) :: &
       pressure_in , potential_temperature_in , temperature_in , &
       pressure_out, potential_temperature_out, temperature_out, &
-      qv_out, qc_out, qi_out, qr_out, qs_out, &
-      qv_in , qc_in , qi_in , qr_in , qs_in , &
-      dpt_dt, dqv_dt, dqc_dt, dqi_dt, dqr_dt, dqs_dt
+      qv_out, qc_out, qr_out, qs_out, &
+      qv_in , qc_in , qr_in , qs_in , &
+      dpt_dt, dqv_dt, dqc_dt, dqr_dt, dqs_dt
     type(ubounds_t), allocatable :: ubounds(:)
     double precision, allocatable, dimension(:) :: time_in, time_out
     double precision, parameter :: tolerance = 1.E-07
@@ -159,16 +159,14 @@ contains
         call network_input_file%input("temperature", temperature_in)
         call network_input_file%input("qv", qv_in)
         call network_input_file%input("qc", qc_in)
-        call network_input_file%input("qi", qi_in)
         call network_input_file%input("qr", qr_in)
         call network_input_file%input("qs", qs_in)
         call network_input_file%input("time", time_in)
         t_end = size(time_in)
-        lbounds = &
-          [lbound(pressure_in), lbound(temperature_in), lbound(qv_in), lbound(qc_in), lbound(qi_in), lbound(qr_in), lbound(qs_in)]
+        lbounds = [lbound(pressure_in), lbound(temperature_in), lbound(qv_in), lbound(qc_in), lbound(qr_in), lbound(qs_in)]
         ubounds = &
-          [ubounds_t(ubound(qv_in)), ubounds_t(ubound(qc_in)), ubounds_t(ubound(qi_in)), &
-           ubounds_t(ubound(qr_in)), ubounds_t(ubound(qs_in)), ubounds_t(ubound(pressure_in)), ubounds_t(ubound(temperature_in)) &
+          [ubounds_t(ubound(qv_in)), ubounds_t(ubound(qc_in)), ubounds_t(ubound(qr_in)), ubounds_t(ubound(qs_in)), &
+           ubounds_t(ubound(pressure_in)), ubounds_t(ubound(temperature_in)) &
           ]
       end associate
 
@@ -180,12 +178,11 @@ contains
         ! pressure, temperature, precipitation, snowfall
         call network_output_file%input("qv", qv_out)
         call network_output_file%input("qc", qc_out)
-        call network_output_file%input("qi", qi_out)
         call network_output_file%input("qr", qr_out)
         call network_output_file%input("qs", qs_out)
         call network_output_file%input("time", time_out)
-        lbounds = [lbounds, lbound(qv_out), lbound(qc_out), lbound(qi_out), lbound(qr_out), lbound(qs_out)]
-        ubounds = [ubounds, ubounds_t(ubound(qv_out)), ubounds_t(ubound(qc_out)), ubounds_t(ubound(qi_out)), &
+        lbounds = [lbounds, lbound(qv_out), lbound(qc_out), lbound(qr_out), lbound(qs_out)]
+        ubounds = [ubounds, ubounds_t(ubound(qv_out)), ubounds_t(ubound(qc_out)), &
           ubounds_t(ubound(qr_out)), ubounds_t(ubound(qs_out))]
         call assert(all(lbounds == 1), "main: default input/output lower bounds", intrinsic_array_t(lbounds))
         call assert(all(ubounds == ubounds(1)), "main: matching input/output upper bounds")
@@ -197,7 +194,6 @@ contains
       allocate(dpt_dt, mold = potential_temperature_out)
       allocate(dqv_dt, mold = qv_out)
       allocate(dqc_dt, mold = qc_out)
-      allocate(dqi_dt, mold = qi_out)
       allocate(dqr_dt, mold = qr_out)
       allocate(dqs_dt, mold = qs_out)
 
@@ -206,7 +202,6 @@ contains
           dpt_dt(:,:,:,t) = (potential_temperature_out(:,:,:,t) - potential_temperature_in(:,:,:,t))/dt(t)
           dqv_dt(:,:,:,t) = (qv_out(:,:,:,t)- qv_in(:,:,:,t))/dt(t)
           dqc_dt(:,:,:,t) = (qc_out(:,:,:,t)- qc_in(:,:,:,t))/dt(t)
-          dqi_dt(:,:,:,t) = (qi_out(:,:,:,t)- qi_in(:,:,:,t))/dt(t)
           dqr_dt(:,:,:,t) = (qr_out(:,:,:,t)- qr_in(:,:,:,t))/dt(t)
           dqs_dt(:,:,:,t) = (qs_out(:,:,:,t)- qs_in(:,:,:,t))/dt(t)
         end do
@@ -215,7 +210,6 @@ contains
       call assert(.not. any(ieee_is_nan(dpt_dt)), ".not. any(ieee_is_nan(dpt_dt)")
       call assert(.not. any(ieee_is_nan(dqv_dt)), ".not. any(ieee_is_nan(dqv_dt)")
       call assert(.not. any(ieee_is_nan(dqc_dt)), ".not. any(ieee_is_nan(dqc_dt)")
-      call assert(.not. any(ieee_is_nan(dqi_dt)), ".not. any(ieee_is_nan(dqi_dt)")
       call assert(.not. any(ieee_is_nan(dqr_dt)), ".not. any(ieee_is_nan(dqr_dt)")
       call assert(.not. any(ieee_is_nan(dqs_dt)), ".not. any(ieee_is_nan(dqs_dt)")
 
@@ -269,14 +263,14 @@ contains
         ! See https://gcc.gnu.org/bugzilla/show_bug.cgi?id=100650 and https://gcc.gnu.org/bugzilla/show_bug.cgi?id=49324
         inputs = [( [( [( [( &
           tensor_t( &
-          [ pressure_in(lon,lat,level,time), potential_temperature_in(lon,lat,level,time), temperature_in(lon,lat,level,time),&
+          [ pressure_in(lon,lat,level,time), potential_temperature_in(lon,lat,level,time), temperature_in(lon,lat,level,time), &
             qv_in(lon,lat,level,time), qc_in(lon,lat,level,time), qr_in(lon,lat,level,time), qs_in(lon,lat,level,time) &
           ] &
           ), lon = 1, size(qv_in,1))], lat = 1, size(qv_in,2))], level = 1, size(qv_in,3))], time = start_step, end_step, stride)]
 
         outputs = [( [( [( [( &
           tensor_t( &
-            [dpt_dt(lon,lat,level,time), dqv_dt(lon,lat,level,time), dqc_dt(lon,lat,level,time), dqr_dt(lon,lat,level,time), & 
+            [dpt_dt(lon,lat,level,time), dqv_dt(lon,lat,level,time), dqc_dt(lon,lat,level,time), dqr_dt(lon,lat,level,time), &
              dqs_dt(lon,lat,level,time) &
             ] &
           ), lon = 1, size(qv_in,1))], lat = 1, size(qv_in,2))], level = 1, size(qv_in,3))], time = start_step, end_step, stride)]
