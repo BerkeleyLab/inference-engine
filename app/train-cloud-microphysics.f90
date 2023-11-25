@@ -64,7 +64,7 @@ contains
     open(newunit=plot_unit,file="cost.plt",status="unknown",position="append")
 
     if (.not. preexisting_plot_file) then
-      write(plot_unit,*) "      Epoch   Cost (min)       Cost (max)       Cost (avg)"
+      write(plot_unit,*) "      Epoch  Cost (avg)"
       previous_epoch = 0
     else
       associate(plot_file => file_t(string_t(plot_file_name)))
@@ -73,9 +73,11 @@ contains
             if (num_lines == 0) then
               previous_epoch = 0
             else
-              associate(last_line => lines(size(lines))%string())
+              block
+                character(len=:), allocatable :: last_line
+                last_line = lines(size(lines))%string()
                 read(last_line,*) previous_epoch
-              end associate
+              end block
             end if
           end associate
         end associate
@@ -300,7 +302,7 @@ contains
           bins = [(bin_t(num_items=num_pairs, num_bins=n_bins, bin_number=b), b = 1, n_bins)]
 
           print *,"Training network"
-          print *, "       Epoch         Cost (avg)"
+          print *, "       Epoch  Cost (avg)"
 
           call system_clock(start_training)
 
