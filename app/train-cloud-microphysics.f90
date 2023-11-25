@@ -17,7 +17,7 @@ program train_cloud_microphysics
 
   !! Internal dependencies;
   use inference_engine_m, only : &
-    inference_engine_t, mini_batch_t, input_output_pair_t, tensor_t, trainable_engine_t, rkind, NetCDF_file_t, sigmoid_t, &
+    inference_engine_t, mini_batch_t, input_output_pair_t, tensor_t, trainable_engine_t, rkind, NetCDF_file_t, &
     training_configuration_t
   use ubounds_m, only : ubounds_t
   implicit none
@@ -32,7 +32,7 @@ program train_cloud_microphysics
     'where angular brackets denote user-provided values and square brackets denote optional arguments.' // new_line('a') // &
     'The presence of a file named "stop" halts execution gracefully.'
 
-  character(len=*), parameter :: training_configuration = "training_configuration.json "
+  character(len=*), parameter :: training_config_file_name = "training_configuration.json"
   character(len=*), parameter :: plot_file_name = "cost.plt"
 
   integer(int64) t_start, t_finish, clock_rate
@@ -44,7 +44,7 @@ program train_cloud_microphysics
   call get_command_line_arguments(base_name, num_epochs, start_step, end_step, stride)
   call create_or_append_to(plot_file_name, plot_unit, previous_epoch)
   call read_train_write( &
-    training_configuration_t(file_t(string_t(training_configuration))), base_name, plot_unit, previous_epoch, num_epochs &
+    training_configuration_t(file_t(string_t(training_config_file_name))), base_name, plot_unit, previous_epoch, num_epochs &
   )
   call system_clock(t_finish)
 
@@ -228,6 +228,7 @@ contains
         real(rkind), allocatable :: cost(:)
         real(rkind), allocatable :: harvest(:)
         integer i, batch, lon, lat, level, time, network_unit, io_status, final_step, epoch
+        integer(int64) start_training, finish_training
 
         open(newunit=network_unit, file=network_file, form='formatted', status='old', iostat=io_status, action='read')
 
@@ -238,7 +239,7 @@ contains
         else
           close(network_unit)
           print *,"Initializing a new network"
-          trainable_engine = new_engine(training_configuration, randomize=.true.)
+          trainable_engine = perturbed_identity_network(training_configuration, perturbation_magnitude=0.05)
         end if
 
         if (.not. allocated(end_step)) end_step = t_end
@@ -268,14 +269,13 @@ contains
           tensor_t( &
           [ pressure_in(lon,lat,level,time), potential_temperature_in(lon,lat,level,time), temperature_in(lon,lat,level,time),&
             qv_in(lon,lat,level,time), qc_in(lon,lat,level,time), qr_in(lon,lat,level,time), qs_in(lon,lat,level,time) &
-           !qi_in(lon,lat,level,time)
           ] &
           ), lon = 1, size(qv_in,1))], lat = 1, size(qv_in,2))], level = 1, size(qv_in,3))], time = start_step, end_step, stride)]
 
         outputs = [( [( [( [( &
           tensor_t( &
             [dpt_dt(lon,lat,level,time), dqv_dt(lon,lat,level,time), dqc_dt(lon,lat,level,time), dqr_dt(lon,lat,level,time), & 
-             dqs_dt(lon,lat,level,time) & ! dqi_dt(lon,lat,level,time) &
+             dqs_dt(lon,lat,level,time) &
             ] &
           ), lon = 1, size(qv_in,1))], lat = 1, size(qv_in,2))], level = 1, size(qv_in,3))], time = start_step, end_step, stride)]
         
@@ -301,6 +301,8 @@ contains
 
           print *,"Training network"
           print *, "       Epoch         Cost (avg)"
+
+          call system_clock(start_training)
 
           do epoch = previous_epoch + 1, previous_epoch + num_epochs
 
@@ -330,6 +332,9 @@ contains
           end do
         end associate
 
+        call system_clock(finish_training)
+        print *,"Training time: ", real(finish_training - start_training, real64)/real(clock_rate, real64),"for",num_epochs,"epochs"
+
       end block train_network
 
     end associate
@@ -337,41 +342,6 @@ contains
     close(plot_unit)
 
   end subroutine read_train_write
-
-  function new_engine(training_configuration, randomize) result(trainable_engine)
-    logical, intent(in) :: randomize
-    type(training_configuration_t), intent(in) :: training_configuration
-    type(trainable_engine_t) trainable_engine
-    real(rkind), allocatable :: w(:,:,:), b(:,:)
-    character(len=len('YYYMMDD')) date
-    integer l
-  
-    call date_and_time(date)
-
-    associate( &
-      nodes => training_configuration%nodes_per_layer(), &
-      activation => training_configuration%differentiable_activation_strategy(), &
-      residual_network => string_t(trim(merge("true ", "false", training_configuration%skip_connections()))) &
-    )
-      associate(max_nodes => maxval(nodes), layers => size(nodes))
-
-        allocate(w(max_nodes, max_nodes, layers-1), b(max_nodes, max_nodes))
-
-        if (randomize) then
-          call random_number(b)
-          call random_number(w)
-        else
-          b = 0.
-          w = 0.
-        end if
-
-        trainable_engine = trainable_engine_t( &
-          nodes = nodes, weights = w, biases = b, differentiable_activation_strategy = activation, metadata = & 
-          [string_t("Microphysics"), string_t("Inference Engine"), string_t(date), activation%function_name(), residual_network] &
-        )
-      end associate
-    end associate
-  end function
 
   subroutine shuffle(pairs)
     type(input_output_pair_t), intent(inout) :: pairs(:)
@@ -397,6 +367,52 @@ contains
     real(rkind), allocatable :: x_normalized(:,:,:,:)
     call assert(x_min/=x_max, "train_cloud_microphysics(normaliz): x_min/=x_max")
     x_normalized = (x - x_min)/(x_max - x_min)
+  end function
+
+  pure function e(j,n) result(unit_vector)
+    integer, intent(in) :: j, n
+    integer k
+    real, allocatable :: unit_vector(:)
+    unit_vector = real([(merge(1,0,j==k),k=1,n)])
+  end function
+
+  function perturbed_identity_network(training_configuration, perturbation_magnitude) result(trainable_engine)
+    type(training_configuration_t), intent(in) :: training_configuration
+    real(rkind), intent(in) :: perturbation_magnitude
+    type(trainable_engine_t) trainable_engine
+
+    ! local variables:
+    integer k, l
+    real, allocatable :: identity(:,:,:), w_harvest(:,:,:), b_harvest(:,:)
+    character(len=len('YYYMMDD')) date
+
+    call date_and_time(date)
+
+    associate(n=>training_configuration%nodes_per_layer(), activation=>training_configuration%differentiable_activation_strategy())
+      associate(n_max => maxval(n), layers => size(n))
+
+        identity = reshape( [( [(e(k,n_max), k=1,n_max)], l = 1, layers-1 )], [n_max, n_max, layers-1])
+        allocate(w_harvest, mold = identity)
+        allocate(b_harvest(size(identity,1), size(identity,3)))
+        call random_number(w_harvest)
+        call random_number(b_harvest)
+
+        associate( &
+          w => identity + perturbation_magnitude*(w_harvest-0.5)/0.5, &
+          b => perturbation_magnitude*(b_harvest-0.5)/0.5, &
+          activation_name => activation%function_name(), &
+          residual_network => string_t(trim(merge("true ", "false", training_configuration%skip_connections()))), &
+          model_name => string_t("Thompson microphysics"), &
+          author => string_t("Inference Engine"), &
+          date_string => string_t(date) &
+        )
+          trainable_engine = trainable_engine_t( &
+            nodes = n, weights = w, biases = b, differentiable_activation_strategy = activation, &
+            metadata = [model_name, author, date_string, activation_name, residual_network] &
+          )   
+        end associate
+      end associate
+    end associate
   end function
 
 end program train_cloud_microphysics
