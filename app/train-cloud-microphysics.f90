@@ -132,7 +132,9 @@ contains
     print *,"Reading network outputs from " // network_output
 
     associate(network_output_file => netCDF_file_t(network_output))
+      print *, "hi"
       call network_output_file%input("potential_temperature", potential_temperature_out)
+      print *, "hi"
       ! Skipping the following unnecessary outputs that are in the current file format as of 14 Aug 2023:
       ! pressure, temperature, precipitation, snowfall
       call network_output_file%input("qv", qv_out)

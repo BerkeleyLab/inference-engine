@@ -133,22 +133,22 @@ contains
       call assert(nf_status == nf90_noerr, "nf90_open(self%file_name_, NF90_NOWRITE, ncid)", &
         trim(nf90_strerror(nf_status)) // self%file_name_)
     end associate
-
     associate( nf_status => nf90_inq_varid(ncid, varname, varid)) ! get variable's ID
       write(varid_string, *) varid
       call assert(nf_status == nf90_noerr, "Net_CDF_file_m(input_4D_real): nf90_inq_varid " // trim(nf90_strerror(nf_status)), &
         diagnostic_data = "varname '" // varname // "', varid " // trim(adjustl(varid_string)))
     end associate
-
     associate(array_shape => get_shape(ncid, varname))
+      
       call assert(size(array_shape)==rank(values), "netCDF_file_s(input_4D_real): size(array_shape)==rank(values)", &
         intrinsic_array_t([size(array_shape),rank(values)]))
       allocate(values(array_shape(1), array_shape(2), array_shape(3), array_shape(4)))
+      print *, "1"
       associate( nf_status => nf90_get_var(ncid, varid, values)) ! read data
+        print *, "2"
         call assert(nf_status == nf90_noerr, "nf90_get_var(ncid, varid, array)", trim(nf90_strerror(nf_status)))
       end associate
     end associate
-
   end procedure
 
   module procedure input_3D_real

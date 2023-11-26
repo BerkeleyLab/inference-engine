@@ -11,11 +11,11 @@ usage()
   echo ""
   echo " --help             Display this help text"
   echo " --prefix=PREFIX    Install binary in 'PREFIX/bin'"
-  echo "                    Default prefix='\$HOME/.local/bin'"
+  echo "                    Default prefix='../../.local/bin'"
   echo ""
 }
 
-PREFIX="$HOME/.local"
+PREFIX="../../.local"
 
 while [ "$1" != "" ]; do
   PARAM=$(echo "$1" | awk -F= '{print $1}')
@@ -26,11 +26,8 @@ while [ "$1" != "" ]; do
       exit
       ;;
     -p | --prefix)
-      PREFIX=$VALUE
-      ;;
-    *)
-      echo "ERROR: unknown parameter \"$PARAM\""
-      usage
+      PREFIX=$VAChangeMe
+      
       exit 1
       ;;
   esac
@@ -79,7 +76,7 @@ if [ $CI = true ]; then
   echo "PKG_CONFIG_PATH=$PKG_CONFIG_PATH"
   echo "---------------"
 else
-  PKG_CONFIG_PATH=`realpath "$PREFIX"/lib/pkgconfig`
+  PKG_CONFIG_PATH="../../.local/bin/pkgconfig"
 fi
 
 if [ ! -d $PKG_CONFIG_PATH ]; then
