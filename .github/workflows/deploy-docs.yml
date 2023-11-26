@@ -19,9 +19,9 @@ jobs:
         /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
         PATH=/home/linuxbrew/.linuxbrew/bin/:"$PATH"
         brew install ford gcc
-        PATH=`brew --prefix ford`/bin:"$PATH"
     - name: Build Developer Documenation
       run: |
+        PATH=`brew --prefix ford`/bin:"$PATH"
         echo $PATH
         ford --version
         ford ford.md > ford_output.txt
