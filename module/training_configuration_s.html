@@ -4,1092 +4,1422 @@
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-   <meta name="description" content="A library supporting concurrent forward propagation on multiple fully-connected deep neural networks">
-    <meta name="author" content="Sourcery Institute" >
+      <meta name="description" content="A deep learning library targetingo high-performance computing (HPC) applications with performance-critical inference and training needs.">
+    <meta name="author" content="Berkeley Lab" >
     <link rel="icon" href="../favicon.png">
 
     <title>training_configuration_s &ndash; Inference-Engine</title>
 
-    <link href="../css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet"
+          integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
     <link href="../css/pygments.css" rel="stylesheet">
     <link href="../css/font-awesome.min.css" rel="stylesheet">
     <link href="../css/local.css" rel="stylesheet">
-    <link  href="../tipuesearch/tipuesearch.css" rel="stylesheet">
+      <link  href="../tipuesearch/tipuesearch.css" rel="stylesheet">
 
-    <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
-    <!--[if lt IE 9]>
-      <script src="https://oss.maxcdn.com/html5shiv/3.7.2/html5shiv.min.js"></script>
-      <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
-    <![endif]-->
-    
-    <script src="../js/jquery-2.1.3.min.js"></script>
-    <script src="../js/svg-pan-zoom.min.js"></script>
-
+    <script src="https://code.jquery.com/jquery-3.7.0.slim.min.js" integrity="sha256-tG5mcZUtJsZvyKAxYLVXrmjKBVLd6VpVccqz/r4ypFE=" crossorigin="anonymous"></script>
   </head>
 
   <body>
 
     <!-- Fixed navbar -->
-    <nav class="navbar navbar-inverse navbar-fixed-top">
-      <div class="container">
-        <div class="navbar-header">
-          <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
-            <span class="sr-only">Toggle navigation</span>
-            <span class="icon-bar"></span>
-            <span class="icon-bar"></span>
-            <span class="icon-bar"></span>
-          </button>
+    <div class="container-fluid mb-sm-4 mb-xl-2">
+      <nav class="navbar navbar-expand-lg navbar-dark bg-dark fixed-top">
+        <div class="container">
           <a class="navbar-brand" href="../index.html">Inference-Engine </a>
-        </div>
-        <div id="navbar" class="navbar-collapse collapse">
-          <ul class="nav navbar-nav">
-            <li class="dropdown hidden-xs visible-sm visible-md hidden-lg">
-              <a href="#" class="dropdown-toggle"
-              data-toggle="dropdown" role="button"
-              aria-haspopup="true"
-     aria-expanded="false">Contents <span class="caret"></span></a>
-        <ul class="dropdown-menu">
-            <li><a href="../lists/files.html">Source Files</a></li>
-            <li><a href="../lists/modules.html">Modules</a></li>
-            <li><a href="../lists/procedures.html">Procedures</a></li>
-            <li><a href="../lists/absint.html">Abstract Interfaces</a></li>
-                   <li><a href="../lists/types.html">Derived Types</a></li>
-            <li><a href="../lists/programs.html">Programs</a></li>
-       
+          <button type="button" class="navbar-toggler" data-bs-toggle="collapse" data-bs-target="#navbar"
+                  aria-expanded="false" aria-controls="navbar" aria-label="Toggle navigation">
+                  <span class="navbar-toggler-icon">
+          </button>
+
+          <div id="navbar" class="navbar-collapse collapse">
+            <ul class="navbar-nav">
+                  <li class="nav-item">
+                    <a class="nav-link" href="../lists/files.html">Source Files</a>
+                  </li>
+                <li class="nav-item">
+                  <a class="nav-link" href="../lists/modules.html">Modules</a>
+                </li>
+                <li class="nav-item">
+                  <a class="nav-link" href="../lists/procedures.html">Procedures</a>
+                </li>
+                <li class="nav-item">
+                  <a class="nav-link" href="../lists/absint.html">Abstract Interfaces</a>
+                </li>
+                <li class="nav-item">
+                  <a class="nav-link" href="../lists/types.html">Derived Types</a>
+                </li>
+                <li class="nav-item">
+                  <a class="nav-link" href="../lists/programs.html">Programs</a>
+                </li>
             </ul>
-        
-            </li>
-<li class="visible-xs hidden-sm visible-lg"><a href="../lists/files.html">Source Files</a></li>
-<li class="visible-xs hidden-sm visible-lg"><a href="../lists/modules.html">Modules</a></li>
-<li class="visible-xs hidden-sm visible-lg"><a href="../lists/procedures.html">Procedures</a></li>
-<li class="visible-xs hidden-sm visible-lg"><a href="../lists/absint.html">Abstract Interfaces</a></li>
-                             <li class="visible-xs hidden-sm visible-lg"><a href="../lists/types.html">Derived Types</a></li>
-<li class="visible-xs hidden-sm visible-lg"><a href="../lists/programs.html">Programs</a></li>
-          </ul>
-        <form action="../search.html" class="navbar-form navbar-right" role="search">
-        <div class="form-group">
-          <input type="text" class="form-control" placeholder="Search" name="q" id="tipue_search_input" autocomplete="off" required>
+              <div class="d-flex align-items-end flex-grow-1">
+                <form action="../search.html" role="search" class="ms-auto">
+                  <input type="text" class="form-control" aria-label="Search" placeholder="Search" name="q" id="tipue_search_input" autocomplete="off" required>
+                </form>
+              </div>
+          </div><!--/.nav-collapse -->
         </div>
-<!--
-        <button type="submit" class="btn btn-default">Submit</button>
--->
-        </form>
-        </div><!--/.nav-collapse -->
-      </div>
-    </nav>
+      </nav>
+    </div>
 
     <div class="container">
   <div class="row">
-    <h1>training_configuration_s 
-    <small>Submodule</small>
+    <h1>training_configuration_s
+      <small>Submodule</small>
+      
     </h1>
-    <div class="row">
-  <div class="col-lg-12">
-<div class="well well-sm">
-  <ul class="list-inline" style="margin-bottom:0px;display:inline">
-     <li><i class="fa fa-list-ol"></i>
-       <a data-toggle="tooltip"
-    data-placement="bottom" data-html="true"
-    title=" 1.5% of total for modules and submodules.">60 statements</a>
-     </li> 
-    <li><i class="fa fa-code"></i><a href="../src/training_configuration_s.f90"> Source File</a></li>
-  </ul>
-  <ol class="breadcrumb in-well text-right">
-     <li><a href='../sourcefile/training_configuration_s.f90.html'>training_configuration_s.f90</a></li>
-     <li class="active">training_configuration_s</li>
-  </ol>
-</div>
-</div>
-</div>
-<script>
-  $(function () {
-  $('[data-toggle="tooltip"]').tooltip()
-  })
-</script>
+      <div class="container p-2 mb-4 bg-light border rounded-3">
+    <div class="row align-items-center justify-content-between" id="info-bar">
+      <div class="col">
+        <ul class="list-inline" style="margin-bottom:0px;display:inline">
 
-  </div>
-  
-  <div class="row">
-    <div class="col-md-3 hidden-xs hidden-sm visible-md visible-lg">
-    <div id="sidebar">
-  <h3>Contents</h3>
- 
-<div class="panel panel-primary">
-  <div class="panel-heading text-left"><h3 class="panel-title"><a data-toggle="collapse" href="#vars-0">Variables</a></h3></div>
-  <div id="vars-0" class="panel-collapse collapse">
-    <div class="list-group">
-      <a class="list-group-item" href="../module/training_configuration_s.html#variable-footer">footer</a>
-      <a class="list-group-item" href="../module/training_configuration_s.html#variable-header">header</a>
-      <a class="list-group-item" href="../module/training_configuration_s.html#variable-separator">separator</a>
-    </div>
-  </div>
-</div>
-<div class="panel panel-primary">
-  <div class="panel-heading text-left"><h3 class="panel-title"><a data-toggle="collapse" href="#modprocs-0">Module Procedures</a></h3></div>
-  <div id="modprocs-0" class="panel-collapse collapse">
-    <div class="list-group">
-      <a class="list-group-item" href="../module/training_configuration_s.html#proc-differentiable_activation_strategy">differentiable_activation_strategy</a>
-      <a class="list-group-item" href="../module/training_configuration_s.html#proc-equals~3">equals</a>
-      <a class="list-group-item" href="../module/training_configuration_s.html#proc-from_components">from_components</a>
-      <a class="list-group-item" href="../module/training_configuration_s.html#proc-from_file">from_file</a>
-      <a class="list-group-item" href="../module/training_configuration_s.html#proc-learning_rate~2">learning_rate</a>
-      <a class="list-group-item" href="../module/training_configuration_s.html#proc-mini_batches~2">mini_batches</a>
-      <a class="list-group-item" href="../module/training_configuration_s.html#proc-nodes_per_layer~3">nodes_per_layer</a>
-      <a class="list-group-item" href="../module/training_configuration_s.html#proc-optimizer_name~2">optimizer_name</a>
-      <a class="list-group-item" href="../module/training_configuration_s.html#proc-skip_connections~2">skip_connections</a>
-      <a class="list-group-item" href="../module/training_configuration_s.html#proc-to_json~4">to_json</a>
-    </div>
-  </div>
-</div>
+            <li class="list-inline-item" id="statements"><i class="fa fa-list-ol"></i>
+              <a data-bs-toggle="tooltip"
+                 data-bs-placement="bottom" data-html="true"
+                 title=" 4.1% of total for modules and submodules.">60 statements</a>
+            </li>
 
-</div>
-
-    </div>
-    
-    <div class="col-md-9" id='text'>
-    
-<br>        <div class="panel panel-default">
-      <div class="panel-heading">
-  <h3 class="panel-title">Uses</h3>
+            <li class="list-inline-item" id="source-file">
+              <i class="fa fa-code"></i>
+              <a href="../src/training_configuration_s.f90"> Source File</a>
+            </li>
+        </ul>
       </div>
-      <ul class="list-group">
-      <li class="list-group-item">
-  <ul class="list-inline">
-    <li><a href='../module/inference_engine_m.html'>inference_engine_m</a></li>
-    <li>assert_m</li>
-  </ul>
-      </li>
-      <li class="list-group-item">
-  <ul class="list-inline">
-    <li><h5>Ancestors:</h5></li>
-    <li><a href='../module/training_configuration_m.html'>training_configuration_m</a></li>
-  </ul>
-      </li>
-      <li class="list-group-item">
-  <div class="depgraph"><?xml version="1.0" encoding="UTF-8" standalone="no"?>
+      <div class="col">
+        <nav aria-label="breadcrumb">
+          <ol class="breadcrumb justify-content-end mb-0">
+                <li class="breadcrumb-item"><a href='../sourcefile/training_configuration_s.f90.html'>training_configuration_s.f90</a></li>
+            <li class="breadcrumb-item active" aria-current="page">training_configuration_s</li>
+          </ol>
+        </nav>
+      </div>
+    </div>
+  </div>
+  <script>
+    $(function () {
+    $('[data-bs-toggle="tooltip"]').tooltip()
+    })
+  </script>
+
+  </div>
+
+  <div class="row">
+    <div class="col-md-3">
+        <div id="sidebar">
+      <h3>Contents</h3>
+  
+      <div class="card mb-4">
+      <a data-bs-toggle="collapse" href="#vars-0"
+         aria-expanded="false" aria-controls="vars-0">
+         <h4 class="card-header bg-primary text-white">Variables</h4>
+      </a>
+      <div id="vars-0" class="collapse">
+        <div class="list-group list-group-flush">
+            <a class="list-group-item" href="../module/training_configuration_s.html#variable-footer">footer</a>
+            <a class="list-group-item" href="../module/training_configuration_s.html#variable-header">header</a>
+            <a class="list-group-item" href="../module/training_configuration_s.html#variable-separator">separator</a>
+        </div>
+      </div>
+    </div>
+
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+      <div class="card mb-4">
+      <a data-bs-toggle="collapse" href="#modprocs-0"
+         aria-expanded="false" aria-controls="modprocs-0">
+         <h4 class="card-header bg-primary text-white">Module Procedures</h4>
+      </a>
+      <div id="modprocs-0" class="collapse">
+        <div class="list-group list-group-flush">
+            <a class="list-group-item" href="../module/training_configuration_s.html#proc-differentiable_activation_strategy">differentiable_activation_strategy</a>
+            <a class="list-group-item" href="../module/training_configuration_s.html#proc-equals~2">equals</a>
+            <a class="list-group-item" href="../module/training_configuration_s.html#proc-from_components">from_components</a>
+            <a class="list-group-item" href="../module/training_configuration_s.html#proc-from_file">from_file</a>
+            <a class="list-group-item" href="../module/training_configuration_s.html#proc-learning_rate">learning_rate</a>
+            <a class="list-group-item" href="../module/training_configuration_s.html#proc-mini_batches">mini_batches</a>
+            <a class="list-group-item" href="../module/training_configuration_s.html#proc-nodes_per_layer">nodes_per_layer</a>
+            <a class="list-group-item" href="../module/training_configuration_s.html#proc-optimizer_name">optimizer_name</a>
+            <a class="list-group-item" href="../module/training_configuration_s.html#proc-skip_connections">skip_connections</a>
+            <a class="list-group-item" href="../module/training_configuration_s.html#proc-to_json">to_json</a>
+        </div>
+      </div>
+    </div>
+
+  
+  
+  
+  
+
+
+  </div>
+
+    </div>
+
+    <div class="col-md-9" id='text'>
+      
+<br>          <div class="card mb-4">
+      <h3 class="card-header card-title bg-light">Uses</h3>
+      <div class="card-body">
+        <ul class="list-group list-group-flush">
+            <li class="list-group-item">
+              <ul class="list-inline">
+                  <li class="list-inline-item">assert_m</li>
+                  <li class="list-inline-item"><a href='../module/inference_engine_m.html'>inference_engine_m</a></li>
+              </ul>
+            </li>
+            <li class="list-group-item">
+              <ul class="list-inline">
+                <li><h5>Ancestors:</h5></li>
+                  <li class="list-inline-item"><a href='../module/training_configuration_m.html'>training_configuration_m</a></li>
+              </ul>
+            </li>
+            <li class="list-group-item">
+              <div class="depgraph"><?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN"
  "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
-<!-- Generated by graphviz version 2.43.0 (0)
+<!-- Generated by graphviz version 9.0.0 (20230911.1827)
  -->
 <!-- Title: module~~training_configuration_s~~UsesGraph Pages: 1 -->
-<svg id="moduletraining_configuration_sUsesGraph" width="641pt" height="347pt"
- viewBox="0.00 0.00 641.00 347.18" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
-<g id="module~~training_configuration_s~~UsesGraph" class="graph" transform="scale(1.88 1.88) rotate(0) translate(4 648.11)">
+<svg id="moduletraining_configuration_sUsesGraph" width="641pt" height="372pt"
+ viewBox="0.00 0.00 641.00 371.50" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+<g id="module~~training_configuration_s~~UsesGraph" class="graph" transform="scale(0.535778 0.535778) rotate(0) translate(4 689.38)">
 <title>module~~training_configuration_s~~UsesGraph</title>
-<polygon fill="white" stroke="transparent" points="-4,4 -4,-648.11 1200,-648.11 1200,4 -4,4"/>
+<polygon fill="white" stroke="none" points="-4,4 -4,-689.38 1192.39,-689.38 1192.39,4 -4,4"/>
 <!-- module~training_configuration_s -->
 <g id="module~~training_configuration_s~~UsesGraph_node1" class="node">
 <title>module~training_configuration_s</title>
-<polygon fill="none" stroke="black" points="1196,-430 1055,-430 1055,-406 1196,-406 1196,-430"/>
-<text text-anchor="middle" x="1125.5" y="-415.6" font-family="Helvetica,sans-Serif" font-size="10.50">training_configuration_s</text>
+<polygon fill="none" stroke="black" points="1188.39,-317.27 1048.62,-317.27 1048.62,-293 1188.39,-293 1188.39,-317.27"/>
+<text text-anchor="middle" x="1118.51" y="-301.53" font-family="Helvetica,sans-Serif" font-size="10.50">training_configuration_s</text>
+</g>
+<!-- assert_m -->
+<g id="module~~training_configuration_s~~UsesGraph_node2" class="node">
+<title>assert_m</title>
+<polygon fill="#337ab7" stroke="#337ab7" points="982.62,-359.27 923.1,-359.27 923.1,-335 982.62,-335 982.62,-359.27"/>
+<text text-anchor="middle" x="952.86" y="-343.53" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">assert_m</text>
+</g>
+<!-- module~training_configuration_s&#45;&gt;assert_m -->
+<g id="module~~training_configuration_s~~UsesGraph_edge1" class="edge">
+<title>module~training_configuration_s&#45;&gt;assert_m</title>
+<path fill="none" stroke="#255000" stroke-dasharray="5,2" d="M1068.41,-317.74C1044.57,-323.85 1016.29,-331.11 993.8,-336.89"/>
+<polygon fill="#255000" stroke="#255000" points="993.22,-333.42 984.41,-339.3 994.96,-340.2 993.22,-333.42"/>
 </g>
 <!-- module~inference_engine_m -->
-<g id="module~~training_configuration_s~~UsesGraph_node2" class="node">
+<g id="module~~training_configuration_s~~UsesGraph_node3" class="node">
 <title>module~inference_engine_m</title>
-<g id="a_module~~training_configuration_s~~UsesGraph_node2"><a xlink:href=".././module/inference_engine_m.html" xlink:title="inference_engine_m">
-<polygon fill="#337ab7" stroke="#337ab7" points="1019,-430 898,-430 898,-406 1019,-406 1019,-430"/>
-<text text-anchor="middle" x="958.5" y="-415.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">inference_engine_m</text>
+<g id="a_module~~training_configuration_s~~UsesGraph_node3"><a xlink:href=".././module/inference_engine_m.html" xlink:title="inference_engine_m">
+<polygon fill="#337ab7" stroke="#337ab7" points="1012.62,-317.27 893.1,-317.27 893.1,-293 1012.62,-293 1012.62,-317.27"/>
+<text text-anchor="middle" x="952.86" y="-301.53" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">inference_engine_m</text>
 </a>
 </g>
 </g>
 <!-- module~training_configuration_s&#45;&gt;module~inference_engine_m -->
-<g id="module~~training_configuration_s~~UsesGraph_edge1" class="edge">
+<g id="module~~training_configuration_s~~UsesGraph_edge2" class="edge">
 <title>module~training_configuration_s&#45;&gt;module~inference_engine_m</title>
-<path fill="none" stroke="#ff0000" stroke-dasharray="5,2" d="M1054.53,-418C1046.16,-418 1037.61,-418 1029.25,-418"/>
-<polygon fill="#ff0000" stroke="#ff0000" points="1029.16,-414.5 1019.16,-418 1029.16,-421.5 1029.16,-414.5"/>
+<path fill="none" stroke="#255000" stroke-dasharray="5,2" d="M1048.58,-305.13C1040.66,-305.13 1032.57,-305.13 1024.62,-305.13"/>
+<polygon fill="#255000" stroke="#255000" points="1024.63,-301.64 1014.63,-305.14 1024.63,-308.64 1024.63,-301.64"/>
 </g>
 <!-- module~training_configuration_m -->
-<g id="module~~training_configuration_s~~UsesGraph_node3" class="node">
+<g id="module~~training_configuration_s~~UsesGraph_node4" class="node">
 <title>module~training_configuration_m</title>
-<g id="a_module~~training_configuration_s~~UsesGraph_node3"><a xlink:href=".././module/training_configuration_m.html" xlink:title="training_configuration_m">
-<polygon fill="#337ab7" stroke="#337ab7" points="708,-604 562,-604 562,-580 708,-580 708,-604"/>
-<text text-anchor="middle" x="635" y="-589.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">training_configuration_m</text>
+<g id="a_module~~training_configuration_s~~UsesGraph_node4"><a xlink:href=".././module/training_configuration_m.html" xlink:title="training_configuration_m">
+<polygon fill="#337ab7" stroke="#337ab7" points="703.83,-197.27 558.81,-197.27 558.81,-173 703.83,-173 703.83,-197.27"/>
+<text text-anchor="middle" x="631.32" y="-181.53" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">training_configuration_m</text>
 </a>
 </g>
 </g>
 <!-- module~training_configuration_s&#45;&gt;module~training_configuration_m -->
 <g id="module~~training_configuration_s~~UsesGraph_edge3" class="edge">
 <title>module~training_configuration_s&#45;&gt;module~training_configuration_m</title>
-<path fill="none" stroke="#ff0000" d="M1108.39,-430.19C1068.89,-459.36 963.01,-533.2 862,-566 815.74,-581.02 761.68,-587.61 718.04,-590.4"/>
-<polygon fill="#ff0000" stroke="#ff0000" points="717.82,-586.9 708.04,-590.98 718.22,-593.89 717.82,-586.9"/>
-</g>
-<!-- assert_m -->
-<g id="module~~training_configuration_s~~UsesGraph_node4" class="node">
-<title>assert_m</title>
-<polygon fill="#337ab7" stroke="#337ab7" points="989,-388 928,-388 928,-364 989,-364 989,-388"/>
-<text text-anchor="middle" x="958.5" y="-373.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">assert_m</text>
-</g>
-<!-- module~training_configuration_s&#45;&gt;assert_m -->
-<g id="module~~training_configuration_s~~UsesGraph_edge2" class="edge">
-<title>module~training_configuration_s&#45;&gt;assert_m</title>
-<path fill="none" stroke="#ff0000" stroke-dasharray="5,2" d="M1077.22,-405.96C1052.5,-399.67 1022.58,-392.06 999.1,-386.08"/>
-<polygon fill="#ff0000" stroke="#ff0000" points="999.69,-382.62 989.13,-383.54 997.96,-389.4 999.69,-382.62"/>
+<path fill="none" stroke="#255000" d="M1077.63,-292.53C1026.77,-276.72 935.95,-249.35 857.1,-230.13 810.07,-218.68 756.99,-207.95 714.22,-199.84"/>
+<polygon fill="#255000" stroke="#255000" points="714.98,-196.42 704.5,-198.01 713.68,-203.3 714.98,-196.42"/>
 </g>
 <!-- module~inference_engine_m&#45;&gt;module~training_configuration_m -->
-<g id="module~~training_configuration_s~~UsesGraph_edge17" class="edge">
+<g id="module~~training_configuration_s~~UsesGraph_edge19" class="edge">
 <title>module~inference_engine_m&#45;&gt;module~training_configuration_m</title>
-<path fill="none" stroke="#ff0000" stroke-dasharray="5,2" d="M802,-552C775.66,-563.6 745.43,-572.15 718.04,-578.3"/>
-<polygon fill="#ff0000" stroke="#ff0000" points="717.12,-574.92 708.09,-580.46 718.61,-581.76 717.12,-574.92"/>
+<path fill="none" stroke="#025500" stroke-dasharray="5,2" d="M925.48,-292.59C895.55,-278.83 844.99,-257 799.47,-244.13"/>
+<path fill="none" stroke="#025500" stroke-dasharray="5,2" d="M797.47,-244.13C754.82,-232.08 707.29,-214.66 674.21,-201.88"/>
+<polygon fill="#025500" stroke="#025500" points="675.57,-198.65 664.98,-198.28 673.03,-205.17 675.57,-198.65"/>
 </g>
 <!-- module~activation_strategy_m -->
 <g id="module~~training_configuration_s~~UsesGraph_node5" class="node">
 <title>module~activation_strategy_m</title>
 <g id="a_module~~training_configuration_s~~UsesGraph_node5"><a xlink:href=".././module/activation_strategy_m.html" xlink:title="activation_strategy_m">
-<polygon fill="#337ab7" stroke="#337ab7" points="284,-336 154,-336 154,-312 284,-312 284,-336"/>
-<text text-anchor="middle" x="219" y="-321.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">activation_strategy_m</text>
+<polygon fill="#337ab7" stroke="#337ab7" points="281.79,-294.27 153.27,-294.27 153.27,-270 281.79,-270 281.79,-294.27"/>
+<text text-anchor="middle" x="217.53" y="-278.53" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">activation_strategy_m</text>
 </a>
 </g>
 </g>
 <!-- module~inference_engine_m&#45;&gt;module~activation_strategy_m -->
 <g id="module~~training_configuration_s~~UsesGraph_edge4" class="edge">
 <title>module~inference_engine_m&#45;&gt;module~activation_strategy_m</title>
-<path fill="none" stroke="#ff0000" stroke-dasharray="5,2" d="M802,-304C734.63,-286.89 770.19,-397.95 708,-429 552.38,-506.68 477.78,-451.2 320,-378 301.61,-369.47 301.56,-360.13 284,-350 277.72,-346.37 270.83,-343.01 263.97,-339.98"/>
-<polygon fill="#ff0000" stroke="#ff0000" points="265.28,-336.74 254.7,-336.08 262.56,-343.19 265.28,-336.74"/>
+<path fill="none" stroke="#025500" stroke-dasharray="5,2" d="M630.32,-244.13C581.83,-239.8 571.12,-259.1 522.81,-265.13 444.97,-274.87 355.22,-279.03 293.48,-280.81"/>
+<polygon fill="#025500" stroke="#025500" points="293.7,-277.3 283.79,-281.07 293.89,-284.3 293.7,-277.3"/>
 </g>
-<!-- module~tensor_m -->
+<!-- module~differentiable_activation_strategy_m -->
 <g id="module~~training_configuration_s~~UsesGraph_node6" class="node">
-<title>module~tensor_m</title>
-<g id="a_module~~training_configuration_s~~UsesGraph_node6"><a xlink:href=".././module/tensor_m.html" xlink:title="tensor_m">
-<polygon fill="#337ab7" stroke="#337ab7" points="250,-142 188,-142 188,-118 250,-118 250,-142"/>
-<text text-anchor="middle" x="219" y="-127.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">tensor_m</text>
+<title>module~differentiable_activation_strategy_m</title>
+<g id="a_module~~training_configuration_s~~UsesGraph_node6"><a xlink:href=".././module/differentiable_activation_strategy_m.html" xlink:title="differentiable_activation_strategy_m">
+<polygon fill="#337ab7" stroke="#337ab7" points="522.81,-374.27 317.79,-374.27 317.79,-350 522.81,-350 522.81,-374.27"/>
+<text text-anchor="middle" x="420.3" y="-358.53" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">differentiable_activation_strategy_m</text>
 </a>
 </g>
 </g>
-<!-- module~inference_engine_m&#45;&gt;module~tensor_m -->
-<g id="module~~training_configuration_s~~UsesGraph_edge6" class="edge">
-<title>module~inference_engine_m&#45;&gt;module~tensor_m</title>
-<path fill="none" stroke="#ff0000" stroke-dasharray="5,2" d="M802,-70C793.51,-63.79 434.5,-89.49 424,-90"/>
-<path fill="none" stroke="#ff0000" stroke-dasharray="5,2" d="M422,-90C365,-94.54 300.37,-109.02 259.9,-119.25"/>
-<polygon fill="#ff0000" stroke="#ff0000" points="258.97,-115.88 250.15,-121.75 260.71,-122.66 258.97,-115.88"/>
-</g>
-<!-- module~relu_m -->
-<g id="module~~training_configuration_s~~UsesGraph_node7" class="node">
-<title>module~relu_m</title>
-<g id="a_module~~training_configuration_s~~UsesGraph_node7"><a xlink:href=".././module/relu_m.html" xlink:title="relu_m">
-<polygon fill="#337ab7" stroke="#337ab7" points="662,-378 608,-378 608,-354 662,-354 662,-378"/>
-<text text-anchor="middle" x="635" y="-363.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">relu_m</text>
-</a>
-</g>
-</g>
-<!-- module~inference_engine_m&#45;&gt;module~relu_m -->
-<g id="module~~training_configuration_s~~UsesGraph_edge7" class="edge">
-<title>module~inference_engine_m&#45;&gt;module~relu_m</title>
-<path fill="none" stroke="#ff0000" stroke-dasharray="5,2" d="M802,-304C757.87,-292.6 750.85,-329.48 708,-345 696.45,-349.18 683.63,-353.14 672.05,-356.46"/>
-<polygon fill="#ff0000" stroke="#ff0000" points="670.94,-353.14 662.25,-359.21 672.83,-359.88 670.94,-353.14"/>
+<!-- module~inference_engine_m&#45;&gt;module~differentiable_activation_strategy_m -->
+<g id="module~~training_configuration_s~~UsesGraph_edge5" class="edge">
+<title>module~inference_engine_m&#45;&gt;module~differentiable_activation_strategy_m</title>
+<path fill="none" stroke="#025500" stroke-dasharray="5,2" d="M797.47,-366.13C725.62,-381.15 705.18,-375.01 632.32,-366.13"/>
+<path fill="none" stroke="#025500" stroke-dasharray="5,2" d="M630.32,-366.13C599.36,-362.36 565.62,-360.67 534.47,-360.09"/>
+<polygon fill="#025500" stroke="#025500" points="534.68,-356.59 524.63,-359.95 534.58,-363.59 534.68,-356.59"/>
 </g>
 <!-- module~hyperparameters_m -->
-<g id="module~~training_configuration_s~~UsesGraph_node8" class="node">
+<g id="module~~training_configuration_s~~UsesGraph_node7" class="node">
 <title>module~hyperparameters_m</title>
-<g id="a_module~~training_configuration_s~~UsesGraph_node8"><a xlink:href=".././module/hyperparameters_m.html" xlink:title="hyperparameters_m">
-<polygon fill="#337ab7" stroke="#337ab7" points="279.5,-564 158.5,-564 158.5,-540 279.5,-540 279.5,-564"/>
-<text text-anchor="middle" x="219" y="-549.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">hyperparameters_m</text>
+<g id="a_module~~training_configuration_s~~UsesGraph_node7"><a xlink:href=".././module/hyperparameters_m.html" xlink:title="hyperparameters_m">
+<polygon fill="#337ab7" stroke="#337ab7" points="277.67,-104.27 157.4,-104.27 157.4,-80 277.67,-80 277.67,-104.27"/>
+<text text-anchor="middle" x="217.53" y="-88.53" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">hyperparameters_m</text>
 </a>
 </g>
 </g>
 <!-- module~inference_engine_m&#45;&gt;module~hyperparameters_m -->
-<g id="module~~training_configuration_s~~UsesGraph_edge8" class="edge">
+<g id="module~~training_configuration_s~~UsesGraph_edge6" class="edge">
 <title>module~inference_engine_m&#45;&gt;module~hyperparameters_m</title>
-<path fill="none" stroke="#ff0000" stroke-dasharray="5,2" d="M947.97,-430.34C926.02,-457.74 868.75,-523.48 804,-552"/>
-<path fill="none" stroke="#ff0000" stroke-dasharray="5,2" d="M802,-552C756.31,-572.12 434.3,-561.18 289.84,-555.14"/>
-<polygon fill="#ff0000" stroke="#ff0000" points="289.89,-551.64 279.76,-554.71 289.6,-558.63 289.89,-551.64"/>
+<path fill="none" stroke="#025500" stroke-dasharray="5,2" d="M797.47,-244.13C726.83,-224.17 705.36,-251.33 632.32,-244.13"/>
+<path fill="none" stroke="#025500" stroke-dasharray="5,2" d="M630.32,-244.13C594.5,-240.61 585.81,-229.93 558.81,-206.13 537.99,-187.79 546.02,-170.34 522.81,-155.13 452.47,-109.04 354.97,-95.72 289.46,-92.35"/>
+<polygon fill="#025500" stroke="#025500" points="289.68,-88.86 279.54,-91.92 289.37,-95.85 289.68,-88.86"/>
 </g>
-<!-- module~sigmoid_m -->
+<!-- module~inference_engine_m_ -->
+<g id="module~~training_configuration_s~~UsesGraph_node8" class="node">
+<title>module~inference_engine_m_</title>
+<g id="a_module~~training_configuration_s~~UsesGraph_node8"><a xlink:href=".././module/inference_engine_m_.html" xlink:title="inference_engine_m_">
+<polygon fill="#337ab7" stroke="#337ab7" points="693.71,-490.27 568.94,-490.27 568.94,-466 693.71,-466 693.71,-490.27"/>
+<text text-anchor="middle" x="631.32" y="-474.53" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">inference_engine_m_</text>
+</a>
+</g>
+</g>
+<!-- module~inference_engine_m&#45;&gt;module~inference_engine_m_ -->
+<g id="module~~training_configuration_s~~UsesGraph_edge7" class="edge">
+<title>module~inference_engine_m&#45;&gt;module~inference_engine_m_</title>
+<path fill="none" stroke="#025500" stroke-dasharray="5,2" d="M797.47,-366.13C789.49,-367.8 703.99,-427.54 659.26,-459.07"/>
+<polygon fill="#025500" stroke="#025500" points="657.51,-456.03 651.36,-464.65 661.55,-461.75 657.51,-456.03"/>
+</g>
+<!-- module~input_output_pair_m -->
 <g id="module~~training_configuration_s~~UsesGraph_node9" class="node">
-<title>module~sigmoid_m</title>
-<g id="a_module~~training_configuration_s~~UsesGraph_node9"><a xlink:href=".././module/sigmoid_m.html" xlink:title="sigmoid_m">
-<polygon fill="#337ab7" stroke="#337ab7" points="670,-336 600,-336 600,-312 670,-312 670,-336"/>
-<text text-anchor="middle" x="635" y="-321.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">sigmoid_m</text>
+<title>module~input_output_pair_m</title>
+<g id="a_module~~training_configuration_s~~UsesGraph_node9"><a xlink:href=".././module/input_output_pair_m.html" xlink:title="input_output_pair_m">
+<polygon fill="#337ab7" stroke="#337ab7" points="480.44,-682.27 360.17,-682.27 360.17,-658 480.44,-658 480.44,-682.27"/>
+<text text-anchor="middle" x="420.3" y="-666.53" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">input_output_pair_m</text>
 </a>
 </g>
 </g>
-<!-- module~inference_engine_m&#45;&gt;module~sigmoid_m -->
-<g id="module~~training_configuration_s~~UsesGraph_edge5" class="edge">
-<title>module~inference_engine_m&#45;&gt;module~sigmoid_m</title>
-<path fill="none" stroke="#ff0000" stroke-dasharray="5,2" d="M802,-304C761.5,-293.54 714,-301.19 680.21,-309.88"/>
-<polygon fill="#ff0000" stroke="#ff0000" points="678.93,-306.6 670.19,-312.59 680.76,-313.36 678.93,-306.6"/>
-</g>
-<!-- module~trainable_engine_m -->
-<g id="module~~training_configuration_s~~UsesGraph_node10" class="node">
-<title>module~trainable_engine_m</title>
-<g id="a_module~~training_configuration_s~~UsesGraph_node10"><a xlink:href=".././module/trainable_engine_m.html" xlink:title="trainable_engine_m">
-<polygon fill="#337ab7" stroke="#337ab7" points="862,-256 744,-256 744,-232 862,-232 862,-256"/>
-<text text-anchor="middle" x="803" y="-241.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">trainable_engine_m</text>
-</a>
-</g>
-</g>
-<!-- module~inference_engine_m&#45;&gt;module~trainable_engine_m -->
-<g id="module~~training_configuration_s~~UsesGraph_edge9" class="edge">
-<title>module~inference_engine_m&#45;&gt;module~trainable_engine_m</title>
-<path fill="none" stroke="#ff0000" stroke-dasharray="5,2" d="M909.92,-405.87C905.54,-403.44 901.46,-400.51 898,-397 862.78,-361.26 890.84,-331.06 862,-290 854.38,-279.16 843.49,-269.58 833.2,-262.02"/>
-<polygon fill="#ff0000" stroke="#ff0000" points="834.98,-259 824.78,-256.15 830.98,-264.74 834.98,-259"/>
+<!-- module~inference_engine_m&#45;&gt;module~input_output_pair_m -->
+<g id="module~~training_configuration_s~~UsesGraph_edge8" class="edge">
+<title>module~inference_engine_m&#45;&gt;module~input_output_pair_m</title>
+<path fill="none" stroke="#025500" stroke-dasharray="5,2" d="M797.47,-632.13C704.53,-691.03 572.03,-689.09 491.62,-680.73"/>
+<polygon fill="#025500" stroke="#025500" points="492.46,-677.3 482.13,-679.68 491.69,-684.26 492.46,-677.3"/>
 </g>
 <!-- module~kind_parameters_m -->
-<g id="module~~training_configuration_s~~UsesGraph_node11" class="node">
+<g id="module~~training_configuration_s~~UsesGraph_node10" class="node">
 <title>module~kind_parameters_m</title>
-<g id="a_module~~training_configuration_s~~UsesGraph_node11"><a xlink:href=".././module/kind_parameters_m.html" xlink:title="kind_parameters_m">
-<polygon fill="#337ab7" stroke="#337ab7" points="118,-336 0,-336 0,-312 118,-312 118,-336"/>
-<text text-anchor="middle" x="59" y="-321.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">kind_parameters_m</text>
+<g id="a_module~~training_configuration_s~~UsesGraph_node10"><a xlink:href=".././module/kind_parameters_m.html" xlink:title="kind_parameters_m">
+<polygon fill="#337ab7" stroke="#337ab7" points="117.27,-528.27 0,-528.27 0,-504 117.27,-504 117.27,-528.27"/>
+<text text-anchor="middle" x="58.63" y="-512.53" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">kind_parameters_m</text>
 </a>
 </g>
 </g>
 <!-- module~inference_engine_m&#45;&gt;module~kind_parameters_m -->
-<g id="module~~training_configuration_s~~UsesGraph_edge10" class="edge">
+<g id="module~~training_configuration_s~~UsesGraph_edge9" class="edge">
 <title>module~inference_engine_m&#45;&gt;module~kind_parameters_m</title>
-<path fill="none" stroke="#ff0000" stroke-dasharray="5,2" d="M422,-90C332.51,-97.13 295.29,-41.1 220,-90"/>
+<path fill="none" stroke="#025500" stroke-dasharray="5,2" d="M903.49,-317.77C899.65,-320.1 896.1,-322.86 893.1,-326.13 850.54,-372.53 875.27,-402.86 857.1,-463.13 834.19,-539.12 866.24,-589.26 799.47,-632.13"/>
+<path fill="none" stroke="#025500" stroke-dasharray="5,2" d="M797.47,-632.13C761.58,-655.18 746.04,-617.25 703.83,-611.13 579.28,-593.09 547.05,-597.09 421.3,-592.13"/>
+<path fill="none" stroke="#025500" stroke-dasharray="5,2" d="M419.3,-592.13C330.24,-586.3 303.35,-623.89 218.53,-596.13"/>
+<path fill="none" stroke="#025500" stroke-dasharray="5,2" d="M216.53,-596.13C188.63,-587 179.9,-589.5 153.27,-577.13 128.66,-565.71 102.99,-548.56 84.77,-535.35"/>
+<polygon fill="#025500" stroke="#025500" points="87.05,-532.69 76.93,-529.57 82.9,-538.32 87.05,-532.69"/>
+</g>
+<!-- module~mini_batch_m -->
+<g id="module~~training_configuration_s~~UsesGraph_node11" class="node">
+<title>module~mini_batch_m</title>
+<g id="a_module~~training_configuration_s~~UsesGraph_node11"><a xlink:href=".././module/mini_batch_m.html" xlink:title="mini_batch_m">
+<polygon fill="#337ab7" stroke="#337ab7" points="674.21,-644.27 588.44,-644.27 588.44,-620 674.21,-620 674.21,-644.27"/>
+<text text-anchor="middle" x="631.32" y="-628.53" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">mini_batch_m</text>
+</a>
+</g>
+</g>
+<!-- module~inference_engine_m&#45;&gt;module~mini_batch_m -->
+<g id="module~~training_configuration_s~~UsesGraph_edge10" class="edge">
+<title>module~inference_engine_m&#45;&gt;module~mini_batch_m</title>
+<path fill="none" stroke="#025500" stroke-dasharray="5,2" d="M797.47,-632.13C764.61,-652.96 720.2,-651.71 685.71,-645.94"/>
+<polygon fill="#025500" stroke="#025500" points="686.38,-642.5 675.91,-644.11 685.1,-649.38 686.38,-642.5"/>
+</g>
+<!-- module~netcdf_file_m -->
+<g id="module~~training_configuration_s~~UsesGraph_node12" class="node">
+<title>module~netcdf_file_m</title>
+<g id="a_module~~training_configuration_s~~UsesGraph_node12"><a xlink:href=".././module/netcdf_file_m.html" xlink:title="NetCDF_file_m">
+<polygon fill="#337ab7" stroke="#337ab7" points="842.85,-317.27 754.08,-317.27 754.08,-293 842.85,-293 842.85,-317.27"/>
+<text text-anchor="middle" x="798.47" y="-301.53" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">NetCDF_file_m</text>
+</a>
+</g>
+</g>
+<!-- module~inference_engine_m&#45;&gt;module~netcdf_file_m -->
+<g id="module~~training_configuration_s~~UsesGraph_edge11" class="edge">
+<title>module~inference_engine_m&#45;&gt;module~netcdf_file_m</title>
+<path fill="none" stroke="#025500" stroke-dasharray="5,2" d="M892.94,-305.13C880.24,-305.13 866.87,-305.13 854.33,-305.13"/>
+<polygon fill="#025500" stroke="#025500" points="854.62,-301.64 844.62,-305.14 854.62,-308.64 854.62,-301.64"/>
 </g>
 <!-- module~network_configuration_m -->
 <g id="module~~training_configuration_s~~UsesGraph_node13" class="node">
 <title>module~network_configuration_m</title>
 <g id="a_module~~training_configuration_s~~UsesGraph_node13"><a xlink:href=".././module/network_configuration_m.html" xlink:title="network_configuration_m">
-<polygon fill="#337ab7" stroke="#337ab7" points="497,-644 349,-644 349,-620 497,-620 497,-644"/>
-<text text-anchor="middle" x="423" y="-629.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">network_configuration_m</text>
+<polygon fill="#337ab7" stroke="#337ab7" points="493.56,-24.27 347.04,-24.27 347.04,0 493.56,0 493.56,-24.27"/>
+<text text-anchor="middle" x="420.3" y="-8.53" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">network_configuration_m</text>
 </a>
 </g>
 </g>
 <!-- module~inference_engine_m&#45;&gt;module~network_configuration_m -->
-<g id="module~~training_configuration_s~~UsesGraph_edge11" class="edge">
-<title>module~inference_engine_m&#45;&gt;module~network_configuration_m</title>
-<path fill="none" stroke="#ff0000" stroke-dasharray="5,2" d="M953.12,-430.01C942.25,-458.14 911.29,-528.77 862,-566 758.99,-643.82 602.72,-647.96 507.34,-641.58"/>
-<polygon fill="#ff0000" stroke="#ff0000" points="507.39,-638.08 497.17,-640.85 506.89,-645.06 507.39,-638.08"/>
-</g>
-<!-- module~inference_engine_m_ -->
-<g id="module~~training_configuration_s~~UsesGraph_node14" class="node">
-<title>module~inference_engine_m_</title>
-<g id="a_module~~training_configuration_s~~UsesGraph_node14"><a xlink:href=".././module/inference_engine_m_.html" xlink:title="inference_engine_m_">
-<polygon fill="#337ab7" stroke="#337ab7" points="698,-256 572,-256 572,-232 698,-232 698,-256"/>
-<text text-anchor="middle" x="635" y="-241.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">inference_engine_m_</text>
-</a>
-</g>
-</g>
-<!-- module~inference_engine_m&#45;&gt;module~inference_engine_m_ -->
 <g id="module~~training_configuration_s~~UsesGraph_edge12" class="edge">
-<title>module~inference_engine_m&#45;&gt;module~inference_engine_m_</title>
-<path fill="none" stroke="#ff0000" stroke-dasharray="5,2" d="M802,-304C758.99,-292.89 749.78,-285.1 708,-270 698.63,-266.61 688.58,-262.98 679.04,-259.54"/>
-<polygon fill="#ff0000" stroke="#ff0000" points="679.93,-256.14 669.34,-256.03 677.56,-262.72 679.93,-256.14"/>
+<title>module~inference_engine_m&#45;&gt;module~network_configuration_m</title>
+<path fill="none" stroke="#025500" stroke-dasharray="5,2" d="M937.6,-292.75C919.48,-277.27 886.98,-250.37 857.1,-230.13 715.25,-134.04 681.54,-102.65 522.81,-38.13 513.28,-34.26 503.01,-30.83 492.79,-27.84"/>
+<polygon fill="#025500" stroke="#025500" points="493.78,-24.48 483.21,-25.16 491.9,-31.22 493.78,-24.48"/>
 </g>
-<!-- module~mini_batch_m -->
-<g id="module~~training_configuration_s~~UsesGraph_node15" class="node">
-<title>module~mini_batch_m</title>
-<g id="a_module~~training_configuration_s~~UsesGraph_node15"><a xlink:href=".././module/mini_batch_m.html" xlink:title="mini_batch_m">
-<polygon fill="#337ab7" stroke="#337ab7" points="678.5,-62 591.5,-62 591.5,-38 678.5,-38 678.5,-62"/>
-<text text-anchor="middle" x="635" y="-47.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">mini_batch_m</text>
+<!-- module~relu_m -->
+<g id="module~~training_configuration_s~~UsesGraph_node14" class="node">
+<title>module~relu_m</title>
+<g id="a_module~~training_configuration_s~~UsesGraph_node14"><a xlink:href=".././module/relu_m.html" xlink:title="relu_m">
+<polygon fill="#337ab7" stroke="#337ab7" points="658.32,-418.27 604.32,-418.27 604.32,-394 658.32,-394 658.32,-418.27"/>
+<text text-anchor="middle" x="631.32" y="-402.53" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">relu_m</text>
 </a>
 </g>
 </g>
-<!-- module~inference_engine_m&#45;&gt;module~mini_batch_m -->
+<!-- module~inference_engine_m&#45;&gt;module~relu_m -->
 <g id="module~~training_configuration_s~~UsesGraph_edge13" class="edge">
-<title>module~inference_engine_m&#45;&gt;module~mini_batch_m</title>
-<path fill="none" stroke="#ff0000" stroke-dasharray="5,2" d="M802,-70C769.76,-46.27 724.1,-42.3 688.82,-43.69"/>
-<polygon fill="#ff0000" stroke="#ff0000" points="688.49,-40.2 678.69,-44.25 688.87,-47.19 688.49,-40.2"/>
+<title>module~inference_engine_m&#45;&gt;module~relu_m</title>
+<path fill="none" stroke="#025500" stroke-dasharray="5,2" d="M797.47,-366.13C753.42,-375.34 703.24,-387.78 669.87,-396.32"/>
+<polygon fill="#025500" stroke="#025500" points="669.08,-392.91 660.27,-398.8 670.83,-399.69 669.08,-392.91"/>
 </g>
-<!-- module~differentiable_activation_strategy_m -->
-<g id="module~~training_configuration_s~~UsesGraph_node16" class="node">
-<title>module~differentiable_activation_strategy_m</title>
-<g id="a_module~~training_configuration_s~~UsesGraph_node16"><a xlink:href=".././module/differentiable_activation_strategy_m.html" xlink:title="differentiable_activation_strategy_m">
-<polygon fill="#337ab7" stroke="#337ab7" points="526,-336 320,-336 320,-312 526,-312 526,-336"/>
-<text text-anchor="middle" x="423" y="-321.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">differentiable_activation_strategy_m</text>
+<!-- module~sigmoid_m -->
+<g id="module~~training_configuration_s~~UsesGraph_node15" class="node">
+<title>module~sigmoid_m</title>
+<g id="a_module~~training_configuration_s~~UsesGraph_node15"><a xlink:href=".././module/sigmoid_m.html" xlink:title="sigmoid_m">
+<polygon fill="#337ab7" stroke="#337ab7" points="665.96,-296.27 596.69,-296.27 596.69,-272 665.96,-272 665.96,-296.27"/>
+<text text-anchor="middle" x="631.32" y="-280.53" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">sigmoid_m</text>
 </a>
 </g>
 </g>
-<!-- module~inference_engine_m&#45;&gt;module~differentiable_activation_strategy_m -->
+<!-- module~inference_engine_m&#45;&gt;module~sigmoid_m -->
 <g id="module~~training_configuration_s~~UsesGraph_edge14" class="edge">
-<title>module~inference_engine_m&#45;&gt;module~differentiable_activation_strategy_m</title>
-<path fill="none" stroke="#ff0000" stroke-dasharray="5,2" d="M802,-304C730.05,-285.41 709.75,-274.88 636,-284"/>
+<title>module~inference_engine_m&#45;&gt;module~sigmoid_m</title>
+<path fill="none" stroke="#025500" stroke-dasharray="5,2" d="M915.68,-317.68C908.19,-320.38 900.36,-323.29 893.1,-326.13 850.97,-342.65 843.76,-356.88 799.47,-366.13"/>
+<path fill="none" stroke="#025500" stroke-dasharray="5,2" d="M797.47,-366.13C748.85,-376.3 748.94,-325.91 703.83,-305.13 695.39,-301.25 686.06,-297.89 677,-295.07"/>
+<polygon fill="#025500" stroke="#025500" points="678.2,-291.77 667.62,-292.32 676.23,-298.49 678.2,-291.77"/>
+</g>
+<!-- module~step_m -->
+<g id="module~~training_configuration_s~~UsesGraph_node16" class="node">
+<title>module~step_m</title>
+<g id="a_module~~training_configuration_s~~UsesGraph_node16"><a xlink:href=".././module/step_m.html" xlink:title="step_m">
+<polygon fill="#337ab7" stroke="#337ab7" points="447.3,-256.27 393.3,-256.27 393.3,-232 447.3,-232 447.3,-256.27"/>
+<text text-anchor="middle" x="420.3" y="-240.53" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">step_m</text>
+</a>
+</g>
+</g>
+<!-- module~inference_engine_m&#45;&gt;module~step_m -->
+<g id="module~~training_configuration_s~~UsesGraph_edge15" class="edge">
+<title>module~inference_engine_m&#45;&gt;module~step_m</title>
+<path fill="none" stroke="#025500" stroke-dasharray="5,2" d="M630.32,-244.13C570.65,-238.81 501.01,-240.35 459.08,-242.12"/>
+<polygon fill="#025500" stroke="#025500" points="459.11,-238.61 449.28,-242.56 459.42,-245.61 459.11,-238.61"/>
 </g>
 <!-- module~swish_m -->
 <g id="module~~training_configuration_s~~UsesGraph_node17" class="node">
 <title>module~swish_m</title>
 <g id="a_module~~training_configuration_s~~UsesGraph_node17"><a xlink:href=".././module/swish_m.html" xlink:title="swish_m">
-<polygon fill="#337ab7" stroke="#337ab7" points="663.5,-420 606.5,-420 606.5,-396 663.5,-396 663.5,-420"/>
-<text text-anchor="middle" x="635" y="-405.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">swish_m</text>
+<polygon fill="#337ab7" stroke="#337ab7" points="659.21,-338.27 603.44,-338.27 603.44,-314 659.21,-314 659.21,-338.27"/>
+<text text-anchor="middle" x="631.32" y="-322.53" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">swish_m</text>
 </a>
 </g>
 </g>
 <!-- module~inference_engine_m&#45;&gt;module~swish_m -->
-<g id="module~~training_configuration_s~~UsesGraph_edge15" class="edge">
-<title>module~inference_engine_m&#45;&gt;module~swish_m</title>
-<path fill="none" stroke="#ff0000" stroke-dasharray="5,2" d="M802,-304C748.04,-290.06 756.81,-360.11 708,-387 697.42,-392.83 685.04,-397.19 673.57,-400.39"/>
-<polygon fill="#ff0000" stroke="#ff0000" points="672.6,-397.02 663.78,-402.9 674.34,-403.8 672.6,-397.02"/>
-</g>
-<!-- module~input_output_pair_m -->
-<g id="module~~training_configuration_s~~UsesGraph_node18" class="node">
-<title>module~input_output_pair_m</title>
-<g id="a_module~~training_configuration_s~~UsesGraph_node18"><a xlink:href=".././module/input_output_pair_m.html" xlink:title="input_output_pair_m">
-<polygon fill="#337ab7" stroke="#337ab7" points="483.5,-24 362.5,-24 362.5,0 483.5,0 483.5,-24"/>
-<text text-anchor="middle" x="423" y="-9.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">input_output_pair_m</text>
-</a>
-</g>
-</g>
-<!-- module~inference_engine_m&#45;&gt;module~input_output_pair_m -->
 <g id="module~~training_configuration_s~~UsesGraph_edge16" class="edge">
-<title>module~inference_engine_m&#45;&gt;module~input_output_pair_m</title>
-<path fill="none" stroke="#ff0000" stroke-dasharray="5,2" d="M908.91,-405.95C904.83,-403.5 901.1,-400.55 898,-397 846.06,-337.51 884.07,-298.83 862,-223 841.68,-153.17 862.57,-113.11 804,-70"/>
-<path fill="none" stroke="#ff0000" stroke-dasharray="5,2" d="M802,-70C711.63,-3.48 575.81,0.49 493.96,-4.5"/>
-<polygon fill="#ff0000" stroke="#ff0000" points="493.5,-1.02 483.76,-5.18 493.97,-8.01 493.5,-1.02"/>
+<title>module~inference_engine_m&#45;&gt;module~swish_m</title>
+<path fill="none" stroke="#025500" stroke-dasharray="5,2" d="M797.47,-366.13C773.51,-371.14 711.25,-352.86 670.39,-339.37"/>
+<polygon fill="#025500" stroke="#025500" points="671.51,-336.06 660.92,-336.2 669.29,-342.69 671.51,-336.06"/>
 </g>
-<!-- module~step_m -->
+<!-- module~tensor_m -->
+<g id="module~~training_configuration_s~~UsesGraph_node18" class="node">
+<title>module~tensor_m</title>
+<g id="a_module~~training_configuration_s~~UsesGraph_node18"><a xlink:href=".././module/tensor_m.html" xlink:title="tensor_m">
+<polygon fill="#337ab7" stroke="#337ab7" points="248.04,-568.27 187.02,-568.27 187.02,-544 248.04,-544 248.04,-568.27"/>
+<text text-anchor="middle" x="217.53" y="-552.53" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">tensor_m</text>
+</a>
+</g>
+</g>
+<!-- module~inference_engine_m&#45;&gt;module~tensor_m -->
+<g id="module~~training_configuration_s~~UsesGraph_edge17" class="edge">
+<title>module~inference_engine_m&#45;&gt;module~tensor_m</title>
+<path fill="none" stroke="#025500" stroke-dasharray="5,2" d="M419.3,-592.13C363.3,-589.93 299.82,-576.69 259.5,-566.91"/>
+<polygon fill="#025500" stroke="#025500" points="260.53,-563.56 249.99,-564.55 258.85,-570.35 260.53,-563.56"/>
+</g>
+<!-- module~trainable_engine_m -->
 <g id="module~~training_configuration_s~~UsesGraph_node19" class="node">
-<title>module~step_m</title>
-<g id="a_module~~training_configuration_s~~UsesGraph_node19"><a xlink:href=".././module/step_m.html" xlink:title="step_m">
-<polygon fill="#337ab7" stroke="#337ab7" points="450,-256 396,-256 396,-232 450,-232 450,-256"/>
-<text text-anchor="middle" x="423" y="-241.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">step_m</text>
+<title>module~trainable_engine_m</title>
+<g id="a_module~~training_configuration_s~~UsesGraph_node19"><a xlink:href=".././module/trainable_engine_m.html" xlink:title="trainable_engine_m">
+<polygon fill="#337ab7" stroke="#337ab7" points="857.1,-454.27 739.83,-454.27 739.83,-430 857.1,-430 857.1,-454.27"/>
+<text text-anchor="middle" x="798.47" y="-438.53" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">trainable_engine_m</text>
 </a>
 </g>
 </g>
-<!-- module~inference_engine_m&#45;&gt;module~step_m -->
+<!-- module~inference_engine_m&#45;&gt;module~trainable_engine_m -->
 <g id="module~~training_configuration_s~~UsesGraph_edge18" class="edge">
-<title>module~inference_engine_m&#45;&gt;module~step_m</title>
-<path fill="none" stroke="#ff0000" stroke-dasharray="5,2" d="M915.75,-405.93C909.59,-403.4 903.48,-400.43 898,-397 848.2,-365.8 860.9,-318.7 804,-304"/>
-<path fill="none" stroke="#ff0000" stroke-dasharray="5,2" d="M802,-304C771.92,-296.23 767.21,-285.65 744,-265 725.63,-248.66 730.34,-233.27 708,-223 625.76,-185.17 515.87,-212.2 459.96,-230.66"/>
-<polygon fill="#ff0000" stroke="#ff0000" points="458.51,-227.46 450.17,-233.99 460.76,-234.08 458.51,-227.46"/>
+<title>module~inference_engine_m&#45;&gt;module~trainable_engine_m</title>
+<path fill="none" stroke="#025500" stroke-dasharray="5,2" d="M906.94,-317.71C902.02,-320.08 897.28,-322.87 893.1,-326.13 870.37,-343.89 874.98,-357.5 857.1,-380.13 845.52,-394.8 831.23,-410.19 819.77,-421.97"/>
+<polygon fill="#025500" stroke="#025500" points="817.6,-419.19 813.07,-428.77 822.58,-424.1 817.6,-419.19"/>
 </g>
-<!-- module~netcdf_file_m -->
-<g id="module~~training_configuration_s~~UsesGraph_node20" class="node">
-<title>module~netcdf_file_m</title>
-<g id="a_module~~training_configuration_s~~UsesGraph_node20"><a xlink:href=".././module/netcdf_file_m.html" xlink:title="NetCDF_file_m">
-<polygon fill="#337ab7" stroke="#337ab7" points="848,-430 758,-430 758,-406 848,-406 848,-430"/>
-<text text-anchor="middle" x="803" y="-415.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">NetCDF_file_m</text>
-</a>
-</g>
-</g>
-<!-- module~inference_engine_m&#45;&gt;module~netcdf_file_m -->
-<g id="module~~training_configuration_s~~UsesGraph_edge19" class="edge">
-<title>module~inference_engine_m&#45;&gt;module~netcdf_file_m</title>
-<path fill="none" stroke="#ff0000" stroke-dasharray="5,2" d="M897.71,-418C884.69,-418 870.99,-418 858.2,-418"/>
-<polygon fill="#ff0000" stroke="#ff0000" points="858.17,-414.5 848.17,-418 858.17,-421.5 858.17,-414.5"/>
+<!-- module~training_configuration_m&#45;&gt;module~differentiable_activation_strategy_m -->
+<g id="module~~training_configuration_s~~UsesGraph_edge20" class="edge">
+<title>module~training_configuration_m&#45;&gt;module~differentiable_activation_strategy_m</title>
+<path fill="none" stroke="#002505" stroke-dasharray="5,2" d="M601.17,-197.67C586.66,-205.21 569.9,-216.09 558.81,-230.13 527.98,-269.19 559.31,-302.33 522.81,-336.13 519.53,-339.18 515.93,-341.87 512.13,-344.27"/>
+<polygon fill="#002505" stroke="#002505" points="510.72,-341.04 503.59,-348.88 514.05,-347.2 510.72,-341.04"/>
 </g>
 <!-- module~training_configuration_m&#45;&gt;module~hyperparameters_m -->
 <g id="module~~training_configuration_s~~UsesGraph_edge21" class="edge">
 <title>module~training_configuration_m&#45;&gt;module~hyperparameters_m</title>
-<path fill="none" stroke="#00ff00" stroke-dasharray="5,2" d="M422,-592C375.58,-584.89 323.61,-574.54 284.01,-566.15"/>
-<polygon fill="#00ff00" stroke="#00ff00" points="284.73,-562.73 274.22,-564.07 283.27,-569.58 284.73,-562.73"/>
+<path fill="none" stroke="#002505" stroke-dasharray="5,2" d="M419.3,-52.13C391.81,-45.64 321.03,-62.64 271.34,-76.45"/>
+<polygon fill="#002505" stroke="#002505" points="270.58,-73.03 261.91,-79.11 272.48,-79.77 270.58,-73.03"/>
 </g>
 <!-- module~training_configuration_m&#45;&gt;module~kind_parameters_m -->
 <g id="module~~training_configuration_s~~UsesGraph_edge22" class="edge">
 <title>module~training_configuration_m&#45;&gt;module~kind_parameters_m</title>
-<path fill="none" stroke="#00ff00" stroke-dasharray="5,2" d="M561.67,-597.38C520.99,-599.06 469.41,-598.96 424,-592"/>
-<path fill="none" stroke="#00ff00" stroke-dasharray="5,2" d="M422,-592C369.56,-583.97 356.62,-568.38 320,-530 296.93,-505.83 306.92,-488.32 284,-464 268.69,-447.76 147.15,-375.27 89.78,-341.46"/>
-<polygon fill="#00ff00" stroke="#00ff00" points="91.22,-338.25 80.82,-336.19 87.67,-344.28 91.22,-338.25"/>
-</g>
-<!-- sourcery_m -->
-<g id="module~~training_configuration_s~~UsesGraph_node12" class="node">
-<title>sourcery_m</title>
-<polygon fill="#337ab7" stroke="#337ab7" points="96,-452 22,-452 22,-428 96,-428 96,-452"/>
-<text text-anchor="middle" x="59" y="-437.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">sourcery_m</text>
-</g>
-<!-- module~training_configuration_m&#45;&gt;sourcery_m -->
-<g id="module~~training_configuration_s~~UsesGraph_edge20" class="edge">
-<title>module~training_configuration_m&#45;&gt;sourcery_m</title>
-<path fill="none" stroke="#00ff00" stroke-dasharray="5,2" d="M422,-592C333.26,-578.41 301.65,-629.32 220,-592"/>
-<path fill="none" stroke="#00ff00" stroke-dasharray="5,2" d="M218,-592C191.01,-579.66 178.11,-590.29 154,-573 113.3,-543.82 83.92,-491.35 69.68,-461.79"/>
-<polygon fill="#00ff00" stroke="#00ff00" points="72.68,-459.94 65.28,-452.36 66.34,-462.91 72.68,-459.94"/>
+<path fill="none" stroke="#002505" stroke-dasharray="5,2" d="M558.72,-191.47C448.18,-201.77 245.8,-222.96 218.53,-242.13"/>
+<path fill="none" stroke="#002505" stroke-dasharray="5,2" d="M216.53,-242.13C191.73,-257.84 174.64,-241.01 153.27,-261.13 85.37,-325.07 66.5,-442.38 61.43,-492.46"/>
+<polygon fill="#002505" stroke="#002505" points="57.96,-491.89 60.55,-502.16 64.94,-492.52 57.96,-491.89"/>
 </g>
 <!-- module~training_configuration_m&#45;&gt;module~network_configuration_m -->
 <g id="module~~training_configuration_s~~UsesGraph_edge23" class="edge">
 <title>module~training_configuration_m&#45;&gt;module~network_configuration_m</title>
-<path fill="none" stroke="#00ff00" stroke-dasharray="5,2" d="M570.99,-604C547.84,-608.41 521.43,-613.44 497.44,-618.01"/>
-<polygon fill="#00ff00" stroke="#00ff00" points="496.49,-614.63 487.33,-619.94 497.8,-621.51 496.49,-614.63"/>
+<path fill="none" stroke="#002505" stroke-dasharray="5,2" d="M618.08,-172.57C603.12,-156.85 577.49,-128.76 558.81,-102.13 540.07,-75.42 548.7,-58 522.81,-38.13 517.22,-33.85 511,-30.26 504.47,-27.26"/>
+<polygon fill="#002505" stroke="#002505" points="505.98,-24.1 495.4,-23.59 503.35,-30.59 505.98,-24.1"/>
 </g>
-<!-- module~training_configuration_m&#45;&gt;module~differentiable_activation_strategy_m -->
+<!-- sourcery_m -->
+<g id="module~~training_configuration_s~~UsesGraph_node20" class="node">
+<title>sourcery_m</title>
+<polygon fill="#337ab7" stroke="#337ab7" points="95.14,-255.27 22.12,-255.27 22.12,-231 95.14,-231 95.14,-255.27"/>
+<text text-anchor="middle" x="58.63" y="-239.53" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">sourcery_m</text>
+</g>
+<!-- module~training_configuration_m&#45;&gt;sourcery_m -->
 <g id="module~~training_configuration_s~~UsesGraph_edge24" class="edge">
-<title>module~training_configuration_m&#45;&gt;module~differentiable_activation_strategy_m</title>
-<path fill="none" stroke="#00ff00" stroke-dasharray="5,2" d="M628.56,-579.72C606.82,-530.63 527.21,-351.02 526,-350 521.68,-346.36 516.91,-343.21 511.87,-340.5"/>
-<polygon fill="#00ff00" stroke="#00ff00" points="513.07,-337.2 502.53,-336.08 510.07,-343.53 513.07,-337.2"/>
+<title>module~training_configuration_m&#45;&gt;sourcery_m</title>
+<path fill="none" stroke="#002505" stroke-dasharray="5,2" d="M619.8,-172.87C597.52,-147.18 545.75,-89.03 522.81,-76.13 482.4,-53.41 466.42,-62.8 421.3,-52.13"/>
+<path fill="none" stroke="#002505" stroke-dasharray="5,2" d="M419.3,-52.13C375.88,-41.88 257.95,-31.23 218.53,-52.13"/>
 </g>
 <!-- module~activation_strategy_m&#45;&gt;module~kind_parameters_m -->
 <g id="module~~training_configuration_s~~UsesGraph_edge25" class="edge">
 <title>module~activation_strategy_m&#45;&gt;module~kind_parameters_m</title>
-<path fill="none" stroke="#ff0000" stroke-dasharray="5,2" d="M153.74,-324C145.35,-324 136.74,-324 128.3,-324"/>
-<polygon fill="#ff0000" stroke="#ff0000" points="128.1,-320.5 118.1,-324 128.1,-327.5 128.1,-320.5"/>
+<path fill="none" stroke="#255000" stroke-dasharray="5,2" d="M173.35,-294.68C166.05,-298.19 158.99,-302.6 153.27,-308.13 99,-360.64 73.63,-450.32 64.21,-492.67"/>
+<polygon fill="#255000" stroke="#255000" points="60.83,-491.76 62.19,-502.27 67.68,-493.21 60.83,-491.76"/>
 </g>
 <!-- module~activation_strategy_m&#45;&gt;sourcery_m -->
 <g id="module~~training_configuration_s~~UsesGraph_edge26" class="edge">
 <title>module~activation_strategy_m&#45;&gt;sourcery_m</title>
-<path fill="none" stroke="#ff0000" stroke-dasharray="5,2" d="M201.39,-336.19C173.46,-356.7 116.97,-398.17 84.48,-422.02"/>
-<polygon fill="#ff0000" stroke="#ff0000" points="82.38,-419.23 76.39,-427.97 86.52,-424.87 82.38,-419.23"/>
-</g>
-<!-- module~tensor_m&#45;&gt;module~kind_parameters_m -->
-<g id="module~~training_configuration_s~~UsesGraph_edge27" class="edge">
-<title>module~tensor_m&#45;&gt;module~kind_parameters_m</title>
-<path fill="none" stroke="#ff5f00" stroke-dasharray="5,2" d="M187.97,-137.54C176.38,-141.57 163.62,-147.51 154,-156 107.68,-196.89 79.24,-266.34 67.01,-301.77"/>
-<polygon fill="#ff5f00" stroke="#ff5f00" points="63.57,-301.01 63.73,-311.61 70.21,-303.23 63.57,-301.01"/>
-</g>
-<!-- module~relu_m&#45;&gt;module~kind_parameters_m -->
-<g id="module~~training_configuration_s~~UsesGraph_edge28" class="edge">
-<title>module~relu_m&#45;&gt;module~kind_parameters_m</title>
-<path fill="none" stroke="#ffbf00" stroke-dasharray="5,2" d="M607.66,-370.6C541.13,-381.22 361.54,-403.63 220,-364"/>
-</g>
-<!-- module~relu_m&#45;&gt;sourcery_m -->
-<g id="module~~training_configuration_s~~UsesGraph_edge29" class="edge">
-<title>module~relu_m&#45;&gt;sourcery_m</title>
-<path fill="none" stroke="#ffbf00" stroke-dasharray="5,2" d="M607.98,-373.5C594.29,-377.47 577.22,-382.45 562,-387 545.97,-391.79 542.1,-393.44 526,-398 390.75,-436.32 360.36,-485.7 220,-478"/>
-</g>
-<!-- module~relu_m&#45;&gt;module~differentiable_activation_strategy_m -->
-<g id="module~~training_configuration_s~~UsesGraph_edge30" class="edge">
-<title>module~relu_m&#45;&gt;module~differentiable_activation_strategy_m</title>
-<path fill="none" stroke="#ffbf00" stroke-dasharray="5,2" d="M607.83,-360.77C579.57,-355.11 533.35,-345.87 494.33,-338.07"/>
-<polygon fill="#ffbf00" stroke="#ffbf00" points="494.56,-334.54 484.06,-336.01 493.18,-341.41 494.56,-334.54"/>
-</g>
-<!-- module~hyperparameters_m&#45;&gt;module~kind_parameters_m -->
-<g id="module~~training_configuration_s~~UsesGraph_edge31" class="edge">
-<title>module~hyperparameters_m&#45;&gt;module~kind_parameters_m</title>
-<path fill="none" stroke="#dfff00" stroke-dasharray="5,2" d="M209.51,-539.74C183.73,-502.54 106.2,-390.66 74.12,-344.38"/>
-<polygon fill="#dfff00" stroke="#dfff00" points="76.92,-342.27 68.35,-336.04 71.16,-346.26 76.92,-342.27"/>
-</g>
-<!-- module~hyperparameters_m&#45;&gt;sourcery_m -->
-<g id="module~~training_configuration_s~~UsesGraph_edge32" class="edge">
-<title>module~hyperparameters_m&#45;&gt;sourcery_m</title>
-<path fill="none" stroke="#dfff00" stroke-dasharray="5,2" d="M200.79,-539.8C173.01,-520.11 118.13,-481.2 85.7,-458.22"/>
-<polygon fill="#dfff00" stroke="#dfff00" points="87.37,-455.11 77.19,-452.18 83.32,-460.82 87.37,-455.11"/>
-</g>
-<!-- module~sigmoid_m&#45;&gt;module~kind_parameters_m -->
-<g id="module~~training_configuration_s~~UsesGraph_edge33" class="edge">
-<title>module~sigmoid_m&#45;&gt;module~kind_parameters_m</title>
-<path fill="none" stroke="#7fff00" stroke-dasharray="5,2" d="M599.96,-330.69C578.71,-334.85 550.77,-340.29 526,-345 480.7,-353.62 468.9,-353.51 424,-364"/>
-<path fill="none" stroke="#7fff00" stroke-dasharray="5,2" d="M422,-364C334.58,-384.42 306.45,-388.21 220,-364"/>
-<path fill="none" stroke="#7fff00" stroke-dasharray="5,2" d="M218,-364C185.81,-354.99 149.68,-345.77 120.1,-338.46"/>
-<polygon fill="#7fff00" stroke="#7fff00" points="120.88,-335.05 110.34,-336.06 119.21,-341.85 120.88,-335.05"/>
-</g>
-<!-- module~sigmoid_m&#45;&gt;sourcery_m -->
-<g id="module~~training_configuration_s~~UsesGraph_edge34" class="edge">
-<title>module~sigmoid_m&#45;&gt;sourcery_m</title>
-<path fill="none" stroke="#7fff00" stroke-dasharray="5,2" d="M422,-364C375.99,-374.75 361.64,-371.66 320,-394 268.85,-421.44 278.03,-479.19 220,-478"/>
-<path fill="none" stroke="#7fff00" stroke-dasharray="5,2" d="M218,-478C177.79,-477.17 133.36,-465.48 101.88,-455.28"/>
-<polygon fill="#7fff00" stroke="#7fff00" points="102.74,-451.88 92.14,-452.04 100.52,-458.52 102.74,-451.88"/>
-</g>
-<!-- module~sigmoid_m&#45;&gt;module~differentiable_activation_strategy_m -->
-<g id="module~~training_configuration_s~~UsesGraph_edge35" class="edge">
-<title>module~sigmoid_m&#45;&gt;module~differentiable_activation_strategy_m</title>
-<path fill="none" stroke="#7fff00" stroke-dasharray="5,2" d="M599.79,-324C582.18,-324 559.58,-324 536.51,-324"/>
-<polygon fill="#7fff00" stroke="#7fff00" points="536.24,-320.5 526.24,-324 536.24,-327.5 536.24,-320.5"/>
-</g>
-<!-- module~trainable_engine_m&#45;&gt;module~tensor_m -->
-<g id="module~~training_configuration_s~~UsesGraph_edge36" class="edge">
-<title>module~trainable_engine_m&#45;&gt;module~tensor_m</title>
-<path fill="none" stroke="#1fff00" stroke-dasharray="5,2" d="M783.5,-231.89C764.95,-220.11 735.3,-202.25 708,-190 677.22,-176.2 668.58,-174.74 636,-166"/>
-<path fill="none" stroke="#1fff00" stroke-dasharray="5,2" d="M634,-166C542.39,-141.43 517.49,-143.98 424,-128"/>
-<path fill="none" stroke="#1fff00" stroke-dasharray="5,2" d="M422,-128C366.51,-118.51 301.18,-121.71 260.18,-125.42"/>
-<polygon fill="#1fff00" stroke="#1fff00" points="259.66,-121.95 250.04,-126.39 260.33,-128.92 259.66,-121.95"/>
-</g>
-<!-- module~trainable_engine_m&#45;&gt;module~kind_parameters_m -->
-<g id="module~~training_configuration_s~~UsesGraph_edge37" class="edge">
-<title>module~trainable_engine_m&#45;&gt;module~kind_parameters_m</title>
-<path fill="none" stroke="#1fff00" stroke-dasharray="5,2" d="M634,-166C543.85,-141.82 517.19,-160.76 424,-166"/>
-<path fill="none" stroke="#1fff00" stroke-dasharray="5,2" d="M422,-166C332.35,-171.04 305.79,-143.48 220,-170"/>
-<path fill="none" stroke="#1fff00" stroke-dasharray="5,2" d="M218,-170C188.98,-178.97 178.15,-175.57 154,-194 114.98,-223.77 85.14,-274.16 70.33,-302.67"/>
-<polygon fill="#1fff00" stroke="#1fff00" points="67.11,-301.27 65.73,-311.77 73.36,-304.43 67.11,-301.27"/>
-</g>
-<!-- module~trainable_engine_m&#45;&gt;sourcery_m -->
-<g id="module~~training_configuration_s~~UsesGraph_edge38" class="edge">
-<title>module~trainable_engine_m&#45;&gt;sourcery_m</title>
-<path fill="none" stroke="#1fff00" stroke-dasharray="5,2" d="M422,-166C376.22,-168.57 260.44,-186.39 220,-208"/>
-<path fill="none" stroke="#1fff00" stroke-dasharray="5,2" d="M218,-208C195.75,-219.89 106.12,-364.33 72.67,-419.11"/>
-<polygon fill="#1fff00" stroke="#1fff00" points="69.49,-417.6 67.28,-427.96 75.47,-421.25 69.49,-417.6"/>
-</g>
-<!-- module~trainable_engine_m&#45;&gt;module~inference_engine_m_ -->
-<g id="module~~training_configuration_s~~UsesGraph_edge40" class="edge">
-<title>module~trainable_engine_m&#45;&gt;module~inference_engine_m_</title>
-<path fill="none" stroke="#1fff00" stroke-dasharray="5,2" d="M743.94,-244C732.52,-244 720.4,-244 708.56,-244"/>
-<polygon fill="#1fff00" stroke="#1fff00" points="708.26,-240.5 698.26,-244 708.26,-247.5 708.26,-240.5"/>
-</g>
-<!-- module~trainable_engine_m&#45;&gt;module~mini_batch_m -->
-<g id="module~~training_configuration_s~~UsesGraph_edge39" class="edge">
-<title>module~trainable_engine_m&#45;&gt;module~mini_batch_m</title>
-<path fill="none" stroke="#1fff00" stroke-dasharray="5,2" d="M791.62,-231.86C763.78,-199.34 687.31,-109.97 653.02,-69.9"/>
-<polygon fill="#1fff00" stroke="#1fff00" points="655.54,-67.45 646.38,-62.13 650.22,-72 655.54,-67.45"/>
-</g>
-<!-- module~trainable_engine_m&#45;&gt;module~differentiable_activation_strategy_m -->
-<g id="module~~training_configuration_s~~UsesGraph_edge41" class="edge">
-<title>module~trainable_engine_m&#45;&gt;module~differentiable_activation_strategy_m</title>
-<path fill="none" stroke="#1fff00" stroke-dasharray="5,2" d="M762.89,-256.09C729.54,-265.75 680.13,-278.55 636,-284"/>
-<path fill="none" stroke="#1fff00" stroke-dasharray="5,2" d="M634,-284C584.15,-290.16 528.31,-300.99 486.75,-309.82"/>
-<polygon fill="#1fff00" stroke="#1fff00" points="485.82,-306.45 476.78,-311.97 487.29,-313.29 485.82,-306.45"/>
-</g>
-<!-- module~network_configuration_m&#45;&gt;sourcery_m -->
-<g id="module~~training_configuration_s~~UsesGraph_edge42" class="edge">
-<title>module~network_configuration_m&#45;&gt;sourcery_m</title>
-<path fill="none" stroke="#00ffff" stroke-dasharray="5,2" d="M348.9,-625.83C309.36,-620.47 260.48,-610.5 220,-592"/>
-</g>
-<!-- module~inference_engine_m_&#45;&gt;module~activation_strategy_m -->
-<g id="module~~training_configuration_s~~UsesGraph_edge43" class="edge">
-<title>module~inference_engine_m_&#45;&gt;module~activation_strategy_m</title>
-<path fill="none" stroke="#009fff" stroke-dasharray="5,2" d="M572.62,-256.02C557.39,-258.98 541.11,-262.12 526,-265 480.7,-273.62 468.34,-271.35 424,-284"/>
-<path fill="none" stroke="#009fff" stroke-dasharray="5,2" d="M422,-284C377.66,-296.65 365.23,-294.04 320,-303 309.03,-305.17 297.4,-307.55 286.1,-309.9"/>
-<polygon fill="#009fff" stroke="#009fff" points="285.35,-306.48 276.28,-311.95 286.78,-313.33 285.35,-306.48"/>
-</g>
-<!-- module~inference_engine_m_&#45;&gt;module~tensor_m -->
-<g id="module~~training_configuration_s~~UsesGraph_edge44" class="edge">
-<title>module~inference_engine_m_&#45;&gt;module~tensor_m</title>
-<path fill="none" stroke="#009fff" stroke-dasharray="5,2" d="M620.35,-231.74C593.77,-207.96 536.71,-157.42 526,-152 484.44,-130.98 469.91,-135.85 424,-128"/>
-</g>
-<!-- module~inference_engine_m_&#45;&gt;module~kind_parameters_m -->
-<g id="module~~training_configuration_s~~UsesGraph_edge46" class="edge">
-<title>module~inference_engine_m_&#45;&gt;module~kind_parameters_m</title>
-<path fill="none" stroke="#009fff" stroke-dasharray="5,2" d="M575.04,-231.99C464.77,-209.74 236.88,-164.8 220,-170"/>
-</g>
-<!-- module~inference_engine_m_&#45;&gt;sourcery_m -->
-<g id="module~~training_configuration_s~~UsesGraph_edge45" class="edge">
-<title>module~inference_engine_m_&#45;&gt;sourcery_m</title>
-<path fill="none" stroke="#009fff" stroke-dasharray="5,2" d="M422,-284C377.66,-296.65 356.61,-274.96 320,-303 290.65,-325.49 312.36,-354.28 284,-378 233.29,-420.42 155.74,-433.94 106.47,-438.17"/>
-<polygon fill="#009fff" stroke="#009fff" points="106.11,-434.69 96.41,-438.94 106.64,-441.67 106.11,-434.69"/>
-</g>
-<!-- module~inference_engine_m_&#45;&gt;module~differentiable_activation_strategy_m -->
-<g id="module~~training_configuration_s~~UsesGraph_edge47" class="edge">
-<title>module~inference_engine_m_&#45;&gt;module~differentiable_activation_strategy_m</title>
-<path fill="none" stroke="#009fff" stroke-dasharray="5,2" d="M593.78,-256C583.15,-259.85 571.89,-264.55 562,-270 544.25,-279.79 544.2,-289.09 526,-298 517.14,-302.34 507.47,-306.01 497.74,-309.09"/>
-<polygon fill="#009fff" stroke="#009fff" points="496.61,-305.78 488.02,-311.98 498.6,-312.48 496.61,-305.78"/>
-</g>
-<!-- module~mini_batch_m&#45;&gt;module~kind_parameters_m -->
-<g id="module~~training_configuration_s~~UsesGraph_edge48" class="edge">
-<title>module~mini_batch_m&#45;&gt;module~kind_parameters_m</title>
-<path fill="none" stroke="#003fff" stroke-dasharray="5,2" d="M591.21,-49.22C498.03,-48.31 280.28,-50.58 220,-90"/>
-</g>
-<!-- module~mini_batch_m&#45;&gt;module~input_output_pair_m -->
-<g id="module~~training_configuration_s~~UsesGraph_edge49" class="edge">
-<title>module~mini_batch_m&#45;&gt;module~input_output_pair_m</title>
-<path fill="none" stroke="#003fff" stroke-dasharray="5,2" d="M591.25,-42.26C563.33,-37.21 526.22,-30.5 494.05,-24.68"/>
-<polygon fill="#003fff" stroke="#003fff" points="494.26,-21.16 483.8,-22.82 493.02,-28.05 494.26,-21.16"/>
+<path fill="none" stroke="#255000" stroke-dasharray="5,2" d="M166.02,-269.58C146.94,-264.84 125.33,-259.46 106.58,-254.81"/>
+<polygon fill="#255000" stroke="#255000" points="107.65,-251.46 97.1,-252.45 105.96,-258.26 107.65,-251.46"/>
 </g>
 <!-- module~differentiable_activation_strategy_m&#45;&gt;module~activation_strategy_m -->
-<g id="module~~training_configuration_s~~UsesGraph_edge50" class="edge">
+<g id="module~~training_configuration_s~~UsesGraph_edge27" class="edge">
 <title>module~differentiable_activation_strategy_m&#45;&gt;module~activation_strategy_m</title>
-<path fill="none" stroke="#1f00ff" stroke-dasharray="5,2" d="M319.82,-324C311.19,-324 302.57,-324 294.22,-324"/>
-<polygon fill="#1f00ff" stroke="#1f00ff" points="294.18,-320.5 284.18,-324 294.18,-327.5 294.18,-320.5"/>
+<path fill="none" stroke="#255950" stroke-dasharray="5,2" d="M387.93,-349.63C353.55,-335.94 298.25,-313.9 260.24,-298.76"/>
+<polygon fill="#255950" stroke="#255950" points="262,-295.69 251.42,-295.24 259.41,-302.19 262,-295.69"/>
 </g>
-<!-- module~swish_m&#45;&gt;module~kind_parameters_m -->
-<g id="module~~training_configuration_s~~UsesGraph_edge51" class="edge">
-<title>module~swish_m&#45;&gt;module~kind_parameters_m</title>
-<path fill="none" stroke="#7f00ff" stroke-dasharray="5,2" d="M620.96,-420.19C589.68,-448.14 506.8,-514.54 424,-516"/>
-<path fill="none" stroke="#7f00ff" stroke-dasharray="5,2" d="M422,-516C368.96,-516.94 362.57,-485.66 320,-454 272.02,-418.32 277.79,-379.34 220,-364"/>
+<!-- module~hyperparameters_m&#45;&gt;module~kind_parameters_m -->
+<g id="module~~training_configuration_s~~UsesGraph_edge28" class="edge">
+<title>module~hyperparameters_m&#45;&gt;module~kind_parameters_m</title>
+<path fill="none" stroke="none" stroke-dasharray="5,2" d="M210.08,-104.66C198.01,-128.37 171.58,-181.61 153.27,-228.13 115.38,-324.43 80.4,-442.89 66.26,-492.52"/>
+<polygon fill="none" stroke="none" points="62.89,-491.56 63.53,-502.14 69.63,-493.47 62.89,-491.56"/>
 </g>
-<!-- module~swish_m&#45;&gt;sourcery_m -->
-<g id="module~~training_configuration_s~~UsesGraph_edge52" class="edge">
-<title>module~swish_m&#45;&gt;sourcery_m</title>
-<path fill="none" stroke="#7f00ff" stroke-dasharray="5,2" d="M422,-516C330.66,-517.61 311.22,-483 220,-478"/>
+<!-- module~hyperparameters_m&#45;&gt;sourcery_m -->
+<g id="module~~training_configuration_s~~UsesGraph_edge29" class="edge">
+<title>module~hyperparameters_m&#45;&gt;sourcery_m</title>
+<path fill="none" stroke="none" stroke-dasharray="5,2" d="M203.42,-104.75C176.24,-130.91 113.55,-191.25 80.65,-222.91"/>
+<polygon fill="none" stroke="none" points="78.46,-220.16 73.68,-229.61 83.32,-225.2 78.46,-220.16"/>
 </g>
-<!-- module~swish_m&#45;&gt;module~differentiable_activation_strategy_m -->
-<g id="module~~training_configuration_s~~UsesGraph_edge53" class="edge">
-<title>module~swish_m&#45;&gt;module~differentiable_activation_strategy_m</title>
-<path fill="none" stroke="#7f00ff" stroke-dasharray="5,2" d="M606.31,-403.41C592.33,-400.26 575.5,-395.12 562,-387 542.34,-375.18 545.86,-361.49 526,-350 518.72,-345.79 510.77,-342.26 502.61,-339.29"/>
-<polygon fill="#7f00ff" stroke="#7f00ff" points="503.57,-335.92 492.98,-336.06 501.35,-342.55 503.57,-335.92"/>
+<!-- module~inference_engine_m_&#45;&gt;module~activation_strategy_m -->
+<g id="module~~training_configuration_s~~UsesGraph_edge30" class="edge">
+<title>module~inference_engine_m_&#45;&gt;module~activation_strategy_m</title>
+<path fill="none" stroke="none" stroke-dasharray="5,2" d="M568.8,-470.09C526.79,-463.84 470.11,-453.9 421.3,-440.13"/>
+<path fill="none" stroke="none" stroke-dasharray="5,2" d="M419.3,-440.13C337.83,-417.16 266.26,-340.65 235.1,-303.17"/>
+<polygon fill="none" stroke="none" points="238.06,-301.26 229.02,-295.72 232.63,-305.68 238.06,-301.26"/>
 </g>
-<!-- module~input_output_pair_m&#45;&gt;module~tensor_m -->
-<g id="module~~training_configuration_s~~UsesGraph_edge55" class="edge">
-<title>module~input_output_pair_m&#45;&gt;module~tensor_m</title>
-<path fill="none" stroke="#df00ff" stroke-dasharray="5,2" d="M401.29,-24.16C380.4,-36.61 347.4,-56.82 320,-76 303.39,-87.62 301.56,-93.87 284,-104 276.38,-108.4 267.88,-112.41 259.63,-115.89"/>
-<polygon fill="#df00ff" stroke="#df00ff" points="258.08,-112.74 250.11,-119.73 260.7,-119.23 258.08,-112.74"/>
+<!-- module~inference_engine_m_&#45;&gt;module~differentiable_activation_strategy_m -->
+<g id="module~~training_configuration_s~~UsesGraph_edge31" class="edge">
+<title>module~inference_engine_m_&#45;&gt;module~differentiable_activation_strategy_m</title>
+<path fill="none" stroke="none" stroke-dasharray="5,2" d="M607.55,-465.5C570.41,-444.89 496.64,-403.95 453.93,-380.24"/>
+<polygon fill="none" stroke="none" points="455.8,-377.28 445.36,-375.49 452.41,-383.4 455.8,-377.28"/>
+</g>
+<!-- module~inference_engine_m_&#45;&gt;module~kind_parameters_m -->
+<g id="module~~training_configuration_s~~UsesGraph_edge32" class="edge">
+<title>module~inference_engine_m_&#45;&gt;module~kind_parameters_m</title>
+<path fill="none" stroke="none" stroke-dasharray="5,2" d="M568.47,-475.4C526.8,-474.23 470.66,-473.96 421.3,-478.13"/>
+</g>
+<!-- module~inference_engine_m_&#45;&gt;module~tensor_m -->
+<g id="module~~training_configuration_s~~UsesGraph_edge33" class="edge">
+<title>module~inference_engine_m_&#45;&gt;module~tensor_m</title>
+<path fill="none" stroke="none" stroke-dasharray="5,2" d="M607.72,-490.72C570.32,-510.53 492.61,-547.41 421.3,-554.13"/>
+<path fill="none" stroke="none" stroke-dasharray="5,2" d="M419.3,-554.13C364.18,-559.33 300.18,-558.85 259.53,-557.74"/>
+<polygon fill="none" stroke="none" points="259.82,-554.24 249.72,-557.44 259.61,-561.24 259.82,-554.24"/>
+</g>
+<!-- module~inference_engine_m_&#45;&gt;sourcery_m -->
+<g id="module~~training_configuration_s~~UsesGraph_edge34" class="edge">
+<title>module~inference_engine_m_&#45;&gt;sourcery_m</title>
+<path fill="none" stroke="none" stroke-dasharray="5,2" d="M419.3,-440.13C333.42,-415.92 300.04,-476.43 218.53,-440.13"/>
 </g>
 <!-- module~input_output_pair_m&#45;&gt;module~kind_parameters_m -->
-<g id="module~~training_configuration_s~~UsesGraph_edge54" class="edge">
+<g id="module~~training_configuration_s~~UsesGraph_edge35" class="edge">
 <title>module~input_output_pair_m&#45;&gt;module~kind_parameters_m</title>
-<path fill="none" stroke="#df00ff" stroke-dasharray="5,2" d="M365.16,-24.03C350.25,-27.85 334.34,-32.53 320,-38 273.2,-55.86 261.92,-62.58 220,-90"/>
-<path fill="none" stroke="#df00ff" stroke-dasharray="5,2" d="M218,-90C193.17,-106.24 176.24,-89.35 154,-109 94.6,-161.48 71.19,-258.38 63.38,-301.86"/>
-<polygon fill="#df00ff" stroke="#df00ff" points="59.89,-301.5 61.68,-311.94 66.79,-302.66 59.89,-301.5"/>
+<path fill="none" stroke="none" stroke-dasharray="5,2" d="M361.78,-657.53C347.25,-653.77 331.8,-649.26 317.79,-644.13 271.77,-627.31 265.08,-611.45 218.53,-596.13"/>
+</g>
+<!-- module~input_output_pair_m&#45;&gt;module~tensor_m -->
+<g id="module~~training_configuration_s~~UsesGraph_edge36" class="edge">
+<title>module~input_output_pair_m&#45;&gt;module~tensor_m</title>
+<path fill="none" stroke="none" stroke-dasharray="5,2" d="M398.98,-657.54C378.42,-644.74 345.76,-624.27 317.79,-606.13 301.66,-595.67 298.77,-591.17 281.79,-582.13 274.59,-578.31 266.71,-574.66 259.02,-571.38"/>
+<polygon fill="none" stroke="none" points="260.35,-568.14 249.78,-567.57 257.69,-574.61 260.35,-568.14"/>
+</g>
+<!-- module~mini_batch_m&#45;&gt;module~input_output_pair_m -->
+<g id="module~~training_configuration_s~~UsesGraph_edge37" class="edge">
+<title>module~mini_batch_m&#45;&gt;module~input_output_pair_m</title>
+<path fill="none" stroke="#025563" stroke-dasharray="5,2" d="M588.02,-639.82C560.38,-644.85 523.62,-651.53 491.65,-657.35"/>
+<polygon fill="#025563" stroke="#025563" points="491.27,-653.86 482.05,-659.09 492.52,-660.74 491.27,-653.86"/>
+</g>
+<!-- module~mini_batch_m&#45;&gt;module~kind_parameters_m -->
+<g id="module~~training_configuration_s~~UsesGraph_edge38" class="edge">
+<title>module~mini_batch_m&#45;&gt;module~kind_parameters_m</title>
+<path fill="none" stroke="#025563" stroke-dasharray="5,2" d="M588.15,-634.69C512.15,-637.94 348.05,-638.75 218.53,-596.13"/>
+</g>
+<!-- module~network_configuration_m&#45;&gt;sourcery_m -->
+<g id="module~~training_configuration_s~~UsesGraph_edge39" class="edge">
+<title>module~network_configuration_m&#45;&gt;sourcery_m</title>
+<path fill="none" stroke="#025525" stroke-dasharray="5,2" stroke-opacity="0.019608" d="M346.69,-16.43C306.96,-21.22 257.94,-31.24 218.53,-52.13"/>
+<path fill="none" stroke="#025525" stroke-dasharray="5,2" stroke-opacity="0.019608" d="M216.53,-52.13C190.59,-65.89 176.06,-52.63 153.27,-71.13 104.45,-110.78 77.29,-182.94 65.98,-219.92"/>
+<polygon fill="#025525" fill-opacity="0.019608" stroke="#025525" stroke-opacity="0.019608" points="62.73,-218.57 63.29,-229.15 69.45,-220.54 62.73,-218.57"/>
+</g>
+<!-- module~relu_m&#45;&gt;module~differentiable_activation_strategy_m -->
+<g id="module~~training_configuration_s~~UsesGraph_edge40" class="edge">
+<title>module~relu_m&#45;&gt;module~differentiable_activation_strategy_m</title>
+<path fill="none" stroke="#015925" stroke-dasharray="5,2" stroke-opacity="0.019608" d="M603.85,-400.56C575.95,-394.69 530.82,-385.19 492.42,-377.11"/>
+<polygon fill="#015925" fill-opacity="0.019608" stroke="#015925" stroke-opacity="0.019608" points="493.25,-373.7 482.75,-375.07 491.81,-380.55 493.25,-373.7"/>
+</g>
+<!-- module~relu_m&#45;&gt;module~kind_parameters_m -->
+<g id="module~~training_configuration_s~~UsesGraph_edge41" class="edge">
+<title>module~relu_m&#45;&gt;module~kind_parameters_m</title>
+<path fill="none" stroke="#015925" stroke-dasharray="5,2" stroke-opacity="0.019608" d="M606.41,-418.76C568.44,-437.78 491.48,-472.19 421.3,-478.13"/>
+<path fill="none" stroke="#015925" stroke-dasharray="5,2" stroke-opacity="0.019608" d="M419.3,-478.13C301.01,-488.15 271.14,-488.02 153.27,-502.13 145.3,-503.09 136.97,-504.19 128.7,-505.34"/>
+<polygon fill="#015925" fill-opacity="0.019608" stroke="#015925" stroke-opacity="0.019608" points="128.41,-501.85 119,-506.73 129.4,-508.78 128.41,-501.85"/>
+</g>
+<!-- module~relu_m&#45;&gt;sourcery_m -->
+<g id="module~~training_configuration_s~~UsesGraph_edge42" class="edge">
+<title>module~relu_m&#45;&gt;sourcery_m</title>
+<path fill="none" stroke="#015925" stroke-dasharray="5,2" stroke-opacity="0.019608" d="M603.92,-407.14C550.03,-409.35 423.53,-415.31 317.79,-426.13 273.47,-430.67 259.58,-457.46 218.53,-440.13"/>
+<path fill="none" stroke="#015925" stroke-dasharray="5,2" stroke-opacity="0.019608" d="M216.53,-440.13C138.98,-405.6 88.82,-310.14 69.1,-266.03"/>
+<polygon fill="#015925" fill-opacity="0.019608" stroke="#015925" stroke-opacity="0.019608" points="72.34,-264.69 65.15,-256.9 65.91,-267.47 72.34,-264.69"/>
+</g>
+<!-- module~sigmoid_m&#45;&gt;module~differentiable_activation_strategy_m -->
+<g id="module~~training_configuration_s~~UsesGraph_edge43" class="edge">
+<title>module~sigmoid_m&#45;&gt;module~differentiable_activation_strategy_m</title>
+<path fill="none" stroke="#063255" stroke-dasharray="5,2" d="M596.41,-290.94C584.11,-294.21 570.4,-298.83 558.81,-305.13 540.26,-315.23 541.53,-326.37 522.81,-336.13 515.46,-339.97 507.52,-343.26 499.42,-346.08"/>
+<polygon fill="#063255" stroke="#063255" points="498.61,-342.66 490.16,-349.06 500.76,-349.33 498.61,-342.66"/>
+</g>
+<!-- module~sigmoid_m&#45;&gt;module~kind_parameters_m -->
+<g id="module~~training_configuration_s~~UsesGraph_edge44" class="edge">
+<title>module~sigmoid_m&#45;&gt;module~kind_parameters_m</title>
+<path fill="none" stroke="#063255" stroke-dasharray="5,2" d="M596.25,-293.36C555.15,-303.78 483.77,-319.62 421.3,-322.13"/>
+<path fill="none" stroke="#063255" stroke-dasharray="5,2" d="M419.3,-322.13C373.44,-323.98 360.24,-323.67 317.79,-341.13 221.69,-380.68 124.59,-459.29 82,-496.16"/>
+<polygon fill="#063255" stroke="#063255" points="79.89,-493.36 74.67,-502.58 84.5,-498.63 79.89,-493.36"/>
+</g>
+<!-- module~sigmoid_m&#45;&gt;sourcery_m -->
+<g id="module~~training_configuration_s~~UsesGraph_edge45" class="edge">
+<title>module~sigmoid_m&#45;&gt;sourcery_m</title>
+<path fill="none" stroke="#063255" stroke-dasharray="5,2" d="M596.32,-277.29C583.45,-273.37 569.37,-267.33 558.81,-258.13 533.02,-235.68 552.11,-207.77 522.81,-190.13 406.83,-120.31 352.39,-183.92 218.53,-204.13"/>
+<path fill="none" stroke="#063255" stroke-dasharray="5,2" d="M216.53,-204.13C178.9,-208.37 137.35,-218.98 106.47,-228.06"/>
+<polygon fill="#063255" stroke="#063255" points="105.62,-224.66 97.05,-230.89 107.63,-231.36 105.62,-224.66"/>
 </g>
 <!-- module~step_m&#45;&gt;module~activation_strategy_m -->
-<g id="module~~training_configuration_s~~UsesGraph_edge58" class="edge">
+<g id="module~~training_configuration_s~~UsesGraph_edge46" class="edge">
 <title>module~step_m&#45;&gt;module~activation_strategy_m</title>
-<path fill="none" stroke="#ff00bf" stroke-dasharray="5,2" d="M395.88,-248.81C374.94,-253.1 345.02,-260.23 320,-270 294.46,-279.98 267.17,-295.04 247.57,-306.72"/>
-<polygon fill="#ff00bf" stroke="#ff00bf" points="245.61,-303.81 238.87,-311.98 249.24,-309.8 245.61,-303.81"/>
+<path fill="none" stroke="#310255" stroke-dasharray="5,2" d="M393.05,-249.1C367.73,-253.9 328.19,-261.38 293.15,-268.01"/>
+<polygon fill="#310255" stroke="#310255" points="292.61,-264.55 283.44,-269.85 293.92,-271.43 292.61,-264.55"/>
 </g>
 <!-- module~step_m&#45;&gt;module~kind_parameters_m -->
-<g id="module~~training_configuration_s~~UsesGraph_edge56" class="edge">
+<g id="module~~training_configuration_s~~UsesGraph_edge47" class="edge">
 <title>module~step_m&#45;&gt;module~kind_parameters_m</title>
-<path fill="none" stroke="#ff00bf" stroke-dasharray="5,2" d="M395.62,-239.81C374.53,-235.88 344.54,-228.92 320,-218 274.96,-197.95 267.11,-155.48 220,-170"/>
+<path fill="none" stroke="#310255" stroke-dasharray="5,2" d="M393.04,-234.99C351.76,-222.42 270.99,-205.24 218.53,-242.13"/>
 </g>
 <!-- module~step_m&#45;&gt;sourcery_m -->
-<g id="module~~training_configuration_s~~UsesGraph_edge57" class="edge">
+<g id="module~~training_configuration_s~~UsesGraph_edge48" class="edge">
 <title>module~step_m&#45;&gt;sourcery_m</title>
-<path fill="none" stroke="#ff00bf" stroke-dasharray="5,2" d="M395.67,-237.45C344.5,-224.99 235.32,-199.81 220,-208"/>
+<path fill="none" stroke="#310255" stroke-dasharray="5,2" d="M393.06,-237.87C342.63,-225.98 235.62,-201.55 218.53,-204.13"/>
+</g>
+<!-- module~swish_m&#45;&gt;module~differentiable_activation_strategy_m -->
+<g id="module~~training_configuration_s~~UsesGraph_edge49" class="edge">
+<title>module~swish_m&#45;&gt;module~differentiable_activation_strategy_m</title>
+<path fill="none" stroke="#127025" stroke-dasharray="5,2" stroke-opacity="0.019608" d="M602.99,-330.84C578.23,-335.11 540.4,-341.62 505.67,-347.6"/>
+<polygon fill="#127025" fill-opacity="0.019608" stroke="#127025" stroke-opacity="0.019608" points="505.27,-344.12 496.01,-349.27 506.46,-351.02 505.27,-344.12"/>
+</g>
+<!-- module~swish_m&#45;&gt;module~kind_parameters_m -->
+<g id="module~~training_configuration_s~~UsesGraph_edge50" class="edge">
+<title>module~swish_m&#45;&gt;module~kind_parameters_m</title>
+<path fill="none" stroke="#127025" stroke-dasharray="5,2" stroke-opacity="0.019608" d="M603.25,-324.59C563.4,-322.55 486.58,-319.51 421.3,-322.13"/>
+</g>
+<!-- module~swish_m&#45;&gt;sourcery_m -->
+<g id="module~~training_configuration_s~~UsesGraph_edge51" class="edge">
+<title>module~swish_m&#45;&gt;sourcery_m</title>
+<path fill="none" stroke="#127025" stroke-dasharray="5,2" stroke-opacity="0.019608" d="M603.2,-323.72C588.57,-321.16 571.05,-315.9 558.81,-305.13 528.92,-278.85 555.44,-245.93 522.81,-223.13 467.27,-184.34 285.85,-196.55 218.53,-204.13"/>
+</g>
+<!-- module~tensor_m&#45;&gt;module~kind_parameters_m -->
+<g id="module~~training_configuration_s~~UsesGraph_edge52" class="edge">
+<title>module~tensor_m&#45;&gt;module~kind_parameters_m</title>
+<path fill="none" stroke="#223025" stroke-dasharray="5,2" stroke-opacity="0.019608" d="M186.65,-548.52C167.85,-543.73 142.93,-537.37 120.13,-531.56"/>
+<polygon fill="#223025" fill-opacity="0.019608" stroke="#223025" stroke-opacity="0.019608" points="121.17,-528.21 110.62,-529.13 119.44,-535 121.17,-528.21"/>
+</g>
+<!-- module~trainable_engine_m&#45;&gt;module~differentiable_activation_strategy_m -->
+<g id="module~~training_configuration_s~~UsesGraph_edge53" class="edge">
+<title>module~trainable_engine_m&#45;&gt;module~differentiable_activation_strategy_m</title>
+<path fill="none" stroke="#255019" stroke-dasharray="5,2" stroke-opacity="0.003922" d="M780.33,-429.62C762.15,-416.85 732.19,-397.23 703.83,-385.13 673.58,-372.23 664.96,-370.11 632.32,-366.13"/>
+</g>
+<!-- module~trainable_engine_m&#45;&gt;module~inference_engine_m_ -->
+<g id="module~~training_configuration_s~~UsesGraph_edge54" class="edge">
+<title>module~trainable_engine_m&#45;&gt;module~inference_engine_m_</title>
+<path fill="none" stroke="#255019" stroke-dasharray="5,2" stroke-opacity="0.003922" d="M739.71,-454.73C727.26,-457.44 713.98,-460.33 701.16,-463.13"/>
+<polygon fill="#255019" fill-opacity="0.003922" stroke="#255019" stroke-opacity="0.003922" points="700.55,-459.68 691.53,-465.23 702.04,-466.52 700.55,-459.68"/>
+</g>
+<!-- module~trainable_engine_m&#45;&gt;module~kind_parameters_m -->
+<g id="module~~training_configuration_s~~UsesGraph_edge55" class="edge">
+<title>module~trainable_engine_m&#45;&gt;module~kind_parameters_m</title>
+<path fill="none" stroke="#255019" stroke-dasharray="5,2" stroke-opacity="0.003922" d="M216.53,-516.13C189.03,-505.94 156.91,-504.33 128.92,-505.87"/>
+<polygon fill="#255019" fill-opacity="0.003922" stroke="#255019" stroke-opacity="0.003922" points="128.85,-502.37 119.12,-506.57 129.34,-509.35 128.85,-502.37"/>
+</g>
+<!-- module~trainable_engine_m&#45;&gt;module~mini_batch_m -->
+<g id="module~~training_configuration_s~~UsesGraph_edge56" class="edge">
+<title>module~trainable_engine_m&#45;&gt;module~mini_batch_m</title>
+<path fill="none" stroke="#255019" stroke-dasharray="5,2" stroke-opacity="0.003922" d="M789.45,-454.58C774.14,-477.94 739.11,-529.49 703.83,-568.13 689.27,-584.08 671.12,-600.29 656.75,-612.4"/>
+<polygon fill="#255019" fill-opacity="0.003922" stroke="#255019" stroke-opacity="0.003922" points="654.55,-609.68 649.1,-618.76 659.03,-615.06 654.55,-609.68"/>
+</g>
+<!-- module~trainable_engine_m&#45;&gt;module~tensor_m -->
+<g id="module~~training_configuration_s~~UsesGraph_edge57" class="edge">
+<title>module~trainable_engine_m&#45;&gt;module~tensor_m</title>
+<path fill="none" stroke="#255019" stroke-dasharray="5,2" stroke-opacity="0.003922" d="M630.32,-554.13C540.32,-577.14 513.79,-545.41 421.3,-554.13"/>
+</g>
+<!-- module~trainable_engine_m&#45;&gt;sourcery_m -->
+<g id="module~~training_configuration_s~~UsesGraph_edge58" class="edge">
+<title>module~trainable_engine_m&#45;&gt;sourcery_m</title>
+<path fill="none" stroke="#255019" stroke-dasharray="5,2" stroke-opacity="0.003922" d="M785.73,-454.55C760.59,-480.02 698.44,-537.23 632.32,-554.13"/>
+<path fill="none" stroke="#255019" stroke-dasharray="5,2" stroke-opacity="0.003922" d="M630.32,-554.13C583.64,-566.07 570.73,-545.14 522.81,-540.13 455.35,-533.09 282.13,-539.7 218.53,-516.13"/>
+<path fill="none" stroke="#255019" stroke-dasharray="5,2" stroke-opacity="0.003922" d="M216.53,-516.13C113.87,-472.54 75.19,-325.03 63.72,-266.93"/>
+<polygon fill="#255019" fill-opacity="0.003922" stroke="#255019" stroke-opacity="0.003922" points="67.17,-266.34 61.89,-257.15 60.28,-267.62 67.17,-266.34"/>
 </g>
 </g>
 </svg>
-</div><script>var panmoduletraining_configuration_sUsesGraph = svgPanZoom('#moduletraining_configuration_sUsesGraph', {zoomEnabled: true,controlIconsEnabled: true, fit: true, center: true,}); </script><div><a type="button" class="graph-help" data-toggle="modal" href="#graph-help-text">Help</a></div><div class="modal fade" id="graph-help-text" tabindex="-1" role="dialog"><div class="modal-dialog modal-lg" role="document"><div class="modal-content"><div class="modal-header"><button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button><h4 class="modal-title" id="-graph-help-label">Graph Key</h4></div><div class="modal-body">
-    <p>Nodes of different colours represent the following: </p>
-    <?xml version="1.0" encoding="UTF-8" standalone="no"?>
+</div>                <script>
+                  var panmoduletraining_configuration_sUsesGraph = svgPanZoom('#moduletraining_configuration_sUsesGraph',
+                    {zoomEnabled: true, controlIconsEnabled: true, fit: true, center: true,}
+                  );
+                </script>        <div><a type="button" class="graph-help" data-toggle="modal" href="#UsesGraph-help-text">Help</a></div>
+          <div class="modal fade" id="UsesGraph-help-text" tabindex="-1" role="dialog">
+            <div class="modal-dialog modal-lg" role="document">
+              <div class="modal-content">
+                <div class="modal-header">
+                  <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                  </button>
+                  <h4 class="modal-title" id="-graph-help-label">Graph Key</h4>
+                </div>
+              <div class="modal-body">
+<p>Nodes of different colours represent the following: </p>
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN"
  "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
-<!-- Generated by graphviz version 2.43.0 (0)
+<!-- Generated by graphviz version 9.0.0 (20230911.1827)
  -->
 <!-- Title: Graph Key Pages: 1 -->
-<svg width="518pt" height="32pt"
- viewBox="0.00 0.00 517.50 32.00" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
-<g id="graph0" class="graph" transform="scale(1 1) rotate(0) translate(4 28)">
+<svg width="511pt" height="32pt"
+ viewBox="0.00 0.00 510.88 32.27" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+<g id="graph0" class="graph" transform="scale(1 1) rotate(0) translate(4 28.27)">
 <title>Graph Key</title>
-<polygon fill="white" stroke="transparent" points="-4,4 -4,-28 513.5,-28 513.5,4 -4,4"/>
+<polygon fill="white" stroke="none" points="-4,4 -4,-28.27 506.88,-28.27 506.88,4 -4,4"/>
 <!-- Module -->
 <g id="node1" class="node">
 <title>Module</title>
-<polygon fill="#337ab7" stroke="#337ab7" points="54,-24 0,-24 0,0 54,0 54,-24"/>
-<text text-anchor="middle" x="27" y="-9.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">Module</text>
+<polygon fill="#337ab7" stroke="#337ab7" points="54,-24.27 0,-24.27 0,0 54,0 54,-24.27"/>
+<text text-anchor="middle" x="27" y="-8.53" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">Module</text>
 </g>
 <!-- Submodule -->
 <g id="node2" class="node">
 <title>Submodule</title>
-<polygon fill="#5bc0de" stroke="#5bc0de" points="145.5,-24 72.5,-24 72.5,0 145.5,0 145.5,-24"/>
-<text text-anchor="middle" x="109" y="-9.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">Submodule</text>
+<polygon fill="#5bc0de" stroke="#5bc0de" points="144.13,-24.27 71.87,-24.27 71.87,0 144.13,0 144.13,-24.27"/>
+<text text-anchor="middle" x="108" y="-8.53" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">Submodule</text>
 </g>
 <!-- Subroutine -->
 <g id="node3" class="node">
 <title>Subroutine</title>
-<polygon fill="#d9534f" stroke="#d9534f" points="234,-24 164,-24 164,0 234,0 234,-24"/>
-<text text-anchor="middle" x="199" y="-9.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">Subroutine</text>
+<polygon fill="#d9534f" stroke="#d9534f" points="231.63,-24.27 162.37,-24.27 162.37,0 231.63,0 231.63,-24.27"/>
+<text text-anchor="middle" x="197" y="-8.53" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">Subroutine</text>
 </g>
 <!-- Function -->
 <g id="node4" class="node">
 <title>Function</title>
-<polygon fill="#d94e8f" stroke="#d94e8f" points="310,-24 252,-24 252,0 310,0 310,-24"/>
-<text text-anchor="middle" x="281" y="-9.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">Function</text>
+<polygon fill="#d94e8f" stroke="#d94e8f" points="306.26,-24.27 249.74,-24.27 249.74,0 306.26,0 306.26,-24.27"/>
+<text text-anchor="middle" x="278" y="-8.53" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">Function</text>
 </g>
 <!-- Program -->
 <g id="node5" class="node">
 <title>Program</title>
-<polygon fill="#f0ad4e" stroke="#f0ad4e" points="386,-24 328,-24 328,0 386,0 386,-24"/>
-<text text-anchor="middle" x="357" y="-9.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">Program</text>
+<polygon fill="#f0ad4e" stroke="#f0ad4e" points="381.26,-24.27 324.74,-24.27 324.74,0 381.26,0 381.26,-24.27"/>
+<text text-anchor="middle" x="353" y="-8.53" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">Program</text>
 </g>
 <!-- This Page&#39;s Entity -->
 <g id="node6" class="node">
 <title>This Page&#39;s Entity</title>
-<polygon fill="none" stroke="black" points="509.5,-24 404.5,-24 404.5,0 509.5,0 509.5,-24"/>
-<text text-anchor="middle" x="457" y="-9.6" font-family="Helvetica,sans-Serif" font-size="10.50">This Page&#39;s Entity</text>
+<polygon fill="none" stroke="black" points="502.88,-24.27 399.12,-24.27 399.12,0 502.88,0 502.88,-24.27"/>
+<text text-anchor="middle" x="451" y="-8.53" font-family="Helvetica,sans-Serif" font-size="10.50">This Page&#39;s Entity</text>
 </g>
 </g>
 </svg>
 
-    
-    <p>Solid arrows point from a submodule to the (sub)module which it is
-    descended from. Dashed arrows point from a module or program unit to 
-    modules which it uses. Where possible, edges connecting nodes are given different colours to make them easier to distinguish in large graphs.
-    </p>
-    </div></div></div></div>
-      </li>
-      </ul>
+<p>Solid arrows point from a submodule to the (sub)module which it is
+descended from. Dashed arrows point from a module or program unit to 
+modules which it uses.
+</p>
+ Where possible, edges connecting nodes are
+given different colours to make them easier to distinguish in
+large graphs.</div>
+            </div>
+          </div>
+        </div>
+            </li>
+        </ul>
+      </div>
     </div>
 
-    
-    <br>
-
-    <section class="visible-xs visible-sm hidden-md">
-      <h3>Contents</h3>
- 
-<div class="panel panel-primary">
-  <div class="panel-heading text-left"><h3 class="panel-title"><a data-toggle="collapse" href="#vars-1">Variables</a></h3></div>
-  <div id="vars-1" class="panel-collapse collapse">
-    <div class="list-group">
-      <a class="list-group-item" href="../module/training_configuration_s.html#variable-footer">footer</a>
-      <a class="list-group-item" href="../module/training_configuration_s.html#variable-header">header</a>
-      <a class="list-group-item" href="../module/training_configuration_s.html#variable-separator">separator</a>
-    </div>
-  </div>
-</div>
-<div class="panel panel-primary">
-  <div class="panel-heading text-left"><h3 class="panel-title"><a data-toggle="collapse" href="#modprocs-1">Module Procedures</a></h3></div>
-  <div id="modprocs-1" class="panel-collapse collapse">
-    <div class="list-group">
-      <a class="list-group-item" href="../module/training_configuration_s.html#proc-differentiable_activation_strategy">differentiable_activation_strategy</a>
-      <a class="list-group-item" href="../module/training_configuration_s.html#proc-equals~3">equals</a>
-      <a class="list-group-item" href="../module/training_configuration_s.html#proc-from_components">from_components</a>
-      <a class="list-group-item" href="../module/training_configuration_s.html#proc-from_file">from_file</a>
-      <a class="list-group-item" href="../module/training_configuration_s.html#proc-learning_rate~2">learning_rate</a>
-      <a class="list-group-item" href="../module/training_configuration_s.html#proc-mini_batches~2">mini_batches</a>
-      <a class="list-group-item" href="../module/training_configuration_s.html#proc-nodes_per_layer~3">nodes_per_layer</a>
-      <a class="list-group-item" href="../module/training_configuration_s.html#proc-optimizer_name~2">optimizer_name</a>
-      <a class="list-group-item" href="../module/training_configuration_s.html#proc-skip_connections~2">skip_connections</a>
-      <a class="list-group-item" href="../module/training_configuration_s.html#proc-to_json~4">to_json</a>
-    </div>
-  </div>
-</div>
-
-    </section>
-    <br class="visible-xs visible-sm hidden-md">
-
-
-    <section>
-    <h2>Variables</h2>
-    <table class="table table-striped varlist">
-<thead><tr><th>Type</th><th>Visibility</th><th>Attributes</th><th></th><th>Name</th><th></th><th>Initial</th><th></th></thead>
-<tbody>
-<tr>
-  <td><span class="anchor" id="variable-footer"></span>character(len=*),</td>
-<td>private,</td>  <td>parameter</td><td>::</td>
-  <td><strong>footer</strong></td><td> =</td><td>"}"</td><td></td>
-</tr>
-<tr>
-  <td><span class="anchor" id="variable-header"></span>character(len=*),</td>
-<td>private,</td>  <td>parameter</td><td>::</td>
-  <td><strong>header</strong></td><td> =</td><td>"{"</td><td></td>
-</tr>
-<tr>
-  <td><span class="anchor" id="variable-separator"></span>character(len=*),</td>
-<td>private,</td>  <td>parameter</td><td>::</td>
-  <td><strong>separator</strong></td><td> =</td><td>","</td><td></td>
-</tr>
-</tbody>
-</table>
-
-    </section>
-    <br>
-    
-    
-
-    
-    
-
-    
-    
+      
+      <br>
 
 
         <section>
-        <h2>Module Procedures</h2>
-          <div class="panel panel-default">
-  <div class="panel-heading codesum"><span class="anchor" id="proc-differentiable_activation_strategy"></span><h3>module procedure <a href='../proc/differentiable_activation_strategy.html'>differentiable_activation_strategy</a> <small>module module function differentiable_activation_strategy(self) result(strategy)</small>   <a href='../interface/differentiable_activation_strategy.html'><button type="button" class="btn btn-info depwarn">Interface &rarr;</button></a>
+          <h2>Variables</h2>
+            <table class="table table-striped varlist">
+    <thead>
+      <tr>
+        <th scope="col">Type</th>
+<th scope="col">Visibility</th>        <th scope="col">Attributes</th>
+        <th scope="col"></th>
+        <th scope="col">Name</th>
+<th></th><th scope="col">Initial</th>        <th scope="col"></th>
+    </thead>
+    <tbody>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-footer"></span>
+              character(len=*),
+            </td>
+              <td>private,</td>
+            <td>
+parameter               
+            </td>
+            <td>::</td>
+            <td><strong>footer</strong></td>
+<td> =</td>
+                <td>&#34;}&#34;</td>
+            <td>
+                
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-header"></span>
+              character(len=*),
+            </td>
+              <td>private,</td>
+            <td>
+parameter               
+            </td>
+            <td>::</td>
+            <td><strong>header</strong></td>
+<td> =</td>
+                <td>&#34;{&#34;</td>
+            <td>
+                
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-separator"></span>
+              character(len=*),
+            </td>
+              <td>private,</td>
+            <td>
+parameter               
+            </td>
+            <td>::</td>
+            <td><strong>separator</strong></td>
+<td> =</td>
+                <td>&#34;,&#34;</td>
+            <td>
+                
+            </td>
+        </tr>
+    </tbody>
+  </table>
+
+        </section>
+        <br>
+
+
+
+
+
+
+
+
+
+        <section>
+          <h2>Module Procedures</h2>
+              <div class="card">
+    <div class="card-header codesum"><span class="anchor" id="proc-differentiable_activation_strategy"></span><h3>module procedure <a href='../proc/differentiable_activation_strategy.html'>differentiable_activation_strategy</a> <small>module function differentiable_activation_strategy(self) result(strategy)</small>  
+    <a href='../interface/differentiable_activation_strategy.html'><button type="button" class="btn btn-info depwarn">Interface &rarr;</button></a>
 </h3></div>
-  <div class="panel-body">
-           
-<h4>Arguments</h4>      <table class="table table-striped varlist">
-<thead><tr><th>Type</th><th>Intent</th><th>Optional</th><th>Attributes</th><th></th><th>Name</th><th></th></thead>
-<tbody>
-<tr>
-  <td><span class="anchor" ></span>class(<a href='../type/training_configuration_t.html'>training_configuration_t</a>),</td>
+    <div class="card-body">
+          
+  
+
+  <h4>Arguments</h4>
+      <table class="table table-striped varlist">
+    <thead>
+      <tr>
+        <th scope="col">Type</th>
+<th scope="col">Intent</th><th scope="col">Optional</th>        <th scope="col">Attributes</th>
+        <th scope="col"></th>
+        <th scope="col">Name</th>
+        <th scope="col"></th>
+    </thead>
+    <tbody>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-self~20"></span>
+              class(<a href='../type/training_configuration_t.html'>training_configuration_t</a>),
+            </td>
 <td>intent(in)</td>
-  <td></td>  <td></td><td>::</td>
-  <td><strong>self</strong></td><td></td>
-</tr>
-</tbody>
-</table>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>self</strong></td>
+            <td>
 
-<h4>Return Value <small>class(<a href='../type/differentiable_activation_strategy_t.html'>differentiable_activation_strategy_t</a>),allocatable</small></h4>  
+            </td>
+        </tr>
+    </tbody>
+  </table>
 
-  </div>
-  </div>
-
-          <div class="panel panel-default">
-  <div class="panel-heading codesum"><span class="anchor" id="proc-equals~3"></span><h3>module procedure <a href='../proc/equals~3.html'>equals</a> <small>elemental module module function equals(lhs, rhs) result(lhs_eq_rhs)</small>   <a href='../interface/equals~3.html'><button type="button" class="btn btn-info depwarn">Interface &rarr;</button></a>
-</h3></div>
-  <div class="panel-body">
-           
-<h4>Arguments</h4>      <table class="table table-striped varlist">
-<thead><tr><th>Type</th><th>Intent</th><th>Optional</th><th>Attributes</th><th></th><th>Name</th><th></th></thead>
-<tbody>
-<tr>
-  <td><span class="anchor" ></span>class(<a href='../type/training_configuration_t.html'>training_configuration_t</a>),</td>
-<td>intent(in)</td>
-  <td></td>  <td></td><td>::</td>
-  <td><strong>lhs</strong></td><td></td>
-</tr>
-<tr>
-  <td><span class="anchor" ></span>class(<a href='../type/training_configuration_t.html'>training_configuration_t</a>),</td>
-<td>intent(in)</td>
-  <td></td>  <td></td><td>::</td>
-  <td><strong>rhs</strong></td><td></td>
-</tr>
-</tbody>
-</table>
-
-<h4>Return Value <small>logical</small></h4>  
-
-  </div>
-  </div>
-
-          <div class="panel panel-default">
-  <div class="panel-heading codesum"><span class="anchor" id="proc-from_components"></span><h3>module procedure <a href='../proc/from_components.html'>from_components</a> <small>module procedure from_components()</small></h3></div>
-  <div class="panel-body">
-           
-<h4>Arguments</h4>      <em>None</em>
-
-  </div>
-  </div>
-
-          <div class="panel panel-default">
-  <div class="panel-heading codesum"><span class="anchor" id="proc-from_file"></span><h3>module procedure <a href='../proc/from_file.html'>from_file</a> <small>module procedure from_file()</small></h3></div>
-  <div class="panel-body">
-           
-<h4>Arguments</h4>      <em>None</em>
-
-  </div>
-  </div>
-
-          <div class="panel panel-default">
-  <div class="panel-heading codesum"><span class="anchor" id="proc-learning_rate~2"></span><h3>module procedure <a href='../proc/learning_rate~2.html'>learning_rate</a> <small>elemental module module function learning_rate(self) result(rate)</small>   <a href='../interface/learning_rate~2.html'><button type="button" class="btn btn-info depwarn">Interface &rarr;</button></a>
-</h3></div>
-  <div class="panel-body">
-           
-<h4>Arguments</h4>      <table class="table table-striped varlist">
-<thead><tr><th>Type</th><th>Intent</th><th>Optional</th><th>Attributes</th><th></th><th>Name</th><th></th></thead>
-<tbody>
-<tr>
-  <td><span class="anchor" ></span>class(<a href='../type/training_configuration_t.html'>training_configuration_t</a>),</td>
-<td>intent(in)</td>
-  <td></td>  <td></td><td>::</td>
-  <td><strong>self</strong></td><td></td>
-</tr>
-</tbody>
-</table>
-
-<h4>Return Value <small>real(kind=rkind)</small></h4>  
-
-  </div>
-  </div>
-
-          <div class="panel panel-default">
-  <div class="panel-heading codesum"><span class="anchor" id="proc-mini_batches~2"></span><h3>module procedure <a href='../proc/mini_batches~2.html'>mini_batches</a> <small>elemental module module function mini_batches(self) result(num_mini_batches)</small>   <a href='../interface/mini_batches~2.html'><button type="button" class="btn btn-info depwarn">Interface &rarr;</button></a>
-</h3></div>
-  <div class="panel-body">
-           
-<h4>Arguments</h4>      <table class="table table-striped varlist">
-<thead><tr><th>Type</th><th>Intent</th><th>Optional</th><th>Attributes</th><th></th><th>Name</th><th></th></thead>
-<tbody>
-<tr>
-  <td><span class="anchor" ></span>class(<a href='../type/training_configuration_t.html'>training_configuration_t</a>),</td>
-<td>intent(in)</td>
-  <td></td>  <td></td><td>::</td>
-  <td><strong>self</strong></td><td></td>
-</tr>
-</tbody>
-</table>
-
-<h4>Return Value <small>integer</small></h4>  
-
-  </div>
-  </div>
-
-          <div class="panel panel-default">
-  <div class="panel-heading codesum"><span class="anchor" id="proc-nodes_per_layer~3"></span><h3>module procedure <a href='../proc/nodes_per_layer~3.html'>nodes_per_layer</a> <small>module module function nodes_per_layer(self) result(nodes)</small>   <a href='../interface/nodes_per_layer~3.html'><button type="button" class="btn btn-info depwarn">Interface &rarr;</button></a>
-</h3></div>
-  <div class="panel-body">
-           
-<h4>Arguments</h4>      <table class="table table-striped varlist">
-<thead><tr><th>Type</th><th>Intent</th><th>Optional</th><th>Attributes</th><th></th><th>Name</th><th></th></thead>
-<tbody>
-<tr>
-  <td><span class="anchor" ></span>class(<a href='../type/training_configuration_t.html'>training_configuration_t</a>),</td>
-<td>intent(in)</td>
-  <td></td>  <td></td><td>::</td>
-  <td><strong>self</strong></td><td></td>
-</tr>
-</tbody>
-</table>
-
-<h4>Return Value <small>integer,allocatable, (:)</small></h4>  
-
-  </div>
-  </div>
-
-          <div class="panel panel-default">
-  <div class="panel-heading codesum"><span class="anchor" id="proc-optimizer_name~2"></span><h3>module procedure <a href='../proc/optimizer_name~2.html'>optimizer_name</a> <small>elemental module module function optimizer_name(self) result(identifier)</small>   <a href='../interface/optimizer_name~2.html'><button type="button" class="btn btn-info depwarn">Interface &rarr;</button></a>
-</h3></div>
-  <div class="panel-body">
-           
-<h4>Arguments</h4>      <table class="table table-striped varlist">
-<thead><tr><th>Type</th><th>Intent</th><th>Optional</th><th>Attributes</th><th></th><th>Name</th><th></th></thead>
-<tbody>
-<tr>
-  <td><span class="anchor" ></span>class(<a href='../type/training_configuration_t.html'>training_configuration_t</a>),</td>
-<td>intent(in)</td>
-  <td></td>  <td></td><td>::</td>
-  <td><strong>self</strong></td><td></td>
-</tr>
-</tbody>
-</table>
-
-<h4>Return Value <small>type(string_t)</small></h4>  
-
-  </div>
-  </div>
-
-          <div class="panel panel-default">
-  <div class="panel-heading codesum"><span class="anchor" id="proc-skip_connections~2"></span><h3>module procedure <a href='../proc/skip_connections~2.html'>skip_connections</a> <small>elemental module module function skip_connections(self) result(using_skip)</small>   <a href='../interface/skip_connections~2.html'><button type="button" class="btn btn-info depwarn">Interface &rarr;</button></a>
-</h3></div>
-  <div class="panel-body">
-           
-<h4>Arguments</h4>      <table class="table table-striped varlist">
-<thead><tr><th>Type</th><th>Intent</th><th>Optional</th><th>Attributes</th><th></th><th>Name</th><th></th></thead>
-<tbody>
-<tr>
-  <td><span class="anchor" ></span>class(<a href='../type/training_configuration_t.html'>training_configuration_t</a>),</td>
-<td>intent(in)</td>
-  <td></td>  <td></td><td>::</td>
-  <td><strong>self</strong></td><td></td>
-</tr>
-</tbody>
-</table>
-
-<h4>Return Value <small>logical</small></h4>  
-
-  </div>
-  </div>
-
-          <div class="panel panel-default">
-  <div class="panel-heading codesum"><span class="anchor" id="proc-to_json~4"></span><h3>module procedure <a href='../proc/to_json~4.html'>to_json</a> <small>pure module module function to_json(self) result(json_lines)</small>   <a href='../interface/to_json~4.html'><button type="button" class="btn btn-info depwarn">Interface &rarr;</button></a>
-</h3></div>
-  <div class="panel-body">
-           
-<h4>Arguments</h4>      <table class="table table-striped varlist">
-<thead><tr><th>Type</th><th>Intent</th><th>Optional</th><th>Attributes</th><th></th><th>Name</th><th></th></thead>
-<tbody>
-<tr>
-  <td><span class="anchor" ></span>class(<a href='../type/training_configuration_t.html'>training_configuration_t</a>),</td>
-<td>intent(in)</td>
-  <td></td>  <td></td><td>::</td>
-  <td><strong>self</strong></td><td></td>
-</tr>
-</tbody>
-</table>
-
-<h4>Return Value <small>type(string_t),allocatable, (:)</small></h4>  
-
-  </div>
-  </div>
-
-        </section>    
+    <h4>
+    Return Value
+    <small>class(<a href='../type/differentiable_activation_strategy_t.html'>differentiable_activation_strategy_t</a>), allocatable</small>
+    </h4>
     
+
     </div>
   </div>
 
-    <hr>    
+              <div class="card">
+    <div class="card-header codesum"><span class="anchor" id="proc-equals~2"></span><h3>module procedure <a href='../proc/equals~2.html'>equals</a> <small>elemental module function equals(lhs, rhs) result(lhs_eq_rhs)</small>  
+    <a href='../interface/equals~2.html'><button type="button" class="btn btn-info depwarn">Interface &rarr;</button></a>
+</h3></div>
+    <div class="card-body">
+          
+  
+
+  <h4>Arguments</h4>
+      <table class="table table-striped varlist">
+    <thead>
+      <tr>
+        <th scope="col">Type</th>
+<th scope="col">Intent</th><th scope="col">Optional</th>        <th scope="col">Attributes</th>
+        <th scope="col"></th>
+        <th scope="col">Name</th>
+        <th scope="col"></th>
+    </thead>
+    <tbody>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-lhs~3"></span>
+              class(<a href='../type/training_configuration_t.html'>training_configuration_t</a>),
+            </td>
+<td>intent(in)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>lhs</strong></td>
+            <td>
+
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-rhs~3"></span>
+              class(<a href='../type/training_configuration_t.html'>training_configuration_t</a>),
+            </td>
+<td>intent(in)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>rhs</strong></td>
+            <td>
+
+            </td>
+        </tr>
+    </tbody>
+  </table>
+
+    <h4>
+    Return Value
+    <small>logical</small>
+    </h4>
+    
+
+    </div>
+  </div>
+
+              <div class="card">
+    <div class="card-header codesum"><span class="anchor" id="proc-from_components"></span><h3>module procedure <a href='../proc/from_components.html'>from_components</a> <small>module function from_components(hyperparameters, network_configuration) result(training_configuration)</small>  
+</h3></div>
+    <div class="card-body">
+          
+  
+
+  <h4>Arguments</h4>
+      <table class="table table-striped varlist">
+    <thead>
+      <tr>
+        <th scope="col">Type</th>
+<th scope="col">Intent</th><th scope="col">Optional</th>        <th scope="col">Attributes</th>
+        <th scope="col"></th>
+        <th scope="col">Name</th>
+        <th scope="col"></th>
+    </thead>
+    <tbody>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-hyperparameters"></span>
+              type(<a href='../type/hyperparameters_t.html'>hyperparameters_t</a>),
+            </td>
+<td>intent(in)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>hyperparameters</strong></td>
+            <td>
+
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-network_configuration"></span>
+              type(<a href='../type/network_configuration_t.html'>network_configuration_t</a>),
+            </td>
+<td>intent(in)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>network_configuration</strong></td>
+            <td>
+
+            </td>
+        </tr>
+    </tbody>
+  </table>
+
+    <h4>
+    Return Value
+    <small>type(<a href='../type/training_configuration_t.html'>training_configuration_t</a>)</small>
+    </h4>
+    
+
+    </div>
+  </div>
+
+              <div class="card">
+    <div class="card-header codesum"><span class="anchor" id="proc-from_file"></span><h3>module procedure <a href='../proc/from_file.html'>from_file</a> <small>module function from_file(file_object) result(training_configuration)</small>  
+</h3></div>
+    <div class="card-body">
+          
+  
+
+  <h4>Arguments</h4>
+      <table class="table table-striped varlist">
+    <thead>
+      <tr>
+        <th scope="col">Type</th>
+<th scope="col">Intent</th><th scope="col">Optional</th>        <th scope="col">Attributes</th>
+        <th scope="col"></th>
+        <th scope="col">Name</th>
+        <th scope="col"></th>
+    </thead>
+    <tbody>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-file_object"></span>
+              type(file_t),
+            </td>
+<td>intent(in)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>file_object</strong></td>
+            <td>
+
+            </td>
+        </tr>
+    </tbody>
+  </table>
+
+    <h4>
+    Return Value
+    <small>type(<a href='../type/training_configuration_t.html'>training_configuration_t</a>)</small>
+    </h4>
+    
+
+    </div>
+  </div>
+
+              <div class="card">
+    <div class="card-header codesum"><span class="anchor" id="proc-learning_rate"></span><h3>module procedure <a href='../proc/learning_rate.html'>learning_rate</a> <small>elemental module function learning_rate(self) result(rate)</small>  
+    <a href='../interface/learning_rate.html'><button type="button" class="btn btn-info depwarn">Interface &rarr;</button></a>
+</h3></div>
+    <div class="card-body">
+          
+  
+
+  <h4>Arguments</h4>
+      <table class="table table-striped varlist">
+    <thead>
+      <tr>
+        <th scope="col">Type</th>
+<th scope="col">Intent</th><th scope="col">Optional</th>        <th scope="col">Attributes</th>
+        <th scope="col"></th>
+        <th scope="col">Name</th>
+        <th scope="col"></th>
+    </thead>
+    <tbody>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-self~21"></span>
+              class(<a href='../type/training_configuration_t.html'>training_configuration_t</a>),
+            </td>
+<td>intent(in)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>self</strong></td>
+            <td>
+
+            </td>
+        </tr>
+    </tbody>
+  </table>
+
+    <h4>
+    Return Value
+    <small>real(kind=rkind)</small>
+    </h4>
+    
+
+    </div>
+  </div>
+
+              <div class="card">
+    <div class="card-header codesum"><span class="anchor" id="proc-mini_batches"></span><h3>module procedure <a href='../proc/mini_batches.html'>mini_batches</a> <small>elemental module function mini_batches(self) result(num_mini_batches)</small>  
+    <a href='../interface/mini_batches.html'><button type="button" class="btn btn-info depwarn">Interface &rarr;</button></a>
+</h3></div>
+    <div class="card-body">
+          
+  
+
+  <h4>Arguments</h4>
+      <table class="table table-striped varlist">
+    <thead>
+      <tr>
+        <th scope="col">Type</th>
+<th scope="col">Intent</th><th scope="col">Optional</th>        <th scope="col">Attributes</th>
+        <th scope="col"></th>
+        <th scope="col">Name</th>
+        <th scope="col"></th>
+    </thead>
+    <tbody>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-self~22"></span>
+              class(<a href='../type/training_configuration_t.html'>training_configuration_t</a>),
+            </td>
+<td>intent(in)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>self</strong></td>
+            <td>
+
+            </td>
+        </tr>
+    </tbody>
+  </table>
+
+    <h4>
+    Return Value
+    <small>integer</small>
+    </h4>
+    
+
+    </div>
+  </div>
+
+              <div class="card">
+    <div class="card-header codesum"><span class="anchor" id="proc-nodes_per_layer"></span><h3>module procedure <a href='../proc/nodes_per_layer.html'>nodes_per_layer</a> <small>module function nodes_per_layer(self) result(nodes)</small>  
+    <a href='../interface/nodes_per_layer~2.html'><button type="button" class="btn btn-info depwarn">Interface &rarr;</button></a>
+</h3></div>
+    <div class="card-body">
+          
+  
+
+  <h4>Arguments</h4>
+      <table class="table table-striped varlist">
+    <thead>
+      <tr>
+        <th scope="col">Type</th>
+<th scope="col">Intent</th><th scope="col">Optional</th>        <th scope="col">Attributes</th>
+        <th scope="col"></th>
+        <th scope="col">Name</th>
+        <th scope="col"></th>
+    </thead>
+    <tbody>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-self~23"></span>
+              class(<a href='../type/training_configuration_t.html'>training_configuration_t</a>),
+            </td>
+<td>intent(in)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>self</strong></td>
+            <td>
+
+            </td>
+        </tr>
+    </tbody>
+  </table>
+
+    <h4>
+    Return Value
+    <small>integer, allocatable, (:)</small>
+    </h4>
+    
+
+    </div>
+  </div>
+
+              <div class="card">
+    <div class="card-header codesum"><span class="anchor" id="proc-optimizer_name"></span><h3>module procedure <a href='../proc/optimizer_name.html'>optimizer_name</a> <small>elemental module function optimizer_name(self) result(identifier)</small>  
+    <a href='../interface/optimizer_name.html'><button type="button" class="btn btn-info depwarn">Interface &rarr;</button></a>
+</h3></div>
+    <div class="card-body">
+          
+  
+
+  <h4>Arguments</h4>
+      <table class="table table-striped varlist">
+    <thead>
+      <tr>
+        <th scope="col">Type</th>
+<th scope="col">Intent</th><th scope="col">Optional</th>        <th scope="col">Attributes</th>
+        <th scope="col"></th>
+        <th scope="col">Name</th>
+        <th scope="col"></th>
+    </thead>
+    <tbody>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-self~24"></span>
+              class(<a href='../type/training_configuration_t.html'>training_configuration_t</a>),
+            </td>
+<td>intent(in)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>self</strong></td>
+            <td>
+
+            </td>
+        </tr>
+    </tbody>
+  </table>
+
+    <h4>
+    Return Value
+    <small>type(string_t)</small>
+    </h4>
+    
+
+    </div>
+  </div>
+
+              <div class="card">
+    <div class="card-header codesum"><span class="anchor" id="proc-skip_connections"></span><h3>module procedure <a href='../proc/skip_connections.html'>skip_connections</a> <small>elemental module function skip_connections(self) result(using_skip)</small>  
+    <a href='../interface/skip_connections~2.html'><button type="button" class="btn btn-info depwarn">Interface &rarr;</button></a>
+</h3></div>
+    <div class="card-body">
+          
+  
+
+  <h4>Arguments</h4>
+      <table class="table table-striped varlist">
+    <thead>
+      <tr>
+        <th scope="col">Type</th>
+<th scope="col">Intent</th><th scope="col">Optional</th>        <th scope="col">Attributes</th>
+        <th scope="col"></th>
+        <th scope="col">Name</th>
+        <th scope="col"></th>
+    </thead>
+    <tbody>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-self~25"></span>
+              class(<a href='../type/training_configuration_t.html'>training_configuration_t</a>),
+            </td>
+<td>intent(in)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>self</strong></td>
+            <td>
+
+            </td>
+        </tr>
+    </tbody>
+  </table>
+
+    <h4>
+    Return Value
+    <small>logical</small>
+    </h4>
+    
+
+    </div>
+  </div>
+
+              <div class="card">
+    <div class="card-header codesum"><span class="anchor" id="proc-to_json"></span><h3>module procedure <a href='../proc/to_json.html'>to_json</a> <small>pure module function to_json(self) result(json_lines)</small>  
+    <a href='../interface/to_json~3.html'><button type="button" class="btn btn-info depwarn">Interface &rarr;</button></a>
+</h3></div>
+    <div class="card-body">
+          
+  
+
+  <h4>Arguments</h4>
+      <table class="table table-striped varlist">
+    <thead>
+      <tr>
+        <th scope="col">Type</th>
+<th scope="col">Intent</th><th scope="col">Optional</th>        <th scope="col">Attributes</th>
+        <th scope="col"></th>
+        <th scope="col">Name</th>
+        <th scope="col"></th>
+    </thead>
+    <tbody>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-self~26"></span>
+              class(<a href='../type/training_configuration_t.html'>training_configuration_t</a>),
+            </td>
+<td>intent(in)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>self</strong></td>
+            <td>
+
+            </td>
+        </tr>
+    </tbody>
+  </table>
+
+    <h4>
+    Return Value
+    <small>type(string_t), allocatable, (:)</small>
+    </h4>
+    
+
+    </div>
+  </div>
+
+        </section>
+    </div>
+  </div>
+
+      <hr>
     </div> <!-- /container -->
     <footer>
       <div class="container">
-      <div class="row">
-        <div class="col-xs-6 col-md-6"><p>Inference-Engine was developed by Sourcery Institute<br>&copy; 2023 
+        <div class="row justify-content-between">
+          <div class="col"><p>Inference-Engine was developed by Berkeley Lab<br>&copy; 2023 
 </p>
+          </div>
+          <div class="col">
+            <p class="text-end">
+              Documentation generated by
+              <a href="https://github.com/Fortran-FOSS-Programmers/ford">FORD</a>
+ on 2023-11-26 04:14              </p>
+          </div>
         </div>
-        <div class="col-xs-6 col-md-6">
-          <p class="text-right">
-            Documentation generated by 
-            <a href="https://github.com/Fortran-FOSS-Programmers/ford">FORD</a>
- on 2023-11-06 09:19            </p>
-        </div>
-      </div>
-      <br>
-      </div> <!-- /container -->    
+        <br>
+      </div> <!-- /container -->
     </footer>
 
-    <!-- Bootstrap core JavaScript
-    ================================================== -->
+    <!-- Bootstrap core JavaScript -->
     <!-- Placed at the end of the document so the pages load faster -->
-<!--
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
--->
-    <script src="../js/bootstrap.min.js"></script>
-    <!-- IE10 viewport hack for Surface/desktop Windows 8 bug -->
-    <script src="../js/ie10-viewport-bug-workaround.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"
+            integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p" crossorigin="anonymous"></script>    
 
     <!-- MathJax JavaScript
-    ================================================== -->
-    <!-- Placed at the end of the document so the pages load faster -->
-    <script type="text/x-mathjax-config">
-      MathJax.Hub.Config({
-        TeX: { extensions: ['AMSmath.js','AMSsymbols.js','noErrors.js','noUndefined.js'], equationNumbers: { autoNumber: 'AMS' } },
-        jax: ['input/TeX','input/MathML','output/HTML-CSS'],
-        extensions: ['tex2jax.js','mml2jax.js','MathMenu.js','MathZoom.js']
-      });
-    </script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
-    
-    <script src="../tipuesearch/tipuesearch_content.js"></script>
-    <script src="../tipuesearch/tipuesearch_set.js"></script>
-    <script src="../tipuesearch/tipuesearch.js"></script>
-    
+             ================================================== -->
+             <!-- Placed at the end of the document so the pages load faster -->
+        <script type="text/x-mathjax-config">
+          MathJax.Hub.Config({
+          TeX: { extensions: ['AMSmath.js','AMSsymbols.js','noErrors.js','noUndefined.js'], equationNumbers: { autoNumber: 'AMS' } },
+          jax: ['input/TeX','input/MathML','output/HTML-CSS'],
+          extensions: ['tex2jax.js','mml2jax.js','MathMenu.js','MathZoom.js']
+          });
+        </script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+
+          <script src="../tipuesearch/tipuesearch_content.js"></script>
+          <script src="../tipuesearch/tipuesearch_set.js"></script>
+          <script src="../tipuesearch/tipuesearch.js"></script>
+
   </body>
 </html>

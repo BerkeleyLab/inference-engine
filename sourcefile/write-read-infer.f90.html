@@ -4,786 +4,796 @@
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-   <meta name="description" content="A library supporting concurrent forward propagation on multiple fully-connected deep neural networks">
-    <meta name="author" content="Sourcery Institute" >
+      <meta name="description" content="A deep learning library targetingo high-performance computing (HPC) applications with performance-critical inference and training needs.">
+    <meta name="author" content="Berkeley Lab" >
     <link rel="icon" href="../favicon.png">
 
     <title>write-read-infer.f90 &ndash; Inference-Engine</title>
 
-    <link href="../css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet"
+          integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
     <link href="../css/pygments.css" rel="stylesheet">
     <link href="../css/font-awesome.min.css" rel="stylesheet">
     <link href="../css/local.css" rel="stylesheet">
-    <link  href="../tipuesearch/tipuesearch.css" rel="stylesheet">
+      <link  href="../tipuesearch/tipuesearch.css" rel="stylesheet">
 
-    <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
-    <!--[if lt IE 9]>
-      <script src="https://oss.maxcdn.com/html5shiv/3.7.2/html5shiv.min.js"></script>
-      <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
-    <![endif]-->
-    
-    <script src="../js/jquery-2.1.3.min.js"></script>
-    <script src="../js/svg-pan-zoom.min.js"></script>
-
+    <script src="https://code.jquery.com/jquery-3.7.0.slim.min.js" integrity="sha256-tG5mcZUtJsZvyKAxYLVXrmjKBVLd6VpVccqz/r4ypFE=" crossorigin="anonymous"></script>
   </head>
 
   <body>
 
     <!-- Fixed navbar -->
-    <nav class="navbar navbar-inverse navbar-fixed-top">
-      <div class="container">
-        <div class="navbar-header">
-          <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
-            <span class="sr-only">Toggle navigation</span>
-            <span class="icon-bar"></span>
-            <span class="icon-bar"></span>
-            <span class="icon-bar"></span>
-          </button>
+    <div class="container-fluid mb-sm-4 mb-xl-2">
+      <nav class="navbar navbar-expand-lg navbar-dark bg-dark fixed-top">
+        <div class="container">
           <a class="navbar-brand" href="../index.html">Inference-Engine </a>
-        </div>
-        <div id="navbar" class="navbar-collapse collapse">
-          <ul class="nav navbar-nav">
-            <li class="dropdown hidden-xs visible-sm visible-md hidden-lg">
-              <a href="#" class="dropdown-toggle"
-              data-toggle="dropdown" role="button"
-              aria-haspopup="true"
-     aria-expanded="false">Contents <span class="caret"></span></a>
-        <ul class="dropdown-menu">
-            <li><a href="../lists/files.html">Source Files</a></li>
-            <li><a href="../lists/modules.html">Modules</a></li>
-            <li><a href="../lists/procedures.html">Procedures</a></li>
-            <li><a href="../lists/absint.html">Abstract Interfaces</a></li>
-                   <li><a href="../lists/types.html">Derived Types</a></li>
-            <li><a href="../lists/programs.html">Programs</a></li>
-       
+          <button type="button" class="navbar-toggler" data-bs-toggle="collapse" data-bs-target="#navbar"
+                  aria-expanded="false" aria-controls="navbar" aria-label="Toggle navigation">
+                  <span class="navbar-toggler-icon">
+          </button>
+
+          <div id="navbar" class="navbar-collapse collapse">
+            <ul class="navbar-nav">
+                  <li class="nav-item">
+                    <a class="nav-link" href="../lists/files.html">Source Files</a>
+                  </li>
+                <li class="nav-item">
+                  <a class="nav-link" href="../lists/modules.html">Modules</a>
+                </li>
+                <li class="nav-item">
+                  <a class="nav-link" href="../lists/procedures.html">Procedures</a>
+                </li>
+                <li class="nav-item">
+                  <a class="nav-link" href="../lists/absint.html">Abstract Interfaces</a>
+                </li>
+                <li class="nav-item">
+                  <a class="nav-link" href="../lists/types.html">Derived Types</a>
+                </li>
+                <li class="nav-item">
+                  <a class="nav-link" href="../lists/programs.html">Programs</a>
+                </li>
             </ul>
-        
-            </li>
-<li class="visible-xs hidden-sm visible-lg"><a href="../lists/files.html">Source Files</a></li>
-<li class="visible-xs hidden-sm visible-lg"><a href="../lists/modules.html">Modules</a></li>
-<li class="visible-xs hidden-sm visible-lg"><a href="../lists/procedures.html">Procedures</a></li>
-<li class="visible-xs hidden-sm visible-lg"><a href="../lists/absint.html">Abstract Interfaces</a></li>
-                             <li class="visible-xs hidden-sm visible-lg"><a href="../lists/types.html">Derived Types</a></li>
-<li class="visible-xs hidden-sm visible-lg"><a href="../lists/programs.html">Programs</a></li>
-          </ul>
-        <form action="../search.html" class="navbar-form navbar-right" role="search">
-        <div class="form-group">
-          <input type="text" class="form-control" placeholder="Search" name="q" id="tipue_search_input" autocomplete="off" required>
+              <div class="d-flex align-items-end flex-grow-1">
+                <form action="../search.html" role="search" class="ms-auto">
+                  <input type="text" class="form-control" aria-label="Search" placeholder="Search" name="q" id="tipue_search_input" autocomplete="off" required>
+                </form>
+              </div>
+          </div><!--/.nav-collapse -->
         </div>
-<!--
-        <button type="submit" class="btn btn-default">Submit</button>
--->
-        </form>
-        </div><!--/.nav-collapse -->
-      </div>
-    </nav>
+      </nav>
+    </div>
 
     <div class="container">
   <div class="row">
     <h1>write-read-infer.f90
-    <small>Source File</small>
+      <small>Source File</small>
+      
     </h1>
-    <div class="row">
-  <div class="col-lg-12">
-<div class="well well-sm">
-  <ul class="list-inline" style="margin-bottom:0px;display:inline">
-     <li><i class="fa fa-list-ol"></i>
-       <a data-toggle="tooltip"
-    data-placement="bottom" data-html="true"
-    title=" 1.0% of total for source files.">51 statements</a>
-     </li> 
-    <li><i class="fa fa-code"></i><a href="../src/write-read-infer.f90"> Source File</a></li>
-  </ul>
-  <ol class="breadcrumb in-well text-right">
-     <li class="active">write-read-infer.f90</li>
-  </ol>
-</div>
-</div>
-</div>
-<script>
-  $(function () {
-  $('[data-toggle="tooltip"]').tooltip()
-  })
-</script>
+      <div class="container p-2 mb-4 bg-light border rounded-3">
+    <div class="row align-items-center justify-content-between" id="info-bar">
+      <div class="col">
+        <ul class="list-inline" style="margin-bottom:0px;display:inline">
+
+            <li class="list-inline-item" id="statements"><i class="fa fa-list-ol"></i>
+              <a data-bs-toggle="tooltip"
+                 data-bs-placement="bottom" data-html="true"
+                 title=" 2.1% of total for source files.">51 statements</a>
+            </li>
+
+            <li class="list-inline-item" id="source-file">
+              <i class="fa fa-code"></i>
+              <a href="../src/write-read-infer.f90"> Source File</a>
+            </li>
+        </ul>
+      </div>
+      <div class="col">
+        <nav aria-label="breadcrumb">
+          <ol class="breadcrumb justify-content-end mb-0">
+            <li class="breadcrumb-item active" aria-current="page">write-read-infer.f90</li>
+          </ol>
+        </nav>
+      </div>
+    </div>
+  </div>
+  <script>
+    $(function () {
+    $('[data-bs-toggle="tooltip"]').tooltip()
+    })
+  </script>
 
   </div>
   <div class="row">
     <div class="col-md-3 hidden-xs hidden-sm visible-md visible-lg">
-    <div id="sidebar">
-  <h3>Contents</h3>
- 
-<div class="panel panel-primary">
-  <div class="panel-heading text-left"><h3 class="panel-title"><a data-toggle="collapse" href="#progs-0">Programs</a></h3></div>
-  <div id="progs-0" class="panel-collapse collapse">
-    <div class="list-group">
-      <a class="list-group-item" href="../program/write_read_infer.html">write_read_infer</a>
+        <div id="sidebar">
+      <h3>Contents</h3>
+  
+  
+  
+  
+      <div class="card mb-4">
+      <a data-bs-toggle="collapse" href="#progs-0"
+         aria-expanded="false" aria-controls="progs-0">
+         <h4 class="card-header bg-primary text-white">Programs</h4>
+      </a>
+      <div id="progs-0" class="collapse">
+        <div class="list-group list-group-flush">
+            <a class="list-group-item" href="../program/write_read_infer.html">write_read_infer</a>
+        </div>
+      </div>
     </div>
-  </div>
-</div>
-<div class="panel panel-primary">
-  <div class="panel-heading text-left"><h3 class="panel-title">Source Code</h3></div>
-  <div class="list-group">
-    <a class="list-group-item" href="../sourcefile/write-read-infer.f90.html#src">write-read-infer.f90</a>
-  </div>
-</div>
 
-</div>
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+    <div class="card card-primary">
+      <div class="card-header text-left"><h3 class="card-title">Source Code</h3></div>
+      <div class="list-group">
+        <a class="list-group-item" href="../sourcefile/write-read-infer.f90.html#src">write-read-infer.f90</a>
+      </div>
+    </div>
+
+
+  </div>
 
     </div>
     <div class="col-md-9" id='text'>
       
       <br>
-    <div class="panel panel-default">
-      <div class="panel-heading">
-  <h3 class="panel-title">This file depends on</h3>
-      </div>
-      <div class="panel-body">
-  <div class="depgraph"><?xml version="1.0" encoding="UTF-8" standalone="no"?>
+        <div class="card">
+          <div class="card-header">
+            <h3 class="card-title">This file depends on</h3>
+          </div>
+          <div class="card-body">
+            <div class="depgraph"><?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN"
  "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
-<!-- Generated by graphviz version 2.43.0 (0)
+<!-- Generated by graphviz version 9.0.0 (20230911.1827)
  -->
 <!-- Title: sourcefile~~write&#45;read&#45;infer.f90~~EfferentGraph Pages: 1 -->
-<svg id="sourcefilewritereadinferf90EfferentGraph" width="641pt" height="297pt"
- viewBox="0.00 0.00 641.00 296.57" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
-<g id="sourcefile~~write&#45;read&#45;infer.f90~~EfferentGraph" class="graph" transform="scale(2.07 2.07) rotate(0) translate(4 610.42)">
+<svg id="sourcefilewritereadinferf90EfferentGraph" width="641pt" height="310pt"
+ viewBox="0.00 0.00 641.00 310.33" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+<g id="sourcefile~~write&#45;read&#45;infer.f90~~EfferentGraph" class="graph" transform="scale(0.485555 0.485555) rotate(0) translate(4 635.12)">
 <title>sourcefile~~write&#45;read&#45;infer.f90~~EfferentGraph</title>
-<polygon fill="white" stroke="transparent" points="-4,4 -4,-610.42 1324,-610.42 1324,4 -4,4"/>
+<polygon fill="white" stroke="none" points="-4,4 -4,-635.12 1316.14,-635.12 1316.14,4 -4,4"/>
 <!-- sourcefile~write&#45;read&#45;infer.f90 -->
 <g id="sourcefile~~write&#45;read&#45;infer.f90~~EfferentGraph_node1" class="node">
 <title>sourcefile~write&#45;read&#45;infer.f90</title>
-<polygon fill="none" stroke="black" points="1320,-156.92 1206,-156.92 1206,-132.92 1320,-132.92 1320,-156.92"/>
-<text text-anchor="middle" x="1263" y="-142.52" font-family="Helvetica,sans-Serif" font-size="10.50">write&#45;read&#45;infer.f90</text>
+<polygon fill="none" stroke="black" points="1312.14,-113.09 1199.37,-113.09 1199.37,-88.82 1312.14,-88.82 1312.14,-113.09"/>
+<text text-anchor="middle" x="1255.76" y="-97.36" font-family="Helvetica,sans-Serif" font-size="10.50">write&#45;read&#45;infer.f90</text>
 </g>
 <!-- sourcefile~inference_engine_m.f90 -->
 <g id="sourcefile~~write&#45;read&#45;infer.f90~~EfferentGraph_node2" class="node">
 <title>sourcefile~inference_engine_m.f90</title>
 <g id="a_sourcefile~~write&#45;read&#45;infer.f90~~EfferentGraph_node2"><a xlink:href=".././sourcefile/inference_engine_m.f90.html" xlink:title="inference_engine_m.f90">
-<polygon fill="#f0ad4e" stroke="#f0ad4e" points="1170,-338.92 1029,-338.92 1029,-314.92 1170,-314.92 1170,-338.92"/>
-<text text-anchor="middle" x="1099.5" y="-324.52" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">inference_engine_m.f90</text>
+<polygon fill="#f0ad4e" stroke="#f0ad4e" points="1163.37,-231.09 1023.6,-231.09 1023.6,-206.82 1163.37,-206.82 1163.37,-231.09"/>
+<text text-anchor="middle" x="1093.49" y="-215.36" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">inference_engine_m.f90</text>
 </a>
 </g>
 </g>
 <!-- sourcefile~write&#45;read&#45;infer.f90&#45;&gt;sourcefile~inference_engine_m.f90 -->
 <g id="sourcefile~~write&#45;read&#45;infer.f90~~EfferentGraph_edge1" class="edge">
 <title>sourcefile~write&#45;read&#45;infer.f90&#45;&gt;sourcefile~inference_engine_m.f90</title>
-<path fill="none" stroke="#ff0000" stroke-dasharray="5,2" d="M1251.15,-157.14C1223.8,-187.96 1151.81,-269.09 1118.23,-306.94"/>
-<polygon fill="#ff0000" stroke="#ff0000" points="1115.32,-304.94 1111.3,-314.75 1120.56,-309.59 1115.32,-304.94"/>
+<path fill="none" stroke="#255000" stroke-dasharray="5,2" d="M1237.6,-113.58C1209.53,-134.26 1153.59,-175.44 1120.57,-199.75"/>
+<polygon fill="#255000" stroke="#255000" points="1118.71,-196.77 1112.73,-205.52 1122.86,-202.41 1118.71,-196.77"/>
 </g>
 <!-- sourcefile~kind_parameters_m.f90 -->
 <g id="sourcefile~~write&#45;read&#45;infer.f90~~EfferentGraph_node3" class="node">
 <title>sourcefile~kind_parameters_m.f90</title>
 <g id="a_sourcefile~~write&#45;read&#45;infer.f90~~EfferentGraph_node3"><a xlink:href=".././sourcefile/kind_parameters_m.f90.html" xlink:title="kind_parameters_m.f90">
-<polygon fill="#f0ad4e" stroke="#f0ad4e" points="139,-416.92 0,-416.92 0,-392.92 139,-392.92 139,-416.92"/>
-<text text-anchor="middle" x="69.5" y="-402.52" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">kind_parameters_m.f90</text>
+<polygon fill="#f0ad4e" stroke="#f0ad4e" points="137.52,-173.09 0,-173.09 0,-148.82 137.52,-148.82 137.52,-173.09"/>
+<text text-anchor="middle" x="68.76" y="-157.36" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">kind_parameters_m.f90</text>
 </a>
 </g>
 </g>
 <!-- sourcefile~write&#45;read&#45;infer.f90&#45;&gt;sourcefile~kind_parameters_m.f90 -->
 <g id="sourcefile~~write&#45;read&#45;infer.f90~~EfferentGraph_edge2" class="edge">
 <title>sourcefile~write&#45;read&#45;infer.f90&#45;&gt;sourcefile~kind_parameters_m.f90</title>
-<path fill="none" stroke="#ff0000" stroke-dasharray="5,2" d="M1241.27,-132.91C1197.29,-108.16 1090.61,-51.93 993,-29.92 832.55,6.27 784.35,10.03 623,-21.92 553.21,-35.74 541.4,-57.35 475,-82.92"/>
-<path fill="none" stroke="#ff0000" stroke-dasharray="5,2" d="M473,-82.92C363.43,-124.31 354,-169.16 251,-224.92"/>
-<path fill="none" stroke="#ff0000" stroke-dasharray="5,2" d="M249,-224.92C174.47,-265.26 111.07,-346.75 84.22,-384.67"/>
-<polygon fill="#ff0000" stroke="#ff0000" points="81.33,-382.7 78.48,-392.9 87.07,-386.7 81.33,-382.7"/>
+<path fill="none" stroke="#255000" stroke-dasharray="5,2" d="M1228.77,-88.35C1171.75,-61.88 1030.82,-2.96 905.97,-2.96 905.97,-2.96 905.97,-2.96 701.95,-2.96 548.98,-2.96 508.12,8.87 358.29,-21.96 307.59,-32.39 298.3,-46.47 248.91,-61.96"/>
+<path fill="none" stroke="#255000" stroke-dasharray="5,2" d="M246.91,-61.96C188.65,-79.79 128.27,-118.71 95.21,-142.08"/>
+<polygon fill="#255000" stroke="#255000" points="93.56,-138.96 87.48,-147.63 97.64,-144.65 93.56,-138.96"/>
 </g>
 <!-- sourcefile~inference_engine_m.f90&#45;&gt;sourcefile~kind_parameters_m.f90 -->
-<g id="sourcefile~~write&#45;read&#45;infer.f90~~EfferentGraph_edge14" class="edge">
+<g id="sourcefile~~write&#45;read&#45;infer.f90~~EfferentGraph_edge8" class="edge">
 <title>sourcefile~inference_engine_m.f90&#45;&gt;sourcefile~kind_parameters_m.f90</title>
-<path fill="none" stroke="#ff0000" stroke-dasharray="5,2" d="M909,-560.92C814.72,-607.12 532.92,-612.42 475,-600.92"/>
+<path fill="none" stroke="#255000" stroke-dasharray="5,2" d="M903.97,-601.96C793.24,-663.51 742.93,-611.75 619.56,-582.96 550.42,-566.82 542.27,-531.58 471.93,-521.96"/>
 </g>
 <!-- sourcefile~activation_strategy_m.f90 -->
 <g id="sourcefile~~write&#45;read&#45;infer.f90~~EfferentGraph_node4" class="node">
 <title>sourcefile~activation_strategy_m.f90</title>
 <g id="a_sourcefile~~write&#45;read&#45;infer.f90~~EfferentGraph_node4"><a xlink:href=".././sourcefile/activation_strategy_m.f90.html" xlink:title="activation_strategy_m.f90">
-<polygon fill="#f0ad4e" stroke="#f0ad4e" points="325,-376.92 175,-376.92 175,-352.92 325,-352.92 325,-376.92"/>
-<text text-anchor="middle" x="250" y="-362.52" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">activation_strategy_m.f90</text>
+<polygon fill="#f0ad4e" stroke="#f0ad4e" points="322.29,-289.09 173.52,-289.09 173.52,-264.82 322.29,-264.82 322.29,-289.09"/>
+<text text-anchor="middle" x="247.91" y="-273.36" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">activation_strategy_m.f90</text>
 </a>
 </g>
 </g>
 <!-- sourcefile~inference_engine_m.f90&#45;&gt;sourcefile~activation_strategy_m.f90 -->
 <g id="sourcefile~~write&#45;read&#45;infer.f90~~EfferentGraph_edge3" class="edge">
 <title>sourcefile~inference_engine_m.f90&#45;&gt;sourcefile~activation_strategy_m.f90</title>
-<path fill="none" stroke="#ff0000" stroke-dasharray="5,2" d="M909,-306.92C872.02,-301.23 862.61,-314.46 827,-325.92 810.5,-331.22 807.92,-337.14 791,-340.92 633.07,-376.17 442.89,-374.82 335.56,-370.18"/>
-<polygon fill="#ff0000" stroke="#ff0000" points="335.59,-366.68 325.44,-369.72 335.27,-373.67 335.59,-366.68"/>
-</g>
-<!-- sourcefile~mini_batch_m.f90 -->
-<g id="sourcefile~~write&#45;read&#45;infer.f90~~EfferentGraph_node5" class="node">
-<title>sourcefile~mini_batch_m.f90</title>
-<g id="a_sourcefile~~write&#45;read&#45;infer.f90~~EfferentGraph_node5"><a xlink:href=".././sourcefile/mini_batch_m.f90.html" xlink:title="mini_batch_m.f90">
-<polygon fill="#f0ad4e" stroke="#f0ad4e" points="760.5,-572.92 653.5,-572.92 653.5,-548.92 760.5,-548.92 760.5,-572.92"/>
-<text text-anchor="middle" x="707" y="-558.52" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">mini_batch_m.f90</text>
-</a>
-</g>
-</g>
-<!-- sourcefile~inference_engine_m.f90&#45;&gt;sourcefile~mini_batch_m.f90 -->
-<g id="sourcefile~~write&#45;read&#45;infer.f90~~EfferentGraph_edge6" class="edge">
-<title>sourcefile~inference_engine_m.f90&#45;&gt;sourcefile~mini_batch_m.f90</title>
-<path fill="none" stroke="#ff0000" stroke-dasharray="5,2" d="M909,-560.92C866.08,-581.39 811.9,-580.07 770.61,-574.35"/>
-<polygon fill="#ff0000" stroke="#ff0000" points="771.09,-570.88 760.68,-572.86 770.05,-577.8 771.09,-570.88"/>
+<path fill="none" stroke="#255000" stroke-dasharray="5,2" d="M1071.56,-231.48C1037.68,-251.37 968.32,-290.53 905.97,-315.96"/>
+<path fill="none" stroke="#255000" stroke-dasharray="5,2" d="M903.97,-315.96C855.21,-335.84 838.84,-305.75 786.33,-301.96 596.52,-288.25 548.04,-305.5 358.29,-290.96 350.35,-290.35 342.1,-289.57 333.86,-288.69"/>
+<polygon fill="#255000" stroke="#255000" points="334.48,-285.23 324.15,-287.6 333.7,-292.19 334.48,-285.23"/>
 </g>
 <!-- sourcefile~differentiable_activation_strategy_m.f90 -->
-<g id="sourcefile~~write&#45;read&#45;infer.f90~~EfferentGraph_node6" class="node">
+<g id="sourcefile~~write&#45;read&#45;infer.f90~~EfferentGraph_node5" class="node">
 <title>sourcefile~differentiable_activation_strategy_m.f90</title>
-<g id="a_sourcefile~~write&#45;read&#45;infer.f90~~EfferentGraph_node6"><a xlink:href=".././sourcefile/differentiable_activation_strategy_m.f90.html" xlink:title="differentiable_activation_strategy_m.f90">
-<polygon fill="#f0ad4e" stroke="#f0ad4e" points="587,-297.92 361,-297.92 361,-273.92 587,-273.92 587,-297.92"/>
-<text text-anchor="middle" x="474" y="-283.52" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">differentiable_activation_strategy_m.f90</text>
+<g id="a_sourcefile~~write&#45;read&#45;infer.f90~~EfferentGraph_node5"><a xlink:href=".././sourcefile/differentiable_activation_strategy_m.f90.html" xlink:title="differentiable_activation_strategy_m.f90">
+<polygon fill="#f0ad4e" stroke="#f0ad4e" points="583.56,-368.09 358.29,-368.09 358.29,-343.82 583.56,-343.82 583.56,-368.09"/>
+<text text-anchor="middle" x="470.93" y="-352.36" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">differentiable_activation_strategy_m.f90</text>
 </a>
 </g>
 </g>
 <!-- sourcefile~inference_engine_m.f90&#45;&gt;sourcefile~differentiable_activation_strategy_m.f90 -->
 <g id="sourcefile~~write&#45;read&#45;infer.f90~~EfferentGraph_edge4" class="edge">
 <title>sourcefile~inference_engine_m.f90&#45;&gt;sourcefile~differentiable_activation_strategy_m.f90</title>
-<path fill="none" stroke="#ff0000" stroke-dasharray="5,2" d="M909,-306.92C820.3,-293.04 795.01,-349.01 708,-326.92"/>
-<path fill="none" stroke="#ff0000" stroke-dasharray="5,2" d="M706,-326.92C661.69,-315.66 611.82,-306.39 569.79,-299.54"/>
-<polygon fill="#ff0000" stroke="#ff0000" points="570.27,-296.07 559.84,-297.93 569.16,-302.98 570.27,-296.07"/>
+<path fill="none" stroke="#255000" stroke-dasharray="5,2" d="M903.97,-315.96C821.65,-349.53 789.61,-292.19 703.95,-315.96"/>
 </g>
-<!-- sourcefile~netcdf_file_m.f90 -->
-<g id="sourcefile~~write&#45;read&#45;infer.f90~~EfferentGraph_node7" class="node">
-<title>sourcefile~netcdf_file_m.f90</title>
-<g id="a_sourcefile~~write&#45;read&#45;infer.f90~~EfferentGraph_node7"><a xlink:href=".././sourcefile/netcdf_file_m.f90.html" xlink:title="NetCDF_file_m.f90">
-<polygon fill="#f0ad4e" stroke="#f0ad4e" points="965,-358.92 855,-358.92 855,-334.92 965,-334.92 965,-358.92"/>
-<text text-anchor="middle" x="910" y="-344.52" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">NetCDF_file_m.f90</text>
+<!-- sourcefile~hyperparameters_m.f90 -->
+<g id="sourcefile~~write&#45;read&#45;infer.f90~~EfferentGraph_node6" class="node">
+<title>sourcefile~hyperparameters_m.f90</title>
+<g id="a_sourcefile~~write&#45;read&#45;infer.f90~~EfferentGraph_node6"><a xlink:href=".././sourcefile/hyperparameters_m.f90.html" xlink:title="hyperparameters_m.f90">
+<polygon fill="#f0ad4e" stroke="#f0ad4e" points="773.21,-574.09 632.69,-574.09 632.69,-549.82 773.21,-549.82 773.21,-574.09"/>
+<text text-anchor="middle" x="702.95" y="-558.36" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">hyperparameters_m.f90</text>
 </a>
 </g>
 </g>
-<!-- sourcefile~inference_engine_m.f90&#45;&gt;sourcefile~netcdf_file_m.f90 -->
-<g id="sourcefile~~write&#45;read&#45;infer.f90~~EfferentGraph_edge7" class="edge">
-<title>sourcefile~inference_engine_m.f90&#45;&gt;sourcefile~netcdf_file_m.f90</title>
-<path fill="none" stroke="#ff0000" stroke-dasharray="5,2" d="M1028.95,-334.34C1011.35,-336.21 992.53,-338.22 975.21,-340.07"/>
-<polygon fill="#ff0000" stroke="#ff0000" points="974.78,-336.59 965.2,-341.13 975.52,-343.55 974.78,-336.59"/>
+<!-- sourcefile~inference_engine_m.f90&#45;&gt;sourcefile~hyperparameters_m.f90 -->
+<g id="sourcefile~~write&#45;read&#45;infer.f90~~EfferentGraph_edge5" class="edge">
+<title>sourcefile~inference_engine_m.f90&#45;&gt;sourcefile~hyperparameters_m.f90</title>
+<path fill="none" stroke="#255000" stroke-dasharray="5,2" d="M1091.3,-231.26C1085.12,-287.56 1051.09,-521.28 905.97,-601.96"/>
+<path fill="none" stroke="#255000" stroke-dasharray="5,2" d="M903.97,-601.96C891.55,-608.86 816.13,-591.4 761.55,-577.4"/>
+<polygon fill="#255000" stroke="#255000" points="762.62,-574.06 752.06,-574.94 760.87,-580.84 762.62,-574.06"/>
+</g>
+<!-- sourcefile~inference_engine_m_.f90 -->
+<g id="sourcefile~~write&#45;read&#45;infer.f90~~EfferentGraph_node7" class="node">
+<title>sourcefile~inference_engine_m_.f90</title>
+<g id="a_sourcefile~~write&#45;read&#45;infer.f90~~EfferentGraph_node7"><a xlink:href=".././sourcefile/inference_engine_m_.f90.html" xlink:title="inference_engine_m_.f90">
+<polygon fill="#f0ad4e" stroke="#f0ad4e" points="775.46,-250.09 630.44,-250.09 630.44,-225.82 775.46,-225.82 775.46,-250.09"/>
+<text text-anchor="middle" x="702.95" y="-234.36" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">inference_engine_m_.f90</text>
+</a>
+</g>
+</g>
+<!-- sourcefile~inference_engine_m.f90&#45;&gt;sourcefile~inference_engine_m_.f90 -->
+<g id="sourcefile~~write&#45;read&#45;infer.f90~~EfferentGraph_edge6" class="edge">
+<title>sourcefile~inference_engine_m.f90&#45;&gt;sourcefile~inference_engine_m_.f90</title>
+<path fill="none" stroke="#255000" stroke-dasharray="5,2" d="M903.97,-198.96C852.38,-198.65 794.68,-211.34 754.56,-222.33"/>
+<polygon fill="#255000" stroke="#255000" points="753.87,-218.88 745.18,-224.96 755.76,-225.62 753.87,-218.88"/>
 </g>
 <!-- sourcefile~input_output_pair_m.f90 -->
 <g id="sourcefile~~write&#45;read&#45;infer.f90~~EfferentGraph_node8" class="node">
 <title>sourcefile~input_output_pair_m.f90</title>
 <g id="a_sourcefile~~write&#45;read&#45;infer.f90~~EfferentGraph_node8"><a xlink:href=".././sourcefile/input_output_pair_m.f90.html" xlink:title="input_output_pair_m.f90">
-<polygon fill="#f0ad4e" stroke="#f0ad4e" points="545,-536.92 403,-536.92 403,-512.92 545,-512.92 545,-536.92"/>
-<text text-anchor="middle" x="474" y="-522.52" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">input_output_pair_m.f90</text>
+<polygon fill="#f0ad4e" stroke="#f0ad4e" points="541.19,-55.09 400.67,-55.09 400.67,-30.82 541.19,-30.82 541.19,-55.09"/>
+<text text-anchor="middle" x="470.93" y="-39.36" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">input_output_pair_m.f90</text>
 </a>
 </g>
 </g>
 <!-- sourcefile~inference_engine_m.f90&#45;&gt;sourcefile~input_output_pair_m.f90 -->
-<g id="sourcefile~~write&#45;read&#45;infer.f90~~EfferentGraph_edge5" class="edge">
+<g id="sourcefile~~write&#45;read&#45;infer.f90~~EfferentGraph_edge7" class="edge">
 <title>sourcefile~inference_engine_m.f90&#45;&gt;sourcefile~input_output_pair_m.f90</title>
-<path fill="none" stroke="#ff0000" stroke-dasharray="5,2" d="M1093.37,-339.25C1080.21,-369.84 1042.77,-450.54 993,-503.92 962.73,-536.38 951.06,-541.81 911,-560.92"/>
-<path fill="none" stroke="#ff0000" stroke-dasharray="5,2" d="M909,-560.92C860.92,-583.85 843.94,-545.86 791,-539.92 711.09,-530.95 619.21,-527.33 555.21,-525.88"/>
-<polygon fill="#ff0000" stroke="#ff0000" points="555.25,-522.38 545.18,-525.66 555.1,-529.38 555.25,-522.38"/>
+<path fill="none" stroke="#255000" stroke-dasharray="5,2" d="M1078.29,-206.34C1058.79,-189.4 1022.19,-159 987.6,-137.96 953.41,-117.15 943.85,-112.86 905.97,-99.96"/>
+<path fill="none" stroke="#255000" stroke-dasharray="5,2" d="M903.97,-99.96C851.69,-82.14 840.55,-70.43 786.33,-59.96 707.98,-44.82 616.75,-41.41 552.8,-41.29"/>
+<polygon fill="#255000" stroke="#255000" points="553.1,-37.79 543.1,-41.3 553.11,-44.79 553.1,-37.79"/>
 </g>
-<!-- sourcefile~relu_m.f90 -->
+<!-- sourcefile~mini_batch_m.f90 -->
 <g id="sourcefile~~write&#45;read&#45;infer.f90~~EfferentGraph_node9" class="node">
-<title>sourcefile~relu_m.f90</title>
-<g id="a_sourcefile~~write&#45;read&#45;infer.f90~~EfferentGraph_node9"><a xlink:href=".././sourcefile/relu_m.f90.html" xlink:title="relu_m.f90">
-<polygon fill="#f0ad4e" stroke="#f0ad4e" points="741.5,-298.92 672.5,-298.92 672.5,-274.92 741.5,-274.92 741.5,-298.92"/>
-<text text-anchor="middle" x="707" y="-284.52" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">relu_m.f90</text>
+<title>sourcefile~mini_batch_m.f90</title>
+<g id="a_sourcefile~~write&#45;read&#45;infer.f90~~EfferentGraph_node9"><a xlink:href=".././sourcefile/mini_batch_m.f90.html" xlink:title="mini_batch_m.f90">
+<polygon fill="#f0ad4e" stroke="#f0ad4e" points="755.96,-93.09 649.94,-93.09 649.94,-68.82 755.96,-68.82 755.96,-93.09"/>
+<text text-anchor="middle" x="702.95" y="-77.36" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">mini_batch_m.f90</text>
 </a>
 </g>
 </g>
-<!-- sourcefile~inference_engine_m.f90&#45;&gt;sourcefile~relu_m.f90 -->
-<g id="sourcefile~~write&#45;read&#45;infer.f90~~EfferentGraph_edge8" class="edge">
-<title>sourcefile~inference_engine_m.f90&#45;&gt;sourcefile~relu_m.f90</title>
-<path fill="none" stroke="#ff0000" stroke-dasharray="5,2" d="M909,-306.92C855.14,-298.49 792.56,-292.92 751.73,-289.85"/>
-<polygon fill="#ff0000" stroke="#ff0000" points="751.81,-286.35 741.58,-289.1 751.29,-293.33 751.81,-286.35"/>
-</g>
-<!-- sourcefile~sigmoid_m.f90 -->
-<g id="sourcefile~~write&#45;read&#45;infer.f90~~EfferentGraph_node10" class="node">
-<title>sourcefile~sigmoid_m.f90</title>
-<g id="a_sourcefile~~write&#45;read&#45;infer.f90~~EfferentGraph_node10"><a xlink:href=".././sourcefile/sigmoid_m.f90.html" xlink:title="sigmoid_m.f90">
-<polygon fill="#f0ad4e" stroke="#f0ad4e" points="752.5,-256.92 661.5,-256.92 661.5,-232.92 752.5,-232.92 752.5,-256.92"/>
-<text text-anchor="middle" x="707" y="-242.52" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">sigmoid_m.f90</text>
-</a>
-</g>
-</g>
-<!-- sourcefile~inference_engine_m.f90&#45;&gt;sourcefile~sigmoid_m.f90 -->
+<!-- sourcefile~inference_engine_m.f90&#45;&gt;sourcefile~mini_batch_m.f90 -->
 <g id="sourcefile~~write&#45;read&#45;infer.f90~~EfferentGraph_edge9" class="edge">
-<title>sourcefile~inference_engine_m.f90&#45;&gt;sourcefile~sigmoid_m.f90</title>
-<path fill="none" stroke="#ff0000" stroke-dasharray="5,2" d="M909,-306.92C854.15,-298.34 844.18,-281.85 791,-265.92 781.81,-263.16 771.97,-260.46 762.4,-257.96"/>
-<polygon fill="#ff0000" stroke="#ff0000" points="763.12,-254.53 752.56,-255.44 761.38,-261.31 763.12,-254.53"/>
+<title>sourcefile~inference_engine_m.f90&#45;&gt;sourcefile~mini_batch_m.f90</title>
+<path fill="none" stroke="#255000" stroke-dasharray="5,2" d="M903.97,-99.96C860.09,-85.01 807.87,-80.46 767.79,-79.54"/>
+<polygon fill="#255000" stroke="#255000" points="767.86,-76.04 757.81,-79.39 767.76,-83.04 767.86,-76.04"/>
 </g>
-<!-- sourcefile~swish_m.f90 -->
-<g id="sourcefile~~write&#45;read&#45;infer.f90~~EfferentGraph_node11" class="node">
-<title>sourcefile~swish_m.f90</title>
-<g id="a_sourcefile~~write&#45;read&#45;infer.f90~~EfferentGraph_node11"><a xlink:href=".././sourcefile/swish_m.f90.html" xlink:title="swish_m.f90">
-<polygon fill="#f0ad4e" stroke="#f0ad4e" points="745.5,-214.92 668.5,-214.92 668.5,-190.92 745.5,-190.92 745.5,-214.92"/>
-<text text-anchor="middle" x="707" y="-200.52" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">swish_m.f90</text>
+<!-- sourcefile~netcdf_file_m.f90 -->
+<g id="sourcefile~~write&#45;read&#45;infer.f90~~EfferentGraph_node10" class="node">
+<title>sourcefile~netcdf_file_m.f90</title>
+<g id="a_sourcefile~~write&#45;read&#45;infer.f90~~EfferentGraph_node10"><a xlink:href=".././sourcefile/netcdf_file_m.f90.html" xlink:title="NetCDF_file_m.f90">
+<polygon fill="#f0ad4e" stroke="#f0ad4e" points="959.48,-251.09 850.46,-251.09 850.46,-226.82 959.48,-226.82 959.48,-251.09"/>
+<text text-anchor="middle" x="904.97" y="-235.36" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">NetCDF_file_m.f90</text>
 </a>
 </g>
 </g>
-<!-- sourcefile~inference_engine_m.f90&#45;&gt;sourcefile~swish_m.f90 -->
+<!-- sourcefile~inference_engine_m.f90&#45;&gt;sourcefile~netcdf_file_m.f90 -->
 <g id="sourcefile~~write&#45;read&#45;infer.f90~~EfferentGraph_edge10" class="edge">
-<title>sourcefile~inference_engine_m.f90&#45;&gt;sourcefile~swish_m.f90</title>
-<path fill="none" stroke="#ff0000" stroke-dasharray="5,2" d="M909,-306.92C845.65,-297.01 849.27,-250.67 791,-223.92 779.92,-218.83 767.42,-214.85 755.54,-211.78"/>
-<polygon fill="#ff0000" stroke="#ff0000" points="756.3,-208.36 745.76,-209.42 754.66,-215.17 756.3,-208.36"/>
-</g>
-<!-- sourcefile~training_configuration_m.f90 -->
-<g id="sourcefile~~write&#45;read&#45;infer.f90~~EfferentGraph_node12" class="node">
-<title>sourcefile~training_configuration_m.f90</title>
-<g id="a_sourcefile~~write&#45;read&#45;infer.f90~~EfferentGraph_node12"><a xlink:href=".././sourcefile/training_configuration_m.f90.html" xlink:title="training_configuration_m.f90">
-<polygon fill="#f0ad4e" stroke="#f0ad4e" points="993,-114.92 827,-114.92 827,-90.92 993,-90.92 993,-114.92"/>
-<text text-anchor="middle" x="910" y="-100.52" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">training_configuration_m.f90</text>
-</a>
-</g>
-</g>
-<!-- sourcefile~inference_engine_m.f90&#45;&gt;sourcefile~training_configuration_m.f90 -->
-<g id="sourcefile~~write&#45;read&#45;infer.f90~~EfferentGraph_edge11" class="edge">
-<title>sourcefile~inference_engine_m.f90&#45;&gt;sourcefile~training_configuration_m.f90</title>
-<path fill="none" stroke="#ff0000" stroke-dasharray="5,2" d="M1088.42,-314.87C1057.77,-278.26 965.48,-168.01 927.55,-122.69"/>
-<polygon fill="#ff0000" stroke="#ff0000" points="930.23,-120.44 921.13,-115.02 924.87,-124.93 930.23,-120.44"/>
-</g>
-<!-- sourcefile~inference_engine_m_.f90 -->
-<g id="sourcefile~~write&#45;read&#45;infer.f90~~EfferentGraph_node13" class="node">
-<title>sourcefile~inference_engine_m_.f90</title>
-<g id="a_sourcefile~~write&#45;read&#45;infer.f90~~EfferentGraph_node13"><a xlink:href=".././sourcefile/inference_engine_m_.f90.html" xlink:title="inference_engine_m_.f90">
-<polygon fill="#f0ad4e" stroke="#f0ad4e" points="780,-416.92 634,-416.92 634,-392.92 780,-392.92 780,-416.92"/>
-<text text-anchor="middle" x="707" y="-402.52" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">inference_engine_m_.f90</text>
-</a>
-</g>
-</g>
-<!-- sourcefile~inference_engine_m.f90&#45;&gt;sourcefile~inference_engine_m_.f90 -->
-<g id="sourcefile~~write&#45;read&#45;infer.f90~~EfferentGraph_edge12" class="edge">
-<title>sourcefile~inference_engine_m.f90&#45;&gt;sourcefile~inference_engine_m_.f90</title>
-<path fill="none" stroke="#ff0000" stroke-dasharray="5,2" d="M909,-306.92C872.04,-301.13 857.86,-304.76 827,-325.92 803.51,-342.02 813.86,-361.94 791,-378.92 785.83,-382.76 780.08,-386.04 774.08,-388.84"/>
-<polygon fill="#ff0000" stroke="#ff0000" points="772.37,-385.77 764.51,-392.87 775.08,-392.22 772.37,-385.77"/>
-</g>
-<!-- sourcefile~hyperparameters_m.f90 -->
-<g id="sourcefile~~write&#45;read&#45;infer.f90~~EfferentGraph_node14" class="node">
-<title>sourcefile~hyperparameters_m.f90</title>
-<g id="a_sourcefile~~write&#45;read&#45;infer.f90~~EfferentGraph_node14"><a xlink:href=".././sourcefile/hyperparameters_m.f90.html" xlink:title="hyperparameters_m.f90">
-<polygon fill="#f0ad4e" stroke="#f0ad4e" points="778,-54.92 636,-54.92 636,-30.92 778,-30.92 778,-54.92"/>
-<text text-anchor="middle" x="707" y="-40.52" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">hyperparameters_m.f90</text>
-</a>
-</g>
-</g>
-<!-- sourcefile~inference_engine_m.f90&#45;&gt;sourcefile~hyperparameters_m.f90 -->
-<g id="sourcefile~~write&#45;read&#45;infer.f90~~EfferentGraph_edge13" class="edge">
-<title>sourcefile~inference_engine_m.f90&#45;&gt;sourcefile~hyperparameters_m.f90</title>
-<path fill="none" stroke="#ff0000" stroke-dasharray="5,2" d="M1097.35,-314.71C1092.8,-274.03 1072.26,-142.18 993,-81.92 934.91,-37.75 850.29,-31.3 788.34,-33.89"/>
-<polygon fill="#ff0000" stroke="#ff0000" points="788.03,-30.4 778.22,-34.41 788.38,-37.39 788.03,-30.4"/>
+<title>sourcefile~inference_engine_m.f90&#45;&gt;sourcefile~netcdf_file_m.f90</title>
+<path fill="none" stroke="#255000" stroke-dasharray="5,2" d="M1023.3,-226.38C1006.28,-228.2 988.12,-230.15 971.29,-231.95"/>
+<polygon fill="#255000" stroke="#255000" points="970.96,-228.47 961.39,-233.01 971.71,-235.43 970.96,-228.47"/>
 </g>
 <!-- sourcefile~network_configuration_m.f90 -->
-<g id="sourcefile~~write&#45;read&#45;infer.f90~~EfferentGraph_node15" class="node">
+<g id="sourcefile~~write&#45;read&#45;infer.f90~~EfferentGraph_node11" class="node">
 <title>sourcefile~network_configuration_m.f90</title>
-<g id="a_sourcefile~~write&#45;read&#45;infer.f90~~EfferentGraph_node15"><a xlink:href=".././sourcefile/network_configuration_m.f90.html" xlink:title="network_configuration_m.f90">
-<polygon fill="#f0ad4e" stroke="#f0ad4e" points="791,-134.92 623,-134.92 623,-110.92 791,-110.92 791,-134.92"/>
-<text text-anchor="middle" x="707" y="-120.52" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">network_configuration_m.f90</text>
+<g id="a_sourcefile~~write&#45;read&#45;infer.f90~~EfferentGraph_node11"><a xlink:href=".././sourcefile/network_configuration_m.f90.html" xlink:title="network_configuration_m.f90">
+<polygon fill="#f0ad4e" stroke="#f0ad4e" points="786.33,-494.09 619.56,-494.09 619.56,-469.82 786.33,-469.82 786.33,-494.09"/>
+<text text-anchor="middle" x="702.95" y="-478.36" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">network_configuration_m.f90</text>
 </a>
 </g>
 </g>
 <!-- sourcefile~inference_engine_m.f90&#45;&gt;sourcefile~network_configuration_m.f90 -->
-<g id="sourcefile~~write&#45;read&#45;infer.f90~~EfferentGraph_edge15" class="edge">
+<g id="sourcefile~~write&#45;read&#45;infer.f90~~EfferentGraph_edge11" class="edge">
 <title>sourcefile~inference_engine_m.f90&#45;&gt;sourcefile~network_configuration_m.f90</title>
-<path fill="none" stroke="#ff0000" stroke-dasharray="5,2" d="M1028.83,-321.12C993.44,-317.76 949.81,-312.99 911,-306.92"/>
-<path fill="none" stroke="#ff0000" stroke-dasharray="5,2" d="M909,-306.92C822.41,-293.37 862.51,-199.59 791,-148.92 785.45,-144.99 779.29,-141.63 772.9,-138.78"/>
-<polygon fill="#ff0000" stroke="#ff0000" points="774,-135.45 763.42,-134.94 771.38,-141.94 774,-135.45"/>
+<path fill="none" stroke="#255000" stroke-dasharray="5,2" d="M903.97,-315.96C827.12,-347.29 856.22,-416.22 786.33,-460.96 784.21,-462.31 782,-463.58 779.74,-464.77"/>
+<polygon fill="#255000" stroke="#255000" points="778.47,-461.5 770.84,-468.84 781.39,-467.87 778.47,-461.5"/>
+</g>
+<!-- sourcefile~relu_m.f90 -->
+<g id="sourcefile~~write&#45;read&#45;infer.f90~~EfferentGraph_node12" class="node">
+<title>sourcefile~relu_m.f90</title>
+<g id="a_sourcefile~~write&#45;read&#45;infer.f90~~EfferentGraph_node12"><a xlink:href=".././sourcefile/relu_m.f90.html" xlink:title="relu_m.f90">
+<polygon fill="#f0ad4e" stroke="#f0ad4e" points="736.83,-452.09 669.06,-452.09 669.06,-427.82 736.83,-427.82 736.83,-452.09"/>
+<text text-anchor="middle" x="702.95" y="-436.36" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">relu_m.f90</text>
+</a>
+</g>
+</g>
+<!-- sourcefile~inference_engine_m.f90&#45;&gt;sourcefile~relu_m.f90 -->
+<g id="sourcefile~~write&#45;read&#45;infer.f90~~EfferentGraph_edge12" class="edge">
+<title>sourcefile~inference_engine_m.f90&#45;&gt;sourcefile~relu_m.f90</title>
+<path fill="none" stroke="#255000" stroke-dasharray="5,2" d="M903.97,-315.96C839.62,-342.2 847.83,-386.6 786.33,-418.96 774.61,-425.12 760.99,-429.55 748.23,-432.69"/>
+<polygon fill="#255000" stroke="#255000" points="747.79,-429.2 738.8,-434.81 749.32,-436.03 747.79,-429.2"/>
+</g>
+<!-- sourcefile~sigmoid_m.f90 -->
+<g id="sourcefile~~write&#45;read&#45;infer.f90~~EfferentGraph_node13" class="node">
+<title>sourcefile~sigmoid_m.f90</title>
+<g id="a_sourcefile~~write&#45;read&#45;infer.f90~~EfferentGraph_node13"><a xlink:href=".././sourcefile/sigmoid_m.f90.html" xlink:title="sigmoid_m.f90">
+<polygon fill="#f0ad4e" stroke="#f0ad4e" points="747.71,-410.09 658.19,-410.09 658.19,-385.82 747.71,-385.82 747.71,-410.09"/>
+<text text-anchor="middle" x="702.95" y="-394.36" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">sigmoid_m.f90</text>
+</a>
+</g>
+</g>
+<!-- sourcefile~inference_engine_m.f90&#45;&gt;sourcefile~sigmoid_m.f90 -->
+<g id="sourcefile~~write&#45;read&#45;infer.f90~~EfferentGraph_edge13" class="edge">
+<title>sourcefile~inference_engine_m.f90&#45;&gt;sourcefile~sigmoid_m.f90</title>
+<path fill="none" stroke="#255000" stroke-dasharray="5,2" d="M903.97,-315.96C849.43,-338.2 841.37,-355.99 786.33,-376.96 777.7,-380.24 768.37,-383.18 759.19,-385.74"/>
+<polygon fill="#255000" stroke="#255000" points="758.37,-382.33 749.6,-388.28 760.16,-389.1 758.37,-382.33"/>
 </g>
 <!-- sourcefile~step_m.f90 -->
-<g id="sourcefile~~write&#45;read&#45;infer.f90~~EfferentGraph_node16" class="node">
+<g id="sourcefile~~write&#45;read&#45;infer.f90~~EfferentGraph_node14" class="node">
 <title>sourcefile~step_m.f90</title>
-<g id="a_sourcefile~~write&#45;read&#45;infer.f90~~EfferentGraph_node16"><a xlink:href=".././sourcefile/step_m.f90.html" xlink:title="step_m.f90">
-<polygon fill="#f0ad4e" stroke="#f0ad4e" points="509.5,-216.92 438.5,-216.92 438.5,-192.92 509.5,-192.92 509.5,-216.92"/>
-<text text-anchor="middle" x="474" y="-202.52" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">step_m.f90</text>
+<g id="a_sourcefile~~write&#45;read&#45;infer.f90~~EfferentGraph_node14"><a xlink:href=".././sourcefile/step_m.f90.html" xlink:title="step_m.f90">
+<polygon fill="#f0ad4e" stroke="#f0ad4e" points="505.94,-249.09 435.92,-249.09 435.92,-224.82 505.94,-224.82 505.94,-249.09"/>
+<text text-anchor="middle" x="470.93" y="-233.36" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">step_m.f90</text>
 </a>
 </g>
 </g>
 <!-- sourcefile~inference_engine_m.f90&#45;&gt;sourcefile~step_m.f90 -->
-<g id="sourcefile~~write&#45;read&#45;infer.f90~~EfferentGraph_edge16" class="edge">
+<g id="sourcefile~~write&#45;read&#45;infer.f90~~EfferentGraph_edge14" class="edge">
 <title>sourcefile~inference_engine_m.f90&#45;&gt;sourcefile~step_m.f90</title>
-<path fill="none" stroke="#ff0000" stroke-dasharray="5,2" d="M909,-306.92C833.52,-295.11 861.16,-212.17 791,-181.92 699.9,-142.64 580.32,-170.12 517.61,-189.79"/>
-<polygon fill="#ff0000" stroke="#ff0000" points="516.49,-186.47 508.04,-192.87 518.64,-193.13 516.49,-186.47"/>
+<path fill="none" stroke="#255000" stroke-dasharray="5,2" d="M1023.14,-208.16C988.11,-203.56 944.88,-199.19 905.97,-198.96"/>
+<path fill="none" stroke="#255000" stroke-dasharray="5,2" d="M903.97,-198.96C777.31,-198.2 745.6,-204.45 619.56,-216.96 585.14,-220.37 546.38,-225.68 517.22,-229.97"/>
+<polygon fill="#255000" stroke="#255000" points="517.02,-226.46 507.65,-231.39 518.05,-233.38 517.02,-226.46"/>
+</g>
+<!-- sourcefile~swish_m.f90 -->
+<g id="sourcefile~~write&#45;read&#45;infer.f90~~EfferentGraph_node15" class="node">
+<title>sourcefile~swish_m.f90</title>
+<g id="a_sourcefile~~write&#45;read&#45;infer.f90~~EfferentGraph_node15"><a xlink:href=".././sourcefile/swish_m.f90.html" xlink:title="swish_m.f90">
+<polygon fill="#f0ad4e" stroke="#f0ad4e" points="740.96,-368.09 664.94,-368.09 664.94,-343.82 740.96,-343.82 740.96,-368.09"/>
+<text text-anchor="middle" x="702.95" y="-352.36" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">swish_m.f90</text>
+</a>
+</g>
+</g>
+<!-- sourcefile~inference_engine_m.f90&#45;&gt;sourcefile~swish_m.f90 -->
+<g id="sourcefile~~write&#45;read&#45;infer.f90~~EfferentGraph_edge15" class="edge">
+<title>sourcefile~inference_engine_m.f90&#45;&gt;sourcefile~swish_m.f90</title>
+<path fill="none" stroke="#255000" stroke-dasharray="5,2" d="M903.97,-315.96C854.62,-336.08 794.16,-346.37 752.71,-351.43"/>
+<polygon fill="#255000" stroke="#255000" points="752.32,-347.95 742.79,-352.58 753.13,-354.91 752.32,-347.95"/>
 </g>
 <!-- sourcefile~tensor_m.f90 -->
-<g id="sourcefile~~write&#45;read&#45;infer.f90~~EfferentGraph_node17" class="node">
+<g id="sourcefile~~write&#45;read&#45;infer.f90~~EfferentGraph_node16" class="node">
 <title>sourcefile~tensor_m.f90</title>
-<g id="a_sourcefile~~write&#45;read&#45;infer.f90~~EfferentGraph_node17"><a xlink:href=".././sourcefile/tensor_m.f90.html" xlink:title="tensor_m.f90">
-<polygon fill="#f0ad4e" stroke="#f0ad4e" points="291,-456.92 209,-456.92 209,-432.92 291,-432.92 291,-456.92"/>
-<text text-anchor="middle" x="250" y="-442.52" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">tensor_m.f90</text>
+<g id="a_sourcefile~~write&#45;read&#45;infer.f90~~EfferentGraph_node16"><a xlink:href=".././sourcefile/tensor_m.f90.html" xlink:title="tensor_m.f90">
+<polygon fill="#f0ad4e" stroke="#f0ad4e" points="288.54,-133.09 207.27,-133.09 207.27,-108.82 288.54,-108.82 288.54,-133.09"/>
+<text text-anchor="middle" x="247.91" y="-117.36" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">tensor_m.f90</text>
 </a>
 </g>
 </g>
 <!-- sourcefile~inference_engine_m.f90&#45;&gt;sourcefile~tensor_m.f90 -->
-<g id="sourcefile~~write&#45;read&#45;infer.f90~~EfferentGraph_edge17" class="edge">
+<g id="sourcefile~~write&#45;read&#45;infer.f90~~EfferentGraph_edge16" class="edge">
 <title>sourcefile~inference_engine_m.f90&#45;&gt;sourcefile~tensor_m.f90</title>
-<path fill="none" stroke="#ff0000" stroke-dasharray="5,2" d="M1069.65,-338.95C1048.59,-347.53 1019.26,-359.07 993,-367.92 904.49,-397.75 883.25,-411.28 791,-425.92 612.66,-454.22 397.22,-450.7 301.29,-447.21"/>
-<polygon fill="#ff0000" stroke="#ff0000" points="301.42,-443.72 291.29,-446.83 301.15,-450.71 301.42,-443.72"/>
+<path fill="none" stroke="#255000" stroke-dasharray="5,2" d="M903.96,-99.96C896.82,-97.59 453.39,-113.5 300.25,-119.08"/>
+<polygon fill="#255000" stroke="#255000" points="300.26,-115.57 290.4,-119.44 300.52,-122.57 300.26,-115.57"/>
 </g>
 <!-- sourcefile~trainable_engine_m.f90 -->
-<g id="sourcefile~~write&#45;read&#45;infer.f90~~EfferentGraph_node18" class="node">
+<g id="sourcefile~~write&#45;read&#45;infer.f90~~EfferentGraph_node17" class="node">
 <title>sourcefile~trainable_engine_m.f90</title>
-<g id="a_sourcefile~~write&#45;read&#45;infer.f90~~EfferentGraph_node18"><a xlink:href=".././sourcefile/trainable_engine_m.f90.html" xlink:title="trainable_engine_m.f90">
-<polygon fill="#f0ad4e" stroke="#f0ad4e" points="979.5,-494.92 840.5,-494.92 840.5,-470.92 979.5,-470.92 979.5,-494.92"/>
-<text text-anchor="middle" x="910" y="-480.52" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">trainable_engine_m.f90</text>
+<g id="a_sourcefile~~write&#45;read&#45;infer.f90~~EfferentGraph_node17"><a xlink:href=".././sourcefile/trainable_engine_m.f90.html" xlink:title="trainable_engine_m.f90">
+<polygon fill="#f0ad4e" stroke="#f0ad4e" points="973.73,-171.09 836.21,-171.09 836.21,-146.82 973.73,-146.82 973.73,-171.09"/>
+<text text-anchor="middle" x="904.97" y="-155.36" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">trainable_engine_m.f90</text>
 </a>
 </g>
 </g>
 <!-- sourcefile~inference_engine_m.f90&#45;&gt;sourcefile~trainable_engine_m.f90 -->
-<g id="sourcefile~~write&#45;read&#45;infer.f90~~EfferentGraph_edge18" class="edge">
+<g id="sourcefile~~write&#45;read&#45;infer.f90~~EfferentGraph_edge17" class="edge">
 <title>sourcefile~inference_engine_m.f90&#45;&gt;sourcefile~trainable_engine_m.f90</title>
-<path fill="none" stroke="#ff0000" stroke-dasharray="5,2" d="M1092.03,-338.92C1077.66,-364.47 1040.56,-424.51 993,-456.92 987.28,-460.81 980.94,-464.15 974.4,-467.01"/>
-<polygon fill="#ff0000" stroke="#ff0000" points="972.71,-463.91 964.71,-470.85 975.29,-470.42 972.71,-463.91"/>
+<path fill="none" stroke="#255000" stroke-dasharray="5,2" d="M1054.14,-206.47C1034.29,-200.03 1009.65,-192.04 987.6,-184.96 977.51,-181.71 966.72,-178.26 956.39,-174.97"/>
+<polygon fill="#255000" stroke="#255000" points="957.46,-171.64 946.87,-171.94 955.33,-178.31 957.46,-171.64"/>
+</g>
+<!-- sourcefile~training_configuration_m.f90 -->
+<g id="sourcefile~~write&#45;read&#45;infer.f90~~EfferentGraph_node18" class="node">
+<title>sourcefile~training_configuration_m.f90</title>
+<g id="a_sourcefile~~write&#45;read&#45;infer.f90~~EfferentGraph_node18"><a xlink:href=".././sourcefile/training_configuration_m.f90.html" xlink:title="training_configuration_m.f90">
+<polygon fill="#f0ad4e" stroke="#f0ad4e" points="987.6,-514.09 822.33,-514.09 822.33,-489.82 987.6,-489.82 987.6,-514.09"/>
+<text text-anchor="middle" x="904.97" y="-498.36" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">training_configuration_m.f90</text>
+</a>
+</g>
+</g>
+<!-- sourcefile~inference_engine_m.f90&#45;&gt;sourcefile~training_configuration_m.f90 -->
+<g id="sourcefile~~write&#45;read&#45;infer.f90~~EfferentGraph_edge18" class="edge">
+<title>sourcefile~inference_engine_m.f90&#45;&gt;sourcefile~training_configuration_m.f90</title>
+<path fill="none" stroke="#255000" stroke-dasharray="5,2" d="M1084.23,-231.48C1055.16,-275.59 957.29,-424.08 920.29,-480.21"/>
+<polygon fill="#255000" stroke="#255000" points="917.54,-478.04 914.96,-488.31 923.38,-481.89 917.54,-478.04"/>
 </g>
 <!-- sourcefile~activation_strategy_m.f90&#45;&gt;sourcefile~kind_parameters_m.f90 -->
 <g id="sourcefile~~write&#45;read&#45;infer.f90~~EfferentGraph_edge19" class="edge">
 <title>sourcefile~activation_strategy_m.f90&#45;&gt;sourcefile~kind_parameters_m.f90</title>
-<path fill="none" stroke="#ff0000" stroke-dasharray="5,2" d="M195.44,-376.92C176.21,-381.23 154.32,-386.13 134.29,-390.62"/>
-<polygon fill="#ff0000" stroke="#ff0000" points="133.32,-387.25 124.33,-392.85 134.85,-394.08 133.32,-387.25"/>
-</g>
-<!-- sourcefile~mini_batch_m.f90&#45;&gt;sourcefile~kind_parameters_m.f90 -->
-<g id="sourcefile~~write&#45;read&#45;infer.f90~~EfferentGraph_edge21" class="edge">
-<title>sourcefile~mini_batch_m.f90&#45;&gt;sourcefile~kind_parameters_m.f90</title>
-<path fill="none" stroke="#ff6600" stroke-dasharray="5,2" d="M659.79,-572.97C602.88,-587.1 509.53,-607.78 475,-600.92"/>
-<path fill="none" stroke="#ff6600" stroke-dasharray="5,2" d="M473,-600.92C363.81,-579.23 356.58,-520.22 251,-484.92"/>
-</g>
-<!-- sourcefile~mini_batch_m.f90&#45;&gt;sourcefile~input_output_pair_m.f90 -->
-<g id="sourcefile~~write&#45;read&#45;infer.f90~~EfferentGraph_edge20" class="edge">
-<title>sourcefile~mini_batch_m.f90&#45;&gt;sourcefile~input_output_pair_m.f90</title>
-<path fill="none" stroke="#ff6600" stroke-dasharray="5,2" d="M653.29,-552.7C624.21,-548.17 587.5,-542.45 554.95,-537.38"/>
-<polygon fill="#ff6600" stroke="#ff6600" points="555.42,-533.91 545,-535.83 554.34,-540.82 555.42,-533.91"/>
+<path fill="none" stroke="#255000" stroke-dasharray="5,2" d="M227.61,-264.32C196.46,-243.93 134.93,-203.63 98.57,-179.82"/>
+<polygon fill="#255000" stroke="#255000" points="100.58,-176.96 90.3,-174.4 96.75,-182.81 100.58,-176.96"/>
 </g>
 <!-- sourcefile~differentiable_activation_strategy_m.f90&#45;&gt;sourcefile~activation_strategy_m.f90 -->
-<g id="sourcefile~~write&#45;read&#45;infer.f90~~EfferentGraph_edge22" class="edge">
+<g id="sourcefile~~write&#45;read&#45;infer.f90~~EfferentGraph_edge20" class="edge">
 <title>sourcefile~differentiable_activation_strategy_m.f90&#45;&gt;sourcefile~activation_strategy_m.f90</title>
-<path fill="none" stroke="#ffcc00" stroke-dasharray="5,2" d="M438.8,-298.09C399.98,-311.9 336.59,-334.46 294.34,-349.49"/>
-<polygon fill="#ffcc00" stroke="#ffcc00" points="293.12,-346.21 284.88,-352.86 295.47,-352.81 293.12,-346.21"/>
-</g>
-<!-- sourcefile~input_output_pair_m.f90&#45;&gt;sourcefile~kind_parameters_m.f90 -->
-<g id="sourcefile~~write&#45;read&#45;infer.f90~~EfferentGraph_edge23" class="edge">
-<title>sourcefile~input_output_pair_m.f90&#45;&gt;sourcefile~kind_parameters_m.f90</title>
-<path fill="none" stroke="#65ff00" stroke-dasharray="5,2" d="M402.71,-517.53C358.39,-511.58 300.4,-501.43 251,-484.92"/>
-</g>
-<!-- sourcefile~input_output_pair_m.f90&#45;&gt;sourcefile~tensor_m.f90 -->
-<g id="sourcefile~~write&#45;read&#45;infer.f90~~EfferentGraph_edge24" class="edge">
-<title>sourcefile~input_output_pair_m.f90&#45;&gt;sourcefile~tensor_m.f90</title>
-<path fill="none" stroke="#65ff00" stroke-dasharray="5,2" d="M403,-513.58C388.71,-509.92 374.07,-505.14 361,-498.92 342.7,-490.2 342.79,-480.62 325,-470.92 317.44,-466.79 309.1,-463.12 300.82,-459.92"/>
-<polygon fill="#65ff00" stroke="#65ff00" points="301.78,-456.55 291.19,-456.4 299.38,-463.12 301.78,-456.55"/>
-</g>
-<!-- sourcefile~relu_m.f90&#45;&gt;sourcefile~kind_parameters_m.f90 -->
-<g id="sourcefile~~write&#45;read&#45;infer.f90~~EfferentGraph_edge26" class="edge">
-<title>sourcefile~relu_m.f90&#45;&gt;sourcefile~kind_parameters_m.f90</title>
-<path fill="none" stroke="#00ff00" stroke-dasharray="5,2" d="M672.28,-277.82C627.57,-266.45 546.06,-248.08 475,-244.92"/>
-</g>
-<!-- sourcefile~relu_m.f90&#45;&gt;sourcefile~differentiable_activation_strategy_m.f90 -->
-<g id="sourcefile~~write&#45;read&#45;infer.f90~~EfferentGraph_edge25" class="edge">
-<title>sourcefile~relu_m.f90&#45;&gt;sourcefile~differentiable_activation_strategy_m.f90</title>
-<path fill="none" stroke="#00ff00" stroke-dasharray="5,2" d="M672.41,-286.77C652.18,-286.68 625.05,-286.57 597.39,-286.45"/>
-<polygon fill="#00ff00" stroke="#00ff00" points="597.2,-282.95 587.19,-286.4 597.17,-289.95 597.2,-282.95"/>
-</g>
-<!-- sourcefile~sigmoid_m.f90&#45;&gt;sourcefile~kind_parameters_m.f90 -->
-<g id="sourcefile~~write&#45;read&#45;infer.f90~~EfferentGraph_edge28" class="edge">
-<title>sourcefile~sigmoid_m.f90&#45;&gt;sourcefile~kind_parameters_m.f90</title>
-<path fill="none" stroke="#00ff66" stroke-dasharray="5,2" d="M661.26,-246.09C614.7,-247.04 539.7,-247.8 475,-244.92"/>
-</g>
-<!-- sourcefile~sigmoid_m.f90&#45;&gt;sourcefile~differentiable_activation_strategy_m.f90 -->
-<g id="sourcefile~~write&#45;read&#45;infer.f90~~EfferentGraph_edge27" class="edge">
-<title>sourcefile~sigmoid_m.f90&#45;&gt;sourcefile~differentiable_activation_strategy_m.f90</title>
-<path fill="none" stroke="#00ff66" stroke-dasharray="5,2" d="M661.46,-252.82C630.66,-258.29 588.87,-265.71 552.66,-272.13"/>
-<polygon fill="#00ff66" stroke="#00ff66" points="551.85,-268.72 542.61,-273.92 553.07,-275.61 551.85,-268.72"/>
-</g>
-<!-- sourcefile~swish_m.f90&#45;&gt;sourcefile~kind_parameters_m.f90 -->
-<g id="sourcefile~~write&#45;read&#45;infer.f90~~EfferentGraph_edge30" class="edge">
-<title>sourcefile~swish_m.f90&#45;&gt;sourcefile~kind_parameters_m.f90</title>
-<path fill="none" stroke="#00ffcb" stroke-dasharray="5,2" d="M668.09,-211.94C612.62,-224.76 511.95,-246.56 475,-244.92"/>
-<path fill="none" stroke="#00ffcb" stroke-dasharray="5,2" d="M473,-244.92C448.26,-243.81 272.78,-213.13 251,-224.92"/>
-</g>
-<!-- sourcefile~swish_m.f90&#45;&gt;sourcefile~differentiable_activation_strategy_m.f90 -->
-<g id="sourcefile~~write&#45;read&#45;infer.f90~~EfferentGraph_edge29" class="edge">
-<title>sourcefile~swish_m.f90&#45;&gt;sourcefile~differentiable_activation_strategy_m.f90</title>
-<path fill="none" stroke="#00ffcb" stroke-dasharray="5,2" d="M668.49,-208.09C653.66,-211.22 636.88,-216.16 623,-223.92 603.52,-234.8 606.54,-248.14 587,-258.92 578.33,-263.7 568.83,-267.64 559.13,-270.89"/>
-<polygon fill="#00ffcb" stroke="#00ffcb" points="557.91,-267.6 549.4,-273.91 559.99,-274.29 557.91,-267.6"/>
-</g>
-<!-- sourcefile~training_configuration_m.f90&#45;&gt;sourcefile~kind_parameters_m.f90 -->
-<g id="sourcefile~~write&#45;read&#45;infer.f90~~EfferentGraph_edge33" class="edge">
-<title>sourcefile~training_configuration_m.f90&#45;&gt;sourcefile~kind_parameters_m.f90</title>
-<path fill="none" stroke="#00cbff" stroke-dasharray="5,2" d="M858.82,-90.84C818.04,-82.73 759.09,-74.86 708,-82.92"/>
-<path fill="none" stroke="#00cbff" stroke-dasharray="5,2" d="M706,-82.92C604.59,-98.9 570.81,-46.03 475,-82.92"/>
-</g>
-<!-- sourcefile~training_configuration_m.f90&#45;&gt;sourcefile~differentiable_activation_strategy_m.f90 -->
-<g id="sourcefile~~write&#45;read&#45;infer.f90~~EfferentGraph_edge32" class="edge">
-<title>sourcefile~training_configuration_m.f90&#45;&gt;sourcefile~differentiable_activation_strategy_m.f90</title>
-<path fill="none" stroke="#00cbff" stroke-dasharray="5,2" d="M706,-82.92C668.62,-88.81 649.76,-75.16 623,-101.92 572.37,-152.53 637.34,-208.01 587,-258.92 583.23,-262.73 579.02,-266.04 574.5,-268.91"/>
-<polygon fill="#00cbff" stroke="#00cbff" points="572.53,-266 565.48,-273.91 575.92,-272.13 572.53,-266"/>
-</g>
-<!-- sourcefile~training_configuration_m.f90&#45;&gt;sourcefile~hyperparameters_m.f90 -->
-<g id="sourcefile~~write&#45;read&#45;infer.f90~~EfferentGraph_edge31" class="edge">
-<title>sourcefile~training_configuration_m.f90&#45;&gt;sourcefile~hyperparameters_m.f90</title>
-<path fill="none" stroke="#00cbff" stroke-dasharray="5,2" d="M868.32,-90.77C836.48,-81.27 792.04,-68 758.02,-57.85"/>
-<polygon fill="#00cbff" stroke="#00cbff" points="758.85,-54.44 748.27,-54.94 756.85,-61.15 758.85,-54.44"/>
-</g>
-<!-- sourcefile~training_configuration_m.f90&#45;&gt;sourcefile~network_configuration_m.f90 -->
-<g id="sourcefile~~write&#45;read&#45;infer.f90~~EfferentGraph_edge34" class="edge">
-<title>sourcefile~training_configuration_m.f90&#45;&gt;sourcefile~network_configuration_m.f90</title>
-<path fill="none" stroke="#00cbff" stroke-dasharray="5,2" d="M826.96,-111.08C818.45,-111.93 809.76,-112.79 801.15,-113.65"/>
-<polygon fill="#00cbff" stroke="#00cbff" points="800.69,-110.18 791.09,-114.65 801.38,-117.14 800.69,-110.18"/>
-</g>
-<!-- sourcefile~inference_engine_m_.f90&#45;&gt;sourcefile~kind_parameters_m.f90 -->
-<g id="sourcefile~~write&#45;read&#45;infer.f90~~EfferentGraph_edge38" class="edge">
-<title>sourcefile~inference_engine_m_.f90&#45;&gt;sourcefile~kind_parameters_m.f90</title>
-<path fill="none" stroke="#0066ff" stroke-dasharray="5,2" d="M473,-404.92C360.59,-404.92 230.51,-404.92 149.37,-404.92"/>
-<polygon fill="#0066ff" stroke="#0066ff" points="149.23,-401.42 139.23,-404.92 149.23,-408.42 149.23,-401.42"/>
-</g>
-<!-- sourcefile~inference_engine_m_.f90&#45;&gt;sourcefile~activation_strategy_m.f90 -->
-<g id="sourcefile~~write&#45;read&#45;infer.f90~~EfferentGraph_edge35" class="edge">
-<title>sourcefile~inference_engine_m_.f90&#45;&gt;sourcefile~activation_strategy_m.f90</title>
-<path fill="none" stroke="#0066ff" stroke-dasharray="5,2" d="M633.95,-404.92C588.38,-404.92 528.24,-404.92 475,-404.92"/>
-<path fill="none" stroke="#0066ff" stroke-dasharray="5,2" d="M473,-404.92C413.65,-404.92 346.78,-390.9 302.08,-379.46"/>
-<polygon fill="#0066ff" stroke="#0066ff" points="302.89,-376.06 292.33,-376.92 301.13,-382.83 302.89,-376.06"/>
-</g>
-<!-- sourcefile~inference_engine_m_.f90&#45;&gt;sourcefile~differentiable_activation_strategy_m.f90 -->
-<g id="sourcefile~~write&#45;read&#45;infer.f90~~EfferentGraph_edge36" class="edge">
-<title>sourcefile~inference_engine_m_.f90&#45;&gt;sourcefile~differentiable_activation_strategy_m.f90</title>
-<path fill="none" stroke="#0066ff" stroke-dasharray="5,2" d="M682.58,-392.85C641.16,-371.51 554.9,-327.08 507.66,-302.74"/>
-<polygon fill="#0066ff" stroke="#0066ff" points="508.98,-299.48 498.48,-298.01 505.77,-305.7 508.98,-299.48"/>
-</g>
-<!-- sourcefile~inference_engine_m_.f90&#45;&gt;sourcefile~tensor_m.f90 -->
-<g id="sourcefile~~write&#45;read&#45;infer.f90~~EfferentGraph_edge37" class="edge">
-<title>sourcefile~inference_engine_m_.f90&#45;&gt;sourcefile~tensor_m.f90</title>
-<path fill="none" stroke="#0066ff" stroke-dasharray="5,2" d="M473,-404.92C413.11,-404.92 345.55,-419.19 300.85,-430.69"/>
-<polygon fill="#0066ff" stroke="#0066ff" points="299.9,-427.32 291.12,-433.24 301.68,-434.09 299.9,-427.32"/>
+<path fill="none" stroke="none" stroke-dasharray="5,2" d="M407.84,-343.35C391.52,-339.38 374.08,-334.55 358.29,-328.96 331.84,-319.58 303.24,-305.85 281.92,-294.85"/>
+<polygon fill="none" stroke="none" points="283.61,-291.79 273.13,-290.25 280.36,-297.99 283.61,-291.79"/>
 </g>
 <!-- sourcefile~hyperparameters_m.f90&#45;&gt;sourcefile~kind_parameters_m.f90 -->
-<g id="sourcefile~~write&#45;read&#45;infer.f90~~EfferentGraph_edge39" class="edge">
+<g id="sourcefile~~write&#45;read&#45;infer.f90~~EfferentGraph_edge21" class="edge">
 <title>sourcefile~hyperparameters_m.f90&#45;&gt;sourcefile~kind_parameters_m.f90</title>
-<path fill="none" stroke="#0000ff" stroke-dasharray="5,2" d="M635.88,-47.88C589.08,-52.91 526.85,-62.96 475,-82.92"/>
+<path fill="none" stroke="none" stroke-dasharray="5,2" d="M637.2,-549.41C591.22,-540.81 527.95,-529.62 471.93,-521.96"/>
+</g>
+<!-- sourcefile~inference_engine_m_.f90&#45;&gt;sourcefile~kind_parameters_m.f90 -->
+<g id="sourcefile~~write&#45;read&#45;infer.f90~~EfferentGraph_edge24" class="edge">
+<title>sourcefile~inference_engine_m_.f90&#45;&gt;sourcefile~kind_parameters_m.f90</title>
+<path fill="none" stroke="none" stroke-dasharray="5,2" d="M659.89,-250.58C614.02,-263.05 538.29,-279.87 471.93,-276.96"/>
+<path fill="none" stroke="none" stroke-dasharray="5,2" d="M469.93,-276.96C419.64,-274.75 403.67,-279.71 358.29,-257.96 299.7,-229.87 313.26,-169.92 248.91,-160.96"/>
+</g>
+<!-- sourcefile~inference_engine_m_.f90&#45;&gt;sourcefile~activation_strategy_m.f90 -->
+<g id="sourcefile~~write&#45;read&#45;infer.f90~~EfferentGraph_edge22" class="edge">
+<title>sourcefile~inference_engine_m_.f90&#45;&gt;sourcefile~activation_strategy_m.f90</title>
+<path fill="none" stroke="none" stroke-dasharray="5,2" d="M469.93,-276.96C425.07,-274.98 375.05,-274.81 333.96,-275.21"/>
+<polygon fill="none" stroke="none" points="334.09,-271.71 324.13,-275.32 334.17,-278.71 334.09,-271.71"/>
+</g>
+<!-- sourcefile~inference_engine_m_.f90&#45;&gt;sourcefile~differentiable_activation_strategy_m.f90 -->
+<g id="sourcefile~~write&#45;read&#45;infer.f90~~EfferentGraph_edge23" class="edge">
+<title>sourcefile~inference_engine_m_.f90&#45;&gt;sourcefile~differentiable_activation_strategy_m.f90</title>
+<path fill="none" stroke="none" stroke-dasharray="5,2" d="M677.33,-250.58C636.17,-271.7 553.28,-314.22 506.36,-338.29"/>
+<polygon fill="none" stroke="none" points="505.01,-335.05 497.71,-342.73 508.21,-341.28 505.01,-335.05"/>
+</g>
+<!-- sourcefile~inference_engine_m_.f90&#45;&gt;sourcefile~tensor_m.f90 -->
+<g id="sourcefile~~write&#45;read&#45;infer.f90~~EfferentGraph_edge25" class="edge">
+<title>sourcefile~inference_engine_m_.f90&#45;&gt;sourcefile~tensor_m.f90</title>
+<path fill="none" stroke="none" stroke-dasharray="5,2" d="M634.42,-225.37C535.24,-206.86 361.48,-174.33 358.29,-172.96 340.16,-165.16 339.77,-156.12 322.29,-146.96 315.21,-143.24 307.49,-139.86 299.79,-136.85"/>
+<polygon fill="none" stroke="none" points="301.02,-133.57 290.43,-133.37 298.59,-140.13 301.02,-133.57"/>
+</g>
+<!-- sourcefile~input_output_pair_m.f90&#45;&gt;sourcefile~kind_parameters_m.f90 -->
+<g id="sourcefile~~write&#45;read&#45;infer.f90~~EfferentGraph_edge26" class="edge">
+<title>sourcefile~input_output_pair_m.f90&#45;&gt;sourcefile~kind_parameters_m.f90</title>
+<path fill="none" stroke="none" stroke-dasharray="5,2" d="M400.33,-41.58C356.09,-42.49 298.1,-47.01 248.91,-61.96"/>
+</g>
+<!-- sourcefile~input_output_pair_m.f90&#45;&gt;sourcefile~tensor_m.f90 -->
+<g id="sourcefile~~write&#45;read&#45;infer.f90~~EfferentGraph_edge27" class="edge">
+<title>sourcefile~input_output_pair_m.f90&#45;&gt;sourcefile~tensor_m.f90</title>
+<path fill="none" stroke="none" stroke-dasharray="5,2" d="M434.41,-55.49C396.66,-68.81 336.81,-89.93 295.34,-104.57"/>
+<polygon fill="none" stroke="none" points="294.39,-101.19 286.12,-107.82 296.72,-107.79 294.39,-101.19"/>
+</g>
+<!-- sourcefile~mini_batch_m.f90&#45;&gt;sourcefile~kind_parameters_m.f90 -->
+<g id="sourcefile~~write&#45;read&#45;infer.f90~~EfferentGraph_edge29" class="edge">
+<title>sourcefile~mini_batch_m.f90&#45;&gt;sourcefile~kind_parameters_m.f90</title>
+<path fill="none" stroke="#025500" stroke-dasharray="5,2" d="M649.51,-78.3C532.26,-72.43 258.37,-59.08 248.91,-61.96"/>
+</g>
+<!-- sourcefile~mini_batch_m.f90&#45;&gt;sourcefile~input_output_pair_m.f90 -->
+<g id="sourcefile~~write&#45;read&#45;infer.f90~~EfferentGraph_edge28" class="edge">
+<title>sourcefile~mini_batch_m.f90&#45;&gt;sourcefile~input_output_pair_m.f90</title>
+<path fill="none" stroke="#025500" stroke-dasharray="5,2" d="M649.46,-72.29C620.88,-67.56 584.89,-61.62 552.8,-56.32"/>
+<polygon fill="#025500" stroke="#025500" points="553.56,-52.9 543.12,-54.72 552.42,-59.8 553.56,-52.9"/>
+</g>
+<!-- sourcefile~relu_m.f90&#45;&gt;sourcefile~kind_parameters_m.f90 -->
+<g id="sourcefile~~write&#45;read&#45;infer.f90~~EfferentGraph_edge31" class="edge">
+<title>sourcefile~relu_m.f90&#45;&gt;sourcefile~kind_parameters_m.f90</title>
+<path fill="none" stroke="#020325" stroke-dasharray="5,2" stroke-opacity="0.019608" d="M668.76,-447.28C653.61,-450.91 635.53,-455.65 619.56,-460.96 552.18,-483.34 542.27,-531.58 471.93,-521.96"/>
+</g>
+<!-- sourcefile~relu_m.f90&#45;&gt;sourcefile~differentiable_activation_strategy_m.f90 -->
+<g id="sourcefile~~write&#45;read&#45;infer.f90~~EfferentGraph_edge30" class="edge">
+<title>sourcefile~relu_m.f90&#45;&gt;sourcefile~differentiable_activation_strategy_m.f90</title>
+<path fill="none" stroke="#020325" stroke-dasharray="5,2" stroke-opacity="0.019608" d="M668.73,-432.72C653.58,-429.11 635.5,-424.35 619.56,-418.96 580.77,-405.82 537.87,-387.01 508.35,-373.36"/>
+<polygon fill="#020325" fill-opacity="0.019608" stroke="#020325" stroke-opacity="0.019608" points="510.03,-370.28 499.49,-369.23 507.07,-376.63 510.03,-370.28"/>
+</g>
+<!-- sourcefile~sigmoid_m.f90&#45;&gt;sourcefile~kind_parameters_m.f90 -->
+<g id="sourcefile~~write&#45;read&#45;infer.f90~~EfferentGraph_edge33" class="edge">
+<title>sourcefile~sigmoid_m.f90&#45;&gt;sourcefile~kind_parameters_m.f90</title>
+<path fill="none" stroke="#010225" stroke-dasharray="5,2" stroke-opacity="0.019608" d="M657.76,-406.12C645.1,-409.28 631.5,-413.49 619.56,-418.96 546.82,-452.26 551.19,-532.8 471.93,-521.96"/>
+</g>
+<!-- sourcefile~sigmoid_m.f90&#45;&gt;sourcefile~differentiable_activation_strategy_m.f90 -->
+<g id="sourcefile~~write&#45;read&#45;infer.f90~~EfferentGraph_edge32" class="edge">
+<title>sourcefile~sigmoid_m.f90&#45;&gt;sourcefile~differentiable_activation_strategy_m.f90</title>
+<path fill="none" stroke="#010225" stroke-dasharray="5,2" stroke-opacity="0.019608" d="M657.87,-389.91C627.84,-384.43 587.23,-377.01 551.62,-370.51"/>
+<polygon fill="#010225" fill-opacity="0.019608" stroke="#010225" stroke-opacity="0.019608" points="552.7,-367.15 542.23,-368.79 551.44,-374.03 552.7,-367.15"/>
 </g>
 <!-- sourcefile~step_m.f90&#45;&gt;sourcefile~kind_parameters_m.f90 -->
-<g id="sourcefile~~write&#45;read&#45;infer.f90~~EfferentGraph_edge41" class="edge">
+<g id="sourcefile~~write&#45;read&#45;infer.f90~~EfferentGraph_edge35" class="edge">
 <title>sourcefile~step_m.f90&#45;&gt;sourcefile~kind_parameters_m.f90</title>
-<path fill="none" stroke="#cc00ff" stroke-dasharray="5,2" d="M438.28,-199.97C392.43,-195.17 310.56,-192.68 251,-224.92"/>
+<path fill="none" stroke="#002505" stroke-dasharray="5,2" d="M435.72,-230.84C413.37,-226.39 383.72,-219.63 358.29,-210.96 307.7,-193.7 301.85,-168.33 248.91,-160.96"/>
 </g>
 <!-- sourcefile~step_m.f90&#45;&gt;sourcefile~activation_strategy_m.f90 -->
-<g id="sourcefile~~write&#45;read&#45;infer.f90~~EfferentGraph_edge40" class="edge">
+<g id="sourcefile~~write&#45;read&#45;infer.f90~~EfferentGraph_edge34" class="edge">
 <title>sourcefile~step_m.f90&#45;&gt;sourcefile~activation_strategy_m.f90</title>
-<path fill="none" stroke="#cc00ff" stroke-dasharray="5,2" d="M446.13,-217C422.74,-228.05 388.39,-245.58 361,-264.92 326.07,-289.58 290.29,-324.2 269.38,-345.56"/>
-<polygon fill="#cc00ff" stroke="#cc00ff" points="266.82,-343.17 262.38,-352.79 271.85,-348.04 266.82,-343.17"/>
+<path fill="none" stroke="#002505" stroke-dasharray="5,2" d="M435.87,-243.12C407.67,-248.22 366.44,-255.69 329.87,-262.3"/>
+<polygon fill="#002505" stroke="#002505" points="329.39,-258.83 320.17,-264.06 330.64,-265.72 329.39,-258.83"/>
+</g>
+<!-- sourcefile~swish_m.f90&#45;&gt;sourcefile~kind_parameters_m.f90 -->
+<g id="sourcefile~~write&#45;read&#45;infer.f90~~EfferentGraph_edge37" class="edge">
+<title>sourcefile~swish_m.f90&#45;&gt;sourcefile~kind_parameters_m.f90</title>
+<path fill="none" stroke="#101025" stroke-dasharray="5,2" stroke-opacity="0.019608" d="M664.69,-361.14C649.97,-364.26 633.32,-369.21 619.56,-376.96 539.43,-422.09 563.53,-513.73 471.93,-521.96"/>
+<path fill="none" stroke="#101025" stroke-dasharray="5,2" stroke-opacity="0.019608" d="M469.93,-521.96C266.55,-540.22 119.11,-265 80.04,-183.4"/>
+<polygon fill="#101025" fill-opacity="0.019608" stroke="#101025" stroke-opacity="0.019608" points="83.32,-182.15 75.89,-174.59 76.98,-185.13 83.32,-182.15"/>
+</g>
+<!-- sourcefile~swish_m.f90&#45;&gt;sourcefile~differentiable_activation_strategy_m.f90 -->
+<g id="sourcefile~~write&#45;read&#45;infer.f90~~EfferentGraph_edge36" class="edge">
+<title>sourcefile~swish_m.f90&#45;&gt;sourcefile~differentiable_activation_strategy_m.f90</title>
+<path fill="none" stroke="#101025" stroke-dasharray="5,2" stroke-opacity="0.019608" d="M664.48,-355.96C645.18,-355.96 620.44,-355.96 595.16,-355.96"/>
+<polygon fill="#101025" fill-opacity="0.019608" stroke="#101025" stroke-opacity="0.019608" points="595.43,-352.46 585.43,-355.96 595.43,-359.46 595.43,-352.46"/>
 </g>
 <!-- sourcefile~tensor_m.f90&#45;&gt;sourcefile~kind_parameters_m.f90 -->
-<g id="sourcefile~~write&#45;read&#45;infer.f90~~EfferentGraph_edge42" class="edge">
+<g id="sourcefile~~write&#45;read&#45;infer.f90~~EfferentGraph_edge38" class="edge">
 <title>sourcefile~tensor_m.f90&#45;&gt;sourcefile~kind_parameters_m.f90</title>
-<path fill="none" stroke="#ff00cb" stroke-dasharray="5,2" d="M208.94,-435.94C186.89,-431 159.01,-424.75 134.06,-419.16"/>
-<polygon fill="#ff00cb" stroke="#ff00cb" points="134.83,-415.74 124.3,-416.97 133.3,-422.58 134.83,-415.74"/>
+<path fill="none" stroke="#204025" stroke-dasharray="5,2" stroke-opacity="0.019608" d="M207.15,-129.93C186.37,-134.63 160.37,-140.5 136.6,-145.86"/>
+<polygon fill="#204025" fill-opacity="0.019608" stroke="#204025" stroke-opacity="0.019608" points="135.96,-142.42 126.98,-148.04 137.5,-149.25 135.96,-142.42"/>
 </g>
 <!-- sourcefile~trainable_engine_m.f90&#45;&gt;sourcefile~kind_parameters_m.f90 -->
-<g id="sourcefile~~write&#45;read&#45;infer.f90~~EfferentGraph_edge47" class="edge">
+<g id="sourcefile~~write&#45;read&#45;infer.f90~~EfferentGraph_edge41" class="edge">
 <title>sourcefile~trainable_engine_m.f90&#45;&gt;sourcefile~kind_parameters_m.f90</title>
-<path fill="none" stroke="#ff0066" stroke-dasharray="5,2" d="M473,-484.92C374.45,-480.1 344.58,-516.2 251,-484.92"/>
-<path fill="none" stroke="#ff0066" stroke-dasharray="5,2" d="M249,-484.92C216.8,-474.15 206.41,-478.82 175,-465.92 146.73,-454.3 116.85,-436.19 96.31,-422.72"/>
-<polygon fill="#ff0066" stroke="#ff0066" points="98.11,-419.71 87.84,-417.07 94.22,-425.53 98.11,-419.71"/>
-</g>
-<!-- sourcefile~trainable_engine_m.f90&#45;&gt;sourcefile~mini_batch_m.f90 -->
-<g id="sourcefile~~write&#45;read&#45;infer.f90~~EfferentGraph_edge44" class="edge">
-<title>sourcefile~trainable_engine_m.f90&#45;&gt;sourcefile~mini_batch_m.f90</title>
-<path fill="none" stroke="#ff0066" stroke-dasharray="5,2" d="M878.03,-494.93C843.36,-508.39 787.03,-530.25 748.79,-545.09"/>
-<polygon fill="#ff0066" stroke="#ff0066" points="747.06,-542.01 739,-548.89 749.59,-548.53 747.06,-542.01"/>
+<path fill="none" stroke="#255020" stroke-dasharray="5,2" stroke-opacity="0.011765" d="M469.93,-158.96C371.8,-154.37 346.2,-174.5 248.91,-160.96"/>
+<path fill="none" stroke="#255020" stroke-dasharray="5,2" stroke-opacity="0.011765" d="M246.91,-160.96C215.17,-156.54 179.92,-155.72 149.28,-156.29"/>
+<polygon fill="#255020" fill-opacity="0.011765" stroke="#255020" stroke-opacity="0.011765" points="149.2,-152.8 139.29,-156.54 149.38,-159.79 149.2,-152.8"/>
 </g>
 <!-- sourcefile~trainable_engine_m.f90&#45;&gt;sourcefile~differentiable_activation_strategy_m.f90 -->
-<g id="sourcefile~~write&#45;read&#45;infer.f90~~EfferentGraph_edge43" class="edge">
+<g id="sourcefile~~write&#45;read&#45;infer.f90~~EfferentGraph_edge39" class="edge">
 <title>sourcefile~trainable_engine_m.f90&#45;&gt;sourcefile~differentiable_activation_strategy_m.f90</title>
-<path fill="none" stroke="#ff0066" stroke-dasharray="5,2" d="M899.84,-470.91C874.09,-438.38 797.05,-349.53 708,-326.92"/>
+<path fill="none" stroke="#255020" stroke-dasharray="5,2" stroke-opacity="0.011765" d="M844.71,-171.43C836.61,-174.89 828.85,-179.31 822.33,-184.96 794.67,-208.88 810.15,-231.2 786.33,-258.96 757.34,-292.75 746.85,-304.05 703.95,-315.96"/>
+<path fill="none" stroke="#255020" stroke-dasharray="5,2" stroke-opacity="0.011765" d="M701.95,-315.96C662.93,-326.78 619.34,-335.25 580.69,-341.55"/>
+<polygon fill="#255020" fill-opacity="0.011765" stroke="#255020" stroke-opacity="0.011765" points="580.21,-338.08 570.89,-343.12 581.32,-344.99 580.21,-338.08"/>
 </g>
 <!-- sourcefile~trainable_engine_m.f90&#45;&gt;sourcefile~inference_engine_m_.f90 -->
-<g id="sourcefile~~write&#45;read&#45;infer.f90~~EfferentGraph_edge45" class="edge">
+<g id="sourcefile~~write&#45;read&#45;infer.f90~~EfferentGraph_edge40" class="edge">
 <title>sourcefile~trainable_engine_m.f90&#45;&gt;sourcefile~inference_engine_m_.f90</title>
-<path fill="none" stroke="#ff0066" stroke-dasharray="5,2" d="M878.03,-470.9C843.36,-457.44 787.03,-435.58 748.79,-420.75"/>
-<polygon fill="#ff0066" stroke="#ff0066" points="749.59,-417.3 739,-416.95 747.06,-423.83 749.59,-417.3"/>
+<path fill="none" stroke="#255020" stroke-dasharray="5,2" stroke-opacity="0.011765" d="M861.28,-171.55C848.64,-175.55 834.84,-180.18 822.33,-184.96 794.05,-195.75 762.83,-209.82 739.56,-220.75"/>
+<polygon fill="#255020" fill-opacity="0.011765" stroke="#255020" stroke-opacity="0.011765" points="738.37,-217.44 730.83,-224.88 741.36,-223.77 738.37,-217.44"/>
+</g>
+<!-- sourcefile~trainable_engine_m.f90&#45;&gt;sourcefile~mini_batch_m.f90 -->
+<g id="sourcefile~~write&#45;read&#45;infer.f90~~EfferentGraph_edge42" class="edge">
+<title>sourcefile~trainable_engine_m.f90&#45;&gt;sourcefile~mini_batch_m.f90</title>
+<path fill="none" stroke="#255020" stroke-dasharray="5,2" stroke-opacity="0.011765" d="M871.83,-146.42C837.96,-133.22 784.42,-112.34 746.93,-97.72"/>
+<polygon fill="#255020" fill-opacity="0.011765" stroke="#255020" stroke-opacity="0.011765" points="748.33,-94.51 737.74,-94.14 745.79,-101.03 748.33,-94.51"/>
 </g>
 <!-- sourcefile~trainable_engine_m.f90&#45;&gt;sourcefile~tensor_m.f90 -->
-<g id="sourcefile~~write&#45;read&#45;infer.f90~~EfferentGraph_edge46" class="edge">
+<g id="sourcefile~~write&#45;read&#45;infer.f90~~EfferentGraph_edge43" class="edge">
 <title>sourcefile~trainable_engine_m.f90&#45;&gt;sourcefile~tensor_m.f90</title>
-<path fill="none" stroke="#ff0066" stroke-dasharray="5,2" d="M840.19,-485.14C754.57,-487.46 603.93,-490.11 475,-484.92"/>
-<path fill="none" stroke="#ff0066" stroke-dasharray="5,2" d="M473,-484.92C413.18,-481.99 345.6,-468.29 300.89,-457.73"/>
-<polygon fill="#ff0066" stroke="#ff0066" points="301.69,-454.32 291.15,-455.39 300.06,-461.12 301.69,-454.32"/>
+<path fill="none" stroke="#255020" stroke-dasharray="5,2" stroke-opacity="0.011765" d="M835.84,-160.65C750.67,-162.37 600.46,-164.13 471.93,-158.96"/>
+<path fill="none" stroke="#255020" stroke-dasharray="5,2" stroke-opacity="0.011765" d="M469.93,-158.96C411.07,-156.2 344.57,-143.43 300.02,-133.44"/>
+<polygon fill="#255020" fill-opacity="0.011765" stroke="#255020" stroke-opacity="0.011765" points="300.91,-130.05 290.38,-131.24 299.35,-136.88 300.91,-130.05"/>
+</g>
+<!-- sourcefile~training_configuration_m.f90&#45;&gt;sourcefile~kind_parameters_m.f90 -->
+<g id="sourcefile~~write&#45;read&#45;infer.f90~~EfferentGraph_edge46" class="edge">
+<title>sourcefile~training_configuration_m.f90&#45;&gt;sourcefile~kind_parameters_m.f90</title>
+<path fill="none" stroke="#255010" stroke-dasharray="5,2" stroke-opacity="0.007843" d="M701.95,-521.96C600.48,-509.47 573.21,-535.81 471.93,-521.96"/>
+</g>
+<!-- sourcefile~training_configuration_m.f90&#45;&gt;sourcefile~differentiable_activation_strategy_m.f90 -->
+<g id="sourcefile~~write&#45;read&#45;infer.f90~~EfferentGraph_edge44" class="edge">
+<title>sourcefile~training_configuration_m.f90&#45;&gt;sourcefile~differentiable_activation_strategy_m.f90</title>
+<path fill="none" stroke="#255010" stroke-dasharray="5,2" stroke-opacity="0.007843" d="M846.12,-514.54C806.13,-521.57 751.74,-527.84 703.95,-521.96"/>
+<path fill="none" stroke="#255010" stroke-dasharray="5,2" stroke-opacity="0.007843" d="M701.95,-521.96C664.65,-517.37 652.45,-521.13 619.56,-502.96 561.9,-471.08 511.55,-410.14 487.3,-377.64"/>
+<polygon fill="#255010" fill-opacity="0.007843" stroke="#255010" stroke-opacity="0.007843" points="490.25,-375.75 481.52,-369.75 484.6,-379.88 490.25,-375.75"/>
+</g>
+<!-- sourcefile~training_configuration_m.f90&#45;&gt;sourcefile~hyperparameters_m.f90 -->
+<g id="sourcefile~~write&#45;read&#45;infer.f90~~EfferentGraph_edge45" class="edge">
+<title>sourcefile~training_configuration_m.f90&#45;&gt;sourcefile~hyperparameters_m.f90</title>
+<path fill="none" stroke="#255010" stroke-dasharray="5,2" stroke-opacity="0.007843" d="M862.03,-514.53C831.36,-523.73 789.54,-536.28 756.62,-546.16"/>
+<polygon fill="#255010" fill-opacity="0.007843" stroke="#255010" stroke-opacity="0.007843" points="755.84,-542.73 747.27,-548.96 757.85,-549.44 755.84,-542.73"/>
+</g>
+<!-- sourcefile~training_configuration_m.f90&#45;&gt;sourcefile~network_configuration_m.f90 -->
+<g id="sourcefile~~write&#45;read&#45;infer.f90~~EfferentGraph_edge47" class="edge">
+<title>sourcefile~training_configuration_m.f90&#45;&gt;sourcefile~network_configuration_m.f90</title>
+<path fill="none" stroke="#255010" stroke-dasharray="5,2" stroke-opacity="0.007843" d="M822.03,-493.76C814.11,-492.97 806.04,-492.16 798.01,-491.36"/>
+<polygon fill="#255010" fill-opacity="0.007843" stroke="#255010" stroke-opacity="0.007843" points="798.53,-487.9 788.23,-490.38 797.83,-494.86 798.53,-487.9"/>
 </g>
 </g>
 </svg>
-</div><script>var pansourcefilewritereadinferf90EfferentGraph = svgPanZoom('#sourcefilewritereadinferf90EfferentGraph', {zoomEnabled: true,controlIconsEnabled: true, fit: true, center: true,}); </script><div><a type="button" class="graph-help" data-toggle="modal" href="#graph-help-text">Help</a></div><div class="modal fade" id="graph-help-text" tabindex="-1" role="dialog"><div class="modal-dialog modal-lg" role="document"><div class="modal-content"><div class="modal-header"><button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button><h4 class="modal-title" id="-graph-help-label">Graph Key</h4></div><div class="modal-body">
-    <p>Nodes of different colours represent the following: </p>
-    <?xml version="1.0" encoding="UTF-8" standalone="no"?>
+</div>                <script>
+                  var pansourcefilewritereadinferf90EfferentGraph = svgPanZoom('#sourcefilewritereadinferf90EfferentGraph',
+                    {zoomEnabled: true, controlIconsEnabled: true, fit: true, center: true,}
+                  );
+                </script>        <div><a type="button" class="graph-help" data-toggle="modal" href="#EfferentGraph-help-text">Help</a></div>
+          <div class="modal fade" id="EfferentGraph-help-text" tabindex="-1" role="dialog">
+            <div class="modal-dialog modal-lg" role="document">
+              <div class="modal-content">
+                <div class="modal-header">
+                  <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                  </button>
+                  <h4 class="modal-title" id="-graph-help-label">Graph Key</h4>
+                </div>
+              <div class="modal-body">
+<p>Nodes of different colours represent the following: </p>
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN"
  "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
-<!-- Generated by graphviz version 2.43.0 (0)
+<!-- Generated by graphviz version 9.0.0 (20230911.1827)
  -->
 <!-- Title: Graph Key Pages: 1 -->
-<svg width="202pt" height="32pt"
- viewBox="0.00 0.00 201.50 32.00" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
-<g id="graph0" class="graph" transform="scale(1 1) rotate(0) translate(4 28)">
+<svg width="200pt" height="32pt"
+ viewBox="0.00 0.00 199.52 32.27" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+<g id="graph0" class="graph" transform="scale(1 1) rotate(0) translate(4 28.27)">
 <title>Graph Key</title>
-<polygon fill="white" stroke="transparent" points="-4,4 -4,-28 197.5,-28 197.5,4 -4,4"/>
+<polygon fill="white" stroke="none" points="-4,4 -4,-28.27 195.52,-28.27 195.52,4 -4,4"/>
 <!-- Source File -->
 <g id="node1" class="node">
 <title>Source File</title>
-<polygon fill="#f0ad4e" stroke="#f0ad4e" points="70,-24 0,-24 0,0 70,0 70,-24"/>
-<text text-anchor="middle" x="35" y="-9.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">Source File</text>
+<polygon fill="#f0ad4e" stroke="#f0ad4e" points="69.27,-24.27 0,-24.27 0,0 69.27,0 69.27,-24.27"/>
+<text text-anchor="middle" x="34.63" y="-8.53" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">Source File</text>
 </g>
 <!-- This Page&#39;s Entity -->
 <g id="node2" class="node">
 <title>This Page&#39;s Entity</title>
-<polygon fill="none" stroke="black" points="193.5,-24 88.5,-24 88.5,0 193.5,0 193.5,-24"/>
-<text text-anchor="middle" x="141" y="-9.6" font-family="Helvetica,sans-Serif" font-size="10.50">This Page&#39;s Entity</text>
+<polygon fill="none" stroke="black" points="191.52,-24.27 87.75,-24.27 87.75,0 191.52,0 191.52,-24.27"/>
+<text text-anchor="middle" x="139.63" y="-8.53" font-family="Helvetica,sans-Serif" font-size="10.50">This Page&#39;s Entity</text>
 </g>
 </g>
 </svg>
 
-    
-    <p>Solid arrows point from a file to a file which it depends on. A file
-    is dependent upon another if the latter must be compiled before the former
-    can be. Where possible, edges connecting nodes are given different colours to make them easier to distinguish in large graphs.
-    </p>
-    </div></div></div></div>
-      </div>
-    </div>
+<p>Solid arrows point from a file to a file which it depends on. A file
+is dependent upon another if the latter must be compiled before the former
+can be.
+</p>
+ Where possible, edges connecting nodes are
+given different colours to make them easier to distinguish in
+large graphs.</div>
+            </div>
+          </div>
+        </div>
+          </div>
+        </div>
 <br>
-    <section class="visible-xs visible-sm hidden-md">
-      <h3>Contents</h3>
- 
-<div class="panel panel-primary">
-  <div class="panel-heading text-left"><h3 class="panel-title"><a data-toggle="collapse" href="#progs-1">Programs</a></h3></div>
-  <div id="progs-1" class="panel-collapse collapse">
-    <div class="list-group">
-      <a class="list-group-item" href="../program/write_read_infer.html">write_read_infer</a>
-    </div>
-  </div>
-</div>
-<div class="panel panel-primary">
-  <div class="panel-heading text-left"><h3 class="panel-title">Source Code</h3></div>
-  <div class="list-group">
-    <a class="list-group-item" href="../sourcefile/write-read-infer.f90.html#src">write-read-infer.f90</a>
-  </div>
-</div>
-
-    </section>
-    <br class="visible-xs visible-sm hidden-md">
-
-    <section>
-      <h2><span class="anchor" id="src"></span>Source Code</h2>
-    <div class="hl"><pre><span></span><a id="ln-1" name="ln-1" href="#ln-1"></a><span class="c">! Copyright (c), The Regents of the University of California</span>
+      <section>
+        <h2><span class="anchor" id="src"></span>Source Code</h2>
+        <div class="hl codehilite"><pre><span></span><a id="ln-1" name="ln-1" href="#ln-1"></a><span class="c">! Copyright (c), The Regents of the University of California</span>
 <a id="ln-2" name="ln-2" href="#ln-2"></a><span class="c">! Terms of use are as specified in LICENSE.txt</span>
-<a id="ln-3" name="ln-3" href="#ln-3"></a><span class="k">program </span><span class="n">write_read_infer</span><span class="w"></span>
+<a id="ln-3" name="ln-3" href="#ln-3"></a><span class="k">program </span><span class="n">write_read_infer</span>
 <a id="ln-4" name="ln-4" href="#ln-4"></a><span class="w">  </span><span class="c">!! This program demonstrates how to write a neural network to a JSON file,</span>
 <a id="ln-5" name="ln-5" href="#ln-5"></a><span class="w">  </span><span class="c">!! read the same network from the written file, query the network object for</span>
 <a id="ln-6" name="ln-6" href="#ln-6"></a><span class="w">  </span><span class="c">!! some of its properties, print those properties, and use the network to</span>
 <a id="ln-7" name="ln-7" href="#ln-7"></a><span class="w">  </span><span class="c">!! perform inference.  The network performs an identity mapping from any</span>
 <a id="ln-8" name="ln-8" href="#ln-8"></a><span class="w">  </span><span class="c">!! non-negative inputs to the corresponding outputs using a RELU activation</span>
 <a id="ln-9" name="ln-9" href="#ln-9"></a><span class="w">  </span><span class="c">!! function.</span>
-<a id="ln-10" name="ln-10" href="#ln-10"></a><span class="w">  </span><span class="k">use </span><span class="n">inference_engine_m</span><span class="p">,</span><span class="w"> </span><span class="k">only</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="n">inference_engine_t</span><span class="p">,</span><span class="w"> </span><span class="n">relu_t</span><span class="p">,</span><span class="w"> </span><span class="n">tensor_t</span><span class="w"></span>
-<a id="ln-11" name="ln-11" href="#ln-11"></a><span class="w">  </span><span class="k">use </span><span class="n">sourcery_m</span><span class="p">,</span><span class="w"> </span><span class="k">only</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="n">string_t</span><span class="p">,</span><span class="w"> </span><span class="n">command_line_t</span><span class="p">,</span><span class="w"> </span><span class="n">file_t</span><span class="w"></span>
-<a id="ln-12" name="ln-12" href="#ln-12"></a><span class="w">  </span><span class="k">use </span><span class="n">kind_parameters_m</span><span class="p">,</span><span class="w"> </span><span class="k">only</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="n">rkind</span><span class="w"></span>
+<a id="ln-10" name="ln-10" href="#ln-10"></a><span class="w">  </span><span class="k">use </span><span class="n">inference_engine_m</span><span class="p">,</span><span class="w"> </span><span class="k">only</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="n">inference_engine_t</span><span class="p">,</span><span class="w"> </span><span class="n">relu_t</span><span class="p">,</span><span class="w"> </span><span class="n">tensor_t</span>
+<a id="ln-11" name="ln-11" href="#ln-11"></a><span class="w">  </span><span class="k">use </span><span class="n">sourcery_m</span><span class="p">,</span><span class="w"> </span><span class="k">only</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="n">string_t</span><span class="p">,</span><span class="w"> </span><span class="n">command_line_t</span><span class="p">,</span><span class="w"> </span><span class="n">file_t</span>
+<a id="ln-12" name="ln-12" href="#ln-12"></a><span class="w">  </span><span class="k">use </span><span class="n">kind_parameters_m</span><span class="p">,</span><span class="w"> </span><span class="k">only</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="n">rkind</span>
 <a id="ln-13" name="ln-13" href="#ln-13"></a><span class="w">  </span><span class="k">implicit none</span>
 <a id="ln-14" name="ln-14" href="#ln-14"></a>
-<a id="ln-15" name="ln-15" href="#ln-15"></a><span class="k">  type</span><span class="p">(</span><span class="n">string_t</span><span class="p">)</span><span class="w"> </span><span class="n">file_name</span><span class="w"></span>
-<a id="ln-16" name="ln-16" href="#ln-16"></a><span class="w">  </span><span class="k">type</span><span class="p">(</span><span class="n">command_line_t</span><span class="p">)</span><span class="w"> </span><span class="n">command_line</span><span class="w"></span>
+<a id="ln-15" name="ln-15" href="#ln-15"></a><span class="k">  type</span><span class="p">(</span><span class="n">string_t</span><span class="p">)</span><span class="w"> </span><span class="n">file_name</span>
+<a id="ln-16" name="ln-16" href="#ln-16"></a><span class="w">  </span><span class="k">type</span><span class="p">(</span><span class="n">command_line_t</span><span class="p">)</span><span class="w"> </span><span class="n">command_line</span>
 <a id="ln-17" name="ln-17" href="#ln-17"></a>
-<a id="ln-18" name="ln-18" href="#ln-18"></a><span class="w">  </span><span class="n">file_name</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">string_t</span><span class="p">(</span><span class="n">command_line</span><span class="p">%</span><span class="n">flag_value</span><span class="p">(</span><span class="s2">&quot;--output-file&quot;</span><span class="p">))</span><span class="w"></span>
+<a id="ln-18" name="ln-18" href="#ln-18"></a><span class="w">  </span><span class="n">file_name</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">string_t</span><span class="p">(</span><span class="n">command_line</span><span class="p">%</span><span class="n">flag_value</span><span class="p">(</span><span class="s2">&quot;--output-file&quot;</span><span class="p">))</span>
 <a id="ln-19" name="ln-19" href="#ln-19"></a>
 <a id="ln-20" name="ln-20" href="#ln-20"></a><span class="w">  </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">file_name</span><span class="p">%</span><span class="n">string</span><span class="p">())</span><span class="o">==</span><span class="mi">0</span><span class="p">)</span><span class="w"> </span><span class="k">then</span>
-<a id="ln-21" name="ln-21" href="#ln-21"></a><span class="k">    error stop </span><span class="nb">new_line</span><span class="p">(</span><span class="s1">&#39;a&#39;</span><span class="p">)</span><span class="w"> </span><span class="o">//</span><span class="w"> </span><span class="nb">new_line</span><span class="p">(</span><span class="s1">&#39;a&#39;</span><span class="p">)</span><span class="w"> </span><span class="o">//</span><span class="w"> </span><span class="p">&amp;</span><span class="w"></span>
+<a id="ln-21" name="ln-21" href="#ln-21"></a><span class="k">    error stop </span><span class="nb">new_line</span><span class="p">(</span><span class="s1">&#39;a&#39;</span><span class="p">)</span><span class="w"> </span><span class="o">//</span><span class="w"> </span><span class="nb">new_line</span><span class="p">(</span><span class="s1">&#39;a&#39;</span><span class="p">)</span><span class="w"> </span><span class="o">//</span><span class="w"> </span><span class="p">&amp;</span>
 <a id="ln-22" name="ln-22" href="#ln-22"></a><span class="w">      </span><span class="s1">&#39;Usage: ./build/run-fpm.sh run --example identity -- --output-file &quot;&lt;file-name&gt;&quot;&#39;</span><span class="w"> </span>
 <a id="ln-23" name="ln-23" href="#ln-23"></a><span class="w">  </span><span class="k">end if</span>
 <a id="ln-24" name="ln-24" href="#ln-24"></a>
-<a id="ln-25" name="ln-25" href="#ln-25"></a><span class="k">  call </span><span class="n">write_read_query_infer</span><span class="p">(</span><span class="n">file_name</span><span class="p">)</span><span class="w"></span>
+<a id="ln-25" name="ln-25" href="#ln-25"></a><span class="k">  call </span><span class="n">write_read_query_infer</span><span class="p">(</span><span class="n">file_name</span><span class="p">)</span>
 <a id="ln-26" name="ln-26" href="#ln-26"></a>
 <a id="ln-27" name="ln-27" href="#ln-27"></a><span class="k">contains</span>
 <a id="ln-28" name="ln-28" href="#ln-28"></a>
-<a id="ln-29" name="ln-29" href="#ln-29"></a><span class="k">  function </span><span class="n">identity_network</span><span class="p">()</span><span class="w"> </span><span class="k">result</span><span class="p">(</span><span class="n">inference_engine</span><span class="p">)</span><span class="w"></span>
-<a id="ln-30" name="ln-30" href="#ln-30"></a><span class="w">    </span><span class="k">type</span><span class="p">(</span><span class="n">inference_engine_t</span><span class="p">)</span><span class="w"> </span><span class="n">inference_engine</span><span class="w"></span>
-<a id="ln-31" name="ln-31" href="#ln-31"></a><span class="w">    </span><span class="kt">integer</span><span class="p">,</span><span class="w"> </span><span class="k">parameter</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">nodes_per_layer</span><span class="p">(</span><span class="o">*</span><span class="p">)</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">[</span><span class="mi">2</span><span class="p">,</span><span class="w"> </span><span class="mi">2</span><span class="p">,</span><span class="w"> </span><span class="mi">2</span><span class="p">]</span><span class="w"></span>
-<a id="ln-32" name="ln-32" href="#ln-32"></a><span class="w">    </span><span class="kt">integer</span><span class="p">,</span><span class="w"> </span><span class="k">parameter</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">max_n</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nb">maxval</span><span class="p">(</span><span class="n">nodes_per_layer</span><span class="p">),</span><span class="w"> </span><span class="n">layers</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">size</span><span class="p">(</span><span class="n">nodes_per_layer</span><span class="p">)</span><span class="w"></span>
+<a id="ln-29" name="ln-29" href="#ln-29"></a><span class="k">  function </span><span class="n">identity_network</span><span class="p">()</span><span class="w"> </span><span class="k">result</span><span class="p">(</span><span class="n">inference_engine</span><span class="p">)</span>
+<a id="ln-30" name="ln-30" href="#ln-30"></a><span class="w">    </span><span class="k">type</span><span class="p">(</span><span class="n">inference_engine_t</span><span class="p">)</span><span class="w"> </span><span class="n">inference_engine</span>
+<a id="ln-31" name="ln-31" href="#ln-31"></a><span class="w">    </span><span class="kt">integer</span><span class="p">,</span><span class="w"> </span><span class="k">parameter</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">nodes_per_layer</span><span class="p">(</span><span class="o">*</span><span class="p">)</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">[</span><span class="mi">2</span><span class="p">,</span><span class="w"> </span><span class="mi">2</span><span class="p">,</span><span class="w"> </span><span class="mi">2</span><span class="p">]</span>
+<a id="ln-32" name="ln-32" href="#ln-32"></a><span class="w">    </span><span class="kt">integer</span><span class="p">,</span><span class="w"> </span><span class="k">parameter</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">max_n</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nb">maxval</span><span class="p">(</span><span class="n">nodes_per_layer</span><span class="p">),</span><span class="w"> </span><span class="n">layers</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">size</span><span class="p">(</span><span class="n">nodes_per_layer</span><span class="p">)</span>
 <a id="ln-33" name="ln-33" href="#ln-33"></a>
-<a id="ln-34" name="ln-34" href="#ln-34"></a><span class="w">    </span><span class="n">inference_engine</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">inference_engine_t</span><span class="p">(</span><span class="w"> </span><span class="p">&amp;</span><span class="w"></span>
-<a id="ln-35" name="ln-35" href="#ln-35"></a><span class="w">      </span><span class="n">metadata</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">[</span><span class="n">string_t</span><span class="p">(</span><span class="s2">&quot;Identity&quot;</span><span class="p">),</span><span class="w"> </span><span class="n">string_t</span><span class="p">(</span><span class="s2">&quot;Damian Rouson&quot;</span><span class="p">),</span><span class="w"> </span><span class="n">string_t</span><span class="p">(</span><span class="s2">&quot;2023-09-18&quot;</span><span class="p">),</span><span class="w"> </span><span class="n">string_t</span><span class="p">(</span><span class="s2">&quot;relu&quot;</span><span class="p">),</span><span class="w"> </span><span class="n">string_t</span><span class="p">(</span><span class="s2">&quot;false&quot;</span><span class="p">)],</span><span class="w"> </span><span class="p">&amp;</span><span class="w"></span>
-<a id="ln-36" name="ln-36" href="#ln-36"></a><span class="w">      </span><span class="n">weights</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nb">reshape</span><span class="p">([</span><span class="kt">real</span><span class="p">(</span><span class="n">rkind</span><span class="p">)</span><span class="kd">::</span><span class="w"> </span><span class="p">[</span><span class="mi">1</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="w"> </span><span class="mi">0</span><span class="p">,</span><span class="mi">1</span><span class="p">],</span><span class="w"> </span><span class="p">[</span><span class="mi">1</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="w"> </span><span class="mi">0</span><span class="p">,</span><span class="mi">1</span><span class="p">]],</span><span class="w"> </span><span class="p">[</span><span class="n">max_n</span><span class="p">,</span><span class="w"> </span><span class="n">max_n</span><span class="p">,</span><span class="w"> </span><span class="n">layers</span><span class="o">-</span><span class="mi">1</span><span class="p">]),</span><span class="w"> </span><span class="p">&amp;</span><span class="w"></span>
-<a id="ln-37" name="ln-37" href="#ln-37"></a><span class="w">      </span><span class="n">biases</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nb">reshape</span><span class="p">([</span><span class="kt">real</span><span class="p">(</span><span class="n">rkind</span><span class="p">)</span><span class="kd">::</span><span class="w"> </span><span class="p">[</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">],</span><span class="w"> </span><span class="p">[</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">]],</span><span class="w"> </span><span class="p">[</span><span class="n">max_n</span><span class="p">,</span><span class="w"> </span><span class="n">layers</span><span class="o">-</span><span class="mi">1</span><span class="p">]),</span><span class="w"> </span><span class="p">&amp;</span><span class="w"></span>
-<a id="ln-38" name="ln-38" href="#ln-38"></a><span class="w">      </span><span class="n">nodes</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">nodes_per_layer</span><span class="w"> </span><span class="p">&amp;</span><span class="w"></span>
-<a id="ln-39" name="ln-39" href="#ln-39"></a><span class="w">    </span><span class="p">)</span><span class="w"></span>
+<a id="ln-34" name="ln-34" href="#ln-34"></a><span class="w">    </span><span class="n">inference_engine</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">inference_engine_t</span><span class="p">(</span><span class="w"> </span><span class="p">&amp;</span>
+<a id="ln-35" name="ln-35" href="#ln-35"></a><span class="w">      </span><span class="n">metadata</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">[</span><span class="n">string_t</span><span class="p">(</span><span class="s2">&quot;Identity&quot;</span><span class="p">),</span><span class="w"> </span><span class="n">string_t</span><span class="p">(</span><span class="s2">&quot;Damian Rouson&quot;</span><span class="p">),</span><span class="w"> </span><span class="n">string_t</span><span class="p">(</span><span class="s2">&quot;2023-09-18&quot;</span><span class="p">),</span><span class="w"> </span><span class="n">string_t</span><span class="p">(</span><span class="s2">&quot;relu&quot;</span><span class="p">),</span><span class="w"> </span><span class="n">string_t</span><span class="p">(</span><span class="s2">&quot;false&quot;</span><span class="p">)],</span><span class="w"> </span><span class="p">&amp;</span>
+<a id="ln-36" name="ln-36" href="#ln-36"></a><span class="w">      </span><span class="n">weights</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nb">reshape</span><span class="p">([</span><span class="kt">real</span><span class="p">(</span><span class="n">rkind</span><span class="p">)</span><span class="kd">::</span><span class="w"> </span><span class="p">[</span><span class="mi">1</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="w"> </span><span class="mi">0</span><span class="p">,</span><span class="mi">1</span><span class="p">],</span><span class="w"> </span><span class="p">[</span><span class="mi">1</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="w"> </span><span class="mi">0</span><span class="p">,</span><span class="mi">1</span><span class="p">]],</span><span class="w"> </span><span class="p">[</span><span class="n">max_n</span><span class="p">,</span><span class="w"> </span><span class="n">max_n</span><span class="p">,</span><span class="w"> </span><span class="n">layers</span><span class="o">-</span><span class="mi">1</span><span class="p">]),</span><span class="w"> </span><span class="p">&amp;</span>
+<a id="ln-37" name="ln-37" href="#ln-37"></a><span class="w">      </span><span class="n">biases</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nb">reshape</span><span class="p">([</span><span class="kt">real</span><span class="p">(</span><span class="n">rkind</span><span class="p">)</span><span class="kd">::</span><span class="w"> </span><span class="p">[</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">],</span><span class="w"> </span><span class="p">[</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">]],</span><span class="w"> </span><span class="p">[</span><span class="n">max_n</span><span class="p">,</span><span class="w"> </span><span class="n">layers</span><span class="o">-</span><span class="mi">1</span><span class="p">]),</span><span class="w"> </span><span class="p">&amp;</span>
+<a id="ln-38" name="ln-38" href="#ln-38"></a><span class="w">      </span><span class="n">nodes</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">nodes_per_layer</span><span class="w"> </span><span class="p">&amp;</span>
+<a id="ln-39" name="ln-39" href="#ln-39"></a><span class="w">    </span><span class="p">)</span>
 <a id="ln-40" name="ln-40" href="#ln-40"></a>
 <a id="ln-41" name="ln-41" href="#ln-41"></a><span class="w">  </span><span class="k">end function</span>
 <a id="ln-42" name="ln-42" href="#ln-42"></a>
-<a id="ln-43" name="ln-43" href="#ln-43"></a><span class="k">  subroutine </span><span class="n">write_read_query_infer</span><span class="p">(</span><span class="n">output_file_name</span><span class="p">)</span><span class="w"></span>
-<a id="ln-44" name="ln-44" href="#ln-44"></a><span class="w">    </span><span class="k">type</span><span class="p">(</span><span class="n">string_t</span><span class="p">),</span><span class="w"> </span><span class="k">intent</span><span class="p">(</span><span class="n">in</span><span class="p">)</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">output_file_name</span><span class="w"></span>
-<a id="ln-45" name="ln-45" href="#ln-45"></a><span class="w">    </span><span class="k">type</span><span class="p">(</span><span class="n">string_t</span><span class="p">)</span><span class="w"> </span><span class="n">activation_name</span><span class="w"></span>
-<a id="ln-46" name="ln-46" href="#ln-46"></a><span class="w">    </span><span class="kt">integer </span><span class="n">i</span><span class="p">,</span><span class="w"> </span><span class="n">j</span><span class="w"></span>
-<a id="ln-47" name="ln-47" href="#ln-47"></a><span class="w">    </span><span class="kt">integer</span><span class="p">,</span><span class="w"> </span><span class="k">parameter</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">num_neurons</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">3</span><span class="p">,</span><span class="w"> </span><span class="n">num_hidden_layers</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">2</span><span class="w"></span>
-<a id="ln-48" name="ln-48" href="#ln-48"></a><span class="w">    </span><span class="k">type</span><span class="p">(</span><span class="n">inference_engine_t</span><span class="p">)</span><span class="w"> </span><span class="n">network</span><span class="p">,</span><span class="w"> </span><span class="n">inference_engine</span><span class="w"></span>
-<a id="ln-49" name="ln-49" href="#ln-49"></a><span class="w">    </span><span class="k">type</span><span class="p">(</span><span class="n">file_t</span><span class="p">)</span><span class="w"> </span><span class="n">json_output_file</span><span class="p">,</span><span class="w"> </span><span class="n">json_input_file</span><span class="w"></span>
+<a id="ln-43" name="ln-43" href="#ln-43"></a><span class="k">  subroutine </span><span class="n">write_read_query_infer</span><span class="p">(</span><span class="n">output_file_name</span><span class="p">)</span>
+<a id="ln-44" name="ln-44" href="#ln-44"></a><span class="w">    </span><span class="k">type</span><span class="p">(</span><span class="n">string_t</span><span class="p">),</span><span class="w"> </span><span class="k">intent</span><span class="p">(</span><span class="n">in</span><span class="p">)</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">output_file_name</span>
+<a id="ln-45" name="ln-45" href="#ln-45"></a><span class="w">    </span><span class="k">type</span><span class="p">(</span><span class="n">string_t</span><span class="p">)</span><span class="w"> </span><span class="n">activation_name</span>
+<a id="ln-46" name="ln-46" href="#ln-46"></a><span class="w">    </span><span class="kt">integer </span><span class="n">i</span><span class="p">,</span><span class="w"> </span><span class="n">j</span>
+<a id="ln-47" name="ln-47" href="#ln-47"></a><span class="w">    </span><span class="kt">integer</span><span class="p">,</span><span class="w"> </span><span class="k">parameter</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">num_neurons</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">3</span><span class="p">,</span><span class="w"> </span><span class="n">num_hidden_layers</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">2</span>
+<a id="ln-48" name="ln-48" href="#ln-48"></a><span class="w">    </span><span class="k">type</span><span class="p">(</span><span class="n">inference_engine_t</span><span class="p">)</span><span class="w"> </span><span class="n">network</span><span class="p">,</span><span class="w"> </span><span class="n">inference_engine</span>
+<a id="ln-49" name="ln-49" href="#ln-49"></a><span class="w">    </span><span class="k">type</span><span class="p">(</span><span class="n">file_t</span><span class="p">)</span><span class="w"> </span><span class="n">json_output_file</span><span class="p">,</span><span class="w"> </span><span class="n">json_input_file</span>
 <a id="ln-50" name="ln-50" href="#ln-50"></a><span class="w">    </span><span class="k">type</span><span class="p">(</span><span class="n">tensor_t</span><span class="p">)</span><span class="w"> </span><span class="n">inputs</span><span class="p">,</span><span class="w"> </span><span class="n">outputs</span><span class="w"> </span>
 <a id="ln-51" name="ln-51" href="#ln-51"></a>
-<a id="ln-52" name="ln-52" href="#ln-52"></a><span class="w">    </span><span class="k">print</span><span class="w"> </span><span class="o">*</span><span class="p">,</span><span class="w"> </span><span class="s2">&quot;Constructing an inference_engine_t neural-network object from scratch.&quot;</span><span class="w"></span>
-<a id="ln-53" name="ln-53" href="#ln-53"></a><span class="w">    </span><span class="n">network</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">identity_network</span><span class="p">()</span><span class="w"></span>
+<a id="ln-52" name="ln-52" href="#ln-52"></a><span class="w">    </span><span class="k">print</span><span class="w"> </span><span class="o">*</span><span class="p">,</span><span class="w"> </span><span class="s2">&quot;Constructing an inference_engine_t neural-network object from scratch.&quot;</span>
+<a id="ln-53" name="ln-53" href="#ln-53"></a><span class="w">    </span><span class="n">network</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">identity_network</span><span class="p">()</span>
 <a id="ln-54" name="ln-54" href="#ln-54"></a>
-<a id="ln-55" name="ln-55" href="#ln-55"></a><span class="w">    </span><span class="k">print</span><span class="w"> </span><span class="o">*</span><span class="p">,</span><span class="w"> </span><span class="s2">&quot;Converting an inference_engine_t object to a file_t object.&quot;</span><span class="w"></span>
-<a id="ln-56" name="ln-56" href="#ln-56"></a><span class="w">    </span><span class="n">json_output_file</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">network</span><span class="p">%</span><span class="n">to_json</span><span class="p">()</span><span class="w"></span>
+<a id="ln-55" name="ln-55" href="#ln-55"></a><span class="w">    </span><span class="k">print</span><span class="w"> </span><span class="o">*</span><span class="p">,</span><span class="w"> </span><span class="s2">&quot;Converting an inference_engine_t object to a file_t object.&quot;</span>
+<a id="ln-56" name="ln-56" href="#ln-56"></a><span class="w">    </span><span class="n">json_output_file</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">network</span><span class="p">%</span><span class="n">to_json</span><span class="p">()</span>
 <a id="ln-57" name="ln-57" href="#ln-57"></a>
-<a id="ln-58" name="ln-58" href="#ln-58"></a><span class="w">    </span><span class="k">print</span><span class="w"> </span><span class="o">*</span><span class="p">,</span><span class="w"> </span><span class="s2">&quot;Writing an inference_engine_t object to the file &#39;&quot;</span><span class="o">//</span><span class="n">output_file_name</span><span class="p">%</span><span class="n">string</span><span class="p">()</span><span class="o">//</span><span class="s2">&quot;&#39; in JSON format.&quot;</span><span class="w"></span>
-<a id="ln-59" name="ln-59" href="#ln-59"></a><span class="w">    </span><span class="k">call </span><span class="n">json_output_file</span><span class="p">%</span><span class="n">write_lines</span><span class="p">(</span><span class="n">output_file_name</span><span class="p">)</span><span class="w"></span>
+<a id="ln-58" name="ln-58" href="#ln-58"></a><span class="w">    </span><span class="k">print</span><span class="w"> </span><span class="o">*</span><span class="p">,</span><span class="w"> </span><span class="s2">&quot;Writing an inference_engine_t object to the file &#39;&quot;</span><span class="o">//</span><span class="n">output_file_name</span><span class="p">%</span><span class="n">string</span><span class="p">()</span><span class="o">//</span><span class="s2">&quot;&#39; in JSON format.&quot;</span>
+<a id="ln-59" name="ln-59" href="#ln-59"></a><span class="w">    </span><span class="k">call </span><span class="n">json_output_file</span><span class="p">%</span><span class="n">write_lines</span><span class="p">(</span><span class="n">output_file_name</span><span class="p">)</span>
 <a id="ln-60" name="ln-60" href="#ln-60"></a>
-<a id="ln-61" name="ln-61" href="#ln-61"></a><span class="w">    </span><span class="k">print</span><span class="w"> </span><span class="o">*</span><span class="p">,</span><span class="w"> </span><span class="s2">&quot;Reading an inference_engine_t object from the same JSON file &#39;&quot;</span><span class="o">//</span><span class="n">output_file_name</span><span class="p">%</span><span class="n">string</span><span class="p">()</span><span class="o">//</span><span class="s2">&quot;&#39;.&quot;</span><span class="w"></span>
-<a id="ln-62" name="ln-62" href="#ln-62"></a><span class="w">    </span><span class="n">json_input_file</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">file_t</span><span class="p">(</span><span class="n">output_file_name</span><span class="p">)</span><span class="w"></span>
+<a id="ln-61" name="ln-61" href="#ln-61"></a><span class="w">    </span><span class="k">print</span><span class="w"> </span><span class="o">*</span><span class="p">,</span><span class="w"> </span><span class="s2">&quot;Reading an inference_engine_t object from the same JSON file &#39;&quot;</span><span class="o">//</span><span class="n">output_file_name</span><span class="p">%</span><span class="n">string</span><span class="p">()</span><span class="o">//</span><span class="s2">&quot;&#39;.&quot;</span>
+<a id="ln-62" name="ln-62" href="#ln-62"></a><span class="w">    </span><span class="n">json_input_file</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">file_t</span><span class="p">(</span><span class="n">output_file_name</span><span class="p">)</span>
 <a id="ln-63" name="ln-63" href="#ln-63"></a>
-<a id="ln-64" name="ln-64" href="#ln-64"></a><span class="w">    </span><span class="k">print</span><span class="w"> </span><span class="o">*</span><span class="p">,</span><span class="w"> </span><span class="s2">&quot;Constructing a new inference_engine_t object from the parameters read.&quot;</span><span class="w"></span>
-<a id="ln-65" name="ln-65" href="#ln-65"></a><span class="w">    </span><span class="n">inference_engine</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">inference_engine_t</span><span class="p">(</span><span class="n">json_input_file</span><span class="p">)</span><span class="w"></span>
+<a id="ln-64" name="ln-64" href="#ln-64"></a><span class="w">    </span><span class="k">print</span><span class="w"> </span><span class="o">*</span><span class="p">,</span><span class="w"> </span><span class="s2">&quot;Constructing a new inference_engine_t object from the parameters read.&quot;</span>
+<a id="ln-65" name="ln-65" href="#ln-65"></a><span class="w">    </span><span class="n">inference_engine</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">inference_engine_t</span><span class="p">(</span><span class="n">json_input_file</span><span class="p">)</span>
 <a id="ln-66" name="ln-66" href="#ln-66"></a>
-<a id="ln-67" name="ln-67" href="#ln-67"></a><span class="w">    </span><span class="k">print</span><span class="w"> </span><span class="o">*</span><span class="p">,</span><span class="w"> </span><span class="s2">&quot;Querying the new inference_engine_t object for several properties:&quot;</span><span class="w"></span>
-<a id="ln-68" name="ln-68" href="#ln-68"></a><span class="w">    </span><span class="k">print</span><span class="w"> </span><span class="o">*</span><span class="p">,</span><span class="w"> </span><span class="s2">&quot;Number of outputs:&quot;</span><span class="p">,</span><span class="w"> </span><span class="n">inference_engine</span><span class="p">%</span><span class="n">num_outputs</span><span class="p">()</span><span class="w"></span>
-<a id="ln-69" name="ln-69" href="#ln-69"></a><span class="w">    </span><span class="k">print</span><span class="w"> </span><span class="o">*</span><span class="p">,</span><span class="w"> </span><span class="s2">&quot;Number of inputs:&quot;</span><span class="p">,</span><span class="w"> </span><span class="n">inference_engine</span><span class="p">%</span><span class="n">num_inputs</span><span class="p">()</span><span class="w"></span>
-<a id="ln-70" name="ln-70" href="#ln-70"></a><span class="w">    </span><span class="k">print</span><span class="w"> </span><span class="o">*</span><span class="p">,</span><span class="w"> </span><span class="s2">&quot;Nodes per layer:&quot;</span><span class="p">,</span><span class="w"> </span><span class="n">inference_engine</span><span class="p">%</span><span class="n">nodes_per_layer</span><span class="p">()</span><span class="w"></span>
-<a id="ln-71" name="ln-71" href="#ln-71"></a><span class="w">    </span><span class="n">activation_name</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">inference_engine</span><span class="p">%</span><span class="n">activation_function_name</span><span class="p">()</span><span class="w"></span>
-<a id="ln-72" name="ln-72" href="#ln-72"></a><span class="w">    </span><span class="k">print</span><span class="w"> </span><span class="o">*</span><span class="p">,</span><span class="w"> </span><span class="s2">&quot;Activation function: &quot;</span><span class="p">,</span><span class="w"> </span><span class="n">activation_name</span><span class="p">%</span><span class="n">string</span><span class="p">()</span><span class="w"></span>
-<a id="ln-73" name="ln-73" href="#ln-73"></a><span class="w">    </span><span class="k">print</span><span class="w"> </span><span class="o">*</span><span class="p">,</span><span class="w"> </span><span class="s2">&quot;Performing inference:&quot;</span><span class="w"></span>
-<a id="ln-74" name="ln-74" href="#ln-74"></a><span class="w">    </span><span class="n">inputs</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">tensor_t</span><span class="p">([</span><span class="mf">2.</span><span class="p">,</span><span class="mf">3.</span><span class="p">])</span><span class="w"></span>
-<a id="ln-75" name="ln-75" href="#ln-75"></a><span class="w">    </span><span class="k">print</span><span class="w"> </span><span class="o">*</span><span class="p">,</span><span class="w"> </span><span class="s2">&quot;Inputs: &quot;</span><span class="p">,</span><span class="w"> </span><span class="n">inputs</span><span class="p">%</span><span class="n">values</span><span class="p">()</span><span class="w"></span>
-<a id="ln-76" name="ln-76" href="#ln-76"></a><span class="w">    </span><span class="n">outputs</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">inference_engine</span><span class="p">%</span><span class="n">infer</span><span class="p">(</span><span class="n">inputs</span><span class="p">)</span><span class="w"></span>
-<a id="ln-77" name="ln-77" href="#ln-77"></a><span class="w">    </span><span class="k">print</span><span class="w"> </span><span class="o">*</span><span class="p">,</span><span class="w"> </span><span class="s2">&quot;Actual outputs: &quot;</span><span class="p">,</span><span class="w"> </span><span class="n">outputs</span><span class="p">%</span><span class="n">values</span><span class="p">()</span><span class="w"></span>
-<a id="ln-78" name="ln-78" href="#ln-78"></a><span class="w">    </span><span class="k">print</span><span class="w"> </span><span class="o">*</span><span class="p">,</span><span class="w"> </span><span class="s2">&quot;Correct outputs:  &quot;</span><span class="p">,</span><span class="w"> </span><span class="n">inputs</span><span class="p">%</span><span class="n">values</span><span class="p">()</span><span class="w"></span>
-<a id="ln-79" name="ln-79" href="#ln-79"></a><span class="w">  </span><span class="k">end subroutine </span><span class="n">write_read_query_infer</span><span class="w"></span>
+<a id="ln-67" name="ln-67" href="#ln-67"></a><span class="w">    </span><span class="k">print</span><span class="w"> </span><span class="o">*</span><span class="p">,</span><span class="w"> </span><span class="s2">&quot;Querying the new inference_engine_t object for several properties:&quot;</span>
+<a id="ln-68" name="ln-68" href="#ln-68"></a><span class="w">    </span><span class="k">print</span><span class="w"> </span><span class="o">*</span><span class="p">,</span><span class="w"> </span><span class="s2">&quot;Number of outputs:&quot;</span><span class="p">,</span><span class="w"> </span><span class="n">inference_engine</span><span class="p">%</span><span class="n">num_outputs</span><span class="p">()</span>
+<a id="ln-69" name="ln-69" href="#ln-69"></a><span class="w">    </span><span class="k">print</span><span class="w"> </span><span class="o">*</span><span class="p">,</span><span class="w"> </span><span class="s2">&quot;Number of inputs:&quot;</span><span class="p">,</span><span class="w"> </span><span class="n">inference_engine</span><span class="p">%</span><span class="n">num_inputs</span><span class="p">()</span>
+<a id="ln-70" name="ln-70" href="#ln-70"></a><span class="w">    </span><span class="k">print</span><span class="w"> </span><span class="o">*</span><span class="p">,</span><span class="w"> </span><span class="s2">&quot;Nodes per layer:&quot;</span><span class="p">,</span><span class="w"> </span><span class="n">inference_engine</span><span class="p">%</span><span class="n">nodes_per_layer</span><span class="p">()</span>
+<a id="ln-71" name="ln-71" href="#ln-71"></a><span class="w">    </span><span class="n">activation_name</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">inference_engine</span><span class="p">%</span><span class="n">activation_function_name</span><span class="p">()</span>
+<a id="ln-72" name="ln-72" href="#ln-72"></a><span class="w">    </span><span class="k">print</span><span class="w"> </span><span class="o">*</span><span class="p">,</span><span class="w"> </span><span class="s2">&quot;Activation function: &quot;</span><span class="p">,</span><span class="w"> </span><span class="n">activation_name</span><span class="p">%</span><span class="n">string</span><span class="p">()</span>
+<a id="ln-73" name="ln-73" href="#ln-73"></a><span class="w">    </span><span class="k">print</span><span class="w"> </span><span class="o">*</span><span class="p">,</span><span class="w"> </span><span class="s2">&quot;Performing inference:&quot;</span>
+<a id="ln-74" name="ln-74" href="#ln-74"></a><span class="w">    </span><span class="n">inputs</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">tensor_t</span><span class="p">([</span><span class="mf">2.</span><span class="p">,</span><span class="mf">3.</span><span class="p">])</span>
+<a id="ln-75" name="ln-75" href="#ln-75"></a><span class="w">    </span><span class="k">print</span><span class="w"> </span><span class="o">*</span><span class="p">,</span><span class="w"> </span><span class="s2">&quot;Inputs: &quot;</span><span class="p">,</span><span class="w"> </span><span class="n">inputs</span><span class="p">%</span><span class="n">values</span><span class="p">()</span>
+<a id="ln-76" name="ln-76" href="#ln-76"></a><span class="w">    </span><span class="n">outputs</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">inference_engine</span><span class="p">%</span><span class="n">infer</span><span class="p">(</span><span class="n">inputs</span><span class="p">)</span>
+<a id="ln-77" name="ln-77" href="#ln-77"></a><span class="w">    </span><span class="k">print</span><span class="w"> </span><span class="o">*</span><span class="p">,</span><span class="w"> </span><span class="s2">&quot;Actual outputs: &quot;</span><span class="p">,</span><span class="w"> </span><span class="n">outputs</span><span class="p">%</span><span class="n">values</span><span class="p">()</span>
+<a id="ln-78" name="ln-78" href="#ln-78"></a><span class="w">    </span><span class="k">print</span><span class="w"> </span><span class="o">*</span><span class="p">,</span><span class="w"> </span><span class="s2">&quot;Correct outputs:  &quot;</span><span class="p">,</span><span class="w"> </span><span class="n">inputs</span><span class="p">%</span><span class="n">values</span><span class="p">()</span>
+<a id="ln-79" name="ln-79" href="#ln-79"></a><span class="w">  </span><span class="k">end subroutine </span><span class="n">write_read_query_infer</span>
 <a id="ln-80" name="ln-80" href="#ln-80"></a>
-<a id="ln-81" name="ln-81" href="#ln-81"></a><span class="k">end program</span><span class="w"></span>
+<a id="ln-81" name="ln-81" href="#ln-81"></a><span class="k">end program</span>
 </pre></div>
 
-    </section>
+      </section>
     </div>
   </div>
 
-    <hr>    
+      <hr>
     </div> <!-- /container -->
     <footer>
       <div class="container">
-      <div class="row">
-        <div class="col-xs-6 col-md-6"><p>Inference-Engine was developed by Sourcery Institute<br>&copy; 2023 
+        <div class="row justify-content-between">
+          <div class="col"><p>Inference-Engine was developed by Berkeley Lab<br>&copy; 2023 
 </p>
+          </div>
+          <div class="col">
+            <p class="text-end">
+              Documentation generated by
+              <a href="https://github.com/Fortran-FOSS-Programmers/ford">FORD</a>
+ on 2023-11-26 04:14              </p>
+          </div>
         </div>
-        <div class="col-xs-6 col-md-6">
-          <p class="text-right">
-            Documentation generated by 
-            <a href="https://github.com/Fortran-FOSS-Programmers/ford">FORD</a>
- on 2023-11-06 09:19            </p>
-        </div>
-      </div>
-      <br>
-      </div> <!-- /container -->    
+        <br>
+      </div> <!-- /container -->
     </footer>
 
-    <!-- Bootstrap core JavaScript
-    ================================================== -->
+    <!-- Bootstrap core JavaScript -->
     <!-- Placed at the end of the document so the pages load faster -->
-<!--
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
--->
-    <script src="../js/bootstrap.min.js"></script>
-    <!-- IE10 viewport hack for Surface/desktop Windows 8 bug -->
-    <script src="../js/ie10-viewport-bug-workaround.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"
+            integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p" crossorigin="anonymous"></script>    
 
     <!-- MathJax JavaScript
-    ================================================== -->
-    <!-- Placed at the end of the document so the pages load faster -->
-    <script type="text/x-mathjax-config">
-      MathJax.Hub.Config({
-        TeX: { extensions: ['AMSmath.js','AMSsymbols.js','noErrors.js','noUndefined.js'], equationNumbers: { autoNumber: 'AMS' } },
-        jax: ['input/TeX','input/MathML','output/HTML-CSS'],
-        extensions: ['tex2jax.js','mml2jax.js','MathMenu.js','MathZoom.js']
-      });
-    </script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
-    
-    <script src="../tipuesearch/tipuesearch_content.js"></script>
-    <script src="../tipuesearch/tipuesearch_set.js"></script>
-    <script src="../tipuesearch/tipuesearch.js"></script>
-    
+             ================================================== -->
+             <!-- Placed at the end of the document so the pages load faster -->
+        <script type="text/x-mathjax-config">
+          MathJax.Hub.Config({
+          TeX: { extensions: ['AMSmath.js','AMSsymbols.js','noErrors.js','noUndefined.js'], equationNumbers: { autoNumber: 'AMS' } },
+          jax: ['input/TeX','input/MathML','output/HTML-CSS'],
+          extensions: ['tex2jax.js','mml2jax.js','MathMenu.js','MathZoom.js']
+          });
+        </script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+
+          <script src="../tipuesearch/tipuesearch_content.js"></script>
+          <script src="../tipuesearch/tipuesearch_set.js"></script>
+          <script src="../tipuesearch/tipuesearch.js"></script>
+
   </body>
 </html>

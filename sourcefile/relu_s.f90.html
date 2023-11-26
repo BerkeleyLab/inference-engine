@@ -4,364 +4,374 @@
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-   <meta name="description" content="A library supporting concurrent forward propagation on multiple fully-connected deep neural networks">
-    <meta name="author" content="Sourcery Institute" >
+      <meta name="description" content="A deep learning library targetingo high-performance computing (HPC) applications with performance-critical inference and training needs.">
+    <meta name="author" content="Berkeley Lab" >
     <link rel="icon" href="../favicon.png">
 
     <title>relu_s.f90 &ndash; Inference-Engine</title>
 
-    <link href="../css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet"
+          integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
     <link href="../css/pygments.css" rel="stylesheet">
     <link href="../css/font-awesome.min.css" rel="stylesheet">
     <link href="../css/local.css" rel="stylesheet">
-    <link  href="../tipuesearch/tipuesearch.css" rel="stylesheet">
+      <link  href="../tipuesearch/tipuesearch.css" rel="stylesheet">
 
-    <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
-    <!--[if lt IE 9]>
-      <script src="https://oss.maxcdn.com/html5shiv/3.7.2/html5shiv.min.js"></script>
-      <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
-    <![endif]-->
-    
-    <script src="../js/jquery-2.1.3.min.js"></script>
-    <script src="../js/svg-pan-zoom.min.js"></script>
-
+    <script src="https://code.jquery.com/jquery-3.7.0.slim.min.js" integrity="sha256-tG5mcZUtJsZvyKAxYLVXrmjKBVLd6VpVccqz/r4ypFE=" crossorigin="anonymous"></script>
   </head>
 
   <body>
 
     <!-- Fixed navbar -->
-    <nav class="navbar navbar-inverse navbar-fixed-top">
-      <div class="container">
-        <div class="navbar-header">
-          <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
-            <span class="sr-only">Toggle navigation</span>
-            <span class="icon-bar"></span>
-            <span class="icon-bar"></span>
-            <span class="icon-bar"></span>
-          </button>
+    <div class="container-fluid mb-sm-4 mb-xl-2">
+      <nav class="navbar navbar-expand-lg navbar-dark bg-dark fixed-top">
+        <div class="container">
           <a class="navbar-brand" href="../index.html">Inference-Engine </a>
-        </div>
-        <div id="navbar" class="navbar-collapse collapse">
-          <ul class="nav navbar-nav">
-            <li class="dropdown hidden-xs visible-sm visible-md hidden-lg">
-              <a href="#" class="dropdown-toggle"
-              data-toggle="dropdown" role="button"
-              aria-haspopup="true"
-     aria-expanded="false">Contents <span class="caret"></span></a>
-        <ul class="dropdown-menu">
-            <li><a href="../lists/files.html">Source Files</a></li>
-            <li><a href="../lists/modules.html">Modules</a></li>
-            <li><a href="../lists/procedures.html">Procedures</a></li>
-            <li><a href="../lists/absint.html">Abstract Interfaces</a></li>
-                   <li><a href="../lists/types.html">Derived Types</a></li>
-            <li><a href="../lists/programs.html">Programs</a></li>
-       
+          <button type="button" class="navbar-toggler" data-bs-toggle="collapse" data-bs-target="#navbar"
+                  aria-expanded="false" aria-controls="navbar" aria-label="Toggle navigation">
+                  <span class="navbar-toggler-icon">
+          </button>
+
+          <div id="navbar" class="navbar-collapse collapse">
+            <ul class="navbar-nav">
+                  <li class="nav-item">
+                    <a class="nav-link" href="../lists/files.html">Source Files</a>
+                  </li>
+                <li class="nav-item">
+                  <a class="nav-link" href="../lists/modules.html">Modules</a>
+                </li>
+                <li class="nav-item">
+                  <a class="nav-link" href="../lists/procedures.html">Procedures</a>
+                </li>
+                <li class="nav-item">
+                  <a class="nav-link" href="../lists/absint.html">Abstract Interfaces</a>
+                </li>
+                <li class="nav-item">
+                  <a class="nav-link" href="../lists/types.html">Derived Types</a>
+                </li>
+                <li class="nav-item">
+                  <a class="nav-link" href="../lists/programs.html">Programs</a>
+                </li>
             </ul>
-        
-            </li>
-<li class="visible-xs hidden-sm visible-lg"><a href="../lists/files.html">Source Files</a></li>
-<li class="visible-xs hidden-sm visible-lg"><a href="../lists/modules.html">Modules</a></li>
-<li class="visible-xs hidden-sm visible-lg"><a href="../lists/procedures.html">Procedures</a></li>
-<li class="visible-xs hidden-sm visible-lg"><a href="../lists/absint.html">Abstract Interfaces</a></li>
-                             <li class="visible-xs hidden-sm visible-lg"><a href="../lists/types.html">Derived Types</a></li>
-<li class="visible-xs hidden-sm visible-lg"><a href="../lists/programs.html">Programs</a></li>
-          </ul>
-        <form action="../search.html" class="navbar-form navbar-right" role="search">
-        <div class="form-group">
-          <input type="text" class="form-control" placeholder="Search" name="q" id="tipue_search_input" autocomplete="off" required>
+              <div class="d-flex align-items-end flex-grow-1">
+                <form action="../search.html" role="search" class="ms-auto">
+                  <input type="text" class="form-control" aria-label="Search" placeholder="Search" name="q" id="tipue_search_input" autocomplete="off" required>
+                </form>
+              </div>
+          </div><!--/.nav-collapse -->
         </div>
-<!--
-        <button type="submit" class="btn btn-default">Submit</button>
--->
-        </form>
-        </div><!--/.nav-collapse -->
-      </div>
-    </nav>
+      </nav>
+    </div>
 
     <div class="container">
   <div class="row">
     <h1>relu_s.f90
-    <small>Source File</small>
+      <small>Source File</small>
+      
     </h1>
-    <div class="row">
-  <div class="col-lg-12">
-<div class="well well-sm">
-  <ul class="list-inline" style="margin-bottom:0px;display:inline">
-     <li><i class="fa fa-list-ol"></i>
-       <a data-toggle="tooltip"
-    data-placement="bottom" data-html="true"
-    title=" 0.3% of total for source files.">15 statements</a>
-     </li> 
-    <li><i class="fa fa-code"></i><a href="../src/relu_s.f90"> Source File</a></li>
-  </ul>
-  <ol class="breadcrumb in-well text-right">
-     <li class="active">relu_s.f90</li>
-  </ol>
-</div>
-</div>
-</div>
-<script>
-  $(function () {
-  $('[data-toggle="tooltip"]').tooltip()
-  })
-</script>
+      <div class="container p-2 mb-4 bg-light border rounded-3">
+    <div class="row align-items-center justify-content-between" id="info-bar">
+      <div class="col">
+        <ul class="list-inline" style="margin-bottom:0px;display:inline">
+
+            <li class="list-inline-item" id="statements"><i class="fa fa-list-ol"></i>
+              <a data-bs-toggle="tooltip"
+                 data-bs-placement="bottom" data-html="true"
+                 title=" 0.6% of total for source files.">15 statements</a>
+            </li>
+
+            <li class="list-inline-item" id="source-file">
+              <i class="fa fa-code"></i>
+              <a href="../src/relu_s.f90"> Source File</a>
+            </li>
+        </ul>
+      </div>
+      <div class="col">
+        <nav aria-label="breadcrumb">
+          <ol class="breadcrumb justify-content-end mb-0">
+            <li class="breadcrumb-item active" aria-current="page">relu_s.f90</li>
+          </ol>
+        </nav>
+      </div>
+    </div>
+  </div>
+  <script>
+    $(function () {
+    $('[data-bs-toggle="tooltip"]').tooltip()
+    })
+  </script>
 
   </div>
   <div class="row">
     <div class="col-md-3 hidden-xs hidden-sm visible-md visible-lg">
-    <div id="sidebar">
-  <h3>Contents</h3>
- 
-<div class="panel panel-primary">
-  <div class="panel-heading text-left"><h3 class="panel-title"><a data-toggle="collapse" href="#submods-0">Submodules</a></h3></div>
-  <div id="submods-0" class="panel-collapse collapse">
-    <div class="list-group">
-      <a class="list-group-item" href="../module/relu_s.html">relu_s</a>
+        <div id="sidebar">
+      <h3>Contents</h3>
+  
+  
+  
+  
+  
+  
+      <div class="card mb-4">
+      <a data-bs-toggle="collapse" href="#submods-0"
+         aria-expanded="false" aria-controls="submods-0">
+         <h4 class="card-header bg-primary text-white">Submodules</h4>
+      </a>
+      <div id="submods-0" class="collapse">
+        <div class="list-group list-group-flush">
+            <a class="list-group-item" href="../module/relu_s.html">relu_s</a>
+        </div>
+      </div>
     </div>
-  </div>
-</div>
-<div class="panel panel-primary">
-  <div class="panel-heading text-left"><h3 class="panel-title">Source Code</h3></div>
-  <div class="list-group">
-    <a class="list-group-item" href="../sourcefile/relu_s.f90.html#src">relu_s.f90</a>
-  </div>
-</div>
 
-</div>
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+    <div class="card card-primary">
+      <div class="card-header text-left"><h3 class="card-title">Source Code</h3></div>
+      <div class="list-group">
+        <a class="list-group-item" href="../sourcefile/relu_s.f90.html#src">relu_s.f90</a>
+      </div>
+    </div>
+
+
+  </div>
 
     </div>
     <div class="col-md-9" id='text'>
       
       <br>
-    <div class="panel panel-default">
-      <div class="panel-heading">
-  <h3 class="panel-title">This file depends on</h3>
-      </div>
-      <div class="panel-body">
-  <div class="depgraph"><?xml version="1.0" encoding="UTF-8" standalone="no"?>
+        <div class="card">
+          <div class="card-header">
+            <h3 class="card-title">This file depends on</h3>
+          </div>
+          <div class="card-body">
+            <div class="depgraph"><?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN"
  "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
-<!-- Generated by graphviz version 2.43.0 (0)
+<!-- Generated by graphviz version 9.0.0 (20230911.1827)
  -->
 <!-- Title: sourcefile~~relu_s.f90~~EfferentGraph Pages: 1 -->
-<svg id="sourcefilerelu_sf90EfferentGraph" width="641pt" height="63pt"
- viewBox="0.00 0.00 641.00 63.16" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
-<g id="sourcefile~~relu_s.f90~~EfferentGraph" class="graph" transform="scale(1.25 1.25) rotate(0) translate(4 74.83)">
+<svg id="sourcefilerelu_sf90EfferentGraph" width="641pt" height="50pt"
+ viewBox="0.00 0.00 641.00 50.23" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+<g id="sourcefile~~relu_s.f90~~EfferentGraph" class="graph" transform="scale(0.807457 0.807457) rotate(0) translate(4 58.21)">
 <title>sourcefile~~relu_s.f90~~EfferentGraph</title>
-<polygon fill="white" stroke="transparent" points="-4,4 -4,-74.83 796,-74.83 796,4 -4,4"/>
+<polygon fill="white" stroke="none" points="-4,4 -4,-58.21 789.85,-58.21 789.85,4 -4,4"/>
 <!-- sourcefile~relu_s.f90 -->
 <g id="sourcefile~~relu_s.f90~~EfferentGraph_node1" class="node">
 <title>sourcefile~relu_s.f90</title>
-<polygon fill="none" stroke="black" points="792,-24.45 728,-24.45 728,-0.45 792,-0.45 792,-24.45"/>
-<text text-anchor="middle" x="760" y="-10.05" font-family="Helvetica,sans-Serif" font-size="10.50">relu_s.f90</text>
-</g>
-<!-- sourcefile~relu_m.f90 -->
-<g id="sourcefile~~relu_s.f90~~EfferentGraph_node2" class="node">
-<title>sourcefile~relu_m.f90</title>
-<g id="a_sourcefile~~relu_s.f90~~EfferentGraph_node2"><a xlink:href=".././sourcefile/relu_m.f90.html" xlink:title="relu_m.f90">
-<polygon fill="#f0ad4e" stroke="#f0ad4e" points="692,-44.45 623,-44.45 623,-20.45 692,-20.45 692,-44.45"/>
-<text text-anchor="middle" x="657.5" y="-30.05" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">relu_m.f90</text>
-</a>
-</g>
-</g>
-<!-- sourcefile~relu_s.f90&#45;&gt;sourcefile~relu_m.f90 -->
-<g id="sourcefile~~relu_s.f90~~EfferentGraph_edge1" class="edge">
-<title>sourcefile~relu_s.f90&#45;&gt;sourcefile~relu_m.f90</title>
-<path fill="none" stroke="#ff0000" stroke-dasharray="5,2" d="M727.75,-18.67C719.63,-20.29 710.74,-22.06 702.11,-23.77"/>
-<polygon fill="#ff0000" stroke="#ff0000" points="701.29,-20.37 692.17,-25.75 702.66,-27.23 701.29,-20.37"/>
+<polygon fill="none" stroke="black" points="785.85,-44.27 723.33,-44.27 723.33,-20 785.85,-20 785.85,-44.27"/>
+<text text-anchor="middle" x="754.59" y="-28.53" font-family="Helvetica,sans-Serif" font-size="10.50">relu_s.f90</text>
 </g>
 <!-- sourcefile~kind_parameters_m.f90 -->
-<g id="sourcefile~~relu_s.f90~~EfferentGraph_node3" class="node">
+<g id="sourcefile~~relu_s.f90~~EfferentGraph_node2" class="node">
 <title>sourcefile~kind_parameters_m.f90</title>
-<g id="a_sourcefile~~relu_s.f90~~EfferentGraph_node3"><a xlink:href=".././sourcefile/kind_parameters_m.f90.html" xlink:title="kind_parameters_m.f90">
-<polygon fill="#f0ad4e" stroke="#f0ad4e" points="139,-44.45 0,-44.45 0,-20.45 139,-20.45 139,-44.45"/>
-<text text-anchor="middle" x="69.5" y="-30.05" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">kind_parameters_m.f90</text>
+<g id="a_sourcefile~~relu_s.f90~~EfferentGraph_node2"><a xlink:href=".././sourcefile/kind_parameters_m.f90.html" xlink:title="kind_parameters_m.f90">
+<polygon fill="#f0ad4e" stroke="#f0ad4e" points="137.52,-44.27 0,-44.27 0,-20 137.52,-20 137.52,-44.27"/>
+<text text-anchor="middle" x="68.76" y="-28.53" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">kind_parameters_m.f90</text>
 </a>
 </g>
 </g>
 <!-- sourcefile~relu_s.f90&#45;&gt;sourcefile~kind_parameters_m.f90 -->
-<g id="sourcefile~~relu_s.f90~~EfferentGraph_edge2" class="edge">
+<g id="sourcefile~~relu_s.f90~~EfferentGraph_edge1" class="edge">
 <title>sourcefile~relu_s.f90&#45;&gt;sourcefile~kind_parameters_m.f90</title>
-<path fill="none" stroke="#ff0000" stroke-dasharray="5,2" d="M727.87,-10.2C640.45,-4.35 385.36,9.47 175,-11.45 160.26,-12.92 144.53,-15.52 129.86,-18.41"/>
-<polygon fill="#ff0000" stroke="#ff0000" points="129,-15.01 119.9,-20.44 130.39,-21.87 129,-15.01"/>
+<path fill="none" stroke="#255000" stroke-dasharray="5,2" d="M723.19,-34.84C671.59,-39.32 563.51,-48.16 471.93,-52.13"/>
+</g>
+<!-- sourcefile~relu_m.f90 -->
+<g id="sourcefile~~relu_s.f90~~EfferentGraph_node3" class="node">
+<title>sourcefile~relu_m.f90</title>
+<g id="a_sourcefile~~relu_s.f90~~EfferentGraph_node3"><a xlink:href=".././sourcefile/relu_m.f90.html" xlink:title="relu_m.f90">
+<polygon fill="#f0ad4e" stroke="#f0ad4e" points="687.33,-24.27 619.56,-24.27 619.56,0 687.33,0 687.33,-24.27"/>
+<text text-anchor="middle" x="653.45" y="-8.53" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">relu_m.f90</text>
+</a>
+</g>
+</g>
+<!-- sourcefile~relu_s.f90&#45;&gt;sourcefile~relu_m.f90 -->
+<g id="sourcefile~~relu_s.f90~~EfferentGraph_edge2" class="edge">
+<title>sourcefile~relu_s.f90&#45;&gt;sourcefile~relu_m.f90</title>
+<path fill="none" stroke="#255000" stroke-dasharray="5,2" d="M723.03,-25.97C715.29,-24.41 706.81,-22.7 698.54,-21.03"/>
+<polygon fill="#255000" stroke="#255000" points="699.46,-17.65 688.97,-19.1 698.08,-24.51 699.46,-17.65"/>
 </g>
 <!-- sourcefile~relu_m.f90&#45;&gt;sourcefile~kind_parameters_m.f90 -->
 <g id="sourcefile~~relu_s.f90~~EfferentGraph_edge4" class="edge">
 <title>sourcefile~relu_m.f90&#45;&gt;sourcefile~kind_parameters_m.f90</title>
-<path fill="none" stroke="#ff0000" stroke-dasharray="5,2" d="M623.72,-44.51C612.27,-48.15 599.22,-51.65 587,-53.45 405.86,-80.22 357.21,-71.58 175,-53.45 160.26,-51.99 144.53,-49.39 129.86,-46.5"/>
-<polygon fill="#ff0000" stroke="#ff0000" points="130.39,-43.04 119.9,-44.47 129,-49.9 130.39,-43.04"/>
+<path fill="none" stroke="#025525" stroke-dasharray="5,2" stroke-opacity="0.019608" d="M619.39,-23.14C608.11,-26.65 595.36,-30.34 583.56,-33.13 534.58,-44.72 522.18,-49.39 471.93,-52.13"/>
+<path fill="none" stroke="#025525" stroke-dasharray="5,2" stroke-opacity="0.019608" d="M469.93,-52.13C358.48,-58.22 229.53,-48.82 148.81,-40.96"/>
+<polygon fill="#025525" fill-opacity="0.019608" stroke="#025525" stroke-opacity="0.019608" points="149.55,-37.51 139.25,-40.01 148.85,-44.48 149.55,-37.51"/>
 </g>
 <!-- sourcefile~differentiable_activation_strategy_m.f90 -->
 <g id="sourcefile~~relu_s.f90~~EfferentGraph_node4" class="node">
 <title>sourcefile~differentiable_activation_strategy_m.f90</title>
 <g id="a_sourcefile~~relu_s.f90~~EfferentGraph_node4"><a xlink:href=".././sourcefile/differentiable_activation_strategy_m.f90.html" xlink:title="differentiable_activation_strategy_m.f90">
-<polygon fill="#f0ad4e" stroke="#f0ad4e" points="587,-44.45 361,-44.45 361,-20.45 587,-20.45 587,-44.45"/>
-<text text-anchor="middle" x="474" y="-30.05" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">differentiable_activation_strategy_m.f90</text>
+<polygon fill="#f0ad4e" stroke="#f0ad4e" points="583.56,-24.27 358.29,-24.27 358.29,0 583.56,0 583.56,-24.27"/>
+<text text-anchor="middle" x="470.93" y="-8.53" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">differentiable_activation_strategy_m.f90</text>
 </a>
 </g>
 </g>
 <!-- sourcefile~relu_m.f90&#45;&gt;sourcefile~differentiable_activation_strategy_m.f90 -->
 <g id="sourcefile~~relu_s.f90~~EfferentGraph_edge3" class="edge">
 <title>sourcefile~relu_m.f90&#45;&gt;sourcefile~differentiable_activation_strategy_m.f90</title>
-<path fill="none" stroke="#ff0000" stroke-dasharray="5,2" d="M622.79,-32.45C615.03,-32.45 606.34,-32.45 597.17,-32.45"/>
-<polygon fill="#ff0000" stroke="#ff0000" points="597.04,-28.95 587.04,-32.45 597.04,-35.95 597.04,-28.95"/>
+<path fill="none" stroke="#025525" stroke-dasharray="5,2" stroke-opacity="0.019608" d="M619.33,-12.13C611.96,-12.13 603.73,-12.13 595.02,-12.13"/>
+<polygon fill="#025525" fill-opacity="0.019608" stroke="#025525" stroke-opacity="0.019608" points="595.28,-8.64 585.28,-12.14 595.28,-15.64 595.28,-8.64"/>
 </g>
 <!-- sourcefile~activation_strategy_m.f90 -->
 <g id="sourcefile~~relu_s.f90~~EfferentGraph_node5" class="node">
 <title>sourcefile~activation_strategy_m.f90</title>
 <g id="a_sourcefile~~relu_s.f90~~EfferentGraph_node5"><a xlink:href=".././sourcefile/activation_strategy_m.f90.html" xlink:title="activation_strategy_m.f90">
-<polygon fill="#f0ad4e" stroke="#f0ad4e" points="325,-44.45 175,-44.45 175,-20.45 325,-20.45 325,-44.45"/>
-<text text-anchor="middle" x="250" y="-30.05" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">activation_strategy_m.f90</text>
+<polygon fill="#f0ad4e" stroke="#f0ad4e" points="322.29,-24.27 173.52,-24.27 173.52,0 322.29,0 322.29,-24.27"/>
+<text text-anchor="middle" x="247.91" y="-8.53" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">activation_strategy_m.f90</text>
 </a>
 </g>
 </g>
 <!-- sourcefile~differentiable_activation_strategy_m.f90&#45;&gt;sourcefile~activation_strategy_m.f90 -->
 <g id="sourcefile~~relu_s.f90~~EfferentGraph_edge5" class="edge">
 <title>sourcefile~differentiable_activation_strategy_m.f90&#45;&gt;sourcefile~activation_strategy_m.f90</title>
-<path fill="none" stroke="#ff0000" stroke-dasharray="5,2" d="M360.7,-32.45C352.14,-32.45 343.58,-32.45 335.24,-32.45"/>
-<polygon fill="#ff0000" stroke="#ff0000" points="335.19,-28.95 325.19,-32.45 335.19,-35.95 335.19,-28.95"/>
+<path fill="none" stroke="#255000" stroke-dasharray="5,2" d="M357.8,-12.13C349.76,-12.13 341.73,-12.13 333.88,-12.13"/>
+<polygon fill="#255000" stroke="#255000" points="334.04,-8.64 324.04,-12.14 334.04,-15.64 334.04,-8.64"/>
 </g>
 <!-- sourcefile~activation_strategy_m.f90&#45;&gt;sourcefile~kind_parameters_m.f90 -->
 <g id="sourcefile~~relu_s.f90~~EfferentGraph_edge6" class="edge">
 <title>sourcefile~activation_strategy_m.f90&#45;&gt;sourcefile~kind_parameters_m.f90</title>
-<path fill="none" stroke="#ff0000" stroke-dasharray="5,2" d="M174.85,-32.45C166.47,-32.45 157.92,-32.45 149.48,-32.45"/>
-<polygon fill="#ff0000" stroke="#ff0000" points="149.27,-28.95 139.27,-32.45 149.27,-35.95 149.27,-28.95"/>
+<path fill="none" stroke="#255000" stroke-dasharray="5,2" d="M173.06,-20.47C165.13,-21.37 157.03,-22.28 149.03,-23.19"/>
+<polygon fill="#255000" stroke="#255000" points="148.87,-19.68 139.32,-24.28 149.65,-26.64 148.87,-19.68"/>
 </g>
 </g>
 </svg>
-</div><script>var pansourcefilerelu_sf90EfferentGraph = svgPanZoom('#sourcefilerelu_sf90EfferentGraph', {zoomEnabled: true,controlIconsEnabled: true, fit: true, center: true,}); </script><div><a type="button" class="graph-help" data-toggle="modal" href="#graph-help-text">Help</a></div><div class="modal fade" id="graph-help-text" tabindex="-1" role="dialog"><div class="modal-dialog modal-lg" role="document"><div class="modal-content"><div class="modal-header"><button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button><h4 class="modal-title" id="-graph-help-label">Graph Key</h4></div><div class="modal-body">
-    <p>Nodes of different colours represent the following: </p>
-    <?xml version="1.0" encoding="UTF-8" standalone="no"?>
+</div>                <script>
+                  var pansourcefilerelu_sf90EfferentGraph = svgPanZoom('#sourcefilerelu_sf90EfferentGraph',
+                    {zoomEnabled: true, controlIconsEnabled: true, fit: true, center: true,}
+                  );
+                </script>        <div><a type="button" class="graph-help" data-toggle="modal" href="#EfferentGraph-help-text">Help</a></div>
+          <div class="modal fade" id="EfferentGraph-help-text" tabindex="-1" role="dialog">
+            <div class="modal-dialog modal-lg" role="document">
+              <div class="modal-content">
+                <div class="modal-header">
+                  <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                  </button>
+                  <h4 class="modal-title" id="-graph-help-label">Graph Key</h4>
+                </div>
+              <div class="modal-body">
+<p>Nodes of different colours represent the following: </p>
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN"
  "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
-<!-- Generated by graphviz version 2.43.0 (0)
+<!-- Generated by graphviz version 9.0.0 (20230911.1827)
  -->
 <!-- Title: Graph Key Pages: 1 -->
-<svg width="202pt" height="32pt"
- viewBox="0.00 0.00 201.50 32.00" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
-<g id="graph0" class="graph" transform="scale(1 1) rotate(0) translate(4 28)">
+<svg width="200pt" height="32pt"
+ viewBox="0.00 0.00 199.52 32.27" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+<g id="graph0" class="graph" transform="scale(1 1) rotate(0) translate(4 28.27)">
 <title>Graph Key</title>
-<polygon fill="white" stroke="transparent" points="-4,4 -4,-28 197.5,-28 197.5,4 -4,4"/>
+<polygon fill="white" stroke="none" points="-4,4 -4,-28.27 195.52,-28.27 195.52,4 -4,4"/>
 <!-- Source File -->
 <g id="node1" class="node">
 <title>Source File</title>
-<polygon fill="#f0ad4e" stroke="#f0ad4e" points="70,-24 0,-24 0,0 70,0 70,-24"/>
-<text text-anchor="middle" x="35" y="-9.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">Source File</text>
+<polygon fill="#f0ad4e" stroke="#f0ad4e" points="69.27,-24.27 0,-24.27 0,0 69.27,0 69.27,-24.27"/>
+<text text-anchor="middle" x="34.63" y="-8.53" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">Source File</text>
 </g>
 <!-- This Page&#39;s Entity -->
 <g id="node2" class="node">
 <title>This Page&#39;s Entity</title>
-<polygon fill="none" stroke="black" points="193.5,-24 88.5,-24 88.5,0 193.5,0 193.5,-24"/>
-<text text-anchor="middle" x="141" y="-9.6" font-family="Helvetica,sans-Serif" font-size="10.50">This Page&#39;s Entity</text>
+<polygon fill="none" stroke="black" points="191.52,-24.27 87.75,-24.27 87.75,0 191.52,0 191.52,-24.27"/>
+<text text-anchor="middle" x="139.63" y="-8.53" font-family="Helvetica,sans-Serif" font-size="10.50">This Page&#39;s Entity</text>
 </g>
 </g>
 </svg>
 
-    
-    <p>Solid arrows point from a file to a file which it depends on. A file
-    is dependent upon another if the latter must be compiled before the former
-    can be. Where possible, edges connecting nodes are given different colours to make them easier to distinguish in large graphs.
-    </p>
-    </div></div></div></div>
-      </div>
-    </div>
+<p>Solid arrows point from a file to a file which it depends on. A file
+is dependent upon another if the latter must be compiled before the former
+can be.
+</p>
+ Where possible, edges connecting nodes are
+given different colours to make them easier to distinguish in
+large graphs.</div>
+            </div>
+          </div>
+        </div>
+          </div>
+        </div>
 <br>
-    <section class="visible-xs visible-sm hidden-md">
-      <h3>Contents</h3>
- 
-<div class="panel panel-primary">
-  <div class="panel-heading text-left"><h3 class="panel-title"><a data-toggle="collapse" href="#submods-1">Submodules</a></h3></div>
-  <div id="submods-1" class="panel-collapse collapse">
-    <div class="list-group">
-      <a class="list-group-item" href="../module/relu_s.html">relu_s</a>
-    </div>
-  </div>
-</div>
-<div class="panel panel-primary">
-  <div class="panel-heading text-left"><h3 class="panel-title">Source Code</h3></div>
-  <div class="list-group">
-    <a class="list-group-item" href="../sourcefile/relu_s.f90.html#src">relu_s.f90</a>
-  </div>
-</div>
-
-    </section>
-    <br class="visible-xs visible-sm hidden-md">
-
-    <section>
-      <h2><span class="anchor" id="src"></span>Source Code</h2>
-    <div class="hl"><pre><span></span><a id="ln-1" name="ln-1" href="#ln-1"></a><span class="c">! Copyright (c), The Regents of the University of California</span>
+      <section>
+        <h2><span class="anchor" id="src"></span>Source Code</h2>
+        <div class="hl codehilite"><pre><span></span><a id="ln-1" name="ln-1" href="#ln-1"></a><span class="c">! Copyright (c), The Regents of the University of California</span>
 <a id="ln-2" name="ln-2" href="#ln-2"></a><span class="c">! Terms of use are as specified in LICENSE.txt</span>
-<a id="ln-3" name="ln-3" href="#ln-3"></a><span class="k">submodule</span><span class="p">(</span><span class="n">relu_m</span><span class="p">)</span><span class="w"> </span><span class="n">relu_s</span><span class="w"></span>
-<a id="ln-4" name="ln-4" href="#ln-4"></a><span class="w">  </span><span class="k">use </span><span class="n">kind_parameters_m</span><span class="p">,</span><span class="w"> </span><span class="k">only</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="n">rkind</span><span class="w"></span>
+<a id="ln-3" name="ln-3" href="#ln-3"></a><span class="k">submodule</span><span class="p">(</span><span class="n">relu_m</span><span class="p">)</span><span class="w"> </span><span class="n">relu_s</span>
+<a id="ln-4" name="ln-4" href="#ln-4"></a><span class="w">  </span><span class="k">use </span><span class="n">kind_parameters_m</span><span class="p">,</span><span class="w"> </span><span class="k">only</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="n">rkind</span>
 <a id="ln-5" name="ln-5" href="#ln-5"></a><span class="w">  </span><span class="k">implicit none</span>
 <a id="ln-6" name="ln-6" href="#ln-6"></a>
-<a id="ln-7" name="ln-7" href="#ln-7"></a><span class="k">  </span><span class="kt">real</span><span class="p">(</span><span class="n">rkind</span><span class="p">),</span><span class="w"> </span><span class="k">parameter</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">zero</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mf">0._rkind</span><span class="p">,</span><span class="w"> </span><span class="n">one</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mf">1._rkind</span><span class="w"></span>
+<a id="ln-7" name="ln-7" href="#ln-7"></a><span class="k">  </span><span class="kt">real</span><span class="p">(</span><span class="n">rkind</span><span class="p">),</span><span class="w"> </span><span class="k">parameter</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">zero</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mf">0._rkind</span><span class="p">,</span><span class="w"> </span><span class="n">one</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mf">1._rkind</span>
 <a id="ln-8" name="ln-8" href="#ln-8"></a>
 <a id="ln-9" name="ln-9" href="#ln-9"></a><span class="k">contains</span>
 <a id="ln-10" name="ln-10" href="#ln-10"></a>
-<a id="ln-11" name="ln-11" href="#ln-11"></a><span class="k">    module procedure </span><span class="n">activation</span><span class="w"></span>
-<a id="ln-12" name="ln-12" href="#ln-12"></a><span class="w">      </span><span class="n">y</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nb">max</span><span class="p">(</span><span class="n">zero</span><span class="p">,</span><span class="w"> </span><span class="n">x</span><span class="p">)</span><span class="w"></span>
+<a id="ln-11" name="ln-11" href="#ln-11"></a><span class="k">    module procedure </span><span class="n">activation</span>
+<a id="ln-12" name="ln-12" href="#ln-12"></a><span class="w">      </span><span class="n">y</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nb">max</span><span class="p">(</span><span class="n">zero</span><span class="p">,</span><span class="w"> </span><span class="n">x</span><span class="p">)</span>
 <a id="ln-13" name="ln-13" href="#ln-13"></a><span class="w">    </span><span class="k">end procedure</span>
 <a id="ln-14" name="ln-14" href="#ln-14"></a>
-<a id="ln-15" name="ln-15" href="#ln-15"></a><span class="k">    module procedure </span><span class="n">activation_derivative</span><span class="w"></span>
-<a id="ln-16" name="ln-16" href="#ln-16"></a><span class="w">      </span><span class="n">y</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nb">merge</span><span class="p">(</span><span class="n">one</span><span class="p">,</span><span class="w"> </span><span class="n">zero</span><span class="p">,</span><span class="w"> </span><span class="n">x</span><span class="o">&gt;</span><span class="n">zero</span><span class="p">)</span><span class="w"></span>
+<a id="ln-15" name="ln-15" href="#ln-15"></a><span class="k">    module procedure </span><span class="n">activation_derivative</span>
+<a id="ln-16" name="ln-16" href="#ln-16"></a><span class="w">      </span><span class="n">y</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nb">merge</span><span class="p">(</span><span class="n">one</span><span class="p">,</span><span class="w"> </span><span class="n">zero</span><span class="p">,</span><span class="w"> </span><span class="n">x</span><span class="o">&gt;</span><span class="n">zero</span><span class="p">)</span>
 <a id="ln-17" name="ln-17" href="#ln-17"></a><span class="w">    </span><span class="k">end procedure</span>
 <a id="ln-18" name="ln-18" href="#ln-18"></a>
-<a id="ln-19" name="ln-19" href="#ln-19"></a><span class="k">    module procedure </span><span class="n">function_name</span><span class="w"></span>
-<a id="ln-20" name="ln-20" href="#ln-20"></a><span class="w">      </span><span class="n">string</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">string_t</span><span class="p">(</span><span class="s2">&quot;relu&quot;</span><span class="p">)</span><span class="w"></span>
+<a id="ln-19" name="ln-19" href="#ln-19"></a><span class="k">    module procedure </span><span class="n">function_name</span>
+<a id="ln-20" name="ln-20" href="#ln-20"></a><span class="w">      </span><span class="n">string</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">string_t</span><span class="p">(</span><span class="s2">&quot;relu&quot;</span><span class="p">)</span>
 <a id="ln-21" name="ln-21" href="#ln-21"></a><span class="w">    </span><span class="k">end procedure</span>
 <a id="ln-22" name="ln-22" href="#ln-22"></a>
-<a id="ln-23" name="ln-23" href="#ln-23"></a><span class="k">end submodule </span><span class="n">relu_s</span><span class="w"></span>
+<a id="ln-23" name="ln-23" href="#ln-23"></a><span class="k">end submodule </span><span class="n">relu_s</span>
 </pre></div>
 
-    </section>
+      </section>
     </div>
   </div>
 
-    <hr>    
+      <hr>
     </div> <!-- /container -->
     <footer>
       <div class="container">
-      <div class="row">
-        <div class="col-xs-6 col-md-6"><p>Inference-Engine was developed by Sourcery Institute<br>&copy; 2023 
+        <div class="row justify-content-between">
+          <div class="col"><p>Inference-Engine was developed by Berkeley Lab<br>&copy; 2023 
 </p>
+          </div>
+          <div class="col">
+            <p class="text-end">
+              Documentation generated by
+              <a href="https://github.com/Fortran-FOSS-Programmers/ford">FORD</a>
+ on 2023-11-26 04:14              </p>
+          </div>
         </div>
-        <div class="col-xs-6 col-md-6">
-          <p class="text-right">
-            Documentation generated by 
-            <a href="https://github.com/Fortran-FOSS-Programmers/ford">FORD</a>
- on 2023-11-06 09:19            </p>
-        </div>
-      </div>
-      <br>
-      </div> <!-- /container -->    
+        <br>
+      </div> <!-- /container -->
     </footer>
 
-    <!-- Bootstrap core JavaScript
-    ================================================== -->
+    <!-- Bootstrap core JavaScript -->
     <!-- Placed at the end of the document so the pages load faster -->
-<!--
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
--->
-    <script src="../js/bootstrap.min.js"></script>
-    <!-- IE10 viewport hack for Surface/desktop Windows 8 bug -->
-    <script src="../js/ie10-viewport-bug-workaround.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"
+            integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p" crossorigin="anonymous"></script>    
 
     <!-- MathJax JavaScript
-    ================================================== -->
-    <!-- Placed at the end of the document so the pages load faster -->
-    <script type="text/x-mathjax-config">
-      MathJax.Hub.Config({
-        TeX: { extensions: ['AMSmath.js','AMSsymbols.js','noErrors.js','noUndefined.js'], equationNumbers: { autoNumber: 'AMS' } },
-        jax: ['input/TeX','input/MathML','output/HTML-CSS'],
-        extensions: ['tex2jax.js','mml2jax.js','MathMenu.js','MathZoom.js']
-      });
-    </script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
-    
-    <script src="../tipuesearch/tipuesearch_content.js"></script>
-    <script src="../tipuesearch/tipuesearch_set.js"></script>
-    <script src="../tipuesearch/tipuesearch.js"></script>
-    
+             ================================================== -->
+             <!-- Placed at the end of the document so the pages load faster -->
+        <script type="text/x-mathjax-config">
+          MathJax.Hub.Config({
+          TeX: { extensions: ['AMSmath.js','AMSsymbols.js','noErrors.js','noUndefined.js'], equationNumbers: { autoNumber: 'AMS' } },
+          jax: ['input/TeX','input/MathML','output/HTML-CSS'],
+          extensions: ['tex2jax.js','mml2jax.js','MathMenu.js','MathZoom.js']
+          });
+        </script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+
+          <script src="../tipuesearch/tipuesearch_content.js"></script>
+          <script src="../tipuesearch/tipuesearch_set.js"></script>
+          <script src="../tipuesearch/tipuesearch.js"></script>
+
   </body>
 </html>

@@ -4,683 +4,707 @@
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-   <meta name="description" content="A library supporting concurrent forward propagation on multiple fully-connected deep neural networks">
-    <meta name="author" content="Sourcery Institute" >
+      <meta name="description" content="A deep learning library targetingo high-performance computing (HPC) applications with performance-critical inference and training needs.">
+    <meta name="author" content="Berkeley Lab" >
     <link rel="icon" href="../favicon.png">
 
     <title>hyperparameters_m.f90 &ndash; Inference-Engine</title>
 
-    <link href="../css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet"
+          integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
     <link href="../css/pygments.css" rel="stylesheet">
     <link href="../css/font-awesome.min.css" rel="stylesheet">
     <link href="../css/local.css" rel="stylesheet">
-    <link  href="../tipuesearch/tipuesearch.css" rel="stylesheet">
+      <link  href="../tipuesearch/tipuesearch.css" rel="stylesheet">
 
-    <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
-    <!--[if lt IE 9]>
-      <script src="https://oss.maxcdn.com/html5shiv/3.7.2/html5shiv.min.js"></script>
-      <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
-    <![endif]-->
-    
-    <script src="../js/jquery-2.1.3.min.js"></script>
-    <script src="../js/svg-pan-zoom.min.js"></script>
-
+    <script src="https://code.jquery.com/jquery-3.7.0.slim.min.js" integrity="sha256-tG5mcZUtJsZvyKAxYLVXrmjKBVLd6VpVccqz/r4ypFE=" crossorigin="anonymous"></script>
   </head>
 
   <body>
 
     <!-- Fixed navbar -->
-    <nav class="navbar navbar-inverse navbar-fixed-top">
-      <div class="container">
-        <div class="navbar-header">
-          <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
-            <span class="sr-only">Toggle navigation</span>
-            <span class="icon-bar"></span>
-            <span class="icon-bar"></span>
-            <span class="icon-bar"></span>
-          </button>
+    <div class="container-fluid mb-sm-4 mb-xl-2">
+      <nav class="navbar navbar-expand-lg navbar-dark bg-dark fixed-top">
+        <div class="container">
           <a class="navbar-brand" href="../index.html">Inference-Engine </a>
-        </div>
-        <div id="navbar" class="navbar-collapse collapse">
-          <ul class="nav navbar-nav">
-            <li class="dropdown hidden-xs visible-sm visible-md hidden-lg">
-              <a href="#" class="dropdown-toggle"
-              data-toggle="dropdown" role="button"
-              aria-haspopup="true"
-     aria-expanded="false">Contents <span class="caret"></span></a>
-        <ul class="dropdown-menu">
-            <li><a href="../lists/files.html">Source Files</a></li>
-            <li><a href="../lists/modules.html">Modules</a></li>
-            <li><a href="../lists/procedures.html">Procedures</a></li>
-            <li><a href="../lists/absint.html">Abstract Interfaces</a></li>
-                   <li><a href="../lists/types.html">Derived Types</a></li>
-            <li><a href="../lists/programs.html">Programs</a></li>
-       
+          <button type="button" class="navbar-toggler" data-bs-toggle="collapse" data-bs-target="#navbar"
+                  aria-expanded="false" aria-controls="navbar" aria-label="Toggle navigation">
+                  <span class="navbar-toggler-icon">
+          </button>
+
+          <div id="navbar" class="navbar-collapse collapse">
+            <ul class="navbar-nav">
+                  <li class="nav-item">
+                    <a class="nav-link" href="../lists/files.html">Source Files</a>
+                  </li>
+                <li class="nav-item">
+                  <a class="nav-link" href="../lists/modules.html">Modules</a>
+                </li>
+                <li class="nav-item">
+                  <a class="nav-link" href="../lists/procedures.html">Procedures</a>
+                </li>
+                <li class="nav-item">
+                  <a class="nav-link" href="../lists/absint.html">Abstract Interfaces</a>
+                </li>
+                <li class="nav-item">
+                  <a class="nav-link" href="../lists/types.html">Derived Types</a>
+                </li>
+                <li class="nav-item">
+                  <a class="nav-link" href="../lists/programs.html">Programs</a>
+                </li>
             </ul>
-        
-            </li>
-<li class="visible-xs hidden-sm visible-lg"><a href="../lists/files.html">Source Files</a></li>
-<li class="visible-xs hidden-sm visible-lg"><a href="../lists/modules.html">Modules</a></li>
-<li class="visible-xs hidden-sm visible-lg"><a href="../lists/procedures.html">Procedures</a></li>
-<li class="visible-xs hidden-sm visible-lg"><a href="../lists/absint.html">Abstract Interfaces</a></li>
-                             <li class="visible-xs hidden-sm visible-lg"><a href="../lists/types.html">Derived Types</a></li>
-<li class="visible-xs hidden-sm visible-lg"><a href="../lists/programs.html">Programs</a></li>
-          </ul>
-        <form action="../search.html" class="navbar-form navbar-right" role="search">
-        <div class="form-group">
-          <input type="text" class="form-control" placeholder="Search" name="q" id="tipue_search_input" autocomplete="off" required>
+              <div class="d-flex align-items-end flex-grow-1">
+                <form action="../search.html" role="search" class="ms-auto">
+                  <input type="text" class="form-control" aria-label="Search" placeholder="Search" name="q" id="tipue_search_input" autocomplete="off" required>
+                </form>
+              </div>
+          </div><!--/.nav-collapse -->
         </div>
-<!--
-        <button type="submit" class="btn btn-default">Submit</button>
--->
-        </form>
-        </div><!--/.nav-collapse -->
-      </div>
-    </nav>
+      </nav>
+    </div>
 
     <div class="container">
   <div class="row">
     <h1>hyperparameters_m.f90
-    <small>Source File</small>
+      <small>Source File</small>
+      
     </h1>
-    <div class="row">
-  <div class="col-lg-12">
-<div class="well well-sm">
-  <ul class="list-inline" style="margin-bottom:0px;display:inline">
-     <li><i class="fa fa-list-ol"></i>
-       <a data-toggle="tooltip"
-    data-placement="bottom" data-html="true"
-    title=" 1.2% of total for source files.">61 statements</a>
-     </li> 
-    <li><i class="fa fa-code"></i><a href="../src/hyperparameters_m.f90"> Source File</a></li>
-  </ul>
-  <ol class="breadcrumb in-well text-right">
-     <li class="active">hyperparameters_m.f90</li>
-  </ol>
-</div>
-</div>
-</div>
-<script>
-  $(function () {
-  $('[data-toggle="tooltip"]').tooltip()
-  })
-</script>
+      <div class="container p-2 mb-4 bg-light border rounded-3">
+    <div class="row align-items-center justify-content-between" id="info-bar">
+      <div class="col">
+        <ul class="list-inline" style="margin-bottom:0px;display:inline">
+
+            <li class="list-inline-item" id="statements"><i class="fa fa-list-ol"></i>
+              <a data-bs-toggle="tooltip"
+                 data-bs-placement="bottom" data-html="true"
+                 title=" 2.5% of total for source files.">61 statements</a>
+            </li>
+
+            <li class="list-inline-item" id="source-file">
+              <i class="fa fa-code"></i>
+              <a href="../src/hyperparameters_m.f90"> Source File</a>
+            </li>
+        </ul>
+      </div>
+      <div class="col">
+        <nav aria-label="breadcrumb">
+          <ol class="breadcrumb justify-content-end mb-0">
+            <li class="breadcrumb-item active" aria-current="page">hyperparameters_m.f90</li>
+          </ol>
+        </nav>
+      </div>
+    </div>
+  </div>
+  <script>
+    $(function () {
+    $('[data-bs-toggle="tooltip"]').tooltip()
+    })
+  </script>
 
   </div>
   <div class="row">
     <div class="col-md-3 hidden-xs hidden-sm visible-md visible-lg">
-    <div id="sidebar">
-  <h3>Contents</h3>
- 
-<div class="panel panel-primary">
-  <div class="panel-heading text-left"><h3 class="panel-title"><a data-toggle="collapse" href="#mods-0">Modules</a></h3></div>
-  <div id="mods-0" class="panel-collapse collapse">
-    <div class="list-group">
-      <a class="list-group-item" href="../module/hyperparameters_m.html">hyperparameters_m</a>
+        <div id="sidebar">
+      <h3>Contents</h3>
+  
+  
+  
+  
+  
+      <div class="card mb-4">
+      <a data-bs-toggle="collapse" href="#mods-0"
+         aria-expanded="false" aria-controls="mods-0">
+         <h4 class="card-header bg-primary text-white">Modules</h4>
+      </a>
+      <div id="mods-0" class="collapse">
+        <div class="list-group list-group-flush">
+            <a class="list-group-item" href="../module/hyperparameters_m.html">hyperparameters_m</a>
+        </div>
+      </div>
     </div>
-  </div>
-</div>
-<div class="panel panel-primary">
-  <div class="panel-heading text-left"><h3 class="panel-title">Source Code</h3></div>
-  <div class="list-group">
-    <a class="list-group-item" href="../sourcefile/hyperparameters_m.f90.html#src">hyperparameters_m.f90</a>
-  </div>
-</div>
 
-</div>
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+    <div class="card card-primary">
+      <div class="card-header text-left"><h3 class="card-title">Source Code</h3></div>
+      <div class="list-group">
+        <a class="list-group-item" href="../sourcefile/hyperparameters_m.f90.html#src">hyperparameters_m.f90</a>
+      </div>
+    </div>
+
+
+  </div>
 
     </div>
     <div class="col-md-9" id='text'>
       
       <br>
-    <div class="panel panel-default">
-      <div class="panel-heading">
-  <h3 class="panel-title">This file depends on</h3>
-      </div>
-      <div class="panel-body">
-  <div class="depgraph"><?xml version="1.0" encoding="UTF-8" standalone="no"?>
+        <div class="card">
+          <div class="card-header">
+            <h3 class="card-title">This file depends on</h3>
+          </div>
+          <div class="card-body">
+            <div class="depgraph"><?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN"
  "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
-<!-- Generated by graphviz version 2.43.0 (0)
+<!-- Generated by graphviz version 9.0.0 (20230911.1827)
  -->
 <!-- Title: sourcefile~~hyperparameters_m.f90~~EfferentGraph Pages: 1 -->
-<svg id="sourcefilehyperparameters_mf90EfferentGraph" width="325pt" height="32pt"
- viewBox="0.00 0.00 325.00 32.00" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
-<g id="sourcefile~~hyperparameters_m.f90~~EfferentGraph" class="graph" transform="scale(1 1) rotate(0) translate(4 28)">
+<svg id="sourcefilehyperparameters_mf90EfferentGraph" width="322pt" height="32pt"
+ viewBox="0.00 0.00 322.04 32.27" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+<g id="sourcefile~~hyperparameters_m.f90~~EfferentGraph" class="graph" transform="scale(1 1) rotate(0) translate(4 28.27)">
 <title>sourcefile~~hyperparameters_m.f90~~EfferentGraph</title>
-<polygon fill="white" stroke="transparent" points="-4,4 -4,-28 321,-28 321,4 -4,4"/>
+<polygon fill="white" stroke="none" points="-4,4 -4,-28.27 318.04,-28.27 318.04,4 -4,4"/>
 <!-- sourcefile~hyperparameters_m.f90 -->
 <g id="sourcefile~~hyperparameters_m.f90~~EfferentGraph_node1" class="node">
 <title>sourcefile~hyperparameters_m.f90</title>
-<polygon fill="none" stroke="black" points="317,-24 175,-24 175,0 317,0 317,-24"/>
-<text text-anchor="middle" x="246" y="-9.6" font-family="Helvetica,sans-Serif" font-size="10.50">hyperparameters_m.f90</text>
+<polygon fill="none" stroke="black" points="314.04,-24.27 173.52,-24.27 173.52,0 314.04,0 314.04,-24.27"/>
+<text text-anchor="middle" x="243.78" y="-8.53" font-family="Helvetica,sans-Serif" font-size="10.50">hyperparameters_m.f90</text>
 </g>
 <!-- sourcefile~kind_parameters_m.f90 -->
 <g id="sourcefile~~hyperparameters_m.f90~~EfferentGraph_node2" class="node">
 <title>sourcefile~kind_parameters_m.f90</title>
 <g id="a_sourcefile~~hyperparameters_m.f90~~EfferentGraph_node2"><a xlink:href=".././sourcefile/kind_parameters_m.f90.html" xlink:title="kind_parameters_m.f90">
-<polygon fill="#f0ad4e" stroke="#f0ad4e" points="139,-24 0,-24 0,0 139,0 139,-24"/>
-<text text-anchor="middle" x="69.5" y="-9.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">kind_parameters_m.f90</text>
+<polygon fill="#f0ad4e" stroke="#f0ad4e" points="137.52,-24.27 0,-24.27 0,0 137.52,0 137.52,-24.27"/>
+<text text-anchor="middle" x="68.76" y="-8.53" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">kind_parameters_m.f90</text>
 </a>
 </g>
 </g>
 <!-- sourcefile~hyperparameters_m.f90&#45;&gt;sourcefile~kind_parameters_m.f90 -->
 <g id="sourcefile~~hyperparameters_m.f90~~EfferentGraph_edge1" class="edge">
 <title>sourcefile~hyperparameters_m.f90&#45;&gt;sourcefile~kind_parameters_m.f90</title>
-<path fill="none" stroke="#ff0000" stroke-dasharray="5,2" d="M174.78,-12C166.43,-12 157.86,-12 149.4,-12"/>
-<polygon fill="#ff0000" stroke="#ff0000" points="149.16,-8.5 139.16,-12 149.16,-15.5 149.16,-8.5"/>
+<path fill="none" stroke="#255000" stroke-dasharray="5,2" d="M173.4,-12.13C165.42,-12.13 157.22,-12.13 149.12,-12.13"/>
+<polygon fill="#255000" stroke="#255000" points="149.26,-8.64 139.26,-12.14 149.26,-15.64 149.26,-8.64"/>
 </g>
 </g>
 </svg>
-</div><div><a type="button" class="graph-help" data-toggle="modal" href="#graph-help-text">Help</a></div><div class="modal fade" id="graph-help-text" tabindex="-1" role="dialog"><div class="modal-dialog modal-lg" role="document"><div class="modal-content"><div class="modal-header"><button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button><h4 class="modal-title" id="-graph-help-label">Graph Key</h4></div><div class="modal-body">
-    <p>Nodes of different colours represent the following: </p>
-    <?xml version="1.0" encoding="UTF-8" standalone="no"?>
+</div>        <div><a type="button" class="graph-help" data-toggle="modal" href="#EfferentGraph-help-text">Help</a></div>
+          <div class="modal fade" id="EfferentGraph-help-text" tabindex="-1" role="dialog">
+            <div class="modal-dialog modal-lg" role="document">
+              <div class="modal-content">
+                <div class="modal-header">
+                  <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                  </button>
+                  <h4 class="modal-title" id="-graph-help-label">Graph Key</h4>
+                </div>
+              <div class="modal-body">
+<p>Nodes of different colours represent the following: </p>
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN"
  "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
-<!-- Generated by graphviz version 2.43.0 (0)
+<!-- Generated by graphviz version 9.0.0 (20230911.1827)
  -->
 <!-- Title: Graph Key Pages: 1 -->
-<svg width="202pt" height="32pt"
- viewBox="0.00 0.00 201.50 32.00" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
-<g id="graph0" class="graph" transform="scale(1 1) rotate(0) translate(4 28)">
+<svg width="200pt" height="32pt"
+ viewBox="0.00 0.00 199.52 32.27" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+<g id="graph0" class="graph" transform="scale(1 1) rotate(0) translate(4 28.27)">
 <title>Graph Key</title>
-<polygon fill="white" stroke="transparent" points="-4,4 -4,-28 197.5,-28 197.5,4 -4,4"/>
+<polygon fill="white" stroke="none" points="-4,4 -4,-28.27 195.52,-28.27 195.52,4 -4,4"/>
 <!-- Source File -->
 <g id="node1" class="node">
 <title>Source File</title>
-<polygon fill="#f0ad4e" stroke="#f0ad4e" points="70,-24 0,-24 0,0 70,0 70,-24"/>
-<text text-anchor="middle" x="35" y="-9.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">Source File</text>
+<polygon fill="#f0ad4e" stroke="#f0ad4e" points="69.27,-24.27 0,-24.27 0,0 69.27,0 69.27,-24.27"/>
+<text text-anchor="middle" x="34.63" y="-8.53" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">Source File</text>
 </g>
 <!-- This Page&#39;s Entity -->
 <g id="node2" class="node">
 <title>This Page&#39;s Entity</title>
-<polygon fill="none" stroke="black" points="193.5,-24 88.5,-24 88.5,0 193.5,0 193.5,-24"/>
-<text text-anchor="middle" x="141" y="-9.6" font-family="Helvetica,sans-Serif" font-size="10.50">This Page&#39;s Entity</text>
+<polygon fill="none" stroke="black" points="191.52,-24.27 87.75,-24.27 87.75,0 191.52,0 191.52,-24.27"/>
+<text text-anchor="middle" x="139.63" y="-8.53" font-family="Helvetica,sans-Serif" font-size="10.50">This Page&#39;s Entity</text>
 </g>
 </g>
 </svg>
 
-    
-    <p>Solid arrows point from a file to a file which it depends on. A file
-    is dependent upon another if the latter must be compiled before the former
-    can be. Where possible, edges connecting nodes are given different colours to make them easier to distinguish in large graphs.
-    </p>
-    </div></div></div></div>
-      </div>
-    </div>
-    <div class="panel panel-default">
-      <div class="panel-heading">
-  <h3 class="panel-title">Files dependent on this one</h3>
-      </div>
-      <div class="panel-body">
-  <div class="depgraph"><?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<p>Solid arrows point from a file to a file which it depends on. A file
+is dependent upon another if the latter must be compiled before the former
+can be.
+</p>
+ Where possible, edges connecting nodes are
+given different colours to make them easier to distinguish in
+large graphs.</div>
+            </div>
+          </div>
+        </div>
+          </div>
+        </div>
+        <div class="card">
+          <div class="card-header">
+            <h3 class="card-title">Files dependent on this one</h3>
+          </div>
+          <div class="card-body">
+            <div class="depgraph"><?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN"
  "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
-<!-- Generated by graphviz version 2.43.0 (0)
+<!-- Generated by graphviz version 9.0.0 (20230911.1827)
  -->
 <!-- Title: sourcefile~~hyperparameters_m.f90~~AfferentGraph Pages: 1 -->
-<svg id="sourcefilehyperparameters_mf90AfferentGraph" width="641pt" height="347pt"
- viewBox="0.00 0.00 641.00 347.13" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
-<g id="sourcefile~~hyperparameters_m.f90~~AfferentGraph" class="graph" transform="scale(1.52 1.52) rotate(0) translate(4 524)">
+<svg id="sourcefilehyperparameters_mf90AfferentGraph" width="641pt" height="349pt"
+ viewBox="0.00 0.00 641.00 349.33" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+<g id="sourcefile~~hyperparameters_m.f90~~AfferentGraph" class="graph" transform="scale(0.661268 0.661268) rotate(0) translate(4 524.27)">
 <title>sourcefile~~hyperparameters_m.f90~~AfferentGraph</title>
-<polygon fill="white" stroke="transparent" points="-4,4 -4,-524 971,-524 971,4 -4,4"/>
+<polygon fill="white" stroke="none" points="-4,4 -4,-524.27 965.35,-524.27 965.35,4 -4,4"/>
 <!-- sourcefile~hyperparameters_m.f90 -->
 <g id="sourcefile~~hyperparameters_m.f90~~AfferentGraph_node1" class="node">
 <title>sourcefile~hyperparameters_m.f90</title>
-<polygon fill="none" stroke="black" points="142,-293 0,-293 0,-269 142,-269 142,-293"/>
-<text text-anchor="middle" x="71" y="-278.6" font-family="Helvetica,sans-Serif" font-size="10.50">hyperparameters_m.f90</text>
+<polygon fill="none" stroke="black" points="140.52,-333.27 0,-333.27 0,-309 140.52,-309 140.52,-333.27"/>
+<text text-anchor="middle" x="70.26" y="-317.53" font-family="Helvetica,sans-Serif" font-size="10.50">hyperparameters_m.f90</text>
+</g>
+<!-- sourcefile~hyperparameters_s.f90 -->
+<g id="sourcefile~~hyperparameters_m.f90~~AfferentGraph_node2" class="node">
+<title>sourcefile~hyperparameters_s.f90</title>
+<g id="a_sourcefile~~hyperparameters_m.f90~~AfferentGraph_node2"><a xlink:href=".././sourcefile/hyperparameters_s.f90.html" xlink:title="hyperparameters_s.f90">
+<polygon fill="#f0ad4e" stroke="#f0ad4e" points="326.79,-375.27 191.52,-375.27 191.52,-351 326.79,-351 326.79,-375.27"/>
+<text text-anchor="middle" x="259.16" y="-359.53" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">hyperparameters_s.f90</text>
+</a>
+</g>
+</g>
+<!-- sourcefile~hyperparameters_s.f90&#45;&gt;sourcefile~hyperparameters_m.f90 -->
+<g id="sourcefile~~hyperparameters_m.f90~~AfferentGraph_edge1" class="edge">
+<title>sourcefile~hyperparameters_s.f90&#45;&gt;sourcefile~hyperparameters_m.f90</title>
+<path fill="none" stroke="#255000" stroke-dasharray="5,2" d="M202.08,-350.53C182.03,-346.03 159.23,-340.9 138.34,-336.21"/>
+<polygon fill="#255000" stroke="#255000" points="139.3,-332.84 128.77,-334.06 137.76,-339.67 139.3,-332.84"/>
 </g>
 <!-- sourcefile~inference_engine_m.f90 -->
-<g id="sourcefile~~hyperparameters_m.f90~~AfferentGraph_node2" class="node">
+<g id="sourcefile~~hyperparameters_m.f90~~AfferentGraph_node3" class="node">
 <title>sourcefile~inference_engine_m.f90</title>
-<g id="a_sourcefile~~hyperparameters_m.f90~~AfferentGraph_node2"><a xlink:href=".././sourcefile/inference_engine_m.f90.html" xlink:title="inference_engine_m.f90">
-<polygon fill="#f0ad4e" stroke="#f0ad4e" points="521,-293 380,-293 380,-269 521,-269 521,-293"/>
-<text text-anchor="middle" x="450.5" y="-278.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">inference_engine_m.f90</text>
+<g id="a_sourcefile~~hyperparameters_m.f90~~AfferentGraph_node3"><a xlink:href=".././sourcefile/inference_engine_m.f90.html" xlink:title="inference_engine_m.f90">
+<polygon fill="#f0ad4e" stroke="#f0ad4e" points="517.56,-293.27 377.79,-293.27 377.79,-269 517.56,-269 517.56,-293.27"/>
+<text text-anchor="middle" x="447.68" y="-277.53" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">inference_engine_m.f90</text>
 </a>
 </g>
 </g>
 <!-- sourcefile~inference_engine_m.f90&#45;&gt;sourcefile~hyperparameters_m.f90 -->
-<g id="sourcefile~~hyperparameters_m.f90~~AfferentGraph_edge1" class="edge">
+<g id="sourcefile~~hyperparameters_m.f90~~AfferentGraph_edge2" class="edge">
 <title>sourcefile~inference_engine_m.f90&#45;&gt;sourcefile~hyperparameters_m.f90</title>
-<path fill="none" stroke="#ff0000" stroke-dasharray="5,2" d="M379.82,-281C315.48,-281 219.95,-281 152.4,-281"/>
-<polygon fill="#ff0000" stroke="#ff0000" points="152.23,-277.5 142.23,-281 152.23,-284.5 152.23,-277.5"/>
+<path fill="none" stroke="#255000" stroke-dasharray="5,2" d="M377.31,-283.59C322.59,-286.12 244.44,-291.01 176.52,-300.13 164.29,-301.78 151.34,-303.98 138.87,-306.33"/>
+<polygon fill="#255000" stroke="#255000" points="138.21,-302.9 129.06,-308.24 139.55,-309.77 138.21,-302.9"/>
 </g>
 <!-- sourcefile~training_configuration_m.f90 -->
 <g id="sourcefile~~hyperparameters_m.f90~~AfferentGraph_node4" class="node">
 <title>sourcefile~training_configuration_m.f90</title>
 <g id="a_sourcefile~~hyperparameters_m.f90~~AfferentGraph_node4"><a xlink:href=".././sourcefile/training_configuration_m.f90.html" xlink:title="training_configuration_m.f90">
-<polygon fill="#f0ad4e" stroke="#f0ad4e" points="344,-333 178,-333 178,-309 344,-309 344,-333"/>
-<text text-anchor="middle" x="261" y="-318.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">training_configuration_m.f90</text>
+<polygon fill="#f0ad4e" stroke="#f0ad4e" points="341.79,-333.27 176.52,-333.27 176.52,-309 341.79,-309 341.79,-333.27"/>
+<text text-anchor="middle" x="259.16" y="-317.53" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">training_configuration_m.f90</text>
 </a>
 </g>
 </g>
 <!-- sourcefile~inference_engine_m.f90&#45;&gt;sourcefile~training_configuration_m.f90 -->
 <g id="sourcefile~~hyperparameters_m.f90~~AfferentGraph_edge17" class="edge">
 <title>sourcefile~inference_engine_m.f90&#45;&gt;sourcefile~training_configuration_m.f90</title>
-<path fill="none" stroke="#0000ff" stroke-dasharray="5,2" d="M393.24,-293C372.85,-297.35 349.62,-302.31 328.43,-306.83"/>
-<polygon fill="#0000ff" stroke="#0000ff" points="327.59,-303.43 318.54,-308.94 329.05,-310.27 327.59,-303.43"/>
-</g>
-<!-- sourcefile~hyperparameters_s.f90 -->
-<g id="sourcefile~~hyperparameters_m.f90~~AfferentGraph_node3" class="node">
-<title>sourcefile~hyperparameters_s.f90</title>
-<g id="a_sourcefile~~hyperparameters_m.f90~~AfferentGraph_node3"><a xlink:href=".././sourcefile/hyperparameters_s.f90.html" xlink:title="hyperparameters_s.f90">
-<polygon fill="#f0ad4e" stroke="#f0ad4e" points="329,-253 193,-253 193,-229 329,-229 329,-253"/>
-<text text-anchor="middle" x="261" y="-238.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">hyperparameters_s.f90</text>
-</a>
-</g>
-</g>
-<!-- sourcefile~hyperparameters_s.f90&#45;&gt;sourcefile~hyperparameters_m.f90 -->
-<g id="sourcefile~~hyperparameters_m.f90~~AfferentGraph_edge2" class="edge">
-<title>sourcefile~hyperparameters_s.f90&#45;&gt;sourcefile~hyperparameters_m.f90</title>
-<path fill="none" stroke="#ff0000" stroke-dasharray="5,2" d="M203.59,-253C183.15,-257.35 159.86,-262.31 138.61,-266.83"/>
-<polygon fill="#ff0000" stroke="#ff0000" points="137.74,-263.43 128.69,-268.94 139.2,-270.28 137.74,-263.43"/>
+<path fill="none" stroke="#002505" stroke-dasharray="5,2" d="M387.91,-293.74C369.53,-297.68 349.06,-302.07 329.98,-306.16"/>
+<polygon fill="#002505" stroke="#002505" points="329.46,-302.69 320.42,-308.21 330.93,-309.54 329.46,-302.69"/>
 </g>
 <!-- sourcefile~training_configuration_m.f90&#45;&gt;sourcefile~hyperparameters_m.f90 -->
 <g id="sourcefile~~hyperparameters_m.f90~~AfferentGraph_edge3" class="edge">
 <title>sourcefile~training_configuration_m.f90&#45;&gt;sourcefile~hyperparameters_m.f90</title>
-<path fill="none" stroke="#ff0000" stroke-dasharray="5,2" d="M203.59,-309C183.15,-304.65 159.86,-299.69 138.61,-295.17"/>
-<polygon fill="#ff0000" stroke="#ff0000" points="139.2,-291.72 128.69,-293.06 137.74,-298.57 139.2,-291.72"/>
-</g>
-<!-- sourcefile~thompson_tensors_m.f90 -->
-<g id="sourcefile~~hyperparameters_m.f90~~AfferentGraph_node5" class="node">
-<title>sourcefile~thompson_tensors_m.f90</title>
-<g id="a_sourcefile~~hyperparameters_m.f90~~AfferentGraph_node5"><a xlink:href=".././sourcefile/thompson_tensors_m.f90.html" xlink:title="thompson_tensors_m.f90">
-<polygon fill="#f0ad4e" stroke="#f0ad4e" points="719,-440 573,-440 573,-416 719,-416 719,-440"/>
-<text text-anchor="middle" x="646" y="-425.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">thompson_tensors_m.f90</text>
-</a>
-</g>
-</g>
-<!-- sourcefile~thompson_tensors_m.f90&#45;&gt;sourcefile~inference_engine_m.f90 -->
-<g id="sourcefile~~hyperparameters_m.f90~~AfferentGraph_edge4" class="edge">
-<title>sourcefile~thompson_tensors_m.f90&#45;&gt;sourcefile~inference_engine_m.f90</title>
-<path fill="none" stroke="#ff0000" stroke-dasharray="5,2" d="M575.54,-415.96C569.04,-413.51 562.74,-410.55 557,-407 514.06,-380.43 480.06,-330.37 463.17,-302.01"/>
-<polygon fill="#ff0000" stroke="#ff0000" points="466.16,-300.17 458.11,-293.28 460.1,-303.69 466.16,-300.17"/>
-</g>
-<!-- sourcefile~learn&#45;multiplication.f90 -->
-<g id="sourcefile~~hyperparameters_m.f90~~AfferentGraph_node6" class="node">
-<title>sourcefile~learn&#45;multiplication.f90</title>
-<g id="a_sourcefile~~hyperparameters_m.f90~~AfferentGraph_node6"><a xlink:href=".././sourcefile/learn-multiplication.f90.html" xlink:title="learn&#45;multiplication.f90">
-<polygon fill="#f0ad4e" stroke="#f0ad4e" points="714.5,-398 577.5,-398 577.5,-374 714.5,-374 714.5,-398"/>
-<text text-anchor="middle" x="646" y="-383.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">learn&#45;multiplication.f90</text>
-</a>
-</g>
-</g>
-<!-- sourcefile~learn&#45;multiplication.f90&#45;&gt;sourcefile~inference_engine_m.f90 -->
-<g id="sourcefile~~hyperparameters_m.f90~~AfferentGraph_edge5" class="edge">
-<title>sourcefile~learn&#45;multiplication.f90&#45;&gt;sourcefile~inference_engine_m.f90</title>
-<path fill="none" stroke="#ff0000" stroke-dasharray="5,2" d="M579.94,-373.92C572.03,-371.45 564.2,-368.51 557,-365 523,-348.43 489.89,-319.32 470.1,-300.1"/>
-<polygon fill="#ff0000" stroke="#ff0000" points="472.52,-297.57 462.95,-293.02 467.59,-302.54 472.52,-297.57"/>
-</g>
-<!-- sourcefile~learn&#45;power&#45;series.f90 -->
-<g id="sourcefile~~hyperparameters_m.f90~~AfferentGraph_node7" class="node">
-<title>sourcefile~learn&#45;power&#45;series.f90</title>
-<g id="a_sourcefile~~hyperparameters_m.f90~~AfferentGraph_node7"><a xlink:href=".././sourcefile/learn-power-series.f90.html" xlink:title="learn&#45;power&#45;series.f90">
-<polygon fill="#f0ad4e" stroke="#f0ad4e" points="712,-356 580,-356 580,-332 712,-332 712,-356"/>
-<text text-anchor="middle" x="646" y="-341.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">learn&#45;power&#45;series.f90</text>
-</a>
-</g>
-</g>
-<!-- sourcefile~learn&#45;power&#45;series.f90&#45;&gt;sourcefile~inference_engine_m.f90 -->
-<g id="sourcefile~~hyperparameters_m.f90~~AfferentGraph_edge7" class="edge">
-<title>sourcefile~learn&#45;power&#45;series.f90&#45;&gt;sourcefile~inference_engine_m.f90</title>
-<path fill="none" stroke="#ff0000" stroke-dasharray="5,2" d="M589.27,-331.99C578.49,-329.3 567.33,-326.27 557,-323 533.74,-315.64 508.32,-305.58 488.25,-297.15"/>
-<polygon fill="#ff0000" stroke="#ff0000" points="489.44,-293.85 478.87,-293.16 486.7,-300.3 489.44,-293.85"/>
-</g>
-<!-- sourcefile~write&#45;read&#45;infer.f90 -->
-<g id="sourcefile~~hyperparameters_m.f90~~AfferentGraph_node8" class="node">
-<title>sourcefile~write&#45;read&#45;infer.f90</title>
-<g id="a_sourcefile~~hyperparameters_m.f90~~AfferentGraph_node8"><a xlink:href=".././sourcefile/write-read-infer.f90.html" xlink:title="write&#45;read&#45;infer.f90">
-<polygon fill="#f0ad4e" stroke="#f0ad4e" points="703,-314 589,-314 589,-290 703,-290 703,-314"/>
-<text text-anchor="middle" x="646" y="-299.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">write&#45;read&#45;infer.f90</text>
-</a>
-</g>
-</g>
-<!-- sourcefile~write&#45;read&#45;infer.f90&#45;&gt;sourcefile~inference_engine_m.f90 -->
-<g id="sourcefile~~hyperparameters_m.f90~~AfferentGraph_edge8" class="edge">
-<title>sourcefile~write&#45;read&#45;infer.f90&#45;&gt;sourcefile~inference_engine_m.f90</title>
-<path fill="none" stroke="#ff0000" stroke-dasharray="5,2" d="M588.77,-295.9C570.81,-293.95 550.58,-291.75 531.28,-289.66"/>
-<polygon fill="#ff0000" stroke="#ff0000" points="531.61,-286.17 521.29,-288.57 530.85,-293.13 531.61,-286.17"/>
-</g>
-<!-- sourcefile~print&#45;training&#45;configuration.f90 -->
-<g id="sourcefile~~hyperparameters_m.f90~~AfferentGraph_node9" class="node">
-<title>sourcefile~print&#45;training&#45;configuration.f90</title>
-<g id="a_sourcefile~~hyperparameters_m.f90~~AfferentGraph_node9"><a xlink:href=".././sourcefile/print-training-configuration.f90.html" xlink:title="print&#45;training&#45;configuration.f90">
-<polygon fill="#f0ad4e" stroke="#f0ad4e" points="735,-272 557,-272 557,-248 735,-248 735,-272"/>
-<text text-anchor="middle" x="646" y="-257.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">print&#45;training&#45;configuration.f90</text>
-</a>
-</g>
-</g>
-<!-- sourcefile~print&#45;training&#45;configuration.f90&#45;&gt;sourcefile~inference_engine_m.f90 -->
-<g id="sourcefile~~hyperparameters_m.f90~~AfferentGraph_edge6" class="edge">
-<title>sourcefile~print&#45;training&#45;configuration.f90&#45;&gt;sourcefile~inference_engine_m.f90</title>
-<path fill="none" stroke="#ff0000" stroke-dasharray="5,2" d="M556.74,-269.58C548.24,-270.5 539.65,-271.43 531.23,-272.35"/>
-<polygon fill="#ff0000" stroke="#ff0000" points="530.64,-268.89 521.08,-273.45 531.4,-275.85 530.64,-268.89"/>
-</g>
-<!-- sourcefile~learn&#45;exponentiation.f90 -->
-<g id="sourcefile~~hyperparameters_m.f90~~AfferentGraph_node10" class="node">
-<title>sourcefile~learn&#45;exponentiation.f90</title>
-<g id="a_sourcefile~~hyperparameters_m.f90~~AfferentGraph_node10"><a xlink:href=".././sourcefile/learn-exponentiation.f90.html" xlink:title="learn&#45;exponentiation.f90">
-<polygon fill="#f0ad4e" stroke="#f0ad4e" points="718,-230 574,-230 574,-206 718,-206 718,-230"/>
-<text text-anchor="middle" x="646" y="-215.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">learn&#45;exponentiation.f90</text>
-</a>
-</g>
-</g>
-<!-- sourcefile~learn&#45;exponentiation.f90&#45;&gt;sourcefile~inference_engine_m.f90 -->
-<g id="sourcefile~~hyperparameters_m.f90~~AfferentGraph_edge9" class="edge">
-<title>sourcefile~learn&#45;exponentiation.f90&#45;&gt;sourcefile~inference_engine_m.f90</title>
-<path fill="none" stroke="#ff0000" stroke-dasharray="5,2" d="M589.27,-230.01C578.49,-232.7 567.33,-235.73 557,-239 533.74,-246.36 508.32,-256.42 488.25,-264.85"/>
-<polygon fill="#ff0000" stroke="#ff0000" points="486.7,-261.7 478.87,-268.84 489.44,-268.15 486.7,-261.7"/>
-</g>
-<!-- sourcefile~learn&#45;addition.f90 -->
-<g id="sourcefile~~hyperparameters_m.f90~~AfferentGraph_node11" class="node">
-<title>sourcefile~learn&#45;addition.f90</title>
-<g id="a_sourcefile~~hyperparameters_m.f90~~AfferentGraph_node11"><a xlink:href=".././sourcefile/learn-addition.f90.html" xlink:title="learn&#45;addition.f90">
-<polygon fill="#f0ad4e" stroke="#f0ad4e" points="700,-188 592,-188 592,-164 700,-164 700,-188"/>
-<text text-anchor="middle" x="646" y="-173.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">learn&#45;addition.f90</text>
-</a>
-</g>
-</g>
-<!-- sourcefile~learn&#45;addition.f90&#45;&gt;sourcefile~inference_engine_m.f90 -->
-<g id="sourcefile~~hyperparameters_m.f90~~AfferentGraph_edge10" class="edge">
-<title>sourcefile~learn&#45;addition.f90&#45;&gt;sourcefile~inference_engine_m.f90</title>
-<path fill="none" stroke="#ff0000" stroke-dasharray="5,2" d="M591.58,-184.79C579.85,-187.8 567.73,-191.77 557,-197 523,-213.57 489.89,-242.68 470.1,-261.9"/>
-<polygon fill="#ff0000" stroke="#ff0000" points="467.59,-259.46 462.95,-268.98 472.52,-264.43 467.59,-259.46"/>
-</g>
-<!-- sourcefile~training_configuration_s.f90 -->
-<g id="sourcefile~~hyperparameters_m.f90~~AfferentGraph_node12" class="node">
-<title>sourcefile~training_configuration_s.f90</title>
-<g id="a_sourcefile~~hyperparameters_m.f90~~AfferentGraph_node12"><a xlink:href=".././sourcefile/training_configuration_s.f90.html" xlink:title="training_configuration_s.f90">
-<polygon fill="#f0ad4e" stroke="#f0ad4e" points="726.5,-520 565.5,-520 565.5,-496 726.5,-496 726.5,-520"/>
-<text text-anchor="middle" x="646" y="-505.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">training_configuration_s.f90</text>
-</a>
-</g>
-</g>
-<!-- sourcefile~training_configuration_s.f90&#45;&gt;sourcefile~inference_engine_m.f90 -->
-<g id="sourcefile~~hyperparameters_m.f90~~AfferentGraph_edge11" class="edge">
-<title>sourcefile~training_configuration_s.f90&#45;&gt;sourcefile~inference_engine_m.f90</title>
-<path fill="none" stroke="#ff0000" stroke-dasharray="5,2" d="M580.05,-495.99C571.67,-492.46 563.69,-487.9 557,-482 527.13,-455.69 539.07,-435.47 521,-400 503.06,-364.77 479.32,-325.45 464.75,-301.99"/>
-<polygon fill="#ff0000" stroke="#ff0000" points="467.55,-299.87 459.28,-293.24 461.62,-303.58 467.55,-299.87"/>
-</g>
-<!-- sourcefile~training_configuration_s.f90&#45;&gt;sourcefile~training_configuration_m.f90 -->
-<g id="sourcefile~~hyperparameters_m.f90~~AfferentGraph_edge18" class="edge">
-<title>sourcefile~training_configuration_s.f90&#45;&gt;sourcefile~training_configuration_m.f90</title>
-<path fill="none" stroke="#0000ff" stroke-dasharray="5,2" d="M606.84,-495.93C591.19,-490.63 573.03,-484.01 557,-477 456.36,-432.95 342.97,-368.57 290.92,-338.14"/>
-<polygon fill="#0000ff" stroke="#0000ff" points="292.62,-335.08 282.23,-333.04 289.08,-341.12 292.62,-335.08"/>
-</g>
-<!-- sourcefile~learn&#45;microphysics&#45;procedures.f90 -->
-<g id="sourcefile~~hyperparameters_m.f90~~AfferentGraph_node13" class="node">
-<title>sourcefile~learn&#45;microphysics&#45;procedures.f90</title>
-<g id="a_sourcefile~~hyperparameters_m.f90~~AfferentGraph_node13"><a xlink:href=".././sourcefile/learn-microphysics-procedures.f90.html" xlink:title="learn&#45;microphysics&#45;procedures.f90">
-<polygon fill="#f0ad4e" stroke="#f0ad4e" points="967,-460 771,-460 771,-436 967,-436 967,-460"/>
-<text text-anchor="middle" x="869" y="-445.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">learn&#45;microphysics&#45;procedures.f90</text>
-</a>
-</g>
-</g>
-<!-- sourcefile~learn&#45;microphysics&#45;procedures.f90&#45;&gt;sourcefile~inference_engine_m.f90 -->
-<g id="sourcefile~~hyperparameters_m.f90~~AfferentGraph_edge12" class="edge">
-<title>sourcefile~learn&#45;microphysics&#45;procedures.f90&#45;&gt;sourcefile~inference_engine_m.f90</title>
-<path fill="none" stroke="#ff0000" stroke-dasharray="5,2" d="M826.88,-460.06C764.24,-475.93 643.12,-496.61 557,-449 549.52,-444.87 490.25,-346.2 463.97,-302.03"/>
-<polygon fill="#ff0000" stroke="#ff0000" points="466.87,-300.06 458.75,-293.25 460.85,-303.64 466.87,-300.06"/>
-</g>
-<!-- sourcefile~learn&#45;microphysics&#45;procedures.f90&#45;&gt;sourcefile~thompson_tensors_m.f90 -->
-<g id="sourcefile~~hyperparameters_m.f90~~AfferentGraph_edge19" class="edge">
-<title>sourcefile~learn&#45;microphysics&#45;procedures.f90&#45;&gt;sourcefile~thompson_tensors_m.f90</title>
-<path fill="none" stroke="#ff0000" stroke-dasharray="5,2" d="M770.74,-439.2C756.9,-437.95 742.78,-436.67 729.26,-435.44"/>
-<polygon fill="#ff0000" stroke="#ff0000" points="729.33,-431.94 719.05,-434.52 728.7,-438.91 729.33,-431.94"/>
-</g>
-<!-- sourcefile~learn&#45;saturated&#45;mixing&#45;ratio.f90 -->
-<g id="sourcefile~~hyperparameters_m.f90~~AfferentGraph_node14" class="node">
-<title>sourcefile~learn&#45;saturated&#45;mixing&#45;ratio.f90</title>
-<g id="a_sourcefile~~hyperparameters_m.f90~~AfferentGraph_node14"><a xlink:href=".././sourcefile/learn-saturated-mixing-ratio.f90.html" xlink:title="learn&#45;saturated&#45;mixing&#45;ratio.f90">
-<polygon fill="#f0ad4e" stroke="#f0ad4e" points="960.5,-128 777.5,-128 777.5,-104 960.5,-104 960.5,-128"/>
-<text text-anchor="middle" x="869" y="-113.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">learn&#45;saturated&#45;mixing&#45;ratio.f90</text>
-</a>
-</g>
-</g>
-<!-- sourcefile~learn&#45;saturated&#45;mixing&#45;ratio.f90&#45;&gt;sourcefile~inference_engine_m.f90 -->
-<g id="sourcefile~~hyperparameters_m.f90~~AfferentGraph_edge13" class="edge">
-<title>sourcefile~learn&#45;saturated&#45;mixing&#45;ratio.f90&#45;&gt;sourcefile~inference_engine_m.f90</title>
-<path fill="none" stroke="#ff0000" stroke-dasharray="5,2" d="M777.13,-120.06C699.2,-124.87 593.85,-134.91 557,-155 512.44,-179.3 478.87,-230.67 462.53,-259.75"/>
-<polygon fill="#ff0000" stroke="#ff0000" points="459.37,-258.24 457.65,-268.69 465.51,-261.59 459.37,-258.24"/>
-</g>
-<!-- sourcefile~saturated_mixing_ratio_m.f90 -->
-<g id="sourcefile~~hyperparameters_m.f90~~AfferentGraph_node15" class="node">
-<title>sourcefile~saturated_mixing_ratio_m.f90</title>
-<g id="a_sourcefile~~hyperparameters_m.f90~~AfferentGraph_node15"><a xlink:href=".././sourcefile/saturated_mixing_ratio_m.f90.html" xlink:title="saturated_mixing_ratio_m.f90">
-<polygon fill="#f0ad4e" stroke="#f0ad4e" points="731.5,-108 560.5,-108 560.5,-84 731.5,-84 731.5,-108"/>
-<text text-anchor="middle" x="646" y="-93.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">saturated_mixing_ratio_m.f90</text>
-</a>
-</g>
-</g>
-<!-- sourcefile~learn&#45;saturated&#45;mixing&#45;ratio.f90&#45;&gt;sourcefile~saturated_mixing_ratio_m.f90 -->
-<g id="sourcefile~~hyperparameters_m.f90~~AfferentGraph_edge20" class="edge">
-<title>sourcefile~learn&#45;saturated&#45;mixing&#45;ratio.f90&#45;&gt;sourcefile~saturated_mixing_ratio_m.f90</title>
-<path fill="none" stroke="#9c00ff" stroke-dasharray="5,2" d="M777.47,-107.81C765.76,-106.75 753.75,-105.66 741.97,-104.59"/>
-<polygon fill="#9c00ff" stroke="#9c00ff" points="741.97,-101.08 731.69,-103.66 741.34,-108.05 741.97,-101.08"/>
-</g>
-<!-- sourcefile~saturated_mixing_ratio_m.f90&#45;&gt;sourcefile~inference_engine_m.f90 -->
-<g id="sourcefile~~hyperparameters_m.f90~~AfferentGraph_edge14" class="edge">
-<title>sourcefile~saturated_mixing_ratio_m.f90&#45;&gt;sourcefile~inference_engine_m.f90</title>
-<path fill="none" stroke="#ff0000" stroke-dasharray="5,2" d="M583.67,-108.05C574.2,-111.58 564.95,-116.13 557,-122 507.73,-158.38 474.6,-225.14 460,-259.43"/>
-<polygon fill="#ff0000" stroke="#ff0000" points="456.64,-258.38 456.06,-268.95 463.11,-261.05 456.64,-258.38"/>
-</g>
-<!-- sourcefile~train&#45;and&#45;write.f90 -->
-<g id="sourcefile~~hyperparameters_m.f90~~AfferentGraph_node16" class="node">
-<title>sourcefile~train&#45;and&#45;write.f90</title>
-<g id="a_sourcefile~~hyperparameters_m.f90~~AfferentGraph_node16"><a xlink:href=".././sourcefile/train-and-write.f90.html" xlink:title="train&#45;and&#45;write.f90">
-<polygon fill="#f0ad4e" stroke="#f0ad4e" points="702,-66 590,-66 590,-42 702,-42 702,-66"/>
-<text text-anchor="middle" x="646" y="-51.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">train&#45;and&#45;write.f90</text>
-</a>
-</g>
-</g>
-<!-- sourcefile~train&#45;and&#45;write.f90&#45;&gt;sourcefile~inference_engine_m.f90 -->
-<g id="sourcefile~~hyperparameters_m.f90~~AfferentGraph_edge15" class="edge">
-<title>sourcefile~train&#45;and&#45;write.f90&#45;&gt;sourcefile~inference_engine_m.f90</title>
-<path fill="none" stroke="#ff0000" stroke-dasharray="5,2" d="M589.59,-59.61C577.96,-62.78 566.39,-67.63 557,-75 495.67,-123.18 466.69,-216.73 456.26,-259.15"/>
-<polygon fill="#ff0000" stroke="#ff0000" points="452.83,-258.46 453.95,-269 459.64,-260.06 452.83,-258.46"/>
+<path fill="none" stroke="#255000" stroke-dasharray="5,2" d="M176.18,-321.13C168.27,-321.13 160.25,-321.13 152.35,-321.13"/>
+<polygon fill="#255000" stroke="#255000" points="152.41,-317.64 142.41,-321.14 152.41,-324.64 152.41,-317.64"/>
 </g>
 <!-- sourcefile~fit&#45;polynomials.f90 -->
-<g id="sourcefile~~hyperparameters_m.f90~~AfferentGraph_node17" class="node">
+<g id="sourcefile~~hyperparameters_m.f90~~AfferentGraph_node5" class="node">
 <title>sourcefile~fit&#45;polynomials.f90</title>
-<g id="a_sourcefile~~hyperparameters_m.f90~~AfferentGraph_node17"><a xlink:href=".././sourcefile/fit-polynomials.f90.html" xlink:title="fit&#45;polynomials.f90">
-<polygon fill="#f0ad4e" stroke="#f0ad4e" points="702,-24 590,-24 590,0 702,0 702,-24"/>
-<text text-anchor="middle" x="646" y="-9.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">fit&#45;polynomials.f90</text>
+<g id="a_sourcefile~~hyperparameters_m.f90~~AfferentGraph_node5"><a xlink:href=".././sourcefile/fit-polynomials.f90.html" xlink:title="fit&#45;polynomials.f90">
+<polygon fill="#f0ad4e" stroke="#f0ad4e" points="697.08,-478.27 586.56,-478.27 586.56,-454 697.08,-454 697.08,-478.27"/>
+<text text-anchor="middle" x="641.82" y="-462.53" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">fit&#45;polynomials.f90</text>
 </a>
 </g>
 </g>
 <!-- sourcefile~fit&#45;polynomials.f90&#45;&gt;sourcefile~inference_engine_m.f90 -->
-<g id="sourcefile~~hyperparameters_m.f90~~AfferentGraph_edge16" class="edge">
+<g id="sourcefile~~hyperparameters_m.f90~~AfferentGraph_edge4" class="edge">
 <title>sourcefile~fit&#45;polynomials.f90&#45;&gt;sourcefile~inference_engine_m.f90</title>
-<path fill="none" stroke="#ff0000" stroke-dasharray="5,2" d="M589.65,-17C577.88,-20.19 566.24,-25.2 557,-33 485.7,-93.22 461.46,-210.16 454.23,-258.87"/>
-<polygon fill="#ff0000" stroke="#ff0000" points="450.74,-258.56 452.84,-268.95 457.67,-259.52 450.74,-258.56"/>
+<path fill="none" stroke="#025500" stroke-dasharray="5,2" d="M586.37,-459.78C574.81,-456.65 563.21,-452.01 553.56,-445.13 527.21,-426.36 481.61,-343.95 460.29,-303.58"/>
+<polygon fill="#025500" stroke="#025500" points="463.52,-302.19 455.78,-294.96 457.32,-305.44 463.52,-302.19"/>
+</g>
+<!-- sourcefile~learn&#45;addition.f90 -->
+<g id="sourcefile~~hyperparameters_m.f90~~AfferentGraph_node6" class="node">
+<title>sourcefile~learn&#45;addition.f90</title>
+<g id="a_sourcefile~~hyperparameters_m.f90~~AfferentGraph_node6"><a xlink:href=".././sourcefile/learn-addition.f90.html" xlink:title="learn&#45;addition.f90">
+<polygon fill="#f0ad4e" stroke="#f0ad4e" points="695.21,-436.27 588.44,-436.27 588.44,-412 695.21,-412 695.21,-436.27"/>
+<text text-anchor="middle" x="641.82" y="-420.53" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">learn&#45;addition.f90</text>
+</a>
+</g>
+</g>
+<!-- sourcefile~learn&#45;addition.f90&#45;&gt;sourcefile~inference_engine_m.f90 -->
+<g id="sourcefile~~hyperparameters_m.f90~~AfferentGraph_edge5" class="edge">
+<title>sourcefile~learn&#45;addition.f90&#45;&gt;sourcefile~inference_engine_m.f90</title>
+<path fill="none" stroke="#025500" stroke-dasharray="5,2" d="M587.97,-416.99C576.08,-413.9 563.93,-409.47 553.56,-403.13 512.13,-377.83 478.61,-330.65 461.36,-302.97"/>
+<polygon fill="#025500" stroke="#025500" points="464.52,-301.43 456.34,-294.69 458.53,-305.06 464.52,-301.43"/>
+</g>
+<!-- sourcefile~learn&#45;exponentiation.f90 -->
+<g id="sourcefile~~hyperparameters_m.f90~~AfferentGraph_node7" class="node">
+<title>sourcefile~learn&#45;exponentiation.f90</title>
+<g id="a_sourcefile~~hyperparameters_m.f90~~AfferentGraph_node7"><a xlink:href=".././sourcefile/learn-exponentiation.f90.html" xlink:title="learn&#45;exponentiation.f90">
+<polygon fill="#f0ad4e" stroke="#f0ad4e" points="713.21,-394.27 570.44,-394.27 570.44,-370 713.21,-370 713.21,-394.27"/>
+<text text-anchor="middle" x="641.82" y="-378.53" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">learn&#45;exponentiation.f90</text>
+</a>
+</g>
+</g>
+<!-- sourcefile~learn&#45;exponentiation.f90&#45;&gt;sourcefile~inference_engine_m.f90 -->
+<g id="sourcefile~~hyperparameters_m.f90~~AfferentGraph_edge6" class="edge">
+<title>sourcefile~learn&#45;exponentiation.f90&#45;&gt;sourcefile~inference_engine_m.f90</title>
+<path fill="none" stroke="#025500" stroke-dasharray="5,2" d="M588.53,-369.62C576.74,-365.97 564.49,-361.49 553.56,-356.13 523.18,-341.27 492.13,-317.83 471.78,-301.11"/>
+<polygon fill="#025500" stroke="#025500" points="474.04,-298.44 464.12,-294.71 469.55,-303.81 474.04,-298.44"/>
+</g>
+<!-- sourcefile~learn&#45;microphysics&#45;procedures.f90 -->
+<g id="sourcefile~~hyperparameters_m.f90~~AfferentGraph_node8" class="node">
+<title>sourcefile~learn&#45;microphysics&#45;procedures.f90</title>
+<g id="a_sourcefile~~hyperparameters_m.f90~~AfferentGraph_node8"><a xlink:href=".././sourcefile/learn-microphysics-procedures.f90.html" xlink:title="learn&#45;microphysics&#45;procedures.f90">
+<polygon fill="#f0ad4e" stroke="#f0ad4e" points="961.35,-334.27 766.08,-334.27 766.08,-310 961.35,-310 961.35,-334.27"/>
+<text text-anchor="middle" x="863.72" y="-318.53" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">learn&#45;microphysics&#45;procedures.f90</text>
+</a>
+</g>
+</g>
+<!-- sourcefile~learn&#45;microphysics&#45;procedures.f90&#45;&gt;sourcefile~inference_engine_m.f90 -->
+<g id="sourcefile~~hyperparameters_m.f90~~AfferentGraph_edge7" class="edge">
+<title>sourcefile~learn&#45;microphysics&#45;procedures.f90&#45;&gt;sourcefile~inference_engine_m.f90</title>
+<path fill="none" stroke="#025500" stroke-dasharray="5,2" d="M765.73,-331.96C704.36,-335.85 623.65,-336.65 553.56,-323.13 528.91,-318.38 502.69,-307.88 482.63,-298.57"/>
+<polygon fill="#025500" stroke="#025500" points="484.35,-295.52 473.82,-294.36 481.33,-301.83 484.35,-295.52"/>
+</g>
+<!-- sourcefile~thompson_tensors_m.f90 -->
+<g id="sourcefile~~hyperparameters_m.f90~~AfferentGraph_node14" class="node">
+<title>sourcefile~thompson_tensors_m.f90</title>
+<g id="a_sourcefile~~hyperparameters_m.f90~~AfferentGraph_node14"><a xlink:href=".././sourcefile/thompson_tensors_m.f90.html" xlink:title="thompson_tensors_m.f90">
+<polygon fill="#f0ad4e" stroke="#f0ad4e" points="714.33,-314.27 569.31,-314.27 569.31,-290 714.33,-290 714.33,-314.27"/>
+<text text-anchor="middle" x="641.82" y="-298.53" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">thompson_tensors_m.f90</text>
+</a>
+</g>
+</g>
+<!-- sourcefile~learn&#45;microphysics&#45;procedures.f90&#45;&gt;sourcefile~thompson_tensors_m.f90 -->
+<g id="sourcefile~~hyperparameters_m.f90~~AfferentGraph_edge20" class="edge">
+<title>sourcefile~learn&#45;microphysics&#45;procedures.f90&#45;&gt;sourcefile~thompson_tensors_m.f90</title>
+<path fill="none" stroke="#390255" stroke-dasharray="5,2" d="M765.63,-313.3C752.37,-312.1 738.86,-310.87 725.88,-309.69"/>
+<polygon fill="#390255" stroke="#390255" points="726.41,-306.22 716.13,-308.8 725.78,-313.19 726.41,-306.22"/>
+</g>
+<!-- sourcefile~learn&#45;multiplication.f90 -->
+<g id="sourcefile~~hyperparameters_m.f90~~AfferentGraph_node9" class="node">
+<title>sourcefile~learn&#45;multiplication.f90</title>
+<g id="a_sourcefile~~hyperparameters_m.f90~~AfferentGraph_node9"><a xlink:href=".././sourcefile/learn-multiplication.f90.html" xlink:title="learn&#45;multiplication.f90">
+<polygon fill="#f0ad4e" stroke="#f0ad4e" points="709.83,-272.27 573.81,-272.27 573.81,-248 709.83,-248 709.83,-272.27"/>
+<text text-anchor="middle" x="641.82" y="-256.53" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">learn&#45;multiplication.f90</text>
+</a>
+</g>
+</g>
+<!-- sourcefile~learn&#45;multiplication.f90&#45;&gt;sourcefile~inference_engine_m.f90 -->
+<g id="sourcefile~~hyperparameters_m.f90~~AfferentGraph_edge8" class="edge">
+<title>sourcefile~learn&#45;multiplication.f90&#45;&gt;sourcefile~inference_engine_m.f90</title>
+<path fill="none" stroke="#025500" stroke-dasharray="5,2" d="M573.35,-267.51C559.04,-269.07 543.81,-270.74 529.08,-272.35"/>
+<polygon fill="#025500" stroke="#025500" points="529,-268.83 519.44,-273.4 529.76,-275.79 529,-268.83"/>
+</g>
+<!-- sourcefile~learn&#45;power&#45;series.f90 -->
+<g id="sourcefile~~hyperparameters_m.f90~~AfferentGraph_node10" class="node">
+<title>sourcefile~learn&#45;power&#45;series.f90</title>
+<g id="a_sourcefile~~hyperparameters_m.f90~~AfferentGraph_node10"><a xlink:href=".././sourcefile/learn-power-series.f90.html" xlink:title="learn&#45;power&#45;series.f90">
+<polygon fill="#f0ad4e" stroke="#f0ad4e" points="707.21,-230.27 576.44,-230.27 576.44,-206 707.21,-206 707.21,-230.27"/>
+<text text-anchor="middle" x="641.82" y="-214.53" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">learn&#45;power&#45;series.f90</text>
+</a>
+</g>
+</g>
+<!-- sourcefile~learn&#45;power&#45;series.f90&#45;&gt;sourcefile~inference_engine_m.f90 -->
+<g id="sourcefile~~hyperparameters_m.f90~~AfferentGraph_edge9" class="edge">
+<title>sourcefile~learn&#45;power&#45;series.f90&#45;&gt;sourcefile~inference_engine_m.f90</title>
+<path fill="none" stroke="#025500" stroke-dasharray="5,2" d="M583.23,-230.74C573.27,-233.28 563.06,-236.11 553.56,-239.13 531.17,-246.27 506.76,-255.93 487.13,-264.18"/>
+<polygon fill="#025500" stroke="#025500" points="485.98,-260.87 478.15,-268.01 488.72,-267.31 485.98,-260.87"/>
+</g>
+<!-- sourcefile~learn&#45;saturated&#45;mixing&#45;ratio.f90 -->
+<g id="sourcefile~~hyperparameters_m.f90~~AfferentGraph_node11" class="node">
+<title>sourcefile~learn&#45;saturated&#45;mixing&#45;ratio.f90</title>
+<g id="a_sourcefile~~hyperparameters_m.f90~~AfferentGraph_node11"><a xlink:href=".././sourcefile/learn-saturated-mixing-ratio.f90.html" xlink:title="learn&#45;saturated&#45;mixing&#45;ratio.f90">
+<polygon fill="#f0ad4e" stroke="#f0ad4e" points="954.6,-170.27 772.83,-170.27 772.83,-146 954.6,-146 954.6,-170.27"/>
+<text text-anchor="middle" x="863.72" y="-154.53" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">learn&#45;saturated&#45;mixing&#45;ratio.f90</text>
+</a>
+</g>
+</g>
+<!-- sourcefile~learn&#45;saturated&#45;mixing&#45;ratio.f90&#45;&gt;sourcefile~inference_engine_m.f90 -->
+<g id="sourcefile~~hyperparameters_m.f90~~AfferentGraph_edge10" class="edge">
+<title>sourcefile~learn&#45;saturated&#45;mixing&#45;ratio.f90&#45;&gt;sourcefile~inference_engine_m.f90</title>
+<path fill="none" stroke="#025500" stroke-dasharray="5,2" d="M772.48,-164.07C695.67,-170.12 591.86,-180.93 553.56,-197.13 519.31,-211.63 487.05,-240.64 467.58,-260.47"/>
+<polygon fill="#025500" stroke="#025500" points="465.23,-257.86 460.85,-267.5 470.29,-262.7 465.23,-257.86"/>
+</g>
+<!-- sourcefile~saturated_mixing_ratio_m.f90 -->
+<g id="sourcefile~~hyperparameters_m.f90~~AfferentGraph_node13" class="node">
+<title>sourcefile~saturated_mixing_ratio_m.f90</title>
+<g id="a_sourcefile~~hyperparameters_m.f90~~AfferentGraph_node13"><a xlink:href=".././sourcefile/saturated_mixing_ratio_m.f90.html" xlink:title="saturated_mixing_ratio_m.f90">
+<polygon fill="#f0ad4e" stroke="#f0ad4e" points="726.71,-150.27 556.94,-150.27 556.94,-126 726.71,-126 726.71,-150.27"/>
+<text text-anchor="middle" x="641.82" y="-134.53" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">saturated_mixing_ratio_m.f90</text>
+</a>
+</g>
+</g>
+<!-- sourcefile~learn&#45;saturated&#45;mixing&#45;ratio.f90&#45;&gt;sourcefile~saturated_mixing_ratio_m.f90 -->
+<g id="sourcefile~~hyperparameters_m.f90~~AfferentGraph_edge19" class="edge">
+<title>sourcefile~learn&#45;saturated&#45;mixing&#45;ratio.f90&#45;&gt;sourcefile~saturated_mixing_ratio_m.f90</title>
+<path fill="none" stroke="#078255" stroke-dasharray="5,2" d="M772.64,-149.94C761.34,-148.92 749.76,-147.86 738.38,-146.83"/>
+<polygon fill="#078255" stroke="#078255" points="738.87,-143.36 728.6,-145.94 738.24,-150.33 738.87,-143.36"/>
+</g>
+<!-- sourcefile~print&#45;training&#45;configuration.f90 -->
+<g id="sourcefile~~hyperparameters_m.f90~~AfferentGraph_node12" class="node">
+<title>sourcefile~print&#45;training&#45;configuration.f90</title>
+<g id="a_sourcefile~~hyperparameters_m.f90~~AfferentGraph_node12"><a xlink:href=".././sourcefile/print-training-configuration.f90.html" xlink:title="print&#45;training&#45;configuration.f90">
+<polygon fill="#f0ad4e" stroke="#f0ad4e" points="730.08,-108.27 553.56,-108.27 553.56,-84 730.08,-84 730.08,-108.27"/>
+<text text-anchor="middle" x="641.82" y="-92.53" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">print&#45;training&#45;configuration.f90</text>
+</a>
+</g>
+</g>
+<!-- sourcefile~print&#45;training&#45;configuration.f90&#45;&gt;sourcefile~inference_engine_m.f90 -->
+<g id="sourcefile~~hyperparameters_m.f90~~AfferentGraph_edge11" class="edge">
+<title>sourcefile~print&#45;training&#45;configuration.f90&#45;&gt;sourcefile~inference_engine_m.f90</title>
+<path fill="none" stroke="#025500" stroke-dasharray="5,2" d="M568.81,-108.6C563.42,-110.97 558.26,-113.79 553.56,-117.13 502.89,-153.23 470.86,-222.21 456.86,-258.12"/>
+<polygon fill="#025500" stroke="#025500" points="453.72,-256.53 453.48,-267.12 460.27,-258.99 453.72,-256.53"/>
+</g>
+<!-- sourcefile~saturated_mixing_ratio_m.f90&#45;&gt;sourcefile~inference_engine_m.f90 -->
+<g id="sourcefile~~hyperparameters_m.f90~~AfferentGraph_edge12" class="edge">
+<title>sourcefile~saturated_mixing_ratio_m.f90&#45;&gt;sourcefile~inference_engine_m.f90</title>
+<path fill="none" stroke="#025500" stroke-dasharray="5,2" d="M582.53,-150.61C572.44,-154.12 562.37,-158.55 553.56,-164.13 514.09,-189.14 480.49,-233.05 462.57,-259.38"/>
+<polygon fill="#025500" stroke="#025500" points="459.73,-257.33 457.12,-267.59 465.57,-261.2 459.73,-257.33"/>
+</g>
+<!-- sourcefile~thompson_tensors_m.f90&#45;&gt;sourcefile~inference_engine_m.f90 -->
+<g id="sourcefile~~hyperparameters_m.f90~~AfferentGraph_edge13" class="edge">
+<title>sourcefile~thompson_tensors_m.f90&#45;&gt;sourcefile~inference_engine_m.f90</title>
+<path fill="none" stroke="#025500" stroke-dasharray="5,2" d="M569,-294.29C555.92,-292.86 542.21,-291.36 528.91,-289.9"/>
+<polygon fill="#025500" stroke="#025500" points="529.69,-286.47 519.36,-288.86 528.92,-293.43 529.69,-286.47"/>
+</g>
+<!-- sourcefile~train&#45;and&#45;write.f90 -->
+<g id="sourcefile~~hyperparameters_m.f90~~AfferentGraph_node15" class="node">
+<title>sourcefile~train&#45;and&#45;write.f90</title>
+<g id="a_sourcefile~~hyperparameters_m.f90~~AfferentGraph_node15"><a xlink:href=".././sourcefile/train-and-write.f90.html" xlink:title="train&#45;and&#45;write.f90">
+<polygon fill="#f0ad4e" stroke="#f0ad4e" points="697.08,-66.27 586.56,-66.27 586.56,-42 697.08,-42 697.08,-66.27"/>
+<text text-anchor="middle" x="641.82" y="-50.53" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">train&#45;and&#45;write.f90</text>
+</a>
+</g>
+</g>
+<!-- sourcefile~train&#45;and&#45;write.f90&#45;&gt;sourcefile~inference_engine_m.f90 -->
+<g id="sourcefile~~hyperparameters_m.f90~~AfferentGraph_edge14" class="edge">
+<title>sourcefile~train&#45;and&#45;write.f90&#45;&gt;sourcefile~inference_engine_m.f90</title>
+<path fill="none" stroke="#025500" stroke-dasharray="5,2" d="M586.31,-59.68C574.63,-62.84 562.98,-67.7 553.56,-75.13 493.21,-122.75 464.45,-214.44 453.8,-257.59"/>
+<polygon fill="#025500" stroke="#025500" points="450.43,-256.62 451.55,-267.15 457.24,-258.22 450.43,-256.62"/>
+</g>
+<!-- sourcefile~training_configuration_s.f90 -->
+<g id="sourcefile~~hyperparameters_m.f90~~AfferentGraph_node16" class="node">
+<title>sourcefile~training_configuration_s.f90</title>
+<g id="a_sourcefile~~hyperparameters_m.f90~~AfferentGraph_node16"><a xlink:href=".././sourcefile/training_configuration_s.f90.html" xlink:title="training_configuration_s.f90">
+<polygon fill="#f0ad4e" stroke="#f0ad4e" points="721.83,-520.27 561.81,-520.27 561.81,-496 721.83,-496 721.83,-520.27"/>
+<text text-anchor="middle" x="641.82" y="-504.53" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">training_configuration_s.f90</text>
+</a>
+</g>
+</g>
+<!-- sourcefile~training_configuration_s.f90&#45;&gt;sourcefile~inference_engine_m.f90 -->
+<g id="sourcefile~~hyperparameters_m.f90~~AfferentGraph_edge15" class="edge">
+<title>sourcefile~training_configuration_s.f90&#45;&gt;sourcefile~inference_engine_m.f90</title>
+<path fill="none" stroke="#025500" stroke-dasharray="5,2" d="M567.05,-495.68C562.23,-493.3 557.67,-490.48 553.56,-487.13 524.55,-463.57 534.31,-444.55 517.56,-411.13 498.42,-372.98 474.92,-329.24 460.9,-303.46"/>
+<polygon fill="#025500" stroke="#025500" points="464.1,-302.02 456.24,-294.92 457.95,-305.37 464.1,-302.02"/>
+</g>
+<!-- sourcefile~training_configuration_s.f90&#45;&gt;sourcefile~training_configuration_m.f90 -->
+<g id="sourcefile~~hyperparameters_m.f90~~AfferentGraph_edge18" class="edge">
+<title>sourcefile~training_configuration_s.f90&#45;&gt;sourcefile~training_configuration_m.f90</title>
+<path fill="none" stroke="#002505" stroke-dasharray="5,2" d="M576.54,-495.51C568.65,-493.14 560.82,-490.36 553.56,-487.13 449.33,-440.8 445.66,-389.28 341.79,-342.13 338.04,-340.43 334.12,-338.85 330.13,-337.38"/>
+<polygon fill="#002505" stroke="#002505" points="331.45,-334.13 320.85,-334.25 329.2,-340.76 331.45,-334.13"/>
+</g>
+<!-- sourcefile~write&#45;read&#45;infer.f90 -->
+<g id="sourcefile~~hyperparameters_m.f90~~AfferentGraph_node17" class="node">
+<title>sourcefile~write&#45;read&#45;infer.f90</title>
+<g id="a_sourcefile~~hyperparameters_m.f90~~AfferentGraph_node17"><a xlink:href=".././sourcefile/write-read-infer.f90.html" xlink:title="write&#45;read&#45;infer.f90">
+<polygon fill="#f0ad4e" stroke="#f0ad4e" points="698.21,-24.27 585.44,-24.27 585.44,0 698.21,0 698.21,-24.27"/>
+<text text-anchor="middle" x="641.82" y="-8.53" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">write&#45;read&#45;infer.f90</text>
+</a>
+</g>
+</g>
+<!-- sourcefile~write&#45;read&#45;infer.f90&#45;&gt;sourcefile~inference_engine_m.f90 -->
+<g id="sourcefile~~hyperparameters_m.f90~~AfferentGraph_edge16" class="edge">
+<title>sourcefile~write&#45;read&#45;infer.f90&#45;&gt;sourcefile~inference_engine_m.f90</title>
+<path fill="none" stroke="#025500" stroke-dasharray="5,2" d="M585.01,-17.45C573.65,-20.64 562.47,-25.58 553.56,-33.13 483.23,-92.79 459.01,-207.78 451.6,-257.39"/>
+<polygon fill="#025500" stroke="#025500" points="448.17,-256.64 450.26,-267.03 455.1,-257.6 448.17,-256.64"/>
 </g>
 </g>
 </svg>
-</div><script>var pansourcefilehyperparameters_mf90AfferentGraph = svgPanZoom('#sourcefilehyperparameters_mf90AfferentGraph', {zoomEnabled: true,controlIconsEnabled: true, fit: true, center: true,}); </script><div><a type="button" class="graph-help" data-toggle="modal" href="#graph-help-text">Help</a></div><div class="modal fade" id="graph-help-text" tabindex="-1" role="dialog"><div class="modal-dialog modal-lg" role="document"><div class="modal-content"><div class="modal-header"><button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button><h4 class="modal-title" id="-graph-help-label">Graph Key</h4></div><div class="modal-body">
-    <p>Nodes of different colours represent the following: </p>
-    <?xml version="1.0" encoding="UTF-8" standalone="no"?>
+</div>                <script>
+                  var pansourcefilehyperparameters_mf90AfferentGraph = svgPanZoom('#sourcefilehyperparameters_mf90AfferentGraph',
+                    {zoomEnabled: true, controlIconsEnabled: true, fit: true, center: true,}
+                  );
+                </script>        <div><a type="button" class="graph-help" data-toggle="modal" href="#AfferentGraph-help-text">Help</a></div>
+          <div class="modal fade" id="AfferentGraph-help-text" tabindex="-1" role="dialog">
+            <div class="modal-dialog modal-lg" role="document">
+              <div class="modal-content">
+                <div class="modal-header">
+                  <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                  </button>
+                  <h4 class="modal-title" id="-graph-help-label">Graph Key</h4>
+                </div>
+              <div class="modal-body">
+<p>Nodes of different colours represent the following: </p>
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN"
  "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
-<!-- Generated by graphviz version 2.43.0 (0)
+<!-- Generated by graphviz version 9.0.0 (20230911.1827)
  -->
 <!-- Title: Graph Key Pages: 1 -->
-<svg width="202pt" height="32pt"
- viewBox="0.00 0.00 201.50 32.00" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
-<g id="graph0" class="graph" transform="scale(1 1) rotate(0) translate(4 28)">
+<svg width="200pt" height="32pt"
+ viewBox="0.00 0.00 199.52 32.27" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+<g id="graph0" class="graph" transform="scale(1 1) rotate(0) translate(4 28.27)">
 <title>Graph Key</title>
-<polygon fill="white" stroke="transparent" points="-4,4 -4,-28 197.5,-28 197.5,4 -4,4"/>
+<polygon fill="white" stroke="none" points="-4,4 -4,-28.27 195.52,-28.27 195.52,4 -4,4"/>
 <!-- Source File -->
 <g id="node1" class="node">
 <title>Source File</title>
-<polygon fill="#f0ad4e" stroke="#f0ad4e" points="70,-24 0,-24 0,0 70,0 70,-24"/>
-<text text-anchor="middle" x="35" y="-9.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">Source File</text>
+<polygon fill="#f0ad4e" stroke="#f0ad4e" points="69.27,-24.27 0,-24.27 0,0 69.27,0 69.27,-24.27"/>
+<text text-anchor="middle" x="34.63" y="-8.53" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">Source File</text>
 </g>
 <!-- This Page&#39;s Entity -->
 <g id="node2" class="node">
 <title>This Page&#39;s Entity</title>
-<polygon fill="none" stroke="black" points="193.5,-24 88.5,-24 88.5,0 193.5,0 193.5,-24"/>
-<text text-anchor="middle" x="141" y="-9.6" font-family="Helvetica,sans-Serif" font-size="10.50">This Page&#39;s Entity</text>
+<polygon fill="none" stroke="black" points="191.52,-24.27 87.75,-24.27 87.75,0 191.52,0 191.52,-24.27"/>
+<text text-anchor="middle" x="139.63" y="-8.53" font-family="Helvetica,sans-Serif" font-size="10.50">This Page&#39;s Entity</text>
 </g>
 </g>
 </svg>
 
-    
-    <p>Solid arrows point from a file to a file which it depends on. A file
-    is dependent upon another if the latter must be compiled before the former
-    can be. Where possible, edges connecting nodes are given different colours to make them easier to distinguish in large graphs.
-    </p>
-    </div></div></div></div>
-      </div>
-    </div>
+<p>Solid arrows point from a file to a file which it depends on. A file
+is dependent upon another if the latter must be compiled before the former
+can be.
+</p>
+ Where possible, edges connecting nodes are
+given different colours to make them easier to distinguish in
+large graphs.</div>
+            </div>
+          </div>
+        </div>
+          </div>
+        </div>
 <br>
-    <section class="visible-xs visible-sm hidden-md">
-      <h3>Contents</h3>
- 
-<div class="panel panel-primary">
-  <div class="panel-heading text-left"><h3 class="panel-title"><a data-toggle="collapse" href="#mods-1">Modules</a></h3></div>
-  <div id="mods-1" class="panel-collapse collapse">
-    <div class="list-group">
-      <a class="list-group-item" href="../module/hyperparameters_m.html">hyperparameters_m</a>
-    </div>
-  </div>
-</div>
-<div class="panel panel-primary">
-  <div class="panel-heading text-left"><h3 class="panel-title">Source Code</h3></div>
-  <div class="list-group">
-    <a class="list-group-item" href="../sourcefile/hyperparameters_m.f90.html#src">hyperparameters_m.f90</a>
-  </div>
-</div>
-
-    </section>
-    <br class="visible-xs visible-sm hidden-md">
-
-    <section>
-      <h2><span class="anchor" id="src"></span>Source Code</h2>
-    <div class="hl"><pre><span></span><a id="ln-1" name="ln-1" href="#ln-1"></a><span class="k">module </span><span class="n">hyperparameters_m</span><span class="w"></span>
-<a id="ln-2" name="ln-2" href="#ln-2"></a><span class="w">  </span><span class="k">use </span><span class="n">sourcery_m</span><span class="p">,</span><span class="w"> </span><span class="k">only</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="n">string_t</span><span class="w"></span>
-<a id="ln-3" name="ln-3" href="#ln-3"></a><span class="w">  </span><span class="k">use </span><span class="n">kind_parameters_m</span><span class="p">,</span><span class="w"> </span><span class="k">only</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="n">rkind</span><span class="w"></span>
+      <section>
+        <h2><span class="anchor" id="src"></span>Source Code</h2>
+        <div class="hl codehilite"><pre><span></span><a id="ln-1" name="ln-1" href="#ln-1"></a><span class="k">module </span><span class="n">hyperparameters_m</span>
+<a id="ln-2" name="ln-2" href="#ln-2"></a><span class="w">  </span><span class="k">use </span><span class="n">sourcery_m</span><span class="p">,</span><span class="w"> </span><span class="k">only</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="n">string_t</span>
+<a id="ln-3" name="ln-3" href="#ln-3"></a><span class="w">  </span><span class="k">use </span><span class="n">kind_parameters_m</span><span class="p">,</span><span class="w"> </span><span class="k">only</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="n">rkind</span>
 <a id="ln-4" name="ln-4" href="#ln-4"></a><span class="w">  </span><span class="k">implicit none</span>
 <a id="ln-5" name="ln-5" href="#ln-5"></a>
 <a id="ln-6" name="ln-6" href="#ln-6"></a><span class="k">  private</span>
-<a id="ln-7" name="ln-7" href="#ln-7"></a><span class="k">  public</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">hyperparameters_t</span><span class="w"></span>
+<a id="ln-7" name="ln-7" href="#ln-7"></a><span class="k">  public</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">hyperparameters_t</span>
 <a id="ln-8" name="ln-8" href="#ln-8"></a>
-<a id="ln-9" name="ln-9" href="#ln-9"></a><span class="w">  </span><span class="k">type </span><span class="n">hyperparameters_t</span><span class="w"></span>
+<a id="ln-9" name="ln-9" href="#ln-9"></a><span class="w">  </span><span class="k">type </span><span class="n">hyperparameters_t</span>
 <a id="ln-10" name="ln-10" href="#ln-10"></a><span class="w">    </span><span class="k">private</span>
-<a id="ln-11" name="ln-11" href="#ln-11"></a><span class="k">    </span><span class="kt">integer</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">mini_batches_</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">10</span><span class="w"></span>
-<a id="ln-12" name="ln-12" href="#ln-12"></a><span class="w">    </span><span class="kt">real</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">learning_rate_</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mf">1.5</span><span class="w"></span>
-<a id="ln-13" name="ln-13" href="#ln-13"></a><span class="w">    </span><span class="kt">character</span><span class="p">(</span><span class="nb">len</span><span class="o">=</span><span class="p">:),</span><span class="w"> </span><span class="k">allocatable</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">optimizer_</span><span class="w"></span>
+<a id="ln-11" name="ln-11" href="#ln-11"></a><span class="k">    </span><span class="kt">integer</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">mini_batches_</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">10</span>
+<a id="ln-12" name="ln-12" href="#ln-12"></a><span class="w">    </span><span class="kt">real</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">learning_rate_</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mf">1.5</span>
+<a id="ln-13" name="ln-13" href="#ln-13"></a><span class="w">    </span><span class="kt">character</span><span class="p">(</span><span class="nb">len</span><span class="o">=</span><span class="p">:),</span><span class="w"> </span><span class="k">allocatable</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">optimizer_</span>
 <a id="ln-14" name="ln-14" href="#ln-14"></a><span class="w">  </span><span class="k">contains</span>
-<a id="ln-15" name="ln-15" href="#ln-15"></a><span class="k">    procedure</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">to_json</span><span class="w"></span>
-<a id="ln-16" name="ln-16" href="#ln-16"></a><span class="w">    </span><span class="k">procedure</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">equals</span><span class="w"></span>
-<a id="ln-17" name="ln-17" href="#ln-17"></a><span class="w">    </span><span class="k">generic</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">operator</span><span class="p">(</span><span class="o">==</span><span class="p">)</span><span class="w"> </span><span class="o">=&gt;</span><span class="w"> </span><span class="n">equals</span><span class="w"></span>
-<a id="ln-18" name="ln-18" href="#ln-18"></a><span class="w">    </span><span class="k">procedure</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">mini_batches</span><span class="w"></span>
-<a id="ln-19" name="ln-19" href="#ln-19"></a><span class="w">    </span><span class="k">procedure</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">optimizer_name</span><span class="w"></span>
-<a id="ln-20" name="ln-20" href="#ln-20"></a><span class="w">    </span><span class="k">procedure</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">learning_rate</span><span class="w"></span>
+<a id="ln-15" name="ln-15" href="#ln-15"></a><span class="k">    procedure</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">to_json</span>
+<a id="ln-16" name="ln-16" href="#ln-16"></a><span class="w">    </span><span class="k">procedure</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">equals</span>
+<a id="ln-17" name="ln-17" href="#ln-17"></a><span class="w">    </span><span class="k">generic</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">operator</span><span class="p">(</span><span class="o">==</span><span class="p">)</span><span class="w"> </span><span class="o">=&gt;</span><span class="w"> </span><span class="n">equals</span>
+<a id="ln-18" name="ln-18" href="#ln-18"></a><span class="w">    </span><span class="k">procedure</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">mini_batches</span>
+<a id="ln-19" name="ln-19" href="#ln-19"></a><span class="w">    </span><span class="k">procedure</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">optimizer_name</span>
+<a id="ln-20" name="ln-20" href="#ln-20"></a><span class="w">    </span><span class="k">procedure</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">learning_rate</span>
 <a id="ln-21" name="ln-21" href="#ln-21"></a><span class="w">    </span><span class="k">end type</span>
 <a id="ln-22" name="ln-22" href="#ln-22"></a>
-<a id="ln-23" name="ln-23" href="#ln-23"></a><span class="k">  interface </span><span class="n">hyperparameters_t</span><span class="w"></span>
+<a id="ln-23" name="ln-23" href="#ln-23"></a><span class="k">  interface </span><span class="n">hyperparameters_t</span>
 <a id="ln-24" name="ln-24" href="#ln-24"></a>
-<a id="ln-25" name="ln-25" href="#ln-25"></a><span class="w">    </span><span class="k">pure module function </span><span class="n">from_json</span><span class="p">(</span><span class="n">lines</span><span class="p">)</span><span class="w"> </span><span class="k">result</span><span class="p">(</span><span class="n">hyperparameters</span><span class="p">)</span><span class="w"></span>
+<a id="ln-25" name="ln-25" href="#ln-25"></a><span class="w">    </span><span class="k">pure module function </span><span class="n">from_json</span><span class="p">(</span><span class="n">lines</span><span class="p">)</span><span class="w"> </span><span class="k">result</span><span class="p">(</span><span class="n">hyperparameters</span><span class="p">)</span>
 <a id="ln-26" name="ln-26" href="#ln-26"></a><span class="w">      </span><span class="k">implicit none</span>
-<a id="ln-27" name="ln-27" href="#ln-27"></a><span class="k">      type</span><span class="p">(</span><span class="n">string_t</span><span class="p">),</span><span class="w"> </span><span class="k">intent</span><span class="p">(</span><span class="n">in</span><span class="p">)</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">lines</span><span class="p">(:)</span><span class="w"></span>
-<a id="ln-28" name="ln-28" href="#ln-28"></a><span class="w">      </span><span class="k">type</span><span class="p">(</span><span class="n">hyperparameters_t</span><span class="p">)</span><span class="w"> </span><span class="n">hyperparameters</span><span class="w"></span>
+<a id="ln-27" name="ln-27" href="#ln-27"></a><span class="k">      type</span><span class="p">(</span><span class="n">string_t</span><span class="p">),</span><span class="w"> </span><span class="k">intent</span><span class="p">(</span><span class="n">in</span><span class="p">)</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">lines</span><span class="p">(:)</span>
+<a id="ln-28" name="ln-28" href="#ln-28"></a><span class="w">      </span><span class="k">type</span><span class="p">(</span><span class="n">hyperparameters_t</span><span class="p">)</span><span class="w"> </span><span class="n">hyperparameters</span>
 <a id="ln-29" name="ln-29" href="#ln-29"></a><span class="w">    </span><span class="k">end function</span>
 <a id="ln-30" name="ln-30" href="#ln-30"></a>
-<a id="ln-31" name="ln-31" href="#ln-31"></a><span class="k">    pure module function </span><span class="n">from_components</span><span class="p">(</span><span class="n">mini_batches</span><span class="p">,</span><span class="w"> </span><span class="n">learning_rate</span><span class="p">,</span><span class="w"> </span><span class="n">optimizer</span><span class="p">)</span><span class="w"> </span><span class="k">result</span><span class="p">(</span><span class="n">hyperparameters</span><span class="p">)</span><span class="w"></span>
+<a id="ln-31" name="ln-31" href="#ln-31"></a><span class="k">    pure module function </span><span class="n">from_components</span><span class="p">(</span><span class="n">mini_batches</span><span class="p">,</span><span class="w"> </span><span class="n">learning_rate</span><span class="p">,</span><span class="w"> </span><span class="n">optimizer</span><span class="p">)</span><span class="w"> </span><span class="k">result</span><span class="p">(</span><span class="n">hyperparameters</span><span class="p">)</span>
 <a id="ln-32" name="ln-32" href="#ln-32"></a><span class="w">      </span><span class="k">implicit none</span>
-<a id="ln-33" name="ln-33" href="#ln-33"></a><span class="k">      </span><span class="kt">integer</span><span class="p">,</span><span class="w"> </span><span class="k">intent</span><span class="p">(</span><span class="n">in</span><span class="p">)</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">mini_batches</span><span class="w"></span>
-<a id="ln-34" name="ln-34" href="#ln-34"></a><span class="w">      </span><span class="kt">real</span><span class="p">,</span><span class="w"> </span><span class="k">intent</span><span class="p">(</span><span class="n">in</span><span class="p">)</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">learning_rate</span><span class="w"></span>
-<a id="ln-35" name="ln-35" href="#ln-35"></a><span class="w">      </span><span class="kt">character</span><span class="p">(</span><span class="nb">len</span><span class="o">=*</span><span class="p">),</span><span class="w"> </span><span class="k">intent</span><span class="p">(</span><span class="n">in</span><span class="p">)</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">optimizer</span><span class="w"></span>
-<a id="ln-36" name="ln-36" href="#ln-36"></a><span class="w">      </span><span class="k">type</span><span class="p">(</span><span class="n">hyperparameters_t</span><span class="p">)</span><span class="w"> </span><span class="n">hyperparameters</span><span class="w"></span>
+<a id="ln-33" name="ln-33" href="#ln-33"></a><span class="k">      </span><span class="kt">integer</span><span class="p">,</span><span class="w"> </span><span class="k">intent</span><span class="p">(</span><span class="n">in</span><span class="p">)</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">mini_batches</span>
+<a id="ln-34" name="ln-34" href="#ln-34"></a><span class="w">      </span><span class="kt">real</span><span class="p">,</span><span class="w"> </span><span class="k">intent</span><span class="p">(</span><span class="n">in</span><span class="p">)</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">learning_rate</span>
+<a id="ln-35" name="ln-35" href="#ln-35"></a><span class="w">      </span><span class="kt">character</span><span class="p">(</span><span class="nb">len</span><span class="o">=*</span><span class="p">),</span><span class="w"> </span><span class="k">intent</span><span class="p">(</span><span class="n">in</span><span class="p">)</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">optimizer</span>
+<a id="ln-36" name="ln-36" href="#ln-36"></a><span class="w">      </span><span class="k">type</span><span class="p">(</span><span class="n">hyperparameters_t</span><span class="p">)</span><span class="w"> </span><span class="n">hyperparameters</span>
 <a id="ln-37" name="ln-37" href="#ln-37"></a><span class="w">    </span><span class="k">end function</span>
 <a id="ln-38" name="ln-38" href="#ln-38"></a>
 <a id="ln-39" name="ln-39" href="#ln-39"></a><span class="k">  end interface</span>
 <a id="ln-40" name="ln-40" href="#ln-40"></a>
 <a id="ln-41" name="ln-41" href="#ln-41"></a><span class="k">  interface</span>
 <a id="ln-42" name="ln-42" href="#ln-42"></a>
-<a id="ln-43" name="ln-43" href="#ln-43"></a><span class="k">    pure module function </span><span class="n">to_json</span><span class="p">(</span><span class="n">self</span><span class="p">)</span><span class="w"> </span><span class="k">result</span><span class="p">(</span><span class="n">lines</span><span class="p">)</span><span class="w"></span>
+<a id="ln-43" name="ln-43" href="#ln-43"></a><span class="k">    pure module function </span><span class="n">to_json</span><span class="p">(</span><span class="n">self</span><span class="p">)</span><span class="w"> </span><span class="k">result</span><span class="p">(</span><span class="n">lines</span><span class="p">)</span>
 <a id="ln-44" name="ln-44" href="#ln-44"></a><span class="w">      </span><span class="k">implicit none</span>
-<a id="ln-45" name="ln-45" href="#ln-45"></a><span class="k">      class</span><span class="p">(</span><span class="n">hyperparameters_t</span><span class="p">),</span><span class="w"> </span><span class="k">intent</span><span class="p">(</span><span class="n">in</span><span class="p">)</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">self</span><span class="w"></span>
-<a id="ln-46" name="ln-46" href="#ln-46"></a><span class="w">      </span><span class="k">type</span><span class="p">(</span><span class="n">string_t</span><span class="p">),</span><span class="w"> </span><span class="k">allocatable</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">lines</span><span class="p">(:)</span><span class="w"></span>
+<a id="ln-45" name="ln-45" href="#ln-45"></a><span class="k">      class</span><span class="p">(</span><span class="n">hyperparameters_t</span><span class="p">),</span><span class="w"> </span><span class="k">intent</span><span class="p">(</span><span class="n">in</span><span class="p">)</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">self</span>
+<a id="ln-46" name="ln-46" href="#ln-46"></a><span class="w">      </span><span class="k">type</span><span class="p">(</span><span class="n">string_t</span><span class="p">),</span><span class="w"> </span><span class="k">allocatable</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">lines</span><span class="p">(:)</span>
 <a id="ln-47" name="ln-47" href="#ln-47"></a><span class="w">    </span><span class="k">end function</span>
 <a id="ln-48" name="ln-48" href="#ln-48"></a>
-<a id="ln-49" name="ln-49" href="#ln-49"></a><span class="k">    elemental module function </span><span class="n">equals</span><span class="p">(</span><span class="n">lhs</span><span class="p">,</span><span class="w"> </span><span class="n">rhs</span><span class="p">)</span><span class="w"> </span><span class="k">result</span><span class="p">(</span><span class="n">lhs_equals_rhs</span><span class="p">)</span><span class="w"></span>
+<a id="ln-49" name="ln-49" href="#ln-49"></a><span class="k">    elemental module function </span><span class="n">equals</span><span class="p">(</span><span class="n">lhs</span><span class="p">,</span><span class="w"> </span><span class="n">rhs</span><span class="p">)</span><span class="w"> </span><span class="k">result</span><span class="p">(</span><span class="n">lhs_equals_rhs</span><span class="p">)</span>
 <a id="ln-50" name="ln-50" href="#ln-50"></a><span class="w">      </span><span class="k">implicit none</span>
-<a id="ln-51" name="ln-51" href="#ln-51"></a><span class="k">      class</span><span class="p">(</span><span class="n">hyperparameters_t</span><span class="p">),</span><span class="w"> </span><span class="k">intent</span><span class="p">(</span><span class="n">in</span><span class="p">)</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">lhs</span><span class="p">,</span><span class="w"> </span><span class="n">rhs</span><span class="w"></span>
-<a id="ln-52" name="ln-52" href="#ln-52"></a><span class="w">      </span><span class="kt">logical </span><span class="n">lhs_equals_rhs</span><span class="w"></span>
+<a id="ln-51" name="ln-51" href="#ln-51"></a><span class="k">      class</span><span class="p">(</span><span class="n">hyperparameters_t</span><span class="p">),</span><span class="w"> </span><span class="k">intent</span><span class="p">(</span><span class="n">in</span><span class="p">)</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">lhs</span><span class="p">,</span><span class="w"> </span><span class="n">rhs</span>
+<a id="ln-52" name="ln-52" href="#ln-52"></a><span class="w">      </span><span class="kt">logical </span><span class="n">lhs_equals_rhs</span>
 <a id="ln-53" name="ln-53" href="#ln-53"></a><span class="w">    </span><span class="k">end function</span>
 <a id="ln-54" name="ln-54" href="#ln-54"></a>
-<a id="ln-55" name="ln-55" href="#ln-55"></a><span class="k">    elemental module function </span><span class="n">mini_batches</span><span class="p">(</span><span class="n">self</span><span class="p">)</span><span class="w"> </span><span class="k">result</span><span class="p">(</span><span class="n">num_mini_batches</span><span class="p">)</span><span class="w"></span>
+<a id="ln-55" name="ln-55" href="#ln-55"></a><span class="k">    elemental module function </span><span class="n">mini_batches</span><span class="p">(</span><span class="n">self</span><span class="p">)</span><span class="w"> </span><span class="k">result</span><span class="p">(</span><span class="n">num_mini_batches</span><span class="p">)</span>
 <a id="ln-56" name="ln-56" href="#ln-56"></a><span class="w">      </span><span class="k">implicit none</span>
-<a id="ln-57" name="ln-57" href="#ln-57"></a><span class="k">      class</span><span class="p">(</span><span class="n">hyperparameters_t</span><span class="p">),</span><span class="w"> </span><span class="k">intent</span><span class="p">(</span><span class="n">in</span><span class="p">)</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">self</span><span class="w"></span>
-<a id="ln-58" name="ln-58" href="#ln-58"></a><span class="w">      </span><span class="kt">integer </span><span class="n">num_mini_batches</span><span class="w"></span>
+<a id="ln-57" name="ln-57" href="#ln-57"></a><span class="k">      class</span><span class="p">(</span><span class="n">hyperparameters_t</span><span class="p">),</span><span class="w"> </span><span class="k">intent</span><span class="p">(</span><span class="n">in</span><span class="p">)</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">self</span>
+<a id="ln-58" name="ln-58" href="#ln-58"></a><span class="w">      </span><span class="kt">integer </span><span class="n">num_mini_batches</span>
 <a id="ln-59" name="ln-59" href="#ln-59"></a><span class="w">    </span><span class="k">end function</span>
 <a id="ln-60" name="ln-60" href="#ln-60"></a>
-<a id="ln-61" name="ln-61" href="#ln-61"></a><span class="k">    elemental module function </span><span class="n">optimizer_name</span><span class="p">(</span><span class="n">self</span><span class="p">)</span><span class="w"> </span><span class="k">result</span><span class="p">(</span><span class="n">identifier</span><span class="p">)</span><span class="w"></span>
+<a id="ln-61" name="ln-61" href="#ln-61"></a><span class="k">    elemental module function </span><span class="n">optimizer_name</span><span class="p">(</span><span class="n">self</span><span class="p">)</span><span class="w"> </span><span class="k">result</span><span class="p">(</span><span class="n">identifier</span><span class="p">)</span>
 <a id="ln-62" name="ln-62" href="#ln-62"></a><span class="w">      </span><span class="k">implicit none</span>
-<a id="ln-63" name="ln-63" href="#ln-63"></a><span class="k">      class</span><span class="p">(</span><span class="n">hyperparameters_t</span><span class="p">),</span><span class="w"> </span><span class="k">intent</span><span class="p">(</span><span class="n">in</span><span class="p">)</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">self</span><span class="w"></span>
-<a id="ln-64" name="ln-64" href="#ln-64"></a><span class="w">      </span><span class="k">type</span><span class="p">(</span><span class="n">string_t</span><span class="p">)</span><span class="w"> </span><span class="n">identifier</span><span class="w"></span>
+<a id="ln-63" name="ln-63" href="#ln-63"></a><span class="k">      class</span><span class="p">(</span><span class="n">hyperparameters_t</span><span class="p">),</span><span class="w"> </span><span class="k">intent</span><span class="p">(</span><span class="n">in</span><span class="p">)</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">self</span>
+<a id="ln-64" name="ln-64" href="#ln-64"></a><span class="w">      </span><span class="k">type</span><span class="p">(</span><span class="n">string_t</span><span class="p">)</span><span class="w"> </span><span class="n">identifier</span>
 <a id="ln-65" name="ln-65" href="#ln-65"></a><span class="w">     </span><span class="k">end function</span>
 <a id="ln-66" name="ln-66" href="#ln-66"></a>
 <a id="ln-67" name="ln-67" href="#ln-67"></a>
-<a id="ln-68" name="ln-68" href="#ln-68"></a><span class="k">     elemental module function </span><span class="n">learning_rate</span><span class="p">(</span><span class="n">self</span><span class="p">)</span><span class="w"> </span><span class="k">result</span><span class="p">(</span><span class="n">rate</span><span class="p">)</span><span class="w"></span>
+<a id="ln-68" name="ln-68" href="#ln-68"></a><span class="k">     elemental module function </span><span class="n">learning_rate</span><span class="p">(</span><span class="n">self</span><span class="p">)</span><span class="w"> </span><span class="k">result</span><span class="p">(</span><span class="n">rate</span><span class="p">)</span>
 <a id="ln-69" name="ln-69" href="#ln-69"></a><span class="w">       </span><span class="k">implicit none</span>
-<a id="ln-70" name="ln-70" href="#ln-70"></a><span class="k">       class</span><span class="p">(</span><span class="n">hyperparameters_t</span><span class="p">),</span><span class="w"> </span><span class="k">intent</span><span class="p">(</span><span class="n">in</span><span class="p">)</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">self</span><span class="w"></span>
-<a id="ln-71" name="ln-71" href="#ln-71"></a><span class="w">       </span><span class="kt">real</span><span class="p">(</span><span class="n">rkind</span><span class="p">)</span><span class="w"> </span><span class="n">rate</span><span class="w"></span>
+<a id="ln-70" name="ln-70" href="#ln-70"></a><span class="k">       class</span><span class="p">(</span><span class="n">hyperparameters_t</span><span class="p">),</span><span class="w"> </span><span class="k">intent</span><span class="p">(</span><span class="n">in</span><span class="p">)</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">self</span>
+<a id="ln-71" name="ln-71" href="#ln-71"></a><span class="w">       </span><span class="kt">real</span><span class="p">(</span><span class="n">rkind</span><span class="p">)</span><span class="w"> </span><span class="n">rate</span>
 <a id="ln-72" name="ln-72" href="#ln-72"></a><span class="w">     </span><span class="k">end function</span>
 <a id="ln-73" name="ln-73" href="#ln-73"></a><span class="k">  end interface</span>
 <a id="ln-74" name="ln-74" href="#ln-74"></a>
-<a id="ln-75" name="ln-75" href="#ln-75"></a><span class="k">end module</span><span class="w"></span>
+<a id="ln-75" name="ln-75" href="#ln-75"></a><span class="k">end module</span>
 </pre></div>
 
-    </section>
+      </section>
     </div>
   </div>
 
-    <hr>    
+      <hr>
     </div> <!-- /container -->
     <footer>
       <div class="container">
-      <div class="row">
-        <div class="col-xs-6 col-md-6"><p>Inference-Engine was developed by Sourcery Institute<br>&copy; 2023 
+        <div class="row justify-content-between">
+          <div class="col"><p>Inference-Engine was developed by Berkeley Lab<br>&copy; 2023 
 </p>
+          </div>
+          <div class="col">
+            <p class="text-end">
+              Documentation generated by
+              <a href="https://github.com/Fortran-FOSS-Programmers/ford">FORD</a>
+ on 2023-11-26 04:14              </p>
+          </div>
         </div>
-        <div class="col-xs-6 col-md-6">
-          <p class="text-right">
-            Documentation generated by 
-            <a href="https://github.com/Fortran-FOSS-Programmers/ford">FORD</a>
- on 2023-11-06 09:19            </p>
-        </div>
-      </div>
-      <br>
-      </div> <!-- /container -->    
+        <br>
+      </div> <!-- /container -->
     </footer>
 
-    <!-- Bootstrap core JavaScript
-    ================================================== -->
+    <!-- Bootstrap core JavaScript -->
     <!-- Placed at the end of the document so the pages load faster -->
-<!--
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
--->
-    <script src="../js/bootstrap.min.js"></script>
-    <!-- IE10 viewport hack for Surface/desktop Windows 8 bug -->
-    <script src="../js/ie10-viewport-bug-workaround.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"
+            integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p" crossorigin="anonymous"></script>    
 
     <!-- MathJax JavaScript
-    ================================================== -->
-    <!-- Placed at the end of the document so the pages load faster -->
-    <script type="text/x-mathjax-config">
-      MathJax.Hub.Config({
-        TeX: { extensions: ['AMSmath.js','AMSsymbols.js','noErrors.js','noUndefined.js'], equationNumbers: { autoNumber: 'AMS' } },
-        jax: ['input/TeX','input/MathML','output/HTML-CSS'],
-        extensions: ['tex2jax.js','mml2jax.js','MathMenu.js','MathZoom.js']
-      });
-    </script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
-    
-    <script src="../tipuesearch/tipuesearch_content.js"></script>
-    <script src="../tipuesearch/tipuesearch_set.js"></script>
-    <script src="../tipuesearch/tipuesearch.js"></script>
-    
+             ================================================== -->
+             <!-- Placed at the end of the document so the pages load faster -->
+        <script type="text/x-mathjax-config">
+          MathJax.Hub.Config({
+          TeX: { extensions: ['AMSmath.js','AMSsymbols.js','noErrors.js','noUndefined.js'], equationNumbers: { autoNumber: 'AMS' } },
+          jax: ['input/TeX','input/MathML','output/HTML-CSS'],
+          extensions: ['tex2jax.js','mml2jax.js','MathMenu.js','MathZoom.js']
+          });
+        </script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+
+          <script src="../tipuesearch/tipuesearch_content.js"></script>
+          <script src="../tipuesearch/tipuesearch_set.js"></script>
+          <script src="../tipuesearch/tipuesearch.js"></script>
+
   </body>
 </html>

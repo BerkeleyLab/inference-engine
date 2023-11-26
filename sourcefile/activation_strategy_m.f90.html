@@ -4,950 +4,893 @@
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-   <meta name="description" content="A library supporting concurrent forward propagation on multiple fully-connected deep neural networks">
-    <meta name="author" content="Sourcery Institute" >
+      <meta name="description" content="A deep learning library targetingo high-performance computing (HPC) applications with performance-critical inference and training needs.">
+    <meta name="author" content="Berkeley Lab" >
     <link rel="icon" href="../favicon.png">
 
     <title>activation_strategy_m.f90 &ndash; Inference-Engine</title>
 
-    <link href="../css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet"
+          integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
     <link href="../css/pygments.css" rel="stylesheet">
     <link href="../css/font-awesome.min.css" rel="stylesheet">
     <link href="../css/local.css" rel="stylesheet">
-    <link  href="../tipuesearch/tipuesearch.css" rel="stylesheet">
+      <link  href="../tipuesearch/tipuesearch.css" rel="stylesheet">
 
-    <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
-    <!--[if lt IE 9]>
-      <script src="https://oss.maxcdn.com/html5shiv/3.7.2/html5shiv.min.js"></script>
-      <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
-    <![endif]-->
-    
-    <script src="../js/jquery-2.1.3.min.js"></script>
-    <script src="../js/svg-pan-zoom.min.js"></script>
-
+    <script src="https://code.jquery.com/jquery-3.7.0.slim.min.js" integrity="sha256-tG5mcZUtJsZvyKAxYLVXrmjKBVLd6VpVccqz/r4ypFE=" crossorigin="anonymous"></script>
   </head>
 
   <body>
 
     <!-- Fixed navbar -->
-    <nav class="navbar navbar-inverse navbar-fixed-top">
-      <div class="container">
-        <div class="navbar-header">
-          <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
-            <span class="sr-only">Toggle navigation</span>
-            <span class="icon-bar"></span>
-            <span class="icon-bar"></span>
-            <span class="icon-bar"></span>
-          </button>
+    <div class="container-fluid mb-sm-4 mb-xl-2">
+      <nav class="navbar navbar-expand-lg navbar-dark bg-dark fixed-top">
+        <div class="container">
           <a class="navbar-brand" href="../index.html">Inference-Engine </a>
-        </div>
-        <div id="navbar" class="navbar-collapse collapse">
-          <ul class="nav navbar-nav">
-            <li class="dropdown hidden-xs visible-sm visible-md hidden-lg">
-              <a href="#" class="dropdown-toggle"
-              data-toggle="dropdown" role="button"
-              aria-haspopup="true"
-     aria-expanded="false">Contents <span class="caret"></span></a>
-        <ul class="dropdown-menu">
-            <li><a href="../lists/files.html">Source Files</a></li>
-            <li><a href="../lists/modules.html">Modules</a></li>
-            <li><a href="../lists/procedures.html">Procedures</a></li>
-            <li><a href="../lists/absint.html">Abstract Interfaces</a></li>
-                   <li><a href="../lists/types.html">Derived Types</a></li>
-            <li><a href="../lists/programs.html">Programs</a></li>
-       
+          <button type="button" class="navbar-toggler" data-bs-toggle="collapse" data-bs-target="#navbar"
+                  aria-expanded="false" aria-controls="navbar" aria-label="Toggle navigation">
+                  <span class="navbar-toggler-icon">
+          </button>
+
+          <div id="navbar" class="navbar-collapse collapse">
+            <ul class="navbar-nav">
+                  <li class="nav-item">
+                    <a class="nav-link" href="../lists/files.html">Source Files</a>
+                  </li>
+                <li class="nav-item">
+                  <a class="nav-link" href="../lists/modules.html">Modules</a>
+                </li>
+                <li class="nav-item">
+                  <a class="nav-link" href="../lists/procedures.html">Procedures</a>
+                </li>
+                <li class="nav-item">
+                  <a class="nav-link" href="../lists/absint.html">Abstract Interfaces</a>
+                </li>
+                <li class="nav-item">
+                  <a class="nav-link" href="../lists/types.html">Derived Types</a>
+                </li>
+                <li class="nav-item">
+                  <a class="nav-link" href="../lists/programs.html">Programs</a>
+                </li>
             </ul>
-        
-            </li>
-<li class="visible-xs hidden-sm visible-lg"><a href="../lists/files.html">Source Files</a></li>
-<li class="visible-xs hidden-sm visible-lg"><a href="../lists/modules.html">Modules</a></li>
-<li class="visible-xs hidden-sm visible-lg"><a href="../lists/procedures.html">Procedures</a></li>
-<li class="visible-xs hidden-sm visible-lg"><a href="../lists/absint.html">Abstract Interfaces</a></li>
-                             <li class="visible-xs hidden-sm visible-lg"><a href="../lists/types.html">Derived Types</a></li>
-<li class="visible-xs hidden-sm visible-lg"><a href="../lists/programs.html">Programs</a></li>
-          </ul>
-        <form action="../search.html" class="navbar-form navbar-right" role="search">
-        <div class="form-group">
-          <input type="text" class="form-control" placeholder="Search" name="q" id="tipue_search_input" autocomplete="off" required>
+              <div class="d-flex align-items-end flex-grow-1">
+                <form action="../search.html" role="search" class="ms-auto">
+                  <input type="text" class="form-control" aria-label="Search" placeholder="Search" name="q" id="tipue_search_input" autocomplete="off" required>
+                </form>
+              </div>
+          </div><!--/.nav-collapse -->
         </div>
-<!--
-        <button type="submit" class="btn btn-default">Submit</button>
--->
-        </form>
-        </div><!--/.nav-collapse -->
-      </div>
-    </nav>
+      </nav>
+    </div>
 
     <div class="container">
   <div class="row">
     <h1>activation_strategy_m.f90
-    <small>Source File</small>
+      <small>Source File</small>
+      
     </h1>
-    <div class="row">
-  <div class="col-lg-12">
-<div class="well well-sm">
-  <ul class="list-inline" style="margin-bottom:0px;display:inline">
-     <li><i class="fa fa-list-ol"></i>
-       <a data-toggle="tooltip"
-    data-placement="bottom" data-html="true"
-    title=" 0.5% of total for source files.">26 statements</a>
-     </li> 
-    <li><i class="fa fa-code"></i><a href="../src/activation_strategy_m.f90"> Source File</a></li>
-  </ul>
-  <ol class="breadcrumb in-well text-right">
-     <li class="active">activation_strategy_m.f90</li>
-  </ol>
-</div>
-</div>
-</div>
-<script>
-  $(function () {
-  $('[data-toggle="tooltip"]').tooltip()
-  })
-</script>
+      <div class="container p-2 mb-4 bg-light border rounded-3">
+    <div class="row align-items-center justify-content-between" id="info-bar">
+      <div class="col">
+        <ul class="list-inline" style="margin-bottom:0px;display:inline">
+
+            <li class="list-inline-item" id="statements"><i class="fa fa-list-ol"></i>
+              <a data-bs-toggle="tooltip"
+                 data-bs-placement="bottom" data-html="true"
+                 title=" 1.1% of total for source files.">26 statements</a>
+            </li>
+
+            <li class="list-inline-item" id="source-file">
+              <i class="fa fa-code"></i>
+              <a href="../src/activation_strategy_m.f90"> Source File</a>
+            </li>
+        </ul>
+      </div>
+      <div class="col">
+        <nav aria-label="breadcrumb">
+          <ol class="breadcrumb justify-content-end mb-0">
+            <li class="breadcrumb-item active" aria-current="page">activation_strategy_m.f90</li>
+          </ol>
+        </nav>
+      </div>
+    </div>
+  </div>
+  <script>
+    $(function () {
+    $('[data-bs-toggle="tooltip"]').tooltip()
+    })
+  </script>
 
   </div>
   <div class="row">
     <div class="col-md-3 hidden-xs hidden-sm visible-md visible-lg">
-    <div id="sidebar">
-  <h3>Contents</h3>
- 
-<div class="panel panel-primary">
-  <div class="panel-heading text-left"><h3 class="panel-title"><a data-toggle="collapse" href="#mods-0">Modules</a></h3></div>
-  <div id="mods-0" class="panel-collapse collapse">
-    <div class="list-group">
-      <a class="list-group-item" href="../module/activation_strategy_m.html">activation_strategy_m</a>
+        <div id="sidebar">
+      <h3>Contents</h3>
+  
+  
+  
+  
+  
+      <div class="card mb-4">
+      <a data-bs-toggle="collapse" href="#mods-0"
+         aria-expanded="false" aria-controls="mods-0">
+         <h4 class="card-header bg-primary text-white">Modules</h4>
+      </a>
+      <div id="mods-0" class="collapse">
+        <div class="list-group list-group-flush">
+            <a class="list-group-item" href="../module/activation_strategy_m.html">activation_strategy_m</a>
+        </div>
+      </div>
     </div>
-  </div>
-</div>
-<div class="panel panel-primary">
-  <div class="panel-heading text-left"><h3 class="panel-title">Source Code</h3></div>
-  <div class="list-group">
-    <a class="list-group-item" href="../sourcefile/activation_strategy_m.f90.html#src">activation_strategy_m.f90</a>
-  </div>
-</div>
 
-</div>
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+    <div class="card card-primary">
+      <div class="card-header text-left"><h3 class="card-title">Source Code</h3></div>
+      <div class="list-group">
+        <a class="list-group-item" href="../sourcefile/activation_strategy_m.f90.html#src">activation_strategy_m.f90</a>
+      </div>
+    </div>
+
+
+  </div>
 
     </div>
     <div class="col-md-9" id='text'>
       
       <br>
-    <div class="panel panel-default">
-      <div class="panel-heading">
-  <h3 class="panel-title">This file depends on</h3>
-      </div>
-      <div class="panel-body">
-  <div class="depgraph"><?xml version="1.0" encoding="UTF-8" standalone="no"?>
+        <div class="card">
+          <div class="card-header">
+            <h3 class="card-title">This file depends on</h3>
+          </div>
+          <div class="card-body">
+            <div class="depgraph"><?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN"
  "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
-<!-- Generated by graphviz version 2.43.0 (0)
+<!-- Generated by graphviz version 9.0.0 (20230911.1827)
  -->
 <!-- Title: sourcefile~~activation_strategy_m.f90~~EfferentGraph Pages: 1 -->
-<svg id="sourcefileactivation_strategy_mf90EfferentGraph" width="333pt" height="32pt"
- viewBox="0.00 0.00 333.00 32.00" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
-<g id="sourcefile~~activation_strategy_m.f90~~EfferentGraph" class="graph" transform="scale(1 1) rotate(0) translate(4 28)">
+<svg id="sourcefileactivation_strategy_mf90EfferentGraph" width="330pt" height="32pt"
+ viewBox="0.00 0.00 330.29 32.27" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+<g id="sourcefile~~activation_strategy_m.f90~~EfferentGraph" class="graph" transform="scale(1 1) rotate(0) translate(4 28.27)">
 <title>sourcefile~~activation_strategy_m.f90~~EfferentGraph</title>
-<polygon fill="white" stroke="transparent" points="-4,4 -4,-28 329,-28 329,4 -4,4"/>
+<polygon fill="white" stroke="none" points="-4,4 -4,-28.27 326.29,-28.27 326.29,4 -4,4"/>
 <!-- sourcefile~activation_strategy_m.f90 -->
 <g id="sourcefile~~activation_strategy_m.f90~~EfferentGraph_node1" class="node">
 <title>sourcefile~activation_strategy_m.f90</title>
-<polygon fill="none" stroke="black" points="325,-24 175,-24 175,0 325,0 325,-24"/>
-<text text-anchor="middle" x="250" y="-9.6" font-family="Helvetica,sans-Serif" font-size="10.50">activation_strategy_m.f90</text>
+<polygon fill="none" stroke="black" points="322.29,-24.27 173.52,-24.27 173.52,0 322.29,0 322.29,-24.27"/>
+<text text-anchor="middle" x="247.91" y="-8.53" font-family="Helvetica,sans-Serif" font-size="10.50">activation_strategy_m.f90</text>
 </g>
 <!-- sourcefile~kind_parameters_m.f90 -->
 <g id="sourcefile~~activation_strategy_m.f90~~EfferentGraph_node2" class="node">
 <title>sourcefile~kind_parameters_m.f90</title>
 <g id="a_sourcefile~~activation_strategy_m.f90~~EfferentGraph_node2"><a xlink:href=".././sourcefile/kind_parameters_m.f90.html" xlink:title="kind_parameters_m.f90">
-<polygon fill="#f0ad4e" stroke="#f0ad4e" points="139,-24 0,-24 0,0 139,0 139,-24"/>
-<text text-anchor="middle" x="69.5" y="-9.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">kind_parameters_m.f90</text>
+<polygon fill="#f0ad4e" stroke="#f0ad4e" points="137.52,-24.27 0,-24.27 0,0 137.52,0 137.52,-24.27"/>
+<text text-anchor="middle" x="68.76" y="-8.53" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">kind_parameters_m.f90</text>
 </a>
 </g>
 </g>
 <!-- sourcefile~activation_strategy_m.f90&#45;&gt;sourcefile~kind_parameters_m.f90 -->
 <g id="sourcefile~~activation_strategy_m.f90~~EfferentGraph_edge1" class="edge">
 <title>sourcefile~activation_strategy_m.f90&#45;&gt;sourcefile~kind_parameters_m.f90</title>
-<path fill="none" stroke="#ff0000" stroke-dasharray="5,2" d="M174.85,-12C166.47,-12 157.92,-12 149.48,-12"/>
-<polygon fill="#ff0000" stroke="#ff0000" points="149.27,-8.5 139.27,-12 149.27,-15.5 149.27,-8.5"/>
+<path fill="none" stroke="#255000" stroke-dasharray="5,2" d="M173.06,-12.13C165.22,-12.13 157.21,-12.13 149.31,-12.13"/>
+<polygon fill="#255000" stroke="#255000" points="149.33,-8.64 139.33,-12.14 149.33,-15.64 149.33,-8.64"/>
 </g>
 </g>
 </svg>
-</div><div><a type="button" class="graph-help" data-toggle="modal" href="#graph-help-text">Help</a></div><div class="modal fade" id="graph-help-text" tabindex="-1" role="dialog"><div class="modal-dialog modal-lg" role="document"><div class="modal-content"><div class="modal-header"><button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button><h4 class="modal-title" id="-graph-help-label">Graph Key</h4></div><div class="modal-body">
-    <p>Nodes of different colours represent the following: </p>
-    <?xml version="1.0" encoding="UTF-8" standalone="no"?>
+</div>        <div><a type="button" class="graph-help" data-toggle="modal" href="#EfferentGraph-help-text">Help</a></div>
+          <div class="modal fade" id="EfferentGraph-help-text" tabindex="-1" role="dialog">
+            <div class="modal-dialog modal-lg" role="document">
+              <div class="modal-content">
+                <div class="modal-header">
+                  <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                  </button>
+                  <h4 class="modal-title" id="-graph-help-label">Graph Key</h4>
+                </div>
+              <div class="modal-body">
+<p>Nodes of different colours represent the following: </p>
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN"
  "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
-<!-- Generated by graphviz version 2.43.0 (0)
+<!-- Generated by graphviz version 9.0.0 (20230911.1827)
  -->
 <!-- Title: Graph Key Pages: 1 -->
-<svg width="202pt" height="32pt"
- viewBox="0.00 0.00 201.50 32.00" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
-<g id="graph0" class="graph" transform="scale(1 1) rotate(0) translate(4 28)">
+<svg width="200pt" height="32pt"
+ viewBox="0.00 0.00 199.52 32.27" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+<g id="graph0" class="graph" transform="scale(1 1) rotate(0) translate(4 28.27)">
 <title>Graph Key</title>
-<polygon fill="white" stroke="transparent" points="-4,4 -4,-28 197.5,-28 197.5,4 -4,4"/>
+<polygon fill="white" stroke="none" points="-4,4 -4,-28.27 195.52,-28.27 195.52,4 -4,4"/>
 <!-- Source File -->
 <g id="node1" class="node">
 <title>Source File</title>
-<polygon fill="#f0ad4e" stroke="#f0ad4e" points="70,-24 0,-24 0,0 70,0 70,-24"/>
-<text text-anchor="middle" x="35" y="-9.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">Source File</text>
+<polygon fill="#f0ad4e" stroke="#f0ad4e" points="69.27,-24.27 0,-24.27 0,0 69.27,0 69.27,-24.27"/>
+<text text-anchor="middle" x="34.63" y="-8.53" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">Source File</text>
 </g>
 <!-- This Page&#39;s Entity -->
 <g id="node2" class="node">
 <title>This Page&#39;s Entity</title>
-<polygon fill="none" stroke="black" points="193.5,-24 88.5,-24 88.5,0 193.5,0 193.5,-24"/>
-<text text-anchor="middle" x="141" y="-9.6" font-family="Helvetica,sans-Serif" font-size="10.50">This Page&#39;s Entity</text>
+<polygon fill="none" stroke="black" points="191.52,-24.27 87.75,-24.27 87.75,0 191.52,0 191.52,-24.27"/>
+<text text-anchor="middle" x="139.63" y="-8.53" font-family="Helvetica,sans-Serif" font-size="10.50">This Page&#39;s Entity</text>
 </g>
 </g>
 </svg>
 
-    
-    <p>Solid arrows point from a file to a file which it depends on. A file
-    is dependent upon another if the latter must be compiled before the former
-    can be. Where possible, edges connecting nodes are given different colours to make them easier to distinguish in large graphs.
-    </p>
-    </div></div></div></div>
-      </div>
-    </div>
-    <div class="panel panel-default">
-      <div class="panel-heading">
-  <h3 class="panel-title">Files dependent on this one</h3>
-      </div>
-      <div class="panel-body">
-  <div class="depgraph"><?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<p>Solid arrows point from a file to a file which it depends on. A file
+is dependent upon another if the latter must be compiled before the former
+can be.
+</p>
+ Where possible, edges connecting nodes are
+given different colours to make them easier to distinguish in
+large graphs.</div>
+            </div>
+          </div>
+        </div>
+          </div>
+        </div>
+        <div class="card">
+          <div class="card-header">
+            <h3 class="card-title">Files dependent on this one</h3>
+          </div>
+          <div class="card-body">
+            <div class="depgraph"><?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN"
  "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
-<!-- Generated by graphviz version 2.43.0 (0)
+<!-- Generated by graphviz version 9.0.0 (20230911.1827)
  -->
 <!-- Title: sourcefile~~activation_strategy_m.f90~~AfferentGraph Pages: 1 -->
-<svg id="sourcefileactivation_strategy_mf90AfferentGraph" width="641pt" height="237pt"
- viewBox="0.00 0.00 641.00 237.17" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
-<g id="sourcefile~~activation_strategy_m.f90~~AfferentGraph" class="graph" transform="scale(2.23 2.23) rotate(0) translate(4 524)">
+<svg id="sourcefileactivation_strategy_mf90AfferentGraph" width="641pt" height="238pt"
+ viewBox="0.00 0.00 641.00 238.48" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+<g id="sourcefile~~activation_strategy_m.f90~~AfferentGraph" class="graph" transform="scale(0.451443 0.451443) rotate(0) translate(4 524.27)">
 <title>sourcefile~~activation_strategy_m.f90~~AfferentGraph</title>
-<polygon fill="white" stroke="transparent" points="-4,4 -4,-524 1423,-524 1423,4 -4,4"/>
+<polygon fill="white" stroke="none" points="-4,4 -4,-524.27 1415.89,-524.27 1415.89,4 -4,4"/>
 <!-- sourcefile~activation_strategy_m.f90 -->
 <g id="sourcefile~~activation_strategy_m.f90~~AfferentGraph_node1" class="node">
 <title>sourcefile~activation_strategy_m.f90</title>
-<polygon fill="none" stroke="black" points="150,-259 0,-259 0,-235 150,-235 150,-259"/>
-<text text-anchor="middle" x="75" y="-244.6" font-family="Helvetica,sans-Serif" font-size="10.50">activation_strategy_m.f90</text>
+<polygon fill="none" stroke="black" points="148.77,-248.27 0,-248.27 0,-224 148.77,-224 148.77,-248.27"/>
+<text text-anchor="middle" x="74.39" y="-232.53" font-family="Helvetica,sans-Serif" font-size="10.50">activation_strategy_m.f90</text>
+</g>
+<!-- sourcefile~differentiable_activation_strategy_m.f90 -->
+<g id="sourcefile~~activation_strategy_m.f90~~AfferentGraph_node2" class="node">
+<title>sourcefile~differentiable_activation_strategy_m.f90</title>
+<g id="a_sourcefile~~activation_strategy_m.f90~~AfferentGraph_node2"><a xlink:href=".././sourcefile/differentiable_activation_strategy_m.f90.html" xlink:title="differentiable_activation_strategy_m.f90">
+<polygon fill="#f0ad4e" stroke="#f0ad4e" points="410.04,-248.27 184.77,-248.27 184.77,-224 410.04,-224 410.04,-248.27"/>
+<text text-anchor="middle" x="297.41" y="-232.53" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">differentiable_activation_strategy_m.f90</text>
+</a>
+</g>
+</g>
+<!-- sourcefile~differentiable_activation_strategy_m.f90&#45;&gt;sourcefile~activation_strategy_m.f90 -->
+<g id="sourcefile~~activation_strategy_m.f90~~AfferentGraph_edge1" class="edge">
+<title>sourcefile~differentiable_activation_strategy_m.f90&#45;&gt;sourcefile~activation_strategy_m.f90</title>
+<path fill="none" stroke="#255000" stroke-dasharray="5,2" d="M184.28,-236.13C176.24,-236.13 168.21,-236.13 160.36,-236.13"/>
+<polygon fill="#255000" stroke="#255000" points="160.52,-232.64 150.52,-236.14 160.52,-239.64 160.52,-232.64"/>
 </g>
 <!-- sourcefile~inference_engine_m.f90 -->
-<g id="sourcefile~~activation_strategy_m.f90~~AfferentGraph_node2" class="node">
+<g id="sourcefile~~activation_strategy_m.f90~~AfferentGraph_node3" class="node">
 <title>sourcefile~inference_engine_m.f90</title>
-<g id="a_sourcefile~~activation_strategy_m.f90~~AfferentGraph_node2"><a xlink:href=".././sourcefile/inference_engine_m.f90.html" xlink:title="inference_engine_m.f90">
-<polygon fill="#f0ad4e" stroke="#f0ad4e" points="973,-254 832,-254 832,-230 973,-230 973,-254"/>
-<text text-anchor="middle" x="902.5" y="-239.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">inference_engine_m.f90</text>
+<g id="a_sourcefile~~activation_strategy_m.f90~~AfferentGraph_node3"><a xlink:href=".././sourcefile/inference_engine_m.f90.html" xlink:title="inference_engine_m.f90">
+<polygon fill="#f0ad4e" stroke="#f0ad4e" points="968.1,-248.27 828.33,-248.27 828.33,-224 968.1,-224 968.1,-248.27"/>
+<text text-anchor="middle" x="898.22" y="-232.53" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">inference_engine_m.f90</text>
 </a>
 </g>
 </g>
 <!-- sourcefile~inference_engine_m.f90&#45;&gt;sourcefile~activation_strategy_m.f90 -->
-<g id="sourcefile~~activation_strategy_m.f90~~AfferentGraph_edge1" class="edge">
+<g id="sourcefile~~activation_strategy_m.f90~~AfferentGraph_edge2" class="edge">
 <title>sourcefile~inference_engine_m.f90&#45;&gt;sourcefile~activation_strategy_m.f90</title>
-<path fill="none" stroke="#ff0000" stroke-dasharray="5,2" d="M520,-247C421.82,-247 397.24,-280.58 300,-267"/>
-<path fill="none" stroke="#ff0000" stroke-dasharray="5,2" d="M298,-267C252.68,-260.67 201.86,-255.92 160.29,-252.64"/>
-<polygon fill="#ff0000" stroke="#ff0000" points="160.45,-249.15 150.21,-251.86 159.91,-256.12 160.45,-249.15"/>
+<path fill="none" stroke="#255000" stroke-dasharray="5,2" d="M856.6,-223.58C819.14,-212.93 761.79,-198.95 710.7,-196.13"/>
+<path fill="none" stroke="#255000" stroke-dasharray="5,2" d="M708.7,-196.13C624.76,-191.51 602.13,-180.39 519.55,-196.13"/>
+</g>
+<!-- sourcefile~inference_engine_m.f90&#45;&gt;sourcefile~differentiable_activation_strategy_m.f90 -->
+<g id="sourcefile~~activation_strategy_m.f90~~AfferentGraph_edge5" class="edge">
+<title>sourcefile~inference_engine_m.f90&#45;&gt;sourcefile~differentiable_activation_strategy_m.f90</title>
+<path fill="none" stroke="#255000" stroke-dasharray="5,2" d="M708.7,-196.13C623.08,-191.42 604.29,-221.07 519.55,-234.13"/>
 </g>
 <!-- sourcefile~inference_engine_m_.f90 -->
-<g id="sourcefile~~activation_strategy_m.f90~~AfferentGraph_node3" class="node">
+<g id="sourcefile~~activation_strategy_m.f90~~AfferentGraph_node4" class="node">
 <title>sourcefile~inference_engine_m_.f90</title>
-<g id="a_sourcefile~~activation_strategy_m.f90~~AfferentGraph_node3"><a xlink:href=".././sourcefile/inference_engine_m_.f90.html" xlink:title="inference_engine_m_.f90">
-<polygon fill="#f0ad4e" stroke="#f0ad4e" points="594,-337 448,-337 448,-313 594,-313 594,-337"/>
-<text text-anchor="middle" x="521" y="-322.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">inference_engine_m_.f90</text>
+<g id="a_sourcefile~~activation_strategy_m.f90~~AfferentGraph_node4"><a xlink:href=".././sourcefile/inference_engine_m_.f90.html" xlink:title="inference_engine_m_.f90">
+<polygon fill="#f0ad4e" stroke="#f0ad4e" points="591.06,-288.27 446.04,-288.27 446.04,-264 591.06,-264 591.06,-288.27"/>
+<text text-anchor="middle" x="518.55" y="-272.53" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">inference_engine_m_.f90</text>
 </a>
 </g>
 </g>
 <!-- sourcefile~inference_engine_m.f90&#45;&gt;sourcefile~inference_engine_m_.f90 -->
-<g id="sourcefile~~activation_strategy_m.f90~~AfferentGraph_edge18" class="edge">
+<g id="sourcefile~~activation_strategy_m.f90~~AfferentGraph_edge25" class="edge">
 <title>sourcefile~inference_engine_m.f90&#45;&gt;sourcefile~inference_engine_m_.f90</title>
-<path fill="none" stroke="#7fff00" stroke-dasharray="5,2" d="M712,-247C674.83,-251.23 664.96,-252.69 630,-266 601,-277.04 570.14,-294.55 548.87,-307.63"/>
-<polygon fill="#7fff00" stroke="#7fff00" points="547,-304.67 540.37,-312.93 550.71,-310.61 547,-304.67"/>
-</g>
-<!-- sourcefile~differentiable_activation_strategy_m.f90 -->
-<g id="sourcefile~~activation_strategy_m.f90~~AfferentGraph_node4" class="node">
-<title>sourcefile~differentiable_activation_strategy_m.f90</title>
-<g id="a_sourcefile~~activation_strategy_m.f90~~AfferentGraph_node4"><a xlink:href=".././sourcefile/differentiable_activation_strategy_m.f90.html" xlink:title="differentiable_activation_strategy_m.f90">
-<polygon fill="#f0ad4e" stroke="#f0ad4e" points="412,-239 186,-239 186,-215 412,-215 412,-239"/>
-<text text-anchor="middle" x="299" y="-224.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">differentiable_activation_strategy_m.f90</text>
-</a>
-</g>
-</g>
-<!-- sourcefile~inference_engine_m.f90&#45;&gt;sourcefile~differentiable_activation_strategy_m.f90 -->
-<g id="sourcefile~~activation_strategy_m.f90~~AfferentGraph_edge26" class="edge">
-<title>sourcefile~inference_engine_m.f90&#45;&gt;sourcefile~differentiable_activation_strategy_m.f90</title>
-<path fill="none" stroke="#00ffff" stroke-dasharray="5,2" d="M831.85,-240.99C796.45,-241.2 752.83,-242.58 714,-247"/>
-<path fill="none" stroke="#00ffff" stroke-dasharray="5,2" d="M712,-247C628.1,-256.55 606.44,-247 522,-247"/>
-<path fill="none" stroke="#00ffff" stroke-dasharray="5,2" d="M520,-247C481.18,-247 438.65,-243.87 401.43,-240.09"/>
-<polygon fill="#00ffff" stroke="#00ffff" points="401.39,-236.57 391.08,-239.01 400.66,-243.53 401.39,-236.57"/>
+<path fill="none" stroke="#025525" stroke-dasharray="5,2" stroke-opacity="0.019608" d="M841.1,-248.75C825.39,-251.9 808.25,-255 792.33,-257.13 728.97,-265.65 656.78,-270.46 602.59,-273.11"/>
+<polygon fill="#025525" fill-opacity="0.019608" stroke="#025525" stroke-opacity="0.019608" points="602.64,-269.61 592.82,-273.58 602.98,-276.6 602.64,-269.61"/>
 </g>
 <!-- sourcefile~step_m.f90 -->
 <g id="sourcefile~~activation_strategy_m.f90~~AfferentGraph_node5" class="node">
 <title>sourcefile~step_m.f90</title>
 <g id="a_sourcefile~~activation_strategy_m.f90~~AfferentGraph_node5"><a xlink:href=".././sourcefile/step_m.f90.html" xlink:title="step_m.f90">
-<polygon fill="#f0ad4e" stroke="#f0ad4e" points="748.5,-379 677.5,-379 677.5,-355 748.5,-355 748.5,-379"/>
-<text text-anchor="middle" x="713" y="-364.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">step_m.f90</text>
+<polygon fill="#f0ad4e" stroke="#f0ad4e" points="744.71,-84.27 674.69,-84.27 674.69,-60 744.71,-60 744.71,-84.27"/>
+<text text-anchor="middle" x="709.7" y="-68.54" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">step_m.f90</text>
 </a>
 </g>
 </g>
 <!-- sourcefile~inference_engine_m.f90&#45;&gt;sourcefile~step_m.f90 -->
-<g id="sourcefile~~activation_strategy_m.f90~~AfferentGraph_edge29" class="edge">
+<g id="sourcefile~~activation_strategy_m.f90~~AfferentGraph_edge28" class="edge">
 <title>sourcefile~inference_engine_m.f90&#45;&gt;sourcefile~step_m.f90</title>
-<path fill="none" stroke="#7f00ff" stroke-dasharray="5,2" d="M849.06,-254.05C843.05,-256.52 837.22,-259.47 832,-263 810.79,-277.35 814.57,-290.36 796,-308 779.69,-323.49 759.15,-338.27 742.7,-349.16"/>
-<polygon fill="#7f00ff" stroke="#7f00ff" points="740.51,-346.41 734.04,-354.79 744.33,-352.28 740.51,-346.41"/>
-</g>
-<!-- sourcefile~sigmoid_m.f90 -->
-<g id="sourcefile~~activation_strategy_m.f90~~AfferentGraph_node8" class="node">
-<title>sourcefile~sigmoid_m.f90</title>
-<g id="a_sourcefile~~activation_strategy_m.f90~~AfferentGraph_node8"><a xlink:href=".././sourcefile/sigmoid_m.f90.html" xlink:title="sigmoid_m.f90">
-<polygon fill="#f0ad4e" stroke="#f0ad4e" points="758.5,-135 667.5,-135 667.5,-111 758.5,-111 758.5,-135"/>
-<text text-anchor="middle" x="713" y="-120.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">sigmoid_m.f90</text>
-</a>
-</g>
-</g>
-<!-- sourcefile~inference_engine_m.f90&#45;&gt;sourcefile~sigmoid_m.f90 -->
-<g id="sourcefile~~activation_strategy_m.f90~~AfferentGraph_edge34" class="edge">
-<title>sourcefile~inference_engine_m.f90&#45;&gt;sourcefile~sigmoid_m.f90</title>
-<path fill="none" stroke="#ff9100" stroke-dasharray="5,2" d="M845.73,-229.95C840.78,-227.5 836.1,-224.55 832,-221 803.44,-196.28 825.09,-168.11 796,-144 788.11,-137.46 778.43,-132.92 768.52,-129.79"/>
-<polygon fill="#ff9100" stroke="#ff9100" points="769.17,-126.33 758.6,-127.09 767.33,-133.09 769.17,-126.33"/>
-</g>
-<!-- sourcefile~trainable_engine_m.f90 -->
-<g id="sourcefile~~activation_strategy_m.f90~~AfferentGraph_node10" class="node">
-<title>sourcefile~trainable_engine_m.f90</title>
-<g id="a_sourcefile~~activation_strategy_m.f90~~AfferentGraph_node10"><a xlink:href=".././sourcefile/trainable_engine_m.f90.html" xlink:title="trainable_engine_m.f90">
-<polygon fill="#f0ad4e" stroke="#f0ad4e" points="782.5,-177 643.5,-177 643.5,-153 782.5,-153 782.5,-177"/>
-<text text-anchor="middle" x="713" y="-162.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">trainable_engine_m.f90</text>
-</a>
-</g>
-</g>
-<!-- sourcefile~inference_engine_m.f90&#45;&gt;sourcefile~trainable_engine_m.f90 -->
-<g id="sourcefile~~activation_strategy_m.f90~~AfferentGraph_edge37" class="edge">
-<title>sourcefile~inference_engine_m.f90&#45;&gt;sourcefile~trainable_engine_m.f90</title>
-<path fill="none" stroke="#daff00" stroke-dasharray="5,2" d="M851.29,-230C844.59,-227.5 837.97,-224.52 832,-221 812.77,-209.67 815.46,-196.91 796,-186 792.57,-184.07 788.95,-182.32 785.23,-180.73"/>
-<polygon fill="#daff00" stroke="#daff00" points="786.41,-177.43 775.82,-177.08 783.88,-183.96 786.41,-177.43"/>
+<path fill="none" stroke="#127025" stroke-dasharray="5,2" stroke-opacity="0.019608" d="M878.15,-223.52C863,-212.7 842.13,-195.91 828.33,-177.13 804.28,-144.4 823.16,-119.58 792.33,-93.14 782.19,-84.44 768.91,-79.28 756.01,-76.23"/>
+<polygon fill="#127025" fill-opacity="0.019608" stroke="#127025" stroke-opacity="0.019608" points="756.83,-72.82 746.34,-74.35 755.49,-79.7 756.83,-72.82"/>
 </g>
 <!-- sourcefile~relu_m.f90 -->
-<g id="sourcefile~~activation_strategy_m.f90~~AfferentGraph_node13" class="node">
+<g id="sourcefile~~activation_strategy_m.f90~~AfferentGraph_node15" class="node">
 <title>sourcefile~relu_m.f90</title>
-<g id="a_sourcefile~~activation_strategy_m.f90~~AfferentGraph_node13"><a xlink:href=".././sourcefile/relu_m.f90.html" xlink:title="relu_m.f90">
-<polygon fill="#f0ad4e" stroke="#f0ad4e" points="747.5,-299 678.5,-299 678.5,-275 747.5,-275 747.5,-299"/>
-<text text-anchor="middle" x="713" y="-284.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">relu_m.f90</text>
+<g id="a_sourcefile~~activation_strategy_m.f90~~AfferentGraph_node15"><a xlink:href=".././sourcefile/relu_m.f90.html" xlink:title="relu_m.f90">
+<polygon fill="#f0ad4e" stroke="#f0ad4e" points="743.58,-168.27 675.81,-168.27 675.81,-144 743.58,-144 743.58,-168.27"/>
+<text text-anchor="middle" x="709.7" y="-152.53" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">relu_m.f90</text>
 </a>
 </g>
 </g>
 <!-- sourcefile~inference_engine_m.f90&#45;&gt;sourcefile~relu_m.f90 -->
-<g id="sourcefile~~activation_strategy_m.f90~~AfferentGraph_edge40" class="edge">
+<g id="sourcefile~~activation_strategy_m.f90~~AfferentGraph_edge30" class="edge">
 <title>sourcefile~inference_engine_m.f90&#45;&gt;sourcefile~relu_m.f90</title>
-<path fill="none" stroke="#00ff00" stroke-dasharray="5,2" d="M851.25,-254.06C821.98,-261.08 785.44,-269.86 757.42,-276.58"/>
-<polygon fill="#00ff00" stroke="#00ff00" points="756.42,-273.22 747.51,-278.96 758.05,-280.03 756.42,-273.22"/>
+<path fill="none" stroke="#025517" stroke-dasharray="5,2" stroke-opacity="0.031373" d="M875.62,-223.66C854.76,-211.94 822.05,-194.42 792.33,-182.13 780.33,-177.18 767.03,-172.58 754.7,-168.67"/>
+<polygon fill="#025517" fill-opacity="0.031373" stroke="#025517" stroke-opacity="0.031373" points="755.75,-165.33 745.16,-165.73 753.69,-172.02 755.75,-165.33"/>
 </g>
-<!-- sourcefile~training_configuration_m.f90 -->
-<g id="sourcefile~~activation_strategy_m.f90~~AfferentGraph_node19" class="node">
-<title>sourcefile~training_configuration_m.f90</title>
-<g id="a_sourcefile~~activation_strategy_m.f90~~AfferentGraph_node19"><a xlink:href=".././sourcefile/training_configuration_m.f90.html" xlink:title="training_configuration_m.f90">
-<polygon fill="#f0ad4e" stroke="#f0ad4e" points="796,-93 630,-93 630,-69 796,-69 796,-93"/>
-<text text-anchor="middle" x="713" y="-78.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">training_configuration_m.f90</text>
+<!-- sourcefile~sigmoid_m.f90 -->
+<g id="sourcefile~~activation_strategy_m.f90~~AfferentGraph_node17" class="node">
+<title>sourcefile~sigmoid_m.f90</title>
+<g id="a_sourcefile~~activation_strategy_m.f90~~AfferentGraph_node17"><a xlink:href=".././sourcefile/sigmoid_m.f90.html" xlink:title="sigmoid_m.f90">
+<polygon fill="#f0ad4e" stroke="#f0ad4e" points="754.46,-412.27 664.94,-412.27 664.94,-388 754.46,-388 754.46,-412.27"/>
+<text text-anchor="middle" x="709.7" y="-396.53" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">sigmoid_m.f90</text>
 </a>
 </g>
 </g>
-<!-- sourcefile~inference_engine_m.f90&#45;&gt;sourcefile~training_configuration_m.f90 -->
-<g id="sourcefile~~activation_strategy_m.f90~~AfferentGraph_edge46" class="edge">
-<title>sourcefile~inference_engine_m.f90&#45;&gt;sourcefile~training_configuration_m.f90</title>
-<path fill="none" stroke="#0048ff" stroke-dasharray="5,2" d="M844.18,-229.99C839.71,-227.53 835.57,-224.56 832,-221 792.92,-181.93 835.9,-140.22 796,-102 794.87,-100.92 793.7,-99.89 792.48,-98.92"/>
-<polygon fill="#0048ff" stroke="#0048ff" points="794.16,-95.83 783.9,-93.19 790.28,-101.65 794.16,-95.83"/>
+<!-- sourcefile~inference_engine_m.f90&#45;&gt;sourcefile~sigmoid_m.f90 -->
+<g id="sourcefile~~activation_strategy_m.f90~~AfferentGraph_edge33" class="edge">
+<title>sourcefile~inference_engine_m.f90&#45;&gt;sourcefile~sigmoid_m.f90</title>
+<path fill="none" stroke="#017825" stroke-dasharray="5,2" stroke-opacity="0.019608" d="M888.93,-248.39C866.54,-281.37 805.59,-370.16 792.33,-379.13 784.32,-384.56 774.99,-388.58 765.58,-391.56"/>
+<polygon fill="#017825" fill-opacity="0.019608" stroke="#017825" stroke-opacity="0.019608" points="764.72,-388.17 756.01,-394.21 766.58,-394.92 764.72,-388.17"/>
 </g>
 <!-- sourcefile~swish_m.f90 -->
-<g id="sourcefile~~activation_strategy_m.f90~~AfferentGraph_node23" class="node">
+<g id="sourcefile~~activation_strategy_m.f90~~AfferentGraph_node19" class="node">
 <title>sourcefile~swish_m.f90</title>
-<g id="a_sourcefile~~activation_strategy_m.f90~~AfferentGraph_node23"><a xlink:href=".././sourcefile/swish_m.f90.html" xlink:title="swish_m.f90">
-<polygon fill="#f0ad4e" stroke="#f0ad4e" points="751.5,-219 674.5,-219 674.5,-195 751.5,-195 751.5,-219"/>
-<text text-anchor="middle" x="713" y="-204.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">swish_m.f90</text>
+<g id="a_sourcefile~~activation_strategy_m.f90~~AfferentGraph_node19"><a xlink:href=".././sourcefile/swish_m.f90.html" xlink:title="swish_m.f90">
+<polygon fill="#f0ad4e" stroke="#f0ad4e" points="747.71,-370.27 671.69,-370.27 671.69,-346 747.71,-346 747.71,-370.27"/>
+<text text-anchor="middle" x="709.7" y="-354.53" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">swish_m.f90</text>
 </a>
 </g>
 </g>
 <!-- sourcefile~inference_engine_m.f90&#45;&gt;sourcefile~swish_m.f90 -->
-<g id="sourcefile~~activation_strategy_m.f90~~AfferentGraph_edge48" class="edge">
+<g id="sourcefile~~activation_strategy_m.f90~~AfferentGraph_edge36" class="edge">
 <title>sourcefile~inference_engine_m.f90&#45;&gt;sourcefile~swish_m.f90</title>
-<path fill="none" stroke="#da00ff" stroke-dasharray="5,2" d="M836.97,-229.95C812.26,-225.34 784.54,-220.17 761.68,-215.9"/>
-<polygon fill="#da00ff" stroke="#da00ff" points="762.02,-212.4 751.55,-214.01 760.74,-219.29 762.02,-212.4"/>
+<path fill="none" stroke="#025255" stroke-dasharray="5,2" d="M888,-248.48C871.34,-269.89 834.05,-313.85 792.33,-337.13 782.17,-342.81 770.45,-346.98 759.11,-350.04"/>
+<polygon fill="#025255" stroke="#025255" points="758.34,-346.63 749.45,-352.39 760,-353.43 758.34,-346.63"/>
+</g>
+<!-- sourcefile~trainable_engine_m.f90 -->
+<g id="sourcefile~~activation_strategy_m.f90~~AfferentGraph_node22" class="node">
+<title>sourcefile~trainable_engine_m.f90</title>
+<g id="a_sourcefile~~activation_strategy_m.f90~~AfferentGraph_node22"><a xlink:href=".././sourcefile/trainable_engine_m.f90.html" xlink:title="trainable_engine_m.f90">
+<polygon fill="#f0ad4e" stroke="#f0ad4e" points="778.46,-248.27 640.94,-248.27 640.94,-224 778.46,-224 778.46,-248.27"/>
+<text text-anchor="middle" x="709.7" y="-232.53" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">trainable_engine_m.f90</text>
+</a>
+</g>
+</g>
+<!-- sourcefile~inference_engine_m.f90&#45;&gt;sourcefile~trainable_engine_m.f90 -->
+<g id="sourcefile~~activation_strategy_m.f90~~AfferentGraph_edge39" class="edge">
+<title>sourcefile~inference_engine_m.f90&#45;&gt;sourcefile~trainable_engine_m.f90</title>
+<path fill="none" stroke="#204025" stroke-dasharray="5,2" stroke-opacity="0.019608" d="M828.03,-236.13C815.72,-236.13 802.82,-236.13 790.26,-236.13"/>
+<polygon fill="#204025" fill-opacity="0.019608" stroke="#204025" stroke-opacity="0.019608" points="790.35,-232.64 780.35,-236.14 790.35,-239.64 790.35,-232.64"/>
+</g>
+<!-- sourcefile~training_configuration_m.f90 -->
+<g id="sourcefile~~activation_strategy_m.f90~~AfferentGraph_node23" class="node">
+<title>sourcefile~training_configuration_m.f90</title>
+<g id="a_sourcefile~~activation_strategy_m.f90~~AfferentGraph_node23"><a xlink:href=".././sourcefile/training_configuration_m.f90.html" xlink:title="training_configuration_m.f90">
+<polygon fill="#f0ad4e" stroke="#f0ad4e" points="792.33,-126.27 627.06,-126.27 627.06,-102 792.33,-102 792.33,-126.27"/>
+<text text-anchor="middle" x="709.7" y="-110.54" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">training_configuration_m.f90</text>
+</a>
+</g>
+</g>
+<!-- sourcefile~inference_engine_m.f90&#45;&gt;sourcefile~training_configuration_m.f90 -->
+<g id="sourcefile~~activation_strategy_m.f90~~AfferentGraph_edge40" class="edge">
+<title>sourcefile~inference_engine_m.f90&#45;&gt;sourcefile~training_configuration_m.f90</title>
+<path fill="none" stroke="#255022" stroke-dasharray="5,2" stroke-opacity="0.035294" d="M881.29,-223.66C866.92,-212.15 845.48,-194.28 828.33,-177.13 810.94,-159.75 813.2,-148.13 792.33,-135.13 790.16,-133.78 787.91,-132.52 785.59,-131.34"/>
+<polygon fill="#255022" fill-opacity="0.035294" stroke="#255022" stroke-opacity="0.035294" points="787.04,-128.15 776.48,-127.27 784.18,-134.54 787.04,-128.15"/>
 </g>
 <!-- sourcefile~inference_engine_m_.f90&#45;&gt;sourcefile~activation_strategy_m.f90 -->
-<g id="sourcefile~~activation_strategy_m.f90~~AfferentGraph_edge2" class="edge">
+<g id="sourcefile~~activation_strategy_m.f90~~AfferentGraph_edge3" class="edge">
 <title>sourcefile~inference_engine_m_.f90&#45;&gt;sourcefile~activation_strategy_m.f90</title>
-<path fill="none" stroke="#ff0000" stroke-dasharray="5,2" d="M484.31,-312.93C441.21,-298.97 366.25,-276.69 300,-267"/>
+<path fill="none" stroke="#255000" stroke-dasharray="5,2" d="M445.57,-274.78C378,-272.85 274.22,-268.22 184.77,-257.13 171.65,-255.51 157.74,-253.25 144.39,-250.82"/>
+<polygon fill="#255000" stroke="#255000" points="145.31,-247.43 134.83,-249.03 144.01,-254.31 145.31,-247.43"/>
 </g>
 <!-- sourcefile~inference_engine_m_.f90&#45;&gt;sourcefile~differentiable_activation_strategy_m.f90 -->
-<g id="sourcefile~~activation_strategy_m.f90~~AfferentGraph_edge27" class="edge">
+<g id="sourcefile~~activation_strategy_m.f90~~AfferentGraph_edge6" class="edge">
 <title>sourcefile~inference_engine_m_.f90&#45;&gt;sourcefile~differentiable_activation_strategy_m.f90</title>
-<path fill="none" stroke="#00ffff" stroke-dasharray="5,2" d="M474.27,-312.86C465.09,-309.25 455.86,-304.69 448,-299 426.97,-283.78 433.89,-266.95 412,-253 405.49,-248.85 398.39,-245.36 391.03,-242.43"/>
-<polygon fill="#00ffff" stroke="#00ffff" points="392.18,-239.12 381.59,-239 389.8,-245.7 392.18,-239.12"/>
-</g>
-<!-- sourcefile~differentiable_activation_strategy_m.f90&#45;&gt;sourcefile~activation_strategy_m.f90 -->
-<g id="sourcefile~~activation_strategy_m.f90~~AfferentGraph_edge3" class="edge">
-<title>sourcefile~differentiable_activation_strategy_m.f90&#45;&gt;sourcefile~activation_strategy_m.f90</title>
-<path fill="none" stroke="#ff0000" stroke-dasharray="5,2" d="M185.7,-237.12C177.14,-237.89 168.58,-238.66 160.24,-239.41"/>
-<polygon fill="#ff0000" stroke="#ff0000" points="159.84,-235.93 150.19,-240.32 160.47,-242.9 159.84,-235.93"/>
+<path fill="none" stroke="#255000" stroke-dasharray="5,2" d="M448.51,-263.53C426.3,-259.48 401.5,-254.95 378.56,-250.77"/>
+<polygon fill="#255000" stroke="#255000" points="379.43,-247.37 368.96,-249.01 378.17,-254.25 379.43,-247.37"/>
 </g>
 <!-- sourcefile~step_m.f90&#45;&gt;sourcefile~activation_strategy_m.f90 -->
 <g id="sourcefile~~activation_strategy_m.f90~~AfferentGraph_edge4" class="edge">
 <title>sourcefile~step_m.f90&#45;&gt;sourcefile~activation_strategy_m.f90</title>
-<path fill="none" stroke="#ff0000" stroke-dasharray="5,2" d="M677.44,-368.68C626.22,-370.2 527.65,-369.32 448,-346 376.44,-325.05 373.78,-277.79 300,-267"/>
-</g>
-<!-- sourcefile~learn&#45;power&#45;series.f90 -->
-<g id="sourcefile~~activation_strategy_m.f90~~AfferentGraph_node6" class="node">
-<title>sourcefile~learn&#45;power&#45;series.f90</title>
-<g id="a_sourcefile~~activation_strategy_m.f90~~AfferentGraph_node6"><a xlink:href=".././sourcefile/learn-power-series.f90.html" xlink:title="learn&#45;power&#45;series.f90">
-<polygon fill="#f0ad4e" stroke="#f0ad4e" points="1164,-356 1032,-356 1032,-332 1164,-332 1164,-356"/>
-<text text-anchor="middle" x="1098" y="-341.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">learn&#45;power&#45;series.f90</text>
-</a>
-</g>
-</g>
-<!-- sourcefile~learn&#45;power&#45;series.f90&#45;&gt;sourcefile~inference_engine_m.f90 -->
-<g id="sourcefile~~activation_strategy_m.f90~~AfferentGraph_edge8" class="edge">
-<title>sourcefile~learn&#45;power&#45;series.f90&#45;&gt;sourcefile~inference_engine_m.f90</title>
-<path fill="none" stroke="#ff0000" stroke-dasharray="5,2" d="M1031.87,-334.77C1023.71,-331.85 1015.84,-328.01 1009,-323 983.91,-304.62 997.53,-282.11 973,-263 971.14,-261.55 969.18,-260.2 967.15,-258.95"/>
-<polygon fill="#ff0000" stroke="#ff0000" points="968.32,-255.6 957.84,-254.02 965.04,-261.79 968.32,-255.6"/>
-</g>
-<!-- sourcefile~inference_engine_s.f90 -->
-<g id="sourcefile~~activation_strategy_m.f90~~AfferentGraph_node7" class="node">
-<title>sourcefile~inference_engine_s.f90</title>
-<g id="a_sourcefile~~activation_strategy_m.f90~~AfferentGraph_node7"><a xlink:href=".././sourcefile/inference_engine_s.f90.html" xlink:title="inference_engine_s.f90">
-<polygon fill="#f0ad4e" stroke="#f0ad4e" points="970.5,-338 834.5,-338 834.5,-314 970.5,-314 970.5,-338"/>
-<text text-anchor="middle" x="902.5" y="-323.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">inference_engine_s.f90</text>
-</a>
-</g>
-</g>
-<!-- sourcefile~inference_engine_s.f90&#45;&gt;sourcefile~inference_engine_m_.f90 -->
-<g id="sourcefile~~activation_strategy_m.f90~~AfferentGraph_edge21" class="edge">
-<title>sourcefile~inference_engine_s.f90&#45;&gt;sourcefile~inference_engine_m_.f90</title>
-<path fill="none" stroke="#7fff00" stroke-dasharray="5,2" d="M834.09,-325.82C769.97,-325.65 673.36,-325.4 604.63,-325.22"/>
-<polygon fill="#7fff00" stroke="#7fff00" points="604.28,-321.72 594.27,-325.19 604.26,-328.72 604.28,-321.72"/>
-</g>
-<!-- sourcefile~inference_engine_s.f90&#45;&gt;sourcefile~step_m.f90 -->
-<g id="sourcefile~~activation_strategy_m.f90~~AfferentGraph_edge30" class="edge">
-<title>sourcefile~inference_engine_s.f90&#45;&gt;sourcefile~step_m.f90</title>
-<path fill="none" stroke="#7f00ff" stroke-dasharray="5,2" d="M846.51,-338.02C818.56,-344.14 785.03,-351.47 758.69,-357.23"/>
-<polygon fill="#7f00ff" stroke="#7f00ff" points="757.64,-353.88 748.61,-359.43 759.13,-360.71 757.64,-353.88"/>
-</g>
-<!-- sourcefile~inference_engine_s.f90&#45;&gt;sourcefile~sigmoid_m.f90 -->
-<g id="sourcefile~~activation_strategy_m.f90~~AfferentGraph_edge33" class="edge">
-<title>sourcefile~inference_engine_s.f90&#45;&gt;sourcefile~sigmoid_m.f90</title>
-<path fill="none" stroke="#ff9100" stroke-dasharray="5,2" d="M843.23,-313.88C839.08,-311.44 835.26,-308.51 832,-305 782.09,-251.28 847.04,-196.64 796,-144 788.56,-136.33 778.72,-131.32 768.46,-128.08"/>
-<polygon fill="#ff9100" stroke="#ff9100" points="769.11,-124.63 758.55,-125.49 767.33,-131.4 769.11,-124.63"/>
-</g>
-<!-- sourcefile~inference_engine_s.f90&#45;&gt;sourcefile~relu_m.f90 -->
-<g id="sourcefile~~activation_strategy_m.f90~~AfferentGraph_edge42" class="edge">
-<title>sourcefile~inference_engine_s.f90&#45;&gt;sourcefile~relu_m.f90</title>
-<path fill="none" stroke="#00ff00" stroke-dasharray="5,2" d="M843.71,-313.98C815.88,-308.19 783.06,-301.37 757.4,-296.03"/>
-<polygon fill="#00ff00" stroke="#00ff00" points="758.09,-292.6 747.59,-293.99 756.67,-299.45 758.09,-292.6"/>
-</g>
-<!-- sourcefile~layer_m.f90 -->
-<g id="sourcefile~~activation_strategy_m.f90~~AfferentGraph_node16" class="node">
-<title>sourcefile~layer_m.f90</title>
-<g id="a_sourcefile~~activation_strategy_m.f90~~AfferentGraph_node16"><a xlink:href=".././sourcefile/layer_m.f90.html" xlink:title="layer_m.f90">
-<polygon fill="#f0ad4e" stroke="#f0ad4e" points="751,-421 675,-421 675,-397 751,-397 751,-421"/>
-<text text-anchor="middle" x="713" y="-406.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">layer_m.f90</text>
-</a>
-</g>
-</g>
-<!-- sourcefile~inference_engine_s.f90&#45;&gt;sourcefile~layer_m.f90 -->
-<g id="sourcefile~~activation_strategy_m.f90~~AfferentGraph_edge45" class="edge">
-<title>sourcefile~inference_engine_s.f90&#45;&gt;sourcefile~layer_m.f90</title>
-<path fill="none" stroke="#00ffda" stroke-dasharray="5,2" d="M849.58,-338.14C843.42,-340.59 837.41,-343.52 832,-347 811.61,-360.12 816.67,-375.32 796,-388 785.53,-394.43 773.15,-398.89 761.23,-402"/>
-<polygon fill="#00ffda" stroke="#00ffda" points="760.32,-398.62 751.38,-404.3 761.91,-405.43 760.32,-398.62"/>
-</g>
-<!-- sourcefile~inference_engine_s.f90&#45;&gt;sourcefile~swish_m.f90 -->
-<g id="sourcefile~~activation_strategy_m.f90~~AfferentGraph_edge50" class="edge">
-<title>sourcefile~inference_engine_s.f90&#45;&gt;sourcefile~swish_m.f90</title>
-<path fill="none" stroke="#da00ff" stroke-dasharray="5,2" d="M845.83,-313.83C840.86,-311.4 836.14,-308.49 832,-305 804.64,-281.94 823.2,-256.24 796,-233 786.23,-224.66 773.78,-218.98 761.53,-215.13"/>
-<polygon fill="#da00ff" stroke="#da00ff" points="762.39,-211.74 751.82,-212.41 760.51,-218.48 762.39,-211.74"/>
-</g>
-<!-- sourcefile~sigmoid_m.f90&#45;&gt;sourcefile~differentiable_activation_strategy_m.f90 -->
-<g id="sourcefile~~activation_strategy_m.f90~~AfferentGraph_edge22" class="edge">
-<title>sourcefile~sigmoid_m.f90&#45;&gt;sourcefile~differentiable_activation_strategy_m.f90</title>
-<path fill="none" stroke="#00ffff" stroke-dasharray="5,2" d="M667.23,-133.61C628.81,-142.54 571.92,-155.37 522,-165"/>
-</g>
-<!-- sourcefile~learn&#45;microphysics&#45;procedures.f90 -->
-<g id="sourcefile~~activation_strategy_m.f90~~AfferentGraph_node9" class="node">
-<title>sourcefile~learn&#45;microphysics&#45;procedures.f90</title>
-<g id="a_sourcefile~~activation_strategy_m.f90~~AfferentGraph_node9"><a xlink:href=".././sourcefile/learn-microphysics-procedures.f90.html" xlink:title="learn&#45;microphysics&#45;procedures.f90">
-<polygon fill="#f0ad4e" stroke="#f0ad4e" points="1419,-233 1223,-233 1223,-209 1419,-209 1419,-233"/>
-<text text-anchor="middle" x="1321" y="-218.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">learn&#45;microphysics&#45;procedures.f90</text>
-</a>
-</g>
-</g>
-<!-- sourcefile~learn&#45;microphysics&#45;procedures.f90&#45;&gt;sourcefile~inference_engine_m.f90 -->
-<g id="sourcefile~~activation_strategy_m.f90~~AfferentGraph_edge13" class="edge">
-<title>sourcefile~learn&#45;microphysics&#45;procedures.f90&#45;&gt;sourcefile~inference_engine_m.f90</title>
-<path fill="none" stroke="#ff0000" stroke-dasharray="5,2" d="M1260.34,-233.01C1237.5,-237.04 1211.14,-241.02 1187,-243 1108.15,-249.48 1088.11,-243.37 1009,-243 1000.64,-242.96 991.91,-242.9 983.2,-242.84"/>
-<polygon fill="#ff0000" stroke="#ff0000" points="983.05,-239.33 973.02,-242.75 982.99,-246.33 983.05,-239.33"/>
-</g>
-<!-- sourcefile~thompson_tensors_m.f90 -->
-<g id="sourcefile~~activation_strategy_m.f90~~AfferentGraph_node11" class="node">
-<title>sourcefile~thompson_tensors_m.f90</title>
-<g id="a_sourcefile~~activation_strategy_m.f90~~AfferentGraph_node11"><a xlink:href=".././sourcefile/thompson_tensors_m.f90.html" xlink:title="thompson_tensors_m.f90">
-<polygon fill="#f0ad4e" stroke="#f0ad4e" points="1171,-192 1025,-192 1025,-168 1171,-168 1171,-192"/>
-<text text-anchor="middle" x="1098" y="-177.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">thompson_tensors_m.f90</text>
-</a>
-</g>
-</g>
-<!-- sourcefile~learn&#45;microphysics&#45;procedures.f90&#45;&gt;sourcefile~thompson_tensors_m.f90 -->
-<g id="sourcefile~~activation_strategy_m.f90~~AfferentGraph_edge39" class="edge">
-<title>sourcefile~learn&#45;microphysics&#45;procedures.f90&#45;&gt;sourcefile~thompson_tensors_m.f90</title>
-<path fill="none" stroke="#91ff00" stroke-dasharray="5,2" d="M1255.19,-208.98C1229.66,-204.24 1200.19,-198.77 1173.77,-193.87"/>
-<polygon fill="#91ff00" stroke="#91ff00" points="1174.28,-190.41 1163.81,-192.02 1173.01,-197.29 1174.28,-190.41"/>
-</g>
-<!-- sourcefile~trainable_engine_m.f90&#45;&gt;sourcefile~inference_engine_m_.f90 -->
-<g id="sourcefile~~activation_strategy_m.f90~~AfferentGraph_edge19" class="edge">
-<title>sourcefile~trainable_engine_m.f90&#45;&gt;sourcefile~inference_engine_m_.f90</title>
-<path fill="none" stroke="#7fff00" stroke-dasharray="5,2" d="M644.28,-177.04C639.16,-179.51 634.32,-182.46 630,-186 601.41,-209.45 616.25,-231.47 594,-261 580.87,-278.42 562.44,-294.7 547.51,-306.48"/>
-<polygon fill="#7fff00" stroke="#7fff00" points="544.99,-304 539.19,-312.87 549.25,-309.55 544.99,-304"/>
-</g>
-<!-- sourcefile~trainable_engine_m.f90&#45;&gt;sourcefile~differentiable_activation_strategy_m.f90 -->
-<g id="sourcefile~~activation_strategy_m.f90~~AfferentGraph_edge28" class="edge">
-<title>sourcefile~trainable_engine_m.f90&#45;&gt;sourcefile~differentiable_activation_strategy_m.f90</title>
-<path fill="none" stroke="#00ffff" stroke-dasharray="5,2" d="M643.25,-158.75C606.89,-157.01 561.68,-157.34 522,-165"/>
-</g>
-<!-- sourcefile~thompson_tensors_m.f90&#45;&gt;sourcefile~inference_engine_m.f90 -->
-<g id="sourcefile~~activation_strategy_m.f90~~AfferentGraph_edge5" class="edge">
-<title>sourcefile~thompson_tensors_m.f90&#45;&gt;sourcefile~inference_engine_m.f90</title>
-<path fill="none" stroke="#ff0000" stroke-dasharray="5,2" d="M1036.68,-192.08C1027.28,-194.62 1017.78,-197.59 1009,-201 991.94,-207.63 989.86,-213.87 973,-221 968.26,-223.01 963.26,-224.91 958.22,-226.68"/>
-<polygon fill="#ff0000" stroke="#ff0000" points="956.86,-223.45 948.49,-229.94 959.09,-230.08 956.86,-223.45"/>
-</g>
-<!-- sourcefile~learn&#45;addition.f90 -->
-<g id="sourcefile~~activation_strategy_m.f90~~AfferentGraph_node12" class="node">
-<title>sourcefile~learn&#45;addition.f90</title>
-<g id="a_sourcefile~~activation_strategy_m.f90~~AfferentGraph_node12"><a xlink:href=".././sourcefile/learn-addition.f90.html" xlink:title="learn&#45;addition.f90">
-<polygon fill="#f0ad4e" stroke="#f0ad4e" points="1152,-234 1044,-234 1044,-210 1152,-210 1152,-234"/>
-<text text-anchor="middle" x="1098" y="-219.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">learn&#45;addition.f90</text>
-</a>
-</g>
-</g>
-<!-- sourcefile~learn&#45;addition.f90&#45;&gt;sourcefile~inference_engine_m.f90 -->
-<g id="sourcefile~~activation_strategy_m.f90~~AfferentGraph_edge11" class="edge">
-<title>sourcefile~learn&#45;addition.f90&#45;&gt;sourcefile~inference_engine_m.f90</title>
-<path fill="none" stroke="#ff0000" stroke-dasharray="5,2" d="M1043.87,-227.49C1025.21,-229.42 1003.8,-231.63 983.43,-233.74"/>
-<polygon fill="#ff0000" stroke="#ff0000" points="982.79,-230.29 973.21,-234.8 983.51,-237.25 982.79,-230.29"/>
-</g>
-<!-- sourcefile~relu_m.f90&#45;&gt;sourcefile~differentiable_activation_strategy_m.f90 -->
-<g id="sourcefile~~activation_strategy_m.f90~~AfferentGraph_edge24" class="edge">
-<title>sourcefile~relu_m.f90&#45;&gt;sourcefile~differentiable_activation_strategy_m.f90</title>
-<path fill="none" stroke="#00ffff" stroke-dasharray="5,2" d="M678.48,-285.07C628.18,-281.87 530.27,-274.44 448,-261 443.49,-260.26 400.48,-250.36 361.97,-241.43"/>
-<polygon fill="#00ffff" stroke="#00ffff" points="362.32,-237.91 351.79,-239.06 360.74,-244.73 362.32,-237.91"/>
-</g>
-<!-- sourcefile~training_configuration_s.f90 -->
-<g id="sourcefile~~activation_strategy_m.f90~~AfferentGraph_node14" class="node">
-<title>sourcefile~training_configuration_s.f90</title>
-<g id="a_sourcefile~~activation_strategy_m.f90~~AfferentGraph_node14"><a xlink:href=".././sourcefile/training_configuration_s.f90.html" xlink:title="training_configuration_s.f90">
-<polygon fill="#f0ad4e" stroke="#f0ad4e" points="1178.5,-24 1017.5,-24 1017.5,0 1178.5,0 1178.5,-24"/>
-<text text-anchor="middle" x="1098" y="-9.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">training_configuration_s.f90</text>
-</a>
-</g>
-</g>
-<!-- sourcefile~training_configuration_s.f90&#45;&gt;sourcefile~inference_engine_m.f90 -->
-<g id="sourcefile~~activation_strategy_m.f90~~AfferentGraph_edge12" class="edge">
-<title>sourcefile~training_configuration_s.f90&#45;&gt;sourcefile~inference_engine_m.f90</title>
-<path fill="none" stroke="#ff0000" stroke-dasharray="5,2" d="M1019.96,-24.24C1015.96,-26.7 1012.26,-29.59 1009,-33 950.21,-94.5 1029.94,-157.79 973,-221 972.1,-222 971.15,-222.95 970.16,-223.86"/>
-<polygon fill="#ff0000" stroke="#ff0000" points="967.84,-221.23 961.89,-229.99 972.01,-226.85 967.84,-221.23"/>
-</g>
-<!-- sourcefile~training_configuration_s.f90&#45;&gt;sourcefile~training_configuration_m.f90 -->
-<g id="sourcefile~~activation_strategy_m.f90~~AfferentGraph_edge47" class="edge">
-<title>sourcefile~training_configuration_s.f90&#45;&gt;sourcefile~training_configuration_m.f90</title>
-<path fill="none" stroke="#0048ff" stroke-dasharray="5,2" d="M1030.29,-24.02C963.59,-36.03 861.13,-54.49 791.01,-67.13"/>
-<polygon fill="#0048ff" stroke="#0048ff" points="790.13,-63.73 780.91,-68.95 791.37,-70.62 790.13,-63.73"/>
-</g>
-<!-- sourcefile~saturated_mixing_ratio_m.f90 -->
-<g id="sourcefile~~activation_strategy_m.f90~~AfferentGraph_node15" class="node">
-<title>sourcefile~saturated_mixing_ratio_m.f90</title>
-<g id="a_sourcefile~~activation_strategy_m.f90~~AfferentGraph_node15"><a xlink:href=".././sourcefile/saturated_mixing_ratio_m.f90.html" xlink:title="saturated_mixing_ratio_m.f90">
-<polygon fill="#f0ad4e" stroke="#f0ad4e" points="1183.5,-314 1012.5,-314 1012.5,-290 1183.5,-290 1183.5,-314"/>
-<text text-anchor="middle" x="1098" y="-299.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">saturated_mixing_ratio_m.f90</text>
-</a>
-</g>
-</g>
-<!-- sourcefile~saturated_mixing_ratio_m.f90&#45;&gt;sourcefile~inference_engine_m.f90 -->
-<g id="sourcefile~~activation_strategy_m.f90~~AfferentGraph_edge15" class="edge">
-<title>sourcefile~saturated_mixing_ratio_m.f90&#45;&gt;sourcefile~inference_engine_m.f90</title>
-<path fill="none" stroke="#ff0000" stroke-dasharray="5,2" d="M1054.32,-289.94C1039.87,-285.71 1023.68,-280.82 1009,-276 992.84,-270.7 989.15,-268.35 973,-263 967.03,-261.02 960.75,-259.02 954.51,-257.07"/>
-<polygon fill="#ff0000" stroke="#ff0000" points="955.36,-253.67 944.77,-254.08 953.3,-260.36 955.36,-253.67"/>
-</g>
-<!-- sourcefile~layer_m.f90&#45;&gt;sourcefile~inference_engine_m_.f90 -->
-<g id="sourcefile~~activation_strategy_m.f90~~AfferentGraph_edge20" class="edge">
-<title>sourcefile~layer_m.f90&#45;&gt;sourcefile~inference_engine_m_.f90</title>
-<path fill="none" stroke="#7fff00" stroke-dasharray="5,2" d="M674.97,-401.81C660.63,-398.44 644.28,-393.86 630,-388 600.3,-375.81 568.88,-356.69 547.63,-342.7"/>
-<polygon fill="#7fff00" stroke="#7fff00" points="549.44,-339.7 539.18,-337.06 545.55,-345.52 549.44,-339.7"/>
-</g>
-<!-- sourcefile~print&#45;training&#45;configuration.f90 -->
-<g id="sourcefile~~activation_strategy_m.f90~~AfferentGraph_node17" class="node">
-<title>sourcefile~print&#45;training&#45;configuration.f90</title>
-<g id="a_sourcefile~~activation_strategy_m.f90~~AfferentGraph_node17"><a xlink:href=".././sourcefile/print-training-configuration.f90.html" xlink:title="print&#45;training&#45;configuration.f90">
-<polygon fill="#f0ad4e" stroke="#f0ad4e" points="1187,-150 1009,-150 1009,-126 1187,-126 1187,-150"/>
-<text text-anchor="middle" x="1098" y="-135.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">print&#45;training&#45;configuration.f90</text>
-</a>
-</g>
-</g>
-<!-- sourcefile~print&#45;training&#45;configuration.f90&#45;&gt;sourcefile~inference_engine_m.f90 -->
-<g id="sourcefile~~activation_strategy_m.f90~~AfferentGraph_edge7" class="edge">
-<title>sourcefile~print&#45;training&#45;configuration.f90&#45;&gt;sourcefile~inference_engine_m.f90</title>
-<path fill="none" stroke="#ff0000" stroke-dasharray="5,2" d="M1024.66,-150C1019.1,-152.47 1013.79,-155.44 1009,-159 983.43,-178.02 997.99,-201.24 973,-221 971.19,-222.43 969.29,-223.76 967.31,-225"/>
-<polygon fill="#ff0000" stroke="#ff0000" points="965.39,-222.06 958.25,-229.89 968.71,-228.23 965.39,-222.06"/>
-</g>
-<!-- sourcefile~learn&#45;exponentiation.f90 -->
-<g id="sourcefile~~activation_strategy_m.f90~~AfferentGraph_node18" class="node">
-<title>sourcefile~learn&#45;exponentiation.f90</title>
-<g id="a_sourcefile~~activation_strategy_m.f90~~AfferentGraph_node18"><a xlink:href=".././sourcefile/learn-exponentiation.f90.html" xlink:title="learn&#45;exponentiation.f90">
-<polygon fill="#f0ad4e" stroke="#f0ad4e" points="1170,-108 1026,-108 1026,-84 1170,-84 1170,-108"/>
-<text text-anchor="middle" x="1098" y="-93.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">learn&#45;exponentiation.f90</text>
-</a>
-</g>
-</g>
-<!-- sourcefile~learn&#45;exponentiation.f90&#45;&gt;sourcefile~inference_engine_m.f90 -->
-<g id="sourcefile~~activation_strategy_m.f90~~AfferentGraph_edge10" class="edge">
-<title>sourcefile~learn&#45;exponentiation.f90&#45;&gt;sourcefile~inference_engine_m.f90</title>
-<path fill="none" stroke="#ff0000" stroke-dasharray="5,2" d="M1025.58,-106.21C1019.54,-109.03 1013.89,-112.57 1009,-117 972.74,-149.83 1008.27,-187.11 973,-221 971.86,-222.09 970.67,-223.13 969.44,-224.11"/>
-<polygon fill="#ff0000" stroke="#ff0000" points="967.13,-221.44 960.68,-229.84 970.96,-227.29 967.13,-221.44"/>
-</g>
-<!-- sourcefile~training_configuration_m.f90&#45;&gt;sourcefile~differentiable_activation_strategy_m.f90 -->
-<g id="sourcefile~~activation_strategy_m.f90~~AfferentGraph_edge25" class="edge">
-<title>sourcefile~training_configuration_m.f90&#45;&gt;sourcefile~differentiable_activation_strategy_m.f90</title>
-<path fill="none" stroke="#00ffff" stroke-dasharray="5,2" d="M656.18,-93.07C647.29,-95.62 638.29,-98.6 630,-102 578.59,-123.1 576.56,-154.47 522,-165"/>
-<path fill="none" stroke="#00ffff" stroke-dasharray="5,2" d="M520,-165C458.6,-176.85 389.43,-197.6 345.32,-211.81"/>
-<polygon fill="#00ffff" stroke="#00ffff" points="344.19,-208.5 335.76,-214.91 346.35,-215.16 344.19,-208.5"/>
-</g>
-<!-- sourcefile~train&#45;and&#45;write.f90 -->
-<g id="sourcefile~~activation_strategy_m.f90~~AfferentGraph_node20" class="node">
-<title>sourcefile~train&#45;and&#45;write.f90</title>
-<g id="a_sourcefile~~activation_strategy_m.f90~~AfferentGraph_node20"><a xlink:href=".././sourcefile/train-and-write.f90.html" xlink:title="train&#45;and&#45;write.f90">
-<polygon fill="#f0ad4e" stroke="#f0ad4e" points="1154,-66 1042,-66 1042,-42 1154,-42 1154,-66"/>
-<text text-anchor="middle" x="1098" y="-51.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">train&#45;and&#45;write.f90</text>
-</a>
-</g>
-</g>
-<!-- sourcefile~train&#45;and&#45;write.f90&#45;&gt;sourcefile~inference_engine_m.f90 -->
-<g id="sourcefile~~activation_strategy_m.f90~~AfferentGraph_edge16" class="edge">
-<title>sourcefile~train&#45;and&#45;write.f90&#45;&gt;sourcefile~inference_engine_m.f90</title>
-<path fill="none" stroke="#ff0000" stroke-dasharray="5,2" d="M1041.6,-57.7C1029.56,-60.91 1017.81,-66.26 1009,-75 961.57,-122.08 1019.02,-172.54 973,-221 971.94,-222.11 970.83,-223.17 969.66,-224.17"/>
-<polygon fill="#ff0000" stroke="#ff0000" points="967.53,-221.39 961.36,-230 971.55,-227.12 967.53,-221.39"/>
-</g>
-<!-- sourcefile~learn&#45;multiplication.f90 -->
-<g id="sourcefile~~activation_strategy_m.f90~~AfferentGraph_node21" class="node">
-<title>sourcefile~learn&#45;multiplication.f90</title>
-<g id="a_sourcefile~~activation_strategy_m.f90~~AfferentGraph_node21"><a xlink:href=".././sourcefile/learn-multiplication.f90.html" xlink:title="learn&#45;multiplication.f90">
-<polygon fill="#f0ad4e" stroke="#f0ad4e" points="1166.5,-520 1029.5,-520 1029.5,-496 1166.5,-496 1166.5,-520"/>
-<text text-anchor="middle" x="1098" y="-505.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">learn&#45;multiplication.f90</text>
-</a>
-</g>
-</g>
-<!-- sourcefile~learn&#45;multiplication.f90&#45;&gt;sourcefile~inference_engine_m.f90 -->
-<g id="sourcefile~~activation_strategy_m.f90~~AfferentGraph_edge6" class="edge">
-<title>sourcefile~learn&#45;multiplication.f90&#45;&gt;sourcefile~inference_engine_m.f90</title>
-<path fill="none" stroke="#ff0000" stroke-dasharray="5,2" d="M1029.43,-500.84C1021.75,-497.58 1014.66,-493.1 1009,-487 940.42,-413.08 1039.36,-338.92 973,-263 972.14,-262.01 971.23,-261.07 970.28,-260.17"/>
-<polygon fill="#ff0000" stroke="#ff0000" points="972.4,-257.39 962.33,-254.1 968.15,-262.95 972.4,-257.39"/>
-</g>
-<!-- sourcefile~write&#45;read&#45;infer.f90 -->
-<g id="sourcefile~~activation_strategy_m.f90~~AfferentGraph_node22" class="node">
-<title>sourcefile~write&#45;read&#45;infer.f90</title>
-<g id="a_sourcefile~~activation_strategy_m.f90~~AfferentGraph_node22"><a xlink:href=".././sourcefile/write-read-infer.f90.html" xlink:title="write&#45;read&#45;infer.f90">
-<polygon fill="#f0ad4e" stroke="#f0ad4e" points="1155,-478 1041,-478 1041,-454 1155,-454 1155,-478"/>
-<text text-anchor="middle" x="1098" y="-463.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">write&#45;read&#45;infer.f90</text>
-</a>
-</g>
-</g>
-<!-- sourcefile~write&#45;read&#45;infer.f90&#45;&gt;sourcefile~inference_engine_m.f90 -->
-<g id="sourcefile~~activation_strategy_m.f90~~AfferentGraph_edge9" class="edge">
-<title>sourcefile~write&#45;read&#45;infer.f90&#45;&gt;sourcefile~inference_engine_m.f90</title>
-<path fill="none" stroke="#ff0000" stroke-dasharray="5,2" d="M1040.71,-459.05C1028.85,-455.15 1017.4,-449.16 1009,-440 954.75,-380.83 1027.07,-322.34 973,-263 972.09,-262 971.14,-261.06 970.15,-260.15"/>
-<polygon fill="#ff0000" stroke="#ff0000" points="971.97,-257.15 961.84,-254.05 967.83,-262.79 971.97,-257.15"/>
-</g>
-<!-- sourcefile~swish_m.f90&#45;&gt;sourcefile~differentiable_activation_strategy_m.f90 -->
-<g id="sourcefile~~activation_strategy_m.f90~~AfferentGraph_edge23" class="edge">
-<title>sourcefile~swish_m.f90&#45;&gt;sourcefile~differentiable_activation_strategy_m.f90</title>
-<path fill="none" stroke="#00ffff" stroke-dasharray="5,2" d="M674.12,-197.82C620.87,-185.03 529.48,-163.56 522,-165"/>
-</g>
-<!-- sourcefile~step_s.f90 -->
-<g id="sourcefile~~activation_strategy_m.f90~~AfferentGraph_node24" class="node">
-<title>sourcefile~step_s.f90</title>
-<g id="a_sourcefile~~activation_strategy_m.f90~~AfferentGraph_node24"><a xlink:href=".././sourcefile/step_s.f90.html" xlink:title="step_s.f90">
-<polygon fill="#f0ad4e" stroke="#f0ad4e" points="935.5,-380 869.5,-380 869.5,-356 935.5,-356 935.5,-380"/>
-<text text-anchor="middle" x="902.5" y="-365.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">step_s.f90</text>
-</a>
-</g>
-</g>
-<!-- sourcefile~step_s.f90&#45;&gt;sourcefile~step_m.f90 -->
-<g id="sourcefile~~activation_strategy_m.f90~~AfferentGraph_edge31" class="edge">
-<title>sourcefile~step_s.f90&#45;&gt;sourcefile~step_m.f90</title>
-<path fill="none" stroke="#7f00ff" stroke-dasharray="5,2" d="M869.27,-367.83C838.81,-367.67 792.84,-367.42 758.81,-367.24"/>
-<polygon fill="#7f00ff" stroke="#7f00ff" points="758.69,-363.74 748.67,-367.18 758.65,-370.74 758.69,-363.74"/>
-</g>
-<!-- sourcefile~learn&#45;saturated&#45;mixing&#45;ratio.f90 -->
-<g id="sourcefile~~activation_strategy_m.f90~~AfferentGraph_node25" class="node">
-<title>sourcefile~learn&#45;saturated&#45;mixing&#45;ratio.f90</title>
-<g id="a_sourcefile~~activation_strategy_m.f90~~AfferentGraph_node25"><a xlink:href=".././sourcefile/learn-saturated-mixing-ratio.f90.html" xlink:title="learn&#45;saturated&#45;mixing&#45;ratio.f90">
-<polygon fill="#f0ad4e" stroke="#f0ad4e" points="1412.5,-376 1229.5,-376 1229.5,-352 1412.5,-352 1412.5,-376"/>
-<text text-anchor="middle" x="1321" y="-361.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">learn&#45;saturated&#45;mixing&#45;ratio.f90</text>
-</a>
-</g>
-</g>
-<!-- sourcefile~learn&#45;saturated&#45;mixing&#45;ratio.f90&#45;&gt;sourcefile~inference_engine_m.f90 -->
-<g id="sourcefile~~activation_strategy_m.f90~~AfferentGraph_edge14" class="edge">
-<title>sourcefile~learn&#45;saturated&#45;mixing&#45;ratio.f90&#45;&gt;sourcefile~inference_engine_m.f90</title>
-<path fill="none" stroke="#ff0000" stroke-dasharray="5,2" d="M1299.17,-376.19C1244.95,-406.15 1097.5,-476.1 1009,-407 957,-366.4 1018.5,-310.76 973,-263 971.94,-261.89 970.82,-260.83 969.66,-259.84"/>
-<polygon fill="#ff0000" stroke="#ff0000" points="971.54,-256.88 961.34,-254.01 967.53,-262.62 971.54,-256.88"/>
-</g>
-<!-- sourcefile~learn&#45;saturated&#45;mixing&#45;ratio.f90&#45;&gt;sourcefile~saturated_mixing_ratio_m.f90 -->
-<g id="sourcefile~~activation_strategy_m.f90~~AfferentGraph_edge43" class="edge">
-<title>sourcefile~learn&#45;saturated&#45;mixing&#45;ratio.f90&#45;&gt;sourcefile~saturated_mixing_ratio_m.f90</title>
-<path fill="none" stroke="#00ff91" stroke-dasharray="5,2" d="M1283.21,-351.96C1256.61,-343.42 1219.75,-331.95 1187,-323 1178.94,-320.8 1170.43,-318.61 1162.01,-316.51"/>
-<polygon fill="#00ff91" stroke="#00ff91" points="1162.74,-313.09 1152.19,-314.11 1161.07,-319.89 1162.74,-313.09"/>
+<path fill="none" stroke="#255000" stroke-dasharray="5,2" d="M674.26,-76.94C659.11,-80.06 641.51,-85.09 627.06,-93.14 569.24,-125.32 584.91,-185.8 519.55,-196.13"/>
+<path fill="none" stroke="#255000" stroke-dasharray="5,2" d="M517.55,-196.13C371.22,-219.27 331.79,-196.91 184.77,-215.13 171.65,-216.76 157.74,-219.02 144.39,-221.45"/>
+<polygon fill="#255000" stroke="#255000" points="144.01,-217.96 134.83,-223.24 145.31,-224.84 144.01,-217.96"/>
 </g>
 <!-- sourcefile~fit&#45;polynomials.f90 -->
-<g id="sourcefile~~activation_strategy_m.f90~~AfferentGraph_node26" class="node">
+<g id="sourcefile~~activation_strategy_m.f90~~AfferentGraph_node6" class="node">
 <title>sourcefile~fit&#45;polynomials.f90</title>
-<g id="a_sourcefile~~activation_strategy_m.f90~~AfferentGraph_node26"><a xlink:href=".././sourcefile/fit-polynomials.f90.html" xlink:title="fit&#45;polynomials.f90">
-<polygon fill="#f0ad4e" stroke="#f0ad4e" points="1154,-398 1042,-398 1042,-374 1154,-374 1154,-398"/>
-<text text-anchor="middle" x="1098" y="-383.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">fit&#45;polynomials.f90</text>
+<g id="a_sourcefile~~activation_strategy_m.f90~~AfferentGraph_node6"><a xlink:href=".././sourcefile/fit-polynomials.f90.html" xlink:title="fit&#45;polynomials.f90">
+<polygon fill="#f0ad4e" stroke="#f0ad4e" points="1147.62,-478.27 1037.1,-478.27 1037.1,-454 1147.62,-454 1147.62,-478.27"/>
+<text text-anchor="middle" x="1092.36" y="-462.53" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">fit&#45;polynomials.f90</text>
 </a>
 </g>
 </g>
 <!-- sourcefile~fit&#45;polynomials.f90&#45;&gt;sourcefile~inference_engine_m.f90 -->
-<g id="sourcefile~~activation_strategy_m.f90~~AfferentGraph_edge17" class="edge">
+<g id="sourcefile~~activation_strategy_m.f90~~AfferentGraph_edge12" class="edge">
 <title>sourcefile~fit&#45;polynomials.f90&#45;&gt;sourcefile~inference_engine_m.f90</title>
-<path fill="none" stroke="#ff0000" stroke-dasharray="5,2" d="M1041.74,-381.55C1029.83,-378.35 1018.11,-373.2 1009,-365 973.27,-332.84 1007.76,-296.21 973,-263 971.72,-261.77 970.36,-260.62 968.95,-259.53"/>
-<polygon fill="#ff0000" stroke="#ff0000" points="970.62,-256.45 960.32,-254 966.85,-262.34 970.62,-256.45"/>
+<path fill="none" stroke="none" stroke-dasharray="5,2" d="M1036.91,-461.84C1024.95,-458.65 1013.17,-453.46 1004.1,-445.13 966.83,-410.92 990.57,-382.47 968.1,-337.13 953.59,-307.85 931.61,-277.25 916.4,-257.52"/>
+<polygon fill="none" stroke="none" points="919.19,-255.41 910.27,-249.7 913.68,-259.73 919.19,-255.41"/>
 </g>
-<!-- sourcefile~swish_s.f90 -->
-<g id="sourcefile~~activation_strategy_m.f90~~AfferentGraph_node27" class="node">
-<title>sourcefile~swish_s.f90</title>
-<g id="a_sourcefile~~activation_strategy_m.f90~~AfferentGraph_node27"><a xlink:href=".././sourcefile/swish_s.f90.html" xlink:title="swish_s.f90">
-<polygon fill="#f0ad4e" stroke="#f0ad4e" points="938.5,-212 866.5,-212 866.5,-188 938.5,-188 938.5,-212"/>
-<text text-anchor="middle" x="902.5" y="-197.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">swish_s.f90</text>
+<!-- sourcefile~layer_m.f90 -->
+<g id="sourcefile~~activation_strategy_m.f90~~AfferentGraph_node7" class="node">
+<title>sourcefile~layer_m.f90</title>
+<g id="a_sourcefile~~activation_strategy_m.f90~~AfferentGraph_node7"><a xlink:href=".././sourcefile/layer_m.f90.html" xlink:title="layer_m.f90">
+<polygon fill="#f0ad4e" stroke="#f0ad4e" points="746.96,-328.27 672.44,-328.27 672.44,-304 746.96,-304 746.96,-328.27"/>
+<text text-anchor="middle" x="709.7" y="-312.53" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">layer_m.f90</text>
 </a>
 </g>
 </g>
-<!-- sourcefile~swish_s.f90&#45;&gt;sourcefile~sigmoid_m.f90 -->
-<g id="sourcefile~~activation_strategy_m.f90~~AfferentGraph_edge32" class="edge">
-<title>sourcefile~swish_s.f90&#45;&gt;sourcefile~sigmoid_m.f90</title>
-<path fill="none" stroke="#ff9100" stroke-dasharray="5,2" d="M866.21,-192.84C854.81,-189.63 842.43,-185.14 832,-179 812.77,-167.67 815.46,-154.91 796,-144 787.53,-139.25 777.98,-135.56 768.46,-132.69"/>
-<polygon fill="#ff9100" stroke="#ff9100" points="769.16,-129.25 758.59,-129.98 767.31,-136 769.16,-129.25"/>
+<!-- sourcefile~layer_m.f90&#45;&gt;sourcefile~inference_engine_m_.f90 -->
+<g id="sourcefile~~activation_strategy_m.f90~~AfferentGraph_edge26" class="edge">
+<title>sourcefile~layer_m.f90&#45;&gt;sourcefile~inference_engine_m_.f90</title>
+<path fill="none" stroke="#025525" stroke-dasharray="5,2" stroke-opacity="0.019608" d="M672.23,-308.42C648.91,-303.49 617.91,-296.94 589.93,-291.02"/>
+<polygon fill="#025525" fill-opacity="0.019608" stroke="#025525" stroke-opacity="0.019608" points="590.96,-287.66 580.46,-289.02 589.52,-294.51 590.96,-287.66"/>
 </g>
-<!-- sourcefile~swish_s.f90&#45;&gt;sourcefile~swish_m.f90 -->
-<g id="sourcefile~~activation_strategy_m.f90~~AfferentGraph_edge49" class="edge">
-<title>sourcefile~swish_s.f90&#45;&gt;sourcefile~swish_m.f90</title>
-<path fill="none" stroke="#da00ff" stroke-dasharray="5,2" d="M866.23,-201.32C836.75,-202.42 794.42,-204 761.88,-205.21"/>
-<polygon fill="#da00ff" stroke="#da00ff" points="761.55,-201.72 751.68,-205.59 761.81,-208.72 761.55,-201.72"/>
+<!-- sourcefile~learn&#45;addition.f90 -->
+<g id="sourcefile~~activation_strategy_m.f90~~AfferentGraph_node8" class="node">
+<title>sourcefile~learn&#45;addition.f90</title>
+<g id="a_sourcefile~~activation_strategy_m.f90~~AfferentGraph_node8"><a xlink:href=".././sourcefile/learn-addition.f90.html" xlink:title="learn&#45;addition.f90">
+<polygon fill="#f0ad4e" stroke="#f0ad4e" points="1145.75,-436.27 1038.98,-436.27 1038.98,-412 1145.75,-412 1145.75,-436.27"/>
+<text text-anchor="middle" x="1092.36" y="-420.53" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">learn&#45;addition.f90</text>
+</a>
+</g>
+</g>
+<!-- sourcefile~learn&#45;addition.f90&#45;&gt;sourcefile~inference_engine_m.f90 -->
+<g id="sourcefile~~activation_strategy_m.f90~~AfferentGraph_edge13" class="edge">
+<title>sourcefile~learn&#45;addition.f90&#45;&gt;sourcefile~inference_engine_m.f90</title>
+<path fill="none" stroke="none" stroke-dasharray="5,2" d="M1038.82,-418.87C1026.53,-415.73 1014.12,-410.81 1004.1,-403.13 977.58,-382.81 985.53,-365.64 968.1,-337.13 950.95,-309.1 929.35,-278.03 914.95,-257.85"/>
+<polygon fill="none" stroke="none" points="917.88,-255.94 909.21,-249.85 912.2,-260.02 917.88,-255.94"/>
+</g>
+<!-- sourcefile~learn&#45;exponentiation.f90 -->
+<g id="sourcefile~~activation_strategy_m.f90~~AfferentGraph_node9" class="node">
+<title>sourcefile~learn&#45;exponentiation.f90</title>
+<g id="a_sourcefile~~activation_strategy_m.f90~~AfferentGraph_node9"><a xlink:href=".././sourcefile/learn-exponentiation.f90.html" xlink:title="learn&#45;exponentiation.f90">
+<polygon fill="#f0ad4e" stroke="#f0ad4e" points="1163.75,-394.27 1020.98,-394.27 1020.98,-370 1163.75,-370 1163.75,-394.27"/>
+<text text-anchor="middle" x="1092.36" y="-378.53" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">learn&#45;exponentiation.f90</text>
+</a>
+</g>
+</g>
+<!-- sourcefile~learn&#45;exponentiation.f90&#45;&gt;sourcefile~inference_engine_m.f90 -->
+<g id="sourcefile~~activation_strategy_m.f90~~AfferentGraph_edge14" class="edge">
+<title>sourcefile~learn&#45;exponentiation.f90&#45;&gt;sourcefile~inference_engine_m.f90</title>
+<path fill="none" stroke="none" stroke-dasharray="5,2" d="M1021.14,-369.52C1015.17,-367.18 1009.4,-364.42 1004.1,-361.13 962.24,-335.22 928.88,-286.88 911.77,-258.51"/>
+<polygon fill="none" stroke="none" points="914.86,-256.86 906.78,-250 908.82,-260.4 914.86,-256.86"/>
+</g>
+<!-- sourcefile~learn&#45;microphysics&#45;procedures.f90 -->
+<g id="sourcefile~~activation_strategy_m.f90~~AfferentGraph_node10" class="node">
+<title>sourcefile~learn&#45;microphysics&#45;procedures.f90</title>
+<g id="a_sourcefile~~activation_strategy_m.f90~~AfferentGraph_node10"><a xlink:href=".././sourcefile/learn-microphysics-procedures.f90.html" xlink:title="learn&#45;microphysics&#45;procedures.f90">
+<polygon fill="#f0ad4e" stroke="#f0ad4e" points="1411.89,-290.27 1216.62,-290.27 1216.62,-266 1411.89,-266 1411.89,-290.27"/>
+<text text-anchor="middle" x="1314.26" y="-274.53" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">learn&#45;microphysics&#45;procedures.f90</text>
+</a>
+</g>
+</g>
+<!-- sourcefile~learn&#45;microphysics&#45;procedures.f90&#45;&gt;sourcefile~inference_engine_m.f90 -->
+<g id="sourcefile~~activation_strategy_m.f90~~AfferentGraph_edge15" class="edge">
+<title>sourcefile~learn&#45;microphysics&#45;procedures.f90&#45;&gt;sourcefile~inference_engine_m.f90</title>
+<path fill="none" stroke="none" stroke-dasharray="5,2" d="M1283.63,-265.56C1257.17,-255.05 1217.08,-240.9 1180.62,-235.13 1113.58,-224.54 1036.42,-225.74 979.88,-229.05"/>
+<polygon fill="none" stroke="none" points="979.77,-225.55 970.01,-229.67 980.21,-232.54 979.77,-225.55"/>
+</g>
+<!-- sourcefile~thompson_tensors_m.f90 -->
+<g id="sourcefile~~activation_strategy_m.f90~~AfferentGraph_node20" class="node">
+<title>sourcefile~thompson_tensors_m.f90</title>
+<g id="a_sourcefile~~activation_strategy_m.f90~~AfferentGraph_node20"><a xlink:href=".././sourcefile/thompson_tensors_m.f90.html" xlink:title="thompson_tensors_m.f90">
+<polygon fill="#f0ad4e" stroke="#f0ad4e" points="1164.87,-352.27 1019.85,-352.27 1019.85,-328 1164.87,-328 1164.87,-352.27"/>
+<text text-anchor="middle" x="1092.36" y="-336.53" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">thompson_tensors_m.f90</text>
+</a>
+</g>
+</g>
+<!-- sourcefile~learn&#45;microphysics&#45;procedures.f90&#45;&gt;sourcefile~thompson_tensors_m.f90 -->
+<g id="sourcefile~~activation_strategy_m.f90~~AfferentGraph_edge38" class="edge">
+<title>sourcefile~learn&#45;microphysics&#45;procedures.f90&#45;&gt;sourcefile~thompson_tensors_m.f90</title>
+<path fill="none" stroke="#500255" stroke-dasharray="5,2" d="M1274.85,-290.72C1248.47,-299.18 1212.58,-310.36 1180.62,-319.13 1173.64,-321.05 1166.31,-322.97 1159,-324.81"/>
+<polygon fill="#500255" stroke="#500255" points="1158.29,-321.39 1149.43,-327.2 1159.98,-328.18 1158.29,-321.39"/>
+</g>
+<!-- sourcefile~learn&#45;multiplication.f90 -->
+<g id="sourcefile~~activation_strategy_m.f90~~AfferentGraph_node11" class="node">
+<title>sourcefile~learn&#45;multiplication.f90</title>
+<g id="a_sourcefile~~activation_strategy_m.f90~~AfferentGraph_node11"><a xlink:href=".././sourcefile/learn-multiplication.f90.html" xlink:title="learn&#45;multiplication.f90">
+<polygon fill="#f0ad4e" stroke="#f0ad4e" points="1160.37,-310.27 1024.35,-310.27 1024.35,-286 1160.37,-286 1160.37,-310.27"/>
+<text text-anchor="middle" x="1092.36" y="-294.53" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">learn&#45;multiplication.f90</text>
+</a>
+</g>
+</g>
+<!-- sourcefile~learn&#45;multiplication.f90&#45;&gt;sourcefile~inference_engine_m.f90 -->
+<g id="sourcefile~~activation_strategy_m.f90~~AfferentGraph_edge16" class="edge">
+<title>sourcefile~learn&#45;multiplication.f90&#45;&gt;sourcefile~inference_engine_m.f90</title>
+<path fill="none" stroke="none" stroke-dasharray="5,2" d="M1034.26,-285.58C1024.14,-283.02 1013.76,-280.17 1004.1,-277.13 982.17,-270.24 958.26,-261.04 938.81,-253.09"/>
+<polygon fill="none" stroke="none" points="940.2,-249.87 929.62,-249.29 937.52,-256.34 940.2,-249.87"/>
+</g>
+<!-- sourcefile~learn&#45;power&#45;series.f90 -->
+<g id="sourcefile~~activation_strategy_m.f90~~AfferentGraph_node12" class="node">
+<title>sourcefile~learn&#45;power&#45;series.f90</title>
+<g id="a_sourcefile~~activation_strategy_m.f90~~AfferentGraph_node12"><a xlink:href=".././sourcefile/learn-power-series.f90.html" xlink:title="learn&#45;power&#45;series.f90">
+<polygon fill="#f0ad4e" stroke="#f0ad4e" points="1157.75,-268.27 1026.98,-268.27 1026.98,-244 1157.75,-244 1157.75,-268.27"/>
+<text text-anchor="middle" x="1092.36" y="-252.53" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">learn&#45;power&#45;series.f90</text>
+</a>
+</g>
+</g>
+<!-- sourcefile~learn&#45;power&#45;series.f90&#45;&gt;sourcefile~inference_engine_m.f90 -->
+<g id="sourcefile~~activation_strategy_m.f90~~AfferentGraph_edge17" class="edge">
+<title>sourcefile~learn&#45;power&#45;series.f90&#45;&gt;sourcefile~inference_engine_m.f90</title>
+<path fill="none" stroke="none" stroke-dasharray="5,2" d="M1026.58,-249.39C1011.5,-247.82 995.26,-246.13 979.6,-244.5"/>
+<polygon fill="none" stroke="none" points="980.14,-241.04 969.83,-243.49 979.41,-248 980.14,-241.04"/>
+</g>
+<!-- sourcefile~learn&#45;saturated&#45;mixing&#45;ratio.f90 -->
+<g id="sourcefile~~activation_strategy_m.f90~~AfferentGraph_node13" class="node">
+<title>sourcefile~learn&#45;saturated&#45;mixing&#45;ratio.f90</title>
+<g id="a_sourcefile~~activation_strategy_m.f90~~AfferentGraph_node13"><a xlink:href=".././sourcefile/learn-saturated-mixing-ratio.f90.html" xlink:title="learn&#45;saturated&#45;mixing&#45;ratio.f90">
+<polygon fill="#f0ad4e" stroke="#f0ad4e" points="1405.14,-128.27 1223.37,-128.27 1223.37,-104 1405.14,-104 1405.14,-128.27"/>
+<text text-anchor="middle" x="1314.26" y="-112.54" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">learn&#45;saturated&#45;mixing&#45;ratio.f90</text>
+</a>
+</g>
+</g>
+<!-- sourcefile~learn&#45;saturated&#45;mixing&#45;ratio.f90&#45;&gt;sourcefile~inference_engine_m.f90 -->
+<g id="sourcefile~~activation_strategy_m.f90~~AfferentGraph_edge18" class="edge">
+<title>sourcefile~learn&#45;saturated&#45;mixing&#45;ratio.f90&#45;&gt;sourcefile~inference_engine_m.f90</title>
+<path fill="none" stroke="none" stroke-dasharray="5,2" d="M1223.13,-115.11C1159.7,-117.31 1073.98,-126.28 1004.1,-155.13 986.3,-162.49 946.91,-194.87 921.8,-216.4"/>
+<polygon fill="none" stroke="none" points="919.68,-213.6 914.4,-222.78 924.26,-218.9 919.68,-213.6"/>
+</g>
+<!-- sourcefile~saturated_mixing_ratio_m.f90 -->
+<g id="sourcefile~~activation_strategy_m.f90~~AfferentGraph_node16" class="node">
+<title>sourcefile~saturated_mixing_ratio_m.f90</title>
+<g id="a_sourcefile~~activation_strategy_m.f90~~AfferentGraph_node16"><a xlink:href=".././sourcefile/saturated_mixing_ratio_m.f90.html" xlink:title="saturated_mixing_ratio_m.f90">
+<polygon fill="#f0ad4e" stroke="#f0ad4e" points="1177.25,-108.27 1007.48,-108.27 1007.48,-84 1177.25,-84 1177.25,-108.27"/>
+<text text-anchor="middle" x="1092.36" y="-92.54" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">saturated_mixing_ratio_m.f90</text>
+</a>
+</g>
+</g>
+<!-- sourcefile~learn&#45;saturated&#45;mixing&#45;ratio.f90&#45;&gt;sourcefile~saturated_mixing_ratio_m.f90 -->
+<g id="sourcefile~~activation_strategy_m.f90~~AfferentGraph_edge32" class="edge">
+<title>sourcefile~learn&#45;saturated&#45;mixing&#45;ratio.f90&#45;&gt;sourcefile~saturated_mixing_ratio_m.f90</title>
+<path fill="none" stroke="#025525" stroke-dasharray="5,2" stroke-opacity="0.019608" d="M1223.18,-107.94C1211.88,-106.92 1200.3,-105.86 1188.92,-104.83"/>
+<polygon fill="#025525" fill-opacity="0.019608" stroke="#025525" stroke-opacity="0.019608" points="1189.41,-101.36 1179.14,-103.94 1188.78,-108.33 1189.41,-101.36"/>
+</g>
+<!-- sourcefile~print&#45;training&#45;configuration.f90 -->
+<g id="sourcefile~~activation_strategy_m.f90~~AfferentGraph_node14" class="node">
+<title>sourcefile~print&#45;training&#45;configuration.f90</title>
+<g id="a_sourcefile~~activation_strategy_m.f90~~AfferentGraph_node14"><a xlink:href=".././sourcefile/print-training-configuration.f90.html" xlink:title="print&#45;training&#45;configuration.f90">
+<polygon fill="#f0ad4e" stroke="#f0ad4e" points="1180.62,-188.27 1004.1,-188.27 1004.1,-164 1180.62,-164 1180.62,-188.27"/>
+<text text-anchor="middle" x="1092.36" y="-172.53" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">print&#45;training&#45;configuration.f90</text>
+</a>
+</g>
+</g>
+<!-- sourcefile~print&#45;training&#45;configuration.f90&#45;&gt;sourcefile~inference_engine_m.f90 -->
+<g id="sourcefile~~activation_strategy_m.f90~~AfferentGraph_edge19" class="edge">
+<title>sourcefile~print&#45;training&#45;configuration.f90&#45;&gt;sourcefile~inference_engine_m.f90</title>
+<path fill="none" stroke="none" stroke-dasharray="5,2" d="M1048.25,-188.76C1034.15,-192.94 1018.44,-197.68 1004.1,-202.13 985.72,-207.85 965.6,-214.32 947.94,-220.07"/>
+<polygon fill="none" stroke="none" points="946.87,-216.74 938.45,-223.17 949.04,-223.39 946.87,-216.74"/>
+</g>
+<!-- sourcefile~relu_m.f90&#45;&gt;sourcefile~differentiable_activation_strategy_m.f90 -->
+<g id="sourcefile~~activation_strategy_m.f90~~AfferentGraph_edge7" class="edge">
+<title>sourcefile~relu_m.f90&#45;&gt;sourcefile~differentiable_activation_strategy_m.f90</title>
+<path fill="none" stroke="#255000" stroke-dasharray="5,2" d="M675.45,-163.86C660.21,-168.11 642.2,-174.17 627.06,-182.13 609.12,-191.58 608.92,-200.55 591.06,-210.13 561.52,-225.98 552.68,-229.03 519.55,-234.13"/>
+</g>
+<!-- sourcefile~saturated_mixing_ratio_m.f90&#45;&gt;sourcefile~inference_engine_m.f90 -->
+<g id="sourcefile~~activation_strategy_m.f90~~AfferentGraph_edge20" class="edge">
+<title>sourcefile~saturated_mixing_ratio_m.f90&#45;&gt;sourcefile~inference_engine_m.f90</title>
+<path fill="none" stroke="none" stroke-dasharray="5,2" d="M1029.15,-108.73C1020.24,-112.18 1011.58,-116.56 1004.1,-122.14 980.67,-139.59 987.39,-155.19 968.1,-177.13 955.35,-191.65 939,-205.8 925.42,-216.6"/>
+<polygon fill="none" stroke="none" points="923.49,-213.68 917.75,-222.58 927.79,-219.2 923.49,-213.68"/>
+</g>
+<!-- sourcefile~sigmoid_m.f90&#45;&gt;sourcefile~differentiable_activation_strategy_m.f90 -->
+<g id="sourcefile~~activation_strategy_m.f90~~AfferentGraph_edge8" class="edge">
+<title>sourcefile~sigmoid_m.f90&#45;&gt;sourcefile~differentiable_activation_strategy_m.f90</title>
+<path fill="none" stroke="#255000" stroke-dasharray="5,2" d="M664.64,-399.61C625.75,-398.12 567.87,-393.4 519.55,-379.13"/>
+</g>
+<!-- sourcefile~step_s.f90 -->
+<g id="sourcefile~~activation_strategy_m.f90~~AfferentGraph_node18" class="node">
+<title>sourcefile~step_s.f90</title>
+<g id="a_sourcefile~~activation_strategy_m.f90~~AfferentGraph_node18"><a xlink:href=".././sourcefile/step_s.f90.html" xlink:title="step_s.f90">
+<polygon fill="#f0ad4e" stroke="#f0ad4e" points="930.6,-84.27 865.83,-84.27 865.83,-60 930.6,-60 930.6,-84.27"/>
+<text text-anchor="middle" x="898.22" y="-68.54" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">step_s.f90</text>
+</a>
+</g>
+</g>
+<!-- sourcefile~step_s.f90&#45;&gt;sourcefile~step_m.f90 -->
+<g id="sourcefile~~activation_strategy_m.f90~~AfferentGraph_edge29" class="edge">
+<title>sourcefile~step_s.f90&#45;&gt;sourcefile~step_m.f90</title>
+<path fill="none" stroke="#127025" stroke-dasharray="5,2" stroke-opacity="0.019608" d="M865.57,-72.14C835.64,-72.14 790.37,-72.14 756.49,-72.14"/>
+<polygon fill="#127025" fill-opacity="0.019608" stroke="#127025" stroke-opacity="0.019608" points="756.54,-68.64 746.54,-72.14 756.54,-75.64 756.54,-68.64"/>
+</g>
+<!-- sourcefile~swish_m.f90&#45;&gt;sourcefile~differentiable_activation_strategy_m.f90 -->
+<g id="sourcefile~~activation_strategy_m.f90~~AfferentGraph_edge9" class="edge">
+<title>sourcefile~swish_m.f90&#45;&gt;sourcefile~differentiable_activation_strategy_m.f90</title>
+<path fill="none" stroke="#255000" stroke-dasharray="5,2" d="M671.39,-365.72C624.59,-374.65 547.12,-387.27 519.55,-379.13"/>
+<path fill="none" stroke="#255000" stroke-dasharray="5,2" d="M517.55,-379.13C436.01,-355.07 356.58,-289.77 319.74,-256.38"/>
+<polygon fill="#255000" stroke="#255000" points="322.16,-253.85 312.43,-249.65 317.42,-259 322.16,-253.85"/>
+</g>
+<!-- sourcefile~thompson_tensors_m.f90&#45;&gt;sourcefile~inference_engine_m.f90 -->
+<g id="sourcefile~~activation_strategy_m.f90~~AfferentGraph_edge21" class="edge">
+<title>sourcefile~thompson_tensors_m.f90&#45;&gt;sourcefile~inference_engine_m.f90</title>
+<path fill="none" stroke="none" stroke-dasharray="5,2" d="M1025.47,-327.55C1018.1,-325.19 1010.83,-322.41 1004.1,-319.13 971.33,-303.19 939.31,-275.6 919.45,-256.63"/>
+<polygon fill="none" stroke="none" points="921.9,-254.13 912.3,-249.66 917.01,-259.14 921.9,-254.13"/>
+</g>
+<!-- sourcefile~train&#45;and&#45;write.f90 -->
+<g id="sourcefile~~activation_strategy_m.f90~~AfferentGraph_node21" class="node">
+<title>sourcefile~train&#45;and&#45;write.f90</title>
+<g id="a_sourcefile~~activation_strategy_m.f90~~AfferentGraph_node21"><a xlink:href=".././sourcefile/train-and-write.f90.html" xlink:title="train&#45;and&#45;write.f90">
+<polygon fill="#f0ad4e" stroke="#f0ad4e" points="1147.62,-66.27 1037.1,-66.27 1037.1,-42 1147.62,-42 1147.62,-66.27"/>
+<text text-anchor="middle" x="1092.36" y="-50.54" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">train&#45;and&#45;write.f90</text>
+</a>
+</g>
+</g>
+<!-- sourcefile~train&#45;and&#45;write.f90&#45;&gt;sourcefile~inference_engine_m.f90 -->
+<g id="sourcefile~~activation_strategy_m.f90~~AfferentGraph_edge22" class="edge">
+<title>sourcefile~train&#45;and&#45;write.f90&#45;&gt;sourcefile~inference_engine_m.f90</title>
+<path fill="none" stroke="none" stroke-dasharray="5,2" d="M1037.01,-58.55C1025.05,-61.74 1013.24,-66.89 1004.1,-75.14 968.4,-107.33 995.28,-137.48 968.1,-177.13 957.47,-192.65 941.76,-206.53 928.03,-216.92"/>
+<polygon fill="none" stroke="none" points="926.18,-213.94 920.15,-222.65 930.3,-219.6 926.18,-213.94"/>
+</g>
+<!-- sourcefile~trainable_engine_m.f90&#45;&gt;sourcefile~differentiable_activation_strategy_m.f90 -->
+<g id="sourcefile~~activation_strategy_m.f90~~AfferentGraph_edge10" class="edge">
+<title>sourcefile~trainable_engine_m.f90&#45;&gt;sourcefile~differentiable_activation_strategy_m.f90</title>
+<path fill="none" stroke="#255000" stroke-dasharray="5,2" d="M640.47,-230.07C604.33,-228.2 559.31,-228 519.55,-234.13"/>
+</g>
+<!-- sourcefile~trainable_engine_m.f90&#45;&gt;sourcefile~inference_engine_m_.f90 -->
+<g id="sourcefile~~activation_strategy_m.f90~~AfferentGraph_edge27" class="edge">
+<title>sourcefile~trainable_engine_m.f90&#45;&gt;sourcefile~inference_engine_m_.f90</title>
+<path fill="none" stroke="#025525" stroke-dasharray="5,2" stroke-opacity="0.019608" d="M649.11,-248.74C630.46,-252.68 609.7,-257.07 590.36,-261.16"/>
+<polygon fill="#025525" fill-opacity="0.019608" stroke="#025525" stroke-opacity="0.019608" points="589.7,-257.72 580.64,-263.22 591.15,-264.57 589.7,-257.72"/>
+</g>
+<!-- sourcefile~training_configuration_m.f90&#45;&gt;sourcefile~differentiable_activation_strategy_m.f90 -->
+<g id="sourcefile~~activation_strategy_m.f90~~AfferentGraph_edge11" class="edge">
+<title>sourcefile~training_configuration_m.f90&#45;&gt;sourcefile~differentiable_activation_strategy_m.f90</title>
+<path fill="none" stroke="#255000" stroke-dasharray="5,2" d="M640.47,-126.6C635.67,-128.97 631.13,-131.79 627.06,-135.13 598.49,-158.6 618.77,-185.66 591.06,-210.13 565.93,-232.33 552.68,-229.03 519.55,-234.13"/>
+<path fill="none" stroke="#255000" stroke-dasharray="5,2" d="M517.55,-234.13C486.74,-238.89 453.2,-240.8 421.84,-241.21"/>
+<polygon fill="#255000" stroke="#255000" points="421.88,-237.71 411.9,-241.28 421.93,-244.71 421.88,-237.71"/>
+</g>
+<!-- sourcefile~training_configuration_s.f90 -->
+<g id="sourcefile~~activation_strategy_m.f90~~AfferentGraph_node24" class="node">
+<title>sourcefile~training_configuration_s.f90</title>
+<g id="a_sourcefile~~activation_strategy_m.f90~~AfferentGraph_node24"><a xlink:href=".././sourcefile/training_configuration_s.f90.html" xlink:title="training_configuration_s.f90">
+<polygon fill="#f0ad4e" stroke="#f0ad4e" points="1172.37,-24.27 1012.35,-24.27 1012.35,0 1172.37,0 1172.37,-24.27"/>
+<text text-anchor="middle" x="1092.36" y="-8.54" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">training_configuration_s.f90</text>
+</a>
+</g>
+</g>
+<!-- sourcefile~training_configuration_s.f90&#45;&gt;sourcefile~inference_engine_m.f90 -->
+<g id="sourcefile~~activation_strategy_m.f90~~AfferentGraph_edge23" class="edge">
+<title>sourcefile~training_configuration_s.f90&#45;&gt;sourcefile~inference_engine_m.f90</title>
+<path fill="none" stroke="none" stroke-dasharray="5,2" d="M1015.18,-24.64C1011.16,-27.04 1007.42,-29.84 1004.1,-33.14 957.25,-79.58 1002.79,-121.02 968.1,-177.13 958.28,-193.02 942.77,-206.85 928.95,-217.12"/>
+<polygon fill="none" stroke="none" points="927.11,-214.13 920.98,-222.77 931.16,-219.85 927.11,-214.13"/>
+</g>
+<!-- sourcefile~training_configuration_s.f90&#45;&gt;sourcefile~training_configuration_m.f90 -->
+<g id="sourcefile~~activation_strategy_m.f90~~AfferentGraph_edge41" class="edge">
+<title>sourcefile~training_configuration_s.f90&#45;&gt;sourcefile~training_configuration_m.f90</title>
+<path fill="none" stroke="#255022" stroke-dasharray="5,2" stroke-opacity="0.035294" d="M1018.81,-24.65C1013.6,-27.01 1008.62,-29.82 1004.1,-33.14 979.03,-51.54 994.52,-76.72 968.1,-93.14 919.67,-123.22 855.83,-128.6 803.85,-126.39"/>
+<polygon fill="#255022" fill-opacity="0.035294" stroke="#255022" stroke-opacity="0.035294" points="804.3,-122.91 794.12,-125.87 803.92,-129.9 804.3,-122.91"/>
+</g>
+<!-- sourcefile~write&#45;read&#45;infer.f90 -->
+<g id="sourcefile~~activation_strategy_m.f90~~AfferentGraph_node25" class="node">
+<title>sourcefile~write&#45;read&#45;infer.f90</title>
+<g id="a_sourcefile~~activation_strategy_m.f90~~AfferentGraph_node25"><a xlink:href=".././sourcefile/write-read-infer.f90.html" xlink:title="write&#45;read&#45;infer.f90">
+<polygon fill="#f0ad4e" stroke="#f0ad4e" points="1148.75,-520.27 1035.98,-520.27 1035.98,-496 1148.75,-496 1148.75,-520.27"/>
+<text text-anchor="middle" x="1092.36" y="-504.53" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">write&#45;read&#45;infer.f90</text>
+</a>
+</g>
+</g>
+<!-- sourcefile~write&#45;read&#45;infer.f90&#45;&gt;sourcefile~inference_engine_m.f90 -->
+<g id="sourcefile~~activation_strategy_m.f90~~AfferentGraph_edge24" class="edge">
+<title>sourcefile~write&#45;read&#45;infer.f90&#45;&gt;sourcefile~inference_engine_m.f90</title>
+<path fill="none" stroke="none" stroke-dasharray="5,2" d="M1035.93,-504.26C1024.15,-501.04 1012.69,-495.73 1004.1,-487.13 955.64,-438.64 995.87,-399.82 968.1,-337.13 954.87,-307.28 932.67,-276.84 917.05,-257.29"/>
+<polygon fill="none" stroke="none" points="919.97,-255.33 910.94,-249.8 914.55,-259.76 919.97,-255.33"/>
 </g>
 <!-- sourcefile~relu_s.f90 -->
-<g id="sourcefile~~activation_strategy_m.f90~~AfferentGraph_node28" class="node">
+<g id="sourcefile~~activation_strategy_m.f90~~AfferentGraph_node26" class="node">
 <title>sourcefile~relu_s.f90</title>
-<g id="a_sourcefile~~activation_strategy_m.f90~~AfferentGraph_node28"><a xlink:href=".././sourcefile/relu_s.f90.html" xlink:title="relu_s.f90">
-<polygon fill="#f0ad4e" stroke="#f0ad4e" points="934.5,-296 870.5,-296 870.5,-272 934.5,-272 934.5,-296"/>
-<text text-anchor="middle" x="902.5" y="-281.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">relu_s.f90</text>
+<g id="a_sourcefile~~activation_strategy_m.f90~~AfferentGraph_node26"><a xlink:href=".././sourcefile/relu_s.f90.html" xlink:title="relu_s.f90">
+<polygon fill="#f0ad4e" stroke="#f0ad4e" points="929.48,-168.27 866.96,-168.27 866.96,-144 929.48,-144 929.48,-168.27"/>
+<text text-anchor="middle" x="898.22" y="-152.53" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">relu_s.f90</text>
 </a>
 </g>
 </g>
 <!-- sourcefile~relu_s.f90&#45;&gt;sourcefile~relu_m.f90 -->
-<g id="sourcefile~~activation_strategy_m.f90~~AfferentGraph_edge41" class="edge">
+<g id="sourcefile~~activation_strategy_m.f90~~AfferentGraph_edge31" class="edge">
 <title>sourcefile~relu_s.f90&#45;&gt;sourcefile~relu_m.f90</title>
-<path fill="none" stroke="#00ff00" stroke-dasharray="5,2" d="M870.12,-284.5C839.41,-284.99 792.37,-285.75 757.95,-286.3"/>
-<polygon fill="#00ff00" stroke="#00ff00" points="757.65,-282.8 747.7,-286.46 757.76,-289.8 757.65,-282.8"/>
-</g>
-<!-- sourcefile~trainable_engine_s.f90 -->
-<g id="sourcefile~~activation_strategy_m.f90~~AfferentGraph_node29" class="node">
-<title>sourcefile~trainable_engine_s.f90</title>
-<g id="a_sourcefile~~activation_strategy_m.f90~~AfferentGraph_node29"><a xlink:href=".././sourcefile/trainable_engine_s.f90.html" xlink:title="trainable_engine_s.f90">
-<polygon fill="#f0ad4e" stroke="#f0ad4e" points="969,-170 836,-170 836,-146 969,-146 969,-170"/>
-<text text-anchor="middle" x="902.5" y="-155.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">trainable_engine_s.f90</text>
-</a>
-</g>
-</g>
-<!-- sourcefile~trainable_engine_s.f90&#45;&gt;sourcefile~sigmoid_m.f90 -->
-<g id="sourcefile~~activation_strategy_m.f90~~AfferentGraph_edge35" class="edge">
-<title>sourcefile~trainable_engine_s.f90&#45;&gt;sourcefile~sigmoid_m.f90</title>
-<path fill="none" stroke="#ff9100" stroke-dasharray="5,2" d="M836.97,-145.95C814.66,-141.79 789.89,-137.17 768.47,-133.17"/>
-<polygon fill="#ff9100" stroke="#ff9100" points="769.03,-129.71 758.56,-131.32 767.75,-136.59 769.03,-129.71"/>
-</g>
-<!-- sourcefile~trainable_engine_s.f90&#45;&gt;sourcefile~trainable_engine_m.f90 -->
-<g id="sourcefile~~activation_strategy_m.f90~~AfferentGraph_edge38" class="edge">
-<title>sourcefile~trainable_engine_s.f90&#45;&gt;sourcefile~trainable_engine_m.f90</title>
-<path fill="none" stroke="#daff00" stroke-dasharray="5,2" d="M835.92,-160.45C822.07,-160.97 807.31,-161.52 793.03,-162.05"/>
-<polygon fill="#daff00" stroke="#daff00" points="792.59,-158.56 782.72,-162.43 792.85,-165.56 792.59,-158.56"/>
+<path fill="none" stroke="#025517" stroke-dasharray="5,2" stroke-opacity="0.031373" d="M866.83,-156.13C836.51,-156.13 789.57,-156.13 755.08,-156.13"/>
+<polygon fill="#025517" fill-opacity="0.031373" stroke="#025517" stroke-opacity="0.031373" points="755.41,-152.64 745.41,-156.14 755.41,-159.64 755.41,-152.64"/>
 </g>
 <!-- sourcefile~sigmoid_s.f90 -->
-<g id="sourcefile~~activation_strategy_m.f90~~AfferentGraph_node30" class="node">
+<g id="sourcefile~~activation_strategy_m.f90~~AfferentGraph_node27" class="node">
 <title>sourcefile~sigmoid_s.f90</title>
-<g id="a_sourcefile~~activation_strategy_m.f90~~AfferentGraph_node30"><a xlink:href=".././sourcefile/sigmoid_s.f90.html" xlink:title="sigmoid_s.f90">
-<polygon fill="#f0ad4e" stroke="#f0ad4e" points="945,-128 860,-128 860,-104 945,-104 945,-128"/>
-<text text-anchor="middle" x="902.5" y="-113.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">sigmoid_s.f90</text>
+<g id="a_sourcefile~~activation_strategy_m.f90~~AfferentGraph_node27"><a xlink:href=".././sourcefile/sigmoid_s.f90.html" xlink:title="sigmoid_s.f90">
+<polygon fill="#f0ad4e" stroke="#f0ad4e" points="940.35,-412.27 856.08,-412.27 856.08,-388 940.35,-388 940.35,-412.27"/>
+<text text-anchor="middle" x="898.22" y="-396.53" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">sigmoid_s.f90</text>
 </a>
 </g>
 </g>
 <!-- sourcefile~sigmoid_s.f90&#45;&gt;sourcefile~sigmoid_m.f90 -->
-<g id="sourcefile~~activation_strategy_m.f90~~AfferentGraph_edge36" class="edge">
+<g id="sourcefile~~activation_strategy_m.f90~~AfferentGraph_edge34" class="edge">
 <title>sourcefile~sigmoid_s.f90&#45;&gt;sourcefile~sigmoid_m.f90</title>
-<path fill="none" stroke="#ff9100" stroke-dasharray="5,2" d="M859.89,-117.55C833.06,-118.56 797.87,-119.87 768.78,-120.95"/>
-<polygon fill="#ff9100" stroke="#ff9100" points="768.63,-117.46 758.77,-121.33 768.89,-124.45 768.63,-117.46"/>
+<path fill="none" stroke="#017825" stroke-dasharray="5,2" stroke-opacity="0.019608" d="M855.82,-400.13C829.5,-400.13 795.11,-400.13 766.4,-400.13"/>
+<polygon fill="#017825" fill-opacity="0.019608" stroke="#017825" stroke-opacity="0.019608" points="766.41,-396.64 756.41,-400.14 766.41,-403.64 766.41,-396.64"/>
 </g>
-<!-- sourcefile~layer_s.f90 -->
-<g id="sourcefile~~activation_strategy_m.f90~~AfferentGraph_node31" class="node">
-<title>sourcefile~layer_s.f90</title>
-<g id="a_sourcefile~~activation_strategy_m.f90~~AfferentGraph_node31"><a xlink:href=".././sourcefile/layer_s.f90.html" xlink:title="layer_s.f90">
-<polygon fill="#f0ad4e" stroke="#f0ad4e" points="937.5,-422 867.5,-422 867.5,-398 937.5,-398 937.5,-422"/>
-<text text-anchor="middle" x="902.5" y="-407.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">layer_s.f90</text>
+<!-- sourcefile~swish_s.f90 -->
+<g id="sourcefile~~activation_strategy_m.f90~~AfferentGraph_node28" class="node">
+<title>sourcefile~swish_s.f90</title>
+<g id="a_sourcefile~~activation_strategy_m.f90~~AfferentGraph_node28"><a xlink:href=".././sourcefile/swish_s.f90.html" xlink:title="swish_s.f90">
+<polygon fill="#f0ad4e" stroke="#f0ad4e" points="933.6,-370.27 862.83,-370.27 862.83,-346 933.6,-346 933.6,-370.27"/>
+<text text-anchor="middle" x="898.22" y="-354.53" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">swish_s.f90</text>
 </a>
 </g>
 </g>
-<!-- sourcefile~layer_s.f90&#45;&gt;sourcefile~layer_m.f90 -->
-<g id="sourcefile~~activation_strategy_m.f90~~AfferentGraph_edge44" class="edge">
-<title>sourcefile~layer_s.f90&#45;&gt;sourcefile~layer_m.f90</title>
-<path fill="none" stroke="#00ffda" stroke-dasharray="5,2" d="M867.11,-409.82C837.44,-409.66 794.3,-409.43 761.37,-409.25"/>
-<polygon fill="#00ffda" stroke="#00ffda" points="761.08,-405.75 751.06,-409.2 761.04,-412.75 761.08,-405.75"/>
+<!-- sourcefile~swish_s.f90&#45;&gt;sourcefile~sigmoid_m.f90 -->
+<g id="sourcefile~~activation_strategy_m.f90~~AfferentGraph_edge35" class="edge">
+<title>sourcefile~swish_s.f90&#45;&gt;sourcefile~sigmoid_m.f90</title>
+<path fill="none" stroke="#017825" stroke-dasharray="5,2" stroke-opacity="0.019608" d="M862.57,-365.94C835.45,-372.04 797.22,-380.65 765.9,-387.7"/>
+<polygon fill="#017825" fill-opacity="0.019608" stroke="#017825" stroke-opacity="0.019608" points="765.17,-384.28 756.18,-389.89 766.7,-391.11 765.17,-384.28"/>
+</g>
+<!-- sourcefile~swish_s.f90&#45;&gt;sourcefile~swish_m.f90 -->
+<g id="sourcefile~~activation_strategy_m.f90~~AfferentGraph_edge37" class="edge">
+<title>sourcefile~swish_s.f90&#45;&gt;sourcefile~swish_m.f90</title>
+<path fill="none" stroke="#025255" stroke-dasharray="5,2" d="M862.57,-358.13C833.58,-358.13 791.87,-358.13 759.5,-358.13"/>
+<polygon fill="#025255" stroke="#025255" points="759.55,-354.64 749.55,-358.14 759.55,-361.64 759.55,-354.64"/>
 </g>
 </g>
 </svg>
-</div><script>var pansourcefileactivation_strategy_mf90AfferentGraph = svgPanZoom('#sourcefileactivation_strategy_mf90AfferentGraph', {zoomEnabled: true,controlIconsEnabled: true, fit: true, center: true,}); </script><div><a type="button" class="graph-help" data-toggle="modal" href="#graph-help-text">Help</a></div><div class="modal fade" id="graph-help-text" tabindex="-1" role="dialog"><div class="modal-dialog modal-lg" role="document"><div class="modal-content"><div class="modal-header"><button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button><h4 class="modal-title" id="-graph-help-label">Graph Key</h4></div><div class="modal-body">
-    <p>Nodes of different colours represent the following: </p>
-    <?xml version="1.0" encoding="UTF-8" standalone="no"?>
+</div>                <script>
+                  var pansourcefileactivation_strategy_mf90AfferentGraph = svgPanZoom('#sourcefileactivation_strategy_mf90AfferentGraph',
+                    {zoomEnabled: true, controlIconsEnabled: true, fit: true, center: true,}
+                  );
+                </script>        <div><a type="button" class="graph-help" data-toggle="modal" href="#AfferentGraph-help-text">Help</a></div>
+          <div class="modal fade" id="AfferentGraph-help-text" tabindex="-1" role="dialog">
+            <div class="modal-dialog modal-lg" role="document">
+              <div class="modal-content">
+                <div class="modal-header">
+                  <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                  </button>
+                  <h4 class="modal-title" id="-graph-help-label">Graph Key</h4>
+                </div>
+              <div class="modal-body">
+<p>Nodes of different colours represent the following: </p>
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN"
  "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
-<!-- Generated by graphviz version 2.43.0 (0)
+<!-- Generated by graphviz version 9.0.0 (20230911.1827)
  -->
 <!-- Title: Graph Key Pages: 1 -->
-<svg width="202pt" height="32pt"
- viewBox="0.00 0.00 201.50 32.00" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
-<g id="graph0" class="graph" transform="scale(1 1) rotate(0) translate(4 28)">
+<svg width="200pt" height="32pt"
+ viewBox="0.00 0.00 199.52 32.27" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+<g id="graph0" class="graph" transform="scale(1 1) rotate(0) translate(4 28.27)">
 <title>Graph Key</title>
-<polygon fill="white" stroke="transparent" points="-4,4 -4,-28 197.5,-28 197.5,4 -4,4"/>
+<polygon fill="white" stroke="none" points="-4,4 -4,-28.27 195.52,-28.27 195.52,4 -4,4"/>
 <!-- Source File -->
 <g id="node1" class="node">
 <title>Source File</title>
-<polygon fill="#f0ad4e" stroke="#f0ad4e" points="70,-24 0,-24 0,0 70,0 70,-24"/>
-<text text-anchor="middle" x="35" y="-9.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">Source File</text>
+<polygon fill="#f0ad4e" stroke="#f0ad4e" points="69.27,-24.27 0,-24.27 0,0 69.27,0 69.27,-24.27"/>
+<text text-anchor="middle" x="34.63" y="-8.53" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">Source File</text>
 </g>
 <!-- This Page&#39;s Entity -->
 <g id="node2" class="node">
 <title>This Page&#39;s Entity</title>
-<polygon fill="none" stroke="black" points="193.5,-24 88.5,-24 88.5,0 193.5,0 193.5,-24"/>
-<text text-anchor="middle" x="141" y="-9.6" font-family="Helvetica,sans-Serif" font-size="10.50">This Page&#39;s Entity</text>
+<polygon fill="none" stroke="black" points="191.52,-24.27 87.75,-24.27 87.75,0 191.52,0 191.52,-24.27"/>
+<text text-anchor="middle" x="139.63" y="-8.53" font-family="Helvetica,sans-Serif" font-size="10.50">This Page&#39;s Entity</text>
 </g>
 </g>
 </svg>
 
-    
-    <p>Solid arrows point from a file to a file which it depends on. A file
-    is dependent upon another if the latter must be compiled before the former
-    can be. Where possible, edges connecting nodes are given different colours to make them easier to distinguish in large graphs.
-    </p>
-    </div></div></div></div>
-      </div>
-    </div>
+<p>Solid arrows point from a file to a file which it depends on. A file
+is dependent upon another if the latter must be compiled before the former
+can be.
+</p>
+ Where possible, edges connecting nodes are
+given different colours to make them easier to distinguish in
+large graphs.</div>
+            </div>
+          </div>
+        </div>
+          </div>
+        </div>
 <br>
-    <section class="visible-xs visible-sm hidden-md">
-      <h3>Contents</h3>
- 
-<div class="panel panel-primary">
-  <div class="panel-heading text-left"><h3 class="panel-title"><a data-toggle="collapse" href="#mods-1">Modules</a></h3></div>
-  <div id="mods-1" class="panel-collapse collapse">
-    <div class="list-group">
-      <a class="list-group-item" href="../module/activation_strategy_m.html">activation_strategy_m</a>
-    </div>
-  </div>
-</div>
-<div class="panel panel-primary">
-  <div class="panel-heading text-left"><h3 class="panel-title">Source Code</h3></div>
-  <div class="list-group">
-    <a class="list-group-item" href="../sourcefile/activation_strategy_m.f90.html#src">activation_strategy_m.f90</a>
-  </div>
-</div>
-
-    </section>
-    <br class="visible-xs visible-sm hidden-md">
-
-    <section>
-      <h2><span class="anchor" id="src"></span>Source Code</h2>
-    <div class="hl"><pre><span></span><a id="ln-1" name="ln-1" href="#ln-1"></a><span class="c">! Copyright (c), The Regents of the University of California</span>
+      <section>
+        <h2><span class="anchor" id="src"></span>Source Code</h2>
+        <div class="hl codehilite"><pre><span></span><a id="ln-1" name="ln-1" href="#ln-1"></a><span class="c">! Copyright (c), The Regents of the University of California</span>
 <a id="ln-2" name="ln-2" href="#ln-2"></a><span class="c">! Terms of use are as specified in LICENSE.txt</span>
-<a id="ln-3" name="ln-3" href="#ln-3"></a><span class="k">module </span><span class="n">activation_strategy_m</span><span class="w"></span>
+<a id="ln-3" name="ln-3" href="#ln-3"></a><span class="k">module </span><span class="n">activation_strategy_m</span>
 <a id="ln-4" name="ln-4" href="#ln-4"></a>
 <a id="ln-5" name="ln-5" href="#ln-5"></a><span class="w">  </span><span class="c">! External dependencies</span>
-<a id="ln-6" name="ln-6" href="#ln-6"></a><span class="w">  </span><span class="k">use </span><span class="n">kind_parameters_m</span><span class="p">,</span><span class="w"> </span><span class="k">only</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="n">rkind</span><span class="w"></span>
-<a id="ln-7" name="ln-7" href="#ln-7"></a><span class="w">  </span><span class="k">use </span><span class="n">sourcery_m</span><span class="p">,</span><span class="w"> </span><span class="k">only</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="n">string_t</span><span class="w"></span>
+<a id="ln-6" name="ln-6" href="#ln-6"></a><span class="w">  </span><span class="k">use </span><span class="n">kind_parameters_m</span><span class="p">,</span><span class="w"> </span><span class="k">only</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="n">rkind</span>
+<a id="ln-7" name="ln-7" href="#ln-7"></a><span class="w">  </span><span class="k">use </span><span class="n">sourcery_m</span><span class="p">,</span><span class="w"> </span><span class="k">only</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="n">string_t</span>
 <a id="ln-8" name="ln-8" href="#ln-8"></a><span class="w">  </span><span class="k">implicit none</span>
 <a id="ln-9" name="ln-9" href="#ln-9"></a>
 <a id="ln-10" name="ln-10" href="#ln-10"></a><span class="k">  private</span>
-<a id="ln-11" name="ln-11" href="#ln-11"></a><span class="k">  public</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">activation_strategy_t</span><span class="w"></span>
-<a id="ln-12" name="ln-12" href="#ln-12"></a><span class="w">  </span><span class="k">public</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">activation_i</span><span class="w"></span>
-<a id="ln-13" name="ln-13" href="#ln-13"></a><span class="w">  </span><span class="k">public</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">function_name_i</span><span class="w"></span>
+<a id="ln-11" name="ln-11" href="#ln-11"></a><span class="k">  public</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">activation_strategy_t</span>
+<a id="ln-12" name="ln-12" href="#ln-12"></a><span class="w">  </span><span class="k">public</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">activation_i</span>
+<a id="ln-13" name="ln-13" href="#ln-13"></a><span class="w">  </span><span class="k">public</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">function_name_i</span>
 <a id="ln-14" name="ln-14" href="#ln-14"></a>
-<a id="ln-15" name="ln-15" href="#ln-15"></a><span class="w">  </span><span class="k">type</span><span class="p">,</span><span class="w"> </span><span class="k">abstract</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">activation_strategy_t</span><span class="w"></span>
+<a id="ln-15" name="ln-15" href="#ln-15"></a><span class="w">  </span><span class="k">type</span><span class="p">,</span><span class="w"> </span><span class="k">abstract</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">activation_strategy_t</span>
 <a id="ln-16" name="ln-16" href="#ln-16"></a><span class="w">  </span><span class="k">contains</span>
-<a id="ln-17" name="ln-17" href="#ln-17"></a><span class="k">     procedure</span><span class="p">(</span><span class="n">activation_i</span><span class="p">),</span><span class="w"> </span><span class="k">nopass</span><span class="p">,</span><span class="w"> </span><span class="k">deferred</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">activation</span><span class="w"></span>
-<a id="ln-18" name="ln-18" href="#ln-18"></a><span class="w">     </span><span class="k">procedure</span><span class="p">(</span><span class="n">function_name_i</span><span class="p">),</span><span class="w"> </span><span class="k">nopass</span><span class="p">,</span><span class="w"> </span><span class="k">deferred</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">function_name</span><span class="w"></span>
+<a id="ln-17" name="ln-17" href="#ln-17"></a><span class="k">     procedure</span><span class="p">(</span><span class="n">activation_i</span><span class="p">),</span><span class="w"> </span><span class="k">nopass</span><span class="p">,</span><span class="w"> </span><span class="k">deferred</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">activation</span>
+<a id="ln-18" name="ln-18" href="#ln-18"></a><span class="w">     </span><span class="k">procedure</span><span class="p">(</span><span class="n">function_name_i</span><span class="p">),</span><span class="w"> </span><span class="k">nopass</span><span class="p">,</span><span class="w"> </span><span class="k">deferred</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">function_name</span>
 <a id="ln-19" name="ln-19" href="#ln-19"></a><span class="w">  </span><span class="k">end type</span>
 <a id="ln-20" name="ln-20" href="#ln-20"></a>
 <a id="ln-21" name="ln-21" href="#ln-21"></a><span class="k">  abstract interface</span>
 <a id="ln-22" name="ln-22" href="#ln-22"></a>
-<a id="ln-23" name="ln-23" href="#ln-23"></a><span class="k">    elemental function </span><span class="n">activation_i</span><span class="p">(</span><span class="n">x</span><span class="p">)</span><span class="w"> </span><span class="k">result</span><span class="p">(</span><span class="n">y</span><span class="p">)</span><span class="w"></span>
-<a id="ln-24" name="ln-24" href="#ln-24"></a><span class="w">      </span><span class="k">import </span><span class="n">rkind</span><span class="w"></span>
+<a id="ln-23" name="ln-23" href="#ln-23"></a><span class="k">    elemental function </span><span class="n">activation_i</span><span class="p">(</span><span class="n">x</span><span class="p">)</span><span class="w"> </span><span class="k">result</span><span class="p">(</span><span class="n">y</span><span class="p">)</span>
+<a id="ln-24" name="ln-24" href="#ln-24"></a><span class="w">      </span><span class="k">import </span><span class="n">rkind</span>
 <a id="ln-25" name="ln-25" href="#ln-25"></a><span class="w">      </span><span class="k">implicit none</span>
-<a id="ln-26" name="ln-26" href="#ln-26"></a><span class="k">      </span><span class="kt">real</span><span class="p">(</span><span class="n">rkind</span><span class="p">),</span><span class="w"> </span><span class="k">intent</span><span class="p">(</span><span class="n">in</span><span class="p">)</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">x</span><span class="w"></span>
-<a id="ln-27" name="ln-27" href="#ln-27"></a><span class="w">      </span><span class="kt">real</span><span class="p">(</span><span class="n">rkind</span><span class="p">)</span><span class="w"> </span><span class="n">y</span><span class="w"></span>
+<a id="ln-26" name="ln-26" href="#ln-26"></a><span class="k">      </span><span class="kt">real</span><span class="p">(</span><span class="n">rkind</span><span class="p">),</span><span class="w"> </span><span class="k">intent</span><span class="p">(</span><span class="n">in</span><span class="p">)</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">x</span>
+<a id="ln-27" name="ln-27" href="#ln-27"></a><span class="w">      </span><span class="kt">real</span><span class="p">(</span><span class="n">rkind</span><span class="p">)</span><span class="w"> </span><span class="n">y</span>
 <a id="ln-28" name="ln-28" href="#ln-28"></a><span class="w">    </span><span class="k">end function</span>
 <a id="ln-29" name="ln-29" href="#ln-29"></a>
-<a id="ln-30" name="ln-30" href="#ln-30"></a><span class="k">    elemental module function </span><span class="n">function_name_i</span><span class="p">()</span><span class="w"> </span><span class="k">result</span><span class="p">(</span><span class="n">string</span><span class="p">)</span><span class="w"></span>
+<a id="ln-30" name="ln-30" href="#ln-30"></a><span class="k">    elemental module function </span><span class="n">function_name_i</span><span class="p">()</span><span class="w"> </span><span class="k">result</span><span class="p">(</span><span class="n">string</span><span class="p">)</span>
 <a id="ln-31" name="ln-31" href="#ln-31"></a><span class="w">      </span><span class="k">implicit none</span>
-<a id="ln-32" name="ln-32" href="#ln-32"></a><span class="k">      type</span><span class="p">(</span><span class="n">string_t</span><span class="p">)</span><span class="w"> </span><span class="n">string</span><span class="w"></span>
+<a id="ln-32" name="ln-32" href="#ln-32"></a><span class="k">      type</span><span class="p">(</span><span class="n">string_t</span><span class="p">)</span><span class="w"> </span><span class="n">string</span>
 <a id="ln-33" name="ln-33" href="#ln-33"></a><span class="w">    </span><span class="k">end function</span>
 <a id="ln-34" name="ln-34" href="#ln-34"></a>
 <a id="ln-35" name="ln-35" href="#ln-35"></a><span class="k">  end interface</span>
 <a id="ln-36" name="ln-36" href="#ln-36"></a>
-<a id="ln-37" name="ln-37" href="#ln-37"></a><span class="k">end module </span><span class="n">activation_strategy_m</span><span class="w"></span>
+<a id="ln-37" name="ln-37" href="#ln-37"></a><span class="k">end module </span><span class="n">activation_strategy_m</span>
 </pre></div>
 
-    </section>
+      </section>
     </div>
   </div>
 
-    <hr>    
+      <hr>
     </div> <!-- /container -->
     <footer>
       <div class="container">
-      <div class="row">
-        <div class="col-xs-6 col-md-6"><p>Inference-Engine was developed by Sourcery Institute<br>&copy; 2023 
+        <div class="row justify-content-between">
+          <div class="col"><p>Inference-Engine was developed by Berkeley Lab<br>&copy; 2023 
 </p>
+          </div>
+          <div class="col">
+            <p class="text-end">
+              Documentation generated by
+              <a href="https://github.com/Fortran-FOSS-Programmers/ford">FORD</a>
+ on 2023-11-26 04:14              </p>
+          </div>
         </div>
-        <div class="col-xs-6 col-md-6">
-          <p class="text-right">
-            Documentation generated by 
-            <a href="https://github.com/Fortran-FOSS-Programmers/ford">FORD</a>
- on 2023-11-06 09:19            </p>
-        </div>
-      </div>
-      <br>
-      </div> <!-- /container -->    
+        <br>
+      </div> <!-- /container -->
     </footer>
 
-    <!-- Bootstrap core JavaScript
-    ================================================== -->
+    <!-- Bootstrap core JavaScript -->
     <!-- Placed at the end of the document so the pages load faster -->
-<!--
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
--->
-    <script src="../js/bootstrap.min.js"></script>
-    <!-- IE10 viewport hack for Surface/desktop Windows 8 bug -->
-    <script src="../js/ie10-viewport-bug-workaround.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"
+            integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p" crossorigin="anonymous"></script>    
 
     <!-- MathJax JavaScript
-    ================================================== -->
-    <!-- Placed at the end of the document so the pages load faster -->
-    <script type="text/x-mathjax-config">
-      MathJax.Hub.Config({
-        TeX: { extensions: ['AMSmath.js','AMSsymbols.js','noErrors.js','noUndefined.js'], equationNumbers: { autoNumber: 'AMS' } },
-        jax: ['input/TeX','input/MathML','output/HTML-CSS'],
-        extensions: ['tex2jax.js','mml2jax.js','MathMenu.js','MathZoom.js']
-      });
-    </script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
-    
-    <script src="../tipuesearch/tipuesearch_content.js"></script>
-    <script src="../tipuesearch/tipuesearch_set.js"></script>
-    <script src="../tipuesearch/tipuesearch.js"></script>
-    
+             ================================================== -->
+             <!-- Placed at the end of the document so the pages load faster -->
+        <script type="text/x-mathjax-config">
+          MathJax.Hub.Config({
+          TeX: { extensions: ['AMSmath.js','AMSsymbols.js','noErrors.js','noUndefined.js'], equationNumbers: { autoNumber: 'AMS' } },
+          jax: ['input/TeX','input/MathML','output/HTML-CSS'],
+          extensions: ['tex2jax.js','mml2jax.js','MathMenu.js','MathZoom.js']
+          });
+        </script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+
+          <script src="../tipuesearch/tipuesearch_content.js"></script>
+          <script src="../tipuesearch/tipuesearch_set.js"></script>
+          <script src="../tipuesearch/tipuesearch.js"></script>
+
   </body>
 </html>

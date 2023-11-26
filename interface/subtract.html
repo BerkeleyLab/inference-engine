@@ -5,344 +5,188 @@
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-   <meta name="description" content="A library supporting concurrent forward propagation on multiple fully-connected deep neural networks">
-    <meta name="author" content="Sourcery Institute" >
+      <meta name="description" content="A deep learning library targetingo high-performance computing (HPC) applications with performance-critical inference and training needs.">
+    <meta name="author" content="Berkeley Lab" >
     <link rel="icon" href="../favicon.png">
 
     <title>subtract &ndash; Inference-Engine</title>
 
-    <link href="../css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet"
+          integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
     <link href="../css/pygments.css" rel="stylesheet">
     <link href="../css/font-awesome.min.css" rel="stylesheet">
     <link href="../css/local.css" rel="stylesheet">
-    <link  href="../tipuesearch/tipuesearch.css" rel="stylesheet">
+      <link  href="../tipuesearch/tipuesearch.css" rel="stylesheet">
 
-    <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
-    <!--[if lt IE 9]>
-      <script src="https://oss.maxcdn.com/html5shiv/3.7.2/html5shiv.min.js"></script>
-      <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
-    <![endif]-->
-    
-    <script src="../js/jquery-2.1.3.min.js"></script>
-    <script src="../js/svg-pan-zoom.min.js"></script>
-
+    <script src="https://code.jquery.com/jquery-3.7.0.slim.min.js" integrity="sha256-tG5mcZUtJsZvyKAxYLVXrmjKBVLd6VpVccqz/r4ypFE=" crossorigin="anonymous"></script>
   </head>
 
   <body>
 
     <!-- Fixed navbar -->
-    <nav class="navbar navbar-inverse navbar-fixed-top">
-      <div class="container">
-        <div class="navbar-header">
-          <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
-            <span class="sr-only">Toggle navigation</span>
-            <span class="icon-bar"></span>
-            <span class="icon-bar"></span>
-            <span class="icon-bar"></span>
-          </button>
+    <div class="container-fluid mb-sm-4 mb-xl-2">
+      <nav class="navbar navbar-expand-lg navbar-dark bg-dark fixed-top">
+        <div class="container">
           <a class="navbar-brand" href="../index.html">Inference-Engine </a>
-        </div>
-        <div id="navbar" class="navbar-collapse collapse">
-          <ul class="nav navbar-nav">
-            <li class="dropdown hidden-xs visible-sm visible-md hidden-lg">
-              <a href="#" class="dropdown-toggle"
-              data-toggle="dropdown" role="button"
-              aria-haspopup="true"
-     aria-expanded="false">Contents <span class="caret"></span></a>
-        <ul class="dropdown-menu">
-            <li><a href="../lists/files.html">Source Files</a></li>
-            <li><a href="../lists/modules.html">Modules</a></li>
-            <li><a href="../lists/procedures.html">Procedures</a></li>
-            <li><a href="../lists/absint.html">Abstract Interfaces</a></li>
-                   <li><a href="../lists/types.html">Derived Types</a></li>
-            <li><a href="../lists/programs.html">Programs</a></li>
-       
+          <button type="button" class="navbar-toggler" data-bs-toggle="collapse" data-bs-target="#navbar"
+                  aria-expanded="false" aria-controls="navbar" aria-label="Toggle navigation">
+                  <span class="navbar-toggler-icon">
+          </button>
+
+          <div id="navbar" class="navbar-collapse collapse">
+            <ul class="navbar-nav">
+                  <li class="nav-item">
+                    <a class="nav-link" href="../lists/files.html">Source Files</a>
+                  </li>
+                <li class="nav-item">
+                  <a class="nav-link" href="../lists/modules.html">Modules</a>
+                </li>
+                <li class="nav-item">
+                  <a class="nav-link" href="../lists/procedures.html">Procedures</a>
+                </li>
+                <li class="nav-item">
+                  <a class="nav-link" href="../lists/absint.html">Abstract Interfaces</a>
+                </li>
+                <li class="nav-item">
+                  <a class="nav-link" href="../lists/types.html">Derived Types</a>
+                </li>
+                <li class="nav-item">
+                  <a class="nav-link" href="../lists/programs.html">Programs</a>
+                </li>
             </ul>
-        
-            </li>
-<li class="visible-xs hidden-sm visible-lg"><a href="../lists/files.html">Source Files</a></li>
-<li class="visible-xs hidden-sm visible-lg"><a href="../lists/modules.html">Modules</a></li>
-<li class="visible-xs hidden-sm visible-lg"><a href="../lists/procedures.html">Procedures</a></li>
-<li class="visible-xs hidden-sm visible-lg"><a href="../lists/absint.html">Abstract Interfaces</a></li>
-                             <li class="visible-xs hidden-sm visible-lg"><a href="../lists/types.html">Derived Types</a></li>
-<li class="visible-xs hidden-sm visible-lg"><a href="../lists/programs.html">Programs</a></li>
-          </ul>
-        <form action="../search.html" class="navbar-form navbar-right" role="search">
-        <div class="form-group">
-          <input type="text" class="form-control" placeholder="Search" name="q" id="tipue_search_input" autocomplete="off" required>
+              <div class="d-flex align-items-end flex-grow-1">
+                <form action="../search.html" role="search" class="ms-auto">
+                  <input type="text" class="form-control" aria-label="Search" placeholder="Search" name="q" id="tipue_search_input" autocomplete="off" required>
+                </form>
+              </div>
+          </div><!--/.nav-collapse -->
         </div>
-<!--
-        <button type="submit" class="btn btn-default">Submit</button>
--->
-        </form>
-        </div><!--/.nav-collapse -->
-      </div>
-    </nav>
+      </nav>
+    </div>
 
     <div class="container">
   <div class="row">
     <h1>subtract
-   <small>Interface</small>
+      <small>Interface</small>
+      
     </h1>
-    <div class="row">
-  <div class="col-lg-12">
-<div class="well well-sm">
-  <ul class="list-inline" style="margin-bottom:0px;display:inline">
-     <li><i class="fa fa-list-ol"></i>
-       <a data-toggle="tooltip"
-    data-placement="bottom" data-html="true"
-    title=" 1.2% of total for procedures.">59 statements</a>
-     </li> 
-    <li><i class="fa fa-code"></i><a href="../src/inference_engine_m_.f90"> Source File</a></li>
-  </ul>
-  <ol class="breadcrumb in-well text-right">
-     <li><a href='../sourcefile/inference_engine_m_.f90.html'>inference_engine_m_.f90</a></li>
-     <li><a href='../module/inference_engine_m_.html'>inference_engine_m_</a></li>
-     <li class="active">subtract</li>
-  </ol>
-</div>
-</div>
-</div>
-<script>
-  $(function () {
-  $('[data-toggle="tooltip"]').tooltip()
-  })
-</script>
+      <div class="container p-2 mb-4 bg-light border rounded-3">
+    <div class="row align-items-center justify-content-between" id="info-bar">
+      <div class="col">
+        <ul class="list-inline" style="margin-bottom:0px;display:inline">
+
+            <li class="list-inline-item" id="statements"><i class="fa fa-list-ol"></i>
+              <a data-bs-toggle="tooltip"
+                 data-bs-placement="bottom" data-html="true"
+                 title=" 2.0% of total for procedures.">59 statements</a>
+            </li>
+
+            <li class="list-inline-item" id="source-file">
+              <i class="fa fa-code"></i>
+              <a href="../src/inference_engine_m_.f90"> Source File</a>
+            </li>
+        </ul>
+      </div>
+      <div class="col">
+        <nav aria-label="breadcrumb">
+          <ol class="breadcrumb justify-content-end mb-0">
+                <li class="breadcrumb-item"><a href='../sourcefile/inference_engine_m_.f90.html'>inference_engine_m_.f90</a></li>
+                <li class="breadcrumb-item"><a href='../module/inference_engine_m_.html'>inference_engine_m_</a></li>
+            <li class="breadcrumb-item active" aria-current="page">subtract</li>
+          </ol>
+        </nav>
+      </div>
+    </div>
+  </div>
+  <script>
+    $(function () {
+    $('[data-bs-toggle="tooltip"]').tooltip()
+    })
+  </script>
 
   </div>
   
   <div class="row">
     <div class="col-md-3 hidden-xs hidden-sm visible-md visible-lg">
-    <div id="sidebar">
-  <h3>Contents</h3>
- 
-<em>None</em>
+      <div id="sidebar">
+      <h3>Contents</h3>
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
 
-</div>
+    <em>None</em>
+
+  </div>
 
     </div>
     
     <div class="col-md-9" id='text'>
-      <h2>interface</h2>
-      
-      <br>
-    <div class="panel panel-default">
-      <div class="panel-heading">
-  <h3 class="panel-title">Calls</h3>
-      </div>
-      <div class="panel-body">
-  <div class="depgraph"><?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN"
- "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
-<!-- Generated by graphviz version 2.43.0 (0)
- -->
-<!-- Title: interface~~subtract~~CallsGraph Pages: 1 -->
-<svg id="interfacesubtractCallsGraph" width="641pt" height="94pt"
- viewBox="0.00 0.00 641.00 94.41" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
-<g id="interface~~subtract~~CallsGraph" class="graph" transform="scale(1.01 1.01) rotate(0) translate(4 91)">
-<title>interface~~subtract~~CallsGraph</title>
-<polygon fill="white" stroke="transparent" points="-4,4 -4,-91 641,-91 641,4 -4,4"/>
-<!-- interface~subtract -->
-<g id="interface~~subtract~~CallsGraph_node1" class="node">
-<title>interface~subtract</title>
-<polygon fill="none" stroke="black" points="56,-45 0,-45 0,-21 56,-21 56,-45"/>
-<text text-anchor="middle" x="28" y="-30.6" font-family="Helvetica,sans-Serif" font-size="10.50">subtract</text>
-</g>
-<!-- proc~subtract -->
-<g id="interface~~subtract~~CallsGraph_node2" class="node">
-<title>proc~subtract</title>
-<g id="a_interface~~subtract~~CallsGraph_node2"><a xlink:href=".././proc/subtract.html" xlink:title="subtract">
-<polygon fill="#d94e8f" stroke="#d94e8f" points="148,-45 92,-45 92,-21 148,-21 148,-45"/>
-<text text-anchor="middle" x="120" y="-30.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">subtract</text>
-</a>
-</g>
-</g>
-<!-- interface~subtract&#45;&gt;proc~subtract -->
-<g id="interface~~subtract~~CallsGraph_edge1" class="edge">
-<title>interface~subtract&#45;&gt;proc~subtract</title>
-<path fill="none" stroke="#ff0000" stroke-dasharray="5,2" d="M56,-33C64.03,-33 72.97,-33 81.53,-33"/>
-<polygon fill="#ff0000" stroke="#ff0000" points="81.71,-36.5 91.71,-33 81.7,-29.5 81.71,-36.5"/>
-</g>
-<!-- interface~assert_consistency -->
-<g id="interface~~subtract~~CallsGraph_node3" class="node">
-<title>interface~assert_consistency</title>
-<g id="a_interface~~subtract~~CallsGraph_node3"><a xlink:href=".././interface/assert_consistency.html" xlink:title="assert_consistency">
-<polygon fill="#a7506f" stroke="#a7506f" points="296,-66 184,-66 184,-42 296,-42 296,-66"/>
-<text text-anchor="middle" x="240" y="-51.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">assert_consistency</text>
-</a>
-</g>
-</g>
-<!-- proc~subtract&#45;&gt;interface~assert_consistency -->
-<g id="interface~~subtract~~CallsGraph_edge2" class="edge">
-<title>proc~subtract&#45;&gt;interface~assert_consistency</title>
-<path fill="none" stroke="#ff0000" d="M148.07,-37.82C155.87,-39.21 164.73,-40.78 173.78,-42.39"/>
-<polygon fill="#ff0000" stroke="#ff0000" points="173.19,-45.84 183.65,-44.15 174.41,-38.95 173.19,-45.84"/>
-</g>
-<!-- n -->
-<g id="interface~~subtract~~CallsGraph_node4" class="node">
-<title>n</title>
-<polygon fill="#777777" stroke="#777777" points="267,-24 213,-24 213,0 267,0 267,-24"/>
-<text text-anchor="middle" x="240" y="-9.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">n</text>
-</g>
-<!-- proc~subtract&#45;&gt;n -->
-<g id="interface~~subtract~~CallsGraph_edge3" class="edge">
-<title>proc~subtract&#45;&gt;n</title>
-<path fill="none" stroke="#ff0000" d="M148.07,-28.18C164.34,-25.29 185.24,-21.57 202.9,-18.42"/>
-<polygon fill="#ff0000" stroke="#ff0000" points="203.63,-21.85 212.87,-16.65 202.41,-14.96 203.63,-21.85"/>
-</g>
-<!-- proc~inference_engine_consistency -->
-<g id="interface~~subtract~~CallsGraph_node5" class="node">
-<title>proc~inference_engine_consistency</title>
-<g id="a_interface~~subtract~~CallsGraph_node5"><a xlink:href=".././proc/inference_engine_consistency.html" xlink:title="inference_engine_consistency">
-<polygon fill="#d9534f" stroke="#d9534f" points="504,-87 332,-87 332,-63 504,-63 504,-87"/>
-<text text-anchor="middle" x="418" y="-72.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">inference_engine_consistency</text>
-</a>
-</g>
-</g>
-<!-- interface~assert_consistency&#45;&gt;proc~inference_engine_consistency -->
-<g id="interface~~subtract~~CallsGraph_edge4" class="edge">
-<title>interface~assert_consistency&#45;&gt;proc~inference_engine_consistency</title>
-<path fill="none" stroke="#ff0000" stroke-dasharray="5,2" d="M296.2,-60.59C304.32,-61.56 312.87,-62.58 321.52,-63.61"/>
-<polygon fill="#ff0000" stroke="#ff0000" points="321.35,-67.11 331.69,-64.82 322.18,-60.16 321.35,-67.11"/>
-</g>
-<!-- proc~difference_consistency -->
-<g id="interface~~subtract~~CallsGraph_node6" class="node">
-<title>proc~difference_consistency</title>
-<g id="a_interface~~subtract~~CallsGraph_node6"><a xlink:href=".././proc/difference_consistency.html" xlink:title="difference_consistency">
-<polygon fill="#d9534f" stroke="#d9534f" points="485,-45 351,-45 351,-21 485,-21 485,-45"/>
-<text text-anchor="middle" x="418" y="-30.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">difference_consistency</text>
-</a>
-</g>
-</g>
-<!-- interface~assert_consistency&#45;&gt;proc~difference_consistency -->
-<g id="interface~~subtract~~CallsGraph_edge5" class="edge">
-<title>interface~assert_consistency&#45;&gt;proc~difference_consistency</title>
-<path fill="none" stroke="#ff0000" stroke-dasharray="5,2" d="M296.2,-47.41C310.29,-45.73 325.69,-43.89 340.63,-42.11"/>
-<polygon fill="#ff0000" stroke="#ff0000" points="341.37,-45.55 350.88,-40.89 340.54,-38.6 341.37,-45.55"/>
-</g>
-<!-- intrinsic_array_t -->
-<g id="interface~~subtract~~CallsGraph_node7" class="node">
-<title>intrinsic_array_t</title>
-<polygon fill="#777777" stroke="#777777" points="637,-87 540,-87 540,-63 637,-63 637,-87"/>
-<text text-anchor="middle" x="588.5" y="-72.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">intrinsic_array_t</text>
-</g>
-<!-- proc~inference_engine_consistency&#45;&gt;intrinsic_array_t -->
-<g id="interface~~subtract~~CallsGraph_edge6" class="edge">
-<title>proc~inference_engine_consistency&#45;&gt;intrinsic_array_t</title>
-<path fill="none" stroke="#ff0000" d="M504.24,-75C512.85,-75 521.44,-75 529.66,-75"/>
-<polygon fill="#ff0000" stroke="#ff0000" points="529.85,-78.5 539.85,-75 529.85,-71.5 529.85,-78.5"/>
-</g>
-<!-- assert -->
-<g id="interface~~subtract~~CallsGraph_node8" class="node">
-<title>assert</title>
-<polygon fill="#777777" stroke="#777777" points="615.5,-45 561.5,-45 561.5,-21 615.5,-21 615.5,-45"/>
-<text text-anchor="middle" x="588.5" y="-30.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">assert</text>
-</g>
-<!-- proc~inference_engine_consistency&#45;&gt;assert -->
-<g id="interface~~subtract~~CallsGraph_edge7" class="edge">
-<title>proc~inference_engine_consistency&#45;&gt;assert</title>
-<path fill="none" stroke="#ff0000" d="M468,-62.93C479.79,-60.02 492.35,-56.9 504,-54 519.56,-50.12 536.73,-45.81 551.44,-42.1"/>
-<polygon fill="#ff0000" stroke="#ff0000" points="552.34,-45.49 561.18,-39.65 550.63,-38.7 552.34,-45.49"/>
-</g>
-<!-- proc~difference_consistency&#45;&gt;intrinsic_array_t -->
-<g id="interface~~subtract~~CallsGraph_edge8" class="edge">
-<title>proc~difference_consistency&#45;&gt;intrinsic_array_t</title>
-<path fill="none" stroke="#00ffff" d="M468,-45.07C479.79,-47.98 492.35,-51.1 504,-54 512.43,-56.1 521.34,-58.33 530.07,-60.52"/>
-<polygon fill="#00ffff" stroke="#00ffff" points="529.27,-63.93 539.82,-62.97 530.97,-57.14 529.27,-63.93"/>
-</g>
-<!-- proc~difference_consistency&#45;&gt;assert -->
-<g id="interface~~subtract~~CallsGraph_edge9" class="edge">
-<title>proc~difference_consistency&#45;&gt;assert</title>
-<path fill="none" stroke="#00ffff" d="M485.11,-33C507.52,-33 531.72,-33 550.96,-33"/>
-<polygon fill="#00ffff" stroke="#00ffff" points="551.1,-36.5 561.1,-33 551.1,-29.5 551.1,-36.5"/>
-</g>
-</g>
-</svg>
-</div><script>var paninterfacesubtractCallsGraph = svgPanZoom('#interfacesubtractCallsGraph', {zoomEnabled: true,controlIconsEnabled: true, fit: true, center: true,}); </script><div><a type="button" class="graph-help" data-toggle="modal" href="#graph-help-text">Help</a></div><div class="modal fade" id="graph-help-text" tabindex="-1" role="dialog"><div class="modal-dialog modal-lg" role="document"><div class="modal-content"><div class="modal-header"><button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button><h4 class="modal-title" id="-graph-help-label">Graph Key</h4></div><div class="modal-body">
-    <p>Nodes of different colours represent the following: </p>
-    <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN"
- "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
-<!-- Generated by graphviz version 2.43.0 (0)
- -->
-<!-- Title: Graph Key Pages: 1 -->
-<svg width="597pt" height="32pt"
- viewBox="0.00 0.00 596.50 32.00" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
-<g id="graph0" class="graph" transform="scale(1 1) rotate(0) translate(4 28)">
-<title>Graph Key</title>
-<polygon fill="white" stroke="transparent" points="-4,4 -4,-28 592.5,-28 592.5,4 -4,4"/>
-<!-- Subroutine -->
-<g id="node1" class="node">
-<title>Subroutine</title>
-<polygon fill="#d9534f" stroke="#d9534f" points="70,-24 0,-24 0,0 70,0 70,-24"/>
-<text text-anchor="middle" x="35" y="-9.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">Subroutine</text>
-</g>
-<!-- Function -->
-<g id="node2" class="node">
-<title>Function</title>
-<polygon fill="#d94e8f" stroke="#d94e8f" points="146,-24 88,-24 88,0 146,0 146,-24"/>
-<text text-anchor="middle" x="117" y="-9.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">Function</text>
-</g>
-<!-- Interface -->
-<g id="node3" class="node">
-<title>Interface</title>
-<polygon fill="#a7506f" stroke="#a7506f" points="225.5,-24 164.5,-24 164.5,0 225.5,0 225.5,-24"/>
-<text text-anchor="middle" x="195" y="-9.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">Interface</text>
-</g>
-<!-- Unknown Procedure Type -->
-<g id="node4" class="node">
-<title>Unknown Procedure Type</title>
-<polygon fill="#777777" stroke="#777777" points="388.5,-24 243.5,-24 243.5,0 388.5,0 388.5,-24"/>
-<text text-anchor="middle" x="316" y="-9.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">Unknown Procedure Type</text>
-</g>
-<!-- Program -->
-<g id="node5" class="node">
-<title>Program</title>
-<polygon fill="#f0ad4e" stroke="#f0ad4e" points="465,-24 407,-24 407,0 465,0 465,-24"/>
-<text text-anchor="middle" x="436" y="-9.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">Program</text>
-</g>
-<!-- This Page&#39;s Entity -->
-<g id="node6" class="node">
-<title>This Page&#39;s Entity</title>
-<polygon fill="none" stroke="black" points="588.5,-24 483.5,-24 483.5,0 588.5,0 588.5,-24"/>
-<text text-anchor="middle" x="536" y="-9.6" font-family="Helvetica,sans-Serif" font-size="10.50">This Page&#39;s Entity</text>
-</g>
-</g>
-</svg>
-
-    
-    <p>Solid arrows point from a procedure to one which it calls. Dashed 
-    arrows point from an interface to procedures which implement that interface.
-    This could include the module procedures in a generic interface or the
-    implementation in a submodule of an interface in a parent module. Where possible, edges connecting nodes are given different colours to make them easier to distinguish in large graphs.
-    </p>
-    </div></div></div></div>
-      </div>
-    </div>
-    <br>
-      <h2>private elemental module module function subtract(self, rhs) result(difference)   <a href='../proc/subtract.html'><button type="button" class="btn btn-info depwarn">Implementation &rarr;</button></a>
-</h2>
+      <h2>interface <br>
+      private elemental module function subtract(self, rhs) result(difference)  
+</h2>    
 
     
 
     <h3>Arguments</h3>
-      <table class="table table-striped varlist">
-<thead><tr><th>Type</th><th>Intent</th><th>Optional</th><th>Attributes</th><th></th><th>Name</th><th></th></thead>
-<tbody>
-<tr>
-  <td><span class="anchor" id="variable-self~16"></span>class(<a href='../type/inference_engine_t.html'>inference_engine_t</a>),</td>
+        <table class="table table-striped varlist">
+    <thead>
+      <tr>
+        <th scope="col">Type</th>
+<th scope="col">Intent</th><th scope="col">Optional</th>        <th scope="col">Attributes</th>
+        <th scope="col"></th>
+        <th scope="col">Name</th>
+        <th scope="col"></th>
+    </thead>
+    <tbody>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-self~42"></span>
+              class(<a href='../type/inference_engine_t.html'>inference_engine_t</a>),
+            </td>
 <td>intent(in)</td>
-  <td></td>  <td></td><td>::</td>
-  <td><strong>self</strong></td><td></td>
-</tr>
-<tr>
-  <td><span class="anchor" id="variable-rhs~2"></span>type(<a href='../type/inference_engine_t.html'>inference_engine_t</a>),</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>self</strong></td>
+            <td>
+                
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-rhs~4"></span>
+              type(<a href='../type/inference_engine_t.html'>inference_engine_t</a>),
+            </td>
 <td>intent(in)</td>
-  <td></td>  <td></td><td>::</td>
-  <td><strong>rhs</strong></td><td></td>
-</tr>
-</tbody>
-</table>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>rhs</strong></td>
+            <td>
+                
+            </td>
+        </tr>
+    </tbody>
+  </table>
 
       <h3>Return Value <span class="anchor" id="variable-difference"></span><small>type(<a href='../type/difference_t.html'>difference_t</a>)</small></h3>
     
@@ -351,50 +195,45 @@
  </div>
 </div>
 
-    <hr>    
+      <hr>
     </div> <!-- /container -->
     <footer>
       <div class="container">
-      <div class="row">
-        <div class="col-xs-6 col-md-6"><p>Inference-Engine was developed by Sourcery Institute<br>&copy; 2023 
+        <div class="row justify-content-between">
+          <div class="col"><p>Inference-Engine was developed by Berkeley Lab<br>&copy; 2023 
 </p>
+          </div>
+          <div class="col">
+            <p class="text-end">
+              Documentation generated by
+              <a href="https://github.com/Fortran-FOSS-Programmers/ford">FORD</a>
+ on 2023-11-26 04:14              </p>
+          </div>
         </div>
-        <div class="col-xs-6 col-md-6">
-          <p class="text-right">
-            Documentation generated by 
-            <a href="https://github.com/Fortran-FOSS-Programmers/ford">FORD</a>
- on 2023-11-06 09:19            </p>
-        </div>
-      </div>
-      <br>
-      </div> <!-- /container -->    
+        <br>
+      </div> <!-- /container -->
     </footer>
 
-    <!-- Bootstrap core JavaScript
-    ================================================== -->
+    <!-- Bootstrap core JavaScript -->
     <!-- Placed at the end of the document so the pages load faster -->
-<!--
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
--->
-    <script src="../js/bootstrap.min.js"></script>
-    <!-- IE10 viewport hack for Surface/desktop Windows 8 bug -->
-    <script src="../js/ie10-viewport-bug-workaround.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"
+            integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p" crossorigin="anonymous"></script>    
 
     <!-- MathJax JavaScript
-    ================================================== -->
-    <!-- Placed at the end of the document so the pages load faster -->
-    <script type="text/x-mathjax-config">
-      MathJax.Hub.Config({
-        TeX: { extensions: ['AMSmath.js','AMSsymbols.js','noErrors.js','noUndefined.js'], equationNumbers: { autoNumber: 'AMS' } },
-        jax: ['input/TeX','input/MathML','output/HTML-CSS'],
-        extensions: ['tex2jax.js','mml2jax.js','MathMenu.js','MathZoom.js']
-      });
-    </script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
-    
-    <script src="../tipuesearch/tipuesearch_content.js"></script>
-    <script src="../tipuesearch/tipuesearch_set.js"></script>
-    <script src="../tipuesearch/tipuesearch.js"></script>
-    
+             ================================================== -->
+             <!-- Placed at the end of the document so the pages load faster -->
+        <script type="text/x-mathjax-config">
+          MathJax.Hub.Config({
+          TeX: { extensions: ['AMSmath.js','AMSsymbols.js','noErrors.js','noUndefined.js'], equationNumbers: { autoNumber: 'AMS' } },
+          jax: ['input/TeX','input/MathML','output/HTML-CSS'],
+          extensions: ['tex2jax.js','mml2jax.js','MathMenu.js','MathZoom.js']
+          });
+        </script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+
+          <script src="../tipuesearch/tipuesearch_content.js"></script>
+          <script src="../tipuesearch/tipuesearch_set.js"></script>
+          <script src="../tipuesearch/tipuesearch.js"></script>
+
   </body>
 </html>
