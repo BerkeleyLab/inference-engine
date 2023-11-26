@@ -21,6 +21,7 @@ jobs:
         brew install ford gcc
     - name: Build Developer Documenation
       run: |
+        PATH=/home/linuxbrew/.linuxbrew/bin/:"$PATH"
         PATH=`brew --prefix ford`/bin:"$PATH"
         echo $PATH
         ford --version
