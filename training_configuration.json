@@ -1,13 +1,13 @@
-{
-    "hyperparameters": {
-        "mini-batches" : 10,
-        "learning rate" : 1.50000000,
-        "optimizer" : "adam"
-    }
-,
-    "network configuration": {
-        "skip connections" : false,
-        "nodes per layer" : [2,72,2],
-        "activation function" : "sigmoid"
-    }
-}
+ {
+     "hyperparameters": {
+         "mini-batches" : 10,
+         "learning rate" : 1.50000000,
+         "optimizer" : "adam"
+     }
+ ,
+     "network configuration": {
+         "skip connections" : false,
+         "nodes per layer" : [7,32,32,32,5],
+         "activation function" : "sigmoid"
+     }
+ }
