@@ -9,7 +9,6 @@ jobs:
 
     env:
       FC: gfortran
-      GCC_V: 13
 
     steps:
     - name: Checkout code
@@ -17,13 +16,13 @@ jobs:
 
     - name: Install Dependencies Ubuntu
       run: |
-        sudo apt-get update
-        sudo apt install -y gfortran-${GCC_V} python3-dev python3 build-essential graphviz
         /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
         PATH=/home/linuxbrew/.linuxbrew/bin/:"$PATH"
-        brew install ford
+        brew install ford gcc
+        PATH=`brew --prefix ford`/bin:"$PATH"
     - name: Build Developer Documenation
       run: |
+        echo $PATH
         ford --version
         ford ford.md > ford_output.txt
         # Turn warnings into errors
