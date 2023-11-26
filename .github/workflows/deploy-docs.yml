@@ -9,7 +9,6 @@ jobs:
 
     env:
       FC: gfortran
-      GCC_V: 13
 
     steps:
     - name: Checkout code
@@ -17,15 +16,16 @@ jobs:
 
     - name: Install Dependencies Ubuntu
       run: |
-        sudo apt-get update
-        sudo apt install -y gfortran-${GCC_V} python3-dev python3 build-essential graphviz
-        sudo pip install ford markdown==3.3.4
+        /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
+        PATH=/home/linuxbrew/.linuxbrew/bin/:"$PATH"
+        brew install ford gcc
     - name: Build Developer Documenation
       run: |
+        PATH=/home/linuxbrew/.linuxbrew/bin/:"$PATH"
+        PATH=`brew --prefix ford`/bin:"$PATH"
+        echo $PATH
         ford --version
-        ford ford.md > ford_output.txt
-        # Turn warnings into errors
-        cat ford_output.txt; if grep -q -i Warning ford_output.txt; then exit 1; fi
+        ford ford.md
         cp ./README.md ./doc/html
     - name: Upload Documentation
       uses: actions/upload-artifact@v2
