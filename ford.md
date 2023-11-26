@@ -1,5 +1,5 @@
 project: Inference-Engine
-summary: A deep learning library targetingo high-performance computing (HPC) applications with performance-critical inference and training needs.
+summary: A deep learning library targeting high-performance computing (HPC) applications with performance-critical inference and training needs.
 src_dir: src/
 src_dir: example
 exclude_dir: doc
