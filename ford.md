@@ -1,5 +1,5 @@
 project: Inference-Engine
-summary: A library supporting concurrent forward propagation on multiple fully-connected deep neural networks
+summary: A deep learning library targetingo high-performance computing (HPC) applications with performance-critical inference and training needs.
 src_dir: src/
 src_dir: example
 exclude_dir: doc
