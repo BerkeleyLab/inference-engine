@@ -18,7 +18,7 @@ sort: permission-alpha
 extra_mods: iso_fortran_env:https://gcc.gnu.org/onlinedocs/gfortran/ISO_005fFORTRAN_005fENV.html
             iso_c_binding:https://gcc.gnu.org/onlinedocs/gfortran/ISO_005fC_005fBINDING.html#ISO_005fC_005fBINDING
 project_github: https://github.com/berkeleylab/inference-engine
-author: Sourcery Institute
+author: Berkeley Lab
 print_creation_date: true
 creation_date: %Y-%m-%d %H:%M %z
 project_github: https://github.com/berkeleylab/inference-engine
