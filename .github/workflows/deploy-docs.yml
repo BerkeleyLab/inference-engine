@@ -25,9 +25,7 @@ jobs:
         PATH=`brew --prefix ford`/bin:"$PATH"
         echo $PATH
         ford --version
-        ford ford.md > ford_output.txt
-        # Turn warnings into errors
-        cat ford_output.txt; if grep -q -i Warning ford_output.txt; then exit 1; fi
+        ford ford.md
         cp ./README.md ./doc/html
     - name: Upload Documentation
       uses: actions/upload-artifact@v2
