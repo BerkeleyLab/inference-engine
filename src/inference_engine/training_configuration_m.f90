@@ -74,13 +74,13 @@ module training_configuration_m
       real(rkind) rate
     end function
  
-    module function differentiable_activation_strategy(self) result(strategy)
+    pure module function differentiable_activation_strategy(self) result(strategy)
       implicit none
       class(training_configuration_t), intent(in) :: self
       class(differentiable_activation_strategy_t), allocatable :: strategy
     end function
  
-    module function nodes_per_layer(self) result(nodes)
+    pure module function nodes_per_layer(self) result(nodes)
       implicit none
       class(training_configuration_t), intent(in) :: self
       integer, allocatable :: nodes(:)

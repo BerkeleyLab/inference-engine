@@ -390,7 +390,7 @@ contains
     type(tensor_t), allocatable :: inputs(:)
     type(trainable_engine_t)  trainable_engine
     type(bin_t), allocatable :: bins(:)
-    real(rkind), allocatable :: cost(:), random_numbers(:)
+    real(rkind), allocatable :: cost(:)
     integer, allocatable :: neurons(:)
     integer, parameter :: num_pairs = 6
     integer, parameter :: num_epochs = 148
@@ -409,11 +409,8 @@ contains
       end associate
       bins = [(bin_t(num_items=num_pairs, num_bins=num_bins, bin_number=bin), bin = 1, num_bins)]
 
-      allocate(random_numbers(2:size(input_output_pairs)))
-
       do epoch = 1,num_epochs
-        call random_number(random_numbers)
-        call shuffle(input_output_pairs, random_numbers)
+        call shuffle(input_output_pairs)
         mini_batches = [(mini_batch_t(input_output_pairs(bins(bin)%first():bins(bin)%last())), bin = 1, size(bins))]
         call trainable_engine%train(mini_batches, cost, adam=.true., learning_rate=1.5)
       end do

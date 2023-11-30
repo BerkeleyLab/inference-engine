@@ -77,7 +77,7 @@ program train_polynomials
         integer e, b
         do e = 1,num_epochs
           call random_number(random_numbers)
-          call shuffle(input_output_pairs, random_numbers)
+          call shuffle(input_output_pairs)
           mini_batches = [(mini_batch_t(input_output_pairs(bins(b)%first():bins(b)%last())), b = 1, size(bins))]
           call trainable_engine%train(mini_batches, cost, adam=.true., learning_rate=1.5)
           print *,sum(cost)/size(cost)

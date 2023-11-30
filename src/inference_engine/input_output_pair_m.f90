@@ -41,10 +41,9 @@ module input_output_pair_m
       type(tensor_t) :: my_expected_outputs
     end function
 
-    pure module subroutine shuffle(pairs, random_numbers)
+    module subroutine shuffle(pairs)
       implicit none
       type(input_output_pair_t), intent(inout) :: pairs(:)
-      real, intent(in) :: random_numbers(2:)
     end subroutine
 
   end interface

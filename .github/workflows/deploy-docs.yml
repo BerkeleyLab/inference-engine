@@ -23,8 +23,6 @@ jobs:
       run: |
         PATH=/home/linuxbrew/.linuxbrew/bin/:"$PATH"
         PATH=`brew --prefix ford`/bin:"$PATH"
-        echo $PATH
-        ford --version
         ford ford.md
         cp ./README.md ./doc/html
     - name: Upload Documentation
