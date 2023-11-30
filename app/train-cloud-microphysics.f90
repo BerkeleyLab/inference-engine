@@ -235,7 +235,26 @@ contains
         else
           close(network_unit)
           print *,"Initializing a new network"
-          trainable_engine = perturbed_identity_network(training_configuration, perturbation_magnitude=0.05)
+          block
+            character(len=len('YYYYMMDD')) date
+
+            call date_and_time(date)
+
+            associate(activation => training_configuration%differentiable_activation_strategy())
+              associate( &
+                model_name => string_t("Thompson microphysics"), &
+                author => string_t("Inference Engine"), &
+                date_string => string_t(date), &
+                activation_name => activation%function_name(), &
+                residual_network => string_t(trim(merge("true ", "false", training_configuration%skip_connections()))) &
+              )
+                trainable_engine = trainable_engine_t( &
+                  training_configuration, metadata = [model_name, author, date_string, activation_name, residual_network], &
+                  perturbation_magnitude=0.05 &
+                )
+              end associate
+            end associate
+          end block
         end if
 
         if (.not. allocated(end_step)) end_step = t_end
@@ -344,52 +363,6 @@ contains
     real(rkind), allocatable :: x_normalized(:,:,:,:)
     call assert(x_min/=x_max, "train_cloud_microphysics(normaliz): x_min/=x_max")
     x_normalized = (x - x_min)/(x_max - x_min)
-  end function
-
-  pure function e(j,n) result(unit_vector)
-    integer, intent(in) :: j, n
-    integer k
-    real, allocatable :: unit_vector(:)
-    unit_vector = real([(merge(1,0,j==k),k=1,n)])
-  end function
-
-  function perturbed_identity_network(training_configuration, perturbation_magnitude) result(trainable_engine)
-    type(training_configuration_t), intent(in) :: training_configuration
-    real(rkind), intent(in) :: perturbation_magnitude
-    type(trainable_engine_t) trainable_engine
-
-    ! local variables:
-    integer k, l
-    real, allocatable :: identity(:,:,:), w_harvest(:,:,:), b_harvest(:,:)
-    character(len=len('YYYMMDD')) date
-
-    call date_and_time(date)
-
-    associate(n=>training_configuration%nodes_per_layer(), activation=>training_configuration%differentiable_activation_strategy())
-      associate(n_max => maxval(n), layers => size(n))
-
-        identity = reshape( [( [(e(k,n_max), k=1,n_max)], l = 1, layers-1 )], [n_max, n_max, layers-1])
-        allocate(w_harvest, mold = identity)
-        allocate(b_harvest(size(identity,1), size(identity,3)))
-        call random_number(w_harvest)
-        call random_number(b_harvest)
-
-        associate( &
-          w => identity + perturbation_magnitude*(w_harvest-0.5)/0.5, &
-          b => perturbation_magnitude*(b_harvest-0.5)/0.5, &
-          activation_name => activation%function_name(), &
-          residual_network => string_t(trim(merge("true ", "false", training_configuration%skip_connections()))), &
-          model_name => string_t("Thompson microphysics"), &
-          author => string_t("Inference Engine"), &
-          date_string => string_t(date) &
-        )
-          trainable_engine = trainable_engine_t( &
-            nodes = n, weights = w, biases = b, differentiable_activation_strategy = activation, &
-            metadata = [model_name, author, date_string, activation_name, residual_network] &
-          )   
-        end associate
-      end associate
-    end associate
   end function
 
 end program train_cloud_microphysics
