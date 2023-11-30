@@ -18,7 +18,7 @@ program train_cloud_microphysics
   !! Internal dependencies;
   use inference_engine_m, only : &
     inference_engine_t, mini_batch_t, input_output_pair_t, tensor_t, trainable_engine_t, rkind, NetCDF_file_t, &
-    training_configuration_t
+    training_configuration_t, shuffle
   use ubounds_m, only : ubounds_t
   implicit none
 
@@ -338,25 +338,6 @@ contains
     close(plot_unit)
 
   end subroutine read_train_write
-
-  subroutine shuffle(pairs)
-    type(input_output_pair_t), intent(inout) :: pairs(:)
-    type(input_output_pair_t) temp
-    real harvest(2:size(pairs))
-    integer i, j
-
-    call random_init(image_distinct=.true., repeatable=.true.)
-    call random_number(harvest)
-
-    durstenfeld_shuffle: &
-    do i = size(pairs), 2, -1
-      j = 1 + int(harvest(i)*i)
-      temp     = pairs(i) 
-      pairs(i) = pairs(j)
-      pairs(j) = temp
-    end do durstenfeld_shuffle
-
-  end subroutine
 
   pure function normalize(x, x_min, x_max) result(x_normalized)
     real(rkind), intent(in) :: x(:,:,:,:), x_min, x_max
