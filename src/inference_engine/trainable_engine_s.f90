@@ -235,4 +235,47 @@ contains
     inference_engine = inference_engine_t(metadata = self%metadata_, weights = self%w, biases = self%b, nodes = self%n)
   end procedure
 
+  module procedure perturbed_identity_network
+
+    integer k, l
+    real, allocatable :: identity(:,:,:), w_harvest(:,:,:), b_harvest(:,:)
+    character(len=len('YYYMMDD')) date
+
+    call date_and_time(date)
+
+    associate(n=>training_configuration%nodes_per_layer(), activation=>training_configuration%differentiable_activation_strategy())
+      associate(n_max => maxval(n), layers => size(n))
+
+        identity = reshape( [( [(e(k,n_max), k=1,n_max)], l = 1, layers-1 )], [n_max, n_max, layers-1])
+        allocate(w_harvest, mold = identity)
+        allocate(b_harvest(size(identity,1), size(identity,3)))
+        call random_number(w_harvest)
+        call random_number(b_harvest)
+
+        associate( &
+          w => identity + perturbation*(w_harvest-0.5)/0.5, &
+          b => perturbation*(b_harvest-0.5)/0.5, &
+          activation_name => activation%function_name(), &
+          residual_network => string_t(trim(merge("true ", "false", training_configuration%skip_connections()))), &
+          date_string => string_t(date) &
+        )   
+          trainable_engine = trainable_engine_t( &
+            nodes = n, weights = w, biases = b, differentiable_activation_strategy = activation, &
+            metadata = [model_name, author, date_string, activation_name, residual_network] &
+          )   
+        end associate
+      end associate
+    end associate
+
+  contains
+
+    pure function e(j,n) result(unit_vector)
+      integer, intent(in) :: j, n
+      integer k
+      real, allocatable :: unit_vector(:)
+      unit_vector = real([(merge(1,0,j==k),k=1,n)])
+    end function
+
+  end procedure
+
 end submodule trainable_engine_s

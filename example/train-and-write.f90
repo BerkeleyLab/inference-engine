@@ -32,7 +32,7 @@ program train_and_write
     type(tensor_t), allocatable :: inputs(:)
     type(trainable_engine_t)  trainable_engine
     type(bin_t), allocatable :: bins(:)
-    real, allocatable :: cost(:), random_numbers(:)
+    real, allocatable :: cost(:)
 
     call random_init(image_distinct=.true., repeatable=.true.)
 
@@ -56,14 +56,11 @@ program train_and_write
         bins = [(bin_t(num_items=num_pairs, num_bins=num_mini_batches, bin_number=b), b = 1, num_mini_batches)]
       end block
 
-      allocate(random_numbers(2:size(input_output_pairs)))
-
       print *,"Cost"
       block
         integer e, b
         do e = 1,num_epochs
-          call random_number(random_numbers)
-          call shuffle(input_output_pairs, random_numbers)
+          call shuffle(input_output_pairs)
           mini_batches = [(mini_batch_t(input_output_pairs(bins(b)%first():bins(b)%last())), b = 1, size(bins))]
           call trainable_engine%train(mini_batches, cost, adam=.true., learning_rate=1.5)
           print *,sum(cost)/size(cost)

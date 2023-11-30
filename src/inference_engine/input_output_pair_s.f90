@@ -22,12 +22,13 @@ contains
   module procedure shuffle
     type(input_output_pair_t) temp
     integer i, j
+    real harvest(2:size(pairs)-1)
 
-    call assert(size(random_numbers) >= size(pairs)-1, "input_output_pair_s(shuffle): size(random_numbers) >= size(pairs)-1")
+    call random_number(harvest)
 
     durstenfeld_shuffle: &
     do i = size(pairs), 2, -1
-      j = 1 + int(random_numbers(i)*i)
+      j = 1 + int(harvest(i)*i)
       temp     = pairs(i)
       pairs(i) = pairs(j)
       pairs(j) = temp

@@ -18,7 +18,7 @@ program train_cloud_microphysics
   !! Internal dependencies;
   use inference_engine_m, only : &
     inference_engine_t, mini_batch_t, input_output_pair_t, tensor_t, trainable_engine_t, rkind, NetCDF_file_t, &
-    training_configuration_t
+    training_configuration_t, shuffle
   use ubounds_m, only : ubounds_t
   implicit none
 
@@ -143,14 +143,9 @@ contains
     integer, allocatable :: lbounds(:)
     integer t, b, t_end
     logical stop_requested
-
-    associate( &
-      network_input => base_name // "_input.nc", &
-      network_output => base_name // "_output.nc", &
-      network_file => base_name // "_network.json" &
-    )
+    
+    associate(network_input => base_name // "_input.nc")
       print *,"Reading network inputs from " // network_input
-
       associate(network_input_file => netCDF_file_t(network_input))
         ! Skipping the following unnecessary inputs that are in the current file format as of 14 Aug 2023:
         ! precipitation, snowfall
@@ -169,9 +164,10 @@ contains
            ubounds_t(ubound(pressure_in)), ubounds_t(ubound(temperature_in)) &
           ]
       end associate
+    end associate
 
+    associate(network_output => base_name // "_output.nc")
       print *,"Reading network outputs from " // network_output
-
       associate(network_output_file => netCDF_file_t(network_output))
         call network_output_file%input("potential_temperature", potential_temperature_out)
         ! Skipping the following unnecessary outputs that are in the current file format as of 14 Aug 2023:
@@ -188,44 +184,46 @@ contains
         call assert(all(ubounds == ubounds(1)), "main: matching input/output upper bounds")
         call assert(all(abs(time_in(2:t_end) - time_out(1:t_end-1))<tolerance), "main: matching time stamps")
       end associate
+    end associate
 
-      print *,"Calculating time derivatives"
+    print *,"Calculating time derivatives"
   
-      allocate(dpt_dt, mold = potential_temperature_out)
-      allocate(dqv_dt, mold = qv_out)
-      allocate(dqc_dt, mold = qc_out)
-      allocate(dqr_dt, mold = qr_out)
-      allocate(dqs_dt, mold = qs_out)
+    allocate(dpt_dt, mold = potential_temperature_out)
+    allocate(dqv_dt, mold = qv_out)
+    allocate(dqc_dt, mold = qc_out)
+    allocate(dqr_dt, mold = qr_out)
+    allocate(dqs_dt, mold = qs_out)
 
-      associate(dt => real(time_out - time_in, rkind))
-        do concurrent(t = 1:t_end)
-          dpt_dt(:,:,:,t) = (potential_temperature_out(:,:,:,t) - potential_temperature_in(:,:,:,t))/dt(t)
-          dqv_dt(:,:,:,t) = (qv_out(:,:,:,t)- qv_in(:,:,:,t))/dt(t)
-          dqc_dt(:,:,:,t) = (qc_out(:,:,:,t)- qc_in(:,:,:,t))/dt(t)
-          dqr_dt(:,:,:,t) = (qr_out(:,:,:,t)- qr_in(:,:,:,t))/dt(t)
-          dqs_dt(:,:,:,t) = (qs_out(:,:,:,t)- qs_in(:,:,:,t))/dt(t)
-        end do
-      end associate
+    associate(dt => real(time_out - time_in, rkind))
+      do concurrent(t = 1:t_end)
+        dpt_dt(:,:,:,t) = (potential_temperature_out(:,:,:,t) - potential_temperature_in(:,:,:,t))/dt(t)
+        dqv_dt(:,:,:,t) = (qv_out(:,:,:,t)- qv_in(:,:,:,t))/dt(t)
+        dqc_dt(:,:,:,t) = (qc_out(:,:,:,t)- qc_in(:,:,:,t))/dt(t)
+        dqr_dt(:,:,:,t) = (qr_out(:,:,:,t)- qr_in(:,:,:,t))/dt(t)
+        dqs_dt(:,:,:,t) = (qs_out(:,:,:,t)- qs_in(:,:,:,t))/dt(t)
+      end do
+    end associate
 
-      call assert(.not. any(ieee_is_nan(dpt_dt)), ".not. any(ieee_is_nan(dpt_dt)")
-      call assert(.not. any(ieee_is_nan(dqv_dt)), ".not. any(ieee_is_nan(dqv_dt)")
-      call assert(.not. any(ieee_is_nan(dqc_dt)), ".not. any(ieee_is_nan(dqc_dt)")
-      call assert(.not. any(ieee_is_nan(dqr_dt)), ".not. any(ieee_is_nan(dqr_dt)")
-      call assert(.not. any(ieee_is_nan(dqs_dt)), ".not. any(ieee_is_nan(dqs_dt)")
+    call assert(.not. any(ieee_is_nan(dpt_dt)), ".not. any(ieee_is_nan(dpt_dt)")
+    call assert(.not. any(ieee_is_nan(dqv_dt)), ".not. any(ieee_is_nan(dqv_dt)")
+    call assert(.not. any(ieee_is_nan(dqc_dt)), ".not. any(ieee_is_nan(dqc_dt)")
+    call assert(.not. any(ieee_is_nan(dqr_dt)), ".not. any(ieee_is_nan(dqr_dt)")
+    call assert(.not. any(ieee_is_nan(dqs_dt)), ".not. any(ieee_is_nan(dqs_dt)")
 
-      train_network: &
-      block
-        type(trainable_engine_t) trainable_engine
-        type(mini_batch_t), allocatable :: mini_batches(:)
-        type(bin_t), allocatable :: bins(:)
-        type(input_output_pair_t), allocatable :: input_output_pairs(:)
-        type(tensor_t), allocatable, dimension(:) :: inputs, outputs
-        real(rkind), parameter :: keep = 0.01
-        real(rkind), allocatable :: cost(:)
-        real(rkind), allocatable :: harvest(:)
-        integer i, batch, lon, lat, level, time, network_unit, io_status, final_step, epoch
-        integer(int64) start_training, finish_training
+    train_network: &
+    block
+      type(trainable_engine_t) trainable_engine
+      type(mini_batch_t), allocatable :: mini_batches(:)
+      type(bin_t), allocatable :: bins(:)
+      type(input_output_pair_t), allocatable :: input_output_pairs(:)
+      type(tensor_t), allocatable, dimension(:) :: inputs, outputs
+      real(rkind), parameter :: keep = 0.01
+      real(rkind), allocatable :: cost(:)
+      real(rkind), allocatable :: harvest(:)
+      integer i, batch, lon, lat, level, time, network_unit, io_status, final_step, epoch
+      integer(int64) start_training, finish_training
 
+      associate(network_file => base_name // "_network.json")
         open(newunit=network_unit, file=network_file, form='formatted', status='old', iostat=io_status, action='read')
 
         if (io_status==0) then
@@ -235,7 +233,9 @@ contains
         else
           close(network_unit)
           print *,"Initializing a new network"
-          trainable_engine = perturbed_identity_network(training_configuration, perturbation_magnitude=0.05)
+          trainable_engine = trainable_engine_t( &
+           training_configuration, perturbation=.05, model_name=string_t("Thompson microphysics"), author=string_t("Damian Rouson")&
+          ) 
         end if
 
         if (.not. allocated(end_step)) end_step = t_end
@@ -327,88 +327,22 @@ contains
 
           end do
         end associate
+      end associate
 
-        call system_clock(finish_training)
-        print *,"Training time: ", real(finish_training - start_training, real64)/real(clock_rate, real64),"for",num_epochs,"epochs"
+      call system_clock(finish_training)
+      print *,"Training time: ", real(finish_training - start_training, real64)/real(clock_rate, real64),"for",num_epochs,"epochs"
 
-      end block train_network
-
-    end associate
+    end block train_network
 
     close(plot_unit)
 
   end subroutine read_train_write
 
-  subroutine shuffle(pairs)
-    type(input_output_pair_t), intent(inout) :: pairs(:)
-    type(input_output_pair_t) temp
-    real harvest(2:size(pairs))
-    integer i, j
-
-    call random_init(image_distinct=.true., repeatable=.true.)
-    call random_number(harvest)
-
-    durstenfeld_shuffle: &
-    do i = size(pairs), 2, -1
-      j = 1 + int(harvest(i)*i)
-      temp     = pairs(i) 
-      pairs(i) = pairs(j)
-      pairs(j) = temp
-    end do durstenfeld_shuffle
-
-  end subroutine
-
   pure function normalize(x, x_min, x_max) result(x_normalized)
     real(rkind), intent(in) :: x(:,:,:,:), x_min, x_max
     real(rkind), allocatable :: x_normalized(:,:,:,:)
-    call assert(x_min/=x_max, "train_cloud_microphysics(normaliz): x_min/=x_max")
+    call assert(x_min/=x_max, "train_cloud_microphysics(normalize): x_min/=x_max")
     x_normalized = (x - x_min)/(x_max - x_min)
-  end function
-
-  pure function e(j,n) result(unit_vector)
-    integer, intent(in) :: j, n
-    integer k
-    real, allocatable :: unit_vector(:)
-    unit_vector = real([(merge(1,0,j==k),k=1,n)])
-  end function
-
-  function perturbed_identity_network(training_configuration, perturbation_magnitude) result(trainable_engine)
-    type(training_configuration_t), intent(in) :: training_configuration
-    real(rkind), intent(in) :: perturbation_magnitude
-    type(trainable_engine_t) trainable_engine
-
-    ! local variables:
-    integer k, l
-    real, allocatable :: identity(:,:,:), w_harvest(:,:,:), b_harvest(:,:)
-    character(len=len('YYYMMDD')) date
-
-    call date_and_time(date)
-
-    associate(n=>training_configuration%nodes_per_layer(), activation=>training_configuration%differentiable_activation_strategy())
-      associate(n_max => maxval(n), layers => size(n))
-
-        identity = reshape( [( [(e(k,n_max), k=1,n_max)], l = 1, layers-1 )], [n_max, n_max, layers-1])
-        allocate(w_harvest, mold = identity)
-        allocate(b_harvest(size(identity,1), size(identity,3)))
-        call random_number(w_harvest)
-        call random_number(b_harvest)
-
-        associate( &
-          w => identity + perturbation_magnitude*(w_harvest-0.5)/0.5, &
-          b => perturbation_magnitude*(b_harvest-0.5)/0.5, &
-          activation_name => activation%function_name(), &
-          residual_network => string_t(trim(merge("true ", "false", training_configuration%skip_connections()))), &
-          model_name => string_t("Thompson microphysics"), &
-          author => string_t("Inference Engine"), &
-          date_string => string_t(date) &
-        )
-          trainable_engine = trainable_engine_t( &
-            nodes = n, weights = w, biases = b, differentiable_activation_strategy = activation, &
-            metadata = [model_name, author, date_string, activation_name, residual_network] &
-          )   
-        end associate
-      end associate
-    end associate
   end function
 
 end program train_cloud_microphysics

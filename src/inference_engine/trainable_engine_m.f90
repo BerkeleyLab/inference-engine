@@ -3,6 +3,7 @@
 module trainable_engine_m
   !! Define an abstraction that supports training a neural network
   use sourcery_m, only : string_t
+  use training_configuration_m, only : training_configuration_t
   use inference_engine_m_, only : inference_engine_t
   use differentiable_activation_strategy_m, only : differentiable_activation_strategy_t
   use kind_parameters_m, only : rkind
@@ -48,6 +49,14 @@ module trainable_engine_m
     pure module function construct_from_inference_engine(inference_engine) result(trainable_engine)
       implicit none
       type(inference_engine_t), intent(in) :: inference_engine
+      type(trainable_engine_t) trainable_engine
+    end function
+
+    module function perturbed_identity_network(training_configuration, perturbation, model_name, author) result(trainable_engine)
+      implicit none
+      type(training_configuration_t), intent(in) :: training_configuration
+      real(rkind), intent(in) :: perturbation
+      type(string_t), intent(in) :: model_name, author
       type(trainable_engine_t) trainable_engine
     end function
 
