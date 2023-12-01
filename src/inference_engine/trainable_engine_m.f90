@@ -8,6 +8,7 @@ module trainable_engine_m
   use kind_parameters_m, only : rkind
   use tensor_m, only :  tensor_t
   use mini_batch_m, only : mini_batch_t
+  use training_configuration_m, only : training_configuration_t
   implicit none
 
   private
@@ -48,6 +49,14 @@ module trainable_engine_m
     pure module function construct_from_inference_engine(inference_engine) result(trainable_engine)
       implicit none
       type(inference_engine_t), intent(in) :: inference_engine
+      type(trainable_engine_t) trainable_engine
+    end function
+
+    module function perturbed_identity_network(training_configuration, perturbation_magnitude, metadata) result(trainable_engine)
+      implicit none
+      type(training_configuration_t), intent(in) :: training_configuration
+      type(string_t), intent(in) :: metadata(:)
+      real(rkind), intent(in) :: perturbation_magnitude
       type(trainable_engine_t) trainable_engine
     end function
 
