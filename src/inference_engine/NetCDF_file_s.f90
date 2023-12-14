@@ -143,9 +143,7 @@ contains
       call assert(size(array_shape)==rank(values), "netCDF_file_s(input_4D_real): size(array_shape)==rank(values)", &
         intrinsic_array_t([size(array_shape),rank(values)]))
       allocate(values(array_shape(1), array_shape(2), array_shape(3), array_shape(4)))
-      print *, "1"
       associate( nf_status => nf90_get_var(ncid, varid, values)) ! read data
-        print *, "2"
         call assert(nf_status == nf90_noerr, "nf90_get_var(ncid, varid, array)", trim(nf90_strerror(nf_status)))
       end associate
     end associate
