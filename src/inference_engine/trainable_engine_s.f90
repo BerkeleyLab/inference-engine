@@ -186,7 +186,7 @@ contains
               real, parameter :: epsilon = real(1.D-08,rkind)
 
               adjust_weights_and_biases: &
-              do l = 1,output_layer
+              do concurrent(l = 1:output_layer)
                 dcdw(1:n(l),1:n(l-1),l) = dcdw(1:n(l),1:n(l-1),l)/(mini_batch_size)
                 vdw(1:n(l),1:n(l-1),l)  = beta(1)*vdw(1:n(l),1:n(l-1),l) + obeta(1)*dcdw(1:n(l),1:n(l-1),l)
                 sdw (1:n(l),1:n(l-1),l) = beta(2)*sdw(1:n(l),1:n(l-1),l) + obeta(2)*(dcdw(1:n(l),1:n(l-1),l)**2)
@@ -205,7 +205,7 @@ contains
             end block
           else
             adjust_weights_and_biases: &
-            do l = 1,output_layer
+            do concurrent(l = 1:output_layer)
               dcdb(1:n(l),l) = dcdb(1:n(l),l)/mini_batch_size
               b(1:n(l),l) = b(1:n(l),l) - eta*dcdb(1:n(l),l) ! Adjust biases
               dcdw(1:n(l),1:n(l-1),l) = dcdw(1:n(l),1:n(l-1),l)/mini_batch_size
