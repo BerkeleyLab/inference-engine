@@ -60,22 +60,22 @@ contains
 
   module procedure infer
 
-    real(rkind), allocatable :: z(:,:), a(:,:)
+    real(rkind), allocatable :: a(:,:)
     integer l
 
     call self%assert_consistent
 
     associate(w => self%w, b => self%b, n => self%n, output_layer => ubound(self%n,1))
 
-      allocate(z, mold=b)
       allocate(a(maxval(n), input_layer:output_layer)) ! Activations
 
       a(1:n(input_layer),input_layer) = inputs%values()
 
       feed_forward: &
       do l = 1,output_layer
-        z(1:n(l),l) = matmul(w(1:n(l),1:n(l-1),l), a(1:n(l-1),l-1)) + b(1:n(l),l)
-        a(1:n(l),l) = self%differentiable_activation_strategy_%activation(z(1:n(l),l))
+        a(1:n(l),l) = self%differentiable_activation_strategy_%activation( &
+          matmul(w(1:n(l),1:n(l-1),l), a(1:n(l-1),l-1)) + b(1:n(l),l) &
+        )
       end do feed_forward
  
       outputs = tensor_t(a(1:n(output_layer),output_layer))
@@ -186,7 +186,7 @@ contains
               real, parameter :: epsilon = real(1.D-08,rkind)
 
               adjust_weights_and_biases: &
-              do l = 1,output_layer
+              do concurrent(l = 1:output_layer)
                 dcdw(1:n(l),1:n(l-1),l) = dcdw(1:n(l),1:n(l-1),l)/(mini_batch_size)
                 vdw(1:n(l),1:n(l-1),l)  = beta(1)*vdw(1:n(l),1:n(l-1),l) + obeta(1)*dcdw(1:n(l),1:n(l-1),l)
                 sdw (1:n(l),1:n(l-1),l) = beta(2)*sdw(1:n(l),1:n(l-1),l) + obeta(2)*(dcdw(1:n(l),1:n(l-1),l)**2)
@@ -205,7 +205,7 @@ contains
             end block
           else
             adjust_weights_and_biases: &
-            do l = 1,output_layer
+            do concurrent(l = 1:output_layer)
               dcdb(1:n(l),l) = dcdb(1:n(l),l)/mini_batch_size
               b(1:n(l),l) = b(1:n(l),l) - eta*dcdb(1:n(l),l) ! Adjust biases
               dcdw(1:n(l),1:n(l-1),l) = dcdw(1:n(l),1:n(l-1),l)/mini_batch_size
