@@ -77,7 +77,7 @@
             <li class="list-inline-item" id="statements"><i class="fa fa-list-ol"></i>
               <a data-bs-toggle="tooltip"
                  data-bs-placement="bottom" data-html="true"
-                 title=" 1.8% of total for source files.">45 statements</a>
+                 title=" 2.3% of total for source files.">56 statements</a>
             </li>
 
             <li class="list-inline-item" id="source-file">
@@ -720,17 +720,29 @@ large graphs.</div>
 <a id="ln-49" name="ln-49" href="#ln-49"></a>
 <a id="ln-50" name="ln-50" href="#ln-50"></a><span class="w">      </span><span class="k">call </span><span class="n">assert</span><span class="p">(</span><span class="k">all</span><span class="p">(</span><span class="nb">shape</span><span class="p">(</span><span class="n">outputs</span><span class="p">)</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="nb">shape</span><span class="p">(</span><span class="n">inputs</span><span class="p">)),</span><span class="w"> </span><span class="s2">&quot;all(shape(outputs) == shape(inputs))&quot;</span><span class="p">)</span>
 <a id="ln-51" name="ln-51" href="#ln-51"></a>
-<a id="ln-52" name="ln-52" href="#ln-52"></a><span class="w">      </span><span class="k">print</span><span class="w"> </span><span class="o">*</span><span class="p">,</span><span class="s2">&quot;Performing concurrent inference&quot;</span>
+<a id="ln-52" name="ln-52" href="#ln-52"></a><span class="w">      </span><span class="k">print</span><span class="w"> </span><span class="o">*</span><span class="p">,</span><span class="s2">&quot;Performing loop-based inference&quot;</span>
 <a id="ln-53" name="ln-53" href="#ln-53"></a><span class="w">      </span><span class="k">call </span><span class="nb">system_clock</span><span class="p">(</span><span class="n">t_start</span><span class="p">)</span>
-<a id="ln-54" name="ln-54" href="#ln-54"></a><span class="w">      </span><span class="k">do</span><span class="w"> </span><span class="k">concurrent</span><span class="p">(</span><span class="n">i</span><span class="o">=</span><span class="mi">1</span><span class="p">:</span><span class="n">lat</span><span class="p">,</span><span class="w"> </span><span class="n">j</span><span class="o">=</span><span class="mi">1</span><span class="p">:</span><span class="n">lon</span><span class="p">,</span><span class="w"> </span><span class="n">k</span><span class="o">=</span><span class="mi">1</span><span class="p">:</span><span class="n">lev</span><span class="p">)</span>
-<a id="ln-55" name="ln-55" href="#ln-55"></a><span class="w">        </span><span class="n">outputs</span><span class="p">(</span><span class="n">i</span><span class="p">,</span><span class="n">j</span><span class="p">,</span><span class="n">k</span><span class="p">)</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">inference_engine</span><span class="p">%</span><span class="n">infer</span><span class="p">(</span><span class="n">inputs</span><span class="p">(</span><span class="n">i</span><span class="p">,</span><span class="n">j</span><span class="p">,</span><span class="n">k</span><span class="p">))</span><span class="w">           </span>
-<a id="ln-56" name="ln-56" href="#ln-56"></a><span class="w">      </span><span class="k">end do</span>
-<a id="ln-57" name="ln-57" href="#ln-57"></a><span class="k">      call </span><span class="nb">system_clock</span><span class="p">(</span><span class="n">t_finish</span><span class="p">)</span>
-<a id="ln-58" name="ln-58" href="#ln-58"></a><span class="w">      </span><span class="k">print</span><span class="w"> </span><span class="o">*</span><span class="p">,</span><span class="s2">&quot;Concurrent inference time: &quot;</span><span class="p">,</span><span class="w"> </span><span class="kt">real</span><span class="p">(</span><span class="n">t_finish</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="n">t_start</span><span class="p">,</span><span class="w"> </span><span class="n">real64</span><span class="p">)</span><span class="o">/</span><span class="kt">real</span><span class="p">(</span><span class="n">clock_rate</span><span class="p">,</span><span class="w"> </span><span class="n">real64</span><span class="p">)</span>
-<a id="ln-59" name="ln-59" href="#ln-59"></a><span class="w">    </span><span class="k">end block</span>
-<a id="ln-60" name="ln-60" href="#ln-60"></a><span class="k">  end block</span>
-<a id="ln-61" name="ln-61" href="#ln-61"></a>
-<a id="ln-62" name="ln-62" href="#ln-62"></a><span class="k">end program</span>
+<a id="ln-54" name="ln-54" href="#ln-54"></a><span class="w">      </span><span class="k">do </span><span class="n">k</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span><span class="n">lev</span>
+<a id="ln-55" name="ln-55" href="#ln-55"></a><span class="w">        </span><span class="k">do </span><span class="n">j</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span><span class="n">lon</span>
+<a id="ln-56" name="ln-56" href="#ln-56"></a><span class="w">          </span><span class="k">do </span><span class="n">i</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span><span class="n">lat</span>
+<a id="ln-57" name="ln-57" href="#ln-57"></a><span class="w">            </span><span class="n">outputs</span><span class="p">(</span><span class="n">i</span><span class="p">,</span><span class="n">j</span><span class="p">,</span><span class="n">k</span><span class="p">)</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">inference_engine</span><span class="p">%</span><span class="n">infer</span><span class="p">(</span><span class="n">inputs</span><span class="p">(</span><span class="n">i</span><span class="p">,</span><span class="n">j</span><span class="p">,</span><span class="n">k</span><span class="p">))</span>
+<a id="ln-58" name="ln-58" href="#ln-58"></a><span class="w">          </span><span class="k">end do</span>
+<a id="ln-59" name="ln-59" href="#ln-59"></a><span class="k">        end do</span>
+<a id="ln-60" name="ln-60" href="#ln-60"></a><span class="k">      end do</span>
+<a id="ln-61" name="ln-61" href="#ln-61"></a><span class="k">      call </span><span class="nb">system_clock</span><span class="p">(</span><span class="n">t_finish</span><span class="p">)</span>
+<a id="ln-62" name="ln-62" href="#ln-62"></a><span class="w">      </span><span class="k">print</span><span class="w"> </span><span class="o">*</span><span class="p">,</span><span class="s2">&quot;Looping inference time: &quot;</span><span class="p">,</span><span class="w"> </span><span class="kt">real</span><span class="p">(</span><span class="n">t_finish</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="n">t_start</span><span class="p">,</span><span class="w"> </span><span class="n">real64</span><span class="p">)</span><span class="o">/</span><span class="kt">real</span><span class="p">(</span><span class="n">clock_rate</span><span class="p">,</span><span class="w"> </span><span class="n">real64</span><span class="p">)</span>
+<a id="ln-63" name="ln-63" href="#ln-63"></a>
+<a id="ln-64" name="ln-64" href="#ln-64"></a><span class="w">      </span><span class="k">print</span><span class="w"> </span><span class="o">*</span><span class="p">,</span><span class="s2">&quot;Performing concurrent inference&quot;</span>
+<a id="ln-65" name="ln-65" href="#ln-65"></a><span class="w">      </span><span class="k">call </span><span class="nb">system_clock</span><span class="p">(</span><span class="n">t_start</span><span class="p">)</span>
+<a id="ln-66" name="ln-66" href="#ln-66"></a><span class="w">      </span><span class="k">do</span><span class="w"> </span><span class="k">concurrent</span><span class="p">(</span><span class="n">i</span><span class="o">=</span><span class="mi">1</span><span class="p">:</span><span class="n">lat</span><span class="p">,</span><span class="w"> </span><span class="n">j</span><span class="o">=</span><span class="mi">1</span><span class="p">:</span><span class="n">lon</span><span class="p">,</span><span class="w"> </span><span class="n">k</span><span class="o">=</span><span class="mi">1</span><span class="p">:</span><span class="n">lev</span><span class="p">)</span>
+<a id="ln-67" name="ln-67" href="#ln-67"></a><span class="w">        </span><span class="n">outputs</span><span class="p">(</span><span class="n">i</span><span class="p">,</span><span class="n">j</span><span class="p">,</span><span class="n">k</span><span class="p">)</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">inference_engine</span><span class="p">%</span><span class="n">infer</span><span class="p">(</span><span class="n">inputs</span><span class="p">(</span><span class="n">i</span><span class="p">,</span><span class="n">j</span><span class="p">,</span><span class="n">k</span><span class="p">))</span><span class="w">           </span>
+<a id="ln-68" name="ln-68" href="#ln-68"></a><span class="w">      </span><span class="k">end do</span>
+<a id="ln-69" name="ln-69" href="#ln-69"></a><span class="k">      call </span><span class="nb">system_clock</span><span class="p">(</span><span class="n">t_finish</span><span class="p">)</span>
+<a id="ln-70" name="ln-70" href="#ln-70"></a><span class="w">      </span><span class="k">print</span><span class="w"> </span><span class="o">*</span><span class="p">,</span><span class="s2">&quot;Concurrent inference time: &quot;</span><span class="p">,</span><span class="w"> </span><span class="kt">real</span><span class="p">(</span><span class="n">t_finish</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="n">t_start</span><span class="p">,</span><span class="w"> </span><span class="n">real64</span><span class="p">)</span><span class="o">/</span><span class="kt">real</span><span class="p">(</span><span class="n">clock_rate</span><span class="p">,</span><span class="w"> </span><span class="n">real64</span><span class="p">)</span>
+<a id="ln-71" name="ln-71" href="#ln-71"></a><span class="w">    </span><span class="k">end block</span>
+<a id="ln-72" name="ln-72" href="#ln-72"></a><span class="k">  end block</span>
+<a id="ln-73" name="ln-73" href="#ln-73"></a>
+<a id="ln-74" name="ln-74" href="#ln-74"></a><span class="k">end program</span>
 </pre></div>
 
       </section>
@@ -749,7 +761,7 @@ large graphs.</div>
             <p class="text-end">
               Documentation generated by
               <a href="https://github.com/Fortran-FOSS-Programmers/ford">FORD</a>
- on 2023-12-20 23:30              </p>
+ on 2023-12-21 00:11              </p>
           </div>
         </div>
         <br>
