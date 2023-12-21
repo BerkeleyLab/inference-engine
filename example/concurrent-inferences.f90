@@ -49,6 +49,18 @@ program concurrent_inference
 
       call assert(all(shape(outputs) == shape(inputs)), "all(shape(outputs) == shape(inputs))")
 
+      print *,"Performing loop-based inference"
+      call system_clock(t_start)
+      do k=1,lev
+        do j=1,lon
+          do i=1,lat
+            outputs(i,j,k) = inference_engine%infer(inputs(i,j,k))
+          end do
+        end do
+      end do
+      call system_clock(t_finish)
+      print *,"Looping inference time: ", real(t_finish - t_start, real64)/real(clock_rate, real64)
+
       print *,"Performing concurrent inference"
       call system_clock(t_start)
       do concurrent(i=1:lat, j=1:lon, k=1:lev)
