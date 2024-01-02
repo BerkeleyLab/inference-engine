@@ -56,7 +56,7 @@ fi
 
 
 brew tap fortran-lang/fortran # required for building fpm
-brew install fpm netcdf netcdf-fortran pkg-config coreutils # coreutils supports `realpath` below
+brew install fortran-lang/fortran/fpm netcdf netcdf-fortran pkg-config coreutils # coreutils supports `realpath` below
 
 PREFIX=`realpath $PREFIX`
 
@@ -122,7 +122,7 @@ fi
 
 if command -v fpm > /dev/null 2>&1; then
   brew tap fortran-lang/fortran
-  brew install fpm
+  brew install fortran-lang/fortran/fpm
 fi
 
 echo "$RUN_FPM_SH test"
