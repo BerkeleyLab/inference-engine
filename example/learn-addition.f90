@@ -24,7 +24,7 @@ program learn_addition
     inference_engine_t, trainable_engine_t, mini_batch_t, tensor_t, input_output_pair_t, shuffle, relu_t
   use sourcery_m, only : string_t, file_t, command_line_t, bin_t, csv
   use assert_m, only : assert, intrinsic_array_t
-  use add_inputs, only : y
+  use addition_m, only : y
   implicit none
 
   type(string_t) intial_network_file, final_network_file
