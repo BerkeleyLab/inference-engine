@@ -35,7 +35,8 @@ contains
         class is(differentiable_activation_strategy_t)
            trainable_engine%differentiable_activation_strategy_ = activation
         class default
-           error stop "trainable_engine_s(from_inference_engine): activation strategy must be a differentiable_activation_stragegy_t"
+           error stop &
+           "trainable_engine_s(from_inference_engine): activation strategy must be a differentiable_activation_stragegy_t"
       end select
     end associate
 
