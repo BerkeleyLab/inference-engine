@@ -1,6 +1,6 @@
 ! Copyright (c), The Regents of the University of California
 ! Terms of use are as specified in LICENSE.txt
-module raise_inputs_to_a_power
+module exponentiation_m
   !! Define a function that produces the desired network output for a given network input
   use inference_engine_m, only : tensor_t
   use assert_m, only : assert
@@ -18,13 +18,13 @@ contains
 
 end module
 
-program train_polynomials
+program learn_exponentiation
   !! This trains a neural network to learn the following six polynomial functions of its eight inputs.
   use inference_engine_m, only : &
     inference_engine_t, trainable_engine_t, mini_batch_t, tensor_t, input_output_pair_t, shuffle, relu_t
   use sourcery_m, only : string_t, file_t, command_line_t, bin_t, csv
   use assert_m, only : assert, intrinsic_array_t
-  use raise_inputs_to_a_power, only : y
+  use exponentiation_m, only : y
   implicit none
 
   type(string_t) intial_network_file, final_network_file
