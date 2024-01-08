@@ -56,7 +56,7 @@ fi
 
 
 brew tap fortran-lang/fortran # required for building fpm
-brew install fpm netcdf netcdf-fortran pkg-config coreutils # coreutils supports `realpath` below
+brew install fortran-lang/fortran/fpm netcdf netcdf-fortran pkg-config coreutils # coreutils supports `realpath` below
 
 PREFIX=`realpath $PREFIX`
 
@@ -122,17 +122,17 @@ fi
 
 if command -v fpm > /dev/null 2>&1; then
   brew tap fortran-lang/fortran
-  brew install fpm
+  brew install fortran-lang/fortran/fpm
 fi
 
 echo "$RUN_FPM_SH test"
 $RUN_FPM_SH test
 
 echo ""
-echo "____________________ Inference-Engine has been set up! _______________________" 
+echo "____________________ cloud-microphysics has been set up! _______________________"
 echo ""
 echo "To run one of the programs in the example subdirectory, enter a command of the"
 echo "following form at a shell command prompt after replacing <example-base-name>"
 echo "with the base name of a file in the example/ subdirectory:"
 echo ""
-echo "./build/run-fpm.sh run --example <example-base-name>"
+echo "./build/run-fpm.sh run train-cloud-microphysics"
