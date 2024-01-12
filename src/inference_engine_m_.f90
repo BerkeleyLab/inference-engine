@@ -13,6 +13,7 @@ module inference_engine_m_
   public :: inference_engine_t
   public :: difference_t
   public :: exchange_t
+  public :: infer
 
   character(len=*), parameter :: key(*) = [character(len=len("usingSkipConnections")) :: &
     "modelName", "modelAuthor", "compilationDate", "activationFunction", "usingSkipConnections"]
