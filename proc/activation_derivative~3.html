@@ -1,3 +1,5 @@
+<!-- -*- mode: jinja2 -*- -->
+
 <!DOCTYPE html>
 <html lang="en">
   <head>
@@ -17,7 +19,8 @@
     <link href="../css/local.css" rel="stylesheet">
       <link  href="../tipuesearch/tipuesearch.css" rel="stylesheet">
 
-    <script src="https://code.jquery.com/jquery-3.7.0.slim.min.js" integrity="sha256-tG5mcZUtJsZvyKAxYLVXrmjKBVLd6VpVccqz/r4ypFE=" crossorigin="anonymous"></script>
+    <script src="https://code.jquery.com/jquery-3.7.1.min.js" integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
+    <script src="../js/svg-pan-zoom.min.js"></script>
   </head>
 
   <body>
@@ -137,7 +140,7 @@
     
     <div class="col-md-9" id='text'>
     <h2>module procedure activation_derivative <small>elemental module function activation_derivative(x) result(y)</small>  
-    <a href='../interface/activation_derivative.html'><button type="button" class="btn btn-info depwarn">Interface &rarr;</button></a>
+    <a href="../interface/activation_derivative.html"><button type="button" class="btn btn-info depwarn">Interface &rarr;</button></a>
 </h2>
     
 
@@ -174,7 +177,7 @@
 
       <h3>Return Value
         <small>
-          <span class="anchor" id="variable-y~3"></span>
+          <span class="anchor" id="variable-y~2"></span>
           real(kind=rkind)
         </small>
       </h3>
@@ -202,49 +205,49 @@
 <polygon fill="none" stroke="black" points="169.02,-45.27 0,-45.27 0,-21 169.02,-21 169.02,-45.27"/>
 <text text-anchor="middle" x="84.51" y="-29.53" font-family="Helvetica,sans-Serif" font-size="10.50">swish_s::activation_derivative</text>
 </g>
-<!-- interface~activation_derivative~3 -->
+<!-- interface~activation_derivative~2 -->
 <g id="proc~~activation_derivative~3~~CallsGraph_node2" class="node">
-<title>interface~activation_derivative~3</title>
-<g id="a_proc~~activation_derivative~3~~CallsGraph_node2"><a xlink:href=".././interface/activation_derivative~3.html" xlink:title="sigmoid_m::sigmoid_t%activation_derivative">
+<title>interface~activation_derivative~2</title>
+<g id="a_proc~~activation_derivative~3~~CallsGraph_node2"><a xlink:href="../interface/activation_derivative~2.html" xlink:title="sigmoid_m::sigmoid_t%activation_derivative">
 <polygon fill="#a7506f" stroke="#a7506f" points="453.54,-66.27 205.02,-66.27 205.02,-42 453.54,-42 453.54,-66.27"/>
 <text text-anchor="middle" x="329.28" y="-50.53" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">sigmoid_m::sigmoid_t%activation_derivative</text>
 </a>
 </g>
 </g>
-<!-- proc~activation_derivative~3&#45;&gt;interface~activation_derivative~3 -->
+<!-- proc~activation_derivative~3&#45;&gt;interface~activation_derivative~2 -->
 <g id="proc~~activation_derivative~3~~CallsGraph_edge1" class="edge">
-<title>proc~activation_derivative~3&#45;&gt;interface~activation_derivative~3</title>
+<title>proc~activation_derivative~3&#45;&gt;interface~activation_derivative~2</title>
 <path fill="none" stroke="#255000" d="M169.4,-40.39C177.13,-41.06 185.09,-41.75 193.12,-42.44"/>
 <polygon fill="#255000" stroke="#255000" points="192.76,-45.92 203.02,-43.3 193.36,-38.95 192.76,-45.92"/>
 </g>
-<!-- interface~activation~4 -->
+<!-- interface~activation~3 -->
 <g id="proc~~activation_derivative~3~~CallsGraph_node3" class="node">
-<title>interface~activation~4</title>
-<g id="a_proc~~activation_derivative~3~~CallsGraph_node3"><a xlink:href=".././interface/activation~4.html" xlink:title="sigmoid_m::sigmoid_t%activation">
+<title>interface~activation~3</title>
+<g id="a_proc~~activation_derivative~3~~CallsGraph_node3"><a xlink:href="../interface/activation~3.html" xlink:title="sigmoid_m::sigmoid_t%activation">
 <polygon fill="#a7506f" stroke="#a7506f" points="424.29,-24.27 234.27,-24.27 234.27,0 424.29,0 424.29,-24.27"/>
 <text text-anchor="middle" x="329.28" y="-8.53" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">sigmoid_m::sigmoid_t%activation</text>
 </a>
 </g>
 </g>
-<!-- proc~activation_derivative~3&#45;&gt;interface~activation~4 -->
+<!-- proc~activation_derivative~3&#45;&gt;interface~activation~3 -->
 <g id="proc~~activation_derivative~3~~CallsGraph_edge2" class="edge">
-<title>proc~activation_derivative~3&#45;&gt;interface~activation~4</title>
+<title>proc~activation_derivative~3&#45;&gt;interface~activation~3</title>
 <path fill="none" stroke="#255000" d="M169.4,-25.88C186.57,-24.39 204.85,-22.81 222.67,-21.27"/>
 <polygon fill="#255000" stroke="#255000" points="222.82,-24.77 232.48,-20.42 222.22,-17.8 222.82,-24.77"/>
 </g>
 </g>
 </svg>
-</div>        <div><a type="button" class="graph-help" data-toggle="modal" href="#CallsGraph-help-text">Help</a></div>
+</div>          <div>
+            <a type="button" class="graph-help" data-bs-toggle="modal" href="#CallsGraph-help-text">Help</a>
+          </div>
           <div class="modal fade" id="CallsGraph-help-text" tabindex="-1" role="dialog">
             <div class="modal-dialog modal-lg" role="document">
               <div class="modal-content">
                 <div class="modal-header">
-                  <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
-                  </button>
                   <h4 class="modal-title" id="-graph-help-label">Graph Key</h4>
+                  <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
-              <div class="modal-body">
+                <div class="modal-body">
 <p>Nodes of different colours represent the following: </p>
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN"
@@ -336,14 +339,14 @@ large graphs.</div>
     <footer>
       <div class="container">
         <div class="row justify-content-between">
-          <div class="col"><p>Inference-Engine was developed by Berkeley Lab<br>&copy; 2023 
+          <div class="col"><p>Inference-Engine was developed by Berkeley Lab<br>&copy; 2024 
 </p>
           </div>
           <div class="col">
             <p class="text-end">
               Documentation generated by
               <a href="https://github.com/Fortran-FOSS-Programmers/ford">FORD</a>
- on 2023-12-21 00:11              </p>
+ on 2024-01-12 15:55              </p>
           </div>
         </div>
         <br>

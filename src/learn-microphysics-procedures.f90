@@ -19,7 +19,7 @@ program learn_microphysics_procedures
 
   if (len(network_file%string())==0) then
     error stop new_line('a') // new_line('a') // &
-      'Usage: ./build/run-fpm.sh run learn_microphysics_procedures -- --output-file "<file-name>"' 
+      'Usage: ./build/run-fpm.sh run learn-microphysics-procedures -- --output-file "<file-name>"' 
   end if
 
   call system_clock(counter_start, clock_rate)

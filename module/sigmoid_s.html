@@ -1,3 +1,5 @@
+<!-- -*- mode: jinja2 -*- -->
+
 <!DOCTYPE html>
 <html lang="en">
   <head>
@@ -17,7 +19,8 @@
     <link href="../css/local.css" rel="stylesheet">
       <link  href="../tipuesearch/tipuesearch.css" rel="stylesheet">
 
-    <script src="https://code.jquery.com/jquery-3.7.0.slim.min.js" integrity="sha256-tG5mcZUtJsZvyKAxYLVXrmjKBVLd6VpVccqz/r4ypFE=" crossorigin="anonymous"></script>
+    <script src="https://code.jquery.com/jquery-3.7.1.min.js" integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
+    <script src="../js/svg-pan-zoom.min.js"></script>
   </head>
 
   <body>
@@ -156,7 +159,7 @@
             <li class="list-group-item">
               <ul class="list-inline">
                 <li><h5>Ancestors:</h5></li>
-                  <li class="list-inline-item"><a href='../module/sigmoid_m.html'>sigmoid_m</a></li>
+                  <li class="list-inline-item"><a href='sigmoid_m.html'>sigmoid_m</a></li>
               </ul>
             </li>
             <li class="list-group-item">
@@ -180,7 +183,7 @@
 <!-- module~sigmoid_m -->
 <g id="module~~sigmoid_s~~UsesGraph_node2" class="node">
 <title>module~sigmoid_m</title>
-<g id="a_module~~sigmoid_s~~UsesGraph_node2"><a xlink:href=".././module/sigmoid_m.html" xlink:title="sigmoid_m">
+<g id="a_module~~sigmoid_s~~UsesGraph_node2"><a xlink:href="../module/sigmoid_m.html" xlink:title="sigmoid_m">
 <polygon fill="#337ab7" stroke="#337ab7" points="628.08,-46.75 558.81,-46.75 558.81,-22.48 628.08,-22.48 628.08,-46.75"/>
 <text text-anchor="middle" x="593.45" y="-31.02" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">sigmoid_m</text>
 </a>
@@ -195,7 +198,7 @@
 <!-- module~differentiable_activation_strategy_m -->
 <g id="module~~sigmoid_s~~UsesGraph_node3" class="node">
 <title>module~differentiable_activation_strategy_m</title>
-<g id="a_module~~sigmoid_s~~UsesGraph_node3"><a xlink:href=".././module/differentiable_activation_strategy_m.html" xlink:title="differentiable_activation_strategy_m">
+<g id="a_module~~sigmoid_s~~UsesGraph_node3"><a xlink:href="../module/differentiable_activation_strategy_m.html" xlink:title="differentiable_activation_strategy_m">
 <polygon fill="#337ab7" stroke="#337ab7" points="522.81,-46.75 317.79,-46.75 317.79,-22.48 522.81,-22.48 522.81,-46.75"/>
 <text text-anchor="middle" x="420.3" y="-31.02" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">differentiable_activation_strategy_m</text>
 </a>
@@ -210,7 +213,7 @@
 <!-- module~kind_parameters_m -->
 <g id="module~~sigmoid_s~~UsesGraph_node4" class="node">
 <title>module~kind_parameters_m</title>
-<g id="a_module~~sigmoid_s~~UsesGraph_node4"><a xlink:href=".././module/kind_parameters_m.html" xlink:title="kind_parameters_m">
+<g id="a_module~~sigmoid_s~~UsesGraph_node4"><a xlink:href="../module/kind_parameters_m.html" xlink:title="kind_parameters_m">
 <polygon fill="#337ab7" stroke="#337ab7" points="117.27,-76.75 0,-76.75 0,-52.48 117.27,-52.48 117.27,-76.75"/>
 <text text-anchor="middle" x="58.63" y="-61.02" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">kind_parameters_m</text>
 </a>
@@ -237,7 +240,7 @@
 <!-- module~activation_strategy_m -->
 <g id="module~~sigmoid_s~~UsesGraph_node6" class="node">
 <title>module~activation_strategy_m</title>
-<g id="a_module~~sigmoid_s~~UsesGraph_node6"><a xlink:href=".././module/activation_strategy_m.html" xlink:title="activation_strategy_m">
+<g id="a_module~~sigmoid_s~~UsesGraph_node6"><a xlink:href="../module/activation_strategy_m.html" xlink:title="activation_strategy_m">
 <polygon fill="#337ab7" stroke="#337ab7" points="281.79,-46.75 153.27,-46.75 153.27,-22.48 281.79,-22.48 281.79,-46.75"/>
 <text text-anchor="middle" x="217.53" y="-31.02" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">activation_strategy_m</text>
 </a>
@@ -267,17 +270,17 @@
                   var panmodulesigmoid_sUsesGraph = svgPanZoom('#modulesigmoid_sUsesGraph',
                     {zoomEnabled: true, controlIconsEnabled: true, fit: true, center: true,}
                   );
-                </script>        <div><a type="button" class="graph-help" data-toggle="modal" href="#UsesGraph-help-text">Help</a></div>
+                </script>          <div>
+            <a type="button" class="graph-help" data-bs-toggle="modal" href="#UsesGraph-help-text">Help</a>
+          </div>
           <div class="modal fade" id="UsesGraph-help-text" tabindex="-1" role="dialog">
             <div class="modal-dialog modal-lg" role="document">
               <div class="modal-content">
                 <div class="modal-header">
-                  <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
-                  </button>
                   <h4 class="modal-title" id="-graph-help-label">Graph Key</h4>
+                  <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
-              <div class="modal-body">
+                <div class="modal-body">
 <p>Nodes of different colours represent the following: </p>
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN"
@@ -360,8 +363,8 @@ large graphs.</div>
         <section>
           <h2>Module Procedures</h2>
               <div class="card">
-    <div class="card-header codesum"><span class="anchor" id="proc-activation~2"></span><h3>module procedure <a href='../proc/activation~2.html'>activation</a> <small>elemental module function activation(x) result(y)</small>  
-    <a href='../interface/activation~4.html'><button type="button" class="btn btn-info depwarn">Interface &rarr;</button></a>
+    <div class="card-header codesum"><span class="anchor" id="proc-activation~2"></span> <h3>module procedure /home/runner/work/inference-engine/inference-engine/doc/html/module/sigmoid_s.html <a href='../proc/activation~2.html'>activation</a> <small>elemental module function activation(x) result(y)</small>  
+    <a href="../interface/activation~3.html"><button type="button" class="btn btn-info depwarn">Interface &rarr;</button></a>
 </h3></div>
     <div class="card-body">
           
@@ -380,7 +383,7 @@ large graphs.</div>
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-x~7"></span>
+              <span class="anchor" id="variable-x~5"></span>
               real(kind=rkind),
             </td>
 <td>intent(in)</td>
@@ -406,8 +409,8 @@ large graphs.</div>
   </div>
 
               <div class="card">
-    <div class="card-header codesum"><span class="anchor" id="proc-activation_derivative"></span><h3>module procedure <a href='../proc/activation_derivative.html'>activation_derivative</a> <small>elemental module function activation_derivative(x) result(y)</small>  
-    <a href='../interface/activation_derivative~3.html'><button type="button" class="btn btn-info depwarn">Interface &rarr;</button></a>
+    <div class="card-header codesum"><span class="anchor" id="proc-activation_derivative"></span> <h3>module procedure /home/runner/work/inference-engine/inference-engine/doc/html/module/sigmoid_s.html <a href='../proc/activation_derivative.html'>activation_derivative</a> <small>elemental module function activation_derivative(x) result(y)</small>  
+    <a href="../interface/activation_derivative~2.html"><button type="button" class="btn btn-info depwarn">Interface &rarr;</button></a>
 </h3></div>
     <div class="card-body">
           
@@ -426,7 +429,7 @@ large graphs.</div>
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-x~8"></span>
+              <span class="anchor" id="variable-x~6"></span>
               real(kind=rkind),
             </td>
 <td>intent(in)</td>
@@ -452,8 +455,8 @@ large graphs.</div>
   </div>
 
               <div class="card">
-    <div class="card-header codesum"><span class="anchor" id="proc-function_name~2"></span><h3>module procedure <a href='../proc/function_name~2.html'>function_name</a> <small>elemental module function function_name() result(string)</small>  
-    <a href='../interface/function_name~4.html'><button type="button" class="btn btn-info depwarn">Interface &rarr;</button></a>
+    <div class="card-header codesum"><span class="anchor" id="proc-function_name~2"></span> <h3>module procedure /home/runner/work/inference-engine/inference-engine/doc/html/module/sigmoid_s.html <a href='../proc/function_name~2.html'>function_name</a> <small>elemental module function function_name() result(string)</small>  
+    <a href="../interface/function_name~3.html"><button type="button" class="btn btn-info depwarn">Interface &rarr;</button></a>
 </h3></div>
     <div class="card-body">
           
@@ -479,14 +482,14 @@ large graphs.</div>
     <footer>
       <div class="container">
         <div class="row justify-content-between">
-          <div class="col"><p>Inference-Engine was developed by Berkeley Lab<br>&copy; 2023 
+          <div class="col"><p>Inference-Engine was developed by Berkeley Lab<br>&copy; 2024 
 </p>
           </div>
           <div class="col">
             <p class="text-end">
               Documentation generated by
               <a href="https://github.com/Fortran-FOSS-Programmers/ford">FORD</a>
- on 2023-12-21 00:11              </p>
+ on 2024-01-12 15:55              </p>
           </div>
         </div>
         <br>

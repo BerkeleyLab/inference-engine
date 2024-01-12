@@ -1,3 +1,5 @@
+<!-- -*- mode: jinja2 -*- -->
+
 <!DOCTYPE html>
 <html lang="en">
   <head>
@@ -8,7 +10,7 @@
     <meta name="author" content="Berkeley Lab" >
     <link rel="icon" href="../favicon.png">
 
-    <title>train_polynomials &ndash; Inference-Engine</title>
+    <title>learn_exponentiation &ndash; Inference-Engine</title>
 
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet"
           integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
@@ -17,7 +19,8 @@
     <link href="../css/local.css" rel="stylesheet">
       <link  href="../tipuesearch/tipuesearch.css" rel="stylesheet">
 
-    <script src="https://code.jquery.com/jquery-3.7.0.slim.min.js" integrity="sha256-tG5mcZUtJsZvyKAxYLVXrmjKBVLd6VpVccqz/r4ypFE=" crossorigin="anonymous"></script>
+    <script src="https://code.jquery.com/jquery-3.7.1.min.js" integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
+    <script src="../js/svg-pan-zoom.min.js"></script>
   </head>
 
   <body>
@@ -65,7 +68,7 @@
 
     <div class="container">
   <div class="row">
-    <h1>train_polynomials      <small>Program</small>
+    <h1>learn_exponentiation      <small>Program</small>
       
     </h1>
       <div class="container p-2 mb-4 bg-light border rounded-3">
@@ -76,20 +79,20 @@
             <li class="list-inline-item" id="statements"><i class="fa fa-list-ol"></i>
               <a data-bs-toggle="tooltip"
                  data-bs-placement="bottom" data-html="true"
-                 title=" 9.2% of total for programs.">93 statements</a>
+                 title="10.2% of total for programs.">93 statements</a>
             </li>
 
             <li class="list-inline-item" id="source-file">
               <i class="fa fa-code"></i>
-              <a href="../src/learn-addition.f90"> Source File</a>
+              <a href="../src/learn-exponentiation.f90"> Source File</a>
             </li>
         </ul>
       </div>
       <div class="col">
         <nav aria-label="breadcrumb">
           <ol class="breadcrumb justify-content-end mb-0">
-                <li class="breadcrumb-item"><a href='../sourcefile/learn-addition.f90.html'>learn-addition.f90</a></li>
-            <li class="breadcrumb-item active" aria-current="page">train_polynomials</li>
+                <li class="breadcrumb-item"><a href='../sourcefile/learn-exponentiation.f90.html'>learn-exponentiation.f90</a></li>
+            <li class="breadcrumb-item active" aria-current="page">learn_exponentiation</li>
           </ol>
         </nav>
       </div>
@@ -115,9 +118,9 @@
       </a>
       <div id="vars-0" class="collapse">
         <div class="list-group list-group-flush">
-            <a class="list-group-item" href="../program/train_polynomials~3.html#variable-command_line~5">command_line</a>
-            <a class="list-group-item" href="../program/train_polynomials~3.html#variable-final_network_file~4">final_network_file</a>
-            <a class="list-group-item" href="../program/train_polynomials~3.html#variable-intial_network_file~4">intial_network_file</a>
+            <a class="list-group-item" href="../program/learn_exponentiation.html#variable-command_line~9">command_line</a>
+            <a class="list-group-item" href="../program/learn_exponentiation.html#variable-final_network_file~5">final_network_file</a>
+            <a class="list-group-item" href="../program/learn_exponentiation.html#variable-intial_network_file~5">intial_network_file</a>
         </div>
       </div>
     </div>
@@ -138,8 +141,8 @@
       </a>
       <div id="funcs-0" class="collapse">
         <div class="list-group list-group-flush">
-            <a class="list-group-item" href="../program/train_polynomials~3.html#proc-e~4">e</a>
-            <a class="list-group-item" href="../program/train_polynomials~3.html#proc-perturbed_identity_network~5">perturbed_identity_network</a>
+            <a class="list-group-item" href="../program/learn_exponentiation.html#proc-e~6">e</a>
+            <a class="list-group-item" href="../program/learn_exponentiation.html#proc-perturbed_identity_network~7">perturbed_identity_network</a>
         </div>
       </div>
     </div>
@@ -151,7 +154,7 @@
       </a>
       <div id="subs-0" class="collapse">
         <div class="list-group list-group-flush">
-            <a class="list-group-item" href="../program/train_polynomials~3.html#proc-output~5">output</a>
+            <a class="list-group-item" href="../program/learn_exponentiation.html#proc-output~7">output</a>
         </div>
       </div>
     </div>
@@ -176,9 +179,9 @@
         <ul class="list-group list-group-flush">
             <li class="list-group-item">
               <ul class="list-inline">
-                  <li class="list-inline-item"><a href='../module/add_inputs.html'>add_inputs</a></li>
-                  <li class="list-inline-item">assert_m</li>
                   <li class="list-inline-item">sourcery_m</li>
+                  <li class="list-inline-item">assert_m</li>
+                  <li class="list-inline-item"><a href='../module/exponentiation_m.html'>exponentiation_m</a></li>
                   <li class="list-inline-item"><a href='../module/inference_engine_m.html'>inference_engine_m</a></li>
               </ul>
             </li>
@@ -188,451 +191,451 @@
  "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
 <!-- Generated by graphviz version 9.0.0 (20230911.1827)
  -->
-<!-- Title: program~~train_polynomials~3~~UsesGraph Pages: 1 -->
-<svg id="programtrain_polynomials3UsesGraph" width="641pt" height="357pt"
- viewBox="0.00 0.00 641.00 356.87" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
-<g id="program~~train_polynomials~3~~UsesGraph" class="graph" transform="scale(0.505556 0.505556) rotate(0) translate(4 701.89)">
-<title>program~~train_polynomials~3~~UsesGraph</title>
-<polygon fill="white" stroke="none" points="-4,4 -4,-701.89 1263.91,-701.89 1263.91,4 -4,4"/>
-<!-- program~train_polynomials~3 -->
-<g id="program~~train_polynomials~3~~UsesGraph_node1" class="node">
-<title>program~train_polynomials~3</title>
-<polygon fill="none" stroke="black" points="1259.91,-618.27 1153.89,-618.27 1153.89,-594 1259.91,-594 1259.91,-618.27"/>
-<text text-anchor="middle" x="1206.9" y="-602.53" font-family="Helvetica,sans-Serif" font-size="10.50">train_polynomials</text>
+<!-- Title: program~~learn_exponentiation~~UsesGraph Pages: 1 -->
+<svg id="programlearn_exponentiationUsesGraph" width="641pt" height="342pt"
+ viewBox="0.00 0.00 641.00 341.90" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+<g id="program~~learn_exponentiation~~UsesGraph" class="graph" transform="scale(0.484355 0.484355) rotate(0) translate(4 701.89)">
+<title>program~~learn_exponentiation~~UsesGraph</title>
+<polygon fill="white" stroke="none" points="-4,4 -4,-701.89 1319.41,-701.89 1319.41,4 -4,4"/>
+<!-- program~learn_exponentiation -->
+<g id="program~~learn_exponentiation~~UsesGraph_node1" class="node">
+<title>program~learn_exponentiation</title>
+<polygon fill="none" stroke="black" points="1315.41,-618.27 1191.39,-618.27 1191.39,-594 1315.41,-594 1315.41,-618.27"/>
+<text text-anchor="middle" x="1253.4" y="-602.53" font-family="Helvetica,sans-Serif" font-size="10.50">learn_exponentiation</text>
 </g>
 <!-- assert_m -->
-<g id="program~~train_polynomials~3~~UsesGraph_node2" class="node">
+<g id="program~~learn_exponentiation~~UsesGraph_node2" class="node">
 <title>assert_m</title>
 <polygon fill="#337ab7" stroke="#337ab7" points="982.62,-632.27 923.1,-632.27 923.1,-608 982.62,-608 982.62,-632.27"/>
 <text text-anchor="middle" x="952.86" y="-616.53" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">assert_m</text>
 </g>
-<!-- program~train_polynomials~3&#45;&gt;assert_m -->
-<g id="program~~train_polynomials~3~~UsesGraph_edge1" class="edge">
-<title>program~train_polynomials~3&#45;&gt;assert_m</title>
-<path fill="none" stroke="#255000" stroke-dasharray="5,2" d="M1191.85,-618.55C1170.44,-636.33 1127.56,-667.62 1084.26,-674.13"/>
-<path fill="none" stroke="#255000" stroke-dasharray="5,2" d="M1082.26,-674.13C1043.83,-679.92 1003.06,-657.17 978.03,-639.43"/>
-<polygon fill="#255000" stroke="#255000" points="980.27,-636.73 970.15,-633.6 976.11,-642.36 980.27,-636.73"/>
+<!-- program~learn_exponentiation&#45;&gt;assert_m -->
+<g id="program~~learn_exponentiation~~UsesGraph_edge1" class="edge">
+<title>program~learn_exponentiation&#45;&gt;assert_m</title>
+<path fill="none" stroke="#255000" stroke-dasharray="5,2" d="M1234.63,-618.61C1207.69,-636.48 1154.2,-667.88 1103.01,-674.13"/>
+<path fill="none" stroke="#255000" stroke-dasharray="5,2" d="M1101.01,-674.13C1057.03,-679.51 1009.48,-656.21 980.68,-638.53"/>
+<polygon fill="#255000" stroke="#255000" points="982.91,-635.8 972.59,-633.38 979.15,-641.7 982.91,-635.8"/>
 </g>
-<!-- module~add_inputs -->
-<g id="program~~train_polynomials~3~~UsesGraph_node3" class="node">
-<title>module~add_inputs</title>
-<g id="a_program~~train_polynomials~3~~UsesGraph_node3"><a xlink:href=".././module/add_inputs.html" xlink:title="add_inputs">
-<polygon fill="#337ab7" stroke="#337ab7" points="1117.89,-618.27 1048.62,-618.27 1048.62,-594 1117.89,-594 1117.89,-618.27"/>
-<text text-anchor="middle" x="1083.26" y="-602.53" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">add_inputs</text>
+<!-- module~exponentiation_m -->
+<g id="program~~learn_exponentiation~~UsesGraph_node3" class="node">
+<title>module~exponentiation_m</title>
+<g id="a_program~~learn_exponentiation~~UsesGraph_node3"><a xlink:href="../module/exponentiation_m.html" xlink:title="exponentiation_m">
+<polygon fill="#337ab7" stroke="#337ab7" points="1155.39,-618.27 1048.62,-618.27 1048.62,-594 1155.39,-594 1155.39,-618.27"/>
+<text text-anchor="middle" x="1102.01" y="-602.53" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">exponentiation_m</text>
 </a>
 </g>
 </g>
-<!-- program~train_polynomials~3&#45;&gt;module~add_inputs -->
-<g id="program~~train_polynomials~3~~UsesGraph_edge2" class="edge">
-<title>program~train_polynomials~3&#45;&gt;module~add_inputs</title>
-<path fill="none" stroke="#255000" stroke-dasharray="5,2" d="M1153.61,-606.13C1145.65,-606.13 1137.5,-606.13 1129.71,-606.13"/>
-<polygon fill="#255000" stroke="#255000" points="1129.74,-602.64 1119.74,-606.14 1129.74,-609.64 1129.74,-602.64"/>
+<!-- program~learn_exponentiation&#45;&gt;module~exponentiation_m -->
+<g id="program~~learn_exponentiation~~UsesGraph_edge2" class="edge">
+<title>program~learn_exponentiation&#45;&gt;module~exponentiation_m</title>
+<path fill="none" stroke="#255000" stroke-dasharray="5,2" d="M1191.2,-606.13C1183.3,-606.13 1175.19,-606.13 1167.23,-606.13"/>
+<polygon fill="#255000" stroke="#255000" points="1167.26,-602.64 1157.26,-606.14 1167.26,-609.64 1167.26,-602.64"/>
 </g>
 <!-- module~inference_engine_m -->
-<g id="program~~train_polynomials~3~~UsesGraph_node4" class="node">
+<g id="program~~learn_exponentiation~~UsesGraph_node4" class="node">
 <title>module~inference_engine_m</title>
-<g id="a_program~~train_polynomials~3~~UsesGraph_node4"><a xlink:href=".././module/inference_engine_m.html" xlink:title="inference_engine_m">
+<g id="a_program~~learn_exponentiation~~UsesGraph_node4"><a xlink:href="../module/inference_engine_m.html" xlink:title="inference_engine_m">
 <polygon fill="#337ab7" stroke="#337ab7" points="1012.62,-474.27 893.1,-474.27 893.1,-450 1012.62,-450 1012.62,-474.27"/>
 <text text-anchor="middle" x="952.86" y="-458.53" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">inference_engine_m</text>
 </a>
 </g>
 </g>
-<!-- program~train_polynomials~3&#45;&gt;module~inference_engine_m -->
-<g id="program~~train_polynomials~3~~UsesGraph_edge3" class="edge">
-<title>program~train_polynomials~3&#45;&gt;module~inference_engine_m</title>
-<path fill="none" stroke="#255000" stroke-dasharray="5,2" d="M1183.97,-593.61C1139.29,-568.08 1037.52,-509.93 985.6,-480.27"/>
-<polygon fill="#255000" stroke="#255000" points="987.65,-477.41 977.23,-475.49 984.18,-483.49 987.65,-477.41"/>
+<!-- program~learn_exponentiation&#45;&gt;module~inference_engine_m -->
+<g id="program~~learn_exponentiation~~UsesGraph_edge3" class="edge">
+<title>program~learn_exponentiation&#45;&gt;module~inference_engine_m</title>
+<path fill="none" stroke="#255000" stroke-dasharray="5,2" d="M1226.43,-593.61C1173.17,-567.92 1051.45,-509.21 990.31,-479.72"/>
+<polygon fill="#255000" stroke="#255000" points="991.87,-476.59 981.35,-475.39 988.83,-482.89 991.87,-476.59"/>
 </g>
 <!-- sourcery_m -->
-<g id="program~~train_polynomials~3~~UsesGraph_node5" class="node">
+<g id="program~~learn_exponentiation~~UsesGraph_node5" class="node">
 <title>sourcery_m</title>
 <polygon fill="#337ab7" stroke="#337ab7" points="95.14,-530.27 22.12,-530.27 22.12,-506 95.14,-506 95.14,-530.27"/>
 <text text-anchor="middle" x="58.63" y="-514.53" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">sourcery_m</text>
 </g>
-<!-- program~train_polynomials~3&#45;&gt;sourcery_m -->
-<g id="program~~train_polynomials~3~~UsesGraph_edge4" class="edge">
-<title>program~train_polynomials~3&#45;&gt;sourcery_m</title>
-<path fill="none" stroke="#255000" stroke-dasharray="5,2" d="M1082.26,-674.13C957.97,-692.83 925.15,-674.13 799.47,-674.13 799.47,-674.13 799.47,-674.13 630.32,-674.13 447.3,-674.13 393.74,-727.01 218.53,-674.13"/>
+<!-- program~learn_exponentiation&#45;&gt;sourcery_m -->
+<g id="program~~learn_exponentiation~~UsesGraph_edge4" class="edge">
+<title>program~learn_exponentiation&#45;&gt;sourcery_m</title>
+<path fill="none" stroke="#255000" stroke-dasharray="5,2" d="M1101.01,-674.13C967.98,-690.38 933.48,-674.13 799.47,-674.13 799.47,-674.13 799.47,-674.13 630.32,-674.13 447.3,-674.13 393.74,-727.01 218.53,-674.13"/>
 </g>
-<!-- module~add_inputs&#45;&gt;assert_m -->
-<g id="program~~train_polynomials~3~~UsesGraph_edge5" class="edge">
-<title>module~add_inputs&#45;&gt;assert_m</title>
-<path fill="none" stroke="none" stroke-dasharray="5,2" d="M1048.18,-609.85C1031.49,-611.67 1011.27,-613.87 993.84,-615.78"/>
-<polygon fill="none" stroke="none" points="993.93,-612.25 984.37,-616.81 994.69,-619.2 993.93,-612.25"/>
+<!-- module~exponentiation_m&#45;&gt;assert_m -->
+<g id="program~~learn_exponentiation~~UsesGraph_edge5" class="edge">
+<title>module~exponentiation_m&#45;&gt;assert_m</title>
+<path fill="none" stroke="none" stroke-dasharray="5,2" d="M1048.3,-611.15C1030.34,-612.86 1010.58,-614.74 993.79,-616.34"/>
+<polygon fill="none" stroke="none" points="993.83,-612.82 984.21,-617.25 994.5,-619.78 993.83,-612.82"/>
 </g>
-<!-- module~add_inputs&#45;&gt;module~inference_engine_m -->
-<g id="program~~train_polynomials~3~~UsesGraph_edge6" class="edge">
-<title>module~add_inputs&#45;&gt;module~inference_engine_m</title>
-<path fill="none" stroke="none" stroke-dasharray="5,2" d="M1071.09,-593.61C1048.98,-568.82 999.48,-513.3 972.41,-482.94"/>
-<polygon fill="none" stroke="none" points="975.37,-481 966.1,-475.87 970.15,-485.66 975.37,-481"/>
+<!-- module~exponentiation_m&#45;&gt;module~inference_engine_m -->
+<g id="program~~learn_exponentiation~~UsesGraph_edge6" class="edge">
+<title>module~exponentiation_m&#45;&gt;module~inference_engine_m</title>
+<path fill="none" stroke="none" stroke-dasharray="5,2" d="M1088.2,-593.61C1062.77,-568.71 1005.65,-512.82 974.72,-482.55"/>
+<polygon fill="none" stroke="none" points="977.41,-480.29 967.82,-475.79 972.52,-485.29 977.41,-480.29"/>
 </g>
 <!-- module~activation_strategy_m -->
-<g id="program~~train_polynomials~3~~UsesGraph_node6" class="node">
+<g id="program~~learn_exponentiation~~UsesGraph_node6" class="node">
 <title>module~activation_strategy_m</title>
-<g id="a_program~~train_polynomials~3~~UsesGraph_node6"><a xlink:href=".././module/activation_strategy_m.html" xlink:title="activation_strategy_m">
+<g id="a_program~~learn_exponentiation~~UsesGraph_node6"><a xlink:href="../module/activation_strategy_m.html" xlink:title="activation_strategy_m">
 <polygon fill="#337ab7" stroke="#337ab7" points="281.79,-414.27 153.27,-414.27 153.27,-390 281.79,-390 281.79,-414.27"/>
 <text text-anchor="middle" x="217.53" y="-398.53" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">activation_strategy_m</text>
 </a>
 </g>
 </g>
 <!-- module~inference_engine_m&#45;&gt;module~activation_strategy_m -->
-<g id="program~~train_polynomials~3~~UsesGraph_edge7" class="edge">
+<g id="program~~learn_exponentiation~~UsesGraph_edge7" class="edge">
 <title>module~inference_engine_m&#45;&gt;module~activation_strategy_m</title>
 <path fill="none" stroke="#025525" stroke-dasharray="5,2" stroke-opacity="0.019608" d="M630.32,-442.13C491.32,-435.56 455.69,-441.81 317.79,-423.13 306.22,-421.57 293.98,-419.4 282.2,-417.06"/>
 <polygon fill="#025525" fill-opacity="0.019608" stroke="#025525" stroke-opacity="0.019608" points="283.06,-413.66 272.56,-415.07 281.65,-420.52 283.06,-413.66"/>
 </g>
 <!-- module~differentiable_activation_strategy_m -->
-<g id="program~~train_polynomials~3~~UsesGraph_node7" class="node">
+<g id="program~~learn_exponentiation~~UsesGraph_node7" class="node">
 <title>module~differentiable_activation_strategy_m</title>
-<g id="a_program~~train_polynomials~3~~UsesGraph_node7"><a xlink:href=".././module/differentiable_activation_strategy_m.html" xlink:title="differentiable_activation_strategy_m">
+<g id="a_program~~learn_exponentiation~~UsesGraph_node7"><a xlink:href="../module/differentiable_activation_strategy_m.html" xlink:title="differentiable_activation_strategy_m">
 <polygon fill="#337ab7" stroke="#337ab7" points="522.81,-414.27 317.79,-414.27 317.79,-390 522.81,-390 522.81,-414.27"/>
 <text text-anchor="middle" x="420.3" y="-398.53" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">differentiable_activation_strategy_m</text>
 </a>
 </g>
 </g>
 <!-- module~inference_engine_m&#45;&gt;module~differentiable_activation_strategy_m -->
-<g id="program~~train_polynomials~3~~UsesGraph_edge8" class="edge">
+<g id="program~~learn_exponentiation~~UsesGraph_edge8" class="edge">
 <title>module~inference_engine_m&#45;&gt;module~differentiable_activation_strategy_m</title>
 <path fill="none" stroke="#025525" stroke-dasharray="5,2" stroke-opacity="0.019608" d="M797.47,-442.13C724.11,-439.76 705.64,-445.6 632.32,-442.13"/>
 <path fill="none" stroke="#025525" stroke-dasharray="5,2" stroke-opacity="0.019608" d="M630.32,-442.13C578.09,-439.67 519.73,-427.7 477.98,-417.5"/>
 <polygon fill="#025525" fill-opacity="0.019608" stroke="#025525" stroke-opacity="0.019608" points="478.95,-414.13 468.4,-415.11 477.25,-420.92 478.95,-414.13"/>
 </g>
 <!-- module~hyperparameters_m -->
-<g id="program~~train_polynomials~3~~UsesGraph_node8" class="node">
+<g id="program~~learn_exponentiation~~UsesGraph_node8" class="node">
 <title>module~hyperparameters_m</title>
-<g id="a_program~~train_polynomials~3~~UsesGraph_node8"><a xlink:href=".././module/hyperparameters_m.html" xlink:title="hyperparameters_m">
+<g id="a_program~~learn_exponentiation~~UsesGraph_node8"><a xlink:href="../module/hyperparameters_m.html" xlink:title="hyperparameters_m">
 <polygon fill="#337ab7" stroke="#337ab7" points="277.67,-608.27 157.4,-608.27 157.4,-584 277.67,-584 277.67,-608.27"/>
 <text text-anchor="middle" x="217.53" y="-592.53" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">hyperparameters_m</text>
 </a>
 </g>
 </g>
 <!-- module~inference_engine_m&#45;&gt;module~hyperparameters_m -->
-<g id="program~~train_polynomials~3~~UsesGraph_edge9" class="edge">
+<g id="program~~learn_exponentiation~~UsesGraph_edge9" class="edge">
 <title>module~inference_engine_m&#45;&gt;module~hyperparameters_m</title>
 <path fill="none" stroke="#025525" stroke-dasharray="5,2" stroke-opacity="0.019608" d="M630.32,-636.13C503.3,-687.25 337.12,-640.06 260.53,-612.63"/>
 <polygon fill="#025525" fill-opacity="0.019608" stroke="#025525" stroke-opacity="0.019608" points="261.91,-609.41 251.31,-609.26 259.5,-615.98 261.91,-609.41"/>
 </g>
 <!-- module~inference_engine_m_ -->
-<g id="program~~train_polynomials~3~~UsesGraph_node9" class="node">
+<g id="program~~learn_exponentiation~~UsesGraph_node9" class="node">
 <title>module~inference_engine_m_</title>
-<g id="a_program~~train_polynomials~3~~UsesGraph_node9"><a xlink:href=".././module/inference_engine_m_.html" xlink:title="inference_engine_m_">
+<g id="a_program~~learn_exponentiation~~UsesGraph_node9"><a xlink:href="../module/inference_engine_m_.html" xlink:title="inference_engine_m_">
 <polygon fill="#337ab7" stroke="#337ab7" points="693.71,-296.27 568.94,-296.27 568.94,-272 693.71,-272 693.71,-296.27"/>
 <text text-anchor="middle" x="631.32" y="-280.53" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">inference_engine_m_</text>
 </a>
 </g>
 </g>
 <!-- module~inference_engine_m&#45;&gt;module~inference_engine_m_ -->
-<g id="program~~train_polynomials~3~~UsesGraph_edge10" class="edge">
+<g id="program~~learn_exponentiation~~UsesGraph_edge10" class="edge">
 <title>module~inference_engine_m&#45;&gt;module~inference_engine_m_</title>
 <path fill="none" stroke="#025525" stroke-dasharray="5,2" stroke-opacity="0.019608" d="M892.74,-451.63C864.59,-447.33 830.4,-443.13 799.47,-442.13"/>
 <path fill="none" stroke="#025525" stroke-dasharray="5,2" stroke-opacity="0.019608" d="M797.47,-442.13C725.57,-439.81 760.4,-354.56 703.83,-310.13 699.64,-306.84 694.99,-303.94 690.13,-301.39"/>
 <polygon fill="#025525" fill-opacity="0.019608" stroke="#025525" stroke-opacity="0.019608" points="691.86,-298.33 681.32,-297.27 688.89,-304.67 691.86,-298.33"/>
 </g>
 <!-- module~input_output_pair_m -->
-<g id="program~~train_polynomials~3~~UsesGraph_node10" class="node">
+<g id="program~~learn_exponentiation~~UsesGraph_node10" class="node">
 <title>module~input_output_pair_m</title>
-<g id="a_program~~train_polynomials~3~~UsesGraph_node10"><a xlink:href=".././module/input_output_pair_m.html" xlink:title="input_output_pair_m">
+<g id="a_program~~learn_exponentiation~~UsesGraph_node10"><a xlink:href="../module/input_output_pair_m.html" xlink:title="input_output_pair_m">
 <polygon fill="#337ab7" stroke="#337ab7" points="480.44,-24.27 360.17,-24.27 360.17,0 480.44,0 480.44,-24.27"/>
 <text text-anchor="middle" x="420.3" y="-8.53" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">input_output_pair_m</text>
 </a>
 </g>
 </g>
 <!-- module~inference_engine_m&#45;&gt;module~input_output_pair_m -->
-<g id="program~~train_polynomials~3~~UsesGraph_edge11" class="edge">
+<g id="program~~learn_exponentiation~~UsesGraph_edge11" class="edge">
 <title>module~inference_engine_m&#45;&gt;module~input_output_pair_m</title>
 <path fill="none" stroke="#025525" stroke-dasharray="5,2" stroke-opacity="0.019608" d="M951.34,-449.67C948.3,-394.57 928.17,-171.29 799.47,-72.13"/>
 <path fill="none" stroke="#025525" stroke-dasharray="5,2" stroke-opacity="0.019608" d="M797.47,-72.13C709.25,-4.17 574.32,0.34 492.31,-4.53"/>
 <polygon fill="#025525" fill-opacity="0.019608" stroke="#025525" stroke-opacity="0.019608" points="492.1,-1.03 482.36,-5.19 492.57,-8.02 492.1,-1.03"/>
 </g>
 <!-- module~kind_parameters_m -->
-<g id="program~~train_polynomials~3~~UsesGraph_node11" class="node">
+<g id="program~~learn_exponentiation~~UsesGraph_node11" class="node">
 <title>module~kind_parameters_m</title>
-<g id="a_program~~train_polynomials~3~~UsesGraph_node11"><a xlink:href=".././module/kind_parameters_m.html" xlink:title="kind_parameters_m">
+<g id="a_program~~learn_exponentiation~~UsesGraph_node11"><a xlink:href="../module/kind_parameters_m.html" xlink:title="kind_parameters_m">
 <polygon fill="#337ab7" stroke="#337ab7" points="117.27,-414.27 0,-414.27 0,-390 117.27,-390 117.27,-414.27"/>
 <text text-anchor="middle" x="58.63" y="-398.53" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">kind_parameters_m</text>
 </a>
 </g>
 </g>
 <!-- module~inference_engine_m&#45;&gt;module~kind_parameters_m -->
-<g id="program~~train_polynomials~3~~UsesGraph_edge12" class="edge">
+<g id="program~~learn_exponentiation~~UsesGraph_edge12" class="edge">
 <title>module~inference_engine_m&#45;&gt;module~kind_parameters_m</title>
 <path fill="none" stroke="#025525" stroke-dasharray="5,2" stroke-opacity="0.019608" d="M797.47,-72.13C789.16,-65.77 431.75,-92.65 421.3,-92.13"/>
 <path fill="none" stroke="#025525" stroke-dasharray="5,2" stroke-opacity="0.019608" d="M419.3,-92.13C373.82,-91.3 256.61,-27.25 218.53,-52.13"/>
 </g>
 <!-- module~mini_batch_m -->
-<g id="program~~train_polynomials~3~~UsesGraph_node12" class="node">
+<g id="program~~learn_exponentiation~~UsesGraph_node12" class="node">
 <title>module~mini_batch_m</title>
-<g id="a_program~~train_polynomials~3~~UsesGraph_node12"><a xlink:href=".././module/mini_batch_m.html" xlink:title="mini_batch_m">
+<g id="a_program~~learn_exponentiation~~UsesGraph_node12"><a xlink:href="../module/mini_batch_m.html" xlink:title="mini_batch_m">
 <polygon fill="#337ab7" stroke="#337ab7" points="674.21,-64.27 588.44,-64.27 588.44,-40 674.21,-40 674.21,-64.27"/>
 <text text-anchor="middle" x="631.32" y="-48.53" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">mini_batch_m</text>
 </a>
 </g>
 </g>
 <!-- module~inference_engine_m&#45;&gt;module~mini_batch_m -->
-<g id="program~~train_polynomials~3~~UsesGraph_edge13" class="edge">
+<g id="program~~learn_exponentiation~~UsesGraph_edge13" class="edge">
 <title>module~inference_engine_m&#45;&gt;module~mini_batch_m</title>
 <path fill="none" stroke="#025525" stroke-dasharray="5,2" stroke-opacity="0.019608" d="M797.47,-72.13C765.98,-47.88 720.63,-43.92 685.41,-45.45"/>
 <polygon fill="#025525" fill-opacity="0.019608" stroke="#025525" stroke-opacity="0.019608" points="685.65,-41.93 675.88,-46.03 686.07,-48.91 685.65,-41.93"/>
 </g>
 <!-- module~netcdf_file_m -->
-<g id="program~~train_polynomials~3~~UsesGraph_node13" class="node">
+<g id="program~~learn_exponentiation~~UsesGraph_node13" class="node">
 <title>module~netcdf_file_m</title>
-<g id="a_program~~train_polynomials~3~~UsesGraph_node13"><a xlink:href=".././module/netcdf_file_m.html" xlink:title="NetCDF_file_m">
+<g id="a_program~~learn_exponentiation~~UsesGraph_node13"><a xlink:href="../module/netcdf_file_m.html" xlink:title="NetCDF_file_m">
 <polygon fill="#337ab7" stroke="#337ab7" points="842.85,-494.27 754.08,-494.27 754.08,-470 842.85,-470 842.85,-494.27"/>
 <text text-anchor="middle" x="798.47" y="-478.53" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">NetCDF_file_m</text>
 </a>
 </g>
 </g>
 <!-- module~inference_engine_m&#45;&gt;module~netcdf_file_m -->
-<g id="program~~train_polynomials~3~~UsesGraph_edge14" class="edge">
+<g id="program~~learn_exponentiation~~UsesGraph_edge14" class="edge">
 <title>module~inference_engine_m&#45;&gt;module~netcdf_file_m</title>
 <path fill="none" stroke="#025525" stroke-dasharray="5,2" stroke-opacity="0.019608" d="M892.94,-469.87C880.24,-471.53 866.87,-473.29 854.33,-474.93"/>
 <polygon fill="#025525" fill-opacity="0.019608" stroke="#025525" stroke-opacity="0.019608" points="854.06,-471.44 844.6,-476.21 854.97,-478.38 854.06,-471.44"/>
 </g>
 <!-- module~network_configuration_m -->
-<g id="program~~train_polynomials~3~~UsesGraph_node14" class="node">
+<g id="program~~learn_exponentiation~~UsesGraph_node14" class="node">
 <title>module~network_configuration_m</title>
-<g id="a_program~~train_polynomials~3~~UsesGraph_node14"><a xlink:href=".././module/network_configuration_m.html" xlink:title="network_configuration_m">
+<g id="a_program~~learn_exponentiation~~UsesGraph_node14"><a xlink:href="../module/network_configuration_m.html" xlink:title="network_configuration_m">
 <polygon fill="#337ab7" stroke="#337ab7" points="493.56,-608.27 347.04,-608.27 347.04,-584 493.56,-584 493.56,-608.27"/>
 <text text-anchor="middle" x="420.3" y="-592.53" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">network_configuration_m</text>
 </a>
 </g>
 </g>
 <!-- module~inference_engine_m&#45;&gt;module~network_configuration_m -->
-<g id="program~~train_polynomials~3~~UsesGraph_edge15" class="edge">
+<g id="program~~learn_exponentiation~~UsesGraph_edge15" class="edge">
 <title>module~inference_engine_m&#45;&gt;module~network_configuration_m</title>
 <path fill="none" stroke="#025525" stroke-dasharray="5,2" stroke-opacity="0.019608" d="M797.47,-442.13C770.51,-441.26 758.52,-441.68 739.83,-461.13 699.48,-503.14 737.87,-539.88 703.83,-587.13 681.31,-618.4 668.06,-621.75 632.32,-636.13"/>
 <path fill="none" stroke="#025525" stroke-dasharray="5,2" stroke-opacity="0.019608" d="M630.32,-636.13C616.7,-641.61 539.46,-624.88 482.82,-611.4"/>
 <polygon fill="#025525" fill-opacity="0.019608" stroke="#025525" stroke-opacity="0.019608" points="483.8,-608.03 473.26,-609.1 482.17,-614.84 483.8,-608.03"/>
 </g>
 <!-- module~relu_m -->
-<g id="program~~train_polynomials~3~~UsesGraph_node15" class="node">
+<g id="program~~learn_exponentiation~~UsesGraph_node15" class="node">
 <title>module~relu_m</title>
-<g id="a_program~~train_polynomials~3~~UsesGraph_node15"><a xlink:href=".././module/relu_m.html" xlink:title="relu_m">
+<g id="a_program~~learn_exponentiation~~UsesGraph_node15"><a xlink:href="../module/relu_m.html" xlink:title="relu_m">
 <polygon fill="#337ab7" stroke="#337ab7" points="658.32,-376.27 604.32,-376.27 604.32,-352 658.32,-352 658.32,-376.27"/>
 <text text-anchor="middle" x="631.32" y="-360.53" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">relu_m</text>
 </a>
 </g>
 </g>
 <!-- module~inference_engine_m&#45;&gt;module~relu_m -->
-<g id="program~~train_polynomials~3~~UsesGraph_edge16" class="edge">
+<g id="program~~learn_exponentiation~~UsesGraph_edge16" class="edge">
 <title>module~inference_engine_m&#45;&gt;module~relu_m</title>
 <path fill="none" stroke="#025525" stroke-dasharray="5,2" stroke-opacity="0.019608" d="M797.47,-442.13C743.13,-440.38 687.5,-405.99 656.68,-383.47"/>
 <polygon fill="#025525" fill-opacity="0.019608" stroke="#025525" stroke-opacity="0.019608" points="658.89,-380.75 648.79,-377.54 654.68,-386.34 658.89,-380.75"/>
 </g>
 <!-- module~sigmoid_m -->
-<g id="program~~train_polynomials~3~~UsesGraph_node16" class="node">
+<g id="program~~learn_exponentiation~~UsesGraph_node16" class="node">
 <title>module~sigmoid_m</title>
-<g id="a_program~~train_polynomials~3~~UsesGraph_node16"><a xlink:href=".././module/sigmoid_m.html" xlink:title="sigmoid_m">
+<g id="a_program~~learn_exponentiation~~UsesGraph_node16"><a xlink:href="../module/sigmoid_m.html" xlink:title="sigmoid_m">
 <polygon fill="#337ab7" stroke="#337ab7" points="665.96,-536.27 596.69,-536.27 596.69,-512 665.96,-512 665.96,-536.27"/>
 <text text-anchor="middle" x="631.32" y="-520.53" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">sigmoid_m</text>
 </a>
 </g>
 </g>
 <!-- module~inference_engine_m&#45;&gt;module~sigmoid_m -->
-<g id="program~~train_polynomials~3~~UsesGraph_edge17" class="edge">
+<g id="program~~learn_exponentiation~~UsesGraph_edge17" class="edge">
 <title>module~inference_engine_m&#45;&gt;module~sigmoid_m</title>
 <path fill="none" stroke="#025525" stroke-dasharray="5,2" stroke-opacity="0.019608" d="M797.47,-442.13C770.51,-441.26 762.24,-446.12 739.83,-461.13 719.41,-474.82 724.48,-489.79 703.83,-503.13 695.87,-508.28 686.62,-512.2 677.46,-515.17"/>
 <polygon fill="#025525" fill-opacity="0.019608" stroke="#025525" stroke-opacity="0.019608" points="676.52,-511.8 667.88,-517.93 678.46,-518.53 676.52,-511.8"/>
 </g>
 <!-- module~step_m -->
-<g id="program~~train_polynomials~3~~UsesGraph_node17" class="node">
+<g id="program~~learn_exponentiation~~UsesGraph_node17" class="node">
 <title>module~step_m</title>
-<g id="a_program~~train_polynomials~3~~UsesGraph_node17"><a xlink:href=".././module/step_m.html" xlink:title="step_m">
+<g id="a_program~~learn_exponentiation~~UsesGraph_node17"><a xlink:href="../module/step_m.html" xlink:title="step_m">
 <polygon fill="#337ab7" stroke="#337ab7" points="447.3,-296.27 393.3,-296.27 393.3,-272 447.3,-272 447.3,-296.27"/>
 <text text-anchor="middle" x="420.3" y="-280.53" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">step_m</text>
 </a>
 </g>
 </g>
 <!-- module~inference_engine_m&#45;&gt;module~step_m -->
-<g id="program~~train_polynomials~3~~UsesGraph_edge18" class="edge">
+<g id="program~~learn_exponentiation~~UsesGraph_edge18" class="edge">
 <title>module~inference_engine_m&#45;&gt;module~step_m</title>
 <path fill="none" stroke="#025525" stroke-dasharray="5,2" stroke-opacity="0.019608" d="M797.47,-442.13C736.93,-440.18 756.7,-372.68 703.83,-343.13 682.54,-331.24 530.27,-303.32 458.52,-290.62"/>
 <polygon fill="#025525" fill-opacity="0.019608" stroke="#025525" stroke-opacity="0.019608" points="459.27,-287.2 448.81,-288.91 458.05,-294.1 459.27,-287.2"/>
 </g>
 <!-- module~swish_m -->
-<g id="program~~train_polynomials~3~~UsesGraph_node18" class="node">
+<g id="program~~learn_exponentiation~~UsesGraph_node18" class="node">
 <title>module~swish_m</title>
-<g id="a_program~~train_polynomials~3~~UsesGraph_node18"><a xlink:href=".././module/swish_m.html" xlink:title="swish_m">
+<g id="a_program~~learn_exponentiation~~UsesGraph_node18"><a xlink:href="../module/swish_m.html" xlink:title="swish_m">
 <polygon fill="#337ab7" stroke="#337ab7" points="659.21,-494.27 603.44,-494.27 603.44,-470 659.21,-470 659.21,-494.27"/>
 <text text-anchor="middle" x="631.32" y="-478.53" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">swish_m</text>
 </a>
 </g>
 </g>
 <!-- module~inference_engine_m&#45;&gt;module~swish_m -->
-<g id="program~~train_polynomials~3~~UsesGraph_edge19" class="edge">
+<g id="program~~learn_exponentiation~~UsesGraph_edge19" class="edge">
 <title>module~inference_engine_m&#45;&gt;module~swish_m</title>
 <path fill="none" stroke="#025525" stroke-dasharray="5,2" stroke-opacity="0.019608" d="M797.47,-442.13C773.07,-441.35 711.23,-458.28 670.54,-470.37"/>
 <polygon fill="#025525" fill-opacity="0.019608" stroke="#025525" stroke-opacity="0.019608" points="669.69,-466.96 661.12,-473.19 671.7,-473.67 669.69,-466.96"/>
 </g>
 <!-- module~tensor_m -->
-<g id="program~~train_polynomials~3~~UsesGraph_node19" class="node">
+<g id="program~~learn_exponentiation~~UsesGraph_node19" class="node">
 <title>module~tensor_m</title>
-<g id="a_program~~train_polynomials~3~~UsesGraph_node19"><a xlink:href=".././module/tensor_m.html" xlink:title="tensor_m">
+<g id="a_program~~learn_exponentiation~~UsesGraph_node19"><a xlink:href="../module/tensor_m.html" xlink:title="tensor_m">
 <polygon fill="#337ab7" stroke="#337ab7" points="248.04,-104.27 187.02,-104.27 187.02,-80 248.04,-80 248.04,-104.27"/>
 <text text-anchor="middle" x="217.53" y="-88.53" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">tensor_m</text>
 </a>
 </g>
 </g>
 <!-- module~inference_engine_m&#45;&gt;module~tensor_m -->
-<g id="program~~train_polynomials~3~~UsesGraph_edge20" class="edge">
+<g id="program~~learn_exponentiation~~UsesGraph_edge20" class="edge">
 <title>module~inference_engine_m&#45;&gt;module~tensor_m</title>
 <path fill="none" stroke="#025525" stroke-dasharray="5,2" stroke-opacity="0.019608" d="M419.3,-92.13C364.17,-89.42 300.41,-90.07 259.8,-90.95"/>
 <polygon fill="#025525" fill-opacity="0.019608" stroke="#025525" stroke-opacity="0.019608" points="259.91,-87.45 250,-91.18 260.08,-94.45 259.91,-87.45"/>
 </g>
 <!-- module~trainable_engine_m -->
-<g id="program~~train_polynomials~3~~UsesGraph_node20" class="node">
+<g id="program~~learn_exponentiation~~UsesGraph_node20" class="node">
 <title>module~trainable_engine_m</title>
-<g id="a_program~~train_polynomials~3~~UsesGraph_node20"><a xlink:href=".././module/trainable_engine_m.html" xlink:title="trainable_engine_m">
+<g id="a_program~~learn_exponentiation~~UsesGraph_node20"><a xlink:href="../module/trainable_engine_m.html" xlink:title="trainable_engine_m">
 <polygon fill="#337ab7" stroke="#337ab7" points="857.1,-355.27 739.83,-355.27 739.83,-331 857.1,-331 857.1,-355.27"/>
 <text text-anchor="middle" x="798.47" y="-339.53" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">trainable_engine_m</text>
 </a>
 </g>
 </g>
 <!-- module~inference_engine_m&#45;&gt;module~trainable_engine_m -->
-<g id="program~~train_polynomials~3~~UsesGraph_edge21" class="edge">
+<g id="program~~learn_exponentiation~~UsesGraph_edge21" class="edge">
 <title>module~inference_engine_m&#45;&gt;module~trainable_engine_m</title>
 <path fill="none" stroke="#025525" stroke-dasharray="5,2" stroke-opacity="0.019608" d="M935.84,-449.62C909.25,-428.86 855.8,-387.13 824.29,-362.52"/>
 <polygon fill="#025525" fill-opacity="0.019608" stroke="#025525" stroke-opacity="0.019608" points="826.5,-359.81 816.46,-356.41 822.19,-365.32 826.5,-359.81"/>
 </g>
 <!-- module~training_configuration_m -->
-<g id="program~~train_polynomials~3~~UsesGraph_node21" class="node">
+<g id="program~~learn_exponentiation~~UsesGraph_node21" class="node">
 <title>module~training_configuration_m</title>
-<g id="a_program~~train_polynomials~3~~UsesGraph_node21"><a xlink:href=".././module/training_configuration_m.html" xlink:title="training_configuration_m">
+<g id="a_program~~learn_exponentiation~~UsesGraph_node21"><a xlink:href="../module/training_configuration_m.html" xlink:title="training_configuration_m">
 <polygon fill="#337ab7" stroke="#337ab7" points="703.83,-578.27 558.81,-578.27 558.81,-554 703.83,-554 703.83,-578.27"/>
 <text text-anchor="middle" x="631.32" y="-562.53" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">training_configuration_m</text>
 </a>
 </g>
 </g>
 <!-- module~inference_engine_m&#45;&gt;module~training_configuration_m -->
-<g id="program~~train_polynomials~3~~UsesGraph_edge22" class="edge">
+<g id="program~~learn_exponentiation~~UsesGraph_edge22" class="edge">
 <title>module~inference_engine_m&#45;&gt;module~training_configuration_m</title>
 <path fill="none" stroke="#025525" stroke-dasharray="5,2" stroke-opacity="0.019608" d="M797.47,-442.13C770.51,-441.26 759.71,-442.91 739.83,-461.13 709.89,-488.59 734.21,-518.18 703.83,-545.13 702.89,-545.97 701.91,-546.78 700.91,-547.55"/>
 <polygon fill="#025525" fill-opacity="0.019608" stroke="#025525" stroke-opacity="0.019608" points="699.08,-544.56 692.5,-552.86 702.82,-550.48 699.08,-544.56"/>
 </g>
 <!-- module~activation_strategy_m&#45;&gt;sourcery_m -->
-<g id="program~~train_polynomials~3~~UsesGraph_edge24" class="edge">
+<g id="program~~learn_exponentiation~~UsesGraph_edge24" class="edge">
 <title>module~activation_strategy_m&#45;&gt;sourcery_m</title>
 <path fill="none" stroke="#255000" stroke-dasharray="5,2" d="M199.44,-414.77C171.97,-435.08 117.82,-475.12 85.57,-498.96"/>
 <polygon fill="#255000" stroke="#255000" points="83.88,-495.86 77.92,-504.62 88.04,-501.49 83.88,-495.86"/>
 </g>
 <!-- module~activation_strategy_m&#45;&gt;module~kind_parameters_m -->
-<g id="program~~train_polynomials~3~~UsesGraph_edge23" class="edge">
+<g id="program~~learn_exponentiation~~UsesGraph_edge23" class="edge">
 <title>module~activation_strategy_m&#45;&gt;module~kind_parameters_m</title>
 <path fill="none" stroke="#255000" stroke-dasharray="5,2" d="M153.17,-402.13C145.19,-402.13 137,-402.13 128.93,-402.13"/>
 <polygon fill="#255000" stroke="#255000" points="129.17,-398.64 119.17,-402.14 129.17,-405.64 129.17,-398.64"/>
 </g>
 <!-- module~differentiable_activation_strategy_m&#45;&gt;module~activation_strategy_m -->
-<g id="program~~train_polynomials~3~~UsesGraph_edge25" class="edge">
+<g id="program~~learn_exponentiation~~UsesGraph_edge25" class="edge">
 <title>module~differentiable_activation_strategy_m&#45;&gt;module~activation_strategy_m</title>
 <path fill="none" stroke="#255950" stroke-dasharray="5,2" d="M317.44,-402.13C309.36,-402.13 301.28,-402.13 293.43,-402.13"/>
 <polygon fill="#255950" stroke="#255950" points="293.63,-398.64 283.63,-402.14 293.63,-405.64 293.63,-398.64"/>
 </g>
 <!-- module~hyperparameters_m&#45;&gt;sourcery_m -->
-<g id="program~~train_polynomials~3~~UsesGraph_edge27" class="edge">
+<g id="program~~learn_exponentiation~~UsesGraph_edge27" class="edge">
 <title>module~hyperparameters_m&#45;&gt;sourcery_m</title>
 <path fill="none" stroke="none" stroke-dasharray="5,2" d="M184.03,-583.63C174.05,-579.56 163.11,-574.87 153.27,-570.13 131.74,-559.78 108.23,-546.71 90.16,-536.27"/>
 <polygon fill="none" stroke="none" points="92.17,-533.4 81.77,-531.39 88.65,-539.45 92.17,-533.4"/>
 </g>
 <!-- module~hyperparameters_m&#45;&gt;module~kind_parameters_m -->
-<g id="program~~train_polynomials~3~~UsesGraph_edge26" class="edge">
+<g id="program~~learn_exponentiation~~UsesGraph_edge26" class="edge">
 <title>module~hyperparameters_m&#45;&gt;module~kind_parameters_m</title>
 <path fill="none" stroke="none" stroke-dasharray="5,2" d="M203.07,-583.7C189.83,-571.2 169.31,-551.1 153.27,-532.13 122.67,-495.95 91.33,-450.34 73.78,-423.89"/>
 <polygon fill="none" stroke="none" points="76.81,-422.13 68.39,-415.7 70.96,-425.97 76.81,-422.13"/>
 </g>
 <!-- module~inference_engine_m_&#45;&gt;sourcery_m -->
-<g id="program~~train_polynomials~3~~UsesGraph_edge32" class="edge">
+<g id="program~~learn_exponentiation~~UsesGraph_edge32" class="edge">
 <title>module~inference_engine_m_&#45;&gt;sourcery_m</title>
 <path fill="none" stroke="none" stroke-dasharray="5,2" d="M595.2,-271.58C507.87,-241.29 283.28,-169.31 218.53,-206.13"/>
 </g>
 <!-- module~inference_engine_m_&#45;&gt;module~activation_strategy_m -->
-<g id="program~~train_polynomials~3~~UsesGraph_edge28" class="edge">
+<g id="program~~learn_exponentiation~~UsesGraph_edge28" class="edge">
 <title>module~inference_engine_m_&#45;&gt;module~activation_strategy_m</title>
 <path fill="none" stroke="none" stroke-dasharray="5,2" d="M568.59,-296.29C480.92,-313.62 329.56,-343.84 317.79,-348.13 292.8,-357.26 266.43,-371.87 247.15,-383.6"/>
 <polygon fill="none" stroke="none" points="245.43,-380.55 238.78,-388.79 249.13,-386.49 245.43,-380.55"/>
 </g>
 <!-- module~inference_engine_m_&#45;&gt;module~differentiable_activation_strategy_m -->
-<g id="program~~train_polynomials~3~~UsesGraph_edge29" class="edge">
+<g id="program~~learn_exponentiation~~UsesGraph_edge29" class="edge">
 <title>module~inference_engine_m_&#45;&gt;module~differentiable_activation_strategy_m</title>
 <path fill="none" stroke="none" stroke-dasharray="5,2" d="M607.95,-296.76C570.79,-317.74 496.18,-359.86 453.4,-384.01"/>
 <polygon fill="none" stroke="none" points="451.81,-380.89 444.83,-388.85 455.25,-386.99 451.81,-380.89"/>
 </g>
 <!-- module~inference_engine_m_&#45;&gt;module~kind_parameters_m -->
-<g id="program~~train_polynomials~3~~UsesGraph_edge30" class="edge">
+<g id="program~~learn_exponentiation~~UsesGraph_edge30" class="edge">
 <title>module~inference_engine_m_&#45;&gt;module~kind_parameters_m</title>
 <path fill="none" stroke="none" stroke-dasharray="5,2" d="M419.3,-168.13C377.3,-153.09 259.55,-150.59 218.53,-168.13"/>
 </g>
 <!-- module~inference_engine_m_&#45;&gt;module~tensor_m -->
-<g id="program~~train_polynomials~3~~UsesGraph_edge31" class="edge">
+<g id="program~~learn_exponentiation~~UsesGraph_edge31" class="edge">
 <title>module~inference_engine_m_&#45;&gt;module~tensor_m</title>
 <path fill="none" stroke="none" stroke-dasharray="5,2" d="M619.45,-271.58C601.43,-251.6 563.33,-212.72 522.81,-192.13 481.48,-171.14 464.94,-183.77 421.3,-168.13"/>
 <path fill="none" stroke="none" stroke-dasharray="5,2" d="M419.3,-168.13C375.66,-152.5 361.22,-160.35 317.79,-144.13 293.54,-135.08 267.67,-121.39 248.43,-110.32"/>
 <polygon fill="none" stroke="none" points="250.45,-107.45 240.05,-105.42 246.91,-113.49 250.45,-107.45"/>
 </g>
 <!-- module~input_output_pair_m&#45;&gt;module~kind_parameters_m -->
-<g id="program~~train_polynomials~3~~UsesGraph_edge33" class="edge">
+<g id="program~~learn_exponentiation~~UsesGraph_edge33" class="edge">
 <title>module~input_output_pair_m&#45;&gt;module~kind_parameters_m</title>
 <path fill="none" stroke="none" stroke-dasharray="5,2" d="M360.11,-12.64C317.69,-15.55 260.81,-24.9 218.53,-52.13"/>
 <path fill="none" stroke="none" stroke-dasharray="5,2" d="M216.53,-52.13C191.85,-68.03 173.86,-50.21 153.27,-71.13 67.43,-158.37 59.02,-318.04 59.08,-378.28"/>
 <polygon fill="none" stroke="none" points="55.58,-378.09 59.18,-388.05 62.58,-378.02 55.58,-378.09"/>
 </g>
 <!-- module~input_output_pair_m&#45;&gt;module~tensor_m -->
-<g id="program~~train_polynomials~3~~UsesGraph_edge34" class="edge">
+<g id="program~~learn_exponentiation~~UsesGraph_edge34" class="edge">
 <title>module~input_output_pair_m&#45;&gt;module~tensor_m</title>
 <path fill="none" stroke="none" stroke-dasharray="5,2" d="M387.93,-24.63C353.05,-38.53 296.62,-61.02 258.58,-76.18"/>
 <polygon fill="none" stroke="none" points="257.77,-72.73 249.78,-79.68 260.36,-79.23 257.77,-72.73"/>
 </g>
 <!-- module~mini_batch_m&#45;&gt;module~input_output_pair_m -->
-<g id="program~~train_polynomials~3~~UsesGraph_edge35" class="edge">
+<g id="program~~learn_exponentiation~~UsesGraph_edge35" class="edge">
 <title>module~mini_batch_m&#45;&gt;module~input_output_pair_m</title>
 <path fill="none" stroke="#025563" stroke-dasharray="5,2" d="M588.02,-44.04C560.38,-38.75 523.62,-31.72 491.65,-25.6"/>
 <polygon fill="#025563" stroke="#025563" points="492.53,-22.2 482.05,-23.76 491.21,-29.08 492.53,-22.2"/>
 </g>
 <!-- module~mini_batch_m&#45;&gt;module~kind_parameters_m -->
-<g id="program~~train_polynomials~3~~UsesGraph_edge36" class="edge">
+<g id="program~~learn_exponentiation~~UsesGraph_edge36" class="edge">
 <title>module~mini_batch_m&#45;&gt;module~kind_parameters_m</title>
 <path fill="none" stroke="#025563" stroke-dasharray="5,2" d="M588.24,-49.59C489.5,-43.97 248.99,-32.51 218.53,-52.13"/>
 </g>
 <!-- module~network_configuration_m&#45;&gt;sourcery_m -->
-<g id="program~~train_polynomials~3~~UsesGraph_edge37" class="edge">
+<g id="program~~learn_exponentiation~~UsesGraph_edge37" class="edge">
 <title>module~network_configuration_m&#45;&gt;sourcery_m</title>
 <path fill="none" stroke="#025525" stroke-dasharray="5,2" stroke-opacity="0.019608" d="M397.17,-608.73C352.66,-633.38 253.61,-684.72 218.53,-674.13"/>
 <path fill="none" stroke="#025525" stroke-dasharray="5,2" stroke-opacity="0.019608" d="M216.53,-674.13C146.95,-653.14 94.52,-577.96 71.89,-540.16"/>
 <polygon fill="#025525" fill-opacity="0.019608" stroke="#025525" stroke-opacity="0.019608" points="75.13,-538.76 67.07,-531.88 69.08,-542.28 75.13,-538.76"/>
 </g>
 <!-- module~relu_m&#45;&gt;sourcery_m -->
-<g id="program~~train_polynomials~3~~UsesGraph_edge40" class="edge">
+<g id="program~~learn_exponentiation~~UsesGraph_edge40" class="edge">
 <title>module~relu_m&#45;&gt;sourcery_m</title>
 <path fill="none" stroke="#015925" stroke-dasharray="5,2" stroke-opacity="0.019608" d="M603.9,-358.95C547.79,-349.32 414.04,-333.66 317.79,-381.13 295.74,-392.01 298.96,-405.54 281.79,-423.13 255.36,-450.22 255.11,-470.44 218.53,-480.13"/>
 <path fill="none" stroke="#015925" stroke-dasharray="5,2" stroke-opacity="0.019608" d="M216.53,-480.13C179.7,-489.76 137.79,-499.86 106.55,-507.24"/>
 <polygon fill="#015925" fill-opacity="0.019608" stroke="#015925" stroke-opacity="0.019608" points="105.96,-503.78 97.03,-509.47 107.57,-510.59 105.96,-503.78"/>
 </g>
 <!-- module~relu_m&#45;&gt;module~differentiable_activation_strategy_m -->
-<g id="program~~train_polynomials~3~~UsesGraph_edge38" class="edge">
+<g id="program~~learn_exponentiation~~UsesGraph_edge38" class="edge">
 <title>module~relu_m&#45;&gt;module~differentiable_activation_strategy_m</title>
 <path fill="none" stroke="#015925" stroke-dasharray="5,2" stroke-opacity="0.019608" d="M603.85,-368.95C578.16,-373.62 537.87,-380.94 501.66,-387.53"/>
 <polygon fill="#015925" fill-opacity="0.019608" stroke="#015925" stroke-opacity="0.019608" points="501.28,-384.04 492.07,-389.27 502.53,-390.92 501.28,-384.04"/>
 </g>
 <!-- module~relu_m&#45;&gt;module~kind_parameters_m -->
-<g id="program~~train_polynomials~3~~UsesGraph_edge39" class="edge">
+<g id="program~~learn_exponentiation~~UsesGraph_edge39" class="edge">
 <title>module~relu_m&#45;&gt;module~kind_parameters_m</title>
 <path fill="none" stroke="#015925" stroke-dasharray="5,2" stroke-opacity="0.019608" d="M613.44,-351.54C598.5,-340.09 576.39,-322.38 558.81,-305.13 541.26,-287.91 543.34,-276.66 522.81,-263.13 493.23,-243.65 250.93,-153.82 218.53,-168.13"/>
 </g>
 <!-- module~sigmoid_m&#45;&gt;sourcery_m -->
-<g id="program~~train_polynomials~3~~UsesGraph_edge43" class="edge">
+<g id="program~~learn_exponentiation~~UsesGraph_edge43" class="edge">
 <title>module~sigmoid_m&#45;&gt;sourcery_m</title>
 <path fill="none" stroke="#063255" stroke-dasharray="5,2" d="M419.3,-518.13C328.53,-521.09 309.12,-562.55 218.53,-556.13"/>
 <path fill="none" stroke="#063255" stroke-dasharray="5,2" d="M216.53,-556.13C178.81,-553.47 137.27,-543.05 106.41,-533.8"/>
 <polygon fill="#063255" stroke="#063255" points="107.58,-530.5 97,-530.91 105.53,-537.19 107.58,-530.5"/>
 </g>
 <!-- module~sigmoid_m&#45;&gt;module~differentiable_activation_strategy_m -->
-<g id="program~~train_polynomials~3~~UsesGraph_edge41" class="edge">
+<g id="program~~learn_exponentiation~~UsesGraph_edge41" class="edge">
 <title>module~sigmoid_m&#45;&gt;module~differentiable_activation_strategy_m</title>
 <path fill="none" stroke="#063255" stroke-dasharray="5,2" d="M596.3,-516.74C584.12,-513.42 570.52,-508.93 558.81,-503.13 514.16,-481.04 468.83,-444.39 442.99,-421.84"/>
 <polygon fill="#063255" stroke="#063255" points="445.63,-419.51 435.82,-415.5 440.99,-424.75 445.63,-419.51"/>
 </g>
 <!-- module~sigmoid_m&#45;&gt;module~kind_parameters_m -->
-<g id="program~~train_polynomials~3~~UsesGraph_edge42" class="edge">
+<g id="program~~learn_exponentiation~~UsesGraph_edge42" class="edge">
 <title>module~sigmoid_m&#45;&gt;module~kind_parameters_m</title>
 <path fill="none" stroke="#063255" stroke-dasharray="5,2" d="M596.29,-521.88C554.92,-519.43 482.98,-516.13 421.3,-518.13"/>
 <path fill="none" stroke="#063255" stroke-dasharray="5,2" d="M419.3,-518.13C330.12,-521.03 301.98,-549.74 218.53,-518.13"/>
@@ -640,115 +643,115 @@
 <polygon fill="#063255" stroke="#063255" points="81.83,-420.06 72.29,-415.46 76.88,-425.01 81.83,-420.06"/>
 </g>
 <!-- module~step_m&#45;&gt;sourcery_m -->
-<g id="program~~train_polynomials~3~~UsesGraph_edge46" class="edge">
+<g id="program~~learn_exponentiation~~UsesGraph_edge46" class="edge">
 <title>module~step_m&#45;&gt;sourcery_m</title>
 <path fill="none" stroke="#310255" stroke-dasharray="5,2" d="M392.91,-279.13C372.12,-274.77 342.59,-267.66 317.79,-258.13 271.3,-240.28 261.82,-181.52 218.53,-206.13"/>
 </g>
 <!-- module~step_m&#45;&gt;module~activation_strategy_m -->
-<g id="program~~train_polynomials~3~~UsesGraph_edge44" class="edge">
+<g id="program~~learn_exponentiation~~UsesGraph_edge44" class="edge">
 <title>module~step_m&#45;&gt;module~activation_strategy_m</title>
 <path fill="none" stroke="#310255" stroke-dasharray="5,2" d="M392.97,-287.23C371.66,-290.57 341.43,-297.25 317.79,-310.13 284.54,-328.26 253.82,-360.02 235.62,-381.07"/>
 <polygon fill="#310255" stroke="#310255" points="233.14,-378.58 229.37,-388.47 238.49,-383.09 233.14,-378.58"/>
 </g>
 <!-- module~step_m&#45;&gt;module~kind_parameters_m -->
-<g id="program~~train_polynomials~3~~UsesGraph_edge45" class="edge">
+<g id="program~~learn_exponentiation~~UsesGraph_edge45" class="edge">
 <title>module~step_m&#45;&gt;module~kind_parameters_m</title>
 <path fill="none" stroke="#310255" stroke-dasharray="5,2" d="M398.3,-271.73C377.5,-259.24 344.91,-239.16 317.79,-220.13 301.2,-208.49 299.46,-202.06 281.79,-192.13 255.57,-177.41 246.03,-155.98 218.53,-168.13"/>
 </g>
 <!-- module~swish_m&#45;&gt;sourcery_m -->
-<g id="program~~train_polynomials~3~~UsesGraph_edge49" class="edge">
+<g id="program~~learn_exponentiation~~UsesGraph_edge49" class="edge">
 <title>module~swish_m&#45;&gt;sourcery_m</title>
 <path fill="none" stroke="#127025" stroke-dasharray="5,2" stroke-opacity="0.019608" d="M419.3,-480.13C330.19,-475.55 304.79,-457.29 218.53,-480.13"/>
 </g>
 <!-- module~swish_m&#45;&gt;module~differentiable_activation_strategy_m -->
-<g id="program~~train_polynomials~3~~UsesGraph_edge47" class="edge">
+<g id="program~~learn_exponentiation~~UsesGraph_edge47" class="edge">
 <title>module~swish_m&#45;&gt;module~differentiable_activation_strategy_m</title>
 <path fill="none" stroke="#127025" stroke-dasharray="5,2" stroke-opacity="0.019608" d="M603.09,-472.42C589.72,-467.6 573.39,-461.65 558.81,-456.13 526.65,-443.98 490.48,-429.75 463.3,-418.95"/>
 <polygon fill="#127025" fill-opacity="0.019608" stroke="#127025" stroke-opacity="0.019608" points="464.61,-415.7 454.02,-415.25 462.02,-422.21 464.61,-415.7"/>
 </g>
 <!-- module~swish_m&#45;&gt;module~kind_parameters_m -->
-<g id="program~~train_polynomials~3~~UsesGraph_edge48" class="edge">
+<g id="program~~learn_exponentiation~~UsesGraph_edge48" class="edge">
 <title>module~swish_m&#45;&gt;module~kind_parameters_m</title>
 <path fill="none" stroke="#127025" stroke-dasharray="5,2" stroke-opacity="0.019608" d="M603.24,-482.6C563.37,-483.12 486.54,-483.49 421.3,-480.13"/>
 <path fill="none" stroke="#127025" stroke-dasharray="5,2" stroke-opacity="0.019608" d="M419.3,-480.13C306.27,-474.31 177.46,-439.2 108.82,-418.12"/>
 <polygon fill="#127025" fill-opacity="0.019608" stroke="#127025" stroke-opacity="0.019608" points="109.96,-414.81 99.38,-415.19 107.89,-421.5 109.96,-414.81"/>
 </g>
 <!-- module~tensor_m&#45;&gt;module~kind_parameters_m -->
-<g id="program~~train_polynomials~3~~UsesGraph_edge50" class="edge">
+<g id="program~~learn_exponentiation~~UsesGraph_edge50" class="edge">
 <title>module~tensor_m&#45;&gt;module~kind_parameters_m</title>
 <path fill="none" stroke="#223025" stroke-dasharray="5,2" stroke-opacity="0.019608" d="M200.29,-104.6C186.21,-116.13 166.13,-134.43 153.27,-154.13 104.54,-228.8 75.94,-332.49 64.91,-378.51"/>
 <polygon fill="#223025" fill-opacity="0.019608" stroke="#223025" stroke-opacity="0.019608" points="61.52,-377.64 62.66,-388.17 68.34,-379.23 61.52,-377.64"/>
 </g>
 <!-- module~trainable_engine_m&#45;&gt;sourcery_m -->
-<g id="program~~train_polynomials~3~~UsesGraph_edge57" class="edge">
+<g id="program~~learn_exponentiation~~UsesGraph_edge57" class="edge">
 <title>module~trainable_engine_m&#45;&gt;sourcery_m</title>
 <path fill="none" stroke="#255019" stroke-dasharray="5,2" stroke-opacity="0.003922" d="M419.3,-130.13C373.19,-125.3 359.6,-134.11 317.79,-154.13 299.51,-162.89 299.46,-172.21 281.79,-182.13 255.57,-196.86 244.41,-190.82 218.53,-206.13"/>
 <path fill="none" stroke="#255019" stroke-dasharray="5,2" stroke-opacity="0.003922" d="M216.53,-206.13C125.25,-260.14 166.92,-329.42 117.27,-423.13 103.71,-448.74 86.22,-477 74.08,-495.98"/>
 <polygon fill="#255019" fill-opacity="0.003922" stroke="#255019" stroke-opacity="0.003922" points="71.24,-493.93 68.77,-504.23 77.13,-497.72 71.24,-493.93"/>
 </g>
 <!-- module~trainable_engine_m&#45;&gt;module~differentiable_activation_strategy_m -->
-<g id="program~~train_polynomials~3~~UsesGraph_edge51" class="edge">
+<g id="program~~learn_exponentiation~~UsesGraph_edge51" class="edge">
 <title>module~trainable_engine_m&#45;&gt;module~differentiable_activation_strategy_m</title>
 <path fill="none" stroke="#255019" stroke-dasharray="5,2" stroke-opacity="0.003922" d="M775.58,-355.69C757.1,-365.61 729.61,-378.8 703.83,-385.13 649.15,-398.57 586.81,-403.38 534.63,-404.6"/>
 <polygon fill="#255019" fill-opacity="0.003922" stroke="#255019" stroke-opacity="0.003922" points="534.76,-401.1 524.82,-404.78 534.89,-408.1 534.76,-401.1"/>
 </g>
 <!-- module~trainable_engine_m&#45;&gt;module~inference_engine_m_ -->
-<g id="program~~train_polynomials~3~~UsesGraph_edge52" class="edge">
+<g id="program~~learn_exponentiation~~UsesGraph_edge52" class="edge">
 <title>module~trainable_engine_m&#45;&gt;module~inference_engine_m_</title>
 <path fill="none" stroke="#255019" stroke-dasharray="5,2" stroke-opacity="0.003922" d="M762.44,-330.62C737.89,-321.85 704.84,-310.04 678.19,-300.52"/>
 <polygon fill="#255019" fill-opacity="0.003922" stroke="#255019" stroke-opacity="0.003922" points="679.6,-297.31 669,-297.24 677.24,-303.9 679.6,-297.31"/>
 </g>
 <!-- module~trainable_engine_m&#45;&gt;module~kind_parameters_m -->
-<g id="program~~train_polynomials~3~~UsesGraph_edge53" class="edge">
+<g id="program~~learn_exponentiation~~UsesGraph_edge53" class="edge">
 <title>module~trainable_engine_m&#45;&gt;module~kind_parameters_m</title>
 <path fill="none" stroke="#255019" stroke-dasharray="5,2" stroke-opacity="0.003922" d="M419.3,-130.13C328.98,-120.67 302.03,-132.43 218.53,-168.13"/>
 <path fill="none" stroke="#255019" stroke-dasharray="5,2" stroke-opacity="0.003922" d="M216.53,-168.13C188.88,-179.96 175.13,-171.48 153.27,-192.13 97.94,-244.41 73.09,-335.31 64.01,-378.3"/>
 <polygon fill="#255019" fill-opacity="0.003922" stroke="#255019" stroke-opacity="0.003922" points="60.58,-377.58 62.06,-388.07 67.45,-378.94 60.58,-377.58"/>
 </g>
 <!-- module~trainable_engine_m&#45;&gt;module~mini_batch_m -->
-<g id="program~~train_polynomials~3~~UsesGraph_edge54" class="edge">
+<g id="program~~learn_exponentiation~~UsesGraph_edge54" class="edge">
 <title>module~trainable_engine_m&#45;&gt;module~mini_batch_m</title>
 <path fill="none" stroke="#255019" stroke-dasharray="5,2" stroke-opacity="0.003922" d="M794.43,-330.6C785.28,-294.64 755.43,-189.03 703.83,-116.13 691.67,-98.96 674.1,-83.15 659.42,-71.54"/>
 <polygon fill="#255019" fill-opacity="0.003922" stroke="#255019" stroke-opacity="0.003922" points="661.54,-68.76 651.47,-65.46 657.29,-74.32 661.54,-68.76"/>
 </g>
 <!-- module~trainable_engine_m&#45;&gt;module~tensor_m -->
-<g id="program~~train_polynomials~3~~UsesGraph_edge55" class="edge">
+<g id="program~~learn_exponentiation~~UsesGraph_edge55" class="edge">
 <title>module~trainable_engine_m&#45;&gt;module~tensor_m</title>
 <path fill="none" stroke="#255019" stroke-dasharray="5,2" stroke-opacity="0.003922" d="M786.73,-330.76C744.73,-283.81 585.72,-119.9 421.3,-130.13"/>
 <path fill="none" stroke="#255019" stroke-dasharray="5,2" stroke-opacity="0.003922" d="M419.3,-130.13C363.31,-124.27 299.58,-111.07 259.22,-101.89"/>
 <polygon fill="#255019" fill-opacity="0.003922" stroke="#255019" stroke-opacity="0.003922" points="260.24,-98.53 249.71,-99.69 258.67,-105.35 260.24,-98.53"/>
 </g>
 <!-- module~trainable_engine_m&#45;&gt;module~training_configuration_m -->
-<g id="program~~train_polynomials~3~~UsesGraph_edge56" class="edge">
+<g id="program~~learn_exponentiation~~UsesGraph_edge56" class="edge">
 <title>module~trainable_engine_m&#45;&gt;module~training_configuration_m</title>
 <path fill="none" stroke="#255019" stroke-dasharray="5,2" stroke-opacity="0.003922" d="M787.2,-355.65C774.55,-371.62 753.09,-400.48 739.83,-428.13 716.3,-477.19 742.55,-506.91 703.83,-545.13 703.21,-545.75 702.57,-546.34 701.92,-546.92"/>
 <polygon fill="#255019" fill-opacity="0.003922" stroke="#255019" stroke-opacity="0.003922" points="700,-543.99 693.87,-552.64 704.05,-549.7 700,-543.99"/>
 </g>
 <!-- module~training_configuration_m&#45;&gt;sourcery_m -->
-<g id="program~~train_polynomials~3~~UsesGraph_edge62" class="edge">
+<g id="program~~learn_exponentiation~~UsesGraph_edge62" class="edge">
 <title>module~training_configuration_m&#45;&gt;sourcery_m</title>
 <path fill="none" stroke="#255095" stroke-dasharray="5,2" d="M419.3,-556.13C330.09,-554.17 307.54,-562.43 218.53,-556.13"/>
 </g>
 <!-- module~training_configuration_m&#45;&gt;module~differentiable_activation_strategy_m -->
-<g id="program~~train_polynomials~3~~UsesGraph_edge58" class="edge">
+<g id="program~~learn_exponentiation~~UsesGraph_edge58" class="edge">
 <title>module~training_configuration_m&#45;&gt;module~differentiable_activation_strategy_m</title>
 <path fill="none" stroke="#255095" stroke-dasharray="5,2" d="M576.3,-553.6C570.2,-551.22 564.23,-548.42 558.81,-545.13 505.67,-512.9 459.11,-455.04 436.27,-423.71"/>
 <polygon fill="#255095" stroke="#255095" points="439.25,-421.87 430.59,-415.77 433.56,-425.94 439.25,-421.87"/>
 </g>
 <!-- module~training_configuration_m&#45;&gt;module~hyperparameters_m -->
-<g id="program~~train_polynomials~3~~UsesGraph_edge59" class="edge">
+<g id="program~~learn_exponentiation~~UsesGraph_edge59" class="edge">
 <title>module~training_configuration_m&#45;&gt;module~hyperparameters_m</title>
 <path fill="none" stroke="#255095" stroke-dasharray="5,2" d="M419.3,-556.13C366.52,-554.97 307.4,-568.62 267.06,-580.29"/>
 <polygon fill="#255095" stroke="#255095" points="266.25,-576.88 257.66,-583.09 268.24,-583.59 266.25,-576.88"/>
 </g>
 <!-- module~training_configuration_m&#45;&gt;module~kind_parameters_m -->
-<g id="program~~train_polynomials~3~~UsesGraph_edge60" class="edge">
+<g id="program~~learn_exponentiation~~UsesGraph_edge60" class="edge">
 <title>module~training_configuration_m&#45;&gt;module~kind_parameters_m</title>
 <path fill="none" stroke="#255095" stroke-dasharray="5,2" d="M558.76,-561.8C518.41,-559.58 467.06,-557.14 421.3,-556.13"/>
 <path fill="none" stroke="#255095" stroke-dasharray="5,2" d="M419.3,-556.13C328.51,-554.13 303.46,-550.3 218.53,-518.13"/>
 </g>
 <!-- module~training_configuration_m&#45;&gt;module~network_configuration_m -->
-<g id="program~~train_polynomials~3~~UsesGraph_edge61" class="edge">
+<g id="program~~learn_exponentiation~~UsesGraph_edge61" class="edge">
 <title>module~training_configuration_m&#45;&gt;module~network_configuration_m</title>
 <path fill="none" stroke="#255095" stroke-dasharray="5,2" d="M558.39,-576.46C541.16,-578.93 522.62,-581.59 504.91,-584.13"/>
 <polygon fill="#255095" stroke="#255095" points="504.62,-580.64 495.22,-585.53 505.61,-587.57 504.62,-580.64"/>
@@ -756,20 +759,20 @@
 </g>
 </svg>
 </div>                <script>
-                  var panprogramtrain_polynomials3UsesGraph = svgPanZoom('#programtrain_polynomials3UsesGraph',
+                  var panprogramlearn_exponentiationUsesGraph = svgPanZoom('#programlearn_exponentiationUsesGraph',
                     {zoomEnabled: true, controlIconsEnabled: true, fit: true, center: true,}
                   );
-                </script>        <div><a type="button" class="graph-help" data-toggle="modal" href="#UsesGraph-help-text">Help</a></div>
+                </script>          <div>
+            <a type="button" class="graph-help" data-bs-toggle="modal" href="#UsesGraph-help-text">Help</a>
+          </div>
           <div class="modal fade" id="UsesGraph-help-text" tabindex="-1" role="dialog">
             <div class="modal-dialog modal-lg" role="document">
               <div class="modal-content">
                 <div class="modal-header">
-                  <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
-                  </button>
                   <h4 class="modal-title" id="-graph-help-label">Graph Key</h4>
+                  <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
-              <div class="modal-body">
+                <div class="modal-body">
 <p>Nodes of different colours represent the following: </p>
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN"
@@ -848,440 +851,440 @@ large graphs.</div>
  "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
 <!-- Generated by graphviz version 9.0.0 (20230911.1827)
  -->
-<!-- Title: program~~train_polynomials~3~~CallsGraph Pages: 1 -->
-<svg id="programtrain_polynomials3CallsGraph" width="641pt" height="1003pt"
- viewBox="0.00 0.00 641.00 1003.40" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
-<g id="program~~train_polynomials~3~~CallsGraph" class="graph" transform="scale(0.88224 0.88224) rotate(0) translate(4 1133.33)">
-<title>program~~train_polynomials~3~~CallsGraph</title>
-<polygon fill="white" stroke="none" points="-4,4 -4,-1133.33 722.56,-1133.33 722.56,4 -4,4"/>
-<!-- program~train_polynomials~3 -->
-<g id="program~~train_polynomials~3~~CallsGraph_node1" class="node">
-<title>program~train_polynomials~3</title>
-<polygon fill="none" stroke="black" points="106.02,-566.27 0,-566.27 0,-542 106.02,-542 106.02,-566.27"/>
-<text text-anchor="middle" x="53.01" y="-550.53" font-family="Helvetica,sans-Serif" font-size="10.50">train_polynomials</text>
+<!-- Title: program~~learn_exponentiation~~CallsGraph Pages: 1 -->
+<svg id="programlearn_exponentiationCallsGraph" width="641pt" height="959pt"
+ viewBox="0.00 0.00 641.00 958.69" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+<g id="program~~learn_exponentiation~~CallsGraph" class="graph" transform="scale(0.84059 0.84059) rotate(0) translate(4 1136.49)">
+<title>program~~learn_exponentiation~~CallsGraph</title>
+<polygon fill="white" stroke="none" points="-4,4 -4,-1136.49 758.56,-1136.49 758.56,4 -4,4"/>
+<!-- program~learn_exponentiation -->
+<g id="program~~learn_exponentiation~~CallsGraph_node1" class="node">
+<title>program~learn_exponentiation</title>
+<polygon fill="none" stroke="black" points="124.02,-566.27 0,-566.27 0,-542 124.02,-542 124.02,-566.27"/>
+<text text-anchor="middle" x="62.01" y="-550.53" font-family="Helvetica,sans-Serif" font-size="10.50">learn_exponentiation</text>
 </g>
 <!-- assert -->
-<g id="program~~train_polynomials~3~~CallsGraph_node2" class="node">
+<g id="program~~learn_exponentiation~~CallsGraph_node2" class="node">
 <title>assert</title>
-<polygon fill="#777777" stroke="#777777" points="605.17,-785.27 551.17,-785.27 551.17,-761 605.17,-761 605.17,-785.27"/>
-<text text-anchor="middle" x="578.17" y="-769.53" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">assert</text>
+<polygon fill="#777777" stroke="#777777" points="641.17,-785.27 587.17,-785.27 587.17,-761 641.17,-761 641.17,-785.27"/>
+<text text-anchor="middle" x="614.17" y="-769.53" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">assert</text>
 </g>
-<!-- program~train_polynomials~3&#45;&gt;assert -->
-<g id="program~~train_polynomials~3~~CallsGraph_edge1" class="edge">
-<title>program~train_polynomials~3&#45;&gt;assert</title>
-<path fill="none" stroke="#255000" d="M54.04,-566.68C54.47,-639.81 60.72,-1010.33 142.02,-1079.13 230.15,-1153.72 301.9,-1137.02 401.79,-1079.13 510.83,-1015.95 557.91,-856.57 572.17,-796.51"/>
-<polygon fill="#255000" stroke="#255000" points="575.52,-797.58 574.32,-787.06 568.69,-796.03 575.52,-797.58"/>
+<!-- program~learn_exponentiation&#45;&gt;assert -->
+<g id="program~~learn_exponentiation~~CallsGraph_edge1" class="edge">
+<title>program~learn_exponentiation&#45;&gt;assert</title>
+<path fill="none" stroke="#255000" d="M63.26,-566.69C65.02,-639.9 77.91,-1010.81 160.02,-1079.13 254.91,-1158.1 330.97,-1141.03 437.79,-1079.13 546.83,-1015.95 593.91,-856.57 608.17,-796.51"/>
+<polygon fill="#255000" stroke="#255000" points="611.52,-797.58 610.32,-787.06 604.69,-796.03 611.52,-797.58"/>
 </g>
 <!-- bin_t -->
-<g id="program~~train_polynomials~3~~CallsGraph_node3" class="node">
+<g id="program~~learn_exponentiation~~CallsGraph_node3" class="node">
 <title>bin_t</title>
-<polygon fill="#777777" stroke="#777777" points="298.9,-1070.27 244.9,-1070.27 244.9,-1046 298.9,-1046 298.9,-1070.27"/>
-<text text-anchor="middle" x="271.9" y="-1054.54" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">bin_t</text>
+<polygon fill="#777777" stroke="#777777" points="325.9,-1070.27 271.9,-1070.27 271.9,-1046 325.9,-1046 325.9,-1070.27"/>
+<text text-anchor="middle" x="298.9" y="-1054.54" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">bin_t</text>
 </g>
-<!-- program~train_polynomials~3&#45;&gt;bin_t -->
-<g id="program~~train_polynomials~3~~CallsGraph_edge2" class="edge">
-<title>program~train_polynomials~3&#45;&gt;bin_t</title>
-<path fill="none" stroke="#255000" d="M54.4,-566.39C56.84,-634.77 72.22,-968.63 142.02,-1037.13 165.7,-1060.37 204.42,-1063.91 233.25,-1062.67"/>
-<polygon fill="#255000" stroke="#255000" points="233.28,-1066.17 243.03,-1062.02 232.82,-1059.19 233.28,-1066.17"/>
+<!-- program~learn_exponentiation&#45;&gt;bin_t -->
+<g id="program~~learn_exponentiation~~CallsGraph_edge2" class="edge">
+<title>program~learn_exponentiation&#45;&gt;bin_t</title>
+<path fill="none" stroke="#255000" d="M63.63,-566.41C67.35,-634.93 89.01,-969.39 160.02,-1037.13 186.35,-1062.26 229.29,-1065.12 260.26,-1063.2"/>
+<polygon fill="#255000" stroke="#255000" points="260.3,-1066.71 269.98,-1062.39 259.72,-1059.73 260.3,-1066.71"/>
 </g>
 <!-- bins -->
-<g id="program~~train_polynomials~3~~CallsGraph_node4" class="node">
+<g id="program~~learn_exponentiation~~CallsGraph_node4" class="node">
 <title>bins</title>
-<polygon fill="#777777" stroke="#777777" points="298.9,-1028.27 244.9,-1028.27 244.9,-1004 298.9,-1004 298.9,-1028.27"/>
-<text text-anchor="middle" x="271.9" y="-1012.53" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">bins</text>
+<polygon fill="#777777" stroke="#777777" points="325.9,-1028.27 271.9,-1028.27 271.9,-1004 325.9,-1004 325.9,-1028.27"/>
+<text text-anchor="middle" x="298.9" y="-1012.53" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">bins</text>
 </g>
-<!-- program~train_polynomials~3&#45;&gt;bins -->
-<g id="program~~train_polynomials~3~~CallsGraph_edge3" class="edge">
-<title>program~train_polynomials~3&#45;&gt;bins</title>
-<path fill="none" stroke="#255000" d="M54.64,-566.59C58.2,-631.81 77.98,-933.33 142.02,-995.13 165.89,-1018.17 204.59,-1021.74 233.36,-1020.56"/>
-<polygon fill="#255000" stroke="#255000" points="233.35,-1024.07 243.11,-1019.94 232.91,-1017.08 233.35,-1024.07"/>
+<!-- program~learn_exponentiation&#45;&gt;bins -->
+<g id="program~~learn_exponentiation~~CallsGraph_edge3" class="edge">
+<title>program~learn_exponentiation&#45;&gt;bins</title>
+<path fill="none" stroke="#255000" d="M63.9,-566.62C68.8,-631.96 94.8,-934.04 160.02,-995.13 186.58,-1020.01 229.48,-1022.92 260.38,-1021.08"/>
+<polygon fill="#255000" stroke="#255000" points="260.38,-1024.59 270.07,-1020.29 259.82,-1017.61 260.38,-1024.59"/>
 </g>
 <!-- cost -->
-<g id="program~~train_polynomials~3~~CallsGraph_node5" class="node">
+<g id="program~~learn_exponentiation~~CallsGraph_node5" class="node">
 <title>cost</title>
-<polygon fill="#777777" stroke="#777777" points="298.9,-986.27 244.9,-986.27 244.9,-962 298.9,-962 298.9,-986.27"/>
-<text text-anchor="middle" x="271.9" y="-970.53" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">cost</text>
+<polygon fill="#777777" stroke="#777777" points="325.9,-986.27 271.9,-986.27 271.9,-962 325.9,-962 325.9,-986.27"/>
+<text text-anchor="middle" x="298.9" y="-970.53" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">cost</text>
 </g>
-<!-- program~train_polynomials~3&#45;&gt;cost -->
-<g id="program~~train_polynomials~3~~CallsGraph_edge4" class="edge">
-<title>program~train_polynomials~3&#45;&gt;cost</title>
-<path fill="none" stroke="#255000" d="M54.92,-566.61C59.67,-628.07 83.66,-897.93 142.02,-953.13 166.05,-975.86 204.55,-979.51 233.23,-978.44"/>
-<polygon fill="#255000" stroke="#255000" points="233.17,-981.95 242.94,-977.85 232.75,-974.96 233.17,-981.95"/>
+<!-- program~learn_exponentiation&#45;&gt;cost -->
+<g id="program~~learn_exponentiation~~CallsGraph_edge4" class="edge">
+<title>program~learn_exponentiation&#45;&gt;cost</title>
+<path fill="none" stroke="#255000" d="M64.21,-566.64C70.36,-628.22 100.49,-898.59 160.02,-953.13 186.77,-977.65 229.45,-980.66 260.25,-978.94"/>
+<polygon fill="#255000" stroke="#255000" points="260.2,-982.46 269.9,-978.2 259.66,-975.48 260.2,-982.46"/>
 </g>
 <!-- desired_outputs -->
-<g id="program~~train_polynomials~3~~CallsGraph_node6" class="node">
+<g id="program~~learn_exponentiation~~CallsGraph_node6" class="node">
 <title>desired_outputs</title>
-<polygon fill="#777777" stroke="#777777" points="319.66,-944.27 224.14,-944.27 224.14,-920 319.66,-920 319.66,-944.27"/>
-<text text-anchor="middle" x="271.9" y="-928.53" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">desired_outputs</text>
+<polygon fill="#777777" stroke="#777777" points="346.66,-944.27 251.14,-944.27 251.14,-920 346.66,-920 346.66,-944.27"/>
+<text text-anchor="middle" x="298.9" y="-928.53" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">desired_outputs</text>
 </g>
-<!-- program~train_polynomials~3&#45;&gt;desired_outputs -->
-<g id="program~~train_polynomials~3~~CallsGraph_edge5" class="edge">
-<title>program~train_polynomials~3&#45;&gt;desired_outputs</title>
-<path fill="none" stroke="#255000" d="M55.25,-566.43C61.25,-623.57 89.25,-862.43 142.02,-911.13 160.72,-928.39 187.79,-934.55 212.3,-936.03"/>
-<polygon fill="#255000" stroke="#255000" points="212.09,-939.53 222.2,-936.36 212.32,-932.53 212.09,-939.53"/>
+<!-- program~learn_exponentiation&#45;&gt;desired_outputs -->
+<g id="program~~learn_exponentiation~~CallsGraph_edge5" class="edge">
+<title>program~learn_exponentiation&#45;&gt;desired_outputs</title>
+<path fill="none" stroke="#255000" d="M64.56,-566.46C72.02,-623.71 106.1,-863.04 160.02,-911.13 181.37,-930.17 212.37,-936.11 239.58,-936.99"/>
+<polygon fill="#255000" stroke="#255000" points="239.42,-940.49 249.45,-937.07 239.48,-933.49 239.42,-940.49"/>
 </g>
 <!-- first -->
-<g id="program~~train_polynomials~3~~CallsGraph_node7" class="node">
+<g id="program~~learn_exponentiation~~CallsGraph_node7" class="node">
 <title>first</title>
-<polygon fill="#777777" stroke="#777777" points="298.9,-902.27 244.9,-902.27 244.9,-878 298.9,-878 298.9,-902.27"/>
-<text text-anchor="middle" x="271.9" y="-886.53" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">first</text>
+<polygon fill="#777777" stroke="#777777" points="325.9,-902.27 271.9,-902.27 271.9,-878 325.9,-878 325.9,-902.27"/>
+<text text-anchor="middle" x="298.9" y="-886.53" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">first</text>
 </g>
-<!-- program~train_polynomials~3&#45;&gt;first -->
-<g id="program~~train_polynomials~3~~CallsGraph_edge6" class="edge">
-<title>program~train_polynomials~3&#45;&gt;first</title>
-<path fill="none" stroke="#255000" d="M55.72,-566.74C63.22,-620.16 94.94,-827.01 142.02,-869.13 166.6,-891.12 204.85,-894.91 233.31,-894.07"/>
-<polygon fill="#255000" stroke="#255000" points="233.14,-897.58 242.94,-893.58 232.78,-890.59 233.14,-897.58"/>
+<!-- program~learn_exponentiation&#45;&gt;first -->
+<g id="program~~learn_exponentiation~~CallsGraph_edge6" class="edge">
+<title>program~learn_exponentiation&#45;&gt;first</title>
+<path fill="none" stroke="#255000" d="M62.56,-566.52C61.58,-614.17 64.9,-787.11 160.02,-869.13 187.3,-892.66 229.43,-895.93 259.95,-894.55"/>
+<polygon fill="#255000" stroke="#255000" points="260.16,-898.04 269.91,-893.89 259.7,-891.06 260.16,-898.04"/>
 </g>
 <!-- flag_value -->
-<g id="program~~train_polynomials~3~~CallsGraph_node8" class="node">
+<g id="program~~learn_exponentiation~~CallsGraph_node8" class="node">
 <title>flag_value</title>
-<polygon fill="#777777" stroke="#777777" points="305.04,-860.27 238.77,-860.27 238.77,-836 305.04,-836 305.04,-860.27"/>
-<text text-anchor="middle" x="271.9" y="-844.53" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">flag_value</text>
+<polygon fill="#777777" stroke="#777777" points="332.04,-860.27 265.77,-860.27 265.77,-836 332.04,-836 332.04,-860.27"/>
+<text text-anchor="middle" x="298.9" y="-844.53" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">flag_value</text>
 </g>
-<!-- program~train_polynomials~3&#45;&gt;flag_value -->
-<g id="program~~train_polynomials~3~~CallsGraph_edge7" class="edge">
-<title>program~train_polynomials~3&#45;&gt;flag_value</title>
-<path fill="none" stroke="#255000" d="M53.81,-566.61C53.85,-610.19 60.28,-756.84 142.02,-827.13 165.18,-847.05 199.67,-851.82 227.14,-851.87"/>
-<polygon fill="#255000" stroke="#255000" points="227,-855.37 236.92,-851.66 226.85,-848.37 227,-855.37"/>
+<!-- program~learn_exponentiation&#45;&gt;flag_value -->
+<g id="program~~learn_exponentiation~~CallsGraph_edge7" class="edge">
+<title>program~learn_exponentiation&#45;&gt;flag_value</title>
+<path fill="none" stroke="#255000" d="M63.23,-566.68C64.72,-610.48 76.05,-757.8 160.02,-827.13 185.98,-848.57 224.42,-852.92 254.12,-852.41"/>
+<polygon fill="#255000" stroke="#255000" points="254.06,-855.92 263.92,-852.04 253.8,-848.92 254.06,-855.92"/>
 </g>
 <!-- infer -->
-<g id="program~~train_polynomials~3~~CallsGraph_node9" class="node">
+<g id="program~~learn_exponentiation~~CallsGraph_node9" class="node">
 <title>infer</title>
-<polygon fill="#777777" stroke="#777777" points="298.9,-818.27 244.9,-818.27 244.9,-794 298.9,-794 298.9,-818.27"/>
-<text text-anchor="middle" x="271.9" y="-802.53" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">infer</text>
+<polygon fill="#777777" stroke="#777777" points="325.9,-818.27 271.9,-818.27 271.9,-794 325.9,-794 325.9,-818.27"/>
+<text text-anchor="middle" x="298.9" y="-802.53" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">infer</text>
 </g>
-<!-- program~train_polynomials~3&#45;&gt;infer -->
-<g id="program~~train_polynomials~3~~CallsGraph_edge8" class="edge">
-<title>program~train_polynomials~3&#45;&gt;infer</title>
-<path fill="none" stroke="#255000" d="M54.63,-566.61C57.29,-605.81 71.18,-727.36 142.02,-785.13 167.39,-805.82 205.13,-809.85 233.23,-809.44"/>
-<polygon fill="#255000" stroke="#255000" points="233.24,-812.94 243.1,-809.08 232.98,-805.94 233.24,-812.94"/>
+<!-- program~learn_exponentiation&#45;&gt;infer -->
+<g id="program~~learn_exponentiation~~CallsGraph_edge8" class="edge">
+<title>program~learn_exponentiation&#45;&gt;infer</title>
+<path fill="none" stroke="#255000" d="M64.12,-566.68C68.32,-606.08 86.95,-728.17 160.02,-785.13 188.34,-807.22 230.13,-810.76 260.27,-809.83"/>
+<polygon fill="#255000" stroke="#255000" points="260.28,-813.34 270.09,-809.34 259.93,-806.35 260.28,-813.34"/>
 </g>
 <!-- input_output_pairs -->
-<g id="program~~train_polynomials~3~~CallsGraph_node10" class="node">
+<g id="program~~learn_exponentiation~~CallsGraph_node10" class="node">
 <title>input_output_pairs</title>
-<polygon fill="#777777" stroke="#777777" points="326.79,-776.27 217.02,-776.27 217.02,-752 326.79,-752 326.79,-776.27"/>
-<text text-anchor="middle" x="271.9" y="-760.53" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">input_output_pairs</text>
+<polygon fill="#777777" stroke="#777777" points="353.79,-776.27 244.02,-776.27 244.02,-752 353.79,-752 353.79,-776.27"/>
+<text text-anchor="middle" x="298.9" y="-760.53" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">input_output_pairs</text>
 </g>
-<!-- program~train_polynomials~3&#45;&gt;input_output_pairs -->
-<g id="program~~train_polynomials~3~~CallsGraph_edge9" class="edge">
-<title>program~train_polynomials~3&#45;&gt;input_output_pairs</title>
-<path fill="none" stroke="#255000" d="M55.72,-566.29C61.22,-600.39 81.72,-697.46 142.02,-743.13 159.95,-756.72 183.34,-762.92 205.26,-765.43"/>
-<polygon fill="#255000" stroke="#255000" points="204.78,-768.91 215.05,-766.3 205.39,-761.93 204.78,-768.91"/>
+<!-- program~learn_exponentiation&#45;&gt;input_output_pairs -->
+<g id="program~~learn_exponentiation~~CallsGraph_edge9" class="edge">
+<title>program~learn_exponentiation&#45;&gt;input_output_pairs</title>
+<path fill="none" stroke="#255000" d="M65.29,-566.35C72.39,-600.63 97.46,-698.1 160.02,-743.13 180.72,-758.03 207.72,-764.23 232.34,-766.36"/>
+<polygon fill="#255000" stroke="#255000" points="232.12,-769.85 242.32,-766.99 232.56,-762.86 232.12,-769.85"/>
 </g>
 <!-- inputs -->
-<g id="program~~train_polynomials~3~~CallsGraph_node11" class="node">
+<g id="program~~learn_exponentiation~~CallsGraph_node11" class="node">
 <title>inputs</title>
-<polygon fill="#777777" stroke="#777777" points="298.9,-734.27 244.9,-734.27 244.9,-710 298.9,-710 298.9,-734.27"/>
-<text text-anchor="middle" x="271.9" y="-718.53" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">inputs</text>
+<polygon fill="#777777" stroke="#777777" points="325.9,-734.27 271.9,-734.27 271.9,-710 325.9,-710 325.9,-734.27"/>
+<text text-anchor="middle" x="298.9" y="-718.53" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">inputs</text>
 </g>
-<!-- program~train_polynomials~3&#45;&gt;inputs -->
-<g id="program~~train_polynomials~3~~CallsGraph_edge10" class="edge">
-<title>program~train_polynomials~3&#45;&gt;inputs</title>
-<path fill="none" stroke="#255000" d="M57.47,-566.49C66.25,-595.37 92.31,-667.39 142.02,-701.13 168.73,-719.27 205.62,-723.73 233.08,-724.11"/>
-<polygon fill="#255000" stroke="#255000" points="233.1,-727.61 243.08,-724.05 233.06,-720.61 233.1,-727.61"/>
+<!-- program~learn_exponentiation&#45;&gt;inputs -->
+<g id="program~~learn_exponentiation~~CallsGraph_edge10" class="edge">
+<title>program~learn_exponentiation&#45;&gt;inputs</title>
+<path fill="none" stroke="#255000" d="M67.19,-566.55C77.67,-595.56 108,-667.84 160.02,-701.13 189.87,-720.24 230.65,-724.36 260.11,-724.39"/>
+<polygon fill="#255000" stroke="#255000" points="260.13,-727.89 270.07,-724.22 260.01,-720.89 260.13,-727.89"/>
 </g>
 <!-- interface~shuffle -->
-<g id="program~~train_polynomials~3~~CallsGraph_node12" class="node">
+<g id="program~~learn_exponentiation~~CallsGraph_node12" class="node">
 <title>interface~shuffle</title>
-<g id="a_program~~train_polynomials~3~~CallsGraph_node12"><a xlink:href=".././interface/shuffle.html" xlink:title="input_output_pair_m::shuffle">
-<polygon fill="#a7506f" stroke="#a7506f" points="353.79,-692.27 190.02,-692.27 190.02,-668 353.79,-668 353.79,-692.27"/>
-<text text-anchor="middle" x="271.9" y="-676.53" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">input_output_pair_m::shuffle</text>
+<g id="a_program~~learn_exponentiation~~CallsGraph_node12"><a xlink:href="../interface/shuffle.html" xlink:title="input_output_pair_m::shuffle">
+<polygon fill="#a7506f" stroke="#a7506f" points="380.79,-692.27 217.02,-692.27 217.02,-668 380.79,-668 380.79,-692.27"/>
+<text text-anchor="middle" x="298.9" y="-676.53" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">input_output_pair_m::shuffle</text>
 </a>
 </g>
 </g>
-<!-- program~train_polynomials~3&#45;&gt;interface~shuffle -->
-<g id="program~~train_polynomials~3~~CallsGraph_edge11" class="edge">
-<title>program~train_polynomials~3&#45;&gt;interface~shuffle</title>
-<path fill="none" stroke="#255000" d="M60.51,-566.66C72.98,-589.28 102.53,-636.67 142.02,-659.13 153.15,-665.47 165.63,-670.03 178.34,-673.29"/>
-<polygon fill="#255000" stroke="#255000" points="177.53,-676.69 188.06,-675.5 179.08,-669.87 177.53,-676.69"/>
+<!-- program~learn_exponentiation&#45;&gt;interface~shuffle -->
+<g id="program~~learn_exponentiation~~CallsGraph_edge11" class="edge">
+<title>program~learn_exponentiation&#45;&gt;interface~shuffle</title>
+<path fill="none" stroke="#255000" d="M70.5,-566.71C84.76,-589.4 118.15,-636.91 160.02,-659.13 174.01,-666.56 189.85,-671.56 205.68,-674.9"/>
+<polygon fill="#255000" stroke="#255000" points="204.66,-678.26 215.13,-676.67 205.95,-671.38 204.66,-678.26"/>
 </g>
 <!-- intrinsic_array_t -->
-<g id="program~~train_polynomials~3~~CallsGraph_node13" class="node">
+<g id="program~~learn_exponentiation~~CallsGraph_node13" class="node">
 <title>intrinsic_array_t</title>
-<polygon fill="#777777" stroke="#777777" points="320.04,-650.27 223.77,-650.27 223.77,-626 320.04,-626 320.04,-650.27"/>
-<text text-anchor="middle" x="271.9" y="-634.53" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">intrinsic_array_t</text>
+<polygon fill="#777777" stroke="#777777" points="347.04,-650.27 250.77,-650.27 250.77,-626 347.04,-626 347.04,-650.27"/>
+<text text-anchor="middle" x="298.9" y="-634.53" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">intrinsic_array_t</text>
 </g>
-<!-- program~train_polynomials~3&#45;&gt;intrinsic_array_t -->
-<g id="program~~train_polynomials~3~~CallsGraph_edge12" class="edge">
-<title>program~train_polynomials~3&#45;&gt;intrinsic_array_t</title>
-<path fill="none" stroke="#255000" d="M67.14,-566.56C83.37,-581.17 112.49,-604.95 142.02,-617.13 164.07,-626.24 189.77,-631.4 212.39,-634.33"/>
-<polygon fill="#255000" stroke="#255000" points="211.72,-637.78 222.06,-635.46 212.53,-630.82 211.72,-637.78"/>
+<!-- program~learn_exponentiation&#45;&gt;intrinsic_array_t -->
+<g id="program~~learn_exponentiation~~CallsGraph_edge12" class="edge">
+<title>program~learn_exponentiation&#45;&gt;intrinsic_array_t</title>
+<path fill="none" stroke="#255000" d="M77.7,-566.58C95.8,-581.2 128.11,-605 160.02,-617.13 185.04,-626.66 214.17,-631.87 239.19,-634.72"/>
+<polygon fill="#255000" stroke="#255000" points="238.56,-638.17 248.86,-635.72 239.28,-631.21 238.56,-638.17"/>
 </g>
 <!-- last -->
-<g id="program~~train_polynomials~3~~CallsGraph_node14" class="node">
+<g id="program~~learn_exponentiation~~CallsGraph_node14" class="node">
 <title>last</title>
-<polygon fill="#777777" stroke="#777777" points="298.9,-608.27 244.9,-608.27 244.9,-584 298.9,-584 298.9,-608.27"/>
-<text text-anchor="middle" x="271.9" y="-592.53" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">last</text>
+<polygon fill="#777777" stroke="#777777" points="325.9,-608.27 271.9,-608.27 271.9,-584 325.9,-584 325.9,-608.27"/>
+<text text-anchor="middle" x="298.9" y="-592.53" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">last</text>
 </g>
-<!-- program~train_polynomials~3&#45;&gt;last -->
-<g id="program~~train_polynomials~3~~CallsGraph_edge13" class="edge">
-<title>program~train_polynomials~3&#45;&gt;last</title>
-<path fill="none" stroke="#255000" d="M104.14,-566.76C116.48,-569.69 129.7,-572.66 142.02,-575.13 172.67,-581.28 207.69,-586.9 233.49,-590.77"/>
-<polygon fill="#255000" stroke="#255000" points="232.74,-594.2 243.14,-592.2 233.76,-587.28 232.74,-594.2"/>
+<!-- program~learn_exponentiation&#45;&gt;last -->
+<g id="program~~learn_exponentiation~~CallsGraph_edge13" class="edge">
+<title>program~learn_exponentiation&#45;&gt;last</title>
+<path fill="none" stroke="#255000" d="M118.3,-566.72C131.9,-569.65 146.46,-572.64 160.02,-575.13 193.88,-581.37 232.66,-587.16 260.46,-591.07"/>
+<polygon fill="#255000" stroke="#255000" points="259.76,-594.51 270.15,-592.42 260.73,-587.58 259.76,-594.51"/>
 </g>
 <!-- mini_batches -->
-<g id="program~~train_polynomials~3~~CallsGraph_node15" class="node">
+<g id="program~~learn_exponentiation~~CallsGraph_node15" class="node">
 <title>mini_batches</title>
-<polygon fill="#777777" stroke="#777777" points="312.91,-566.27 230.89,-566.27 230.89,-542 312.91,-542 312.91,-566.27"/>
-<text text-anchor="middle" x="271.9" y="-550.53" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">mini_batches</text>
+<polygon fill="#777777" stroke="#777777" points="339.91,-566.27 257.89,-566.27 257.89,-542 339.91,-542 339.91,-566.27"/>
+<text text-anchor="middle" x="298.9" y="-550.53" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">mini_batches</text>
 </g>
-<!-- program~train_polynomials~3&#45;&gt;mini_batches -->
-<g id="program~~train_polynomials~3~~CallsGraph_edge14" class="edge">
-<title>program~train_polynomials~3&#45;&gt;mini_batches</title>
-<path fill="none" stroke="#255000" d="M106.51,-554.13C140.76,-554.13 185.25,-554.13 219.31,-554.13"/>
-<polygon fill="#255000" stroke="#255000" points="218.91,-557.64 228.91,-554.14 218.91,-550.64 218.91,-557.64"/>
+<!-- program~learn_exponentiation&#45;&gt;mini_batches -->
+<g id="program~~learn_exponentiation~~CallsGraph_edge14" class="edge">
+<title>program~learn_exponentiation&#45;&gt;mini_batches</title>
+<path fill="none" stroke="#255000" d="M124.42,-554.13C162.32,-554.13 210.39,-554.13 246.32,-554.13"/>
+<polygon fill="#255000" stroke="#255000" points="246.01,-557.64 256.01,-554.14 246.01,-550.64 246.01,-557.64"/>
 </g>
 <!-- num_inputs -->
-<g id="program~~train_polynomials~3~~CallsGraph_node16" class="node">
+<g id="program~~learn_exponentiation~~CallsGraph_node16" class="node">
 <title>num_inputs</title>
-<polygon fill="#777777" stroke="#777777" points="308.41,-524.27 235.39,-524.27 235.39,-500 308.41,-500 308.41,-524.27"/>
-<text text-anchor="middle" x="271.9" y="-508.53" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">num_inputs</text>
+<polygon fill="#777777" stroke="#777777" points="335.41,-524.27 262.39,-524.27 262.39,-500 335.41,-500 335.41,-524.27"/>
+<text text-anchor="middle" x="298.9" y="-508.53" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">num_inputs</text>
 </g>
-<!-- program~train_polynomials~3&#45;&gt;num_inputs -->
-<g id="program~~train_polynomials~3~~CallsGraph_edge15" class="edge">
-<title>program~train_polynomials~3&#45;&gt;num_inputs</title>
-<path fill="none" stroke="#255000" d="M104.14,-541.51C116.48,-538.58 129.7,-535.61 142.02,-533.13 168.98,-527.73 199.33,-522.73 223.8,-518.97"/>
-<polygon fill="#255000" stroke="#255000" points="224.09,-522.47 233.45,-517.51 223.04,-515.54 224.09,-522.47"/>
+<!-- program~learn_exponentiation&#45;&gt;num_inputs -->
+<g id="program~~learn_exponentiation~~CallsGraph_edge15" class="edge">
+<title>program~learn_exponentiation&#45;&gt;num_inputs</title>
+<path fill="none" stroke="#255000" d="M118.3,-541.55C131.9,-538.62 146.46,-535.63 160.02,-533.13 190.1,-527.59 224.06,-522.41 250.76,-518.58"/>
+<polygon fill="#255000" stroke="#255000" points="251.18,-522.05 260.59,-517.18 250.2,-515.12 251.18,-522.05"/>
 </g>
 <!-- num_outputs -->
-<g id="program~~train_polynomials~3~~CallsGraph_node17" class="node">
+<g id="program~~learn_exponentiation~~CallsGraph_node17" class="node">
 <title>num_outputs</title>
-<polygon fill="#777777" stroke="#777777" points="312.16,-482.27 231.64,-482.27 231.64,-458 312.16,-458 312.16,-482.27"/>
-<text text-anchor="middle" x="271.9" y="-466.53" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">num_outputs</text>
+<polygon fill="#777777" stroke="#777777" points="339.16,-482.27 258.64,-482.27 258.64,-458 339.16,-458 339.16,-482.27"/>
+<text text-anchor="middle" x="298.9" y="-466.53" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">num_outputs</text>
 </g>
-<!-- program~train_polynomials~3&#45;&gt;num_outputs -->
-<g id="program~~train_polynomials~3~~CallsGraph_edge16" class="edge">
-<title>program~train_polynomials~3&#45;&gt;num_outputs</title>
-<path fill="none" stroke="#255000" d="M67.14,-541.71C83.37,-527.1 112.49,-503.32 142.02,-491.13 166.62,-480.98 195.77,-475.72 220.11,-473.01"/>
-<polygon fill="#255000" stroke="#255000" points="220.17,-476.52 229.78,-472.05 219.48,-469.55 220.17,-476.52"/>
+<!-- program~learn_exponentiation&#45;&gt;num_outputs -->
+<g id="program~~learn_exponentiation~~CallsGraph_edge16" class="edge">
+<title>program~learn_exponentiation&#45;&gt;num_outputs</title>
+<path fill="none" stroke="#255000" d="M77.7,-541.69C95.8,-527.07 128.11,-503.27 160.02,-491.13 187.62,-480.63 220.22,-475.37 246.78,-472.74"/>
+<polygon fill="#255000" stroke="#255000" points="246.98,-476.24 256.64,-471.87 246.37,-469.26 246.98,-476.24"/>
 </g>
 <!-- output_sizes -->
-<g id="program~~train_polynomials~3~~CallsGraph_node18" class="node">
+<g id="program~~learn_exponentiation~~CallsGraph_node18" class="node">
 <title>output_sizes</title>
-<polygon fill="#777777" stroke="#777777" points="310.29,-440.27 233.52,-440.27 233.52,-416 310.29,-416 310.29,-440.27"/>
-<text text-anchor="middle" x="271.9" y="-424.53" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">output_sizes</text>
+<polygon fill="#777777" stroke="#777777" points="337.29,-440.27 260.52,-440.27 260.52,-416 337.29,-416 337.29,-440.27"/>
+<text text-anchor="middle" x="298.9" y="-424.53" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">output_sizes</text>
 </g>
-<!-- program~train_polynomials~3&#45;&gt;output_sizes -->
-<g id="program~~train_polynomials~3~~CallsGraph_edge17" class="edge">
-<title>program~train_polynomials~3&#45;&gt;output_sizes</title>
-<path fill="none" stroke="#255000" d="M60.51,-541.61C72.98,-518.99 102.53,-471.6 142.02,-449.13 166.11,-435.42 196.59,-430.02 221.86,-428.12"/>
-<polygon fill="#255000" stroke="#255000" points="221.77,-431.63 231.55,-427.56 221.37,-424.64 221.77,-431.63"/>
+<!-- program~learn_exponentiation&#45;&gt;output_sizes -->
+<g id="program~~learn_exponentiation~~CallsGraph_edge17" class="edge">
+<title>program~learn_exponentiation&#45;&gt;output_sizes</title>
+<path fill="none" stroke="#255000" d="M70.5,-541.56C84.76,-518.87 118.15,-471.36 160.02,-449.13 187.16,-434.73 221.26,-429.44 248.76,-427.78"/>
+<polygon fill="#255000" stroke="#255000" points="248.76,-431.28 258.6,-427.34 248.45,-424.29 248.76,-431.28"/>
 </g>
-<!-- proc~output~5 -->
-<g id="program~~train_polynomials~3~~CallsGraph_node19" class="node">
-<title>proc~output~5</title>
-<g id="a_program~~train_polynomials~3~~CallsGraph_node19"><a xlink:href=".././proc/output~5.html" xlink:title="train_polynomials::output">
-<polygon fill="#d9534f" stroke="#d9534f" points="345.91,-356.27 197.89,-356.27 197.89,-332 345.91,-332 345.91,-356.27"/>
-<text text-anchor="middle" x="271.9" y="-340.53" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">train_polynomials::output</text>
+<!-- proc~output~7 -->
+<g id="program~~learn_exponentiation~~CallsGraph_node19" class="node">
+<title>proc~output~7</title>
+<g id="a_program~~learn_exponentiation~~CallsGraph_node19"><a xlink:href="../proc/output~7.html" xlink:title="learn_exponentiation::output">
+<polygon fill="#d9534f" stroke="#d9534f" points="381.91,-356.27 215.89,-356.27 215.89,-332 381.91,-332 381.91,-356.27"/>
+<text text-anchor="middle" x="298.9" y="-340.53" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">learn_exponentiation::output</text>
 </a>
 </g>
 </g>
-<!-- program~train_polynomials~3&#45;&gt;proc~output~5 -->
-<g id="program~~train_polynomials~3~~CallsGraph_edge18" class="edge">
-<title>program~train_polynomials~3&#45;&gt;proc~output~5</title>
-<path fill="none" stroke="#255000" d="M55.72,-541.98C61.22,-507.88 81.72,-410.81 142.02,-365.13 154.87,-355.4 170.52,-349.46 186.43,-345.94"/>
-<polygon fill="#255000" stroke="#255000" points="186.78,-349.44 195.96,-344.16 185.49,-342.56 186.78,-349.44"/>
+<!-- program~learn_exponentiation&#45;&gt;proc~output~7 -->
+<g id="program~~learn_exponentiation~~CallsGraph_edge18" class="edge">
+<title>program~learn_exponentiation&#45;&gt;proc~output~7</title>
+<path fill="none" stroke="#255000" d="M65.29,-541.92C72.39,-507.64 97.46,-410.17 160.02,-365.13 173.11,-355.71 188.73,-349.77 204.67,-346.14"/>
+<polygon fill="#255000" stroke="#255000" points="205.1,-349.62 214.25,-344.27 203.76,-342.75 205.1,-349.62"/>
 </g>
-<!-- proc~perturbed_identity_network~5 -->
-<g id="program~~train_polynomials~3~~CallsGraph_node20" class="node">
-<title>proc~perturbed_identity_network~5</title>
-<g id="a_program~~train_polynomials~3~~CallsGraph_node20"><a xlink:href=".././proc/perturbed_identity_network~5.html" xlink:title="train_polynomials::perturbed_identity_network">
-<polygon fill="#d94e8f" stroke="#d94e8f" points="401.79,-314.27 142.02,-314.27 142.02,-290 401.79,-290 401.79,-314.27"/>
-<text text-anchor="middle" x="271.9" y="-298.53" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">train_polynomials::perturbed_identity_network</text>
+<!-- proc~perturbed_identity_network~7 -->
+<g id="program~~learn_exponentiation~~CallsGraph_node20" class="node">
+<title>proc~perturbed_identity_network~7</title>
+<g id="a_program~~learn_exponentiation~~CallsGraph_node20"><a xlink:href="../proc/perturbed_identity_network~7.html" xlink:title="learn_exponentiation::perturbed_identity_network">
+<polygon fill="#d94e8f" stroke="#d94e8f" points="437.79,-314.27 160.02,-314.27 160.02,-290 437.79,-290 437.79,-314.27"/>
+<text text-anchor="middle" x="298.9" y="-298.53" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">learn_exponentiation::perturbed_identity_network</text>
 </a>
 </g>
 </g>
-<!-- program~train_polynomials~3&#45;&gt;proc~perturbed_identity_network~5 -->
-<g id="program~~train_polynomials~3~~CallsGraph_edge19" class="edge">
-<title>program~train_polynomials~3&#45;&gt;proc~perturbed_identity_network~5</title>
-<path fill="none" stroke="#255000" d="M54.63,-541.66C57.29,-502.46 71.18,-380.91 142.02,-323.13 143.01,-322.33 144.02,-321.55 145.04,-320.79"/>
-<polygon fill="#255000" stroke="#255000" points="146.87,-323.77 153.42,-315.44 143.11,-317.87 146.87,-323.77"/>
+<!-- program~learn_exponentiation&#45;&gt;proc~perturbed_identity_network~7 -->
+<g id="program~~learn_exponentiation~~CallsGraph_edge19" class="edge">
+<title>program~learn_exponentiation&#45;&gt;proc~perturbed_identity_network~7</title>
+<path fill="none" stroke="#255000" d="M64.12,-541.59C68.32,-502.19 86.95,-380.1 160.02,-323.13 161.17,-322.23 162.35,-321.37 163.55,-320.53"/>
+<polygon fill="#255000" stroke="#255000" points="165.13,-323.66 171.82,-315.45 161.47,-317.7 165.13,-323.66"/>
 </g>
-<!-- proc~y~4 -->
-<g id="program~~train_polynomials~3~~CallsGraph_node21" class="node">
-<title>proc~y~4</title>
-<g id="a_program~~train_polynomials~3~~CallsGraph_node21"><a xlink:href=".././proc/y~4.html" xlink:title="add_inputs::y">
-<polygon fill="#d94e8f" stroke="#d94e8f" points="313.29,-398.27 230.52,-398.27 230.52,-374 313.29,-374 313.29,-398.27"/>
-<text text-anchor="middle" x="271.9" y="-382.53" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">add_inputs::y</text>
+<!-- proc~y~6 -->
+<g id="program~~learn_exponentiation~~CallsGraph_node21" class="node">
+<title>proc~y~6</title>
+<g id="a_program~~learn_exponentiation~~CallsGraph_node21"><a xlink:href="../proc/y~6.html" xlink:title="exponentiation_m::y">
+<polygon fill="#d94e8f" stroke="#d94e8f" points="359.04,-398.27 238.77,-398.27 238.77,-374 359.04,-374 359.04,-398.27"/>
+<text text-anchor="middle" x="298.9" y="-382.53" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">exponentiation_m::y</text>
 </a>
 </g>
 </g>
-<!-- program~train_polynomials~3&#45;&gt;proc~y~4 -->
-<g id="program~~train_polynomials~3~~CallsGraph_edge20" class="edge">
-<title>program~train_polynomials~3&#45;&gt;proc~y~4</title>
-<path fill="none" stroke="#255000" d="M57.47,-541.78C66.25,-512.9 92.31,-440.88 142.02,-407.13 164.39,-391.95 193.88,-386.36 219.01,-384.71"/>
-<polygon fill="#255000" stroke="#255000" points="218.86,-388.22 228.69,-384.28 218.54,-381.23 218.86,-388.22"/>
+<!-- program~learn_exponentiation&#45;&gt;proc~y~6 -->
+<g id="program~~learn_exponentiation~~CallsGraph_edge20" class="edge">
+<title>program~learn_exponentiation&#45;&gt;proc~y~6</title>
+<path fill="none" stroke="#255000" d="M67.19,-541.72C77.67,-512.71 108,-440.43 160.02,-407.13 179.74,-394.52 204.22,-388.43 227.07,-385.75"/>
+<polygon fill="#255000" stroke="#255000" points="227.34,-389.24 236.97,-384.81 226.68,-382.27 227.34,-389.24"/>
 </g>
 <!-- random_init -->
-<g id="program~~train_polynomials~3~~CallsGraph_node22" class="node">
+<g id="program~~learn_exponentiation~~CallsGraph_node22" class="node">
 <title>random_init</title>
-<polygon fill="#777777" stroke="#777777" points="309.54,-272.27 234.27,-272.27 234.27,-248 309.54,-248 309.54,-272.27"/>
-<text text-anchor="middle" x="271.9" y="-256.53" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">random_init</text>
+<polygon fill="#777777" stroke="#777777" points="336.54,-272.27 261.27,-272.27 261.27,-248 336.54,-248 336.54,-272.27"/>
+<text text-anchor="middle" x="298.9" y="-256.53" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">random_init</text>
 </g>
-<!-- program~train_polynomials~3&#45;&gt;random_init -->
-<g id="program~~train_polynomials~3~~CallsGraph_edge21" class="edge">
-<title>program~train_polynomials~3&#45;&gt;random_init</title>
-<path fill="none" stroke="#255000" d="M53.81,-541.66C53.85,-498.08 60.28,-351.43 142.02,-281.13 163.88,-262.34 195.83,-257.03 222.45,-256.46"/>
-<polygon fill="#255000" stroke="#255000" points="222.35,-259.95 232.35,-256.48 222.36,-252.95 222.35,-259.95"/>
+<!-- program~learn_exponentiation&#45;&gt;random_init -->
+<g id="program~~learn_exponentiation~~CallsGraph_edge21" class="edge">
+<title>program~learn_exponentiation&#45;&gt;random_init</title>
+<path fill="none" stroke="#255000" d="M63.23,-541.59C64.72,-497.79 76.05,-350.47 160.02,-281.13 184.74,-260.72 220.78,-255.8 249.82,-255.82"/>
+<polygon fill="#255000" stroke="#255000" points="249.38,-259.31 259.45,-256.03 249.53,-252.31 249.38,-259.31"/>
 </g>
 <!-- random_numbers -->
-<g id="program~~train_polynomials~3~~CallsGraph_node23" class="node">
+<g id="program~~learn_exponentiation~~CallsGraph_node23" class="node">
 <title>random_numbers</title>
-<polygon fill="#777777" stroke="#777777" points="324.91,-230.27 218.89,-230.27 218.89,-206 324.91,-206 324.91,-230.27"/>
-<text text-anchor="middle" x="271.9" y="-214.53" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">random_numbers</text>
+<polygon fill="#777777" stroke="#777777" points="351.91,-230.27 245.89,-230.27 245.89,-206 351.91,-206 351.91,-230.27"/>
+<text text-anchor="middle" x="298.9" y="-214.53" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">random_numbers</text>
 </g>
-<!-- program~train_polynomials~3&#45;&gt;random_numbers -->
-<g id="program~~train_polynomials~3~~CallsGraph_edge22" class="edge">
-<title>program~train_polynomials~3&#45;&gt;random_numbers</title>
-<path fill="none" stroke="#255000" d="M55.72,-541.53C63.22,-488.11 94.94,-281.26 142.02,-239.13 159.58,-223.42 184.13,-217.01 207.09,-214.93"/>
-<polygon fill="#255000" stroke="#255000" points="207.28,-218.42 217.05,-214.32 206.85,-211.44 207.28,-218.42"/>
+<!-- program~learn_exponentiation&#45;&gt;random_numbers -->
+<g id="program~~learn_exponentiation~~CallsGraph_edge22" class="edge">
+<title>program~learn_exponentiation&#45;&gt;random_numbers</title>
+<path fill="none" stroke="#255000" d="M62.56,-541.75C61.58,-494.1 64.9,-321.16 160.02,-239.13 180.23,-221.71 208.59,-215.4 234.33,-213.85"/>
+<polygon fill="#255000" stroke="#255000" points="234.17,-217.36 244.05,-213.52 233.93,-210.37 234.17,-217.36"/>
 </g>
 <!-- string -->
-<g id="program~~train_polynomials~3~~CallsGraph_node24" class="node">
+<g id="program~~learn_exponentiation~~CallsGraph_node24" class="node">
 <title>string</title>
-<polygon fill="#777777" stroke="#777777" points="298.9,-188.27 244.9,-188.27 244.9,-164 298.9,-164 298.9,-188.27"/>
-<text text-anchor="middle" x="271.9" y="-172.53" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">string</text>
+<polygon fill="#777777" stroke="#777777" points="325.9,-188.27 271.9,-188.27 271.9,-164 325.9,-164 325.9,-188.27"/>
+<text text-anchor="middle" x="298.9" y="-172.53" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">string</text>
 </g>
-<!-- program~train_polynomials~3&#45;&gt;string -->
-<g id="program~~train_polynomials~3~~CallsGraph_edge23" class="edge">
-<title>program~train_polynomials~3&#45;&gt;string</title>
-<path fill="none" stroke="#255000" d="M55.25,-541.84C61.25,-484.7 89.25,-245.84 142.02,-197.13 166.33,-174.7 204.79,-171.02 233.38,-172"/>
-<polygon fill="#255000" stroke="#255000" points="232.88,-175.48 243.06,-172.55 233.27,-168.49 232.88,-175.48"/>
+<!-- program~learn_exponentiation&#45;&gt;string -->
+<g id="program~~learn_exponentiation~~CallsGraph_edge23" class="edge">
+<title>program~learn_exponentiation&#45;&gt;string</title>
+<path fill="none" stroke="#255000" d="M64.56,-541.81C72.02,-484.56 106.1,-245.23 160.02,-197.13 187.1,-172.98 229.72,-169.91 260.42,-171.52"/>
+<polygon fill="#255000" stroke="#255000" points="259.8,-174.98 270.03,-172.22 260.31,-168 259.8,-174.98"/>
 </g>
 <!-- string_t -->
-<g id="program~~train_polynomials~3~~CallsGraph_node25" class="node">
+<g id="program~~learn_exponentiation~~CallsGraph_node25" class="node">
 <title>string_t</title>
-<polygon fill="#777777" stroke="#777777" points="605.17,-210.27 551.17,-210.27 551.17,-186 605.17,-186 605.17,-210.27"/>
-<text text-anchor="middle" x="578.17" y="-194.53" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">string_t</text>
+<polygon fill="#777777" stroke="#777777" points="641.17,-210.27 587.17,-210.27 587.17,-186 641.17,-186 641.17,-210.27"/>
+<text text-anchor="middle" x="614.17" y="-194.53" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">string_t</text>
 </g>
-<!-- program~train_polynomials~3&#45;&gt;string_t -->
-<g id="program~~train_polynomials~3~~CallsGraph_edge24" class="edge">
-<title>program~train_polynomials~3&#45;&gt;string_t</title>
-<path fill="none" stroke="#255000" d="M54.73,-541.88C58.6,-480.28 79.26,-205.56 142.02,-155.13 232.02,-82.82 287.17,-141.29 401.79,-155.13 450.38,-161 504.92,-175.7 540.1,-186.28"/>
-<polygon fill="#255000" stroke="#255000" points="538.77,-189.54 549.35,-189.11 540.81,-182.84 538.77,-189.54"/>
+<!-- program~learn_exponentiation&#45;&gt;string_t -->
+<g id="program~~learn_exponentiation~~CallsGraph_edge24" class="edge">
+<title>program~learn_exponentiation&#45;&gt;string_t</title>
+<path fill="none" stroke="#255000" d="M64.01,-541.86C69.33,-480.19 96.41,-205.14 160.02,-155.13 257.08,-78.85 315.23,-140.33 437.79,-155.13 486.38,-161 540.92,-175.7 576.1,-186.28"/>
+<polygon fill="#255000" stroke="#255000" points="574.77,-189.54 585.35,-189.11 576.81,-182.84 574.77,-189.54"/>
 </g>
 <!-- to_inference_engine -->
-<g id="program~~train_polynomials~3~~CallsGraph_node26" class="node">
+<g id="program~~learn_exponentiation~~CallsGraph_node26" class="node">
 <title>to_inference_engine</title>
-<polygon fill="#777777" stroke="#777777" points="331.66,-108.27 212.14,-108.27 212.14,-84 331.66,-84 331.66,-108.27"/>
-<text text-anchor="middle" x="271.9" y="-92.54" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">to_inference_engine</text>
+<polygon fill="#777777" stroke="#777777" points="358.66,-108.27 239.14,-108.27 239.14,-84 358.66,-84 358.66,-108.27"/>
+<text text-anchor="middle" x="298.9" y="-92.54" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">to_inference_engine</text>
 </g>
-<!-- program~train_polynomials~3&#45;&gt;to_inference_engine -->
-<g id="program~~train_polynomials~3~~CallsGraph_edge25" class="edge">
-<title>program~train_polynomials~3&#45;&gt;to_inference_engine</title>
-<path fill="none" stroke="#255000" d="M54.75,-541.55C58.79,-477 80.4,-183.64 142.02,-122.14 157.43,-106.76 179.24,-99.23 200.55,-95.84"/>
-<polygon fill="#255000" stroke="#255000" points="200.97,-99.31 210.45,-94.58 200.08,-92.37 200.97,-99.31"/>
+<!-- program~learn_exponentiation&#45;&gt;to_inference_engine -->
+<g id="program~~learn_exponentiation~~CallsGraph_edge25" class="edge">
+<title>program~learn_exponentiation&#45;&gt;to_inference_engine</title>
+<path fill="none" stroke="#255000" d="M64.01,-541.52C69.41,-476.83 97.13,-182.89 160.02,-122.14 177.87,-104.89 203.34,-97.26 227.55,-94.31"/>
+<polygon fill="#255000" stroke="#255000" points="227.79,-97.8 237.42,-93.39 227.13,-90.83 227.79,-97.8"/>
 </g>
 <!-- train -->
-<g id="program~~train_polynomials~3~~CallsGraph_node27" class="node">
+<g id="program~~learn_exponentiation~~CallsGraph_node27" class="node">
 <title>train</title>
-<polygon fill="#777777" stroke="#777777" points="298.9,-66.27 244.9,-66.27 244.9,-42 298.9,-42 298.9,-66.27"/>
-<text text-anchor="middle" x="271.9" y="-50.53" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">train</text>
+<polygon fill="#777777" stroke="#777777" points="325.9,-66.27 271.9,-66.27 271.9,-42 325.9,-42 325.9,-66.27"/>
+<text text-anchor="middle" x="298.9" y="-50.53" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">train</text>
 </g>
-<!-- program~train_polynomials~3&#45;&gt;train -->
-<g id="program~~train_polynomials~3~~CallsGraph_edge26" class="edge">
-<title>program~train_polynomials~3&#45;&gt;train</title>
-<path fill="none" stroke="#255000" d="M54.43,-541.54C57.01,-472.72 72.88,-142.9 142.02,-75.14 165.71,-51.91 204.44,-48.38 233.26,-49.61"/>
-<polygon fill="#255000" stroke="#255000" points="232.83,-53.09 243.04,-50.25 233.29,-46.11 232.83,-53.09"/>
+<!-- program~learn_exponentiation&#45;&gt;train -->
+<g id="program~~learn_exponentiation~~CallsGraph_edge26" class="edge">
+<title>program~learn_exponentiation&#45;&gt;train</title>
+<path fill="none" stroke="#255000" d="M63.67,-541.51C67.55,-472.56 89.67,-142.14 160.02,-75.14 186.37,-50.03 229.31,-47.17 260.27,-49.08"/>
+<polygon fill="#255000" stroke="#255000" points="259.73,-52.55 269.99,-49.89 260.31,-45.57 259.73,-52.55"/>
 </g>
 <!-- values -->
-<g id="program~~train_polynomials~3~~CallsGraph_node28" class="node">
+<g id="program~~learn_exponentiation~~CallsGraph_node28" class="node">
 <title>values</title>
-<polygon fill="#777777" stroke="#777777" points="298.9,-24.27 244.9,-24.27 244.9,0 298.9,0 298.9,-24.27"/>
-<text text-anchor="middle" x="271.9" y="-8.53" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">values</text>
+<polygon fill="#777777" stroke="#777777" points="325.9,-24.27 271.9,-24.27 271.9,0 325.9,0 325.9,-24.27"/>
+<text text-anchor="middle" x="298.9" y="-8.53" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">values</text>
 </g>
-<!-- program~train_polynomials~3&#45;&gt;values -->
-<g id="program~~train_polynomials~3~~CallsGraph_edge27" class="edge">
-<title>program~train_polynomials~3&#45;&gt;values</title>
-<path fill="none" stroke="#255000" d="M54.22,-541.88C55.73,-470.36 67.05,-107.67 142.02,-33.13 165.55,-9.74 204.29,-6.23 233.17,-7.52"/>
-<polygon fill="#255000" stroke="#255000" points="232.75,-11 242.97,-8.18 233.22,-4.01 232.75,-11"/>
+<!-- program~learn_exponentiation&#45;&gt;values -->
+<g id="program~~learn_exponentiation~~CallsGraph_edge27" class="edge">
+<title>program~learn_exponentiation&#45;&gt;values</title>
+<path fill="none" stroke="#255000" d="M63.44,-541.85C66.19,-470.2 83.82,-106.87 160.02,-33.13 186.17,-7.83 229.15,-5 260.17,-6.98"/>
+<polygon fill="#255000" stroke="#255000" points="259.65,-10.44 269.91,-7.8 260.24,-3.47 259.65,-10.44"/>
 </g>
-<!-- interface~to_json~2 -->
-<g id="program~~train_polynomials~3~~CallsGraph_node29" class="node">
-<title>interface~to_json~2</title>
-<g id="a_program~~train_polynomials~3~~CallsGraph_node29"><a xlink:href=".././interface/to_json~2.html" xlink:title="inference_engine_m_::inference_engine_t%to_json">
-<polygon fill="#a7506f" stroke="#a7506f" points="718.56,-377.27 437.79,-377.27 437.79,-353 718.56,-353 718.56,-377.27"/>
-<text text-anchor="middle" x="578.17" y="-361.53" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">inference_engine_m_::inference_engine_t%to_json</text>
+<!-- interface~to_json~4 -->
+<g id="program~~learn_exponentiation~~CallsGraph_node29" class="node">
+<title>interface~to_json~4</title>
+<g id="a_program~~learn_exponentiation~~CallsGraph_node29"><a xlink:href="../interface/to_json~4.html" xlink:title="inference_engine_m_::inference_engine_t%to_json">
+<polygon fill="#a7506f" stroke="#a7506f" points="754.56,-377.27 473.79,-377.27 473.79,-353 754.56,-353 754.56,-377.27"/>
+<text text-anchor="middle" x="614.17" y="-361.53" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">inference_engine_m_::inference_engine_t%to_json</text>
 </a>
 </g>
 </g>
-<!-- proc~output~5&#45;&gt;interface~to_json~2 -->
-<g id="program~~train_polynomials~3~~CallsGraph_edge28" class="edge">
-<title>proc~output~5&#45;&gt;interface~to_json~2</title>
-<path fill="none" stroke="#056255" d="M346.17,-349.19C370.36,-350.86 398.22,-352.78 426.04,-354.7"/>
-<polygon fill="#056255" stroke="#056255" points="425.8,-358.2 436.02,-355.39 426.28,-351.21 425.8,-358.2"/>
+<!-- proc~output~7&#45;&gt;interface~to_json~4 -->
+<g id="program~~learn_exponentiation~~CallsGraph_edge28" class="edge">
+<title>proc~output~7&#45;&gt;interface~to_json~4</title>
+<path fill="none" stroke="#056255" d="M382.21,-349.65C406.83,-351.3 434.63,-353.17 462.21,-355.01"/>
+<polygon fill="#056255" stroke="#056255" points="461.86,-358.5 472.07,-355.68 462.32,-351.51 461.86,-358.5"/>
 </g>
 <!-- write_lines -->
-<g id="program~~train_polynomials~3~~CallsGraph_node32" class="node">
+<g id="program~~learn_exponentiation~~CallsGraph_node32" class="node">
 <title>write_lines</title>
-<polygon fill="#777777" stroke="#777777" points="612.06,-335.27 544.29,-335.27 544.29,-311 612.06,-311 612.06,-335.27"/>
-<text text-anchor="middle" x="578.17" y="-319.53" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">write_lines</text>
+<polygon fill="#777777" stroke="#777777" points="648.06,-335.27 580.29,-335.27 580.29,-311 648.06,-311 648.06,-335.27"/>
+<text text-anchor="middle" x="614.17" y="-319.53" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">write_lines</text>
 </g>
-<!-- proc~output~5&#45;&gt;write_lines -->
-<g id="program~~train_polynomials~3~~CallsGraph_edge29" class="edge">
-<title>proc~output~5&#45;&gt;write_lines</title>
-<path fill="none" stroke="#056255" d="M346.17,-339.08C404.33,-335.06 483.74,-329.58 532.68,-326.21"/>
-<polygon fill="#056255" stroke="#056255" points="532.89,-329.7 542.63,-325.52 532.41,-322.72 532.89,-329.7"/>
+<!-- proc~output~7&#45;&gt;write_lines -->
+<g id="program~~learn_exponentiation~~CallsGraph_edge29" class="edge">
+<title>proc~output~7&#45;&gt;write_lines</title>
+<path fill="none" stroke="#056255" d="M382.21,-338.62C441.83,-334.62 520.16,-329.37 568.56,-326.13"/>
+<polygon fill="#056255" stroke="#056255" points="568.64,-329.63 578.38,-325.47 568.17,-322.64 568.64,-329.63"/>
 </g>
-<!-- proc~perturbed_identity_network~5&#45;&gt;string_t -->
-<g id="program~~train_polynomials~3~~CallsGraph_edge31" class="edge">
-<title>proc~perturbed_identity_network~5&#45;&gt;string_t</title>
-<path fill="none" stroke="#002505" d="M373.05,-289.56C382.89,-287.21 392.62,-284.43 401.79,-281.13 419.22,-274.87 421.3,-268.58 437.79,-260.13 471.97,-242.63 512.14,-225.07 540.55,-213.13"/>
-<polygon fill="#002505" stroke="#002505" points="541.55,-216.5 549.43,-209.42 538.85,-210.04 541.55,-216.5"/>
+<!-- proc~perturbed_identity_network~7&#45;&gt;string_t -->
+<g id="program~~learn_exponentiation~~CallsGraph_edge31" class="edge">
+<title>proc~perturbed_identity_network~7&#45;&gt;string_t</title>
+<path fill="none" stroke="#002505" d="M408.5,-289.58C418.53,-287.23 428.43,-284.44 437.79,-281.13 455.26,-274.96 457.3,-268.58 473.79,-260.13 507.97,-242.63 548.14,-225.07 576.55,-213.13"/>
+<polygon fill="#002505" stroke="#002505" points="577.55,-216.5 585.43,-209.42 574.85,-210.04 577.55,-216.5"/>
 </g>
-<!-- proc~e~4 -->
-<g id="program~~train_polynomials~3~~CallsGraph_node31" class="node">
-<title>proc~e~4</title>
-<g id="a_program~~train_polynomials~3~~CallsGraph_node31"><a xlink:href=".././proc/e~4.html" xlink:title="train_polynomials::e">
-<polygon fill="#d94e8f" stroke="#d94e8f" points="638.31,-293.27 518.04,-293.27 518.04,-269 638.31,-269 638.31,-293.27"/>
-<text text-anchor="middle" x="578.17" y="-277.53" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">train_polynomials::e</text>
+<!-- proc~e~6 -->
+<g id="program~~learn_exponentiation~~CallsGraph_node31" class="node">
+<title>proc~e~6</title>
+<g id="a_program~~learn_exponentiation~~CallsGraph_node31"><a xlink:href="../proc/e~6.html" xlink:title="learn_exponentiation::e">
+<polygon fill="#d94e8f" stroke="#d94e8f" points="683.31,-293.27 545.04,-293.27 545.04,-269 683.31,-269 683.31,-293.27"/>
+<text text-anchor="middle" x="614.17" y="-277.53" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">learn_exponentiation::e</text>
 </a>
 </g>
 </g>
-<!-- proc~perturbed_identity_network~5&#45;&gt;proc~e~4 -->
-<g id="program~~train_polynomials~3~~CallsGraph_edge30" class="edge">
-<title>proc~perturbed_identity_network~5&#45;&gt;proc~e~4</title>
-<path fill="none" stroke="#002505" d="M401.94,-293.23C437.86,-290.75 475.54,-288.15 506.72,-286"/>
-<polygon fill="#002505" stroke="#002505" points="506.65,-289.51 516.38,-285.33 506.16,-282.53 506.65,-289.51"/>
+<!-- proc~perturbed_identity_network~7&#45;&gt;proc~e~6 -->
+<g id="program~~learn_exponentiation~~CallsGraph_edge30" class="edge">
+<title>proc~perturbed_identity_network~7&#45;&gt;proc~e~6</title>
+<path fill="none" stroke="#002505" d="M438.22,-292.86C470.78,-290.68 504.41,-288.43 533.37,-286.48"/>
+<polygon fill="#002505" stroke="#002505" points="533.4,-289.99 543.14,-285.83 532.93,-283.01 533.4,-289.99"/>
 </g>
-<!-- proc~y~4&#45;&gt;assert -->
-<g id="program~~train_polynomials~3~~CallsGraph_edge32" class="edge">
-<title>proc~y~4&#45;&gt;assert</title>
-<path fill="none" stroke="#560255" d="M313.55,-383.45C340.99,-383.71 376.66,-388.31 401.79,-407.13 519.68,-495.41 561.98,-683.54 573.54,-749.61"/>
-<polygon fill="#560255" stroke="#560255" points="570.06,-750.02 575.15,-759.31 576.96,-748.87 570.06,-750.02"/>
+<!-- proc~y~6&#45;&gt;assert -->
+<g id="program~~learn_exponentiation~~CallsGraph_edge32" class="edge">
+<title>proc~y~6&#45;&gt;assert</title>
+<path fill="none" stroke="#560255" d="M359.29,-383.16C385.58,-384.69 415.51,-390.63 437.79,-407.13 556.14,-494.8 598.15,-683.32 609.58,-749.55"/>
+<polygon fill="#560255" stroke="#560255" points="606.1,-749.97 611.18,-759.27 613.01,-748.84 606.1,-749.97"/>
 </g>
 <!-- interface~values -->
-<g id="program~~train_polynomials~3~~CallsGraph_node30" class="node">
+<g id="program~~learn_exponentiation~~CallsGraph_node30" class="node">
 <title>interface~values</title>
-<g id="a_program~~train_polynomials~3~~CallsGraph_node30"><a xlink:href=".././interface/values.html" xlink:title="tensor_m::tensor_t%values">
-<polygon fill="#a7506f" stroke="#a7506f" points="655.93,-419.27 500.41,-419.27 500.41,-395 655.93,-395 655.93,-419.27"/>
-<text text-anchor="middle" x="578.17" y="-403.53" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">tensor_m::tensor_t%values</text>
+<g id="a_program~~learn_exponentiation~~CallsGraph_node30"><a xlink:href="../interface/values.html" xlink:title="tensor_m::tensor_t%values">
+<polygon fill="#a7506f" stroke="#a7506f" points="691.93,-419.27 536.41,-419.27 536.41,-395 691.93,-395 691.93,-419.27"/>
+<text text-anchor="middle" x="614.17" y="-403.53" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">tensor_m::tensor_t%values</text>
 </a>
 </g>
 </g>
-<!-- proc~y~4&#45;&gt;interface~values -->
-<g id="program~~train_polynomials~3~~CallsGraph_edge33" class="edge">
-<title>proc~y~4&#45;&gt;interface~values</title>
-<path fill="none" stroke="#560255" d="M313.62,-388.95C358.18,-392.02 430.96,-397.04 488.77,-401.03"/>
-<polygon fill="#560255" stroke="#560255" points="488.39,-404.52 498.6,-401.71 488.87,-397.53 488.39,-404.52"/>
+<!-- proc~y~6&#45;&gt;interface~values -->
+<g id="program~~learn_exponentiation~~CallsGraph_edge33" class="edge">
+<title>proc~y~6&#45;&gt;interface~values</title>
+<path fill="none" stroke="#560255" d="M359.2,-390.11C405.88,-393.24 471.68,-397.65 524.61,-401.2"/>
+<polygon fill="#560255" stroke="#560255" points="524.32,-404.69 534.53,-401.86 524.78,-397.7 524.32,-404.69"/>
 </g>
 </g>
 </svg>
 </div>                <script>
-                  var panprogramtrain_polynomials3CallsGraph = svgPanZoom('#programtrain_polynomials3CallsGraph',
+                  var panprogramlearn_exponentiationCallsGraph = svgPanZoom('#programlearn_exponentiationCallsGraph',
                     {zoomEnabled: true, controlIconsEnabled: true, fit: true, center: true,}
                   );
-                </script>        <div><a type="button" class="graph-help" data-toggle="modal" href="#CallsGraph-help-text">Help</a></div>
+                </script>          <div>
+            <a type="button" class="graph-help" data-bs-toggle="modal" href="#CallsGraph-help-text">Help</a>
+          </div>
           <div class="modal fade" id="CallsGraph-help-text" tabindex="-1" role="dialog">
             <div class="modal-dialog modal-lg" role="document">
               <div class="modal-content">
                 <div class="modal-header">
-                  <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
-                  </button>
                   <h4 class="modal-title" id="-graph-help-label">Graph Key</h4>
+                  <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
-              <div class="modal-body">
+                <div class="modal-body">
 <p>Nodes of different colours represent the following: </p>
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN"
@@ -1368,7 +1371,7 @@ large graphs.</div>
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-command_line~5"></span>
+              <span class="anchor" id="variable-command_line~9"></span>
               type(command_line_t)
             </td>
             <td>
@@ -1384,7 +1387,7 @@ large graphs.</div>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-final_network_file~4"></span>
+              <span class="anchor" id="variable-final_network_file~5"></span>
               type(string_t)
             </td>
             <td>
@@ -1400,7 +1403,7 @@ large graphs.</div>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-intial_network_file~4"></span>
+              <span class="anchor" id="variable-intial_network_file~5"></span>
               type(string_t)
             </td>
             <td>
@@ -1428,7 +1431,7 @@ large graphs.</div>
     <section>
     <h2>Functions</h2>
       <div class="card">
-    <div class="card-header codesum"><span class="anchor" id="proc-e~4"></span><h3>pure function <a href='../proc/e~4.html'>e</a>(j, n) result(unit_vector)  
+    <div class="card-header codesum"><span class="anchor" id="proc-e~6"></span> <h3>pure function <a href='../proc/e~6.html'>e</a>(j, n) result(unit_vector)  
 </h3></div>
     <div class="card-body">
           
@@ -1447,7 +1450,7 @@ large graphs.</div>
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-j~4"></span>
+              <span class="anchor" id="variable-j~13"></span>
               integer,
             </td>
 <td>intent(in)</td>
@@ -1462,7 +1465,7 @@ large graphs.</div>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-n~6"></span>
+              <span class="anchor" id="variable-n~13"></span>
               integer,
             </td>
 <td>intent(in)</td>
@@ -1488,7 +1491,7 @@ large graphs.</div>
   </div>
 
       <div class="card">
-    <div class="card-header codesum"><span class="anchor" id="proc-perturbed_identity_network~5"></span><h3> function <a href='../proc/perturbed_identity_network~5.html'>perturbed_identity_network</a>(perturbation_magnitude) result(trainable_engine)  
+    <div class="card-header codesum"><span class="anchor" id="proc-perturbed_identity_network~7"></span> <h3> function <a href='../proc/perturbed_identity_network~7.html'>perturbed_identity_network</a>(perturbation_magnitude) result(trainable_engine)  
 </h3></div>
     <div class="card-body">
           
@@ -1507,7 +1510,7 @@ large graphs.</div>
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-perturbation_magnitude~6"></span>
+              <span class="anchor" id="variable-perturbation_magnitude~8"></span>
               real,
             </td>
 <td>intent(in)</td>
@@ -1539,7 +1542,7 @@ large graphs.</div>
     <section>
     <h2>Subroutines</h2>
       <div class="card">
-    <div class="card-header codesum"><span class="anchor" id="proc-output~5"></span><h3> subroutine <a href='../proc/output~5.html'>output</a>(inference_engine, file_name)  
+    <div class="card-header codesum"><span class="anchor" id="proc-output~7"></span> <h3> subroutine <a href='../proc/output~7.html'>output</a>(inference_engine, file_name)  
 </h3></div>
     <div class="card-body">
           
@@ -1558,7 +1561,7 @@ large graphs.</div>
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-inference_engine~8"></span>
+              <span class="anchor" id="variable-inference_engine~15"></span>
               type(<a href='../type/inference_engine_t.html'>inference_engine_t</a>),
             </td>
 <td>intent(in)</td>
@@ -1573,7 +1576,7 @@ large graphs.</div>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-file_name~6"></span>
+              <span class="anchor" id="variable-file_name~9"></span>
               type(string_t),
             </td>
 <td>intent(in)</td>
@@ -1605,14 +1608,14 @@ large graphs.</div>
     <footer>
       <div class="container">
         <div class="row justify-content-between">
-          <div class="col"><p>Inference-Engine was developed by Berkeley Lab<br>&copy; 2023 
+          <div class="col"><p>Inference-Engine was developed by Berkeley Lab<br>&copy; 2024 
 </p>
           </div>
           <div class="col">
             <p class="text-end">
               Documentation generated by
               <a href="https://github.com/Fortran-FOSS-Programmers/ford">FORD</a>
- on 2023-12-21 00:11              </p>
+ on 2024-01-12 15:55              </p>
           </div>
         </div>
         <br>

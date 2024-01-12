@@ -1,3 +1,5 @@
+<!-- -*- mode: jinja2 -*- -->
+
 <!DOCTYPE html>
 <html lang="en">
   <head>
@@ -17,7 +19,8 @@
     <link href="../css/local.css" rel="stylesheet">
       <link  href="../tipuesearch/tipuesearch.css" rel="stylesheet">
 
-    <script src="https://code.jquery.com/jquery-3.7.0.slim.min.js" integrity="sha256-tG5mcZUtJsZvyKAxYLVXrmjKBVLd6VpVccqz/r4ypFE=" crossorigin="anonymous"></script>
+    <script src="https://code.jquery.com/jquery-3.7.1.min.js" integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
+    <script src="../js/svg-pan-zoom.min.js"></script>
   </head>
 
   <body>
@@ -155,13 +158,13 @@
         <ul class="list-group list-group-flush">
             <li class="list-group-item">
               <ul class="list-inline">
-                  <li class="list-inline-item"><a href='../module/sigmoid_m.html'>sigmoid_m</a></li>
+                  <li class="list-inline-item"><a href='sigmoid_m.html'>sigmoid_m</a></li>
               </ul>
             </li>
             <li class="list-group-item">
               <ul class="list-inline">
                 <li><h5>Ancestors:</h5></li>
-                  <li class="list-inline-item"><a href='../module/swish_m.html'>swish_m</a></li>
+                  <li class="list-inline-item"><a href='swish_m.html'>swish_m</a></li>
               </ul>
             </li>
             <li class="list-group-item">
@@ -185,7 +188,7 @@
 <!-- module~sigmoid_m -->
 <g id="module~~swish_s~~UsesGraph_node2" class="node">
 <title>module~sigmoid_m</title>
-<g id="a_module~~swish_s~~UsesGraph_node2"><a xlink:href=".././module/sigmoid_m.html" xlink:title="sigmoid_m">
+<g id="a_module~~swish_s~~UsesGraph_node2"><a xlink:href="../module/sigmoid_m.html" xlink:title="sigmoid_m">
 <polygon fill="#337ab7" stroke="#337ab7" points="628.08,-49.27 558.81,-49.27 558.81,-25 628.08,-25 628.08,-49.27"/>
 <text text-anchor="middle" x="593.45" y="-33.54" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">sigmoid_m</text>
 </a>
@@ -200,7 +203,7 @@
 <!-- module~swish_m -->
 <g id="module~~swish_s~~UsesGraph_node3" class="node">
 <title>module~swish_m</title>
-<g id="a_module~~swish_s~~UsesGraph_node3"><a xlink:href=".././module/swish_m.html" xlink:title="swish_m">
+<g id="a_module~~swish_s~~UsesGraph_node3"><a xlink:href="../module/swish_m.html" xlink:title="swish_m">
 <polygon fill="#337ab7" stroke="#337ab7" points="621.33,-91.27 565.56,-91.27 565.56,-67 621.33,-67 621.33,-91.27"/>
 <text text-anchor="middle" x="593.45" y="-75.54" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">swish_m</text>
 </a>
@@ -215,7 +218,7 @@
 <!-- module~differentiable_activation_strategy_m -->
 <g id="module~~swish_s~~UsesGraph_node4" class="node">
 <title>module~differentiable_activation_strategy_m</title>
-<g id="a_module~~swish_s~~UsesGraph_node4"><a xlink:href=".././module/differentiable_activation_strategy_m.html" xlink:title="differentiable_activation_strategy_m">
+<g id="a_module~~swish_s~~UsesGraph_node4"><a xlink:href="../module/differentiable_activation_strategy_m.html" xlink:title="differentiable_activation_strategy_m">
 <polygon fill="#337ab7" stroke="#337ab7" points="522.81,-49.27 317.79,-49.27 317.79,-25 522.81,-25 522.81,-49.27"/>
 <text text-anchor="middle" x="420.3" y="-33.54" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">differentiable_activation_strategy_m</text>
 </a>
@@ -230,7 +233,7 @@
 <!-- module~kind_parameters_m -->
 <g id="module~~swish_s~~UsesGraph_node5" class="node">
 <title>module~kind_parameters_m</title>
-<g id="a_module~~swish_s~~UsesGraph_node5"><a xlink:href=".././module/kind_parameters_m.html" xlink:title="kind_parameters_m">
+<g id="a_module~~swish_s~~UsesGraph_node5"><a xlink:href="../module/kind_parameters_m.html" xlink:title="kind_parameters_m">
 <polygon fill="#337ab7" stroke="#337ab7" points="117.27,-49.27 0,-49.27 0,-25 117.27,-25 117.27,-49.27"/>
 <text text-anchor="middle" x="58.63" y="-33.54" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">kind_parameters_m</text>
 </a>
@@ -276,7 +279,7 @@
 <!-- module~activation_strategy_m -->
 <g id="module~~swish_s~~UsesGraph_node7" class="node">
 <title>module~activation_strategy_m</title>
-<g id="a_module~~swish_s~~UsesGraph_node7"><a xlink:href=".././module/activation_strategy_m.html" xlink:title="activation_strategy_m">
+<g id="a_module~~swish_s~~UsesGraph_node7"><a xlink:href="../module/activation_strategy_m.html" xlink:title="activation_strategy_m">
 <polygon fill="#337ab7" stroke="#337ab7" points="281.79,-49.27 153.27,-49.27 153.27,-25 281.79,-25 281.79,-49.27"/>
 <text text-anchor="middle" x="217.53" y="-33.54" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">activation_strategy_m</text>
 </a>
@@ -306,17 +309,17 @@
                   var panmoduleswish_sUsesGraph = svgPanZoom('#moduleswish_sUsesGraph',
                     {zoomEnabled: true, controlIconsEnabled: true, fit: true, center: true,}
                   );
-                </script>        <div><a type="button" class="graph-help" data-toggle="modal" href="#UsesGraph-help-text">Help</a></div>
+                </script>          <div>
+            <a type="button" class="graph-help" data-bs-toggle="modal" href="#UsesGraph-help-text">Help</a>
+          </div>
           <div class="modal fade" id="UsesGraph-help-text" tabindex="-1" role="dialog">
             <div class="modal-dialog modal-lg" role="document">
               <div class="modal-content">
                 <div class="modal-header">
-                  <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
-                  </button>
                   <h4 class="modal-title" id="-graph-help-label">Graph Key</h4>
+                  <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
-              <div class="modal-body">
+                <div class="modal-body">
 <p>Nodes of different colours represent the following: </p>
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN"
@@ -399,8 +402,8 @@ large graphs.</div>
         <section>
           <h2>Module Procedures</h2>
               <div class="card">
-    <div class="card-header codesum"><span class="anchor" id="proc-activation~4"></span><h3>module procedure <a href='../proc/activation~4.html'>activation</a> <small>elemental module function activation(x) result(y)</small>  
-    <a href='../interface/activation.html'><button type="button" class="btn btn-info depwarn">Interface &rarr;</button></a>
+    <div class="card-header codesum"><span class="anchor" id="proc-activation~4"></span> <h3>module procedure /home/runner/work/inference-engine/inference-engine/doc/html/module/swish_s.html <a href='../proc/activation~4.html'>activation</a> <small>elemental module function activation(x) result(y)</small>  
+    <a href="../interface/activation.html"><button type="button" class="btn btn-info depwarn">Interface &rarr;</button></a>
 </h3></div>
     <div class="card-body">
           
@@ -445,8 +448,8 @@ large graphs.</div>
   </div>
 
               <div class="card">
-    <div class="card-header codesum"><span class="anchor" id="proc-activation_derivative~3"></span><h3>module procedure <a href='../proc/activation_derivative~3.html'>activation_derivative</a> <small>elemental module function activation_derivative(x) result(y)</small>  
-    <a href='../interface/activation_derivative.html'><button type="button" class="btn btn-info depwarn">Interface &rarr;</button></a>
+    <div class="card-header codesum"><span class="anchor" id="proc-activation_derivative~3"></span> <h3>module procedure /home/runner/work/inference-engine/inference-engine/doc/html/module/swish_s.html <a href='../proc/activation_derivative~3.html'>activation_derivative</a> <small>elemental module function activation_derivative(x) result(y)</small>  
+    <a href="../interface/activation_derivative.html"><button type="button" class="btn btn-info depwarn">Interface &rarr;</button></a>
 </h3></div>
     <div class="card-body">
           
@@ -491,8 +494,8 @@ large graphs.</div>
   </div>
 
               <div class="card">
-    <div class="card-header codesum"><span class="anchor" id="proc-function_name~4"></span><h3>module procedure <a href='../proc/function_name~4.html'>function_name</a> <small>elemental module function function_name() result(string)</small>  
-    <a href='../interface/function_name.html'><button type="button" class="btn btn-info depwarn">Interface &rarr;</button></a>
+    <div class="card-header codesum"><span class="anchor" id="proc-function_name~4"></span> <h3>module procedure /home/runner/work/inference-engine/inference-engine/doc/html/module/swish_s.html <a href='../proc/function_name~4.html'>function_name</a> <small>elemental module function function_name() result(string)</small>  
+    <a href="../interface/function_name.html"><button type="button" class="btn btn-info depwarn">Interface &rarr;</button></a>
 </h3></div>
     <div class="card-body">
           
@@ -518,14 +521,14 @@ large graphs.</div>
     <footer>
       <div class="container">
         <div class="row justify-content-between">
-          <div class="col"><p>Inference-Engine was developed by Berkeley Lab<br>&copy; 2023 
+          <div class="col"><p>Inference-Engine was developed by Berkeley Lab<br>&copy; 2024 
 </p>
           </div>
           <div class="col">
             <p class="text-end">
               Documentation generated by
               <a href="https://github.com/Fortran-FOSS-Programmers/ford">FORD</a>
- on 2023-12-21 00:11              </p>
+ on 2024-01-12 15:55              </p>
           </div>
         </div>
         <br>

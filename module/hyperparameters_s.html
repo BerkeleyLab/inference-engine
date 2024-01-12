@@ -1,3 +1,5 @@
+<!-- -*- mode: jinja2 -*- -->
+
 <!DOCTYPE html>
 <html lang="en">
   <head>
@@ -17,7 +19,8 @@
     <link href="../css/local.css" rel="stylesheet">
       <link  href="../tipuesearch/tipuesearch.css" rel="stylesheet">
 
-    <script src="https://code.jquery.com/jquery-3.7.0.slim.min.js" integrity="sha256-tG5mcZUtJsZvyKAxYLVXrmjKBVLd6VpVccqz/r4ypFE=" crossorigin="anonymous"></script>
+    <script src="https://code.jquery.com/jquery-3.7.1.min.js" integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
+    <script src="../js/svg-pan-zoom.min.js"></script>
   </head>
 
   <body>
@@ -143,13 +146,13 @@
       </a>
       <div id="modprocs-0" class="collapse">
         <div class="list-group list-group-flush">
-            <a class="list-group-item" href="../module/hyperparameters_s.html#proc-equals~4">equals</a>
-            <a class="list-group-item" href="../module/hyperparameters_s.html#proc-from_components~3">from_components</a>
+            <a class="list-group-item" href="../module/hyperparameters_s.html#proc-equals~3">equals</a>
+            <a class="list-group-item" href="../module/hyperparameters_s.html#proc-from_components~2">from_components</a>
             <a class="list-group-item" href="../module/hyperparameters_s.html#proc-from_json~2">from_json</a>
-            <a class="list-group-item" href="../module/hyperparameters_s.html#proc-learning_rate~2">learning_rate</a>
-            <a class="list-group-item" href="../module/hyperparameters_s.html#proc-mini_batches~2">mini_batches</a>
-            <a class="list-group-item" href="../module/hyperparameters_s.html#proc-optimizer_name~2">optimizer_name</a>
-            <a class="list-group-item" href="../module/hyperparameters_s.html#proc-to_json~3">to_json</a>
+            <a class="list-group-item" href="../module/hyperparameters_s.html#proc-learning_rate">learning_rate</a>
+            <a class="list-group-item" href="../module/hyperparameters_s.html#proc-mini_batches">mini_batches</a>
+            <a class="list-group-item" href="../module/hyperparameters_s.html#proc-optimizer_name">optimizer_name</a>
+            <a class="list-group-item" href="../module/hyperparameters_s.html#proc-to_json~2">to_json</a>
         </div>
       </div>
     </div>
@@ -178,7 +181,7 @@
             <li class="list-group-item">
               <ul class="list-inline">
                 <li><h5>Ancestors:</h5></li>
-                  <li class="list-inline-item"><a href='../module/hyperparameters_m.html'>hyperparameters_m</a></li>
+                  <li class="list-inline-item"><a href='hyperparameters_m.html'>hyperparameters_m</a></li>
               </ul>
             </li>
             <li class="list-group-item">
@@ -214,7 +217,7 @@
 <!-- module~hyperparameters_m -->
 <g id="module~~hyperparameters_s~~UsesGraph_node3" class="node">
 <title>module~hyperparameters_m</title>
-<g id="a_module~~hyperparameters_s~~UsesGraph_node3"><a xlink:href=".././module/hyperparameters_m.html" xlink:title="hyperparameters_m">
+<g id="a_module~~hyperparameters_s~~UsesGraph_node3"><a xlink:href="../module/hyperparameters_m.html" xlink:title="hyperparameters_m">
 <polygon fill="#337ab7" stroke="#337ab7" points="273.54,-45.27 153.27,-45.27 153.27,-21 273.54,-21 273.54,-45.27"/>
 <text text-anchor="middle" x="213.4" y="-29.53" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">hyperparameters_m</text>
 </a>
@@ -229,7 +232,7 @@
 <!-- module~kind_parameters_m -->
 <g id="module~~hyperparameters_s~~UsesGraph_node4" class="node">
 <title>module~kind_parameters_m</title>
-<g id="a_module~~hyperparameters_s~~UsesGraph_node4"><a xlink:href=".././module/kind_parameters_m.html" xlink:title="kind_parameters_m">
+<g id="a_module~~hyperparameters_s~~UsesGraph_node4"><a xlink:href="../module/kind_parameters_m.html" xlink:title="kind_parameters_m">
 <polygon fill="#337ab7" stroke="#337ab7" points="117.27,-66.27 0,-66.27 0,-42 117.27,-42 117.27,-66.27"/>
 <text text-anchor="middle" x="58.63" y="-50.53" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">kind_parameters_m</text>
 </a>
@@ -255,17 +258,17 @@
 </g>
 </g>
 </svg>
-</div>        <div><a type="button" class="graph-help" data-toggle="modal" href="#UsesGraph-help-text">Help</a></div>
+</div>          <div>
+            <a type="button" class="graph-help" data-bs-toggle="modal" href="#UsesGraph-help-text">Help</a>
+          </div>
           <div class="modal fade" id="UsesGraph-help-text" tabindex="-1" role="dialog">
             <div class="modal-dialog modal-lg" role="document">
               <div class="modal-content">
                 <div class="modal-header">
-                  <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
-                  </button>
                   <h4 class="modal-title" id="-graph-help-label">Graph Key</h4>
+                  <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
-              <div class="modal-body">
+                <div class="modal-body">
 <p>Nodes of different colours represent the following: </p>
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN"
@@ -416,8 +419,8 @@ parameter
         <section>
           <h2>Module Procedures</h2>
               <div class="card">
-    <div class="card-header codesum"><span class="anchor" id="proc-equals~4"></span><h3>module procedure <a href='../proc/equals~4.html'>equals</a> <small>elemental module function equals(lhs, rhs) result(lhs_equals_rhs)</small>  
-    <a href='../interface/equals~3.html'><button type="button" class="btn btn-info depwarn">Interface &rarr;</button></a>
+    <div class="card-header codesum"><span class="anchor" id="proc-equals~3"></span> <h3>module procedure /home/runner/work/inference-engine/inference-engine/doc/html/module/hyperparameters_s.html <a href='../proc/equals~3.html'>equals</a> <small>elemental module function equals(lhs, rhs) result(lhs_equals_rhs)</small>  
+    <a href="../interface/equals~3.html"><button type="button" class="btn btn-info depwarn">Interface &rarr;</button></a>
 </h3></div>
     <div class="card-body">
           
@@ -477,7 +480,7 @@ parameter
   </div>
 
               <div class="card">
-    <div class="card-header codesum"><span class="anchor" id="proc-from_components~3"></span><h3>module procedure <a href='../proc/from_components~3.html'>from_components</a> <small>pure module function from_components(mini_batches, learning_rate, optimizer) result(hyperparameters)</small>  
+    <div class="card-header codesum"><span class="anchor" id="proc-from_components~2"></span> <h3>module procedure /home/runner/work/inference-engine/inference-engine/doc/html/module/hyperparameters_s.html <a href='../proc/from_components~2.html'>from_components</a> <small>pure module function from_components(mini_batches, learning_rate, optimizer) result(hyperparameters)</small>  
 </h3></div>
     <div class="card-body">
           
@@ -496,7 +499,7 @@ parameter
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-mini_batches~4"></span>
+              <span class="anchor" id="variable-mini_batches~3"></span>
               integer,
             </td>
 <td>intent(in)</td>
@@ -511,7 +514,7 @@ parameter
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-learning_rate~4"></span>
+              <span class="anchor" id="variable-learning_rate~3"></span>
               real,
             </td>
 <td>intent(in)</td>
@@ -552,7 +555,7 @@ parameter
   </div>
 
               <div class="card">
-    <div class="card-header codesum"><span class="anchor" id="proc-from_json~2"></span><h3>module procedure <a href='../proc/from_json~2.html'>from_json</a> <small>pure module function from_json(lines) result(hyperparameters)</small>  
+    <div class="card-header codesum"><span class="anchor" id="proc-from_json~2"></span> <h3>module procedure /home/runner/work/inference-engine/inference-engine/doc/html/module/hyperparameters_s.html <a href='../proc/from_json~2.html'>from_json</a> <small>pure module function from_json(lines) result(hyperparameters)</small>  
 </h3></div>
     <div class="card-body">
           
@@ -571,7 +574,7 @@ parameter
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-lines~2"></span>
+              <span class="anchor" id="variable-lines~3"></span>
               type(string_t),
             </td>
 <td>intent(in)</td>
@@ -597,8 +600,8 @@ parameter
   </div>
 
               <div class="card">
-    <div class="card-header codesum"><span class="anchor" id="proc-learning_rate~2"></span><h3>module procedure <a href='../proc/learning_rate~2.html'>learning_rate</a> <small>elemental module function learning_rate(self) result(rate)</small>  
-    <a href='../interface/learning_rate~2.html'><button type="button" class="btn btn-info depwarn">Interface &rarr;</button></a>
+    <div class="card-header codesum"><span class="anchor" id="proc-learning_rate"></span> <h3>module procedure /home/runner/work/inference-engine/inference-engine/doc/html/module/hyperparameters_s.html <a href='../proc/learning_rate.html'>learning_rate</a> <small>elemental module function learning_rate(self) result(rate)</small>  
+    <a href="../interface/learning_rate~2.html"><button type="button" class="btn btn-info depwarn">Interface &rarr;</button></a>
 </h3></div>
     <div class="card-body">
           
@@ -617,7 +620,7 @@ parameter
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-self~26"></span>
+              <span class="anchor" id="variable-self~23"></span>
               class(<a href='../type/hyperparameters_t.html'>hyperparameters_t</a>),
             </td>
 <td>intent(in)</td>
@@ -643,8 +646,8 @@ parameter
   </div>
 
               <div class="card">
-    <div class="card-header codesum"><span class="anchor" id="proc-mini_batches~2"></span><h3>module procedure <a href='../proc/mini_batches~2.html'>mini_batches</a> <small>elemental module function mini_batches(self) result(num_mini_batches)</small>  
-    <a href='../interface/mini_batches~2.html'><button type="button" class="btn btn-info depwarn">Interface &rarr;</button></a>
+    <div class="card-header codesum"><span class="anchor" id="proc-mini_batches"></span> <h3>module procedure /home/runner/work/inference-engine/inference-engine/doc/html/module/hyperparameters_s.html <a href='../proc/mini_batches.html'>mini_batches</a> <small>elemental module function mini_batches(self) result(num_mini_batches)</small>  
+    <a href="../interface/mini_batches~2.html"><button type="button" class="btn btn-info depwarn">Interface &rarr;</button></a>
 </h3></div>
     <div class="card-body">
           
@@ -663,7 +666,7 @@ parameter
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-self~27"></span>
+              <span class="anchor" id="variable-self~21"></span>
               class(<a href='../type/hyperparameters_t.html'>hyperparameters_t</a>),
             </td>
 <td>intent(in)</td>
@@ -689,8 +692,8 @@ parameter
   </div>
 
               <div class="card">
-    <div class="card-header codesum"><span class="anchor" id="proc-optimizer_name~2"></span><h3>module procedure <a href='../proc/optimizer_name~2.html'>optimizer_name</a> <small>elemental module function optimizer_name(self) result(identifier)</small>  
-    <a href='../interface/optimizer_name~2.html'><button type="button" class="btn btn-info depwarn">Interface &rarr;</button></a>
+    <div class="card-header codesum"><span class="anchor" id="proc-optimizer_name"></span> <h3>module procedure /home/runner/work/inference-engine/inference-engine/doc/html/module/hyperparameters_s.html <a href='../proc/optimizer_name.html'>optimizer_name</a> <small>elemental module function optimizer_name(self) result(identifier)</small>  
+    <a href="../interface/optimizer_name~2.html"><button type="button" class="btn btn-info depwarn">Interface &rarr;</button></a>
 </h3></div>
     <div class="card-body">
           
@@ -709,7 +712,7 @@ parameter
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-self~28"></span>
+              <span class="anchor" id="variable-self~22"></span>
               class(<a href='../type/hyperparameters_t.html'>hyperparameters_t</a>),
             </td>
 <td>intent(in)</td>
@@ -735,8 +738,8 @@ parameter
   </div>
 
               <div class="card">
-    <div class="card-header codesum"><span class="anchor" id="proc-to_json~3"></span><h3>module procedure <a href='../proc/to_json~3.html'>to_json</a> <small>pure module function to_json(self) result(lines)</small>  
-    <a href='../interface/to_json~4.html'><button type="button" class="btn btn-info depwarn">Interface &rarr;</button></a>
+    <div class="card-header codesum"><span class="anchor" id="proc-to_json~2"></span> <h3>module procedure /home/runner/work/inference-engine/inference-engine/doc/html/module/hyperparameters_s.html <a href='../proc/to_json~2.html'>to_json</a> <small>pure module function to_json(self) result(lines)</small>  
+    <a href="../interface/to_json~3.html"><button type="button" class="btn btn-info depwarn">Interface &rarr;</button></a>
 </h3></div>
     <div class="card-body">
           
@@ -755,7 +758,7 @@ parameter
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-self~29"></span>
+              <span class="anchor" id="variable-self~20"></span>
               class(<a href='../type/hyperparameters_t.html'>hyperparameters_t</a>),
             </td>
 <td>intent(in)</td>
@@ -789,14 +792,14 @@ parameter
     <footer>
       <div class="container">
         <div class="row justify-content-between">
-          <div class="col"><p>Inference-Engine was developed by Berkeley Lab<br>&copy; 2023 
+          <div class="col"><p>Inference-Engine was developed by Berkeley Lab<br>&copy; 2024 
 </p>
           </div>
           <div class="col">
             <p class="text-end">
               Documentation generated by
               <a href="https://github.com/Fortran-FOSS-Programmers/ford">FORD</a>
- on 2023-12-21 00:11              </p>
+ on 2024-01-12 15:55              </p>
           </div>
         </div>
         <br>

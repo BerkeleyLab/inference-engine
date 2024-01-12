@@ -1,3 +1,5 @@
+<!-- -*- mode: jinja2 -*- -->
+
 <!DOCTYPE html>
 <html lang="en">
   <head>
@@ -17,7 +19,8 @@
     <link href="../css/local.css" rel="stylesheet">
       <link  href="../tipuesearch/tipuesearch.css" rel="stylesheet">
 
-    <script src="https://code.jquery.com/jquery-3.7.0.slim.min.js" integrity="sha256-tG5mcZUtJsZvyKAxYLVXrmjKBVLd6VpVccqz/r4ypFE=" crossorigin="anonymous"></script>
+    <script src="https://code.jquery.com/jquery-3.7.1.min.js" integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
+    <script src="../js/svg-pan-zoom.min.js"></script>
   </head>
 
   <body>
@@ -155,7 +158,7 @@
             <li class="list-group-item">
               <ul class="list-inline">
                 <li><h5>Ancestors:</h5></li>
-                  <li class="list-inline-item"><a href='../module/mini_batch_m.html'>mini_batch_m</a></li>
+                  <li class="list-inline-item"><a href='mini_batch_m.html'>mini_batch_m</a></li>
               </ul>
             </li>
             <li class="list-group-item">
@@ -179,7 +182,7 @@
 <!-- module~mini_batch_m -->
 <g id="module~~mini_batch_s~~UsesGraph_node2" class="node">
 <title>module~mini_batch_m</title>
-<g id="a_module~~mini_batch_s~~UsesGraph_node2"><a xlink:href=".././module/mini_batch_m.html" xlink:title="mini_batch_m">
+<g id="a_module~~mini_batch_s~~UsesGraph_node2"><a xlink:href="../module/mini_batch_m.html" xlink:title="mini_batch_m">
 <polygon fill="#337ab7" stroke="#337ab7" points="492.33,-24.27 406.56,-24.27 406.56,0 492.33,0 492.33,-24.27"/>
 <text text-anchor="middle" x="449.44" y="-8.53" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">mini_batch_m</text>
 </a>
@@ -194,7 +197,7 @@
 <!-- module~input_output_pair_m -->
 <g id="module~~mini_batch_s~~UsesGraph_node3" class="node">
 <title>module~input_output_pair_m</title>
-<g id="a_module~~mini_batch_s~~UsesGraph_node3"><a xlink:href=".././module/input_output_pair_m.html" xlink:title="input_output_pair_m">
+<g id="a_module~~mini_batch_s~~UsesGraph_node3"><a xlink:href="../module/input_output_pair_m.html" xlink:title="input_output_pair_m">
 <polygon fill="#337ab7" stroke="#337ab7" points="370.56,-44.27 250.29,-44.27 250.29,-20 370.56,-20 370.56,-44.27"/>
 <text text-anchor="middle" x="310.43" y="-28.53" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">input_output_pair_m</text>
 </a>
@@ -209,7 +212,7 @@
 <!-- module~kind_parameters_m -->
 <g id="module~~mini_batch_s~~UsesGraph_node4" class="node">
 <title>module~kind_parameters_m</title>
-<g id="a_module~~mini_batch_s~~UsesGraph_node4"><a xlink:href=".././module/kind_parameters_m.html" xlink:title="kind_parameters_m">
+<g id="a_module~~mini_batch_s~~UsesGraph_node4"><a xlink:href="../module/kind_parameters_m.html" xlink:title="kind_parameters_m">
 <polygon fill="#337ab7" stroke="#337ab7" points="117.27,-44.27 0,-44.27 0,-20 117.27,-20 117.27,-44.27"/>
 <text text-anchor="middle" x="58.63" y="-28.53" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">kind_parameters_m</text>
 </a>
@@ -230,7 +233,7 @@
 <!-- module~tensor_m -->
 <g id="module~~mini_batch_s~~UsesGraph_node5" class="node">
 <title>module~tensor_m</title>
-<g id="a_module~~mini_batch_s~~UsesGraph_node5"><a xlink:href=".././module/tensor_m.html" xlink:title="tensor_m">
+<g id="a_module~~mini_batch_s~~UsesGraph_node5"><a xlink:href="../module/tensor_m.html" xlink:title="tensor_m">
 <polygon fill="#337ab7" stroke="#337ab7" points="214.29,-44.27 153.27,-44.27 153.27,-20 214.29,-20 214.29,-44.27"/>
 <text text-anchor="middle" x="183.78" y="-28.53" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">tensor_m</text>
 </a>
@@ -250,17 +253,17 @@
 </g>
 </g>
 </svg>
-</div>        <div><a type="button" class="graph-help" data-toggle="modal" href="#UsesGraph-help-text">Help</a></div>
+</div>          <div>
+            <a type="button" class="graph-help" data-bs-toggle="modal" href="#UsesGraph-help-text">Help</a>
+          </div>
           <div class="modal fade" id="UsesGraph-help-text" tabindex="-1" role="dialog">
             <div class="modal-dialog modal-lg" role="document">
               <div class="modal-content">
                 <div class="modal-header">
-                  <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
-                  </button>
                   <h4 class="modal-title" id="-graph-help-label">Graph Key</h4>
+                  <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
-              <div class="modal-body">
+                <div class="modal-body">
 <p>Nodes of different colours represent the following: </p>
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN"
@@ -343,7 +346,7 @@ large graphs.</div>
         <section>
           <h2>Module Procedures</h2>
               <div class="card">
-    <div class="card-header codesum"><span class="anchor" id="proc-construct~4"></span><h3>module procedure <a href='../proc/construct~4.html'>construct</a> <small>pure module function construct(input_output_pairs) result(mini_batch)</small>  
+    <div class="card-header codesum"><span class="anchor" id="proc-construct~4"></span> <h3>module procedure /home/runner/work/inference-engine/inference-engine/doc/html/module/mini_batch_s.html <a href='../proc/construct~4.html'>construct</a> <small>pure module function construct(input_output_pairs) result(mini_batch)</small>  
 </h3></div>
     <div class="card-body">
           
@@ -388,8 +391,8 @@ large graphs.</div>
   </div>
 
               <div class="card">
-    <div class="card-header codesum"><span class="anchor" id="proc-input_output_pairs"></span><h3>module procedure <a href='../proc/input_output_pairs.html'>input_output_pairs</a> <small>pure module function input_output_pairs(self) result(my_input_output_pairs)</small>  
-    <a href='../interface/input_output_pairs.html'><button type="button" class="btn btn-info depwarn">Interface &rarr;</button></a>
+    <div class="card-header codesum"><span class="anchor" id="proc-input_output_pairs"></span> <h3>module procedure /home/runner/work/inference-engine/inference-engine/doc/html/module/mini_batch_s.html <a href='../proc/input_output_pairs.html'>input_output_pairs</a> <small>pure module function input_output_pairs(self) result(my_input_output_pairs)</small>  
+    <a href="../interface/input_output_pairs.html"><button type="button" class="btn btn-info depwarn">Interface &rarr;</button></a>
 </h3></div>
     <div class="card-body">
           
@@ -408,7 +411,7 @@ large graphs.</div>
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-self~51"></span>
+              <span class="anchor" id="variable-self~24"></span>
               class(<a href='../type/mini_batch_t.html'>mini_batch_t</a>),
             </td>
 <td>intent(in)</td>
@@ -442,14 +445,14 @@ large graphs.</div>
     <footer>
       <div class="container">
         <div class="row justify-content-between">
-          <div class="col"><p>Inference-Engine was developed by Berkeley Lab<br>&copy; 2023 
+          <div class="col"><p>Inference-Engine was developed by Berkeley Lab<br>&copy; 2024 
 </p>
           </div>
           <div class="col">
             <p class="text-end">
               Documentation generated by
               <a href="https://github.com/Fortran-FOSS-Programmers/ford">FORD</a>
- on 2023-12-21 00:11              </p>
+ on 2024-01-12 15:55              </p>
           </div>
         </div>
         <br>

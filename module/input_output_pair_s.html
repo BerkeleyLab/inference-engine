@@ -1,3 +1,5 @@
+<!-- -*- mode: jinja2 -*- -->
+
 <!DOCTYPE html>
 <html lang="en">
   <head>
@@ -17,7 +19,8 @@
     <link href="../css/local.css" rel="stylesheet">
       <link  href="../tipuesearch/tipuesearch.css" rel="stylesheet">
 
-    <script src="https://code.jquery.com/jquery-3.7.0.slim.min.js" integrity="sha256-tG5mcZUtJsZvyKAxYLVXrmjKBVLd6VpVccqz/r4ypFE=" crossorigin="anonymous"></script>
+    <script src="https://code.jquery.com/jquery-3.7.1.min.js" integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
+    <script src="../js/svg-pan-zoom.min.js"></script>
   </head>
 
   <body>
@@ -130,7 +133,7 @@
       </a>
       <div id="modprocs-0" class="collapse">
         <div class="list-group list-group-flush">
-            <a class="list-group-item" href="../module/input_output_pair_s.html#proc-construct~3">construct</a>
+            <a class="list-group-item" href="../module/input_output_pair_s.html#proc-construct">construct</a>
             <a class="list-group-item" href="../module/input_output_pair_s.html#proc-expected_outputs">expected_outputs</a>
             <a class="list-group-item" href="../module/input_output_pair_s.html#proc-inputs">inputs</a>
             <a class="list-group-item" href="../module/input_output_pair_s.html#proc-shuffle">shuffle</a>
@@ -162,7 +165,7 @@
             <li class="list-group-item">
               <ul class="list-inline">
                 <li><h5>Ancestors:</h5></li>
-                  <li class="list-inline-item"><a href='../module/input_output_pair_m.html'>input_output_pair_m</a></li>
+                  <li class="list-inline-item"><a href='input_output_pair_m.html'>input_output_pair_m</a></li>
               </ul>
             </li>
             <li class="list-group-item">
@@ -198,7 +201,7 @@
 <!-- module~input_output_pair_m -->
 <g id="module~~input_output_pair_s~~UsesGraph_node3" class="node">
 <title>module~input_output_pair_m</title>
-<g id="a_module~~input_output_pair_s~~UsesGraph_node3"><a xlink:href=".././module/input_output_pair_m.html" xlink:title="input_output_pair_m">
+<g id="a_module~~input_output_pair_s~~UsesGraph_node3"><a xlink:href="../module/input_output_pair_m.html" xlink:title="input_output_pair_m">
 <polygon fill="#337ab7" stroke="#337ab7" points="370.56,-44.27 250.29,-44.27 250.29,-20 370.56,-20 370.56,-44.27"/>
 <text text-anchor="middle" x="310.43" y="-28.53" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">input_output_pair_m</text>
 </a>
@@ -213,7 +216,7 @@
 <!-- module~kind_parameters_m -->
 <g id="module~~input_output_pair_s~~UsesGraph_node4" class="node">
 <title>module~kind_parameters_m</title>
-<g id="a_module~~input_output_pair_s~~UsesGraph_node4"><a xlink:href=".././module/kind_parameters_m.html" xlink:title="kind_parameters_m">
+<g id="a_module~~input_output_pair_s~~UsesGraph_node4"><a xlink:href="../module/kind_parameters_m.html" xlink:title="kind_parameters_m">
 <polygon fill="#337ab7" stroke="#337ab7" points="117.27,-44.27 0,-44.27 0,-20 117.27,-20 117.27,-44.27"/>
 <text text-anchor="middle" x="58.63" y="-28.53" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">kind_parameters_m</text>
 </a>
@@ -228,7 +231,7 @@
 <!-- module~tensor_m -->
 <g id="module~~input_output_pair_s~~UsesGraph_node5" class="node">
 <title>module~tensor_m</title>
-<g id="a_module~~input_output_pair_s~~UsesGraph_node5"><a xlink:href=".././module/tensor_m.html" xlink:title="tensor_m">
+<g id="a_module~~input_output_pair_s~~UsesGraph_node5"><a xlink:href="../module/tensor_m.html" xlink:title="tensor_m">
 <polygon fill="#337ab7" stroke="#337ab7" points="214.29,-24.27 153.27,-24.27 153.27,0 214.29,0 214.29,-24.27"/>
 <text text-anchor="middle" x="183.78" y="-8.53" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">tensor_m</text>
 </a>
@@ -248,17 +251,17 @@
 </g>
 </g>
 </svg>
-</div>        <div><a type="button" class="graph-help" data-toggle="modal" href="#UsesGraph-help-text">Help</a></div>
+</div>          <div>
+            <a type="button" class="graph-help" data-bs-toggle="modal" href="#UsesGraph-help-text">Help</a>
+          </div>
           <div class="modal fade" id="UsesGraph-help-text" tabindex="-1" role="dialog">
             <div class="modal-dialog modal-lg" role="document">
               <div class="modal-content">
                 <div class="modal-header">
-                  <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
-                  </button>
                   <h4 class="modal-title" id="-graph-help-label">Graph Key</h4>
+                  <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
-              <div class="modal-body">
+                <div class="modal-body">
 <p>Nodes of different colours represent the following: </p>
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN"
@@ -341,7 +344,7 @@ large graphs.</div>
         <section>
           <h2>Module Procedures</h2>
               <div class="card">
-    <div class="card-header codesum"><span class="anchor" id="proc-construct~3"></span><h3>module procedure <a href='../proc/construct~3.html'>construct</a> <small>elemental module function construct(inputs, expected_outputs) result(input_output_pair)</small>  
+    <div class="card-header codesum"><span class="anchor" id="proc-construct"></span> <h3>module procedure /home/runner/work/inference-engine/inference-engine/doc/html/module/input_output_pair_s.html <a href='../proc/construct.html'>construct</a> <small>elemental module function construct(inputs, expected_outputs) result(input_output_pair)</small>  
 </h3></div>
     <div class="card-body">
           
@@ -360,7 +363,7 @@ large graphs.</div>
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-inputs~2"></span>
+              <span class="anchor" id="variable-inputs~5"></span>
               type(<a href='../type/tensor_t.html'>tensor_t</a>),
             </td>
 <td>intent(in)</td>
@@ -401,8 +404,8 @@ large graphs.</div>
   </div>
 
               <div class="card">
-    <div class="card-header codesum"><span class="anchor" id="proc-expected_outputs"></span><h3>module procedure <a href='../proc/expected_outputs.html'>expected_outputs</a> <small>elemental module function expected_outputs(self) result(my_expected_outputs)</small>  
-    <a href='../interface/expected_outputs.html'><button type="button" class="btn btn-info depwarn">Interface &rarr;</button></a>
+    <div class="card-header codesum"><span class="anchor" id="proc-expected_outputs"></span> <h3>module procedure /home/runner/work/inference-engine/inference-engine/doc/html/module/input_output_pair_s.html <a href='../proc/expected_outputs.html'>expected_outputs</a> <small>elemental module function expected_outputs(self) result(my_expected_outputs)</small>  
+    <a href="../interface/expected_outputs.html"><button type="button" class="btn btn-info depwarn">Interface &rarr;</button></a>
 </h3></div>
     <div class="card-body">
           
@@ -421,7 +424,7 @@ large graphs.</div>
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-self~12"></span>
+              <span class="anchor" id="variable-self~51"></span>
               class(<a href='../type/input_output_pair_t.html'>input_output_pair_t</a>),
             </td>
 <td>intent(in)</td>
@@ -447,8 +450,8 @@ large graphs.</div>
   </div>
 
               <div class="card">
-    <div class="card-header codesum"><span class="anchor" id="proc-inputs"></span><h3>module procedure <a href='../proc/inputs.html'>inputs</a> <small>elemental module function inputs(self) result(my_inputs)</small>  
-    <a href='../interface/inputs.html'><button type="button" class="btn btn-info depwarn">Interface &rarr;</button></a>
+    <div class="card-header codesum"><span class="anchor" id="proc-inputs"></span> <h3>module procedure /home/runner/work/inference-engine/inference-engine/doc/html/module/input_output_pair_s.html <a href='../proc/inputs.html'>inputs</a> <small>elemental module function inputs(self) result(my_inputs)</small>  
+    <a href="../interface/inputs.html"><button type="button" class="btn btn-info depwarn">Interface &rarr;</button></a>
 </h3></div>
     <div class="card-body">
           
@@ -467,7 +470,7 @@ large graphs.</div>
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-self~13"></span>
+              <span class="anchor" id="variable-self~50"></span>
               class(<a href='../type/input_output_pair_t.html'>input_output_pair_t</a>),
             </td>
 <td>intent(in)</td>
@@ -493,8 +496,8 @@ large graphs.</div>
   </div>
 
               <div class="card">
-    <div class="card-header codesum"><span class="anchor" id="proc-shuffle"></span><h3>module procedure <a href='../proc/shuffle.html'>shuffle</a> <small>module subroutine shuffle(pairs)</small>  
-    <a href='../interface/shuffle.html'><button type="button" class="btn btn-info depwarn">Interface &rarr;</button></a>
+    <div class="card-header codesum"><span class="anchor" id="proc-shuffle"></span> <h3>module procedure /home/runner/work/inference-engine/inference-engine/doc/html/module/input_output_pair_s.html <a href='../proc/shuffle.html'>shuffle</a> <small>module subroutine shuffle(pairs)</small>  
+    <a href="../interface/shuffle.html"><button type="button" class="btn btn-info depwarn">Interface &rarr;</button></a>
 </h3></div>
     <div class="card-body">
           
@@ -542,14 +545,14 @@ large graphs.</div>
     <footer>
       <div class="container">
         <div class="row justify-content-between">
-          <div class="col"><p>Inference-Engine was developed by Berkeley Lab<br>&copy; 2023 
+          <div class="col"><p>Inference-Engine was developed by Berkeley Lab<br>&copy; 2024 
 </p>
           </div>
           <div class="col">
             <p class="text-end">
               Documentation generated by
               <a href="https://github.com/Fortran-FOSS-Programmers/ford">FORD</a>
- on 2023-12-21 00:11              </p>
+ on 2024-01-12 15:55              </p>
           </div>
         </div>
         <br>

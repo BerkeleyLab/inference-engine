@@ -1,3 +1,5 @@
+<!-- -*- mode: jinja2 -*- -->
+
 <!DOCTYPE html>
 <html lang="en">
   <head>
@@ -17,7 +19,8 @@
     <link href="../css/local.css" rel="stylesheet">
       <link  href="../tipuesearch/tipuesearch.css" rel="stylesheet">
 
-    <script src="https://code.jquery.com/jquery-3.7.0.slim.min.js" integrity="sha256-tG5mcZUtJsZvyKAxYLVXrmjKBVLd6VpVccqz/r4ypFE=" crossorigin="anonymous"></script>
+    <script src="https://code.jquery.com/jquery-3.7.1.min.js" integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
+    <script src="../js/svg-pan-zoom.min.js"></script>
   </head>
 
   <body>
@@ -148,7 +151,7 @@
     <br>
       <h3>Return Value
         <small>
-          <span class="anchor" id="variable-inference_engine~10"></span>
+          <span class="anchor" id="variable-inference_engine"></span>
           type(<a href='../type/inference_engine_t.html'>inference_engine_t</a>)
         </small>
       </h3>
@@ -190,17 +193,17 @@
 </g>
 </g>
 </svg>
-</div>        <div><a type="button" class="graph-help" data-toggle="modal" href="#CallsGraph-help-text">Help</a></div>
+</div>          <div>
+            <a type="button" class="graph-help" data-bs-toggle="modal" href="#CallsGraph-help-text">Help</a>
+          </div>
           <div class="modal fade" id="CallsGraph-help-text" tabindex="-1" role="dialog">
             <div class="modal-dialog modal-lg" role="document">
               <div class="modal-content">
                 <div class="modal-header">
-                  <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
-                  </button>
                   <h4 class="modal-title" id="-graph-help-label">Graph Key</h4>
+                  <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
-              <div class="modal-body">
+                <div class="modal-body">
 <p>Nodes of different colours represent the following: </p>
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN"
@@ -296,7 +299,7 @@ large graphs.</div>
 <!-- proc~write_read_query_infer -->
 <g id="proc~~identity_network~~CalledByGraph_node2" class="node">
 <title>proc~write_read_query_infer</title>
-<g id="a_proc~~identity_network~~CalledByGraph_node2"><a xlink:href=".././proc/write_read_query_infer.html" xlink:title="write_read_infer::write_read_query_infer">
+<g id="a_proc~~identity_network~~CalledByGraph_node2"><a xlink:href="../proc/write_read_query_infer.html" xlink:title="write_read_infer::write_read_query_infer">
 <polygon fill="#d9534f" stroke="#d9534f" points="359.04,-24.27 133.02,-24.27 133.02,0 359.04,0 359.04,-24.27"/>
 <text text-anchor="middle" x="246.03" y="-8.53" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">write_read_infer::write_read_query_infer</text>
 </a>
@@ -311,7 +314,7 @@ large graphs.</div>
 <!-- program~write_read_infer -->
 <g id="proc~~identity_network~~CalledByGraph_node3" class="node">
 <title>program~write_read_infer</title>
-<g id="a_proc~~identity_network~~CalledByGraph_node3"><a xlink:href=".././program/write_read_infer.html" xlink:title="write_read_infer">
+<g id="a_proc~~identity_network~~CalledByGraph_node3"><a xlink:href="../program/write_read_infer.html" xlink:title="write_read_infer">
 <polygon fill="#f0ad4e" stroke="#f0ad4e" points="97.02,-24.27 0,-24.27 0,0 97.02,0 97.02,-24.27"/>
 <text text-anchor="middle" x="48.51" y="-8.53" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">write_read_infer</text>
 </a>
@@ -325,17 +328,17 @@ large graphs.</div>
 </g>
 </g>
 </svg>
-</div>        <div><a type="button" class="graph-help" data-toggle="modal" href="#CalledByGraph-help-text">Help</a></div>
+</div>          <div>
+            <a type="button" class="graph-help" data-bs-toggle="modal" href="#CalledByGraph-help-text">Help</a>
+          </div>
           <div class="modal fade" id="CalledByGraph-help-text" tabindex="-1" role="dialog">
             <div class="modal-dialog modal-lg" role="document">
               <div class="modal-content">
                 <div class="modal-header">
-                  <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
-                  </button>
                   <h4 class="modal-title" id="-graph-help-label">Graph Key</h4>
+                  <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
-              <div class="modal-body">
+                <div class="modal-body">
 <p>Nodes of different colours represent the following: </p>
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN"
@@ -427,14 +430,14 @@ large graphs.</div>
     <footer>
       <div class="container">
         <div class="row justify-content-between">
-          <div class="col"><p>Inference-Engine was developed by Berkeley Lab<br>&copy; 2023 
+          <div class="col"><p>Inference-Engine was developed by Berkeley Lab<br>&copy; 2024 
 </p>
           </div>
           <div class="col">
             <p class="text-end">
               Documentation generated by
               <a href="https://github.com/Fortran-FOSS-Programmers/ford">FORD</a>
- on 2023-12-21 00:11              </p>
+ on 2024-01-12 15:55              </p>
           </div>
         </div>
         <br>

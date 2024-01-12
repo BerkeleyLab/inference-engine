@@ -1,3 +1,5 @@
+<!-- -*- mode: jinja2 -*- -->
+
 <!DOCTYPE html>
 <html lang="en">
   <head>
@@ -17,7 +19,8 @@
     <link href="../css/local.css" rel="stylesheet">
       <link  href="../tipuesearch/tipuesearch.css" rel="stylesheet">
 
-    <script src="https://code.jquery.com/jquery-3.7.0.slim.min.js" integrity="sha256-tG5mcZUtJsZvyKAxYLVXrmjKBVLd6VpVccqz/r4ypFE=" crossorigin="anonymous"></script>
+    <script src="https://code.jquery.com/jquery-3.7.1.min.js" integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
+    <script src="../js/svg-pan-zoom.min.js"></script>
   </head>
 
   <body>
@@ -77,7 +80,7 @@
             <li class="list-inline-item" id="statements"><i class="fa fa-list-ol"></i>
               <a data-bs-toggle="tooltip"
                  data-bs-placement="bottom" data-html="true"
-                 title="<p> 0.7% of total for procedures.</p>Including implementation: 22 statements,  0.7% of total for procedures.">22 statements</a>
+                 title="<p> 0.8% of total for procedures.</p>Including implementation: 22 statements,  0.8% of total for procedures.">22 statements</a>
             </li>
 
             <li class="list-inline-item" id="source-file">
@@ -154,7 +157,7 @@
 
         <h2>Functions</h2>
             <div class="card">
-    <div class="card-header codesum"><span class="anchor" id="proc-construct_from_inference_engine"></span><h3>private pure module function construct_from_inference_engine(inference_engine) result(trainable_engine)  
+    <div class="card-header codesum"><span class="anchor" id="proc-construct_from_inference_engine"></span> <h3>private pure module function construct_from_inference_engine(inference_engine) result(trainable_engine)  
 </h3></div>
     <div class="card-body">
         
@@ -172,7 +175,7 @@
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-inference_engine"></span>
+              <span class="anchor" id="variable-inference_engine~6"></span>
               type(<a href='../type/inference_engine_t.html'>inference_engine_t</a>),
             </td>
 <td>intent(in)</td>
@@ -198,7 +201,7 @@
   </div>
 
             <div class="card">
-    <div class="card-header codesum"><span class="anchor" id="proc-construct_from_padded_arrays"></span><h3>private pure module function construct_from_padded_arrays(nodes, weights, biases, differentiable_activation_strategy, metadata) result(trainable_engine)  
+    <div class="card-header codesum"><span class="anchor" id="proc-construct_from_padded_arrays"></span> <h3>private pure module function construct_from_padded_arrays(nodes, weights, biases, differentiable_activation_strategy, metadata) result(trainable_engine)  
 </h3></div>
     <div class="card-body">
         
@@ -216,7 +219,7 @@
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-nodes"></span>
+              <span class="anchor" id="variable-nodes~4"></span>
               integer,
             </td>
 <td>intent(in)</td>
@@ -231,7 +234,7 @@
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-weights"></span>
+              <span class="anchor" id="variable-weights~2"></span>
               real(kind=rkind),
             </td>
 <td>intent(in)</td>
@@ -276,7 +279,7 @@
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-metadata"></span>
+              <span class="anchor" id="variable-metadata~2"></span>
               type(string_t),
             </td>
 <td>intent(in)</td>
@@ -302,7 +305,7 @@
   </div>
 
             <div class="card">
-    <div class="card-header codesum"><span class="anchor" id="proc-perturbed_identity_network"></span><h3>private module function perturbed_identity_network(training_configuration, perturbation_magnitude, metadata) result(trainable_engine)  
+    <div class="card-header codesum"><span class="anchor" id="proc-perturbed_identity_network"></span> <h3>private module function perturbed_identity_network(training_configuration, perturbation_magnitude, metadata) result(trainable_engine)  
 </h3></div>
     <div class="card-body">
         
@@ -320,7 +323,7 @@
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-training_configuration"></span>
+              <span class="anchor" id="variable-training_configuration~3"></span>
               type(<a href='../type/training_configuration_t.html'>training_configuration_t</a>),
             </td>
 <td>intent(in)</td>
@@ -335,7 +338,7 @@
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-perturbation_magnitude"></span>
+              <span class="anchor" id="variable-perturbation_magnitude~3"></span>
               real(kind=rkind),
             </td>
 <td>intent(in)</td>
@@ -350,7 +353,7 @@
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-metadata~2"></span>
+              <span class="anchor" id="variable-metadata~3"></span>
               type(string_t),
             </td>
 <td>intent(in)</td>
@@ -384,14 +387,14 @@
     <footer>
       <div class="container">
         <div class="row justify-content-between">
-          <div class="col"><p>Inference-Engine was developed by Berkeley Lab<br>&copy; 2023 
+          <div class="col"><p>Inference-Engine was developed by Berkeley Lab<br>&copy; 2024 
 </p>
           </div>
           <div class="col">
             <p class="text-end">
               Documentation generated by
               <a href="https://github.com/Fortran-FOSS-Programmers/ford">FORD</a>
- on 2023-12-21 00:11              </p>
+ on 2024-01-12 15:55              </p>
           </div>
         </div>
         <br>

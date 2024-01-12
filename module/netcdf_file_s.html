@@ -1,3 +1,5 @@
+<!-- -*- mode: jinja2 -*- -->
+
 <!DOCTYPE html>
 <html lang="en">
   <head>
@@ -17,7 +19,8 @@
     <link href="../css/local.css" rel="stylesheet">
       <link  href="../tipuesearch/tipuesearch.css" rel="stylesheet">
 
-    <script src="https://code.jquery.com/jquery-3.7.0.slim.min.js" integrity="sha256-tG5mcZUtJsZvyKAxYLVXrmjKBVLd6VpVccqz/r4ypFE=" crossorigin="anonymous"></script>
+    <script src="https://code.jquery.com/jquery-3.7.1.min.js" integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
+    <script src="../js/svg-pan-zoom.min.js"></script>
   </head>
 
   <body>
@@ -141,7 +144,7 @@
       </a>
       <div id="modprocs-0" class="collapse">
         <div class="list-group list-group-flush">
-            <a class="list-group-item" href="../module/netcdf_file_s.html#proc-construct~2">construct</a>
+            <a class="list-group-item" href="../module/netcdf_file_s.html#proc-construct~3">construct</a>
             <a class="list-group-item" href="../module/netcdf_file_s.html#proc-input_1d_double">input_1D_double</a>
             <a class="list-group-item" href="../module/netcdf_file_s.html#proc-input_2d_integer">input_2D_integer</a>
             <a class="list-group-item" href="../module/netcdf_file_s.html#proc-input_3d_real">input_3D_real</a>
@@ -176,7 +179,7 @@
             <li class="list-group-item">
               <ul class="list-inline">
                 <li><h5>Ancestors:</h5></li>
-                  <li class="list-inline-item"><a href='../module/netcdf_file_m.html'>NetCDF_file_m</a></li>
+                  <li class="list-inline-item"><a href='netcdf_file_m.html'>NetCDF_file_m</a></li>
               </ul>
             </li>
             <li class="list-group-item">
@@ -212,7 +215,7 @@
 <!-- module~netcdf_file_m -->
 <g id="module~~netcdf_file_s~~UsesGraph_node3" class="node">
 <title>module~netcdf_file_m</title>
-<g id="a_module~~netcdf_file_s~~UsesGraph_node3"><a xlink:href=".././module/netcdf_file_m.html" xlink:title="NetCDF_file_m">
+<g id="a_module~~netcdf_file_s~~UsesGraph_node3"><a xlink:href="../module/netcdf_file_m.html" xlink:title="NetCDF_file_m">
 <polygon fill="#337ab7" stroke="#337ab7" points="88.77,-66.27 0,-66.27 0,-42 88.77,-42 88.77,-66.27"/>
 <text text-anchor="middle" x="44.38" y="-50.53" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">NetCDF_file_m</text>
 </a>
@@ -238,17 +241,17 @@
 </g>
 </g>
 </svg>
-</div>        <div><a type="button" class="graph-help" data-toggle="modal" href="#UsesGraph-help-text">Help</a></div>
+</div>          <div>
+            <a type="button" class="graph-help" data-bs-toggle="modal" href="#UsesGraph-help-text">Help</a>
+          </div>
           <div class="modal fade" id="UsesGraph-help-text" tabindex="-1" role="dialog">
             <div class="modal-dialog modal-lg" role="document">
               <div class="modal-content">
                 <div class="modal-header">
-                  <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
-                  </button>
                   <h4 class="modal-title" id="-graph-help-label">Graph Key</h4>
+                  <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
-              <div class="modal-body">
+                <div class="modal-body">
 <p>Nodes of different colours represent the following: </p>
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN"
@@ -327,7 +330,7 @@ large graphs.</div>
         <section>
           <h2>Functions</h2>
               <div class="card">
-    <div class="card-header codesum"><span class="anchor" id="proc-get_shape"></span><h3> function <a href='../proc/get_shape.html'>get_shape</a>(ncid, varname) result(array_shape)  
+    <div class="card-header codesum"><span class="anchor" id="proc-get_shape"></span> <h3> function <a href='../proc/get_shape.html'>get_shape</a>(ncid, varname) result(array_shape)  
 </h3></div>
     <div class="card-body">
           
@@ -361,7 +364,7 @@ large graphs.</div>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-varname~6"></span>
+              <span class="anchor" id="variable-varname"></span>
               character(len=*),
             </td>
 <td>intent(in)</td>
@@ -395,7 +398,7 @@ large graphs.</div>
         <section>
           <h2>Module Procedures</h2>
               <div class="card">
-    <div class="card-header codesum"><span class="anchor" id="proc-construct~2"></span><h3>module procedure <a href='../proc/construct~2.html'>construct</a> <small>pure module function construct(file_name) result(NetCDF_file)</small>  
+    <div class="card-header codesum"><span class="anchor" id="proc-construct~3"></span> <h3>module procedure /home/runner/work/inference-engine/inference-engine/doc/html/module/netcdf_file_s.html <a href='../proc/construct~3.html'>construct</a> <small>pure module function construct(file_name) result(NetCDF_file)</small>  
 </h3></div>
     <div class="card-body">
           
@@ -414,7 +417,7 @@ large graphs.</div>
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-file_name"></span>
+              <span class="anchor" id="variable-file_name~5"></span>
               character(len=*),
             </td>
 <td>intent(in)</td>
@@ -440,8 +443,8 @@ large graphs.</div>
   </div>
 
               <div class="card">
-    <div class="card-header codesum"><span class="anchor" id="proc-input_1d_double"></span><h3>module procedure <a href='../proc/input_1d_double.html'>input_1D_double</a> <small>module subroutine input_1D_double(self, varname, values)</small>  
-    <a href='../interface/input_1d_double.html'><button type="button" class="btn btn-info depwarn">Interface &rarr;</button></a>
+    <div class="card-header codesum"><span class="anchor" id="proc-input_1d_double"></span> <h3>module procedure /home/runner/work/inference-engine/inference-engine/doc/html/module/netcdf_file_s.html <a href='../proc/input_1d_double.html'>input_1D_double</a> <small>module subroutine input_1D_double(self, varname, values)</small>  
+    <a href="../interface/input_1d_double.html"><button type="button" class="btn btn-info depwarn">Interface &rarr;</button></a>
 </h3></div>
     <div class="card-body">
           
@@ -460,220 +463,7 @@ large graphs.</div>
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-self~14"></span>
-              class(<a href='../type/netcdf_file_t.html'>NetCDF_file_t</a>),
-            </td>
-<td>intent(in)</td>
-              <td></td>            <td>
-              
-            </td>
-            <td>::</td>
-            <td><strong>self</strong></td>
-            <td>
-
-            </td>
-        </tr>
-        <tr>
-            <td>
-              <span class="anchor" id="variable-varname"></span>
-              character(len=*),
-            </td>
-<td>intent(in)</td>
-              <td></td>            <td>
-              
-            </td>
-            <td>::</td>
-            <td><strong>varname</strong></td>
-            <td>
-
-            </td>
-        </tr>
-        <tr>
-            <td>
-              <span class="anchor" id="variable-values"></span>
-              double precision,
-            </td>
-<td>intent(out),</td>
-              <td></td>            <td>
-              allocatable
-            </td>
-            <td>::</td>
-            <td><strong>values</strong>(:)</td>
-            <td>
-
-            </td>
-        </tr>
-    </tbody>
-  </table>
-
-
-    </div>
-  </div>
-
-              <div class="card">
-    <div class="card-header codesum"><span class="anchor" id="proc-input_2d_integer"></span><h3>module procedure <a href='../proc/input_2d_integer.html'>input_2D_integer</a> <small>module subroutine input_2D_integer(self, varname, values)</small>  
-    <a href='../interface/input_2d_integer.html'><button type="button" class="btn btn-info depwarn">Interface &rarr;</button></a>
-</h3></div>
-    <div class="card-body">
-          
-  
-
-  <h4>Arguments</h4>
-      <table class="table table-striped varlist">
-    <thead>
-      <tr>
-        <th scope="col">Type</th>
-<th scope="col">Intent</th><th scope="col">Optional</th>        <th scope="col">Attributes</th>
-        <th scope="col"></th>
-        <th scope="col">Name</th>
-        <th scope="col"></th>
-    </thead>
-    <tbody>
-        <tr>
-            <td>
-              <span class="anchor" id="variable-self~15"></span>
-              class(<a href='../type/netcdf_file_t.html'>NetCDF_file_t</a>),
-            </td>
-<td>intent(in)</td>
-              <td></td>            <td>
-              
-            </td>
-            <td>::</td>
-            <td><strong>self</strong></td>
-            <td>
-
-            </td>
-        </tr>
-        <tr>
-            <td>
-              <span class="anchor" id="variable-varname~2"></span>
-              character(len=*),
-            </td>
-<td>intent(in)</td>
-              <td></td>            <td>
-              
-            </td>
-            <td>::</td>
-            <td><strong>varname</strong></td>
-            <td>
-
-            </td>
-        </tr>
-        <tr>
-            <td>
-              <span class="anchor" id="variable-values~2"></span>
-              integer,
-            </td>
-<td>intent(out),</td>
-              <td></td>            <td>
-              allocatable
-            </td>
-            <td>::</td>
-            <td><strong>values</strong>(:,:)</td>
-            <td>
-
-            </td>
-        </tr>
-    </tbody>
-  </table>
-
-
-    </div>
-  </div>
-
-              <div class="card">
-    <div class="card-header codesum"><span class="anchor" id="proc-input_3d_real"></span><h3>module procedure <a href='../proc/input_3d_real.html'>input_3D_real</a> <small>module subroutine input_3D_real(self, varname, values)</small>  
-    <a href='../interface/input_3d_real.html'><button type="button" class="btn btn-info depwarn">Interface &rarr;</button></a>
-</h3></div>
-    <div class="card-body">
-          
-  
-
-  <h4>Arguments</h4>
-      <table class="table table-striped varlist">
-    <thead>
-      <tr>
-        <th scope="col">Type</th>
-<th scope="col">Intent</th><th scope="col">Optional</th>        <th scope="col">Attributes</th>
-        <th scope="col"></th>
-        <th scope="col">Name</th>
-        <th scope="col"></th>
-    </thead>
-    <tbody>
-        <tr>
-            <td>
-              <span class="anchor" id="variable-self~16"></span>
-              class(<a href='../type/netcdf_file_t.html'>NetCDF_file_t</a>),
-            </td>
-<td>intent(in)</td>
-              <td></td>            <td>
-              
-            </td>
-            <td>::</td>
-            <td><strong>self</strong></td>
-            <td>
-
-            </td>
-        </tr>
-        <tr>
-            <td>
-              <span class="anchor" id="variable-varname~3"></span>
-              character(len=*),
-            </td>
-<td>intent(in)</td>
-              <td></td>            <td>
-              
-            </td>
-            <td>::</td>
-            <td><strong>varname</strong></td>
-            <td>
-
-            </td>
-        </tr>
-        <tr>
-            <td>
-              <span class="anchor" id="variable-values~3"></span>
-              real,
-            </td>
-<td>intent(out),</td>
-              <td></td>            <td>
-              allocatable
-            </td>
-            <td>::</td>
-            <td><strong>values</strong>(:,:,:)</td>
-            <td>
-
-            </td>
-        </tr>
-    </tbody>
-  </table>
-
-
-    </div>
-  </div>
-
-              <div class="card">
-    <div class="card-header codesum"><span class="anchor" id="proc-input_4d_real"></span><h3>module procedure <a href='../proc/input_4d_real.html'>input_4D_real</a> <small>module subroutine input_4D_real(self, varname, values)</small>  
-    <a href='../interface/input_4d_real.html'><button type="button" class="btn btn-info depwarn">Interface &rarr;</button></a>
-</h3></div>
-    <div class="card-body">
-          
-  
-
-  <h4>Arguments</h4>
-      <table class="table table-striped varlist">
-    <thead>
-      <tr>
-        <th scope="col">Type</th>
-<th scope="col">Intent</th><th scope="col">Optional</th>        <th scope="col">Attributes</th>
-        <th scope="col"></th>
-        <th scope="col">Name</th>
-        <th scope="col"></th>
-    </thead>
-    <tbody>
-        <tr>
-            <td>
-              <span class="anchor" id="variable-self~17"></span>
+              <span class="anchor" id="variable-self~34"></span>
               class(<a href='../type/netcdf_file_t.html'>NetCDF_file_t</a>),
             </td>
 <td>intent(in)</td>
@@ -703,7 +493,220 @@ large graphs.</div>
         </tr>
         <tr>
             <td>
+              <span class="anchor" id="variable-values~2"></span>
+              double precision,
+            </td>
+<td>intent(out),</td>
+              <td></td>            <td>
+              allocatable
+            </td>
+            <td>::</td>
+            <td><strong>values</strong>(:)</td>
+            <td>
+
+            </td>
+        </tr>
+    </tbody>
+  </table>
+
+
+    </div>
+  </div>
+
+              <div class="card">
+    <div class="card-header codesum"><span class="anchor" id="proc-input_2d_integer"></span> <h3>module procedure /home/runner/work/inference-engine/inference-engine/doc/html/module/netcdf_file_s.html <a href='../proc/input_2d_integer.html'>input_2D_integer</a> <small>module subroutine input_2D_integer(self, varname, values)</small>  
+    <a href="../interface/input_2d_integer.html"><button type="button" class="btn btn-info depwarn">Interface &rarr;</button></a>
+</h3></div>
+    <div class="card-body">
+          
+  
+
+  <h4>Arguments</h4>
+      <table class="table table-striped varlist">
+    <thead>
+      <tr>
+        <th scope="col">Type</th>
+<th scope="col">Intent</th><th scope="col">Optional</th>        <th scope="col">Attributes</th>
+        <th scope="col"></th>
+        <th scope="col">Name</th>
+        <th scope="col"></th>
+    </thead>
+    <tbody>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-self~33"></span>
+              class(<a href='../type/netcdf_file_t.html'>NetCDF_file_t</a>),
+            </td>
+<td>intent(in)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>self</strong></td>
+            <td>
+
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-varname~3"></span>
+              character(len=*),
+            </td>
+<td>intent(in)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>varname</strong></td>
+            <td>
+
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-values"></span>
+              integer,
+            </td>
+<td>intent(out),</td>
+              <td></td>            <td>
+              allocatable
+            </td>
+            <td>::</td>
+            <td><strong>values</strong>(:,:)</td>
+            <td>
+
+            </td>
+        </tr>
+    </tbody>
+  </table>
+
+
+    </div>
+  </div>
+
+              <div class="card">
+    <div class="card-header codesum"><span class="anchor" id="proc-input_3d_real"></span> <h3>module procedure /home/runner/work/inference-engine/inference-engine/doc/html/module/netcdf_file_s.html <a href='../proc/input_3d_real.html'>input_3D_real</a> <small>module subroutine input_3D_real(self, varname, values)</small>  
+    <a href="../interface/input_3d_real.html"><button type="button" class="btn btn-info depwarn">Interface &rarr;</button></a>
+</h3></div>
+    <div class="card-body">
+          
+  
+
+  <h4>Arguments</h4>
+      <table class="table table-striped varlist">
+    <thead>
+      <tr>
+        <th scope="col">Type</th>
+<th scope="col">Intent</th><th scope="col">Optional</th>        <th scope="col">Attributes</th>
+        <th scope="col"></th>
+        <th scope="col">Name</th>
+        <th scope="col"></th>
+    </thead>
+    <tbody>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-self~36"></span>
+              class(<a href='../type/netcdf_file_t.html'>NetCDF_file_t</a>),
+            </td>
+<td>intent(in)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>self</strong></td>
+            <td>
+
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-varname~6"></span>
+              character(len=*),
+            </td>
+<td>intent(in)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>varname</strong></td>
+            <td>
+
+            </td>
+        </tr>
+        <tr>
+            <td>
               <span class="anchor" id="variable-values~4"></span>
+              real,
+            </td>
+<td>intent(out),</td>
+              <td></td>            <td>
+              allocatable
+            </td>
+            <td>::</td>
+            <td><strong>values</strong>(:,:,:)</td>
+            <td>
+
+            </td>
+        </tr>
+    </tbody>
+  </table>
+
+
+    </div>
+  </div>
+
+              <div class="card">
+    <div class="card-header codesum"><span class="anchor" id="proc-input_4d_real"></span> <h3>module procedure /home/runner/work/inference-engine/inference-engine/doc/html/module/netcdf_file_s.html <a href='../proc/input_4d_real.html'>input_4D_real</a> <small>module subroutine input_4D_real(self, varname, values)</small>  
+    <a href="../interface/input_4d_real.html"><button type="button" class="btn btn-info depwarn">Interface &rarr;</button></a>
+</h3></div>
+    <div class="card-body">
+          
+  
+
+  <h4>Arguments</h4>
+      <table class="table table-striped varlist">
+    <thead>
+      <tr>
+        <th scope="col">Type</th>
+<th scope="col">Intent</th><th scope="col">Optional</th>        <th scope="col">Attributes</th>
+        <th scope="col"></th>
+        <th scope="col">Name</th>
+        <th scope="col"></th>
+    </thead>
+    <tbody>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-self~35"></span>
+              class(<a href='../type/netcdf_file_t.html'>NetCDF_file_t</a>),
+            </td>
+<td>intent(in)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>self</strong></td>
+            <td>
+
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-varname~5"></span>
+              character(len=*),
+            </td>
+<td>intent(in)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>varname</strong></td>
+            <td>
+
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-values~3"></span>
               real,
             </td>
 <td>intent(out),</td>
@@ -724,8 +727,8 @@ large graphs.</div>
   </div>
 
               <div class="card">
-    <div class="card-header codesum"><span class="anchor" id="proc-input_real_scalar"></span><h3>module procedure <a href='../proc/input_real_scalar.html'>input_real_scalar</a> <small>module subroutine input_real_scalar(self, varname, scalar)</small>  
-    <a href='../interface/input_real_scalar.html'><button type="button" class="btn btn-info depwarn">Interface &rarr;</button></a>
+    <div class="card-header codesum"><span class="anchor" id="proc-input_real_scalar"></span> <h3>module procedure /home/runner/work/inference-engine/inference-engine/doc/html/module/netcdf_file_s.html <a href='../proc/input_real_scalar.html'>input_real_scalar</a> <small>module subroutine input_real_scalar(self, varname, scalar)</small>  
+    <a href="../interface/input_real_scalar.html"><button type="button" class="btn btn-info depwarn">Interface &rarr;</button></a>
 </h3></div>
     <div class="card-body">
           
@@ -744,7 +747,7 @@ large graphs.</div>
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-self~18"></span>
+              <span class="anchor" id="variable-self~32"></span>
               class(<a href='../type/netcdf_file_t.html'>NetCDF_file_t</a>),
             </td>
 <td>intent(in)</td>
@@ -759,7 +762,7 @@ large graphs.</div>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-varname~5"></span>
+              <span class="anchor" id="variable-varname~2"></span>
               character(len=*),
             </td>
 <td>intent(in)</td>
@@ -803,14 +806,14 @@ large graphs.</div>
     <footer>
       <div class="container">
         <div class="row justify-content-between">
-          <div class="col"><p>Inference-Engine was developed by Berkeley Lab<br>&copy; 2023 
+          <div class="col"><p>Inference-Engine was developed by Berkeley Lab<br>&copy; 2024 
 </p>
           </div>
           <div class="col">
             <p class="text-end">
               Documentation generated by
               <a href="https://github.com/Fortran-FOSS-Programmers/ford">FORD</a>
- on 2023-12-21 00:11              </p>
+ on 2024-01-12 15:55              </p>
           </div>
         </div>
         <br>

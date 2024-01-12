@@ -1,3 +1,5 @@
+<!-- -*- mode: jinja2 -*- -->
+
 <!DOCTYPE html>
 <html lang="en">
   <head>
@@ -17,7 +19,8 @@
     <link href="../css/local.css" rel="stylesheet">
       <link  href="../tipuesearch/tipuesearch.css" rel="stylesheet">
 
-    <script src="https://code.jquery.com/jquery-3.7.0.slim.min.js" integrity="sha256-tG5mcZUtJsZvyKAxYLVXrmjKBVLd6VpVccqz/r4ypFE=" crossorigin="anonymous"></script>
+    <script src="https://code.jquery.com/jquery-3.7.1.min.js" integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
+    <script src="../js/svg-pan-zoom.min.js"></script>
   </head>
 
   <body>
@@ -170,7 +173,7 @@
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-varname~6"></span>
+              <span class="anchor" id="variable-varname"></span>
               character(len=*),
             </td>
 <td>intent(in)</td>
@@ -278,17 +281,17 @@
 </g>
 </g>
 </svg>
-</div>        <div><a type="button" class="graph-help" data-toggle="modal" href="#CallsGraph-help-text">Help</a></div>
+</div>          <div>
+            <a type="button" class="graph-help" data-bs-toggle="modal" href="#CallsGraph-help-text">Help</a>
+          </div>
           <div class="modal fade" id="CallsGraph-help-text" tabindex="-1" role="dialog">
             <div class="modal-dialog modal-lg" role="document">
               <div class="modal-content">
                 <div class="modal-header">
-                  <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
-                  </button>
                   <h4 class="modal-title" id="-graph-help-label">Graph Key</h4>
+                  <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
-              <div class="modal-body">
+                <div class="modal-body">
 <p>Nodes of different colours represent the following: </p>
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN"
@@ -384,7 +387,7 @@ large graphs.</div>
 <!-- proc~input_1d_double -->
 <g id="proc~~get_shape~~CalledByGraph_node2" class="node">
 <title>proc~input_1d_double</title>
-<g id="a_proc~~get_shape~~CalledByGraph_node2"><a xlink:href=".././proc/input_1d_double.html" xlink:title="netCDF_file_s::input_1D_double">
+<g id="a_proc~~get_shape~~CalledByGraph_node2"><a xlink:href="../proc/input_1d_double.html" xlink:title="netCDF_file_s::input_1D_double">
 <polygon fill="#d9534f" stroke="#d9534f" points="180.27,-150.27 0.75,-150.27 0.75,-126 180.27,-126 180.27,-150.27"/>
 <text text-anchor="middle" x="90.51" y="-134.53" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">netCDF_file_s::input_1D_double</text>
 </a>
@@ -399,7 +402,7 @@ large graphs.</div>
 <!-- proc~input_2d_integer -->
 <g id="proc~~get_shape~~CalledByGraph_node3" class="node">
 <title>proc~input_2d_integer</title>
-<g id="a_proc~~get_shape~~CalledByGraph_node3"><a xlink:href=".././proc/input_2d_integer.html" xlink:title="netCDF_file_s::input_2D_integer">
+<g id="a_proc~~get_shape~~CalledByGraph_node3"><a xlink:href="../proc/input_2d_integer.html" xlink:title="netCDF_file_s::input_2D_integer">
 <polygon fill="#d9534f" stroke="#d9534f" points="181.02,-108.27 0,-108.27 0,-84 181.02,-84 181.02,-108.27"/>
 <text text-anchor="middle" x="90.51" y="-92.54" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">netCDF_file_s::input_2D_integer</text>
 </a>
@@ -414,7 +417,7 @@ large graphs.</div>
 <!-- proc~input_3d_real -->
 <g id="proc~~get_shape~~CalledByGraph_node4" class="node">
 <title>proc~input_3d_real</title>
-<g id="a_proc~~get_shape~~CalledByGraph_node4"><a xlink:href=".././proc/input_3d_real.html" xlink:title="netCDF_file_s::input_3D_real">
+<g id="a_proc~~get_shape~~CalledByGraph_node4"><a xlink:href="../proc/input_3d_real.html" xlink:title="netCDF_file_s::input_3D_real">
 <polygon fill="#d9534f" stroke="#d9534f" points="172.02,-66.27 9,-66.27 9,-42 172.02,-42 172.02,-66.27"/>
 <text text-anchor="middle" x="90.51" y="-50.53" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">netCDF_file_s::input_3D_real</text>
 </a>
@@ -429,7 +432,7 @@ large graphs.</div>
 <!-- proc~input_4d_real -->
 <g id="proc~~get_shape~~CalledByGraph_node5" class="node">
 <title>proc~input_4d_real</title>
-<g id="a_proc~~get_shape~~CalledByGraph_node5"><a xlink:href=".././proc/input_4d_real.html" xlink:title="netCDF_file_s::input_4D_real">
+<g id="a_proc~~get_shape~~CalledByGraph_node5"><a xlink:href="../proc/input_4d_real.html" xlink:title="netCDF_file_s::input_4D_real">
 <polygon fill="#d9534f" stroke="#d9534f" points="172.02,-24.27 9,-24.27 9,0 172.02,0 172.02,-24.27"/>
 <text text-anchor="middle" x="90.51" y="-8.53" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">netCDF_file_s::input_4D_real</text>
 </a>
@@ -443,17 +446,17 @@ large graphs.</div>
 </g>
 </g>
 </svg>
-</div>        <div><a type="button" class="graph-help" data-toggle="modal" href="#CalledByGraph-help-text">Help</a></div>
+</div>          <div>
+            <a type="button" class="graph-help" data-bs-toggle="modal" href="#CalledByGraph-help-text">Help</a>
+          </div>
           <div class="modal fade" id="CalledByGraph-help-text" tabindex="-1" role="dialog">
             <div class="modal-dialog modal-lg" role="document">
               <div class="modal-content">
                 <div class="modal-header">
-                  <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
-                  </button>
                   <h4 class="modal-title" id="-graph-help-label">Graph Key</h4>
+                  <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
-              <div class="modal-body">
+                <div class="modal-body">
 <p>Nodes of different colours represent the following: </p>
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN"
@@ -545,14 +548,14 @@ large graphs.</div>
     <footer>
       <div class="container">
         <div class="row justify-content-between">
-          <div class="col"><p>Inference-Engine was developed by Berkeley Lab<br>&copy; 2023 
+          <div class="col"><p>Inference-Engine was developed by Berkeley Lab<br>&copy; 2024 
 </p>
           </div>
           <div class="col">
             <p class="text-end">
               Documentation generated by
               <a href="https://github.com/Fortran-FOSS-Programmers/ford">FORD</a>
- on 2023-12-21 00:11              </p>
+ on 2024-01-12 15:55              </p>
           </div>
         </div>
         <br>

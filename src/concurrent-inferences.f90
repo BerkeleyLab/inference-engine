@@ -1,6 +1,6 @@
 ! Copyright (c), The Regents of the University of California
 ! Terms of use are as specified in LICENSE.txt
-program concurrent_inference
+program concurrent_inferences
   !! This program demonstrates how to read a neural network from a JSON file
   !! and use the network to perform concurrent inferences.
   use inference_engine_m, only : inference_engine_t, tensor_t
@@ -16,12 +16,12 @@ program concurrent_inference
 
   if (len(network_file_name%string())==0) then
     error stop new_line('a') // new_line('a') // &
-      'Usage: ./build/run-fpm.sh run --example identity -- --network "<file-name>"' 
+      'Usage: ./build/run-fpm.sh run --example concurrent-inferences -- --network "<file-name>"' 
   end if
 
   block 
     type(inference_engine_t) network, inference_engine
-    type(tensor_t), allocatable :: inputs(:,:,:), outputs(:,:,:) 
+    type(tensor_t), allocatable :: inputs(:,:,:), outputs(:,:,:)
     real, allocatable :: input_components(:,:,:,:)
     integer, parameter :: lat=263, lon=317, lev=15 ! latitudes, longitudes, levels (elevations)
     integer i, j, k

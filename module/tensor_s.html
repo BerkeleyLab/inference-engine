@@ -1,3 +1,5 @@
+<!-- -*- mode: jinja2 -*- -->
+
 <!DOCTYPE html>
 <html lang="en">
   <head>
@@ -17,7 +19,8 @@
     <link href="../css/local.css" rel="stylesheet">
       <link  href="../tipuesearch/tipuesearch.css" rel="stylesheet">
 
-    <script src="https://code.jquery.com/jquery-3.7.0.slim.min.js" integrity="sha256-tG5mcZUtJsZvyKAxYLVXrmjKBVLd6VpVccqz/r4ypFE=" crossorigin="anonymous"></script>
+    <script src="https://code.jquery.com/jquery-3.7.1.min.js" integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
+    <script src="../js/svg-pan-zoom.min.js"></script>
   </head>
 
   <body>
@@ -156,7 +159,7 @@
             <li class="list-group-item">
               <ul class="list-inline">
                 <li><h5>Ancestors:</h5></li>
-                  <li class="list-inline-item"><a href='../module/tensor_m.html'>tensor_m</a></li>
+                  <li class="list-inline-item"><a href='tensor_m.html'>tensor_m</a></li>
               </ul>
             </li>
             <li class="list-group-item">
@@ -180,7 +183,7 @@
 <!-- module~tensor_m -->
 <g id="module~~tensor_s~~UsesGraph_node2" class="node">
 <title>module~tensor_m</title>
-<g id="a_module~~tensor_s~~UsesGraph_node2"><a xlink:href=".././module/tensor_m.html" xlink:title="tensor_m">
+<g id="a_module~~tensor_s~~UsesGraph_node2"><a xlink:href="../module/tensor_m.html" xlink:title="tensor_m">
 <polygon fill="#337ab7" stroke="#337ab7" points="214.29,-24.27 153.27,-24.27 153.27,0 214.29,0 214.29,-24.27"/>
 <text text-anchor="middle" x="183.78" y="-8.53" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">tensor_m</text>
 </a>
@@ -195,7 +198,7 @@
 <!-- module~kind_parameters_m -->
 <g id="module~~tensor_s~~UsesGraph_node3" class="node">
 <title>module~kind_parameters_m</title>
-<g id="a_module~~tensor_s~~UsesGraph_node3"><a xlink:href=".././module/kind_parameters_m.html" xlink:title="kind_parameters_m">
+<g id="a_module~~tensor_s~~UsesGraph_node3"><a xlink:href="../module/kind_parameters_m.html" xlink:title="kind_parameters_m">
 <polygon fill="#337ab7" stroke="#337ab7" points="117.27,-24.27 0,-24.27 0,0 117.27,0 117.27,-24.27"/>
 <text text-anchor="middle" x="58.63" y="-8.53" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">kind_parameters_m</text>
 </a>
@@ -209,17 +212,17 @@
 </g>
 </g>
 </svg>
-</div>        <div><a type="button" class="graph-help" data-toggle="modal" href="#UsesGraph-help-text">Help</a></div>
+</div>          <div>
+            <a type="button" class="graph-help" data-bs-toggle="modal" href="#UsesGraph-help-text">Help</a>
+          </div>
           <div class="modal fade" id="UsesGraph-help-text" tabindex="-1" role="dialog">
             <div class="modal-dialog modal-lg" role="document">
               <div class="modal-content">
                 <div class="modal-header">
-                  <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
-                  </button>
                   <h4 class="modal-title" id="-graph-help-label">Graph Key</h4>
+                  <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
-              <div class="modal-body">
+                <div class="modal-body">
 <p>Nodes of different colours represent the following: </p>
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN"
@@ -302,7 +305,7 @@ large graphs.</div>
         <section>
           <h2>Module Procedures</h2>
               <div class="card">
-    <div class="card-header codesum"><span class="anchor" id="proc-construct_from_components"></span><h3>module procedure <a href='../proc/construct_from_components.html'>construct_from_components</a> <small>pure module function construct_from_components(values) result(tensor)</small>  
+    <div class="card-header codesum"><span class="anchor" id="proc-construct_from_components"></span> <h3>module procedure /home/runner/work/inference-engine/inference-engine/doc/html/module/tensor_s.html <a href='../proc/construct_from_components.html'>construct_from_components</a> <small>pure module function construct_from_components(values) result(tensor)</small>  
 </h3></div>
     <div class="card-body">
           
@@ -347,8 +350,8 @@ large graphs.</div>
   </div>
 
               <div class="card">
-    <div class="card-header codesum"><span class="anchor" id="proc-num_components"></span><h3>module procedure <a href='../proc/num_components.html'>num_components</a> <small>pure module function num_components(self) result(n)</small>  
-    <a href='../interface/num_components.html'><button type="button" class="btn btn-info depwarn">Interface &rarr;</button></a>
+    <div class="card-header codesum"><span class="anchor" id="proc-num_components"></span> <h3>module procedure /home/runner/work/inference-engine/inference-engine/doc/html/module/tensor_s.html <a href='../proc/num_components.html'>num_components</a> <small>pure module function num_components(self) result(n)</small>  
+    <a href="../interface/num_components.html"><button type="button" class="btn btn-info depwarn">Interface &rarr;</button></a>
 </h3></div>
     <div class="card-body">
           
@@ -367,7 +370,7 @@ large graphs.</div>
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-self~30"></span>
+              <span class="anchor" id="variable-self~49"></span>
               class(<a href='../type/tensor_t.html'>tensor_t</a>),
             </td>
 <td>intent(in)</td>
@@ -393,8 +396,8 @@ large graphs.</div>
   </div>
 
               <div class="card">
-    <div class="card-header codesum"><span class="anchor" id="proc-values"></span><h3>module procedure <a href='../proc/values.html'>values</a> <small>pure module function values(self) result(tensor_values)</small>  
-    <a href='../interface/values.html'><button type="button" class="btn btn-info depwarn">Interface &rarr;</button></a>
+    <div class="card-header codesum"><span class="anchor" id="proc-values"></span> <h3>module procedure /home/runner/work/inference-engine/inference-engine/doc/html/module/tensor_s.html <a href='../proc/values.html'>values</a> <small>pure module function values(self) result(tensor_values)</small>  
+    <a href="../interface/values.html"><button type="button" class="btn btn-info depwarn">Interface &rarr;</button></a>
 </h3></div>
     <div class="card-body">
           
@@ -413,7 +416,7 @@ large graphs.</div>
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-self~31"></span>
+              <span class="anchor" id="variable-self~48"></span>
               class(<a href='../type/tensor_t.html'>tensor_t</a>),
             </td>
 <td>intent(in)</td>
@@ -447,14 +450,14 @@ large graphs.</div>
     <footer>
       <div class="container">
         <div class="row justify-content-between">
-          <div class="col"><p>Inference-Engine was developed by Berkeley Lab<br>&copy; 2023 
+          <div class="col"><p>Inference-Engine was developed by Berkeley Lab<br>&copy; 2024 
 </p>
           </div>
           <div class="col">
             <p class="text-end">
               Documentation generated by
               <a href="https://github.com/Fortran-FOSS-Programmers/ford">FORD</a>
- on 2023-12-21 00:11              </p>
+ on 2024-01-12 15:55              </p>
           </div>
         </div>
         <br>

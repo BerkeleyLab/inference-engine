@@ -1,3 +1,5 @@
+<!-- -*- mode: jinja2 -*- -->
+
 <!DOCTYPE html>
 <html lang="en">
   <head>
@@ -17,7 +19,8 @@
     <link href="../css/local.css" rel="stylesheet">
       <link  href="../tipuesearch/tipuesearch.css" rel="stylesheet">
 
-    <script src="https://code.jquery.com/jquery-3.7.0.slim.min.js" integrity="sha256-tG5mcZUtJsZvyKAxYLVXrmjKBVLd6VpVccqz/r4ypFE=" crossorigin="anonymous"></script>
+    <script src="https://code.jquery.com/jquery-3.7.1.min.js" integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
+    <script src="../js/svg-pan-zoom.min.js"></script>
   </head>
 
   <body>
@@ -167,13 +170,13 @@
         <ul class="list-group list-group-flush">
             <li class="list-group-item">
               <ul class="list-inline">
-                  <li class="list-inline-item"><a href='../module/kind_parameters_m.html'>kind_parameters_m</a></li>
+                  <li class="list-inline-item"><a href='kind_parameters_m.html'>kind_parameters_m</a></li>
               </ul>
             </li>
             <li class="list-group-item">
               <ul class="list-inline">
                 <li><h5>Ancestors:</h5></li>
-                  <li class="list-inline-item"><a href='../module/relu_m.html'>relu_m</a></li>
+                  <li class="list-inline-item"><a href='relu_m.html'>relu_m</a></li>
               </ul>
             </li>
             <li class="list-group-item">
@@ -197,7 +200,7 @@
 <!-- module~kind_parameters_m -->
 <g id="module~~relu_s~~UsesGraph_node2" class="node">
 <title>module~kind_parameters_m</title>
-<g id="a_module~~relu_s~~UsesGraph_node2"><a xlink:href=".././module/kind_parameters_m.html" xlink:title="kind_parameters_m">
+<g id="a_module~~relu_s~~UsesGraph_node2"><a xlink:href="../module/kind_parameters_m.html" xlink:title="kind_parameters_m">
 <polygon fill="#337ab7" stroke="#337ab7" points="117.27,-78.31 0,-78.31 0,-54.04 117.27,-54.04 117.27,-78.31"/>
 <text text-anchor="middle" x="58.63" y="-62.57" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">kind_parameters_m</text>
 </a>
@@ -211,7 +214,7 @@
 <!-- module~relu_m -->
 <g id="module~~relu_s~~UsesGraph_node3" class="node">
 <title>module~relu_m</title>
-<g id="a_module~~relu_s~~UsesGraph_node3"><a xlink:href=".././module/relu_m.html" xlink:title="relu_m">
+<g id="a_module~~relu_s~~UsesGraph_node3"><a xlink:href="../module/relu_m.html" xlink:title="relu_m">
 <polygon fill="#337ab7" stroke="#337ab7" points="612.81,-48.31 558.81,-48.31 558.81,-24.04 612.81,-24.04 612.81,-48.31"/>
 <text text-anchor="middle" x="585.81" y="-32.57" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">relu_m</text>
 </a>
@@ -233,7 +236,7 @@
 <!-- module~differentiable_activation_strategy_m -->
 <g id="module~~relu_s~~UsesGraph_node4" class="node">
 <title>module~differentiable_activation_strategy_m</title>
-<g id="a_module~~relu_s~~UsesGraph_node4"><a xlink:href=".././module/differentiable_activation_strategy_m.html" xlink:title="differentiable_activation_strategy_m">
+<g id="a_module~~relu_s~~UsesGraph_node4"><a xlink:href="../module/differentiable_activation_strategy_m.html" xlink:title="differentiable_activation_strategy_m">
 <polygon fill="#337ab7" stroke="#337ab7" points="522.81,-48.31 317.79,-48.31 317.79,-24.04 522.81,-24.04 522.81,-48.31"/>
 <text text-anchor="middle" x="420.3" y="-32.57" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">differentiable_activation_strategy_m</text>
 </a>
@@ -260,7 +263,7 @@
 <!-- module~activation_strategy_m -->
 <g id="module~~relu_s~~UsesGraph_node6" class="node">
 <title>module~activation_strategy_m</title>
-<g id="a_module~~relu_s~~UsesGraph_node6"><a xlink:href=".././module/activation_strategy_m.html" xlink:title="activation_strategy_m">
+<g id="a_module~~relu_s~~UsesGraph_node6"><a xlink:href="../module/activation_strategy_m.html" xlink:title="activation_strategy_m">
 <polygon fill="#337ab7" stroke="#337ab7" points="281.79,-48.31 153.27,-48.31 153.27,-24.04 281.79,-24.04 281.79,-48.31"/>
 <text text-anchor="middle" x="217.53" y="-32.57" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">activation_strategy_m</text>
 </a>
@@ -290,17 +293,17 @@
                   var panmodulerelu_sUsesGraph = svgPanZoom('#modulerelu_sUsesGraph',
                     {zoomEnabled: true, controlIconsEnabled: true, fit: true, center: true,}
                   );
-                </script>        <div><a type="button" class="graph-help" data-toggle="modal" href="#UsesGraph-help-text">Help</a></div>
+                </script>          <div>
+            <a type="button" class="graph-help" data-bs-toggle="modal" href="#UsesGraph-help-text">Help</a>
+          </div>
           <div class="modal fade" id="UsesGraph-help-text" tabindex="-1" role="dialog">
             <div class="modal-dialog modal-lg" role="document">
               <div class="modal-content">
                 <div class="modal-header">
-                  <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
-                  </button>
                   <h4 class="modal-title" id="-graph-help-label">Graph Key</h4>
+                  <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
-              <div class="modal-body">
+                <div class="modal-body">
 <p>Nodes of different colours represent the following: </p>
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN"
@@ -434,8 +437,8 @@ parameter
         <section>
           <h2>Module Procedures</h2>
               <div class="card">
-    <div class="card-header codesum"><span class="anchor" id="proc-activation~3"></span><h3>module procedure <a href='../proc/activation~3.html'>activation</a> <small>elemental module function activation(x) result(y)</small>  
-    <a href='../interface/activation~3.html'><button type="button" class="btn btn-info depwarn">Interface &rarr;</button></a>
+    <div class="card-header codesum"><span class="anchor" id="proc-activation~3"></span> <h3>module procedure /home/runner/work/inference-engine/inference-engine/doc/html/module/relu_s.html <a href='../proc/activation~3.html'>activation</a> <small>elemental module function activation(x) result(y)</small>  
+    <a href="../interface/activation~4.html"><button type="button" class="btn btn-info depwarn">Interface &rarr;</button></a>
 </h3></div>
     <div class="card-body">
           
@@ -454,7 +457,7 @@ parameter
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-x~5"></span>
+              <span class="anchor" id="variable-x~7"></span>
               real(kind=rkind),
             </td>
 <td>intent(in)</td>
@@ -480,8 +483,8 @@ parameter
   </div>
 
               <div class="card">
-    <div class="card-header codesum"><span class="anchor" id="proc-activation_derivative~2"></span><h3>module procedure <a href='../proc/activation_derivative~2.html'>activation_derivative</a> <small>elemental module function activation_derivative(x) result(y)</small>  
-    <a href='../interface/activation_derivative~2.html'><button type="button" class="btn btn-info depwarn">Interface &rarr;</button></a>
+    <div class="card-header codesum"><span class="anchor" id="proc-activation_derivative~2"></span> <h3>module procedure /home/runner/work/inference-engine/inference-engine/doc/html/module/relu_s.html <a href='../proc/activation_derivative~2.html'>activation_derivative</a> <small>elemental module function activation_derivative(x) result(y)</small>  
+    <a href="../interface/activation_derivative~3.html"><button type="button" class="btn btn-info depwarn">Interface &rarr;</button></a>
 </h3></div>
     <div class="card-body">
           
@@ -500,7 +503,7 @@ parameter
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-x~6"></span>
+              <span class="anchor" id="variable-x~8"></span>
               real(kind=rkind),
             </td>
 <td>intent(in)</td>
@@ -526,8 +529,8 @@ parameter
   </div>
 
               <div class="card">
-    <div class="card-header codesum"><span class="anchor" id="proc-function_name~3"></span><h3>module procedure <a href='../proc/function_name~3.html'>function_name</a> <small>elemental module function function_name() result(string)</small>  
-    <a href='../interface/function_name~3.html'><button type="button" class="btn btn-info depwarn">Interface &rarr;</button></a>
+    <div class="card-header codesum"><span class="anchor" id="proc-function_name~3"></span> <h3>module procedure /home/runner/work/inference-engine/inference-engine/doc/html/module/relu_s.html <a href='../proc/function_name~3.html'>function_name</a> <small>elemental module function function_name() result(string)</small>  
+    <a href="../interface/function_name~4.html"><button type="button" class="btn btn-info depwarn">Interface &rarr;</button></a>
 </h3></div>
     <div class="card-body">
           
@@ -553,14 +556,14 @@ parameter
     <footer>
       <div class="container">
         <div class="row justify-content-between">
-          <div class="col"><p>Inference-Engine was developed by Berkeley Lab<br>&copy; 2023 
+          <div class="col"><p>Inference-Engine was developed by Berkeley Lab<br>&copy; 2024 
 </p>
           </div>
           <div class="col">
             <p class="text-end">
               Documentation generated by
               <a href="https://github.com/Fortran-FOSS-Programmers/ford">FORD</a>
- on 2023-12-21 00:11              </p>
+ on 2024-01-12 15:55              </p>
           </div>
         </div>
         <br>
