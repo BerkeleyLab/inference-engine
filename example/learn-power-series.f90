@@ -18,7 +18,7 @@ contains
 
 end module
 
-program train_polynomials
+program learn_power_series
   !! This trains a neural network to learn the following six polynomial functions of its eight inputs.
   use inference_engine_m, only : &
     inference_engine_t, trainable_engine_t, mini_batch_t, tensor_t, input_output_pair_t, shuffle, relu_t
@@ -34,7 +34,7 @@ program train_polynomials
 
   if (len(final_network_file%string())==0) then
     error stop new_line('a') // new_line('a') // &
-      'Usage: ./build/run-fpm.sh run --example train-polynomials -- --output-file "<file-name>"' 
+      'Usage: ./build/run-fpm.sh run --example learn-power-series -- --output-file "<file-name>"' 
   end if
 
   block
