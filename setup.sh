@@ -37,32 +37,40 @@ done
 
 set -u # error on use of undefined variable
 
-if ! command -v brew > /dev/null ; then
-  if ! command -v curl > /dev/null ; then
-    echo "Please install curl and then rerun ./setup.sh"
-    exit 1
-  fi
-  /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
-  if [ $(uname) = "Linux" ]; then
-    if [ -z "$PATH" ]; then
-      PATH=/home/linuxbrew/.linuxbrew/bin/
-    else
-      PATH=/home/linuxbrew/.linuxbrew/bin/:"$PATH"
-    fi
-  fi
+if ! command -v gfortran > /dev/null ; then
+  echo "This script assumes usage of gfortran to compile and build"
+  echo "When using other Fortran compilers, please ensure you have fpm downloaded and in your path"
+  echo "Then use the following command to install inference-engine: fpm build --flag \"-fcoarray=single\"."
+  echo "Please replace the coarray flag with appropriate coarray flag for your compiler"
+  exit 1
 fi
 
+if ! command -v fpm > /dev/null ; then
+  if ! command -v brew > /dev/null ; then
+    if ! command -v curl > /dev/null ; then
+      echo "Please install curl and then rerun ./setup.sh"
+      exit 1
+    fi
+    /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
+    if [ $(uname) = "Linux" ]; then
+      if [ -z "$PATH" ]; then
+        PATH=/home/linuxbrew/.linuxbrew/bin/
+      else
+        PATH=/home/linuxbrew/.linuxbrew/bin/:"$PATH"
+      fi
+    fi
+  fi
+  brew tap fortran-lang/fortran # required for building fpm
+  brew install fortran-lang/fortran/fpm
+fi
 
-brew tap fortran-lang/fortran # required for building fpm
-brew install fortran-lang/fortran/fpm
-
-FPM_FLAG="-fcoarray=single -O3"
 FPM_FC=${FC:-"gfortran-13"}
 FPM_CC=${CC:-"gcc-13"}
 
 mkdir -p build
 
-fpm build --flag ${FPM_FLAG}
+fpm build --flag "-fcoarray=single -O3"
+fpm test
 
 echo ""
 echo "____________________ Inference-Engine has been set up! _______________________" 

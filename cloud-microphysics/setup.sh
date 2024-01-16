@@ -54,7 +54,6 @@ if ! command -v brew > /dev/null ; then
   fi
 fi
 
-
 brew tap fortran-lang/fortran # required for building fpm
 brew install fortran-lang/fortran/fpm netcdf netcdf-fortran pkg-config coreutils # coreutils supports `realpath` below
 
@@ -120,19 +119,16 @@ if [ $CI = true ]; then
   echo "---------------"
 fi
 
-if command -v fpm > /dev/null 2>&1; then
-  brew tap fortran-lang/fortran
-  brew install fortran-lang/fortran/fpm
-fi
-
 echo "$RUN_FPM_SH test"
 $RUN_FPM_SH test
 
 echo ""
 echo "____________________ cloud-microphysics has been set up! _______________________"
 echo ""
-echo "To run one of the programs in the example subdirectory, enter a command of the"
-echo "following form at a shell command prompt after replacing <example-base-name>"
-echo "with the base name of a file in the example/ subdirectory:"
+echo "Usage:"
 echo ""
-echo "./build/run-fpm.sh run train-cloud-microphysics"
+echo "./build/run-fpm.sh run train-cloud-microphysics -- \ "
+echo "  --base <string> --epochs <integer> \ "
+echo "  [--start <integer>] [--end <integer>] [--stride <integer>]"
+echo ""
+echo "where angular brackets denote user-provided values and square brackets denote optional arguments"
