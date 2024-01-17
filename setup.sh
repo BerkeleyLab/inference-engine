@@ -39,14 +39,6 @@ done
 
 set -u # error on use of undefined variable
 
-if ! command -v gfortran > /dev/null ; then
-  echo "This script assumes usage of gfortran to compile and build"
-  echo "When using other Fortran compilers, please ensure you have fpm downloaded and in your path"
-  echo "Then use the following command to install inference-engine: fpm build --flag \"-fcoarray=single\"."
-  echo "Please replace the coarray flag with appropriate coarray flag for your compiler"
-  exit 1
-fi
-
 install_fpm_from_source()
 {
   echo "Installing fpm in following location: $PREFIX/bin"
