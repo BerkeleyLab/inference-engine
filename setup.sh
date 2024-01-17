@@ -88,4 +88,4 @@ echo "To run one of the programs in the example subdirectory, enter a command of
 echo "following form at a shell command prompt after replacing <example-base-name>"
 echo "with the base name of a file in the example/ subdirectory:"
 echo ""
-echo "fpm run --example <example-base-name>"
+echo "fpm run --example <example-base-name> --profile release"
