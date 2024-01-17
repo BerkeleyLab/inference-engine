@@ -120,7 +120,7 @@ contains
   function perturbed_identity_network(perturbation_magnitude) result(trainable_engine)
     type(trainable_engine_t) trainable_engine
     real, intent(in) :: perturbation_magnitude
-    integer, parameter :: n(*) = [8, 64, 64, 64, 6]
+    integer, parameter :: n(*) = [8, 64, 64, 64, 6] ! nodes per layer (first layer = input, last layer = output)
     integer, parameter :: n_max = maxval(n), layers = size(n)
     integer j, k, l
     real, allocatable :: identity(:,:,:), w_harvest(:,:,:), b_harvest(:,:)

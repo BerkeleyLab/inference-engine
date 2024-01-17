@@ -44,7 +44,8 @@ contains
         [ write_then_read_network_configuration() & 
         ] & 
     )
-      call assert(size(descriptions) == size(outcomes),"network_configuration_test_m(results): size(descriptions) == size(outcomes)")
+      call assert(size(descriptions) == size(outcomes), &
+        "network_configuration_test_m(results): size(descriptions) == size(outcomes)")
       test_results = test_result_t(descriptions, outcomes)
     end associate
        

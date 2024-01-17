@@ -17,8 +17,9 @@ program train_cloud_microphysics
 
   !! Internal dependencies;
   use inference_engine_m, only : &
-    inference_engine_t, mini_batch_t, input_output_pair_t, tensor_t, trainable_engine_t, rkind, NetCDF_file_t, &
+    inference_engine_t, mini_batch_t, input_output_pair_t, tensor_t, trainable_engine_t, rkind, &
     training_configuration_t, shuffle
+  use NetCDF_file_m, only: NetCDF_file_t
   use ubounds_m, only : ubounds_t
   implicit none
 
