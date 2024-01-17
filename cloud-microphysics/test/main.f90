@@ -13,7 +13,6 @@ program main
     type(netCDF_file_test_t) netCDF_file_test
     call netCDF_file_test%report(passes, tests)
   end block
-#endif // __INTEL_FORTRAN
   call cpu_time(t_finish)
 
   print *
