@@ -52,7 +52,7 @@ install_fpm_from_source()
   echo "Installing fpm in following location: $PREFIX/bin"
   echo "Ensure $PREFIX/bin is in your path or rerun script with the --prefix=PREFIX flag"
   if ! command -v curl > /dev/null ; then
-    echo "Need curl to download source file for fpm to install it"
+    echo "This script uses curl to download source file for fpm to install it"
     echo "Please install curl and then rerun ./setup.sh"
     exit 1
   fi
