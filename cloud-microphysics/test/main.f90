@@ -10,7 +10,6 @@ program main
 
   call cpu_time(t_start)
   block 
-    use netCDF_file_test_m, only : netCDF_file_test_t
     type(netCDF_file_test_t) netCDF_file_test
     call netCDF_file_test%report(passes, tests)
   end block
