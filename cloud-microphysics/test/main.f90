@@ -8,7 +8,6 @@ program main
   integer :: passes=0, tests=0
 
   call cpu_time(t_start)
-#ifndef __INTEL_FORTRAN
   block 
     use netCDF_file_test_m, only : netCDF_file_test_t
     type(netCDF_file_test_t) netCDF_file_test
