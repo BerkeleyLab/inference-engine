@@ -1,6 +1,7 @@
 ! Copyright (c), The Regents of the University of California
 ! Terms of use are as specified in LICENSE.txt
 program main
+  use netCDF_file_test_m, only : netCDF_file_test_t
   implicit none
 
   real t_start, t_finish
