@@ -21,7 +21,7 @@ program train_and_write
 
   if (len(final_network_file%string())==0) then
     error stop new_line('a') // new_line('a') // &
-      'Usage: ./build/run-fpm.sh run --example train-and-write -- --output-file "<file-name>"' 
+      'Usage: fpm run --example train-and-write --profile release --flag "-fopenmp" -- --output-file "<file-name>"' 
   end if
 
   block

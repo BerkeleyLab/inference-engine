@@ -16,7 +16,7 @@ program concurrent_inferences
 
   if (len(network_file_name%string())==0) then
     error stop new_line('a') // new_line('a') // &
-      'Usage: ./build/run-fpm.sh run --example concurrent-inferences -- --network "<file-name>"' 
+      'Usage: fpm run --example concurrent-inferences --profile release --flag "-fopenmp" -- --network "<file-name>"'
   end if
 
   block 
