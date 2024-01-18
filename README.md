@@ -48,6 +48,10 @@ The available optimizers for training neural networks are
 1. Stochastic gradient descent
 2. Adam (recommended)
 
+Prerequisite
+------------
+Building Inference-Engine requires a Fortran 2018 compiler.  With `gfortran`, the required minimum compiler version is 13.
+
 Downloading, Building and Testing
 ---------------------------------
 To download, build, and test Inference-Engine, enter the following commands in a Linux, macOS, or Windows Subsystem for Linux shell:
