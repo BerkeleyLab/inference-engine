@@ -281,32 +281,47 @@ contains
     integer, parameter :: num_inputs=2, mini_batch_size = 1, num_iterations=500000
       !! Depending on where in the random-number sequence the weights start, this test can pass for lower
       !! numbers of iterations, e.g., 400000. Using more iterations gives more robust convergence.
-    integer batch, iter, i
+    integer batch, iter
 
     allocate(harvest(num_inputs, mini_batch_size, num_iterations))
     call random_number(harvest)
 
-    ! The following temporary copies are required by gfortran bug 100650 and possibly 49324
+    ! The following temporary copies, tmp and tmp2, are required by gfortran bug 100650 and possibly 49324
     ! See https://gcc.gnu.org/bugzilla/show_bug.cgi?id=100650 and https://gcc.gnu.org/bugzilla/show_bug.cgi?id=49324
-    tmp = [([(tensor_t(merge(true, false, harvest(:,batch,iter) < 0.5E0)), batch=1, mini_batch_size)], iter=1, num_iterations)]
+
+    allocate(tmp(mini_batch_size*num_iterations))
+    do concurrent(batch = 1: mini_batch_size, iter = 1:num_iterations)
+      tmp((iter-1)*mini_batch_size + 1) = tensor_t(merge(true, false, harvest(:,batch,iter) < 0.5E0))
+    end do
     training_inputs = reshape(tmp, [mini_batch_size, num_iterations])
 
-    tmp2 = [([(xor(training_inputs(batch, iter)), batch = 1, mini_batch_size)], iter = 1, num_iterations )]
+    allocate(tmp2(size(tmp)))
+    do concurrent(batch = 1: mini_batch_size, iter = 1:num_iterations)
+      tmp2((iter-1)*mini_batch_size + 1) = xor(training_inputs(batch, iter))
+    end do
     training_outputs = reshape(tmp2, [mini_batch_size, num_iterations])
 
-    mini_batches = [(mini_batch_t(input_output_pair_t(training_inputs(:,iter), training_outputs(:,iter))), iter=1, num_iterations)]        
+    allocate(mini_batches(size(training_inputs,1)*num_iterations))
+    do concurrent(iter=1:num_iterations)
+      mini_batches(iter) = mini_batch_t(input_output_pair_t(training_inputs(:,iter), training_outputs(:,iter)))
+    end do
+
     trainable_engine = two_random_hidden_layers()
 
     call trainable_engine%train(mini_batches, adam=.false., learning_rate=1.5)
 
     test_inputs = [tensor_t([true,true]), tensor_t([false,true]), tensor_t([true,false]), tensor_t([false,false])]
-    expected_test_outputs = [(xor(test_inputs(i)), i=1, size(test_inputs))]
-    actual_outputs = trainable_engine%infer(test_inputs)
-    test_passes = [(abs(actual_outputs(i)%values() - expected_test_outputs(i)%values()) < tolerance, i=1, size(actual_outputs))]
+    block
+      integer i
+
+      expected_test_outputs = [(xor(test_inputs(i)), i=1, size(test_inputs))]
+      actual_outputs = trainable_engine%infer(test_inputs)
+      test_passes = [(abs(actual_outputs(i)%values() - expected_test_outputs(i)%values()) < tolerance, i=1, size(actual_outputs))]
+    end block
 
   contains
     
-    function xor(inputs) result(expected_outputs)
+    pure function xor(inputs) result(expected_outputs)
       type(tensor_t), intent(in) :: inputs
       type(tensor_t) expected_outputs
       associate(sum_inputs => sum(inputs%values()))
@@ -396,6 +411,7 @@ contains
     integer, parameter :: num_epochs = 148
     integer, parameter :: num_bins = 5 
     integer i, bin, epoch
+
     trainable_engine = perturbed_identity_network(perturbation_magnitude=0.1)
 
     associate(num_inputs => trainable_engine%num_inputs(), num_outputs => trainable_engine%num_outputs())

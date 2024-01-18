@@ -59,7 +59,7 @@ install_fpm_from_source()
   fi
 }
 
-# if no fpm, install either through homebrew, or gfortran compiling fpm.F90
+# if no fpm, install either through homebrew or by compiling fpm.F90 with gfortran
 if ! command -v fpm > /dev/null ; then
   if ! command -v brew > /dev/null ; then
     if ! command -v gfortran > /dev/null ; then
@@ -77,15 +77,20 @@ fi
 FPM_FC=${FC:-"gfortran-13"}
 FPM_CC=${CC:-"gcc-13"}
 
-mkdir -p build
-
-fpm test
+fpm test --profile release --flag "-fopenmp"
 
 echo ""
 echo "____________________ Inference-Engine has been set up! _______________________"
 echo ""
-echo "To run one of the programs in the example subdirectory, enter a command of the"
-echo "following form at a shell command prompt after replacing <example-base-name>"
-echo "with the base name of a file in the example/ subdirectory:"
+echo "Enter the command below to the see names of example use cases that you can run:"
 echo ""
-echo "fpm run --example <example-base-name> --profile release"
+echo "fpm run --example"
+echo ""
+echo "To run an example, execute the following command after replacing <name> with"
+echo "one of the names listed by the above command:"
+echo ""
+echo "fpm run --profile release --flag \"-fopenmp\" --example <name>"
+echo ""
+echo "where the '--profile release' and '--flag \"-fopenmp\"' might reduce run times."
+echo "Example programs print usage information if additional arguments are required."
+echo ""
