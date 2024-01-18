@@ -19,7 +19,7 @@ program write_read_infer
 
   if (len(file_name%string())==0) then
     error stop new_line('a') // new_line('a') // &
-      'Usage: ./build/run-fpm.sh run --example write-read-infer -- --output-file "<file-name>"' 
+      'Usage: fpm run --example write-read-infer --profile release --flag "-fopenmp" -- --output-file "<file-name>"' 
   end if
 
   call write_read_query_infer(file_name)
