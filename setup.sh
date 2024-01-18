@@ -65,7 +65,7 @@ HDF5_LIB_PATH="`brew --prefix hdf5`/lib"
 NETCDFF_LIB_PATH="`brew --prefix netcdf-fortran`/lib"
 
 FPM_LD_FLAG=" -L$NETCDF_LIB_PATH -L$HDF5_LIB_PATH -L$NETCDFF_LIB_PATH"
-FPM_FLAG="-fcoarray=single -O3 -fallow-argument-mismatch -ffree-line-length-none -L$NETCDF_LIB_PATH -L$HDF5_LIB_PATH"
+FPM_FLAG="-fopenmp -g -fcoarray=single -O3 -fallow-argument-mismatch -ffree-line-length-none -L$NETCDF_LIB_PATH -L$HDF5_LIB_PATH"
 FPM_FC=${FC:-"gfortran-13"}
 FPM_CC=${CC:-"gcc-13"}
 
@@ -125,14 +125,21 @@ if command -v fpm > /dev/null 2>&1; then
   brew install fpm
 fi
 
-echo "$RUN_FPM_SH test"
-$RUN_FPM_SH test
+echo "$RUN_FPM_SH test --profile release" 
+$RUN_FPM_SH test --profile release
 
 echo ""
 echo "____________________ Inference-Engine has been set up! _______________________" 
 echo ""
-echo "To run one of the programs in the example subdirectory, enter a command of the"
-echo "following form at a shell command prompt after replacing <example-base-name>"
-echo "with the base name of a file in the example/ subdirectory:"
+echo "The example/ subdirectory contains sample use cases.  Execute the following"
+echo "command to see a list of examples that you can run:"
 echo ""
-echo "./build/run-fpm.sh run --example <example-base-name>"
+echo "./build/run-fpm.sh run --example"
+echo ""
+echo "Execute an example with a command of the form"
+echo ""
+echo "./build/run-fpm.sh run --profile release --example <example-base-name>"
+echo ""
+echo "where '--profile release' ensures an optimized build, which can greatly reduce"
+echo "runtime.  The latter command will print usage information if the example"
+echo "requires additional arguments."
