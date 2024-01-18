@@ -18,7 +18,7 @@ program train_saturated_mixture_ratio
 
   if (len(network_file%string())==0) then
     error stop new_line('a') // new_line('a') // &
-      'Usage: ./build/run-fpm.sh run --example learn-saturated-mixing-ratio -- --output-file "<file-name>"' 
+      'Usage: fpm run --example learn-saturated-mixing-ratio --profile release --flag "-fopenmp" -- --output-file "<file-name>"'
   end if
 
   call system_clock(counter_start, clock_rate)
