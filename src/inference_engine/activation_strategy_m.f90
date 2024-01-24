@@ -27,7 +27,8 @@ module activation_strategy_m
       real(rkind) y
     end function
 
-    elemental module function function_name_i() result(string)
+    elemental function function_name_i() result(string)
+      import string_t
       implicit none
       type(string_t) string
     end function
