@@ -1,0 +1,18 @@
+#!/bin/sh
+#-- DO NOT EDIT -- created by inference-engine/setup.sh
+export PKG_CONFIG_PATH
+
+fpm_arguments=""
+program_arguments=""
+while test $# -gt 0
+do
+    case "$1" in
+        --) program_arguments="$@"
+            ;;
+        *) if [ -z "$program_arguments" ];  then
+             fpm_arguments="$fpm_arguments $1"
+           fi
+            ;;
+    esac
+    shift
+done
