@@ -20,6 +20,7 @@ program tensor_statistics
   implicit none
 
   type histogram_on_unit_interval_t
+    character(len=:), allocatable :: variable_name
     real unmapped_min, unmapped_max
     real, allocatable :: frequency(:), bin_midpoint(:)
   end type
@@ -61,14 +62,17 @@ contains
     x_normalized = (x - x_min)/(x_max - x_min)
   end function
 
-  pure function histogram_on_unit_interval(v, num_bins) result(histogram)
+  pure function histogram_on_unit_interval(v, variable_name, num_bins) result(histogram)
     real, intent(in) :: v(:,:,:,:)
+    character(len=*), intent(in) :: variable_name
     integer, intent(in) :: num_bins
     type(histogram_on_unit_interval_t) histogram
 
     real, parameter :: v_mapped_min = 0., v_mapped_max = 1.
     integer, allocatable :: in_bin(:)
     integer i
+
+    histogram%variable_name = variable_name
 
     associate(v_min => minval(v), v_max => maxval(v), data_set_size => size(v))
 
@@ -161,19 +165,6 @@ contains
         ! Skipping the following unnecessary inputs that are in the current file format as of 14 Aug 2023:
         ! precipitation, snowfall
         call network_input_file%input("pressure", pressure_in)
-
-        block
-          integer line
-          associate(histogram => histogram_on_unit_interval(pressure_in, num_bins=10))
-            print *,"# unmapped pressure_in_{min,max} = ", histogram%unmapped_min, histogram%unmapped_max
-            print *,"    bin        freq(pressure_in)"
-            do line = 1, size(histogram%bin_midpoint)
-              print *, histogram%bin_midpoint(line), histogram%frequency(line)
-            end do
-          end associate
-        end block
-        stop "---------> made it <---------"
-
         call network_input_file%input("potential_temperature", potential_temperature_in)
         call network_input_file%input("temperature", temperature_in)
         call network_input_file%input("qv", qv_in)
@@ -181,13 +172,43 @@ contains
         call network_input_file%input("qr", qr_in)
         call network_input_file%input("qs", qs_in)
         call network_input_file%input("time", time_in)
+
         t_end = size(time_in)
+
         lbounds = [lbound(pressure_in), lbound(temperature_in), lbound(qv_in), lbound(qc_in), lbound(qr_in), lbound(qs_in)]
+
         ubounds = &
           [ubounds_t(ubound(qv_in)), ubounds_t(ubound(qc_in)), ubounds_t(ubound(qr_in)), ubounds_t(ubound(qs_in)), &
            ubounds_t(ubound(pressure_in)), ubounds_t(ubound(temperature_in)) &
           ]
+
+        block
+          integer line, h
+          integer, parameter :: num_inputs = 7, num_bins=10
+          type(histogram_on_unit_interval_t) :: histogram(num_inputs)
+
+          histogram(1) = histogram_on_unit_interval(pressure_in, "p_in", num_bins)
+          histogram(2) = histogram_on_unit_interval(potential_temperature_in, "pt_in", num_bins)
+          histogram(3) = histogram_on_unit_interval(temperature_in, "T_in", num_bins)
+          histogram(4) = histogram_on_unit_interval(qv_in, "qv_in", num_bins)
+          histogram(5) = histogram_on_unit_interval(qc_in, "qc_in", num_bins)
+          histogram(6) = histogram_on_unit_interval(qr_in, "qr_in", num_bins)
+          histogram(7) = histogram_on_unit_interval(qs_in, "qs_in", num_bins)
+
+          do h = 1, size(histogram)
+            print *,"# unmapped range for ", histogram(h)%variable_name,":", histogram(h)%unmapped_min, histogram(h)%unmapped_max
+          end do
+
+          print *,"bin", (histogram(h)%variable_name, h=1,size(histogram)) ! header
+
+          do line = 1, size(histogram(1)%bin_midpoint)
+            print *, histogram(1)%bin_midpoint(line), (histogram(h)%frequency(line), h=1,size(histogram))
+          end do
+        end block
+
       end associate
+
+      stop "---------> made it <---------"
 
       print *,"Reading network outputs from " // network_output
 
