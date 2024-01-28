@@ -39,10 +39,12 @@ program tensor_statistics
   call system_clock(t_finish)
 
   print *,"System clock time: ", real(t_finish - t_start, real64)/real(clock_rate, real64)
-  print *,"Pleas see the *.plt files for the tensor ranges and histograms."
-  print *,"Execute gnuplot app/gnuplot.in to graph the histograms."
+  print *,"---"
   print *
-  print *,new_line('a') // "______ tensor_statistics done_______"
+  print *,"---> Please see the *.plt files for the tensor ranges and histograms. <---"
+  print *,"---> Execute `gnuplot app/gnuplot.in` to graph the histograms.        <---"
+  print *
+  print *,"______ tensor_statistics done_______"
 
 contains
 
@@ -118,9 +120,7 @@ contains
         call network_input_file%input("time", time_in)
 
         t_end = size(time_in)
-
         lbounds = [lbound(pressure_in), lbound(temperature_in), lbound(qv_in), lbound(qc_in), lbound(qr_in), lbound(qs_in)]
-
         ubounds = &
           [ubounds_t(ubound(qv_in)), ubounds_t(ubound(qc_in)), ubounds_t(ubound(qr_in)), ubounds_t(ubound(qs_in)), &
            ubounds_t(ubound(pressure_in)), ubounds_t(ubound(temperature_in)) &
@@ -206,37 +206,37 @@ contains
       call assert(.not. any(ieee_is_nan(dqr_dt)), ".not. any(ieee_is_nan(dqr_dt)")
       call assert(.not. any(ieee_is_nan(dqs_dt)), ".not. any(ieee_is_nan(dqs_dt)")
 
-        block
-          integer line, h, file_unit
-          integer, parameter :: num_outputs = 5
-          type(histogram_t) :: histogram(num_outputs)
+      block
+        integer line, h, file_unit
+        integer, parameter :: num_outputs = 5
+        type(histogram_t) :: histogram(num_outputs)
 
-          print *,"Calculating output tensor histograms"
+        print *,"Calculating output tensor histograms"
 
-          histogram(1) = histogram_t(dpt_dt, "d(pt)/dt", num_bins)
-          histogram(2) = histogram_t(dqv_dt, "d(qv)/dt", num_bins)
-          histogram(3) = histogram_t(dqc_dt, "d(qc)/dt", num_bins)
-          histogram(4) = histogram_t(dqr_dt, "d(qr)/dt", num_bins)
-          histogram(5) = histogram_t(dqs_dt, "d(qs)/dt", num_bins)
+        histogram(1) = histogram_t(dpt_dt, "d(pt)/dt", num_bins)
+        histogram(2) = histogram_t(dqv_dt, "d(qv)/dt", num_bins)
+        histogram(3) = histogram_t(dqc_dt, "d(qc)/dt", num_bins)
+        histogram(4) = histogram_t(dqr_dt, "d(qr)/dt", num_bins)
+        histogram(5) = histogram_t(dqs_dt, "d(qs)/dt", num_bins)
  
-          associate(output_tensor_stats_file_name => base_name // "_outputs_stats.plt")
-            print *,"Writing output tensor statistics to " // output_tensor_stats_file_name
-            open(newunit=file_unit, file=output_tensor_stats_file_name, status="unknown")
-          end associate
+        associate(output_tensor_stats_file_name => base_name // "_outputs_stats.plt")
+          print *,"Writing output tensor statistics to " // output_tensor_stats_file_name
+          open(newunit=file_unit, file=output_tensor_stats_file_name, status="unknown")
+        end associate
 
-          do h = 1, size(histogram)
-            write(file_unit,*), &
-             "# unmapped range for ", histogram(h)%variable_name,":", histogram(h)%unmapped_min, histogram(h)%unmapped_max
-          end do
+        do h = 1, size(histogram)
+          write(file_unit,*), &
+           "# unmapped range for ", histogram(h)%variable_name,":", histogram(h)%unmapped_min, histogram(h)%unmapped_max
+        end do
 
-          write(file_unit,'(5x,a,5(10x,a))'),"bin", (histogram(h)%variable_name, h=1,size(histogram)) ! column headings
+        write(file_unit,'(5x,a,5(10x,a))'),"bin", (histogram(h)%variable_name, h=1,size(histogram)) ! column headings
 
-          do line = 1, size(histogram(1)%bin_midpoint)
-            write(file_unit, *), histogram(1)%bin_midpoint(line), (histogram(h)%frequency(line), h=1,size(histogram))
-          end do
+        do line = 1, size(histogram(1)%bin_midpoint)
+          write(file_unit, *), histogram(1)%bin_midpoint(line), (histogram(h)%frequency(line), h=1,size(histogram))
+        end do
 
-          close(file_unit)
-        end block
+        close(file_unit)
+      end block
     end associate
 
   end subroutine
