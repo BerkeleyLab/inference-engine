@@ -12,9 +12,8 @@ program tensor_statistics
   use iso_fortran_env, only : int64, real64
 
   !! Internal dependencies;
-  use inference_engine_m, only : &
-    inference_engine_t, mini_batch_t, input_output_pair_t, tensor_t, trainable_engine_t, rkind, &
-    training_configuration_t, shuffle
+  use inference_engine_m, only : tensor_t, rkind
+    
   use NetCDF_file_m, only: NetCDF_file_t
   use ubounds_m, only : ubounds_t
   implicit none
@@ -35,9 +34,6 @@ program tensor_statistics
     'where angular brackets denote user-provided values and square brackets denote optional arguments.' // new_line('a') // &
     'The presence of a file named "stop" halts execution gracefully.'
 
-  character(len=*), parameter :: training_config_file_name = "training_configuration.json"
-  character(len=*), parameter :: plot_file_name = "cost.plt"
-
   integer(int64) t_start, t_finish, clock_rate
   integer plot_unit, num_epochs, previous_epoch, start_step, stride
   integer, allocatable :: end_step
@@ -45,13 +41,11 @@ program tensor_statistics
 
   call system_clock(t_start, clock_rate)
   call get_command_line_arguments(base_name, num_epochs, start_step, end_step, stride)
-  call read_train_write( &
-    training_configuration_t(file_t(string_t(training_config_file_name))), base_name, plot_unit, previous_epoch, num_epochs &
-  )
+  call read_train_write(base_name, plot_unit, previous_epoch, num_epochs )
   call system_clock(t_finish)
 
   print *,"System clock time: ", real(t_finish - t_start, real64)/real(clock_rate, real64)
-  print *,new_line('a') // "______training_cloud_microhpysics done _______"
+  print *,new_line('a') // "______ tensor_statistics done_______"
 
 contains
 
@@ -135,8 +129,7 @@ contains
  
   end subroutine get_command_line_arguments
 
-  subroutine read_train_write(training_configuration, base_name, plot_unit, previous_epoch, num_epochs)
-    type(training_configuration_t), intent(in) :: training_configuration
+  subroutine read_train_write(base_name, plot_unit, previous_epoch, num_epochs)
     character(len=*), intent(in) :: base_name
     integer, intent(in) :: plot_unit, previous_epoch, num_epochs
 
@@ -255,14 +248,8 @@ contains
 
       train_network: &
       block
-        type(trainable_engine_t) trainable_engine
-        type(mini_batch_t), allocatable :: mini_batches(:)
-        type(bin_t), allocatable :: bins(:)
-        type(input_output_pair_t), allocatable :: input_output_pairs(:)
         type(tensor_t), allocatable, dimension(:) :: inputs, outputs
         real(rkind), parameter :: keep = 0.01
-        real(rkind), allocatable :: cost(:)
-        real(rkind), allocatable :: harvest(:)
         integer i, batch, lon, lat, level, time, network_unit, io_status, final_step, epoch
         integer(int64) start_training, finish_training
 
