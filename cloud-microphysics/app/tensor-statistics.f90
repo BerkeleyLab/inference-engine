@@ -5,7 +5,6 @@ program tensor_statistics
   !! 1. Computes the ranges and histograms of input and output tensors saved by
   !!    the neural-net branch of the Berkeley Lab fork of [ICAR](https://berkeleylab.github/icar).
   !! 2. Saves the resulting statistics to text files with space-separated columns and column labels.
-  !! 3. Optionally launches gnuplot, if present, and plots the histograms.
 
   ! External dependencies:
   use sourcery_m, only : string_t, file_t, command_line_t, bin_t
@@ -40,6 +39,9 @@ program tensor_statistics
   call system_clock(t_finish)
 
   print *,"System clock time: ", real(t_finish - t_start, real64)/real(clock_rate, real64)
+  print *,"Pleas see the *.plt files for the tensor ranges and histograms."
+  print *,"Execute gnuplot app/gnuplot.in to graph the histograms."
+  print *
   print *,new_line('a') // "______ tensor_statistics done_______"
 
 contains
@@ -131,13 +133,13 @@ contains
 
           print *,"Calculating input tensor histograms"
 
-          histogram(1) = histogram_t(pressure_in, "p_in", num_bins)
-          histogram(2) = histogram_t(potential_temperature_in, "pt_in", num_bins)
-          histogram(3) = histogram_t(temperature_in, "T_in", num_bins)
-          histogram(4) = histogram_t(qv_in, "qv_in", num_bins)
-          histogram(5) = histogram_t(qc_in, "qc_in", num_bins)
-          histogram(6) = histogram_t(qr_in, "qr_in", num_bins)
-          histogram(7) = histogram_t(qs_in, "qs_in", num_bins)
+          histogram(1) = histogram_t(pressure_in, "pressure", num_bins)
+          histogram(2) = histogram_t(potential_temperature_in, '"potential temperature"', num_bins)
+          histogram(3) = histogram_t(temperature_in, "temperature", num_bins)
+          histogram(4) = histogram_t(qv_in, "qv", num_bins)
+          histogram(5) = histogram_t(qc_in, "qc", num_bins)
+          histogram(6) = histogram_t(qr_in, "qr", num_bins)
+          histogram(7) = histogram_t(qs_in, "qs", num_bins)
 
           associate(input_tensor_stats_file_name => base_name // "_inputs_stats.plt")
             print *,"Writing input tensor statistics to " // input_tensor_stats_file_name
