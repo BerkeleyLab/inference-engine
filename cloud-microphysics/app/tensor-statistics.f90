@@ -44,7 +44,6 @@ program tensor_statistics
 
   call system_clock(t_start, clock_rate)
   call get_command_line_arguments(base_name, num_epochs, start_step, end_step, stride)
-  call create_or_append_to(plot_file_name, plot_unit, previous_epoch)
   call read_train_write( &
     training_configuration_t(file_t(string_t(training_config_file_name))), base_name, plot_unit, previous_epoch, num_epochs &
   )
@@ -91,38 +90,6 @@ contains
       end associate
     end associate
   end function
-
-  subroutine create_or_append_to(plot_file_name, plot_unit, previous_epoch)
-    character(len=*), intent(in) :: plot_file_name
-    integer, intent(out) :: plot_unit, previous_epoch
- 
-    !local variables:
-    logical preexisting_plot_file
-
-    inquire(file=plot_file_name, exist=preexisting_plot_file)
-    open(newunit=plot_unit,file="cost.plt",status="unknown",position="append")
-
-    if (.not. preexisting_plot_file) then
-      write(plot_unit,*) "      Epoch  Cost (avg)"
-      previous_epoch = 0
-    else
-      associate(plot_file => file_t(string_t(plot_file_name)))
-        associate(lines => plot_file%lines())
-          associate(num_lines => size(lines))
-            if (any(num_lines == [0,1])) then
-              previous_epoch = 0
-            else
-              block
-                character(len=:), allocatable :: last_line
-                last_line = lines(size(lines))%string()
-                read(last_line,*) previous_epoch
-              end block
-            end if
-          end associate
-        end associate
-      end associate
-    end if
-  end subroutine
 
   subroutine get_command_line_arguments(base_name, num_epochs, start_step, end_step, stride)
     character(len=:), allocatable, intent(out) :: base_name
