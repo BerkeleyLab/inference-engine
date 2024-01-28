@@ -7,6 +7,26 @@ submodule(histogram_m) histogram_s
 
 contains
 
+  module procedure variable_name
+    name = self%variable_name_
+  end procedure
+
+  module procedure unmapped_range
+    raw_range = [self%unmapped_min_, self%unmapped_max_]
+  end procedure
+
+  module procedure num_bins
+    bins = size(self%bin_midpoint_)
+  end procedure
+
+  module procedure bin_midpoint
+    midpoint = self%bin_midpoint_(bin)
+  end procedure
+
+  module procedure bin_frequency
+    frequency = self%frequency_(bin)
+  end procedure
+
   pure function normalize(x, x_min, x_max) result(x_normalized)
     implicit none
     real(rkind), intent(in) :: x(:,:,:,:), x_min, x_max
@@ -21,23 +41,23 @@ contains
     integer, allocatable :: in_bin(:)
     integer i
 
-    histogram%variable_name = variable_name
-    histogram%unmapped_min = minval(v)
-    histogram%unmapped_max = maxval(v)
+    histogram%variable_name_ = variable_name
+    histogram%unmapped_min_ = minval(v)
+    histogram%unmapped_max_ = maxval(v)
 
-    allocate(   histogram%frequency(num_bins))
-    allocate(histogram%bin_midpoint(num_bins))
+    allocate(   histogram%frequency_(num_bins))
+    allocate(histogram%bin_midpoint_(num_bins))
     allocate(                in_bin(num_bins))
 
-    associate(v_min => (histogram%unmapped_min), v_max => (histogram%unmapped_max), cardinality => size(v))
+    associate(v_min => (histogram%unmapped_min_), v_max => (histogram%unmapped_max_), cardinality => size(v))
       associate(v_mapped => normalize(v, v_min, v_max), dv => (v_mapped_max - v_mapped_min)/real(num_bins))
         associate(v_bin_min => [(v_mapped_min + (i-1)*dv, i=1,num_bins)])
           associate(smidgen => .0001*abs(dv)) ! use to make the high end of the bin range inclusive of the max value
             associate(v_bin_max => [v_bin_min(2:), v_mapped_max + smidgen])
               do concurrent(i = 1:num_bins)
                 in_bin(i) = count(v_mapped >= v_bin_min(i) .and. v_mapped < v_bin_max(i)) ! replace with Fortran 2023 reduction
-                histogram%frequency(i) = real(in_bin(i)) / real(cardinality)
-                histogram%bin_midpoint(i) = v_bin_min(i) + 0.5*dv
+                histogram%frequency_(i) = real(in_bin(i)) / real(cardinality)
+                histogram%bin_midpoint_(i) = v_bin_min(i) + 0.5*dv
               end do
             end associate
           end associate

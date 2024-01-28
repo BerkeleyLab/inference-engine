@@ -127,7 +127,7 @@ contains
           ]
 
         block
-          integer line, h, file_unit
+          integer bin, h, file_unit
           integer, parameter :: num_inputs = 7
           type(histogram_t) :: histogram(num_inputs)
 
@@ -148,13 +148,13 @@ contains
 
           do h = 1, size(histogram)
             write(file_unit,*), &
-             "# unmapped range for ", histogram(h)%variable_name,":", histogram(h)%unmapped_min, histogram(h)%unmapped_max
+             "# unmapped range for ", histogram(h)%variable_name(),":", histogram(h)%unmapped_range()
           end do
 
-          write(file_unit,'(5x,a,8(10x,a))'),"bin", (histogram(h)%variable_name, h=1,size(histogram)) ! column headings
+          write(file_unit,'(5x,a,8(10x,a))'),"bin", (histogram(h)%variable_name(), h=1,size(histogram)) ! column headings
 
-          do line = 1, size(histogram(1)%bin_midpoint)
-            write(file_unit, *), histogram(1)%bin_midpoint(line), (histogram(h)%frequency(line), h=1,size(histogram))
+          do bin = 1, histogram(1)%num_bins()
+            write(file_unit, *), histogram(1)%bin_midpoint(bin), (histogram(h)%bin_frequency(bin), h=1,size(histogram))
           end do
 
           close(file_unit)
@@ -207,7 +207,7 @@ contains
       call assert(.not. any(ieee_is_nan(dqs_dt)), ".not. any(ieee_is_nan(dqs_dt)")
 
       block
-        integer line, h, file_unit
+        integer bin, h, file_unit
         integer, parameter :: num_outputs = 5
         type(histogram_t) :: histogram(num_outputs)
 
@@ -226,13 +226,13 @@ contains
 
         do h = 1, size(histogram)
           write(file_unit,*), &
-           "# unmapped range for ", histogram(h)%variable_name,":", histogram(h)%unmapped_min, histogram(h)%unmapped_max
+           "# unmapped range for ", histogram(h)%variable_name(),":", histogram(h)%unmapped_range()
         end do
 
-        write(file_unit,'(5x,a,5(10x,a))'),"bin", (histogram(h)%variable_name, h=1,size(histogram)) ! column headings
+        write(file_unit,'(5x,a,5(10x,a))'),"bin", (histogram(h)%variable_name(), h=1,size(histogram)) ! column headings
 
-        do line = 1, size(histogram(1)%bin_midpoint)
-          write(file_unit, *), histogram(1)%bin_midpoint(line), (histogram(h)%frequency(line), h=1,size(histogram))
+        do bin = 1, histogram(1)%num_bins()
+          write(file_unit, *), histogram(1)%bin_midpoint(bin), (histogram(h)%bin_frequency(bin), h=1,size(histogram))
         end do
 
         close(file_unit)
