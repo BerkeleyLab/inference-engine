@@ -1,47 +1,42 @@
 ! Copyright (c), The Regents of the University of California
 ! Terms of use are as specified in LICENSE.txt
 program tensor_statistics
-  !! Train a neural network to represent the simplest cloud microphysics model from
-  !! the Intermediate Complexity Atmospheric Research Model (ICAR) at
-  !! https://github.com/BerkeleyLab/icar.
+  !! This program
+  !! 1. Computes the ranges and histograms of input and output tensors saved by
+  !!    the neural-net branch of the Berkeley Lab fork of [ICAR](https://berkeleylab.github/icar).
+  !! 2. Saves the resulting statistics to text files with space-separated columns and column labels.
+  !! 3. Optionally launches gnuplot, if present, and plots the histograms.
 
-  !! External dependencies:
+  ! External dependencies:
   use sourcery_m, only : string_t, file_t, command_line_t, bin_t
   use assert_m, only : assert, intrinsic_array_t
+  use inference_engine_m, only : rkind, ubounds_t
   use ieee_arithmetic, only : ieee_is_nan
   use iso_fortran_env, only : int64, real64
-
-  !! Internal dependencies;
-  use inference_engine_m, only : tensor_t, rkind
     
+  ! Internal dependencies:
   use NetCDF_file_m, only: NetCDF_file_t
-  use ubounds_m, only : ubounds_t
+  use histogram_m, only : histogram_t
   implicit none
-
-  type histogram_on_unit_interval_t
-    character(len=:), allocatable :: variable_name
-    real unmapped_min, unmapped_max
-    real, allocatable :: frequency(:), bin_midpoint(:)
-  end type
 
   character(len=*), parameter :: usage = &
     new_line('a') // new_line('a') // &
     'Usage: ' // new_line('a') // new_line('a') // &
-    './build/run-fpm.sh run train-cloud-microphysics -- \' // new_line('a') // &
-    '  --base <string> --epochs <integer> \' // new_line('a') // &
+    './build/run-fpm.sh run tensor-statistics -- \' // new_line('a') // &
+    '  --base <string> --bins <integer> \' // new_line('a') // &
     '  [--start <integer>] [--end <integer>] [--stride <integer>]' // &
     new_line('a') // new_line('a') // &
     'where angular brackets denote user-provided values and square brackets denote optional arguments.' // new_line('a') // &
     'The presence of a file named "stop" halts execution gracefully.'
 
   integer(int64) t_start, t_finish, clock_rate
-  integer plot_unit, num_epochs, previous_epoch, start_step, stride
+  integer num_bins, start_step, stride
   integer, allocatable :: end_step
   character(len=:), allocatable :: base_name
 
   call system_clock(t_start, clock_rate)
-  call get_command_line_arguments(base_name, num_epochs, start_step, end_step, stride)
-  call read_train_write(base_name, plot_unit, previous_epoch, num_epochs )
+  call get_command_line_arguments(base_name, num_bins, start_step, end_step, stride)
+  call compute_histograms(base_name)
   call system_clock(t_finish)
 
   print *,"System clock time: ", real(t_finish - t_start, real64)/real(clock_rate, real64)
@@ -49,66 +44,27 @@ program tensor_statistics
 
 contains
 
-  pure function normalize(x, x_min, x_max) result(x_normalized)
-    real(rkind), intent(in) :: x(:,:,:,:), x_min, x_max
-    real(rkind), allocatable :: x_normalized(:,:,:,:)
-    call assert(x_min/=x_max, "train_cloud_microphysics(normaliz): x_min/=x_max")
-    x_normalized = (x - x_min)/(x_max - x_min)
-  end function
-
-  pure function histogram_on_unit_interval(v, variable_name, num_bins) result(histogram)
-    real, intent(in) :: v(:,:,:,:)
-    character(len=*), intent(in) :: variable_name
-    integer, intent(in) :: num_bins
-    type(histogram_on_unit_interval_t) histogram
-
-    real, parameter :: v_mapped_min = 0., v_mapped_max = 1.
-    integer, allocatable :: in_bin(:)
-    integer i
-
-    histogram%variable_name = variable_name
-
-    associate(v_min => minval(v), v_max => maxval(v), data_set_size => size(v))
-
-      histogram%unmapped_min = v_min
-      histogram%unmapped_max = v_max
-
-      associate(v_mapped => normalize(v, v_min, v_max), dv => (v_mapped_max - v_mapped_min)/real(num_bins))
-
-        allocate(histogram%frequency(num_bins), histogram%bin_midpoint(num_bins), in_bin(num_bins))
-
-        do concurrent(i = 1:num_bins) 
-          associate(v_bin_min => v_mapped_min + (i-1)*dv, v_bin_max => merge(i*dv, v_mapped_max + .1*abs(dv), i/=num_bins))
-            in_bin(i) = count(v_mapped >= v_bin_min .and. v_mapped < v_bin_max) ! replace with Fortran 2023 reduction when available
-            histogram%frequency(i) = real(in_bin(i)) / real(data_set_size)
-            histogram%bin_midpoint(i) = v_bin_min + 0.5*dv
-          end associate
-        end do
-        call assert(data_set_size == sum(in_bin), "histogram: lossless binning", intrinsic_array_t([data_set_size, sum(in_bin)]))
-      end associate
-    end associate
-  end function
-
-  subroutine get_command_line_arguments(base_name, num_epochs, start_step, end_step, stride)
+  subroutine get_command_line_arguments(base_name, num_bins, start_step, end_step, stride)
     character(len=:), allocatable, intent(out) :: base_name
-    integer, intent(out) :: num_epochs, start_step, stride
+    integer, intent(out) :: num_bins, start_step, stride
     integer, intent(out), allocatable :: end_step
 
     ! local variables
     type(command_line_t) command_line
-    character(len=:), allocatable :: stride_string, epochs_string, start_string, end_string
+    character(len=:), allocatable :: stride_string, bins_string, start_string, end_string
 
     base_name = command_line%flag_value("--base") ! gfortran 13 seg faults if this is an association
-    epochs_string = command_line%flag_value("--epochs")
+    bins_string = command_line%flag_value("--bins")
     start_string = command_line%flag_value("--start")
     end_string = command_line%flag_value("--end")
     stride_string = command_line%flag_value("--stride")
 
-    associate(required_arguments => len(base_name)/=0 .and. len(epochs_string)/=0)
+
+    associate(required_arguments => len(base_name)/=0 .and. len(bins_string)/=0)
        if (.not. required_arguments) error stop usage 
     end associate
 
-    read(epochs_string,*) num_epochs
+    read(bins_string,*) num_bins
 
     if (len(stride_string)==0) then
       stride = 1
@@ -129,34 +85,27 @@ contains
  
   end subroutine get_command_line_arguments
 
-  subroutine read_train_write(base_name, plot_unit, previous_epoch, num_epochs)
+  subroutine compute_histograms(base_name)
     character(len=*), intent(in) :: base_name
-    integer, intent(in) :: plot_unit, previous_epoch, num_epochs
 
-    ! local variables:
     real, allocatable, dimension(:,:,:,:) :: &
       pressure_in , potential_temperature_in , temperature_in , &
       pressure_out, potential_temperature_out, temperature_out, &
       qv_out, qc_out, qr_out, qs_out, &
       qv_in , qc_in , qr_in , qs_in , &
       dpt_dt, dqv_dt, dqc_dt, dqr_dt, dqs_dt
-    type(ubounds_t), allocatable :: ubounds(:)
     double precision, allocatable, dimension(:) :: time_in, time_out
     double precision, parameter :: tolerance = 1.E-07
+    type(ubounds_t), allocatable :: ubounds(:)
     integer, allocatable :: lbounds(:)
-    integer t, b, t_end
-    logical stop_requested
+    integer t, t_end
 
-    associate( &
-      network_input => base_name // "_input.nc", &
-      network_output => base_name // "_output.nc", &
-      network_file => base_name // "_network.json" &
-    )
-      print *,"Reading network inputs from " // network_input
+    associate( network_input_file_name => base_name // "_input.nc")
 
-      associate(network_input_file => netCDF_file_t(network_input))
-        ! Skipping the following unnecessary inputs that are in the current file format as of 14 Aug 2023:
-        ! precipitation, snowfall
+      print *,"Reading network inputs from " // network_input_file_name
+
+      associate(network_input_file => netCDF_file_t(network_input_file_name))
+        ! Skipping the following unnecessary inputs: precipitation, snowfall
         call network_input_file%input("pressure", pressure_in)
         call network_input_file%input("potential_temperature", potential_temperature_in)
         call network_input_file%input("temperature", temperature_in)
@@ -176,39 +125,48 @@ contains
           ]
 
         block
-          integer line, h
-          integer, parameter :: num_inputs = 7, num_bins=10
-          type(histogram_on_unit_interval_t) :: histogram(num_inputs)
+          integer line, h, file_unit
+          integer, parameter :: num_inputs = 7
+          type(histogram_t) :: histogram(num_inputs)
 
-          histogram(1) = histogram_on_unit_interval(pressure_in, "p_in", num_bins)
-          histogram(2) = histogram_on_unit_interval(potential_temperature_in, "pt_in", num_bins)
-          histogram(3) = histogram_on_unit_interval(temperature_in, "T_in", num_bins)
-          histogram(4) = histogram_on_unit_interval(qv_in, "qv_in", num_bins)
-          histogram(5) = histogram_on_unit_interval(qc_in, "qc_in", num_bins)
-          histogram(6) = histogram_on_unit_interval(qr_in, "qr_in", num_bins)
-          histogram(7) = histogram_on_unit_interval(qs_in, "qs_in", num_bins)
+          print *,"Calculating input tensor histograms"
+
+          histogram(1) = histogram_t(pressure_in, "p_in", num_bins)
+          histogram(2) = histogram_t(potential_temperature_in, "pt_in", num_bins)
+          histogram(3) = histogram_t(temperature_in, "T_in", num_bins)
+          histogram(4) = histogram_t(qv_in, "qv_in", num_bins)
+          histogram(5) = histogram_t(qc_in, "qc_in", num_bins)
+          histogram(6) = histogram_t(qr_in, "qr_in", num_bins)
+          histogram(7) = histogram_t(qs_in, "qs_in", num_bins)
+
+          associate(input_tensor_stats_file_name => base_name // "_inputs_stats.plt")
+            print *,"Writing input tensor statistics to " // input_tensor_stats_file_name
+            open(newunit=file_unit, file=input_tensor_stats_file_name, status="unknown")
+          end associate
 
           do h = 1, size(histogram)
-            print *,"# unmapped range for ", histogram(h)%variable_name,":", histogram(h)%unmapped_min, histogram(h)%unmapped_max
+            write(file_unit,*), &
+             "# unmapped range for ", histogram(h)%variable_name,":", histogram(h)%unmapped_min, histogram(h)%unmapped_max
           end do
 
-          print *,"bin", (histogram(h)%variable_name, h=1,size(histogram)) ! header
+          write(file_unit,'(5x,a,8(10x,a))'),"bin", (histogram(h)%variable_name, h=1,size(histogram)) ! column headings
 
           do line = 1, size(histogram(1)%bin_midpoint)
-            print *, histogram(1)%bin_midpoint(line), (histogram(h)%frequency(line), h=1,size(histogram))
+            write(file_unit, *), histogram(1)%bin_midpoint(line), (histogram(h)%frequency(line), h=1,size(histogram))
           end do
+
+          close(file_unit)
         end block
-
       end associate
+    end associate
 
-      stop "---------> made it <---------"
+    associate(network_output_file_name => base_name // "_output.nc")
 
-      print *,"Reading network outputs from " // network_output
+      print *,"Reading network outputs from " // network_output_file_name
 
-      associate(network_output_file => netCDF_file_t(network_output))
+      associate(network_output_file => netCDF_file_t(network_output_file_name))
         call network_output_file%input("potential_temperature", potential_temperature_out)
-        ! Skipping the following unnecessary outputs that are in the current file format as of 14 Aug 2023:
-        ! pressure, temperature, precipitation, snowfall
+        ! Skipping the following unnecessary outputs: pressure, temperature, precipitation, snowfall
         call network_output_file%input("qv", qv_out)
         call network_output_file%input("qc", qc_out)
         call network_output_file%input("qr", qr_out)
@@ -246,41 +204,39 @@ contains
       call assert(.not. any(ieee_is_nan(dqr_dt)), ".not. any(ieee_is_nan(dqr_dt)")
       call assert(.not. any(ieee_is_nan(dqs_dt)), ".not. any(ieee_is_nan(dqs_dt)")
 
-      train_network: &
-      block
-        type(tensor_t), allocatable, dimension(:) :: inputs, outputs
-        real(rkind), parameter :: keep = 0.01
-        integer i, batch, lon, lat, level, time, network_unit, io_status, final_step, epoch
-        integer(int64) start_training, finish_training
+        block
+          integer line, h, file_unit
+          integer, parameter :: num_outputs = 5
+          type(histogram_t) :: histogram(num_outputs)
 
+          print *,"Calculating output tensor histograms"
 
-        if (.not. allocated(end_step)) end_step = t_end
-        
-        print *,"Normalizing input tensors"
-        pressure_in = normalize(pressure_in, minval(pressure_in), maxval(pressure_in))
-        potential_temperature_in = &
-          normalize(potential_temperature_in, minval(potential_temperature_in), maxval(potential_temperature_in))
-        temperature_in = normalize(temperature_in, minval(temperature_in), maxval(temperature_in))
-        qv_in = normalize(qv_in, min(minval(qv_in), minval(qv_out)), max(maxval(qv_in), maxval(qv_out)))
-        qc_in = normalize(qc_in, min(minval(qc_in), minval(qc_out)), max(maxval(qc_in), maxval(qc_out)))
-        qr_in = normalize(qr_in, min(minval(qr_in), minval(qr_out)), max(maxval(qr_in), maxval(qr_out)))
-        qs_in = normalize(qs_in, min(minval(qs_in), minval(qs_out)), max(maxval(qs_in), maxval(qs_out)))
+          histogram(1) = histogram_t(dpt_dt, "d(pt)/dt", num_bins)
+          histogram(2) = histogram_t(dqv_dt, "d(qv)/dt", num_bins)
+          histogram(3) = histogram_t(dqc_dt, "d(qc)/dt", num_bins)
+          histogram(4) = histogram_t(dqr_dt, "d(qr)/dt", num_bins)
+          histogram(5) = histogram_t(dqs_dt, "d(qs)/dt", num_bins)
+ 
+          associate(output_tensor_stats_file_name => base_name // "_outputs_stats.plt")
+            print *,"Writing output tensor statistics to " // output_tensor_stats_file_name
+            open(newunit=file_unit, file=output_tensor_stats_file_name, status="unknown")
+          end associate
 
-        print *,"Normalizing output tensors"
-        dpt_dt = normalize(dpt_dt, minval(dpt_dt), maxval(dpt_dt))
-        dqv_dt = normalize(dqv_dt, minval(dqv_dt), maxval(dqv_dt))
-        dqc_dt = normalize(dqc_dt, minval(dqc_dt), maxval(dqc_dt))
-        dqr_dt = normalize(dqr_dt, minval(dqr_dt), maxval(dqr_dt))
-        dqs_dt = normalize(dqs_dt, minval(dqs_dt), maxval(dqs_dt))
+          do h = 1, size(histogram)
+            write(file_unit,*), &
+             "# unmapped range for ", histogram(h)%variable_name,":", histogram(h)%unmapped_min, histogram(h)%unmapped_max
+          end do
 
-        print *,"Defining tensors from time step", start_step, "through", end_step, "with strides of", stride
+          write(file_unit,'(5x,a,5(10x,a))'),"bin", (histogram(h)%variable_name, h=1,size(histogram)) ! column headings
 
-      end block train_network
+          do line = 1, size(histogram(1)%bin_midpoint)
+            write(file_unit, *), histogram(1)%bin_midpoint(line), (histogram(h)%frequency(line), h=1,size(histogram))
+          end do
 
+          close(file_unit)
+        end block
     end associate
 
-    close(plot_unit)
-
-  end subroutine read_train_write
+  end subroutine
 
 end program tensor_statistics
