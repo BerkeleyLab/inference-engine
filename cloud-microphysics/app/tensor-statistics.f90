@@ -7,7 +7,7 @@ program tensor_statistics
   !! 2. Saves the resulting statistics to text files with space-separated columns and column labels.
 
   ! External dependencies:
-  use sourcery_m, only : command_line_t
+  use sourcery_m, only : command_line_t, file_t, string_t
   use assert_m, only : assert, intrinsic_array_t
   use inference_engine_m, only : rkind, ubounds_t
   use ieee_arithmetic, only : ieee_is_nan
@@ -15,7 +15,7 @@ program tensor_statistics
     
   ! Internal dependencies:
   use NetCDF_file_m, only: NetCDF_file_t
-  use histogram_m, only : histogram_t
+  use histogram_m, only : histogram_t, to_file
   implicit none
 
   character(len=*), parameter :: usage = &
@@ -42,7 +42,7 @@ program tensor_statistics
   print *,"---"
   print *
   print *,"---> Please see the *.plt files for the tensor ranges and histograms. <---"
-  print *,"---> Execute `gnuplot app/gnuplot.in` to graph the histograms.        <---"
+  print *,"---> Execute `gnuplot app/gnuplot.inp` to graph the histograms.       <---"
   print *
   print *,"______ tensor_statistics done_______"
 
@@ -62,7 +62,6 @@ contains
     start_string = command_line%flag_value("--start")
     end_string = command_line%flag_value("--end")
     stride_string = command_line%flag_value("--stride")
-
 
     associate(required_arguments => len(base_name)/=0 .and. len(bins_string)/=0)
        if (.not. required_arguments) error stop usage 
@@ -126,49 +125,34 @@ contains
            ubounds_t(ubound(pressure_in)), ubounds_t(ubound(temperature_in)) &
           ]
 
-        block
-          integer bin, h, file_unit
-          integer, parameter :: num_inputs = 7
-          type(histogram_t) :: histogram(num_inputs)
+        print *,"Calculating input tensor histograms and write to file"
 
-          print *,"Calculating input tensor histograms"
+        associate(histograms => [ &
+          histogram_t(pressure_in, "pressure", num_bins) &
+         ,histogram_t(potential_temperature_in, '"potential temperature"', num_bins) &
+         ,histogram_t(temperature_in, "temperature", num_bins) &
+         ,histogram_t(qv_in, "qv", num_bins) &
+         ,histogram_t(qc_in, "qc", num_bins) &
+         ,histogram_t(qr_in, "qr", num_bins) &
+         ,histogram_t(qs_in, "qs", num_bins) &
+        ])
+          block
+            type(file_t) histograms_file
 
-          histogram(1) = histogram_t(pressure_in, "pressure", num_bins)
-          histogram(2) = histogram_t(potential_temperature_in, '"potential temperature"', num_bins)
-          histogram(3) = histogram_t(temperature_in, "temperature", num_bins)
-          histogram(4) = histogram_t(qv_in, "qv", num_bins)
-          histogram(5) = histogram_t(qc_in, "qc", num_bins)
-          histogram(6) = histogram_t(qr_in, "qr", num_bins)
-          histogram(7) = histogram_t(qs_in, "qs", num_bins)
-
-          associate(input_tensor_stats_file_name => base_name // "_inputs_stats.plt")
-            print *,"Writing input tensor statistics to " // input_tensor_stats_file_name
-            open(newunit=file_unit, file=input_tensor_stats_file_name, status="unknown")
-          end associate
-
-          do h = 1, size(histogram)
-            write(file_unit,*), &
-             "# unmapped range for ", histogram(h)%variable_name(),":", histogram(h)%unmapped_range()
-          end do
-
-          write(file_unit,'(5x,a,8(10x,a))'),"bin", (histogram(h)%variable_name(), h=1,size(histogram)) ! column headings
-
-          do bin = 1, histogram(1)%num_bins()
-            write(file_unit, *), histogram(1)%bin_midpoint(bin), (histogram(h)%bin_frequency(bin), h=1,size(histogram))
-          end do
-
-          close(file_unit)
-        end block
+            histograms_file = to_file(histograms)
+            call histograms_file%write_lines(string_t(base_name // "_inputs_stats.plt"))
+          end block
+        end associate
       end associate
     end associate
 
     associate(network_output_file_name => base_name // "_output.nc")
 
-      print *,"Reading network outputs from " // network_output_file_name
+      print *, "Reading network outputs from " // network_output_file_name
 
       associate(network_output_file => netCDF_file_t(network_output_file_name))
-        call network_output_file%input("potential_temperature", potential_temperature_out)
         ! Skipping the following unnecessary outputs: pressure, temperature, precipitation, snowfall
+        call network_output_file%input("potential_temperature", potential_temperature_out)
         call network_output_file%input("qv", qv_out)
         call network_output_file%input("qc", qc_out)
         call network_output_file%input("qr", qr_out)
@@ -206,39 +190,23 @@ contains
       call assert(.not. any(ieee_is_nan(dqr_dt)), ".not. any(ieee_is_nan(dqr_dt)")
       call assert(.not. any(ieee_is_nan(dqs_dt)), ".not. any(ieee_is_nan(dqs_dt)")
 
-      block
-        integer bin, h, file_unit
-        integer, parameter :: num_outputs = 5
-        type(histogram_t) :: histogram(num_outputs)
+      print *,"Calculating output tensor histograms"
 
-        print *,"Calculating output tensor histograms"
+      associate(histograms => [ &
+         histogram_t(dpt_dt, "d(pt)/dt", num_bins) &
+        ,histogram_t(dqv_dt, "d(qv)/dt", num_bins) &
+        ,histogram_t(dqc_dt, "d(qc)/dt", num_bins) &
+        ,histogram_t(dqr_dt, "d(qr)/dt", num_bins) &
+        ,histogram_t(dqs_dt, "d(qs)/dt", num_bins) &
+      ])
+        block
+          type(file_t) histograms_file
 
-        histogram(1) = histogram_t(dpt_dt, "d(pt)/dt", num_bins)
-        histogram(2) = histogram_t(dqv_dt, "d(qv)/dt", num_bins)
-        histogram(3) = histogram_t(dqc_dt, "d(qc)/dt", num_bins)
-        histogram(4) = histogram_t(dqr_dt, "d(qr)/dt", num_bins)
-        histogram(5) = histogram_t(dqs_dt, "d(qs)/dt", num_bins)
- 
-        associate(output_tensor_stats_file_name => base_name // "_outputs_stats.plt")
-          print *,"Writing output tensor statistics to " // output_tensor_stats_file_name
-          open(newunit=file_unit, file=output_tensor_stats_file_name, status="unknown")
-        end associate
-
-        do h = 1, size(histogram)
-          write(file_unit,*), &
-           "# unmapped range for ", histogram(h)%variable_name(),":", histogram(h)%unmapped_range()
-        end do
-
-        write(file_unit,'(5x,a,5(10x,a))'),"bin", (histogram(h)%variable_name(), h=1,size(histogram)) ! column headings
-
-        do bin = 1, histogram(1)%num_bins()
-          write(file_unit, *), histogram(1)%bin_midpoint(bin), (histogram(h)%bin_frequency(bin), h=1,size(histogram))
-        end do
-
-        close(file_unit)
-      end block
+          histograms_file = to_file(histograms)
+          call histograms_file%write_lines(string_t(base_name // "_outputs_stats.plt"))
+        end block
+      end associate
     end associate
-
   end subroutine
 
 end program tensor_statistics

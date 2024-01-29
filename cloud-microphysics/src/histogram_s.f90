@@ -3,6 +3,7 @@
 submodule(histogram_m) histogram_s
   use assert_m, only : assert, intrinsic_array_t
   use kind_parameters_m, only : rkind
+  use sourcery_m, only : string_t, operator(.cat.)
   implicit none
 
 contains
@@ -15,6 +16,14 @@ contains
     raw_range = [self%unmapped_min_, self%unmapped_max_]
   end procedure
 
+  module procedure unmapped_max
+    range_maximum = self%unmapped_max_
+  end procedure
+
+  module procedure unmapped_min
+    range_minimum = self%unmapped_min_
+  end procedure
+
   module procedure num_bins
     bins = size(self%bin_midpoint_)
   end procedure
@@ -25,6 +34,51 @@ contains
 
   module procedure bin_frequency
     frequency = self%frequency_(bin)
+  end procedure
+
+  module procedure to_file
+    type(string_t), allocatable :: comments(:), columns(:)
+    type(string_t) column_headings
+
+    associate(num_histograms => size(histograms))
+
+      allocate(comments(num_histograms))
+
+      block 
+        integer line
+        do line  = 1, size(comments)
+          comments(line) = "# " // histograms(line)%variable_name() // " range: " // &
+            string_t(histograms(line)%unmapped_min()) // "  " // string_t(histograms(line)%unmapped_max())
+        end do
+      end block
+
+      block
+        integer h
+        column_headings = "bin" // .cat. [(string_t(histograms(h)%variable_name()) // "   ", h=1,num_histograms)]
+      end block
+
+      associate(num_bins =>  histograms(1)%num_bins())
+
+        block 
+          integer h, b ! histogram number, bin number
+
+          call assert(num_bins > 0, "histogram_s(to_file): num_bins > 0")
+          call assert(all(histograms(1)%num_bins() == [(histograms(h)%num_bins() , h=1,size(histograms))]), &
+            "histogram_s(to_file): uniform number of bins")
+
+          allocate(columns(num_bins))
+          do b = 1, num_bins
+            columns(b) =  string_t(histograms(1)%bin_midpoint(b)) // &
+              .cat. [("  " // string_t(histograms(h)%bin_frequency(b)), h=1,num_histograms)]
+          end do
+        end block
+
+      end associate
+
+      file = file_t([comments, column_headings, columns])
+
+    end associate
+ 
   end procedure
 
   pure function normalize(x, x_min, x_max) result(x_normalized)
