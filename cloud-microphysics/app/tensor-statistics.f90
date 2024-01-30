@@ -23,35 +23,41 @@ program tensor_statistics
     'Usage: ' // new_line('a') // new_line('a') // &
     './build/run-fpm.sh run tensor-statistics -- \' // new_line('a') // &
     '  --base <string> --bins <integer> \' // new_line('a') // &
-    '  [--start <integer>] [--end <integer>] [--stride <integer>]' // &
+    '  [--raw] [--start <integer>] [--end <integer>] [--stride <integer>]' // &
     new_line('a') // new_line('a') // &
-    'where angular brackets denote user-provided values and square brackets denote optional arguments.' // new_line('a') // &
-    'The presence of a file named "stop" halts execution gracefully.'
+    'where angular brackets denote user-provided values and square brackets denote optional arguments.' // new_line('a')
 
   integer(int64) t_start, t_finish, clock_rate
   integer num_bins, start_step, stride
   integer, allocatable :: end_step
   character(len=:), allocatable :: base_name
+  logical raw
 
   call system_clock(t_start, clock_rate)
-  call get_command_line_arguments(base_name, num_bins, start_step, end_step, stride)
-  call compute_histograms(base_name)
+  call get_command_line_arguments(base_name, num_bins, start_step, end_step, stride, raw)
+  call compute_histograms(base_name, raw)
   call system_clock(t_finish)
 
   print *,"System clock time: ", real(t_finish - t_start, real64)/real(clock_rate, real64)
-  print *,"---"
   print *
-  print *,"---> Please see the *.plt files for the tensor ranges and histograms. <---"
-  print *,"---> Execute `gnuplot app/gnuplot.inp` to graph the histograms.       <---"
+  print *,"______________________________________________________"
+  print *,"The *.plt files contain tensor ranges and histograms."
+  print *,"If you have gnuplot installed, please execute the"
+  print *,"following command to produce histogram visualizations:" 
   print *
-  print *,"______ tensor_statistics done_______"
+  associate(file_name => trim(merge("plot-raw-histograms       ", "plot-normalized-histograms", raw)) // ".gnu")
+   print*,"  gnuplot app/" // file_name
+  end associate
+  print *
+  print *,"_______________ tensor_statistics done________________"
 
 contains
 
-  subroutine get_command_line_arguments(base_name, num_bins, start_step, end_step, stride)
+  subroutine get_command_line_arguments(base_name, num_bins, start_step, end_step, stride, raw)
     character(len=:), allocatable, intent(out) :: base_name
     integer, intent(out) :: num_bins, start_step, stride
     integer, intent(out), allocatable :: end_step
+    logical, intent(out) :: raw
 
     ! local variables
     type(command_line_t) command_line
@@ -62,6 +68,7 @@ contains
     start_string = command_line%flag_value("--start")
     end_string = command_line%flag_value("--end")
     stride_string = command_line%flag_value("--stride")
+    raw = command_line%argument_present(["--raw"])
 
     associate(required_arguments => len(base_name)/=0 .and. len(bins_string)/=0)
        if (.not. required_arguments) error stop usage 
@@ -88,8 +95,9 @@ contains
  
   end subroutine get_command_line_arguments
 
-  subroutine compute_histograms(base_name)
+  subroutine compute_histograms(base_name, raw)
     character(len=*), intent(in) :: base_name
+    logical, intent(in) :: raw
 
     real, allocatable, dimension(:,:,:,:) :: &
       pressure_in , potential_temperature_in , temperature_in , &
@@ -99,6 +107,7 @@ contains
       dpt_dt, dqv_dt, dqc_dt, dqr_dt, dqs_dt
     double precision, allocatable, dimension(:) :: time_in, time_out
     double precision, parameter :: tolerance = 1.E-07
+    type(histogram_t), allocatable :: histograms(:)
     type(ubounds_t), allocatable :: ubounds(:)
     integer, allocatable :: lbounds(:)
     integer t, t_end
@@ -125,24 +134,31 @@ contains
            ubounds_t(ubound(pressure_in)), ubounds_t(ubound(temperature_in)) &
           ]
 
-        print *,"Calculating input tensor histograms and write to file"
+        print *,"Calculating input tensor histograms and writing to file"
 
-        associate(histograms => [ &
-          histogram_t(pressure_in, "pressure", num_bins) &
-         ,histogram_t(potential_temperature_in, '"potential temperature"', num_bins) &
-         ,histogram_t(temperature_in, "temperature", num_bins) &
-         ,histogram_t(qv_in, "qv", num_bins) &
-         ,histogram_t(qc_in, "qc", num_bins) &
-         ,histogram_t(qr_in, "qr", num_bins) &
-         ,histogram_t(qs_in, "qs", num_bins) &
-        ])
-          block
-            type(file_t) histograms_file
+        histograms = [ &
+          histogram_t(pressure_in, "pressure", num_bins, raw) &
+         ,histogram_t(potential_temperature_in, 'potential-temperature', num_bins, raw) &
+         ,histogram_t(temperature_in, "temperature", num_bins, raw) &
+         ,histogram_t(qv_in, "qv", num_bins, raw) &
+         ,histogram_t(qc_in, "qc", num_bins, raw) &
+         ,histogram_t(qr_in, "qr", num_bins, raw) &
+         ,histogram_t(qs_in, "qs", num_bins, raw) &
+        ]
+        block
+          type(file_t) histograms_file
+          integer h
 
-            histograms_file = to_file(histograms)
-            call histograms_file%write_lines(string_t(base_name // "_inputs_stats.plt"))
-          end block
-        end associate
+          if (raw) then
+            do h = 1, size(histograms)
+              histograms_file = to_file(histograms(h))
+              call histograms_file%write_lines(string_t(histograms(h)%variable_name() // ".plt"))
+            end do
+          else
+              histograms_file = to_file(histograms)
+              call histograms_file%write_lines(string_t(base_name // "_inputs_stats.plt"))
+          end if
+        end block
       end associate
     end associate
 
@@ -190,22 +206,29 @@ contains
       call assert(.not. any(ieee_is_nan(dqr_dt)), ".not. any(ieee_is_nan(dqr_dt)")
       call assert(.not. any(ieee_is_nan(dqs_dt)), ".not. any(ieee_is_nan(dqs_dt)")
 
-      print *,"Calculating output tensor histograms"
+      print *,"Calculating output tensor histograms and writing to file"
 
-      associate(histograms => [ &
-         histogram_t(dpt_dt, "d(pt)/dt", num_bins) &
-        ,histogram_t(dqv_dt, "d(qv)/dt", num_bins) &
-        ,histogram_t(dqc_dt, "d(qc)/dt", num_bins) &
-        ,histogram_t(dqr_dt, "d(qr)/dt", num_bins) &
-        ,histogram_t(dqs_dt, "d(qs)/dt", num_bins) &
-      ])
-        block
-          type(file_t) histograms_file
+      histograms = [ &
+         histogram_t(dpt_dt, "dptdt", num_bins, raw) &
+        ,histogram_t(dqv_dt, "dqvdt", num_bins, raw) &
+        ,histogram_t(dqc_dt, "dqcdt", num_bins, raw) &
+        ,histogram_t(dqr_dt, "dqrdt", num_bins, raw) &
+        ,histogram_t(dqs_dt, "dqsdt", num_bins, raw) &
+      ]
+      block
+        type(file_t) histograms_file
+        integer h
 
-          histograms_file = to_file(histograms)
-          call histograms_file%write_lines(string_t(base_name // "_outputs_stats.plt"))
-        end block
-      end associate
+        if (raw) then
+          do h = 1, size(histograms)
+            histograms_file = to_file(histograms(h))
+            call histograms_file%write_lines(string_t(histograms(h)%variable_name() // ".plt"))
+          end do
+        else
+            histograms_file = to_file(histograms)
+            call histograms_file%write_lines(string_t(base_name // "_outputs_stats.plt"))
+        end if
+      end block
     end associate
   end subroutine
 

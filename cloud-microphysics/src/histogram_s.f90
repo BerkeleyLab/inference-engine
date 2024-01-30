@@ -36,7 +36,11 @@ contains
     frequency = self%frequency_(bin)
   end procedure
 
-  module procedure to_file
+  module procedure to_separate_file
+     file = to_common_file([histogram])
+  end procedure
+
+  module procedure to_common_file
     type(string_t), allocatable :: comments(:), columns(:)
     type(string_t) column_headings
 
@@ -54,7 +58,7 @@ contains
 
       block
         integer h
-        column_headings = "bin" // .cat. [(string_t(histograms(h)%variable_name()) // "   ", h=1,num_histograms)]
+        column_headings = "    bin    " // .cat. [("    " // string_t(histograms(h)%variable_name()) // "    ", h=1,num_histograms)]
       end block
 
       associate(num_bins =>  histograms(1)%num_bins())
@@ -89,9 +93,8 @@ contains
     x_normalized = (x - x_min)/(x_max - x_min)
   end function
 
-  module procedure histogram_on_unit_interval
+  module procedure construct
 
-    real, parameter :: v_mapped_min = 0., v_mapped_max = 1.
     integer, allocatable :: in_bin(:)
     integer i
 
@@ -104,22 +107,34 @@ contains
     allocate(                in_bin(num_bins))
 
     associate(v_min => (histogram%unmapped_min_), v_max => (histogram%unmapped_max_), cardinality => size(v))
-      associate(v_mapped => normalize(v, v_min, v_max), dv => (v_mapped_max - v_mapped_min)/real(num_bins))
-        associate(v_bin_min => [(v_mapped_min + (i-1)*dv, i=1,num_bins)])
-          associate(smidgen => .0001*abs(dv)) ! use to make the high end of the bin range inclusive of the max value
-            associate(v_bin_max => [v_bin_min(2:), v_mapped_max + smidgen])
-              do concurrent(i = 1:num_bins)
-                in_bin(i) = count(v_mapped >= v_bin_min(i) .and. v_mapped < v_bin_max(i)) ! replace with Fortran 2023 reduction
-                histogram%frequency_(i) = real(in_bin(i)) / real(cardinality)
-                histogram%bin_midpoint_(i) = v_bin_min(i) + 0.5*dv
-              end do
+      block
+        real, allocatable :: v_mapped(:,:,:,:)
+
+        if (raw)  then
+          v_mapped = v
+        else
+          v_mapped = normalize(v, v_min, v_max)
+        end if
+
+        associate(v_mapped_min => merge(v_min, 0., raw), v_mapped_max => merge(v_max, 1., raw))
+          associate(dv => (v_mapped_max - v_mapped_min)/real(num_bins))
+            associate(v_bin_min => [(v_mapped_min + (i-1)*dv, i=1,num_bins)])
+              associate(smidgen => .0001*abs(dv)) ! use to make the high end of the bin range inclusive of the max value
+                associate(v_bin_max => [v_bin_min(2:), v_mapped_max + smidgen])
+                  do concurrent(i = 1:num_bins)
+                    in_bin(i) = count(v_mapped >= v_bin_min(i) .and. v_mapped < v_bin_max(i)) ! replace with Fortran 2023 reduction
+                    histogram%frequency_(i) = real(in_bin(i)) / real(cardinality)
+                    histogram%bin_midpoint_(i) = v_bin_min(i) + 0.5*dv
+                  end do
+                end associate
+              end associate
             end associate
           end associate
         end associate
-      end associate
-      associate(binned => sum(in_bin))
-        call assert(cardinality == binned, "histogram_m(normalize): lossless binning", intrinsic_array_t([cardinality, binned]))
-      end associate
+        associate(binned => sum(in_bin))
+          call assert(cardinality == binned, "histogram_m(normalize): lossless binning", intrinsic_array_t([cardinality, binned]))
+        end associate
+      end block
     end associate
 
   end procedure

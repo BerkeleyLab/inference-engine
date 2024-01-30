@@ -26,24 +26,34 @@ module histogram_m
 
   interface histogram_t
 
-    pure module function histogram_on_unit_interval(v, variable_name, num_bins) result(histogram)
+    pure module function construct(v, variable_name, num_bins, raw) result(histogram)
       implicit none
       real, intent(in) :: v(:,:,:,:)
       character(len=*), intent(in) :: variable_name
       integer, intent(in) :: num_bins
+      logical, intent(in) :: raw
       type(histogram_t) histogram
     end function
 
   end interface
 
-  interface
+  interface to_file
 
-    !pure module function to_file(histograms) result(file)
-    module function to_file(histograms) result(file)
+    pure module function to_separate_file(histogram) result(file)
+      implicit none
+      type(histogram_t), intent(in) :: histogram
+      type(file_t) file
+    end function
+
+    pure module function to_common_file(histograms) result(file)
       implicit none
       type(histogram_t), intent(in) :: histograms(:)
       type(file_t) file
     end function
+
+  end interface
+
+  interface
 
     pure module function num_bins(self) result(bins)
       implicit none
