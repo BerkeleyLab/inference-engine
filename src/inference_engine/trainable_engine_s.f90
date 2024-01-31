@@ -150,11 +150,21 @@ contains
 
             associate(y => expected_outputs(pair)%values())
               if (present(cost)) &
-                cost(batch) = cost(batch) + sum((y(1:n(output_layer))-a(1:n(output_layer),output_layer))**2)/(2.e0*mini_batch_size)
+                   !cost(batch) = cost(batch) + sum((y(1:n(output_layer))-a(1:n(output_layer),output_layer))**2)/(2.e0*mini_batch_size)
+              cost(batch) = cost(batch) -   sum( y(1:n(output_layer)) *log(a(1:n(output_layer),output_layer))  + &
+                                  (1.0 - y(1:n(output_layer)) )*log(1. - a(1:n(output_layer),output_layer) )  )  &
+                                            /(2.e0*mini_batch_size)              
           
+              !delta(1:n(output_layer),output_layer) = &
+              !  (a(1:n(output_layer),output_layer) - y(1:n(output_layer))) &
+              !  * self%differentiable_activation_strategy_%activation_derivative(z(1:n(output_layer),output_layer))
+
               delta(1:n(output_layer),output_layer) = &
-                (a(1:n(output_layer),output_layer) - y(1:n(output_layer))) &
+                   -( y(1:n(output_layer))/a(1:n(output_layer),output_layer) + &
+                     (1.0 - y(1:n(output_layer)))/(1.0 - a(1:n(output_layer),output_layer))  ) &
                 * self%differentiable_activation_strategy_%activation_derivative(z(1:n(output_layer),output_layer))
+
+              
             end associate
             
             associate(n_hidden => self%num_layers()-2)
