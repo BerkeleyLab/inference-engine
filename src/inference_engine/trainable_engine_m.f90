@@ -103,7 +103,7 @@ module trainable_engine_m
       integer n_layers
     end function
 
-    pure module function to_inference_engine(self) result(inference_engine)
+    module function to_inference_engine(self) result(inference_engine)
       implicit none
       class(trainable_engine_t), intent(in) :: self
       type(inference_engine_t) :: inference_engine

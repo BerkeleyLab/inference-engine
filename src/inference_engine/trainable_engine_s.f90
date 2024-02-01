@@ -231,6 +231,9 @@ contains
   end procedure
 
   module procedure to_inference_engine
+    ! assignment-stmt disallows the procedure from being pure because it might
+    ! deallocate polymorphic allocatable subcomponent `activation_strategy_`
+    ! TODO: consider how this affects design
     inference_engine = inference_engine_t(metadata = self%metadata_, weights = self%w, biases = self%b, nodes = self%n)
   end procedure
 
