@@ -12,8 +12,8 @@ submodule(inference_engine_m_) inference_engine_s
   implicit none
 
   interface assert_consistency
-    module procedure inference_engine_consistency
-    module procedure difference_consistency
+    procedure inference_engine_consistency
+    procedure difference_consistency
   end interface
 
 contains
@@ -53,7 +53,7 @@ contains
 
   end procedure
 
-  pure module subroutine inference_engine_consistency(self)
+  pure subroutine inference_engine_consistency(self)
 
     type(inference_engine_t), intent(in) :: self
 
@@ -78,7 +78,7 @@ contains
 
   end subroutine
 
-  pure module subroutine difference_consistency(self)
+  pure subroutine difference_consistency(self)
 
     type(difference_t), intent(in) :: self
 
