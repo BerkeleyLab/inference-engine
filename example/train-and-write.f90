@@ -14,7 +14,7 @@ program train_and_write
   use assert_m, only : assert, intrinsic_array_t
   implicit none
 
-  type(string_t) intial_network_file, final_network_file
+  type(string_t) final_network_file
   type(command_line_t) command_line
 
   final_network_file = string_t(command_line%flag_value("--output-file"))
