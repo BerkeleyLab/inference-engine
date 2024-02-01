@@ -3,8 +3,6 @@
 submodule(trainable_engine_m) trainable_engine_s
   use assert_m, only : assert
   use intrinsic_array_m, only : intrinsic_array_t
-  use input_output_pair_m, only : input_output_pair_t
-  use sigmoid_m, only : sigmoid_t
   use tensor_m, only : tensor_t
   implicit none
 
@@ -186,7 +184,7 @@ contains
               real, parameter :: obeta(*) = [1._rkind - beta(1), 1._rkind - beta(2)]
               real, parameter :: epsilon = real(1.D-08,rkind)
 
-              adjust_weights_and_biases: &
+              adam_adjust_weights_and_biases: &
               do concurrent(l = 1:output_layer)
                 dcdw(1:n(l),1:n(l-1),l) = dcdw(1:n(l),1:n(l-1),l)/(mini_batch_size)
                 vdw(1:n(l),1:n(l-1),l)  = beta(1)*vdw(1:n(l),1:n(l-1),l) + obeta(1)*dcdw(1:n(l),1:n(l-1),l)
@@ -202,7 +200,7 @@ contains
                 vdbc(1:n(l),l) = vdb(1:n(l),l)/(1._rkind - beta(1)**num_mini_batches)
                 sdbc(1:n(l),l) = sdb(1:n(l),l)/(1._rkind - beta(2)**num_mini_batches)
                 b(1:n(l),l) = b(1:n(l),l) - alpha*vdbc(1:n(l),l)/(sqrt(sdbc(1:n(l),l))+epsilon) ! Adjust weights
-              end do adjust_weights_and_biases
+              end do adam_adjust_weights_and_biases
             end block
           else
             adjust_weights_and_biases: &
