@@ -47,7 +47,9 @@ program learn_exponentiation
     type(bin_t), allocatable :: bins(:)
     real, allocatable :: cost(:), random_numbers(:)
 
+#ifndef NAGFOR
     call random_init(image_distinct=.true., repeatable=.true.)
+#endif
 
     trainable_engine = perturbed_identity_network(perturbation_magnitude=0.05)
     call output(trainable_engine%to_inference_engine(), string_t("initial-network.json"))
@@ -60,10 +62,10 @@ program learn_exponentiation
         inputs = [(tensor_t(real([(j*i, j = 1,num_inputs)])/(num_inputs*num_pairs)), i = 1, num_pairs)]
         desired_outputs = y(inputs)
         output_sizes = [(size(desired_outputs(i)%values()),i=1,size(desired_outputs))]
-        call assert(all([num_outputs==output_sizes]), "fit-polynomials: # outputs", intrinsic_array_t([num_outputs,output_sizes])) 
+        call assert(all([num_outputs==output_sizes]), "fit-polynomials: # outputs", intrinsic_array_t([num_outputs,output_sizes]))
       end block
       input_output_pairs = input_output_pair_t(inputs, desired_outputs)
-      block 
+      block
         integer b
         bins = [(bin_t(num_items=num_pairs, num_bins=num_mini_batches, bin_number=b), b = 1, num_mini_batches)]
       end block

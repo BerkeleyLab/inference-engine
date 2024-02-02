@@ -39,7 +39,9 @@ program learn_microphysics_procedures
     integer, parameter :: nodes_per_layer(*) = [2, 72, 2]
     real, parameter :: cost_tolerance = 1.E-08
 
+#ifndef NAGFOR
     call random_init(image_distinct=.true., repeatable=.true.)
+#endif
 
     open(newunit=network_unit, file=network_file%string(), form='formatted', status='old', iostat=io_status, action='read')
 
