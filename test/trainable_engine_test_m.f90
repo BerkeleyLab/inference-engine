@@ -360,7 +360,6 @@ contains
     type(trainable_engine_t)  trainable_engine
     type(bin_t), allocatable :: bins(:)
     real(rkind), allocatable :: cost(:)
-    integer, allocatable :: neurons(:)
     integer, parameter :: num_pairs = 100, num_epochs = 100, n_bins = 3
     integer i, bin, epoch
 
@@ -406,7 +405,6 @@ contains
     type(trainable_engine_t)  trainable_engine
     type(bin_t), allocatable :: bins(:)
     real(rkind), allocatable :: cost(:)
-    integer, allocatable :: neurons(:)
     integer, parameter :: num_pairs = 6
     integer, parameter :: num_epochs = 148
     integer, parameter :: num_bins = 5 

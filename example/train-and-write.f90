@@ -14,7 +14,7 @@ program train_and_write
   use assert_m, only : assert, intrinsic_array_t
   implicit none
 
-  type(string_t) intial_network_file, final_network_file
+  type(string_t) final_network_file
   type(command_line_t) command_line
 
   final_network_file = string_t(command_line%flag_value("--output-file"))
@@ -34,7 +34,9 @@ program train_and_write
     type(bin_t), allocatable :: bins(:)
     real, allocatable :: cost(:), random_numbers(:)
 
+#ifndef NAGFOR
     call random_init(image_distinct=.true., repeatable=.true.)
+#endif
 
     trainable_engine = perturbed_identity_network(perturbation_magnitude=0.2)
     call output(trainable_engine%to_inference_engine(), string_t("initial-network.json"))

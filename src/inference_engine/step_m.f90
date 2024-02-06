@@ -12,7 +12,7 @@ module step_m
   type, extends(activation_strategy_t) :: step_t
   contains
      procedure, nopass :: activation
-     procedure, nopass :: function_name
+     procedure :: function_name
   end type
 
   interface
@@ -23,8 +23,9 @@ module step_m
       real(rkind) y
     end function
 
-    elemental module function function_name() result(string)
+    elemental module function function_name(self) result(string)
       implicit none
+      class(step_t), intent(in) :: self
       type(string_t) string
     end function
 

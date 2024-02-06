@@ -13,7 +13,7 @@ module relu_m
   contains
      procedure, nopass :: activation
      procedure, nopass :: activation_derivative
-     procedure, nopass :: function_name
+     procedure :: function_name
   end type
 
   interface
@@ -30,8 +30,9 @@ module relu_m
       real(rkind) y
     end function
 
-    elemental module function function_name() result(string)
+    elemental module function function_name(self) result(string)
       implicit none
+      class(relu_t), intent(in) :: self
       type(string_t) string
     end function
 

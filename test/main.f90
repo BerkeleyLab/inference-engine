@@ -1,9 +1,9 @@
 ! Copyright (c), The Regents of the University of California
 ! Terms of use are as specified in LICENSE.txt
 program main
-  use inference_engine_test_m, only : inference_engine_test_t  
-  use asymmetric_engine_test_m, only : asymmetric_engine_test_t  
-  use trainable_engine_test_m, only : trainable_engine_test_t  
+  use inference_engine_test_m, only : inference_engine_test_t
+  use asymmetric_engine_test_m, only : asymmetric_engine_test_t
+  use trainable_engine_test_m, only : trainable_engine_test_t
   use hyperparameters_test_m, only : hyperparameters_test_t
   use network_configuration_test_m, only : network_configuration_test_t
   use training_configuration_test_m, only : training_configuration_test_t
@@ -20,7 +20,9 @@ program main
   integer :: passes=0, tests=0
 
   call cpu_time(t_start)
+#ifndef NAGFOR
   call random_init(image_distinct=.true., repeatable=.true.)
+#endif
   call inference_engine_test%report(passes, tests)
   call asymmetric_engine_test%report(passes, tests)
   call trainable_engine_test%report(passes, tests)
