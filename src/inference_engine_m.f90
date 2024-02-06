@@ -17,5 +17,6 @@ module inference_engine_m
  use tensor_m, only : tensor_t
  use trainable_engine_m, only : trainable_engine_t
  use training_configuration_m, only : training_configuration_t
+ use ubounds_m, only : ubounds_t
  implicit none
 end module
