@@ -22,12 +22,12 @@ program learn_multiplication
   !! This trains a neural network to learn the following six polynomial functions of its eight inputs.
   use inference_engine_m, only : &
     inference_engine_t, trainable_engine_t, mini_batch_t, tensor_t, input_output_pair_t, shuffle, relu_t
-  use sourcery_m, only : string_t, file_t, command_line_t, bin_t, csv
+  use sourcery_m, only : string_t, file_t, command_line_t, bin_t
   use assert_m, only : assert, intrinsic_array_t
   use multiply_inputs, only : y
   implicit none
 
-  type(string_t) intial_network_file, final_network_file
+  type(string_t) final_network_file
   type(command_line_t) command_line
 
   final_network_file = string_t(command_line%flag_value("--output-file"))
@@ -47,7 +47,9 @@ program learn_multiplication
     type(bin_t), allocatable :: bins(:)
     real, allocatable :: cost(:), random_numbers(:)
 
+#ifndef NAGFOR
     call random_init(image_distinct=.true., repeatable=.true.)
+#endif
 
     trainable_engine = perturbed_identity_network(perturbation_magnitude=0.05)
     call output(trainable_engine%to_inference_engine(), string_t("initial-network.json"))
@@ -122,7 +124,7 @@ contains
     real, intent(in) :: perturbation_magnitude
     integer, parameter :: n(*) = [8, 64, 64, 64, 6]
     integer, parameter :: n_max = maxval(n), layers = size(n)
-    integer j, k, l
+    integer k, l
     real, allocatable :: identity(:,:,:), w_harvest(:,:,:), b_harvest(:,:)
 
     identity =  reshape( [( [(e(k,n_max), k=1,n_max)], l = 1, layers-1 )], [n_max, n_max, layers-1])

@@ -74,7 +74,7 @@ module training_configuration_m
       real(rkind) rate
     end function
  
-    pure module function differentiable_activation_strategy(self) result(strategy)
+    module function differentiable_activation_strategy(self) result(strategy)
       implicit none
       class(training_configuration_t), intent(in) :: self
       class(differentiable_activation_strategy_t), allocatable :: strategy
