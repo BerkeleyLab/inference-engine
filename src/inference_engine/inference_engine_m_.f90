@@ -74,6 +74,10 @@ module inference_engine_m_
 
   end interface
 
+  interface infer
+    module procedure single_infer, batch_infer
+  end interface
+
   interface
 
     pure module function to_exchange(self) result(exchange)

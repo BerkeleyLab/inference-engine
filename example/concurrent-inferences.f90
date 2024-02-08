@@ -43,7 +43,8 @@ program concurrent_inferences
 
       print *,"Performing elemental inferences"
       call system_clock(t_start, clock_rate)
-      outputs = inference_engine%infer(inputs)  ! implicit allocation of outputs array
+      associate(outputs_tensors => inference_engine%infer(inputs))
+      end associate
       call system_clock(t_finish)
       print *,"Elemental inference time: ", real(t_finish - t_start, real64)/real(clock_rate, real64)
 
@@ -77,23 +78,23 @@ program concurrent_inferences
       call system_clock(t_finish)
       print *,"Concurrent inference time with non-type-bound procedure: ", real(t_finish - t_start, real64)/real(clock_rate, real64)
 
-      print *,"Performing batched inferences on an intrinsic array"
+      print *,"Performing batched inferences via intrinsic-array input and output"
       block 
-        real ,allocatable :: inputs_batch(:,:,:,:), outputs_batch(:,:,:,:)
         integer n
-        associate(num_inputs => inputs(1,1,1)%num_inputs())
-          inputs_batch = reshape([((((inputs(i,j,k)%values(), &
-            i=1,size(inputs,1)), j=1,size(inputs,2)), k=1,size(inputs,3)), n=1,num_inputs())], &
-            shape=[shape(inputs), num_inputs])
+
+        associate(num_inputs => inference_engine%num_inputs())
+          associate(inputs_batch => reshape( &
+            [((((inputs(i,j,k)%values(), i=1,lat), j=1,lon), k=1,lev), n=1,num_inputs)], &
+            shape=[2,3,4,7] &
+          ))
+            call system_clock(t_start, clock_rate)
+            associate(batch_outputs => inference_engine%infer(inputs_batch))
+            end associate
+            call system_clock(t_finish)
+          end associate
         end associate
-
-        call system_clock(t_start, clock_rate)
-        outputs_batch = inference_engine%infer(tensor_batch)  ! implicit allocation of outputs array
-        call system_clock(t_finish)
-        print *,"Elemental inference time: ", real(t_finish - t_start, real64)/real(clock_rate, real64)
-
+        print *,"Batch inference time: ", real(t_finish - t_start, real64)/real(clock_rate, real64)
       end block
-
     end block
   end block
 
