@@ -26,7 +26,7 @@ contains
     exchange%activation_strategy_ = self%activation_strategy_ 
   end procedure
 
-  module procedure infer
+  module procedure single_infer
 
     real(rkind), allocatable :: a(:,:)
     integer, parameter :: input_layer = 0
@@ -51,6 +51,12 @@ contains
 
     end associate
 
+  end procedure
+
+  module procedure batch_infer
+
+    ! here is where the fun starts :) 
+    
   end procedure
 
   pure subroutine inference_engine_consistency(self)

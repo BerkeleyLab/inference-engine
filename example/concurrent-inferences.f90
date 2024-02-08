@@ -77,6 +77,23 @@ program concurrent_inferences
       call system_clock(t_finish)
       print *,"Concurrent inference time with non-type-bound procedure: ", real(t_finish - t_start, real64)/real(clock_rate, real64)
 
+      print *,"Performing batched inferences on an intrinsic array"
+      block 
+        real ,allocatable :: inputs_batch(:,:,:,:), outputs_batch(:,:,:,:)
+        integer n
+        associate(num_inputs => inputs(1,1,1)%num_inputs())
+          inputs_batch = reshape([((((inputs(i,j,k)%values(), &
+            i=1,size(inputs,1)), j=1,size(inputs,2)), k=1,size(inputs,3)), n=1,num_inputs())], &
+            shape=[shape(inputs), num_inputs])
+        end associate
+
+        call system_clock(t_start, clock_rate)
+        outputs_batch = inference_engine%infer(tensor_batch)  ! implicit allocation of outputs array
+        call system_clock(t_finish)
+        print *,"Elemental inference time: ", real(t_finish - t_start, real64)/real(clock_rate, real64)
+
+      end block
+
     end block
   end block
 

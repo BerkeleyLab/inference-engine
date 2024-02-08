@@ -26,7 +26,9 @@ module inference_engine_m_
     integer, allocatable :: nodes_(:)
     class(activation_strategy_t), allocatable :: activation_strategy_ ! Strategy Pattern facilitates elemental activation
   contains
-    procedure :: infer
+    procedure :: single_infer
+    procedure :: batch_infer
+    generic :: infer => single_infer, batch_infer
     procedure :: to_json
     procedure :: num_inputs
     procedure :: num_outputs
@@ -105,12 +107,19 @@ module inference_engine_m_
       type(inference_engine_t), intent(in) :: inference_engine
     end subroutine
 
-    elemental module function infer(self, inputs) result(outputs)
+    elemental module function single_infer(self, inputs) result(outputs)
       implicit none
       class(inference_engine_t), intent(in) :: self
       type(tensor_t), intent(in) :: inputs
       type(tensor_t) outputs
     end function
+
+  pure module function batch_infer(self, inputs) result(outputs)
+    implicit none
+    class(inference_engine_t), intent(in) :: self
+    real, intent(in) :: inputs(:,:,:,:)
+    real, allocatable :: outputs(:,:,:)
+  end function
 
     elemental module function num_outputs(self) result(output_count)
       implicit none
