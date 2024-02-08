@@ -2,7 +2,7 @@
 ! Terms of use are as specified in LICENSE.txt
 module trainable_engine_m
   !! Define an abstraction that supports training a neural network
-  use sourcery_m, only : string_t
+  use sourcery_string_m, only : string_t
   use inference_engine_m_, only : inference_engine_t
   use differentiable_activation_strategy_m, only : differentiable_activation_strategy_t
   use kind_parameters_m, only : rkind

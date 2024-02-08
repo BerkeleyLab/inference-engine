@@ -1,5 +1,5 @@
 module network_configuration_m
-  use sourcery_m, only : string_t
+  use sourcery_string_m, only : string_t
   implicit none
 
   private

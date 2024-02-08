@@ -1,5 +1,5 @@
 module hyperparameters_m
-  use sourcery_m, only : string_t
+  use sourcery_string_m, only : string_t
   use kind_parameters_m, only : rkind
   implicit none
 
