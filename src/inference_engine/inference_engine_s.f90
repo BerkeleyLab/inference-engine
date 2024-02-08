@@ -28,9 +28,9 @@ contains
 
   module procedure infer
 
-    real(rkind), allocatable :: z(:,:), a(:,:)
+    real(rkind), allocatable :: a(:,:)
     integer, parameter :: input_layer = 0
-    integer j, k, l
+    integer k, l
 
     call assert_consistency(self)
 
