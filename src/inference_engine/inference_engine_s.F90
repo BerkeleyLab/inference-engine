@@ -199,6 +199,20 @@ contains
       character(len=*), intent(in) :: line
       type(string_t) value_
 
+#ifdef __INTEL_COMPILER
+      character(len=:), allocatable :: text_after_colon
+      integer :: opening_value_quotes, closing_value_quotes
+
+      text_after_colon = line(index(line, ':')+1:)
+      opening_value_quotes = index(text_after_colon, '"')
+      closing_value_quotes = opening_value_quotes + index(text_after_colon(opening_value_quotes+1:), '"')
+
+      if (any([opening_value_quotes, closing_value_quotes] == 0)) then
+         value_ = string_t(trim(adjustl((text_after_colon))))
+      else
+         value_ = string_t(text_after_colon(opening_value_quotes+1:closing_value_quotes-1))
+      end if
+#else
       associate(text_after_colon => line(index(line, ':')+1:))
         associate(opening_value_quotes => index(text_after_colon, '"'))
           associate(closing_value_quotes => opening_value_quotes + index(text_after_colon(opening_value_quotes+1:), '"'))
@@ -210,6 +224,7 @@ contains
           end associate
         end associate
       end associate
+#endif
     end function
 
   end procedure construct_from_json
