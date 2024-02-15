@@ -59,20 +59,16 @@ contains
 
     character(len=:), allocatable :: line
     integer i
+    integer :: colon, opening_bracket, closing_bracket, commas, num_inputs
 
     line = neuron_lines(start+1)%string()
-    associate(colon => index(line, ":"))
-      associate(opening_bracket => colon + index(line(colon+1:), "["))
-        associate(closing_bracket => opening_bracket + index(line(opening_bracket+1:), "]"))
-          associate(commas => count("," == [(line(i:i), i=opening_bracket+1,closing_bracket-1)]))
-            associate(num_inputs => commas + 1)
-              allocate(neuron%weights_(num_inputs))
-              read(line(opening_bracket+1:closing_bracket-1), fmt=*) neuron%weights_
-            end associate
-          end associate
-        end associate
-      end associate
-    end associate
+    colon = index(line, ":")
+    opening_bracket = colon + index(line(colon+1:), "[")
+    closing_bracket = opening_bracket + index(line(opening_bracket+1:), "]")
+    commas = count("," == [(line(i:i), i=opening_bracket+1,closing_bracket-1)])
+    num_inputs = commas + 1
+    allocate(neuron%weights_(num_inputs))
+    read(line(opening_bracket+1:closing_bracket-1), fmt=*) neuron%weights_
 
     line = neuron_lines(start+2)%string()
     associate(colon => index(line, ":"))
