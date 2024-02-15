@@ -101,10 +101,8 @@ module layer_m
     private
     type(neuron_t) neuron !! linked list of this layer's neurons 
     type(layer_t), allocatable :: next !! next layer
-#ifdef MAYBEBUG
   contains
     procedure :: count_neurons
-#endif
   end type
 
   interface layer_t
@@ -120,13 +118,11 @@ module layer_m
   end interface
 
   interface
-#ifdef MAYBEBUG
     module function count_neurons(layer) result(neurons_per_layer)
       implicit none
       class(layer_t), intent(in), target :: layer
       integer, allocatable :: neurons_per_layer(:)
     end function
-#endif
   end interface
 
 end module
@@ -140,25 +136,12 @@ contains
   module procedure construct
     layer%neuron = neuron_t(layer_lines, start+1)
   end procedure
-#ifdef MAYBEBUG
+
   module procedure count_neurons
-
-    type(layer_t), pointer :: layer_ptr
-    type(neuron_t), pointer :: neuron_ptr
-    integer num_neurons
-
-    layer_ptr => layer
-
-    allocate(neurons_per_layer(0))
-
-    do  
-      num_neurons = 1 
-      neuron_ptr => layer_ptr%neuron
-      neurons_per_layer = [neurons_per_layer, num_neurons]
-      if (.not. allocated(layer_ptr%next)) exit
-      layer_ptr => layer_ptr%next
-    end do
- 
+  ! BUG: If next line of exectuable code is commented out, compiles with ifx
+  ! If code is not commented out, ifx reports a compiler error for line 137
+  ! type(layer_t), pointer :: layer_ptr
+    continue
   end procedure
-#endif
+
 end submodule layer_s
