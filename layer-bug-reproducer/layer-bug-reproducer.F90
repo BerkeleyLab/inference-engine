@@ -99,7 +99,6 @@ end module
 ! Copyright (c), The Regents of the University of California
 ! Terms of use are as specified in LICENSE.txt
 submodule(neuron_m) neuron_s
-!  use assert_m, only : assert
   implicit none
 
 contains
@@ -109,11 +108,8 @@ contains
     character(len=:), allocatable :: line
     integer i
 
-!    call assert(adjustl(neuron_lines(start)%string())=='{', "neuron_s(construct): neuron object start",neuron_lines(start)%string())
-
     line = neuron_lines(start+1)%string()
     associate(colon => index(line, ":"))
-!      call assert(adjustl(line(:colon-1))=='"weights"', "neuron_s(construct): neuron weights", line)
       associate(opening_bracket => colon + index(line(colon+1:), "["))
         associate(closing_bracket => opening_bracket + index(line(opening_bracket+1:), "]"))
           associate(commas => count("," == [(line(i:i), i=opening_bracket+1,closing_bracket-1)]))
@@ -128,12 +124,10 @@ contains
 
     line = neuron_lines(start+2)%string()
     associate(colon => index(line, ":"))
-!      call assert(adjustl(line(:colon-1))=='"bias"', "neuron_s(construct): neuron bias", line)
       read(line(colon+1:), fmt=*) neuron%bias_
     end associate
 
     line = adjustl(neuron_lines(start+3)%string())
-!    call assert(line(1:1)=='}', "neuron_s(construct): neuron object end", line)
     line = adjustr(neuron_lines(start+3)%string())
     if (line(len(line):len(line)) == ",") neuron%next = construct(neuron_lines, start+4)
 
@@ -207,7 +201,6 @@ end module
 ! Copyright (c), The Regents of the University of California
 ! Terms of use are as specified in LICENSE.txt
 submodule(layer_m) layer_s
-!  use assert_m, only : assert
   implicit none
 
 contains
@@ -222,7 +215,6 @@ contains
     line = adjustl(layer_lines(start)%string())
     hidden_layers = line == '['
     output_layer = line == '"output_layer": ['
-!    call assert(hidden_layers .or. output_layer, "layer_t construct: layer start", line)
 
     layer%neuron = neuron_t(layer_lines, start+1)
     num_inputs = size(layer%neuron%weights())
@@ -232,13 +224,10 @@ contains
     do 
       if (.not. neuron%next_allocated()) exit
       neuron => neuron%next_pointer()
-!      call assert(size(neuron%weights()) == num_inputs, "layer_t construct: constant number of inputs")
       neurons_in_layer = neurons_in_layer + 1
     end do
 
     line = trim(adjustl(layer_lines(start+4*neurons_in_layer+1)%string()))
-!    call assert(line(1:1)==']', "read_layer_list: hidden layer end")
-
     if (line(len(line):len(line)) == ",") layer%next = construct(layer_lines, start+4*neurons_in_layer+2)
 
   end procedure
