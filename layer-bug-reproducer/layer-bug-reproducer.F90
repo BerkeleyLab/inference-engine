@@ -210,18 +210,6 @@ contains
 
     layer%neuron = neuron_t(layer_lines, start+1)
     num_inputs = size(layer%neuron%weights())
-
-    neuron => layer%neuron
-    neurons_in_layer = 1
-    do 
-      if (.not. neuron%next_allocated()) exit
-      neuron => neuron%next_pointer()
-      neurons_in_layer = neurons_in_layer + 1
-    end do
-
-    line = trim(adjustl(layer_lines(start+4*neurons_in_layer+1)%string()))
-    if (line(len(line):len(line)) == ",") layer%next = construct(layer_lines, start+4*neurons_in_layer+2)
-
   end procedure
 #ifdef MAYBEBUG
   module procedure count_neurons
