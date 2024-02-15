@@ -165,8 +165,6 @@ submodule(layer_m) layer_s
 contains
 
   module procedure construct
-    type(neuron_t), pointer ::  neuron 
-
     layer%neuron = neuron_t(layer_lines, start+1)
   end procedure
 #ifdef MAYBEBUG
