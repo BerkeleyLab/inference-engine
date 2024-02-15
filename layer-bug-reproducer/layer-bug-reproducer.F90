@@ -56,10 +56,9 @@ submodule(neuron_m) neuron_s
 contains
 
   module procedure construct
-
     character(len=:), allocatable :: line
     integer i
-    integer :: colon, opening_bracket, closing_bracket, commas, num_inputs
+    integer :: colon, opening_bracket, closing_bracket, commas, num_inputs, other_colon
 
     line = neuron_lines(start+1)%string()
     colon = index(line, ":")
@@ -71,9 +70,8 @@ contains
     read(line(opening_bracket+1:closing_bracket-1), fmt=*) neuron%weights_
 
     line = neuron_lines(start+2)%string()
-    associate(colon => index(line, ":"))
-      read(line(colon+1:), fmt=*) neuron%bias_
-    end associate
+    other_colon = index(line, ":")
+    read(line(other_colon+1:), fmt=*) neuron%bias_
 
     line = adjustl(neuron_lines(start+3)%string())
     line = adjustr(neuron_lines(start+3)%string())
