@@ -33,9 +33,6 @@ module neuron_m
     real, allocatable :: weights_(:)
     real bias_
     type(neuron_t), allocatable :: next
-  contains
-    procedure :: next_allocated
-    procedure :: next_pointer
   end type
 
   interface neuron_t
@@ -46,22 +43,6 @@ module neuron_m
       type(string_t), intent(in) :: neuron_lines(:)
       integer, intent(in) :: start
       type(neuron_t) neuron
-    end function
-
-  end interface
-
-  interface
-
-    module function next_allocated(self) result(next_is_allocated)
-      implicit none
-      class(neuron_t), intent(in) :: self
-      logical next_is_allocated
-    end function
-
-    module function next_pointer(self) result(next_ptr)
-      implicit none
-      class(neuron_t), intent(in), target :: self
-      type(neuron_t), pointer :: next_ptr
     end function
 
   end interface
@@ -102,14 +83,6 @@ contains
     line = adjustr(neuron_lines(start+3)%string())
     if (line(len(line):len(line)) == ",") neuron%next = construct(neuron_lines, start+4)
 
-  end procedure
-
-  module procedure next_allocated
-    next_is_allocated = allocated(self%next)
-  end procedure
-
-  module procedure next_pointer
-    next_ptr => self%next
   end procedure
 
 end submodule neuron_s
@@ -181,11 +154,6 @@ contains
     do  
       num_neurons = 1 
       neuron_ptr => layer_ptr%neuron
-      do  
-        if (.not. neuron_ptr%next_allocated()) exit
-        neuron_ptr => neuron_ptr%next_pointer()
-        num_neurons = num_neurons + 1 
-      end do
       neurons_per_layer = [neurons_per_layer, num_neurons]
       if (.not. allocated(layer_ptr%next)) exit
       layer_ptr => layer_ptr%next
