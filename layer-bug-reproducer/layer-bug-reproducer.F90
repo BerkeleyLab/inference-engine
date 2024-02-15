@@ -36,7 +36,6 @@ module neuron_m
   contains
     procedure :: next_allocated
     procedure :: next_pointer
-    procedure :: num_inputs
   end type
 
   interface neuron_t
@@ -63,12 +62,6 @@ module neuron_m
       implicit none
       class(neuron_t), intent(in), target :: self
       type(neuron_t), pointer :: next_ptr
-    end function
-
-    pure module function num_inputs(self) result(size_weights)
-      implicit none
-      class(neuron_t), intent(in) :: self
-      integer size_weights
     end function
 
   end interface
@@ -117,10 +110,6 @@ contains
 
   module procedure next_pointer
     next_ptr => self%next
-  end procedure
-
-  module procedure num_inputs
-    size_weights = size(self%weights_)
   end procedure
 
 end submodule neuron_s
@@ -178,7 +167,6 @@ contains
   module procedure construct
 
     type(neuron_t), pointer ::  neuron 
-    integer num_inputs, neurons_in_layer
     character(len=:), allocatable :: line
     logical hidden_layers, output_layer
 
