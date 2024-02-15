@@ -165,14 +165,7 @@ submodule(layer_m) layer_s
 contains
 
   module procedure construct
-
     type(neuron_t), pointer ::  neuron 
-    character(len=:), allocatable :: line
-    logical hidden_layers, output_layer
-
-    line = adjustl(layer_lines(start)%string())
-    hidden_layers = line == '['
-    output_layer = line == '"output_layer": ['
 
     layer%neuron = neuron_t(layer_lines, start+1)
   end procedure
