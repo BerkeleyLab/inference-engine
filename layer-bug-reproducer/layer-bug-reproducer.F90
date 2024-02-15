@@ -34,7 +34,6 @@ module neuron_m
     real bias_
     type(neuron_t), allocatable :: next
   contains
-    procedure :: bias
     procedure :: next_allocated
     procedure :: next_pointer
     procedure :: num_inputs
@@ -53,12 +52,6 @@ module neuron_m
   end interface
 
   interface
-
-    module function bias(self) result(my_bias)
-      implicit none
-      class(neuron_t), intent(in) :: self
-      real my_bias
-    end function
 
     module function next_allocated(self) result(next_is_allocated)
       implicit none
@@ -116,10 +109,6 @@ contains
     line = adjustr(neuron_lines(start+3)%string())
     if (line(len(line):len(line)) == ",") neuron%next = construct(neuron_lines, start+4)
 
-  end procedure
-
-  module procedure bias
-    my_bias = self%bias_
   end procedure
 
   module procedure next_allocated
