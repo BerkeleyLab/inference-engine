@@ -1,12 +1,5 @@
 ! Copyright (c), The Regents of the University of California
 ! Terms of use are as specified in LICENSE.txt
-module kind_parameters_m
-  implicit none
-  private
-  public :: rkind
-
-  integer, parameter :: rkind = kind(1.0)
-end module kind_parameters_m
 module string_m
   implicit none
 
@@ -29,7 +22,6 @@ end module
 ! Terms of use are as specified in LICENSE.txt
 module neuron_m
   use string_m, only : string_t
-  use kind_parameters_m, only : rkind
   implicit none
 
   private
@@ -38,8 +30,8 @@ module neuron_m
   type neuron_t
     !! linked list of neurons
     private
-    real(rkind), allocatable :: weights_(:)
-    real(rkind) bias_
+    real, allocatable :: weights_(:)
+    real bias_
     type(neuron_t), allocatable :: next
   contains
     procedure :: weights
@@ -66,13 +58,13 @@ module neuron_m
     module function weights(self) result(my_weights)
       implicit none
       class(neuron_t), intent(in) :: self
-      real(rkind), allocatable :: my_weights(:)
+      real, allocatable :: my_weights(:)
     end function
 
     module function bias(self) result(my_bias)
       implicit none
       class(neuron_t), intent(in) :: self
-      real(rkind) my_bias
+      real my_bias
     end function
 
     module function next_allocated(self) result(next_is_allocated)
