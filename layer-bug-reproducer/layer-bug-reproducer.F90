@@ -209,7 +209,6 @@ contains
     output_layer = line == '"output_layer": ['
 
     layer%neuron = neuron_t(layer_lines, start+1)
-    num_inputs = size(layer%neuron%weights())
   end procedure
 #ifdef MAYBEBUG
   module procedure count_neurons
