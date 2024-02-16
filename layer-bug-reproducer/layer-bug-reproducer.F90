@@ -1,24 +1,20 @@
-! Copyright (c), The Regents of the University of California
-! Terms of use are as specified in LICENSE.txt
-module neuron_m
+module type1_m
   implicit none
 
   private
-  public :: neuron_t
+  public :: type1
 
-  type neuron_t
-    !! linked list of neurons
-    integer bias_
-    type(neuron_t), allocatable :: next
+  type type1
+    integer num
+    type(type1), allocatable :: next
   end type
 
-  interface neuron_t
+  interface type1
 
-    pure recursive module function construct(start) result(neuron)
-      !! construct linked list of neuron_t objects from an array of JSON-formatted text lines
+    pure recursive module function construct(start) result(object)
       implicit none
       integer, intent(in) :: start
-      type(neuron_t) neuron
+      type(type1) object
     end function
 
   end interface
@@ -26,65 +22,60 @@ module neuron_m
 contains
 
   module procedure construct
-    neuron%bias_ = start
-    if (start .eq. 20) neuron%next = construct(start+4)
+    object%num = start
+    if (start .eq. 20) object%next = construct(start+4)
   end procedure
 
 end module
 
 
-! Copyright (c), The Regents of the University of California
-! Terms of use are as specified in LICENSE.txt
-module layer_m
-  use neuron_m, only : neuron_t
+module type2_m
+  use type1_m, only : type1
   implicit none
 
   private
-  public :: layer_t
+  public :: type2
 
-  type layer_t
-    !! linked list of layers, each comprised of a linked list of neurons
-    type(neuron_t) neuron !! linked list of this layer's neurons 
-    type(layer_t), allocatable :: next !! next layer
+  type type2
+    type(type1) object
+    type(type2), allocatable :: next
   contains
-    procedure :: count_neurons
+    procedure :: count_objects
   end type
 
-  interface layer_t
+  interface type2
 
-    recursive module function construct(start) result(layer)
-      !! construct a linked list of layer_t objects from an array of JSON-formatted text lines
+    recursive module function construct(start) result(group)
       implicit none
       integer, intent(in) :: start
-      type(layer_t), target :: layer
+      type(type2), target :: group
     end function
 
   end interface
 
   interface
-    module function count_neurons(layer) result(neurons_per_layer)
+    module function count_objects(group) result(objects_per_group)
       implicit none
-      class(layer_t), intent(in), target :: layer
-      integer, allocatable :: neurons_per_layer(:)
+      class(type2), intent(in), target :: group
+      integer, allocatable :: objects_per_group(:)
     end function
   end interface
 
 end module
-! Copyright (c), The Regents of the University of California
-! Terms of use are as specified in LICENSE.txt
-submodule(layer_m) layer_s
+
+submodule(type2_m) type2_s
   implicit none
 
 contains
 
   module procedure construct
-    layer%neuron = neuron_t(start+1)
+    group%object = type1(start+1)
   end procedure
 
-  module procedure count_neurons
-  ! BUG: If next line of exectuable code is commented out, compiles with ifx
+  module procedure count_objects
+  ! BUG: If next line of executable code is commented out, compiles with ifx
   ! If code is not commented out, ifx reports a compiler error for line 137
-  ! type(layer_t), pointer :: layer_ptr
+  ! type(type2), pointer :: group_ptr
   end procedure
 
-end submodule layer_s
+end submodule type2_s
