@@ -1,9 +1,6 @@
 module type1_m
   implicit none
 
-  private
-  public :: type1
-
   type type1
     integer num
     type(type1), allocatable :: next
@@ -32,9 +29,6 @@ end module
 module type2_m
   use type1_m, only : type1
   implicit none
-
-  private
-  public :: type2
 
   type type2
     type(type1) object
