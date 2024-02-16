@@ -9,8 +9,7 @@ module neuron_m
   type neuron_t
     !! linked list of neurons
     private
-    real, allocatable :: weights_(:)
-    real bias_
+    integer bias_
     type(neuron_t), allocatable :: next
   end type
 
@@ -34,9 +33,7 @@ submodule(neuron_m) neuron_s
 contains
 
   module procedure construct
-    neuron%bias_ = 1.0
-    allocate(neuron%weights_(5))
-    neuron%weights_ = 1.0
+    neuron%bias_ = start
     if (start .eq. 20) neuron%next = construct(start+4)
   end procedure
 
