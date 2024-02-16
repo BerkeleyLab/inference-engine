@@ -8,7 +8,6 @@ module neuron_m
 
   type neuron_t
     !! linked list of neurons
-    private
     integer bias_
     type(neuron_t), allocatable :: next
   end type
@@ -45,7 +44,6 @@ module layer_m
 
   type layer_t
     !! linked list of layers, each comprised of a linked list of neurons
-    private
     type(neuron_t) neuron !! linked list of this layer's neurons 
     type(layer_t), allocatable :: next !! next layer
   contains
