@@ -1,27 +1,6 @@
 ! Copyright (c), The Regents of the University of California
 ! Terms of use are as specified in LICENSE.txt
-module string_m
-  implicit none
-
-  type string_t
-    character(len=:), allocatable :: string_
-  contains
-    procedure :: string
-  end type
-
-contains
-
-  pure function string(self)
-    class(string_t), intent(in) :: self
-    character(len=:), allocatable :: string
-    string = self%string_
-  end function
-
-end module
-! Copyright (c), The Regents of the University of California
-! Terms of use are as specified in LICENSE.txt
 module neuron_m
-  use string_m, only : string_t
   implicit none
 
   private
@@ -37,10 +16,9 @@ module neuron_m
 
   interface neuron_t
 
-    pure recursive module function construct(neuron_lines, start) result(neuron)
+    pure recursive module function construct(start) result(neuron)
       !! construct linked list of neuron_t objects from an array of JSON-formatted text lines
       implicit none
-      type(string_t), intent(in) :: neuron_lines(:)
       integer, intent(in) :: start
       type(neuron_t) neuron
     end function
@@ -59,7 +37,7 @@ contains
     neuron%bias_ = 1.0
     allocate(neuron%weights_(5))
     neuron%weights_ = 1.0
-    if (start .eq. 20) neuron%next = construct(neuron_lines, start+4)
+    if (start .eq. 20) neuron%next = construct(start+4)
   end procedure
 
 end submodule neuron_s
@@ -67,7 +45,6 @@ end submodule neuron_s
 ! Terms of use are as specified in LICENSE.txt
 module layer_m
   use neuron_m, only : neuron_t
-  use string_m, only : string_t
   implicit none
 
   private
@@ -84,10 +61,9 @@ module layer_m
 
   interface layer_t
 
-    recursive module function construct(layer_lines, start) result(layer)
+    recursive module function construct(start) result(layer)
       !! construct a linked list of layer_t objects from an array of JSON-formatted text lines
       implicit none
-      type(string_t), intent(in) :: layer_lines(:)
       integer, intent(in) :: start
       type(layer_t), target :: layer
     end function
@@ -111,14 +87,13 @@ submodule(layer_m) layer_s
 contains
 
   module procedure construct
-    layer%neuron = neuron_t(layer_lines, start+1)
+    layer%neuron = neuron_t(start+1)
   end procedure
 
   module procedure count_neurons
   ! BUG: If next line of exectuable code is commented out, compiles with ifx
   ! If code is not commented out, ifx reports a compiler error for line 137
   ! type(layer_t), pointer :: layer_ptr
-    continue
   end procedure
 
 end submodule layer_s
