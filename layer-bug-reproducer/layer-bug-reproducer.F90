@@ -24,12 +24,6 @@ module neuron_m
 
   end interface
 
-end module
-! Copyright (c), The Regents of the University of California
-! Terms of use are as specified in LICENSE.txt
-submodule(neuron_m) neuron_s
-  implicit none
-
 contains
 
   module procedure construct
@@ -37,7 +31,9 @@ contains
     if (start .eq. 20) neuron%next = construct(start+4)
   end procedure
 
-end submodule neuron_s
+end module
+
+
 ! Copyright (c), The Regents of the University of California
 ! Terms of use are as specified in LICENSE.txt
 module layer_m
