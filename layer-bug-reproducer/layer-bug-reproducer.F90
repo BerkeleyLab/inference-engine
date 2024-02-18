@@ -1,17 +1,16 @@
-module type1_m
+module component_m
   implicit none
 
-  type type1
-    integer num
-    type(type1), allocatable :: next
+  type component
+    type(component), allocatable :: next
   end type
 
-  interface type1
+  interface component
 
-    recursive module function construct(start) result(object)
+    recursive module function construct(items) result(object)
       implicit none
-      integer, intent(in) :: start
-      type(type1) object
+      integer, intent(in) :: items
+      type(component) object
     end function
 
   end interface
@@ -19,28 +18,28 @@ module type1_m
 contains
 
   module procedure construct
-    object%num = start
-    if (start .eq. 20) object%next = construct(start+4)
+    if (items < 0) error stop "negative count"
+    if (items > 0) object%next = construct(items-1)
   end procedure
 
 end module
 
 
-module type2_m
-  use type1_m, only : type1
+module container_m
+  use component_m, only : component
   implicit none
 
-  type type2
-    type(type1) object
-    type(type2), allocatable :: next
+  type container
+    type(component) object
+    type(container), allocatable :: next
   end type
 
-  interface type2
+  interface container
 
-    recursive module function construct(start) result(group)
+    recursive module function construct(items) result(group)
       implicit none
-      integer, intent(in) :: start
-      type(type2), target :: group
+      integer items
+      type(container), target :: group
     end function
 
   end interface
@@ -48,26 +47,26 @@ module type2_m
   interface
     module function count_objects(group) result(objects_per_group)
       implicit none
-      type(type2), intent(in), target :: group
+      type(container), target :: group
       integer, allocatable :: objects_per_group(:)
     end function
   end interface
 
 end module
 
-submodule(type2_m) type2_s
+submodule(container_m) container_s
   implicit none
 
 contains
 
   module procedure construct
-    group%object = type1(start+1)
+    group%object = component(items+1)
   end procedure
 
   module procedure count_objects
   ! BUG: If next line of executable code is commented out, compiles with ifx
   ! If code is not commented out, ifx reports a compiler error for line 137
-  type(type2), pointer :: group_ptr
+  type(container), pointer :: group_ptr
   end procedure
 
-end submodule type2_s
+end submodule container_s
