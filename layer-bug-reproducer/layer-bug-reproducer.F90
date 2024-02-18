@@ -8,7 +8,7 @@ module type1_m
 
   interface type1
 
-    pure recursive module function construct(start) result(object)
+    recursive module function construct(start) result(object)
       implicit none
       integer, intent(in) :: start
       type(type1) object
