@@ -9,7 +9,7 @@ module component_m
 
     recursive module function construct(items) result(object)
       implicit none
-      integer, intent(in) :: items
+      integer items
       type(component) object
     end function
 
