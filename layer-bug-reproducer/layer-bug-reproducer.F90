@@ -33,8 +33,6 @@ module type2_m
   type type2
     type(type1) object
     type(type2), allocatable :: next
-  contains
-    procedure :: count_objects
   end type
 
   interface type2
@@ -50,7 +48,7 @@ module type2_m
   interface
     module function count_objects(group) result(objects_per_group)
       implicit none
-      class(type2), intent(in), target :: group
+      type(type2), intent(in), target :: group
       integer, allocatable :: objects_per_group(:)
     end function
   end interface
@@ -69,7 +67,7 @@ contains
   module procedure count_objects
   ! BUG: If next line of executable code is commented out, compiles with ifx
   ! If code is not commented out, ifx reports a compiler error for line 137
-  ! type(type2), pointer :: group_ptr
+  type(type2), pointer :: group_ptr
   end procedure
 
 end submodule type2_s
