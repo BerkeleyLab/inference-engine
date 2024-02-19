@@ -2,7 +2,6 @@ module component_m
   implicit none
 
   type component_t
-    type(component_t), allocatable :: next
   end type
 
   interface component_t
@@ -29,18 +28,10 @@ module container_m
   end type
 
   interface container_t
-    recursive module function construct(items)
+    module function construct(items)
       implicit none
       integer items
       type(container_t) construct
-    end function
-  end interface
-
-  interface
-    module function count_components(container)
-      implicit none
-      type(container_t) container
-      integer count_components
     end function
   end interface
 
@@ -52,11 +43,8 @@ submodule(container_m) container_s
 contains
 
   module procedure construct
-    construct%component = component_t(items)
-  end procedure
-
-  module procedure count_components
     type(container_t) local_container
+    construct%component = component_t(1)
   end procedure
 
-end submodule container_s
+end submodule
