@@ -13,10 +13,8 @@ module component_m
   end interface
 
 contains
-
   module procedure construct
   end procedure
-
 end module
 
 module container_m
@@ -39,12 +37,9 @@ end module
 
 submodule(container_m) container_s
   implicit none
-
 contains
-
   module procedure construct
     type(container_t) local_container
     construct%component = component_t(1)
   end procedure
-
 end submodule
