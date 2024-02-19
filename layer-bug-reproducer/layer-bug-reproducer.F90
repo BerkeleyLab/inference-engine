@@ -5,9 +5,8 @@ module component_m
   end type
 
   interface component_t
-    module function construct(num_components)
+    module function construct()
       implicit none
-      integer num_components
       type(component_t) construct
     end function
   end interface
@@ -26,9 +25,8 @@ module container_m
   end type
 
   interface container_t
-    module function construct(items)
+    module function construct()
       implicit none
-      integer items
       type(container_t) construct
     end function
   end interface
@@ -40,6 +38,6 @@ submodule(container_m) container_s
 contains
   module procedure construct
     type(container_t) local_container
-    construct%component = component_t(1)
+    construct%component = component_t()
   end procedure
 end submodule
