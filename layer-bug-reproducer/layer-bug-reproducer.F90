@@ -6,24 +6,19 @@ module component_m
   end type
 
   interface component
-
     recursive module function construct(items)
       implicit none
       integer items
       type(component) construct
     end function
-
   end interface
 
 contains
-
   module procedure construct
     if (items < 0) error stop "negative count"
     if (items > 0) construct%next = construct(items-1)
   end procedure
-
 end module
-
 
 module container_m
   use component_m, only : component
@@ -35,13 +30,11 @@ module container_m
   end type
 
   interface container_t
-
     recursive module function construct(items)
       implicit none
       integer items
       type(container_t) construct
     end function
-
   end interface
 
   interface
