@@ -16,7 +16,7 @@ module component_m
 contains
   module procedure construct
     if (items < 0) error stop "negative count"
-    if (items > 0) construct%next = construct(items-1)
+    if (items > 0) construct%next = component_t(items-1)
   end procedure
 end module
 
