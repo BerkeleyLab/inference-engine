@@ -6,18 +6,18 @@ module component_m
   end type
 
   interface component_t
-    recursive module function construct(items)
+    module function construct(num_components)
       implicit none
-      integer items
+      integer num_components
       type(component_t) construct
     end function
   end interface
 
 contains
+
   module procedure construct
-    if (items < 0) error stop "negative count"
-    if (items > 0) construct%next = component_t(items-1)
   end procedure
+
 end module
 
 module container_m
@@ -26,13 +26,12 @@ module container_m
 
   type container_t
     type(component_t) component
-    type(container_t), allocatable :: next
   end type
 
   interface container_t
-    recursive module function construct(num_components)
+    recursive module function construct(items)
       implicit none
-      integer num_components
+      integer items
       type(container_t) construct
     end function
   end interface
@@ -53,7 +52,7 @@ submodule(container_m) container_s
 contains
 
   module procedure construct
-    construct%component = component_t(num_components)
+    construct%component = component_t(items)
   end procedure
 
   module procedure count_components
