@@ -39,15 +39,15 @@ module container_m
     recursive module function construct(items)
       implicit none
       integer items
-      type(container_t), target :: construct
+      type(container_t) construct
     end function
 
   end interface
 
   interface
-    module function count_objects(group)
+    module function count_objects(container)
       implicit none
-      type(container_t), target :: group
+      type(container_t) container
       integer, allocatable :: count_objects(:)
     end function
   end interface
@@ -64,7 +64,7 @@ contains
   end procedure
 
   module procedure count_objects
-  type(container_t), pointer :: group_ptr
+    type(container_t) local_container
   end procedure
 
 end submodule container_s
