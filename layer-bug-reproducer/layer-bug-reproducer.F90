@@ -7,10 +7,10 @@ module component_m
 
   interface component
 
-    recursive module function construct(items) result(object)
+    recursive module function construct(items)
       implicit none
       integer items
-      type(component) object
+      type(component) construct
     end function
 
   end interface
@@ -19,7 +19,7 @@ contains
 
   module procedure construct
     if (items < 0) error stop "negative count"
-    if (items > 0) object%next = construct(items-1)
+    if (items > 0) construct%next = construct(items-1)
   end procedure
 
 end module
@@ -29,26 +29,26 @@ module container_m
   use component_m, only : component
   implicit none
 
-  type container
+  type container_t
     type(component) object
-    type(container), allocatable :: next
+    type(container_t), allocatable :: next
   end type
 
-  interface container
+  interface container_t
 
-    recursive module function construct(items) result(group)
+    recursive module function construct(items)
       implicit none
       integer items
-      type(container), target :: group
+      type(container_t), target :: construct
     end function
 
   end interface
 
   interface
-    module function count_objects(group) result(objects_per_group)
+    module function count_objects(group)
       implicit none
-      type(container), target :: group
-      integer, allocatable :: objects_per_group(:)
+      type(container_t), target :: group
+      integer, allocatable :: count_objects(:)
     end function
   end interface
 
@@ -60,13 +60,11 @@ submodule(container_m) container_s
 contains
 
   module procedure construct
-    group%object = component(items+1)
+    construct%object = component(items+1)
   end procedure
 
   module procedure count_objects
-  ! BUG: If next line of executable code is commented out, compiles with ifx
-  ! If code is not commented out, ifx reports a compiler error for line 137
-  type(container), pointer :: group_ptr
+  type(container_t), pointer :: group_ptr
   end procedure
 
 end submodule container_s
