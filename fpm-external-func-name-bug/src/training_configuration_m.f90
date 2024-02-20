@@ -3,7 +3,6 @@ module training_configuration_m
   use hyperparameters_m, only : hyperparameters_t
   use network_configuration_m, only : network_configuration_t
   use kind_parameters_m, only  : rkind
-  use differentiable_activation_strategy_m, only : differentiable_activation_strategy_t
   implicit none
 
   private
@@ -19,7 +18,6 @@ module training_configuration_m
     procedure :: mini_batches
     procedure :: optimizer_name
     procedure :: learning_rate
-    procedure :: differentiable_activation_strategy
     procedure :: nodes_per_layer
     procedure :: skip_connections
   end type
@@ -59,12 +57,6 @@ module training_configuration_m
       implicit none
       class(training_configuration_t), intent(in) :: self
       real(rkind) rate
-    end function
- 
-    module function differentiable_activation_strategy(self) result(strategy)
-      implicit none
-      class(training_configuration_t), intent(in) :: self
-      class(differentiable_activation_strategy_t), allocatable :: strategy
     end function
  
     pure module function nodes_per_layer(self) result(nodes)

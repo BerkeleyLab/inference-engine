@@ -1,7 +1,4 @@
 submodule(training_configuration_m) training_configuration_s
-  use relu_m, only : relu_t
-  use sigmoid_m, only : sigmoid_t
-  use swish_m, only : swish_t
   implicit none
 
   character(len=*), parameter :: header="{", footer="}", separator = ","
@@ -38,23 +35,6 @@ contains
 
   module procedure skip_connections
     using_skip = self%network_configuration_%skip_connections()
-  end procedure
-
-  module procedure differentiable_activation_strategy
-
-    associate(activation_name => self%network_configuration_%activation_name())
-      select case(activation_name%string())
-        case ("relu")
-          strategy = relu_t()
-        case ("sigmoid")
-          strategy = sigmoid_t()
-        case ("swish")
-          strategy = swish_t()
-        case default
-          error stop 'activation_strategy_factory_s(factory): unrecognized activation name "' // activation_name%string() // '"' 
-      end select
-    end associate
-
   end procedure
 
 end submodule training_configuration_s

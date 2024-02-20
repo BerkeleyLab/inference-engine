@@ -4,7 +4,6 @@ module trainable_engine_m
   !! Define an abstraction that supports training a neural network
   use string_m, only : string_t
   use inference_engine_m_, only : inference_engine_t
-  use differentiable_activation_strategy_m, only : differentiable_activation_strategy_t
   use kind_parameters_m, only : rkind
   use tensor_m, only :  tensor_t
   use mini_batch_m, only : mini_batch_t
@@ -21,9 +20,7 @@ module trainable_engine_m
     real(rkind), allocatable :: w(:,:,:) ! weights
     real(rkind), allocatable :: b(:,:) ! biases
     integer, allocatable :: n(:) ! nodes per layer
-    class(differentiable_activation_strategy_t), allocatable :: differentiable_activation_strategy_ 
   contains
-    procedure :: assert_consistent
     procedure :: train
     procedure :: infer
     procedure :: num_layers
@@ -36,12 +33,11 @@ module trainable_engine_m
 
   interface trainable_engine_t
 
-    pure module function construct_from_padded_arrays(nodes, weights, biases, differentiable_activation_strategy, metadata) &
+    pure module function construct_from_padded_arrays(nodes, weights, biases, metadata) &
     result(trainable_engine)
       implicit none
       integer, intent(in) :: nodes(input_layer:)
       real(rkind), intent(in)  :: weights(:,:,:), biases(:,:)
-      class(differentiable_activation_strategy_t), intent(in) :: differentiable_activation_strategy
       type(string_t), intent(in) :: metadata(:)
       type(trainable_engine_t) trainable_engine
     end function
@@ -63,11 +59,6 @@ module trainable_engine_m
   end interface
 
   interface
-
-    pure module subroutine assert_consistent(self)
-      implicit none
-      class(trainable_engine_t), intent(in) :: self
-    end subroutine
 
     pure module subroutine train(self, mini_batches, cost, adam, learning_rate)
       implicit none

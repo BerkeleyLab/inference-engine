@@ -6,7 +6,6 @@ module inference_engine_m_
   use string_m, only : string_t
   use kind_parameters_m, only : rkind
   use tensor_m, only : tensor_t
-  use differentiable_activation_strategy_m, only :differentiable_activation_strategy_t
   implicit none
 
   private
