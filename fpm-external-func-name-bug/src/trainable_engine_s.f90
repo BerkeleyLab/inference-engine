@@ -20,17 +20,6 @@ contains
     n_out = self%n(ubound(self%n,1))
   end procedure
 
-  module procedure construct_from_inference_engine
-
-    associate(exchange => inference_engine%to_exchange())
-      trainable_engine%metadata_ = exchange%metadata_
-      trainable_engine%w = exchange%weights_
-      trainable_engine%b = exchange%biases_
-      trainable_engine%n = exchange%nodes_
-    end associate
-
-  end procedure
-
   module procedure infer
 
     real(rkind), allocatable :: a(:,:)
@@ -176,13 +165,6 @@ contains
      trainable_engine%n = nodes
      trainable_engine%w = weights
      trainable_engine%b = biases
-  end procedure
-
-  module procedure to_inference_engine
-    ! assignment-stmt disallows the procedure from being pure because it might
-    ! deallocate polymorphic allocatable subcomponent `activation_strategy_`
-    ! TODO: consider how this affects design
-    inference_engine = inference_engine_t(metadata = self%metadata_, weights = self%w, biases = self%b, nodes = self%n)
   end procedure
 
   module procedure perturbed_identity_network

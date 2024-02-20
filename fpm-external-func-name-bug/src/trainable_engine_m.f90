@@ -3,7 +3,6 @@
 module trainable_engine_m
   !! Define an abstraction that supports training a neural network
   use string_m, only : string_t
-  use inference_engine_m_, only : inference_engine_t
   use kind_parameters_m, only : rkind
   use tensor_m, only :  tensor_t
   use mini_batch_m, only : mini_batch_t
@@ -26,7 +25,6 @@ module trainable_engine_m
     procedure :: num_layers
     procedure :: num_inputs
     procedure :: num_outputs
-    procedure :: to_inference_engine
   end type
 
   integer, parameter :: input_layer = 0
@@ -39,12 +37,6 @@ module trainable_engine_m
       integer, intent(in) :: nodes(input_layer:)
       real(rkind), intent(in)  :: weights(:,:,:), biases(:,:)
       type(string_t), intent(in) :: metadata(:)
-      type(trainable_engine_t) trainable_engine
-    end function
-
-    pure module function construct_from_inference_engine(inference_engine) result(trainable_engine)
-      implicit none
-      type(inference_engine_t), intent(in) :: inference_engine
       type(trainable_engine_t) trainable_engine
     end function
 
@@ -92,12 +84,6 @@ module trainable_engine_m
       implicit none
       class(trainable_engine_t), intent(in) :: self
       integer n_layers
-    end function
-
-    module function to_inference_engine(self) result(inference_engine)
-      implicit none
-      class(trainable_engine_t), intent(in) :: self
-      type(inference_engine_t) :: inference_engine
     end function
 
   end interface
