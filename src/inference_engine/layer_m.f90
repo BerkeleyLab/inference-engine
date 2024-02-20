@@ -27,7 +27,7 @@ module layer_m
 
   interface layer_t
 
-    recursive module function construct(layer_lines, start) result(layer)
+    recursive module function construct_layer(layer_lines, start) result(layer)
       !! construct a linked list of layer_t objects from an array of JSON-formatted text lines
       implicit none
       type(string_t), intent(in) :: layer_lines(:)

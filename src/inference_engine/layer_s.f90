@@ -7,7 +7,7 @@ submodule(layer_m) layer_s
 
 contains
 
-  module procedure construct
+  module procedure construct_layer
 
     type(neuron_t), pointer ::  neuron 
     integer num_inputs, neurons_in_layer
@@ -17,7 +17,7 @@ contains
     line = adjustl(layer_lines(start)%string())
     hidden_layers = line == '['
     output_layer = line == '"output_layer": ['
-    call assert(hidden_layers .or. output_layer, "layer_t construct: layer start", line)
+    call assert(hidden_layers .or. output_layer, "layer_t construct_layer: layer start", line)
 
     layer%neuron = neuron_t(layer_lines, start+1)
     num_inputs = size(layer%neuron%weights())
@@ -27,14 +27,14 @@ contains
     do 
       if (.not. neuron%next_allocated()) exit
       neuron => neuron%next_pointer()
-      call assert(size(neuron%weights()) == num_inputs, "layer_t construct: constant number of inputs")
+      call assert(size(neuron%weights()) == num_inputs, "layer_t construct_layer: constant number of inputs")
       neurons_in_layer = neurons_in_layer + 1
     end do
 
     line = trim(adjustl(layer_lines(start+4*neurons_in_layer+1)%string()))
     call assert(line(1:1)==']', "read_layer_list: hidden layer end")
 
-    if (line(len(line):len(line)) == ",") layer%next = construct(layer_lines, start+4*neurons_in_layer+2)
+    if (line(len(line):len(line)) == ",") layer%next = construct_layer(layer_lines, start+4*neurons_in_layer+2)
 
   end procedure
 
