@@ -22,9 +22,6 @@ module trainable_engine_m
   contains
     procedure :: train
     procedure :: infer
-    procedure :: num_layers
-    procedure :: num_inputs
-    procedure :: num_outputs
   end type
 
   integer, parameter :: input_layer = 0
@@ -68,24 +65,6 @@ module trainable_engine_m
       type(tensor_t) outputs
     end function
     
-    elemental module function num_inputs(self) result(n_in)
-      implicit none
-      class(trainable_engine_t), intent(in) :: self
-      integer n_in
-    end function
-
-    elemental module function num_outputs(self) result(n_out)
-      implicit none
-      class(trainable_engine_t), intent(in) :: self
-      integer n_out
-    end function
-
-    elemental module function num_layers(self) result(n_layers)
-      implicit none
-      class(trainable_engine_t), intent(in) :: self
-      integer n_layers
-    end function
-
   end interface
 
 end module trainable_engine_m

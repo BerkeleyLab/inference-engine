@@ -8,18 +8,6 @@ submodule(trainable_engine_m) trainable_engine_s
 
 contains
 
-  module procedure num_inputs
-    n_in = self%n(input_layer)
-  end procedure
-
-  module procedure num_layers
-    n_layers = size(self%n,1)
-  end procedure
-
-  module procedure num_outputs
-    n_out = self%n(ubound(self%n,1))
-  end procedure
-
   module procedure infer
 
     real(rkind), allocatable :: a(:,:)
