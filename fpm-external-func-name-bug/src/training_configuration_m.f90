@@ -14,7 +14,6 @@ module training_configuration_m
     procedure :: equals
     generic :: operator(==) => equals
     procedure :: mini_batches
-    procedure :: optimizer_name
     procedure :: learning_rate
   end type
 
@@ -40,12 +39,6 @@ module training_configuration_m
       implicit none
       class(training_configuration_t), intent(in) :: self
       integer num_mini_batches
-    end function
-
-    elemental module function optimizer_name(self) result(identifier)
-      implicit none
-      class(training_configuration_t), intent(in) :: self
-      type(string_t) identifier
     end function
 
     elemental module function learning_rate(self) result(rate)
