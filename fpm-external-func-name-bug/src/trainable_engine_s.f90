@@ -78,7 +78,7 @@ contains
           iterate_through_batch: &
           do pair = 1, mini_batch_size
 
-            a(1:self%num_inputs(), input_layer) = inputs(pair)%values()
+            a(1:10, input_layer) = inputs(pair)%values()
 
             feed_forward: &
             do l = 1,output_layer
@@ -149,7 +149,6 @@ contains
 
   module procedure construct_from_padded_arrays
 
-     trainable_engine%metadata_ = metadata
      trainable_engine%n = nodes
      trainable_engine%w = weights
      trainable_engine%b = biases
@@ -158,9 +157,10 @@ contains
   module procedure perturbed_identity_network
 
     integer k, l
+    integer :: nodes_junk(10)
     real, allocatable :: identity(:,:,:), w_harvest(:,:,:), b_harvest(:,:)
 
-    associate(n=>training_configuration%nodes_per_layer())
+    associate(n=>nodes_junk)
       associate(n_max => maxval(n), layers => size(n))
 
         identity = reshape( [( [(e(k,n_max), k=1,n_max)], l = 1, layers-1 )], [n_max, n_max, layers-1])
@@ -174,7 +174,7 @@ contains
           b => perturbation_magnitude*(b_harvest-0.5)/0.5 &
         )
           trainable_engine = trainable_engine_t( &
-            nodes = n, weights = w, biases = b, metadata = metadata &
+            nodes = n, weights = w, biases = b &
           )
         end associate
       end associate
