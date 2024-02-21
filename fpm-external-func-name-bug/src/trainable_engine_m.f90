@@ -19,7 +19,6 @@ module trainable_engine_m
     integer, allocatable :: n(:) ! nodes per layer
   contains
     procedure :: train
-    procedure :: infer
   end type
 
   integer, parameter :: input_layer = 0
@@ -54,13 +53,6 @@ module trainable_engine_m
       real(rkind), intent(in) :: learning_rate
     end subroutine
 
-    elemental module function infer(self, inputs) result(outputs)
-      implicit none
-      class(trainable_engine_t), intent(in) :: self
-      type(tensor_t), intent(in) :: inputs
-      type(tensor_t) outputs
-    end function
-    
   end interface
 
 end module trainable_engine_m

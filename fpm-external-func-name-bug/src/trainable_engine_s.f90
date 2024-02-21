@@ -8,23 +8,6 @@ submodule(trainable_engine_m) trainable_engine_s
 
 contains
 
-  module procedure infer
-
-    real(rkind), allocatable :: a(:,:)
-    integer l
-
-    associate(w => self%w, b => self%b, n => self%n, output_layer => ubound(self%n,1))
-
-      allocate(a(maxval(n), input_layer:output_layer)) ! Activations
-
-      a(1:n(input_layer),input_layer) = inputs%values()
- 
-      outputs = tensor_t(a(1:n(output_layer),output_layer))
-
-    end associate
-
-  end procedure
-
   module procedure train
     integer l, batch, mini_batch_size, pair
     real(rkind), allocatable :: &
