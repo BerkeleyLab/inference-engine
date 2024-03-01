@@ -79,9 +79,8 @@ contains
           end do
          end block
        end do feed_forward
- 
+      outputs = a(:,:,:,1:n(output_layer), output_layer)
     !   outputs = tensor_t(a(1:n(output_layer), output_layer))
-
        end associate
     end associate
     
