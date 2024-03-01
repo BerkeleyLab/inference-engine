@@ -370,7 +370,14 @@ contains
       call assert(num_inputs == num_outputs,"trainable_engine_test_m(identity_mapping): # inputs == # outputs", &
         intrinsic_array_t([num_inputs, num_outputs]) &
       )
+#ifndef NAGFOR
       inputs = [(tensor_t(real([i,2*i], rkind)/num_pairs), i = 1, num_pairs)]
+#else
+      allocate(inputs(num_pairs))
+      do concurrent(i = 1:num_pairs)
+        inputs(i) = tensor_t(real([i,2*i], rkind)/num_pairs)
+      end do
+#endif
       associate(outputs => inputs)
         input_output_pairs = input_output_pair_t(inputs, outputs)
       end associate
@@ -417,7 +424,14 @@ contains
       call assert(num_inputs == num_outputs,"trainable_engine_test_m(identity_mapping): # inputs == # outputs", &
         intrinsic_array_t([num_inputs, num_outputs]) &
       )
+#ifndef NAGFOR
       inputs = [(tensor_t(real([i,2*i], rkind)/(2*num_pairs)), i = 1, num_pairs)]
+#else
+      allocate(inputs(num_pairs))
+      do concurrent(i = 1:num_pairs)
+        inputs(i) = tensor_t(real([i,2*i], rkind)/num_pairs)
+      end do
+#endif
       associate(outputs => inputs)
         input_output_pairs = input_output_pair_t(inputs, outputs)
       end associate
