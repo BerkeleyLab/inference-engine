@@ -122,7 +122,7 @@ module inference_engine_m_
     implicit none
     class(inference_engine_t), intent(in) :: self
     real, intent(in) :: inputs(:,:,:,:)
-    real, allocatable :: outputs(:,:,:)
+    real, allocatable :: outputs(:,:,:,:)
   end function
 
     elemental module function num_outputs(self) result(output_count)
