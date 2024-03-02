@@ -78,7 +78,6 @@ program concurrent_inferences
       end do
       call system_clock(t_finish)
       print *,"Concurrent inference time with non-type-bound procedure: ", real(t_finish - t_start, real64)/real(clock_rate, real64)
-      
       print *,"Performing batched inferences via intrinsic-array input and output"
       block 
         integer n
