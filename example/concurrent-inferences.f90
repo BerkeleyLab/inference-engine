@@ -49,7 +49,6 @@ program concurrent_inferences
       end associate
       call system_clock(t_finish)
       print *,"Elemental inference time: ", real(t_finish - t_start, real64)/real(clock_rate, real64)
-      
       call assert(all(shape(outputs) == shape(inputs)), "all(shape(outputs) == shape(inputs))")
 
       print *,"Performing loop-based inference"
