@@ -5,7 +5,7 @@ program concurrent_inferences
   !! and use the network to perform concurrent inferences.
   use inference_engine_m, only : inference_engine_t, tensor_t, infer
   use sourcery_m, only : string_t, command_line_t, file_t
-  use assert_m, only : assert
+  use assert_m, only : assert, intrinsic_array_t
   use iso_fortran_env, only : int64, real64
   implicit none
 
@@ -44,10 +44,11 @@ program concurrent_inferences
       print *,"Performing elemental inferences"
       call system_clock(t_start, clock_rate)
       associate(outputs_tensors => inference_engine%infer(inputs))
+        ! added this one
+        outputs = outputs_tensors
       end associate
       call system_clock(t_finish)
       print *,"Elemental inference time: ", real(t_finish - t_start, real64)/real(clock_rate, real64)
-
       call assert(all(shape(outputs) == shape(inputs)), "all(shape(outputs) == shape(inputs))")
 
       print *,"Performing loop-based inference"
@@ -77,7 +78,6 @@ program concurrent_inferences
       end do
       call system_clock(t_finish)
       print *,"Concurrent inference time with non-type-bound procedure: ", real(t_finish - t_start, real64)/real(clock_rate, real64)
-
       print *,"Performing batched inferences via intrinsic-array input and output"
       block 
         integer n
