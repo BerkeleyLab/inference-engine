@@ -94,7 +94,7 @@ program concurrent_inferences
           end associate
         end associate
         print *,"Batch inference time: ", real(t_finish - t_start, real64)/real(clock_rate, real64)
-      end block 
+      end block
     end block
   end block
 
