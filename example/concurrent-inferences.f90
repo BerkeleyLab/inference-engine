@@ -22,8 +22,9 @@ program concurrent_inferences
   block 
     type(inference_engine_t) network, inference_engine
     type(tensor_t), allocatable :: inputs(:,:,:), outputs(:,:,:)
+    real, allocatable :: outputs_batch(:,:,:,:)
     real, allocatable :: input_components(:,:,:,:)
-    integer, parameter :: lat=263, lon=317, lev=15 ! latitudes, longitudes, levels (elevations)
+    integer, parameter :: lat=350, lon=450, lev=20 ! latitudes, longitudes, levels (elevations)
     integer i, j, k
 
     print *, "Constructing a new inference_engine_t object from the file " // network_file_name%string()
@@ -90,12 +91,25 @@ program concurrent_inferences
             shape=[lat,lon,lev,n] &
           ))
             call system_clock(t_start, clock_rate)
-            associate(batch_outputs => inference_engine%infer(inputs_batch))
-            end associate
+            outputs_batch = inference_engine%infer(inputs_batch)
+            ! associate(batch_outputs => inference_engine%infer(inputs_batch))
+            !   outputs_batch = batch_outputs
+            ! end associate
             call system_clock(t_finish)
           end associate
         end associate
         print *,"Batch inference time: ", real(t_finish - t_start, real64)/real(clock_rate, real64)
+        block
+          real, parameter :: tolerance = 1.
+          !testing the result
+          do concurrent(i=1:lat, j=1:lon, k=1:lev)
+            associate(batch_outputs_tensor => tensor_t(outputs_batch(i,j,k,:)))
+              call assert(all(abs(outputs(i,j,k)%values() - batch_outputs_tensor%values()) < tolerance), &
+              "all(outputs == outputs_batch)", intrinsic_array_t(batch_outputs_tensor%values()))
+            end associate
+          end do
+        end associate
+        end block
       end block 
     end block
   end block
