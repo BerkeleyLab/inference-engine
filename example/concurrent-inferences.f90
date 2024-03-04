@@ -108,7 +108,6 @@ program concurrent_inferences
               "all(outputs == outputs_batch)", intrinsic_array_t(batch_outputs_tensor%values()))
             end associate
           end do
-        end associate
         end block
       end block 
     end block
