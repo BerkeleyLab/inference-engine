@@ -119,7 +119,7 @@ contains
       vdb = 0.d0
       sdb = 1.d0
 
-      associate(w => self%w, b => self%b, n => self%n, num_mini_batches => size(mini_batches))
+      associate(w => self%w, b => self%b, n => self%n, num_mini_batches => size(mini_batches_arr))
 
         if (present(cost)) allocate(cost(num_mini_batches))
       
@@ -129,7 +129,7 @@ contains
           if (present(cost)) cost(batch) = 0.
           dcdw = 0.; dcdb = 0.
           
-          associate(input_output_pairs => mini_batches(batch)%input_output_pairs())
+          associate(input_output_pairs => mini_batches_arr(batch)%input_output_pairs())
             inputs = input_output_pairs%inputs()
             expected_outputs = input_output_pairs%expected_outputs()
             mini_batch_size = size(input_output_pairs)
