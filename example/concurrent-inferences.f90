@@ -92,7 +92,13 @@ program concurrent_inferences
       end do
       call system_clock(t_finish)
       print *,"Concurrent inference time with non-type-bound procedure: ", real(t_finish - t_start, real64)/real(clock_rate, real64)
-      
+
+      !Concurrent inference with non-type-bound procedure test
+      do concurrent(i=1:lat, j=1:lon, k=1:lev)
+        call assert(all(abs(outputs(i,j,k)%values() - outputs_elem_infer(i,j,k)%values()) < tolerance), &
+          "all(concurrent_with_non_type_bound_proc_outputs == outputs_elemental_infer)")
+      end do  
+
       print *,"Performing batched inferences via intrinsic-array input and output"
       block 
         integer n
