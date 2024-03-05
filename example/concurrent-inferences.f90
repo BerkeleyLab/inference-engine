@@ -21,10 +21,11 @@ program concurrent_inferences
 
   block 
     type(inference_engine_t) network, inference_engine
-    type(tensor_t), allocatable :: inputs(:,:,:), outputs(:,:,:)
+    type(tensor_t), allocatable :: inputs(:,:,:), outputs_elem_infer(:,:,:), outputs(:,:,:)
     real, allocatable :: input_components(:,:,:,:)
     integer, parameter :: lat=263, lon=317, lev=15 ! latitudes, longitudes, levels (elevations)
     integer i, j, k
+    real, parameter :: tolerance = 1.e-6
 
     print *, "Constructing a new inference_engine_t object from the file " // network_file_name%string()
     inference_engine = inference_engine_t(file_t(network_file_name))
@@ -45,12 +46,13 @@ program concurrent_inferences
       call system_clock(t_start, clock_rate)
       associate(outputs_tensors => inference_engine%infer(inputs))
         ! added this one
-        outputs = outputs_tensors
+        outputs_elem_infer = outputs_tensors
       end associate
       call system_clock(t_finish)
       print *,"Elemental inference time: ", real(t_finish - t_start, real64)/real(clock_rate, real64)
       
-      call assert(all(shape(outputs) == shape(inputs)), "all(shape(outputs) == shape(inputs))")
+      call assert(all(shape(outputs_elem_infer) == shape(inputs)), "all(shape(outputs) == shape(inputs))")
+      allocate(outputs(lat,lon,lev))
 
       print *,"Performing loop-based inference"
       call system_clock(t_start)
@@ -64,6 +66,12 @@ program concurrent_inferences
       call system_clock(t_finish)
       print *,"Looping inference time: ", real(t_finish - t_start, real64)/real(clock_rate, real64)
 
+      !Looping inference test
+      do concurrent(i=1:lat, j=1:lon, k=1:lev)
+        call assert(all(abs(outputs(i,j,k)%values() - outputs_elem_infer(i,j,k)%values()) < tolerance), &
+          "all(looping_outputs == outputs_elemental_infer)")
+      end do  
+
       print *,"Performing concurrent inference"
       call system_clock(t_start)
       do concurrent(i=1:lat, j=1:lon, k=1:lev)
@@ -71,6 +79,12 @@ program concurrent_inferences
       end do
       call system_clock(t_finish)
       print *,"Concurrent inference time: ", real(t_finish - t_start, real64)/real(clock_rate, real64)
+
+      !Concurrent inference test
+      do concurrent(i=1:lat, j=1:lon, k=1:lev)
+        call assert(all(abs(outputs(i,j,k)%values() - outputs_elem_infer(i,j,k)%values()) < tolerance), &
+          "all(concurrent_outputs == outputs_elemental_infer)")
+      end do  
 
       print *,"Performing concurrent inference with a non-type-bound inference procedure"
       call system_clock(t_start)
@@ -80,6 +94,12 @@ program concurrent_inferences
       call system_clock(t_finish)
       print *,"Concurrent inference time with non-type-bound procedure: ", real(t_finish - t_start, real64)/real(clock_rate, real64)
       
+      !Concurrent inference with non-type-bound procedure test
+      do concurrent(i=1:lat, j=1:lon, k=1:lev)
+        call assert(all(abs(outputs(i,j,k)%values() - outputs_elem_infer(i,j,k)%values()) < tolerance), &
+          "all(non_type_bound_proc_outputs == outputs_elemental_infer)")
+      end do  
+
       print *,"Performing batched inferences via intrinsic-array input and output"
       block 
         integer n
