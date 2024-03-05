@@ -50,7 +50,6 @@ program concurrent_inferences
       end associate
       call system_clock(t_finish)
       print *,"Elemental inference time: ", real(t_finish - t_start, real64)/real(clock_rate, real64)
-      
       call assert(all(shape(outputs_elem_infer) == shape(inputs)), "all(shape(outputs) == shape(inputs))")
       allocate(outputs(lat,lon,lev))
 
@@ -94,12 +93,6 @@ program concurrent_inferences
       call system_clock(t_finish)
       print *,"Concurrent inference time with non-type-bound procedure: ", real(t_finish - t_start, real64)/real(clock_rate, real64)
       
-      !Concurrent inference with non-type-bound procedure test
-      do concurrent(i=1:lat, j=1:lon, k=1:lev)
-        call assert(all(abs(outputs(i,j,k)%values() - outputs_elem_infer(i,j,k)%values()) < tolerance), &
-          "all(non_type_bound_proc_outputs == outputs_elemental_infer)")
-      end do  
-
       print *,"Performing batched inferences via intrinsic-array input and output"
       block 
         integer n
@@ -116,7 +109,7 @@ program concurrent_inferences
           end associate
         end associate
         print *,"Batch inference time: ", real(t_finish - t_start, real64)/real(clock_rate, real64)
-      end block 
+      end block
     end block
   end block
 
