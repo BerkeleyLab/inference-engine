@@ -7,6 +7,7 @@ program concurrent_inferences
   use sourcery_m, only : string_t, command_line_t, file_t
   use assert_m, only : assert, intrinsic_array_t
   use iso_fortran_env, only : int64, real64
+  use, intrinsic :: omp_lib
   implicit none
 
   type(string_t) network_file_name
@@ -23,7 +24,7 @@ program concurrent_inferences
     type(inference_engine_t) network, inference_engine
     type(tensor_t), allocatable :: inputs(:,:,:), outputs_elem_infer(:,:,:), outputs(:,:,:)
     real, allocatable :: input_components(:,:,:,:)
-    integer, parameter :: lat=263, lon=317, lev=15 ! latitudes, longitudes, levels (elevations)
+    integer, parameter :: lat=350, lon=450, lev=20 ! latitudes, longitudes, levels (elevations)
     integer i, j, k
     real, parameter :: tolerance = 1.e-6
 
@@ -97,6 +98,30 @@ program concurrent_inferences
       do concurrent(i=1:lat, j=1:lon, k=1:lev)
         call assert(all(abs(outputs(i,j,k)%values() - outputs_elem_infer(i,j,k)%values()) < tolerance), &
           "all(concurrent_with_non_type_bound_proc_outputs == outputs_elemental_infer)")
+      end do  
+
+      print *, "performing inference with openmp multi-threading"
+      call system_clock(t_start)
+      !$omp parallel do default(none) shared(inputs, outputs, inference_engine) schedule(static)
+      do concurrent(i=1:lat, j=1:lon, k=1:lev)
+        outputs(i,j,k) = inference_engine%infer(inputs(i,j,k))           
+      end do
+      
+      ! do j=1,lon
+      !   do k=1,lev
+      !     do i=1,lat
+      !       outputs(i,j,k) = inference_engine%infer(inputs(i,j,k))
+      !     end do
+      !   end do
+      ! end do
+      !$omp end parallel do
+      call system_clock(t_finish)
+      print *,"Concurrent inference time with openmp multi-threading: ", real(t_finish - t_start, real64)/real(clock_rate)
+      print *,sizeof(outputs(1,1,1)%values(1))
+      !Concurrent inference with non-type-bound procedure test
+      do concurrent(i=1:lat, j=1:lon, k=1:lev)
+        call assert(all(abs(outputs(i,j,k)%values() - outputs_elem_infer(i,j,k)%values()) < tolerance), &
+          "all(openmp_multithreading_outputs == outputs_elemental_infer)")
       end do  
 
       print *,"Performing batched inferences via intrinsic-array input and output"
