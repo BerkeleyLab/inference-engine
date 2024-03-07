@@ -25,8 +25,8 @@ program concurrent_inferences
     type(tensor_t), allocatable :: inputs(:,:,:), outputs_elem_infer(:,:,:), outputs(:,:,:)
     real, allocatable :: input_components(:,:,:,:)
     integer, parameter :: lat=350, lon=450, lev=20 ! latitudes, longitudes, levels (elevations)
-    integer i, j, k
-    real, parameter :: tolerance = 1.e-6
+    integer i, j, k, jk
+    real, parameter :: tolerance = 1.e-06
 
     print *, "Constructing a new inference_engine_t object from the file " // network_file_name%string()
     inference_engine = inference_engine_t(file_t(network_file_name))
@@ -102,23 +102,36 @@ program concurrent_inferences
 
       print *, "performing inference with openmp multi-threading"
       call system_clock(t_start)
-      !$omp parallel do default(none) shared(inputs, outputs, inference_engine) schedule(static)
-      do concurrent(i=1:lat, j=1:lon, k=1:lev)
-        outputs(i,j,k) = inference_engine%infer(inputs(i,j,k))           
+      !$omp parallel do default(none) shared(inputs, outputs, inference_engine) schedule(static,1)
+      do j=1,lon
+        do k=1,lev
+          do i=1,lat
+            outputs(i,j,k) = inference_engine%infer(inputs(i,j,k))
+          end do
+        end do
       end do
-      
-      ! do j=1,lon
-      !   do k=1,lev
-      !     do i=1,lat
-      !       outputs(i,j,k) = inference_engine%infer(inputs(i,j,k))
-      !     end do
-      !   end do
-      ! end do
       !$omp end parallel do
       call system_clock(t_finish)
       print *,"Concurrent inference time with openmp multi-threading: ", real(t_finish - t_start, real64)/real(clock_rate)
-      print *,sizeof(outputs(1,1,1)%values(1))
-      !Concurrent inference with non-type-bound procedure test
+
+      print *, "performing inference with openmp multi-threading"
+      call system_clock(t_start)
+      !$omp parallel do default(none) shared(inputs, outputs, inference_engine) private(j,k) schedule(static,1)
+      do jk=1,lon*lev
+        j = mod(jk, lon)
+        k = (jk / lon) +1
+        if (j == 0 .or. k == 0) then
+          print *,"j=",j," k=",k, " jk=",jk
+        end if
+        do i=1,lat
+          outputs(i,j,k) = inference_engine%infer(inputs(i,j,k))
+        end do
+      end do
+      !$omp end parallel do
+      call system_clock(t_finish)
+      print *,"Concurrent inference time with openmp multi-threading: ", real(t_finish - t_start, real64)/real(clock_rate)
+  
+      !Openmp multithreading inference test
       do concurrent(i=1:lat, j=1:lon, k=1:lev)
         call assert(all(abs(outputs(i,j,k)%values() - outputs_elem_infer(i,j,k)%values()) < tolerance), &
           "all(openmp_multithreading_outputs == outputs_elemental_infer)")
