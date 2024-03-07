@@ -219,7 +219,11 @@ contains
     
   end procedure
 
+#ifdef __INTEL_COMPILER
+  module procedure construct_trainable_engine_from_padded_arrays
+#else
   module procedure construct_from_padded_arrays
+#endif
 
      trainable_engine%metadata_ = metadata
      trainable_engine%n = nodes

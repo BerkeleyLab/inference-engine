@@ -35,9 +35,13 @@ module trainable_engine_m
   integer, parameter :: input_layer = 0
 
   interface trainable_engine_t
-
-    pure module function construct_from_padded_arrays(nodes, weights, biases, differentiable_activation_strategy, metadata) &
-    result(trainable_engine)
+#ifdef __INTEL_COMPILER
+     pure module function construct_trainable_engine_from_padded_arrays( &
+       nodes, weights, biases, differentiable_activation_strategy, metadata) &
+#else
+     pure module function construct_from_padded_arrays(nodes, weights, biases, differentiable_activation_strategy, metadata) &
+#endif
+      result(trainable_engine)
       implicit none
       integer, intent(in) :: nodes(input_layer:)
       real(rkind), intent(in)  :: weights(:,:,:), biases(:,:)
