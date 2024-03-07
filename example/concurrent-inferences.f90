@@ -24,18 +24,18 @@ program concurrent_inferences
     type(tensor_t), allocatable :: inputs(:,:,:), outputs(:,:,:)
     real, allocatable :: outputs_batch(:,:,:,:)
     real, allocatable :: input_components(:,:,:,:)
-    integer, parameter :: lat=350, lon=450, lev=20 ! latitudes, longitudes, levels (elevations)
+    integer, parameter :: lon=350, lev=450, lat=20 ! longitudes, levels, latitudes 
     integer i, j, k
 
     print *, "Constructing a new inference_engine_t object from the file " // network_file_name%string()
     inference_engine = inference_engine_t(file_t(network_file_name))
 
     print *,"Defining an array of tensor_t input objects with random normalized components"
-    allocate(inputs(lat,lon,lev))
-    allocate(input_components(lat,lon,lev,inference_engine%num_inputs()))
+    allocate(inputs(lon,lev,lat))
+    allocate(input_components(lon,lev,lat,inference_engine%num_inputs()))
     call random_number(input_components)
 
-    do concurrent(i=1:lat, j=1:lon, k=1:lev)
+    do concurrent(i=1:lon, k=1:lev, j=1:lat)
       inputs(i,j,k) = tensor_t(input_components(i,j,k,:))
     end do
 
@@ -54,10 +54,10 @@ program concurrent_inferences
 
       print *,"Performing loop-based inference"
       call system_clock(t_start)
-      do k=1,lev
-        do j=1,lon
-          do i=1,lat
-            outputs(i,j,k) = inference_engine%infer(inputs(i,j,k))
+      do j=1,lat
+        do k=1,lev
+          do i=1,lon
+            outputs(i,k,j) = inference_engine%infer(inputs(i,k,j))
           end do
         end do
       end do
@@ -66,16 +66,16 @@ program concurrent_inferences
 
       print *,"Performing concurrent inference"
       call system_clock(t_start)
-      do concurrent(i=1:lat, j=1:lon, k=1:lev)
-        outputs(i,j,k) = inference_engine%infer(inputs(i,j,k))           
+      do concurrent(i=1:lon, k=1:lev, j=1:lat)
+        outputs(i,k,j) = inference_engine%infer(inputs(i,k,j))
       end do
       call system_clock(t_finish)
       print *,"Concurrent inference time: ", real(t_finish - t_start, real64)/real(clock_rate, real64)
 
       print *,"Performing concurrent inference with a non-type-bound inference procedure"
       call system_clock(t_start)
-      do concurrent(i=1:lat, j=1:lon, k=1:lev)
-        outputs(i,j,k) = infer(inference_engine, inputs(i,j,k))           
+      do concurrent(i=1:lon, k=1:lev, j=1:lat)
+        outputs(i,k,j) = infer(inference_engine, inputs(i,k,j))
       end do
       call system_clock(t_finish)
       print *,"Concurrent inference time with non-type-bound procedure: ", real(t_finish - t_start, real64)/real(clock_rate, real64)
@@ -85,8 +85,8 @@ program concurrent_inferences
 
         associate(num_inputs => inference_engine%num_inputs())
           associate(inputs_batch => reshape( &
-            [((((inputs(i,j,k)%values(), i=1,lat), j=1,lon), k=1,lev), n=1,num_inputs)], &
-            shape=[lat,lon,lev,n] &
+            [((((inputs(i,k,j)%values(), i=1,lon), k=1,lev), j=1,lat), n=1,num_inputs)], &
+            shape=[lon,lev,lat,n] &
           ))
             call system_clock(t_start, clock_rate)
             outputs_batch = inference_engine%infer(inputs_batch)
@@ -100,7 +100,7 @@ program concurrent_inferences
         block
           real, parameter :: tolerance = 1.
           !testing the result
-          do concurrent(i=1:lat, j=1:lon, k=1:lev)
+          do concurrent(i=1:lon, k=1:lev, j=1:lat)
             associate(batch_outputs_tensor => tensor_t(outputs_batch(i,j,k,:)))
               call assert(all(abs(outputs(i,j,k)%values() - batch_outputs_tensor%values()) < tolerance), &
               "all(outputs == outputs_batch)", intrinsic_array_t(batch_outputs_tensor%values()))
