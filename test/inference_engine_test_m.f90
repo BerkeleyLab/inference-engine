@@ -40,11 +40,12 @@ contains
         [ character(len=len(longest_description)) :: &
           "performing elemental inference with 1 hidden layer", &
           "performing elemental inference with 2 hidden layers", &
+          "performing batch inference", &
           "converting a network with 2 hidden layers to and from JSON format"  &
         ], &
       outcomes => &
         [ elemental_infer_with_1_hidden_layer_xor_net(), elemental_infer_with_2_hidden_layer_xor_net(), &
-          multi_hidden_layer_net_to_from_json() &
+          batch_inference(), multi_hidden_layer_net_to_from_json() &
         ] &
     )
       call assert(size(descriptions) == size(outcomes), "inference_engine_test(results): size(descriptions) == size(outcomes)")
@@ -77,6 +78,37 @@ contains
       biases = reshape([[0.,-1.99,0.], [0., 0., 0.], [0., 0., 0.]], [max_n, layers-1]), &
       nodes = nodes_per_layer &
     )
+  end function
+
+  function batch_inference() result(test_passes)
+    logical, allocatable :: test_passes(:)
+    type(inference_engine_t) inference_engine
+    integer, parameter :: lat=1, lon=1, lev=1 ! latitudes, longitudes, levels (elevations)
+    real(rkind), parameter :: tolerance = 1.E-08_rkind, false = 0._rkind, true = 1._rkind
+    integer i, j, k
+
+    inference_engine = multi_layer_xor_network()
+
+    associate(num_inputs => inference_engine%num_inputs())
+      associate(inputs_batch => reshape([true,true], shape=[lon,lev,lat,num_inputs]))    
+        associate(outputs_batch => inference_engine%infer(inputs_batch))
+          test_passes = &
+            [all([(((abs(outputs_batch(i,k,j,:) - xor_gate(inputs_batch(i,k,j,:))) < tolerance, i=1,lon), k=1,lev), j=1,lat)])]
+        end associate
+      end associate
+    end associate
+
+  contains
+      
+    pure function xor_gate(inputs) result(expected_output)
+      real(rkind), intent(in) :: inputs(:)
+      real(rkind) expected_output
+      call assert(size(inputs) == inference_engine%num_inputs(), "xor(inputs): size(inputs) == num_inputs")
+      associate(sum_inputs => sum(inputs))
+        expected_output = merge(true, false, sum_inputs > 0.99 .and. sum_inputs < 1.01)
+      end associate
+    end function
+
   end function
 
   function distinct_parameters() result(inference_engine)
