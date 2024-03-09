@@ -5,8 +5,9 @@ program concurrent_inferences
   !! and use the network to perform concurrent inferences.
   use inference_engine_m, only : inference_engine_t, tensor_t, infer
   use sourcery_m, only : string_t, command_line_t, file_t
-  use assert_m, only : assert
+  use assert_m, only : assert, intrinsic_array_t
   use iso_fortran_env, only : int64, real64
+  use, intrinsic :: omp_lib
   implicit none
 
   type(string_t) network_file_name
@@ -21,10 +22,11 @@ program concurrent_inferences
 
   block 
     type(inference_engine_t) network, inference_engine
-    type(tensor_t), allocatable :: inputs(:,:,:), outputs(:,:,:)
+    type(tensor_t), allocatable :: inputs(:,:,:), outputs_elem_infer(:,:,:), outputs(:,:,:)
     real, allocatable :: input_components(:,:,:,:)
-    integer, parameter :: lat=263, lon=317, lev=15 ! latitudes, longitudes, levels (elevations)
-    integer i, j, k
+    integer, parameter :: lat=350, lon=450, lev=20 ! latitudes, longitudes, levels (elevations)
+    integer i, j, k, jk
+    real, parameter :: tolerance = 1.e-06
 
     print *, "Constructing a new inference_engine_t object from the file " // network_file_name%string()
     inference_engine = inference_engine_t(file_t(network_file_name))
@@ -43,11 +45,14 @@ program concurrent_inferences
 
       print *,"Performing elemental inferences"
       call system_clock(t_start, clock_rate)
-      outputs = inference_engine%infer(inputs)  ! implicit allocation of outputs array
+      associate(outputs_tensors => inference_engine%infer(inputs))
+        ! added this one
+        outputs_elem_infer = outputs_tensors
+      end associate
       call system_clock(t_finish)
       print *,"Elemental inference time: ", real(t_finish - t_start, real64)/real(clock_rate, real64)
-
-      call assert(all(shape(outputs) == shape(inputs)), "all(shape(outputs) == shape(inputs))")
+      call assert(all(shape(outputs_elem_infer) == shape(inputs)), "all(shape(outputs) == shape(inputs))")
+      allocate(outputs(lat,lon,lev))
 
       print *,"Performing loop-based inference"
       call system_clock(t_start)
@@ -61,6 +66,12 @@ program concurrent_inferences
       call system_clock(t_finish)
       print *,"Looping inference time: ", real(t_finish - t_start, real64)/real(clock_rate, real64)
 
+      !Looping inference test
+      do concurrent(i=1:lat, j=1:lon, k=1:lev)
+        call assert(all(abs(outputs(i,j,k)%values() - outputs_elem_infer(i,j,k)%values()) < tolerance), &
+          "all(looping_outputs == outputs_elemental_infer)")
+      end do  
+
       print *,"Performing concurrent inference"
       call system_clock(t_start)
       do concurrent(i=1:lat, j=1:lon, k=1:lev)
@@ -68,6 +79,12 @@ program concurrent_inferences
       end do
       call system_clock(t_finish)
       print *,"Concurrent inference time: ", real(t_finish - t_start, real64)/real(clock_rate, real64)
+
+      !Concurrent inference test
+      do concurrent(i=1:lat, j=1:lon, k=1:lev)
+        call assert(all(abs(outputs(i,j,k)%values() - outputs_elem_infer(i,j,k)%values()) < tolerance), &
+          "all(concurrent_outputs == outputs_elemental_infer)")
+      end do  
 
       print *,"Performing concurrent inference with a non-type-bound inference procedure"
       call system_clock(t_start)
@@ -77,6 +94,66 @@ program concurrent_inferences
       call system_clock(t_finish)
       print *,"Concurrent inference time with non-type-bound procedure: ", real(t_finish - t_start, real64)/real(clock_rate, real64)
 
+      !Concurrent inference with non-type-bound procedure test
+      do concurrent(i=1:lat, j=1:lon, k=1:lev)
+        call assert(all(abs(outputs(i,j,k)%values() - outputs_elem_infer(i,j,k)%values()) < tolerance), &
+          "all(concurrent_with_non_type_bound_proc_outputs == outputs_elemental_infer)")
+      end do  
+
+      print *, "performing inference with openmp multi-threading"
+      call system_clock(t_start)
+      !$omp parallel do default(none) shared(inputs, outputs, inference_engine) schedule(static,1)
+      do j=1,lon
+        do k=1,lev
+          do i=1,lat
+            outputs(i,j,k) = inference_engine%infer(inputs(i,j,k))
+          end do
+        end do
+      end do
+      !$omp end parallel do
+      call system_clock(t_finish)
+      print *,"Concurrent inference time with openmp multi-threading: ", real(t_finish - t_start, real64)/real(clock_rate)
+
+      print *, "performing inference with openmp multi-threading"
+      call system_clock(t_start)
+      !$omp parallel do default(none) shared(inputs, outputs, inference_engine) private(j,k) schedule(static,1)
+      do jk=1,lon*lev
+        j = mod(jk, lon)
+        k = (jk / lon) +1
+        if (j == 0 .or. k == 0) then
+          print *,"j=",j," k=",k, " jk=",jk
+        end if
+        do i=1,lat
+          outputs(i,j,k) = inference_engine%infer(inputs(i,j,k))
+        end do
+      end do
+      !$omp end parallel do
+      call system_clock(t_finish)
+      print *,"Concurrent inference time with openmp multi-threading: ", real(t_finish - t_start, real64)/real(clock_rate)
+  
+      !Openmp multithreading inference test
+      do concurrent(i=1:lat, j=1:lon, k=1:lev)
+        call assert(all(abs(outputs(i,j,k)%values() - outputs_elem_infer(i,j,k)%values()) < tolerance), &
+          "all(openmp_multithreading_outputs == outputs_elemental_infer)")
+      end do  
+
+      print *,"Performing batched inferences via intrinsic-array input and output"
+      block 
+        integer n
+
+        associate(num_inputs => inference_engine%num_inputs())
+          associate(inputs_batch => reshape( &
+            [((((inputs(i,j,k)%values(), i=1,lat), j=1,lon), k=1,lev), n=1,num_inputs)], &
+            shape=[lat,lon,lev,n] &
+          ))
+            call system_clock(t_start, clock_rate)
+            associate(batch_outputs => inference_engine%infer(inputs_batch))
+            end associate
+            call system_clock(t_finish)
+          end associate
+        end associate
+        print *,"Batch inference time: ", real(t_finish - t_start, real64)/real(clock_rate, real64)
+      end block
     end block
   end block
 
