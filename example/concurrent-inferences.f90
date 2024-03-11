@@ -24,7 +24,8 @@ program concurrent_inferences
     type(tensor_t), allocatable :: inputs(:,:,:), outputs(:,:,:)
     real, allocatable :: outputs_batch(:,:,:,:)
     real, allocatable :: input_components(:,:,:,:)
-    integer, parameter :: lon=350, lev=450, lat=20 ! longitudes, levels, latitudes 
+    !integer, parameter :: lon=350, lev=450, lat=20 ! longitudes, levels, latitudes 
+    integer, parameter :: lon=150, lev=150, lat=20 ! longitudes, levels, latitudes 
     integer i, j, k
 
     print *, "Constructing a new inference_engine_t object from the file " // network_file_name%string()
@@ -36,7 +37,7 @@ program concurrent_inferences
     call random_number(input_components)
 
     do concurrent(i=1:lon, k=1:lev, j=1:lat)
-      inputs(i,j,k) = tensor_t(input_components(i,j,k,:))
+      inputs(i,k,j) = tensor_t(input_components(i,k,j,:))
     end do
 
     block 
@@ -90,23 +91,23 @@ program concurrent_inferences
           ))
             call system_clock(t_start, clock_rate)
             outputs_batch = inference_engine%infer(inputs_batch)
-            ! associate(batch_outputs => inference_engine%infer(inputs_batch))
-            !   outputs_batch = batch_outputs
-            ! end associate
             call system_clock(t_finish)
           end associate
         end associate
+
         print *,"Batch inference time: ", real(t_finish - t_start, real64)/real(clock_rate, real64)
+
+        test_result: &
         block
           real, parameter :: tolerance = 1.
-          !testing the result
+
           do concurrent(i=1:lon, k=1:lev, j=1:lat)
-            associate(batch_outputs_tensor => tensor_t(outputs_batch(i,j,k,:)))
-              call assert(all(abs(outputs(i,j,k)%values() - batch_outputs_tensor%values()) < tolerance), &
+            associate(batch_outputs_tensor => tensor_t(outputs_batch(i,k,j,:)))
+              call assert(all(abs(outputs(i,k,j)%values() - batch_outputs_tensor%values()) < tolerance), &
               "all(outputs == outputs_batch)", intrinsic_array_t(batch_outputs_tensor%values()))
             end associate
           end do
-        end block
+        end block test_result
       end block 
     end block
   end block
