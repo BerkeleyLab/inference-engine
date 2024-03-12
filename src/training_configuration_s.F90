@@ -24,17 +24,28 @@ contains
     integer, parameter :: hyperparameters_start=2, hyperparameters_end=6, separator_line=7   ! line numbers
     integer, parameter :: net_config_start=8, net_config_end=12                         ! line numbers
     integer, parameter :: file_start=hyperparameters_start-1, file_end=net_config_end+1 ! line numbers
+#ifdef __INTEL_COMPILER
+    type(string_t), allocatable :: lines(:)
+#endif
 
     training_configuration%file_t = file_object
 
+#ifdef __INTEL_COMPILER
+    lines = training_configuration%file_t%lines()
+#endif
+#ifndef __INTEL_COMPILER
     associate(lines => training_configuration%file_t%lines())
+#endif
       call assert(trim(adjustl(lines(file_start)%string()))==header,"training_configuration_s(from_file): header",lines(file_start))
       training_configuration%hyperparameters_ = hyperparameters_t(lines(hyperparameters_start:hyperparameters_end))
       call assert(trim(adjustl(lines(separator_line)%string()))==separator,"training_configuration_s(from_file): separator", &
         lines(file_start))
       training_configuration%network_configuration_= network_configuration_t(lines(net_config_start:net_config_end))
       call assert(trim(adjustl(lines(file_end)%string()))==footer, "training_configuration_s(from_file): footer", lines(file_end))
+#ifndef __INTEL_COMPILER
     end associate
+#endif
+
   end procedure
 
   module procedure to_json
@@ -68,8 +79,14 @@ contains
   end procedure
 
   module procedure differentiable_activation_strategy
+#ifdef __INTEL_COMPILER
+    type(string_t) :: activation_name
+    activation_name = self%network_configuration_%activation_name()
+#endif
 
+#ifndef __INTEL_COMPILER
     associate(activation_name => self%network_configuration_%activation_name())
+#endif
       select case(activation_name%string())
         case ("relu")
           strategy = relu_t()
@@ -80,8 +97,9 @@ contains
         case default
           error stop 'activation_strategy_factory_s(factory): unrecognized activation name "' // activation_name%string() // '"' 
       end select
+#ifndef __INTEL_COMPILER
     end associate
-
+#endif
   end procedure
 
 end submodule training_configuration_s

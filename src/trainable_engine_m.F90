@@ -35,9 +35,13 @@ module trainable_engine_m
   integer, parameter :: input_layer = 0
 
   interface trainable_engine_t
-
-    pure module function construct_from_padded_arrays(nodes, weights, biases, differentiable_activation_strategy, metadata) &
-    result(trainable_engine)
+#ifdef __INTEL_COMPILER
+     pure module function construct_trainable_engine_from_padded_arrays( &
+       nodes, weights, biases, differentiable_activation_strategy, metadata) &
+#else
+     pure module function construct_from_padded_arrays(nodes, weights, biases, differentiable_activation_strategy, metadata) &
+#endif
+      result(trainable_engine)
       implicit none
       integer, intent(in) :: nodes(input_layer:)
       real(rkind), intent(in)  :: weights(:,:,:), biases(:,:)
@@ -69,10 +73,10 @@ module trainable_engine_m
       class(trainable_engine_t), intent(in) :: self
     end subroutine
 
-    pure module subroutine train(self, mini_batches, cost, adam, learning_rate)
+    pure module subroutine train(self, mini_batches_arr, cost, adam, learning_rate)
       implicit none
       class(trainable_engine_t), intent(inout) :: self
-      type(mini_batch_t), intent(in) :: mini_batches(:)
+      type(mini_batch_t), intent(in) :: mini_batches_arr(:)
       real(rkind), intent(out), allocatable, optional :: cost(:)
       logical, intent(in) :: adam
       real(rkind), intent(in) :: learning_rate
