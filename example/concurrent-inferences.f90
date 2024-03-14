@@ -84,7 +84,7 @@ program concurrent_inferences
 
         associate(num_inputs => inference_engine%num_inputs())
           associate(inputs_batch => reshape( &
-            [((((inputs(i,j,k)%values(), i=1,lat), j=1,lon), k=1,lev), n=1,num_inputs)], &
+            [((((inputs(i,j,k)%values(), i=1,lon), k=1,lev), k=1,lat), n=1,num_inputs)], &
             shape=[lat,lon,lev,n] &
           ))
             call system_clock(t_start, clock_rate)
