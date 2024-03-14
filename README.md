@@ -52,15 +52,55 @@ Prerequisite
 ------------
 Building Inference-Engine requires a Fortran 2018 compiler.  With `gfortran`, the required minimum compiler version is 13.
 
-Downloading, Building and Testing
----------------------------------
-To download, build, and test Inference-Engine, enter the following commands in a Linux, macOS, or Windows Subsystem for Linux shell:
+Building and Testing
+--------------------
+
+### GNU (`gfortran`)
+#### macOS
+To build, and test Inference-Engine with `gfortran` in your `PATH` and your present working directory set to your 
+local copy of the `inference-engine` repository, enter the following commands in macOS Terminal window 
+(using the default `zsh` shell or `bash`):
 ```
-git clone https://github.com/berkeleylab/inference-engine
-cd inference-engine
 ./setup.sh
 ```
-whereupon the trailing output will provide instructions for running the codes in the [example](./example) subdirectory.  
+whereupon the trailing output will provide instructions for running the codes in the [example](./example) subdirectory.
+
+#### Linux (including the Windows Subsystem for Linux)
+The above `setup.sh` script assumes that you have either have `fpm` installed and or that the script can use Homebrew
+to install it.  If neither is true, please [install `fpm`] and then build and test Inference-Engine with the 
+following command:
+```
+fpm test
+```
+
+### Intel (`ifx`) -- under development
+As of this writing, `ifx` compiles all of Inference-Engine and all tests pass except tests involving training.
+We are working with Intel on supporting training with `ifx`.  If you would like to build Inference-Engine and
+run the tests,  please execute the following command
+```
+fpm test --compiler ifx --flag "-coarray -coarray-num-images=1"
+```
+
+### NAG (`nagfor`) -- under development
+As of this writing, `nagfor` compiles all of Inference-Engine and passes only tests that involve neither inference nor training.
+We are working with NAG on supporting inference and training with `nagfor`.
+```
+fpm test --compiler nagfor --flag "-fpp -f2018 -coarray=single"
+```
+
+### HPE (`crayftn.sh`) -- under development
+As of this writing, the Cray Compiler Environment (CCE) Fortran compiler does not build Inference-Engine.
+Building with the CCE `ftn` compiler wrapper requires an additional trivial wrapper.
+With a shell script named `crayftn.sh` of the following form in your `PATH`
+```
+#!/bin/bash
+
+ftn "$@"
+```
+execute the following command:
+```
+fpm test --compiler crayftn.sh
+```
 
 Examples
 --------
@@ -99,3 +139,4 @@ Please see the Inference-Engine GitHub Pages [site] for HTML documentation gener
 [JSON]: https://www.json.org/json-en.html
 [sourcery]: https://github.com/sourceryinstitute/sourcery
 [rojff]: https://gitlab.com/everythingfunctional/rojff
+[install `fpm`]: https://fpm.fortran-lang.org/install/index.html#install
