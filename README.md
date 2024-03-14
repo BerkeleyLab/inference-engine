@@ -83,7 +83,7 @@ fpm test --compiler ifx --flag "-coarray -coarray-num-images=1"
 
 ### NAG (`nagfor`) -- under development
 As of this writing, `nagfor` compiles all of Inference-Engine and passes only tests that involve neither inference nor training.
-We are working with NAG on supporting `nagfor`.
+We are working with NAG on supporting inference and training with `nagfor`.
 ```
 fpm test --compiler nagfor --flag "-fpp -f2018 -coarray=single"
 ```
