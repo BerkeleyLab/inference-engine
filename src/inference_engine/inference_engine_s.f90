@@ -74,7 +74,7 @@ contains
           integer i, j, k
           do concurrent(i = 1:lat, j = 1:lon, k = 1:lev)
             associate(z => matmul(w(1:n(l),1:n(l-1),l), a(i,j,k,1:n(l-1),l-1)) + b(1:n(l),l))
-              a(i,j,k,1:n(l),l) = self%activation_strategy_%activation(z)
+              a(i,k,j,1:n(l),l) = self%activation_strategy_%activation(z)
             end associate
           end do
          end block
