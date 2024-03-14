@@ -72,7 +72,7 @@ contains
        do l = input_layer+1, output_layer
         block
           integer i, j, k
-          do concurrent(i = 1:lat, j = 1:lon, k = 1:lev)
+          do concurrent(i = 1:lon, k = 1:lev, j = 1:lon)
             associate(z => matmul(w(1:n(l),1:n(l-1),l), a(i,j,k,1:n(l-1),l-1)) + b(1:n(l),l))
               a(i,k,j,1:n(l),l) = self%activation_strategy_%activation(z)
             end associate
