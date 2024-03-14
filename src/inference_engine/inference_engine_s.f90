@@ -55,7 +55,34 @@ contains
 
   module procedure batch_infer
 
-    ! here is where the fun starts :) 
+    real(rkind), allocatable :: a(:,:,:,:,:)
+    integer, parameter :: input_layer = 0
+    integer k, l
+
+    call assert_consistency(self)
+
+    associate(w => self%weights_, b => self%biases_, n => self%nodes_, output_layer => ubound(self%nodes_,1))
+      associate(lat => size(inputs,1), lon => size(inputs,2), lev => size(inputs,3))
+
+       allocate(a(lon, lev, lat, maxval(n), input_layer:output_layer))
+
+       a(:,:,:,1:n(input_layer),input_layer) = inputs(:,:,:, 1:input_layer)
+
+       feed_forward: &
+       do l = input_layer+1, output_layer
+        block
+          integer i, j, k
+          do concurrent(i = 1:lon, k = 1:lev, j = 1:lon)
+            associate(z => matmul(w(1:n(l),1:n(l-1),l), a(i,j,k,1:n(l-1),l-1)) + b(1:n(l),l))
+              a(i,k,j,1:n(l),l) = self%activation_strategy_%activation(z)
+            end associate
+          end do
+         end block
+       end do feed_forward
+      outputs = a(:,:,:,1:n(output_layer), output_layer)
+    !   outputs = tensor_t(a(1:n(output_layer), output_layer))
+       end associate
+    end associate
     
   end procedure
 
