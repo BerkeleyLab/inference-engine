@@ -64,7 +64,7 @@ contains
     associate(w => self%weights_, b => self%biases_, n => self%nodes_, output_layer => ubound(self%nodes_,1))
       associate(lat => size(inputs,1), lon => size(inputs,2), lev => size(inputs,3))
 
-       allocate(a(lat, lon, lev, maxval(n), input_layer:output_layer))
+       allocate(a(lon, lev, lat, maxval(n), input_layer:output_layer))
 
        a(:,:,:,1:n(input_layer),input_layer) = inputs(:,:,:, 1:input_layer)
 
