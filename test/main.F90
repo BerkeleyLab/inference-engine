@@ -21,7 +21,7 @@ program main
 
   call cpu_time(t_start)
 #ifndef NAGFOR
-  call random_init(image_distinct=.true., repeatable=.true.)
+  call random_init(repeatable=.true.,image_distinct=.true.)
 #endif
   call hyperparameters_test%report(passes, tests)
   call network_configuration_test%report(passes, tests)
