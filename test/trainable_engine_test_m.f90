@@ -401,7 +401,7 @@ contains
     type(bin_t), allocatable :: bins(:)
     real(rkind), allocatable :: cost(:)
     integer, parameter :: num_pairs = 6
-    integer, parameter :: num_epochs = 160
+    integer, parameter :: num_epochs = 180
     integer, parameter :: num_bins = 5 
     integer i, bin, epoch
 
