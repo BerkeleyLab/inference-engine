@@ -242,15 +242,18 @@ contains
     allocate(harvest(num_inputs, mini_batch_size, num_iterations))
     call random_number(harvest)
 
-    ! The following temporary copies are required by gfortran bug 100650 and possibly 49324
-    ! See https://gcc.gnu.org/bugzilla/show_bug.cgi?id=100650 and https://gcc.gnu.org/bugzilla/show_bug.cgi?id=49324
-    tmp = [([(tensor_t(merge(true, false, harvest(:,batch,iter) < 0.5E0)), batch=1, mini_batch_size)], iter=1, num_iterations)]
-    training_inputs = reshape(tmp, [mini_batch_size, num_iterations])
+    allocate(training_inputs(mini_batch_size, num_iterations))
+    allocate(training_outputs(mini_batch_size, num_iterations))
+    do concurrent(batch=1:mini_batch_size, iter=1:num_iterations)
+      training_inputs(batch, iter) = tensor_t(merge(true, false, harvest(:,batch,iter) < 0.5E0))
+      training_outputs(batch, iter) = or(training_inputs(batch, iter))
+    end do
 
-    tmp2 = [([(or(training_inputs(batch, iter)), batch = 1, mini_batch_size)], iter = 1, num_iterations )]
-    training_outputs = reshape(tmp2, [mini_batch_size, num_iterations])
+    allocate(mini_batches(size(training_inputs,1)*num_iterations))
+    do concurrent(iter=1:num_iterations)
+      mini_batches(iter) = mini_batch_t(input_output_pair_t(training_inputs(:,iter), training_outputs(:,iter)))
+    end do
 
-    mini_batches = [(mini_batch_t(input_output_pair_t(training_inputs(:,iter), training_outputs(:,iter))), iter=1, num_iterations)]        
     trainable_engine = two_random_hidden_layers()
 
     call trainable_engine%train(mini_batches, adam=.false., learning_rate=1.5)
@@ -262,7 +265,7 @@ contains
 
   contains
     
-    function or(inputs) result(expected_outputs)
+    pure function or(inputs) result(expected_outputs)
        type(tensor_t), intent(in) :: inputs
        type(tensor_t) expected_outputs
        expected_outputs = tensor_t([merge(true, false, sum(inputs%values()) > 0.99)])
@@ -286,20 +289,12 @@ contains
     allocate(harvest(num_inputs, mini_batch_size, num_iterations))
     call random_number(harvest)
 
-    ! The following temporary copies, tmp and tmp2, are required by gfortran bug 100650 and possibly 49324
-    ! See https://gcc.gnu.org/bugzilla/show_bug.cgi?id=100650 and https://gcc.gnu.org/bugzilla/show_bug.cgi?id=49324
-
-    allocate(tmp(mini_batch_size*num_iterations))
-    do concurrent(batch = 1: mini_batch_size, iter = 1:num_iterations)
-      tmp((iter-1)*mini_batch_size + 1) = tensor_t(merge(true, false, harvest(:,batch,iter) < 0.5E0))
+    allocate(training_inputs(mini_batch_size, num_iterations))
+    allocate(training_outputs(mini_batch_size, num_iterations))
+    do concurrent(batch=1:mini_batch_size, iter=1:num_iterations)
+      training_inputs(batch, iter) = tensor_t(merge(true, false, harvest(:,batch,iter) < 0.5E0))
+      training_outputs(batch, iter) = xor(training_inputs(batch, iter))
     end do
-    training_inputs = reshape(tmp, [mini_batch_size, num_iterations])
-
-    allocate(tmp2(size(tmp)))
-    do concurrent(batch = 1: mini_batch_size, iter = 1:num_iterations)
-      tmp2((iter-1)*mini_batch_size + 1) = xor(training_inputs(batch, iter))
-    end do
-    training_outputs = reshape(tmp2, [mini_batch_size, num_iterations])
 
     allocate(mini_batches(size(training_inputs,1)*num_iterations))
     do concurrent(iter=1:num_iterations)
@@ -406,7 +401,7 @@ contains
     type(bin_t), allocatable :: bins(:)
     real(rkind), allocatable :: cost(:)
     integer, parameter :: num_pairs = 6
-    integer, parameter :: num_epochs = 160
+    integer, parameter :: num_epochs = 180
     integer, parameter :: num_bins = 5 
     integer i, bin, epoch
 
