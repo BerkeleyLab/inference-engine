@@ -1,54 +1,77 @@
 submodule(tensor_range_m) tensor_range_s
+  use assert_m, only : assert
+  use sourcery_m, only : separated_values
+  use kind_parameters_m, only : rkind
   implicit none
   
 contains
 
-  module procedure construct_from_components
+  module procedure from_components
+    call assert(size(minima)==size(maxima),"tensor_range_s(from_components): size(minima)==size(maxima)")
+    tensor_range%layer_ = layer
     tensor_range%minima_ = minima
     tensor_range%maxima_ = maxima 
   end procedure
 
-  module procedure construct_from_json
-    integer i, start
-    start = 1
+  module procedure from_json
+    logical tensor_range_key_found
+    integer l 
 
-    associate(opening_line => range_lines(start)%string())
-      call assert(adjustl(opening_line)=='{', "tensor_range_s(construct_from_components): start", opening_line)
-    end associate
+    tensor_range_key_found = .false.
 
-    line = lines(start)%string()
-    associate(colon => index(line, ":"))
-      !call assert(adjustl(line(:colon-1))=='"weights"', "neuron_s(construct): neuron weights", line)
-      !associate(opening_bracket => colon + index(line(colon+1:), "["))
-      !  associate(closing_bracket => opening_bracket + index(line(opening_bracket+1:), "]"))
-      !    associate(commas => count("," == [(line(i:i), i=opening_bracket+1,closing_bracket-1)]))
-      !      associate(num_inputs => commas + 1)
-      !        allocate(neuron%weights_(num_inputs))
-      !        read(line(opening_bracket+1:closing_bracket-1), fmt=*) neuron%weights_
-      !      end associate
-      !    end associate
-      !  end associate
-      !end associate
-    end associate
+    do l=1,size(lines)
+      if (lines(l)%get_json_key() == "tensor_range") then
+        tensor_range_key_found = .true.
+        tensor_range%layer_  = lines(l+1)%get_json_value(key=string_t("layer"), mold=string_t(""))
+        tensor_range%minima_ = lines(l+2)%get_json_value(key=string_t("minima"), mold=[0.])
+        tensor_range%maxima_ = lines(l+3)%get_json_value(key=string_t("maxima"), mold=[0.])
+        return
+      end if
+    end do 
 
-    !line = neuron_lines(start+2)%string()
-    !associate(colon => index(line, ":"))
-    !  call assert(adjustl(line(:colon-1))=='"bias"', "neuron_s(construct): neuron bias", line)
-    !  read(line(colon+1:), fmt=*) neuron%bias_
-    !end associate
+    call assert(tensor_range_key_found, "tensor_range_s(from_json): 'tensor_range' key found")
+  end procedure
 
-    !line = adjustl(neuron_lines(start+3)%string())
-    !call assert(line(1:1)=='}', "neuron_s(construct): neuron object end", line)
-    !line = adjustr(neuron_lines(start+3)%string())
-    !if (line(len(line):len(line)) == ",") neuron%next = construct(neuron_lines, start+4)
+  module procedure equals
+    real, parameter :: tolerance = 1.E-08
+
+    call assert(allocated(lhs%layer_) .and. allocated(rhs%layer_), "tensor_range_s(equals): allocated layer_ components")
+    call assert(allocated(lhs%minima_) .and. allocated(rhs%minima_), "tensor_range_s(equals): allocated minima_ components)")
+    call assert(allocated(lhs%maxima_) .and.  allocated(rhs%maxima_), "tensor_range_s(equals): allocated maxima_ components)")
+    call assert(size(lhs%minima_) == size(rhs%minima_), "tensor_range_s(equals): size(lhs%minima_) == size(rhs%minima_)")
+    call assert(size(lhs%maxima_) == size(rhs%maxima_), "tensor_range_s(equals): size(lhs%maxima_) == size(rhs%maxima_)")
+
+    lhs_equals_rhs = &
+      lhs%layer_ == rhs%layer_ .and. &
+      all(abs(lhs%minima_ - rhs%minima_) <= tolerance).and. &
+      all(abs(lhs%maxima_ - rhs%maxima_) <= tolerance)
+  end procedure 
+
+  module procedure to_json
+    integer, parameter :: characters_per_value=17
+    character(len=*), parameter :: indent = repeat(" ",ncopies=4)
+    character(len=:), allocatable :: csv_format, minima_string, maxima_string
+
+    csv_format = separated_values(separator=",", mold=[real(rkind)::])
+    allocate(character(len=size(self%minima_)*(characters_per_value+1)-1)::minima_string)
+    allocate(character(len=size(self%maxima_)*(characters_per_value+1)-1)::maxima_string)
+    write(minima_string, fmt = csv_format) self%minima_
+    write(maxima_string, fmt = csv_format) self%maxima_
+    lines = [ &
+      string_t(indent // '"tensor_range": {'), &
+      string_t(indent // '  "layer": "' // trim(adjustl(self%layer_)) // '",'), &
+      string_t(indent // '  "minima": [' // trim(adjustl(minima_string)) // '],'), & 
+      string_t(indent // '  "maxima": [' // trim(adjustl(maxima_string)) // ']'), &
+      string_t(indent // '}') &
+    ]
   end procedure
 
   module procedure map_to_unit_range
-    normalized_tensor%values_ = (tensor%values() - self%minima_)/(self%maxima_ - self%minima_)
+    normalized_tensor = tensor_t((tensor%values() - self%minima_)/(self%maxima_ - self%minima_))
   end procedure
 
   module procedure map_from_unit_range
-    unnormalized_tensor%values_ = self%minima_ + (tensor%values() - self%minima_)*(self%maxima_ - self%minima_)
+    unnormalized_tensor = tensor_t(self%minima_ + (tensor%values() - self%minima_)*(self%maxima_ - self%minima_))
   end procedure
 
 end submodule tensor_range_s
