@@ -20,9 +20,7 @@ program main
   integer :: passes=0, tests=0
 
   call cpu_time(t_start)
-#ifndef NAGFOR
   call random_init(repeatable=.true.,image_distinct=.true.)
-#endif
   call hyperparameters_test%report(passes, tests)
   call network_configuration_test%report(passes, tests)
   call training_configuration_test%report(passes, tests)

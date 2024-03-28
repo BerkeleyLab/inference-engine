@@ -47,10 +47,7 @@ program learn_multiplication
     type(bin_t), allocatable :: bins(:)
     real, allocatable :: cost(:), random_numbers(:)
 
-#ifndef NAGFOR
     call random_init(image_distinct=.true., repeatable=.true.)
-#endif
-
     trainable_engine = perturbed_identity_network(perturbation_magnitude=0.05)
     call output(trainable_engine%to_inference_engine(), string_t("initial-network.json"))
 
