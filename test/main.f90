@@ -7,6 +7,7 @@ program main
   use hyperparameters_test_m, only : hyperparameters_test_t
   use network_configuration_test_m, only : network_configuration_test_t
   use training_configuration_test_m, only : training_configuration_test_t
+  use tensor_range_test_m, only : tensor_range_test_t
   implicit none
 
   type(inference_engine_test_t) inference_engine_test
@@ -15,20 +16,20 @@ program main
   type(hyperparameters_test_t) hyperparameters_test
   type(network_configuration_test_t) network_configuration_test
   type(training_configuration_test_t) training_configuration_test
+  type(tensor_range_test_t) tensor_range_test
   real t_start, t_finish
 
   integer :: passes=0, tests=0
 
   call cpu_time(t_start)
-#ifndef NAGFOR
   call random_init(repeatable=.true.,image_distinct=.true.)
-#endif
   call hyperparameters_test%report(passes, tests)
   call network_configuration_test%report(passes, tests)
   call training_configuration_test%report(passes, tests)
   call asymmetric_engine_test%report(passes, tests)
   call inference_engine_test%report(passes, tests)
   call trainable_engine_test%report(passes, tests)
+  call tensor_range_test%report(passes, tests)
   call cpu_time(t_finish)
 
   print *
