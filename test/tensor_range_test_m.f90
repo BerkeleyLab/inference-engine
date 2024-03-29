@@ -6,7 +6,7 @@ module tensor_range_test_m
   ! External dependencies
   use assert_m, only : assert
   use sourcery_m, only : string_t, test_t, test_result_t, file_t
-  use inference_engine_m, only : tensor_range_t
+  use inference_engine_m, only : tensor_range_t, tensor_t
 
   ! Internal dependencies
   use tensor_range_m, only : tensor_range_t
@@ -38,10 +38,12 @@ contains
     associate( &
       descriptions => &
         [ character(len=len(longest_description)) :: &
-          "component-wise construction followed by conversion to and from JSON" &
+          "component-wise construction followed by conversion to and from JSON", &
+          "mapping to and from the unit interval is an identity transformation" &
         ], &
       outcomes => &
-        [ write_then_read_tensor_range() & 
+        [ write_then_read_tensor_range(), & 
+          map_to_from_unit_range() &
         ] & 
     )
       call assert(size(descriptions) == size(outcomes),"tensor_range_test_m(results): size(descriptions) == size(outcomes)")
@@ -57,6 +59,19 @@ contains
     associate(tensor_range => tensor_range_t(layer="input", minima=[-1., 0., 1.], maxima=[1., 2., 4.]))
       associate(from_json => tensor_range_t(tensor_range%to_json()))
         test_passes = tensor_range == from_json
+      end associate
+    end associate
+  end function
+
+  function map_to_from_unit_range() result(test_passes)
+    logical test_passes
+    real, parameter :: tolerance = 1.E-08
+
+    associate(tensor_range => tensor_range_t(layer="output", minima=[-2., 0., 1., -1.], maxima=[0., 2., 5., 1.]))
+      associate(tensor => tensor_t([-3., 0., 3., 2.]))
+        associate(round_trip => tensor_range%map_from_unit_range(tensor_range%map_to_unit_range(tensor)))
+          test_passes = all(abs(tensor%values() - round_trip%values()) < tolerance)
+        end associate
       end associate
     end associate
   end function

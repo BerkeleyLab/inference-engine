@@ -71,7 +71,7 @@ contains
   end procedure
 
   module procedure map_from_unit_range
-    unnormalized_tensor = tensor_t(self%minima_ + (tensor%values() - self%minima_)*(self%maxima_ - self%minima_))
+    unnormalized_tensor = tensor_t(self%minima_ + tensor%values()*(self%maxima_ - self%minima_))
   end procedure
 
 end submodule tensor_range_s
