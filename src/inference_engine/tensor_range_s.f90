@@ -68,15 +68,25 @@ contains
 
   module procedure map_to_unit_range
     associate(tensor_values => tensor%values())
-      normalized_tensor = tensor_t((tensor_values - self%minima_)/(self%maxima_ - self%minima_))
-      call assert(all(tensor_values=>0.).and.all(tensor_values<=1.),"tensor_range_s(map_to_unit_range): normalized output")
+      call assert(all(tensor_values>=self%minima_) .and. all(tensor_values<=self%maxima_), &
+        "tensor_range_s(map_to_unit_range): unnormalized range")
+      associate(normalized_values => (tensor_values - self%minima_)/(self%maxima_ - self%minima_))
+        call assert(all(normalized_values>=0.) .and. all(normalized_values<=1.), &
+          "tensor_range_s(map_to_unit_range): normalized range")
+        normalized_tensor = tensor_t(normalized_values)
+      end associate
     end associate
   end procedure
 
   module procedure map_from_unit_range
     associate(tensor_values => tensor%values())
-      call assert(all(tensor_values=>0.).and.all(tensor_values<=1.),"tensor_range_s(map_from_unit_range): normalized input")
-      unnormalized_tensor = tensor_t(self%minima_ + tensor_values)*(self%maxima_ - self%minima_))
+      call assert(all(tensor_values>=0.).and.all(tensor_values<=1.), &
+        "tensor_range_s(map_from_unit_range): normalized input")
+      associate(unnormalized_values => self%minima_ + tensor_values*(self%maxima_ - self%minima_))
+        call assert(all([unnormalized_values>=self%minima_, unnormalized_values<=self%maxima_]), &
+          "tensor_range_s(map_to_unit_range): unnormalized range")
+        unnormalized_tensor = tensor_t(unnormalized_values)
+      end associate
     end associate
   end procedure
 

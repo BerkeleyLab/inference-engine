@@ -67,8 +67,8 @@ contains
     logical test_passes
     real, parameter :: tolerance = 1.E-08
 
-    associate(tensor_range => tensor_range_t(layer="output", minima=[-2., 0., 1., -1.], maxima=[0., 2., 5., 1.]))
-      associate(tensor => tensor_t([-3., 0., 3., 2.]))
+    associate(tensor_range => tensor_range_t(layer="output", minima=[-4., 0., 1., -1.], maxima=[0., 2., 5., 1.]))
+      associate(tensor => tensor_t([-2., 0., 5., 0.]))
         associate(round_trip => tensor_range%map_from_unit_range(tensor_range%map_to_unit_range(tensor)))
           test_passes = all(abs(tensor%values() - round_trip%values()) < tolerance)
         end associate
