@@ -54,6 +54,9 @@ contains
     character(len=*), parameter :: indent = repeat(" ",ncopies=4)
     character(len=:), allocatable :: csv_format, minima_string, maxima_string
 
+    call assert(allocated(self%layer_), "tensor_range_s(to_json): allocated layer_")
+    call assert(allocated(self%minima_) .and. allocated(self%maxima_), "tensor_range_s(to_json): allocated minima_/maxima_")
+
     csv_format = separated_values(separator=",", mold=[real(rkind)::])
     allocate(character(len=size(self%minima_)*(characters_per_value+1)-1)::minima_string)
     allocate(character(len=size(self%maxima_)*(characters_per_value+1)-1)::maxima_string)

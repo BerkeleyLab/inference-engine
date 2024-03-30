@@ -143,7 +143,7 @@ contains
       else
         associate(num_outputs => nodes(ubound(nodes,1)))
           associate(default_minima => [(0., i=1,num_outputs)], default_maxima => [(1., i=1,num_outputs)])
-            inference_engine%inputs_range_ = tensor_range_t("outputs", default_minima, default_maxima)
+            inference_engine%outputs_range_ = tensor_range_t("outputs", default_minima, default_maxima)
           end associate
         end associate
       end if
@@ -372,6 +372,15 @@ contains
         line = line + 1
         lines(line) = string_t('        "usingSkipConnections": ' // &
                                                        self%metadata_(findloc(key, "usingSkipConnections", dim=1))%string())
+
+        block
+          type(string_t), allocatable :: inputs_range_json(:), outputs_range_json(:)
+          type(file_t) json_file
+          inputs_range_json = self%inputs_range_%to_json() 
+          json_file = file_t(inputs_range_json)
+!          call json_file%write_lines()
+          outputs_range_json = self%outputs_range_%to_json() 
+        end block
 
         line = line + 1
         lines(line) = string_t('    },')
