@@ -1,3 +1,5 @@
+! Copyright (c), The Regents of the University of California
+! Terms of use are as specified in LICENSE.txt
 module tensor_range_m
   use tensor_m, only : tensor_t
   use sourcery_m, only : string_t

@@ -1,3 +1,5 @@
+! Copyright (c), The Regents of the University of California
+! Terms of use are as specified in LICENSE.txt
 submodule(tensor_range_m) tensor_range_s
   use assert_m, only : assert
   use sourcery_m, only : separated_values
