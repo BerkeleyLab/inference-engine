@@ -39,7 +39,7 @@ contains
       descriptions => &
         [ character(len=len(longest_description)) :: &
           "component-wise construction followed by conversion to and from JSON", &
-          "mapping to and from the unit interval is an identity transformation" &
+          "mapping to and from the unit interval as an identity transformation" &
         ], &
       outcomes => &
         [ write_then_read_tensor_range(), & 

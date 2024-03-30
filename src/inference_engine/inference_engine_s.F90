@@ -124,6 +124,31 @@ contains
     inference_engine%weights_ = weights
     inference_engine%biases_ = biases
     inference_engine%nodes_ = nodes
+
+    block
+      integer i
+
+      if (present(inputs_range)) then
+        inference_engine%inputs_range_ = inputs_range
+      else
+        associate(num_inputs => nodes(lbound(nodes,1)))
+          associate(default_minima => [(0., i=1,num_inputs)], default_maxima => [(1., i=1,num_inputs)])
+            inference_engine%inputs_range_ = tensor_range_t("inputs", default_minima, default_maxima)
+          end associate
+        end associate
+      end if
+
+      if (present(outputs_range)) then
+        inference_engine%outputs_range_ = outputs_range
+      else
+        associate(num_outputs => nodes(ubound(nodes,1)))
+          associate(default_minima => [(0., i=1,num_outputs)], default_maxima => [(1., i=1,num_outputs)])
+            inference_engine%inputs_range_ = tensor_range_t("outputs", default_minima, default_maxima)
+          end associate
+        end associate
+      end if
+    end block
+
     call set_activation_strategy(inference_engine)
     call assert_consistency(inference_engine)
 

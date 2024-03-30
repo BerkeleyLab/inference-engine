@@ -225,13 +225,37 @@ contains
   module procedure construct_from_padded_arrays
 #endif
 
-     trainable_engine%metadata_ = metadata
-     trainable_engine%n = nodes
-     trainable_engine%w = weights
-     trainable_engine%b = biases
-     trainable_engine%differentiable_activation_strategy_ = differentiable_activation_strategy
+    trainable_engine%metadata_ = metadata
+    trainable_engine%n = nodes
+    trainable_engine%w = weights
+    trainable_engine%b = biases
+    trainable_engine%differentiable_activation_strategy_ = differentiable_activation_strategy
 
-     call trainable_engine%assert_consistent
+    block
+      integer i
+
+      if (present(inputs_range)) then
+        trainable_engine%inputs_range_ = inputs_range
+      else
+        associate(num_inputs => nodes(lbound(nodes,1)))
+          associate(default_minima => [(0., i=1,num_inputs)], default_maxima => [(1., i=1,num_inputs)])
+            trainable_engine%inputs_range_ = tensor_range_t("inputs", default_minima, default_maxima)
+          end associate
+        end associate
+      end if
+
+      if (present(outputs_range)) then
+        trainable_engine%outputs_range_ = outputs_range
+      else
+        associate(num_outputs => nodes(ubound(nodes,1)))
+          associate(default_minima => [(0., i=1,num_outputs)], default_maxima => [(1., i=1,num_outputs)])
+            trainable_engine%inputs_range_ = tensor_range_t("outputs", default_minima, default_maxima)
+          end associate
+        end associate
+      end if
+    end block
+
+    call trainable_engine%assert_consistent
   end procedure
 
   module procedure to_inference_engine
