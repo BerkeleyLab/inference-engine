@@ -265,10 +265,10 @@ contains
         potential_temperature_in = &
           normalize(potential_temperature_in, minval(potential_temperature_in), maxval(potential_temperature_in))
         temperature_in = normalize(temperature_in, minval(temperature_in), maxval(temperature_in))
-        qv_in = normalize(qv_in, min(minval(qv_in), minval(qv_out)), max(maxval(qv_in), maxval(qv_out)))
-        qc_in = normalize(qc_in, min(minval(qc_in), minval(qc_out)), max(maxval(qc_in), maxval(qc_out)))
-        qr_in = normalize(qr_in, min(minval(qr_in), minval(qr_out)), max(maxval(qr_in), maxval(qr_out)))
-        qs_in = normalize(qs_in, min(minval(qs_in), minval(qs_out)), max(maxval(qs_in), maxval(qs_out)))
+        qv_in = normalize(qv_in, minval(qv_in), maxval(qv_in))
+        qc_in = normalize(qc_in, minval(qc_in), maxval(qc_in))
+        qr_in = normalize(qr_in, minval(qr_in), maxval(qr_in))
+        qs_in = normalize(qs_in, minval(qs_in), maxval(qs_in))
 
         print *,"Normalizing output tensors"
         dpt_dt = normalize(dpt_dt, minval(dpt_dt), maxval(dpt_dt))
