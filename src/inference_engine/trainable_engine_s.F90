@@ -249,7 +249,7 @@ contains
       else
         associate(num_outputs => nodes(ubound(nodes,1)))
           associate(default_minima => [(0., i=1,num_outputs)], default_maxima => [(1., i=1,num_outputs)])
-            trainable_engine%inputs_range_ = tensor_range_t("outputs", default_minima, default_maxima)
+            trainable_engine%outputs_range_ = tensor_range_t("outputs", default_minima, default_maxima)
           end associate
         end associate
       end if
@@ -262,7 +262,7 @@ contains
     ! assignment-stmt disallows the procedure from being pure because it might
     ! deallocate polymorphic allocatable subcomponent `activation_strategy_`
     ! TODO: consider how this affects design
-    inference_engine = inference_engine_t(metadata = self%metadata_, weights = self%w, biases = self%b, nodes = self%n)
+    inference_engine = inference_engine_t(self%metadata_, self%w, self%b, self%n, self%inputs_range_, self%outputs_range_)
   end procedure
 
   module procedure perturbed_identity_network
