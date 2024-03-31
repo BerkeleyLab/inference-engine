@@ -166,7 +166,9 @@ contains
     lines = file_%lines()
 
     l = 1
+#ifndef NAGFOR
     call assert(adjustl(lines(l)%string())=="{", "construct_from_json: expecting '{' to start outermost object", lines(l)%string())
+#endif
 
     l = 2
     metadata = [string_t(""),string_t(""),string_t(""),string_t(""),string_t("false")]
