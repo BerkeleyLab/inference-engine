@@ -7,6 +7,7 @@ module trainable_engine_m
   use differentiable_activation_strategy_m, only : differentiable_activation_strategy_t
   use kind_parameters_m, only : rkind
   use tensor_m, only :  tensor_t
+  use tensor_range_m, only :  tensor_range_t
   use mini_batch_m, only : mini_batch_t
   use training_configuration_m, only : training_configuration_t
   implicit none
@@ -17,6 +18,7 @@ module trainable_engine_m
   type trainable_engine_t
     !! Encapsulate the information needed to perform training
     private
+    type(tensor_range_t) input_range_, output_range_
     type(string_t), allocatable :: metadata_(:)
     real(rkind), allocatable :: w(:,:,:) ! weights
     real(rkind), allocatable :: b(:,:) ! biases
@@ -37,9 +39,12 @@ module trainable_engine_m
   interface trainable_engine_t
 #ifdef __INTEL_COMPILER
      pure module function construct_trainable_engine_from_padded_arrays( &
-       nodes, weights, biases, differentiable_activation_strategy, metadata) &
+       nodes, weights, biases, differentiable_activation_strategy, metadata, input_range, output_range &
+     ) &
 #else
-     pure module function construct_from_padded_arrays(nodes, weights, biases, differentiable_activation_strategy, metadata) &
+     pure module function construct_from_padded_arrays( &
+       nodes, weights, biases, differentiable_activation_strategy, metadata, input_range, output_range &
+     ) &
 #endif
       result(trainable_engine)
       implicit none
@@ -47,6 +52,7 @@ module trainable_engine_m
       real(rkind), intent(in)  :: weights(:,:,:), biases(:,:)
       class(differentiable_activation_strategy_t), intent(in) :: differentiable_activation_strategy
       type(string_t), intent(in) :: metadata(:)
+      type(tensor_range_t), intent(in), optional :: input_range, output_range
       type(trainable_engine_t) trainable_engine
     end function
 
@@ -56,11 +62,13 @@ module trainable_engine_m
       type(trainable_engine_t) trainable_engine
     end function
 
-    module function perturbed_identity_network(training_configuration, perturbation_magnitude, metadata) result(trainable_engine)
+    module function perturbed_identity_network(training_configuration, perturbation_magnitude, metadata, input_range, output_range)&
+      result(trainable_engine)
       implicit none
       type(training_configuration_t), intent(in) :: training_configuration
       type(string_t), intent(in) :: metadata(:)
       real(rkind), intent(in) :: perturbation_magnitude
+      type(tensor_range_t) input_range, output_range
       type(trainable_engine_t) trainable_engine
     end function
 

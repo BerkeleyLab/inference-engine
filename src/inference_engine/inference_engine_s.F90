@@ -124,6 +124,31 @@ contains
     inference_engine%weights_ = weights
     inference_engine%biases_ = biases
     inference_engine%nodes_ = nodes
+
+    block
+      integer i
+
+      if (present(inputs_range)) then
+        inference_engine%inputs_range_ = inputs_range
+      else
+        associate(num_inputs => nodes(lbound(nodes,1)))
+          associate(default_minima => [(0., i=1,num_inputs)], default_maxima => [(1., i=1,num_inputs)])
+            inference_engine%inputs_range_ = tensor_range_t("inputs", default_minima, default_maxima)
+          end associate
+        end associate
+      end if
+
+      if (present(outputs_range)) then
+        inference_engine%outputs_range_ = outputs_range
+      else
+        associate(num_outputs => nodes(ubound(nodes,1)))
+          associate(default_minima => [(0., i=1,num_outputs)], default_maxima => [(1., i=1,num_outputs)])
+            inference_engine%outputs_range_ = tensor_range_t("outputs", default_minima, default_maxima)
+          end associate
+        end associate
+      end if
+    end block
+
     call set_activation_strategy(inference_engine)
     call assert_consistency(inference_engine)
 
@@ -132,6 +157,7 @@ contains
   module procedure construct_from_json
 
     type(string_t), allocatable :: lines(:), metadata(:)
+    type(tensor_range_t) inputs_range, outputs_range
     type(layer_t) hidden_layers, output_layer
     type(neuron_t) output_neuron
     real(rkind), allocatable :: hidden_weights(:,:,:)
@@ -140,7 +166,9 @@ contains
     lines = file_%lines()
 
     l = 1
+#ifndef NAGFOR
     call assert(adjustl(lines(l)%string())=="{", "construct_from_json: expecting '{' to start outermost object", lines(l)%string())
+#endif
 
     l = 2
     metadata = [string_t(""),string_t(""),string_t(""),string_t(""),string_t("false")]
@@ -156,6 +184,17 @@ contains
         l = l + 1
       end block
     end if
+
+    call assert(adjustl(lines(l)%string())=='"tensor_range": {', 'from_json: expecting "tensor_range": {', lines(l)%string())
+
+    associate(prototype => tensor_range_t("",[0.],[1.]))
+      associate(num_lines => size(prototype%to_json()))
+        inputs_range = tensor_range_t(lines(l:l+num_lines-1))
+        l = l + num_lines
+        outputs_range = tensor_range_t(lines(l:l+num_lines-1))
+        l = l + num_lines
+      end associate
+    end associate
 
     call assert(adjustl(lines(l)%string())=='"hidden_layers": [', 'from_json: expecting "hidden_layers": [', lines(l)%string())
     l = l + 1
@@ -303,7 +342,7 @@ contains
     character(len=17) :: single_value
     integer, parameter :: &
       outer_object_braces = 2, hidden_layer_outer_brackets = 2, lines_per_neuron = 4, inner_brackets_per_layer  = 2, &
-      output_layer_brackets = 2, metadata_outer_braces = 2
+      output_layer_brackets = 2, metadata_outer_braces = 2, inputs_range_object = 5, outputs_range_object = 5
 
     call assert_consistency(self)
 
@@ -321,6 +360,7 @@ contains
       associate(num_lines => &
         outer_object_braces &
         + metadata_outer_braces + size(key) &
+        + inputs_range_object + outputs_range_object &
         + hidden_layer_outer_brackets + (num_hidden_layers)*(inner_brackets_per_layer + neurons_per_layer*lines_per_neuron) &
         + output_layer_brackets + num_outputs*lines_per_neuron &
       )
@@ -350,6 +390,28 @@ contains
 
         line = line + 1
         lines(line) = string_t('    },')
+
+        block
+          type(string_t), allocatable :: inputs_range_json(:), outputs_range_json(:)
+
+          line = line + 1
+          inputs_range_json = self%inputs_range_%to_json() 
+          associate(last_line => ubound(inputs_range_json,1))
+            call assert(last_line==inputs_range_object, "inference_engine_s(to_json): inputs_range object line count")
+            inputs_range_json(last_line) = inputs_range_json(last_line) // ","
+            lines(line:line+inputs_range_object-1) = inputs_range_json
+            line = line + inputs_range_object-1
+          end associate
+
+          line = line + 1
+          outputs_range_json = self%outputs_range_%to_json() 
+          associate(last_line => ubound(outputs_range_json,1))
+            call assert(last_line==outputs_range_object, "inference_engine_s(to_json): outputs_range object line count")
+            outputs_range_json(last_line) = outputs_range_json(last_line) // ","
+            lines(line:line+outputs_range_object-1) = outputs_range_json
+            line = line + inputs_range_object-1
+          end associate
+        end block
 
         line = line + 1
         lines(line) = string_t('     "hidden_layers": [')

@@ -12,6 +12,7 @@ program train_cloud_microphysics
   !! External dependencies:
   use sourcery_m, only : string_t, file_t, command_line_t, bin_t
   use assert_m, only : assert, intrinsic_array_t
+  use tensor_range_m, only : tensor_range_t
   use ieee_arithmetic, only : ieee_is_nan
   use iso_fortran_env, only : int64, real64
 
@@ -216,6 +217,7 @@ contains
 
       train_network: &
       block
+        type(tensor_range_t) input_range, output_range
         type(trainable_engine_t) trainable_engine
         type(mini_batch_t), allocatable :: mini_batches(:)
         type(bin_t), allocatable :: bins(:)
@@ -235,7 +237,23 @@ contains
           close(network_unit)
         else
           close(network_unit)
+
+          print *,"Calculating inputs tensor component ranges."
+          input_range = tensor_range_t( &
+            layer  = "inputs", &
+            minima = [minval(pressure_in), minval(potential_temperature_in), minval(temperature_in), &
+              minval(qv_in), minval(qc_in), minval(qr_in), minval(qs_in)], &
+            maxima = [maxval(pressure_in), maxval(potential_temperature_in), maxval(temperature_in), &
+              maxval(qv_in), maxval(qc_in), maxval(qr_in), maxval(qs_in)] &
+          )
+          print *,"Calculating outputs tensor component ranges."
+          output_range = tensor_range_t( &
+            layer  = "outputs", &
+            minima = [minval(dpt_dt), minval(dqv_dt), minval(dqc_dt), minval(dqr_dt), minval(dqs_dt)], &
+            maxima = [maxval(dpt_dt), maxval(dqv_dt), maxval(dqc_dt), maxval(dqr_dt), maxval(dqs_dt)] &
+          )
           print *,"Initializing a new network"
+          initialize_network: &
           block
             character(len=len('YYYYMMDD')) date
 
@@ -243,39 +261,23 @@ contains
 
             associate(activation => training_configuration%differentiable_activation_strategy())
               associate( &
-                model_name => string_t("Thompson microphysics"), &
+                model_name => string_t("Simple microphysics"), &
                 author => string_t("Inference Engine"), &
                 date_string => string_t(date), &
                 activation_name => activation%function_name(), &
                 residual_network => string_t(trim(merge("true ", "false", training_configuration%skip_connections()))) &
               )
                 trainable_engine = trainable_engine_t( &
-                  training_configuration, metadata = [model_name, author, date_string, activation_name, residual_network], &
-                  perturbation_magnitude=0.05 &
+                  training_configuration, perturbation_magnitude=0.05, &
+                  metadata = [model_name, author, date_string, activation_name, residual_network], &
+                  input_range = input_range, output_range = output_range &
                 )
               end associate
             end associate
-          end block
+          end block initialize_network
         end if
 
         if (.not. allocated(end_step)) end_step = t_end
-        
-        print *,"Normalizing input tensors"
-        pressure_in = normalize(pressure_in, minval(pressure_in), maxval(pressure_in))
-        potential_temperature_in = &
-          normalize(potential_temperature_in, minval(potential_temperature_in), maxval(potential_temperature_in))
-        temperature_in = normalize(temperature_in, minval(temperature_in), maxval(temperature_in))
-        qv_in = normalize(qv_in, min(minval(qv_in), minval(qv_out)), max(maxval(qv_in), maxval(qv_out)))
-        qc_in = normalize(qc_in, min(minval(qc_in), minval(qc_out)), max(maxval(qc_in), maxval(qc_out)))
-        qr_in = normalize(qr_in, min(minval(qr_in), minval(qr_out)), max(maxval(qr_in), maxval(qr_out)))
-        qs_in = normalize(qs_in, min(minval(qs_in), minval(qs_out)), max(maxval(qs_in), maxval(qs_out)))
-
-        print *,"Normalizing output tensors"
-        dpt_dt = normalize(dpt_dt, minval(dpt_dt), maxval(dpt_dt))
-        dqv_dt = normalize(dqv_dt, minval(dqv_dt), maxval(dqv_dt))
-        dqc_dt = normalize(dqc_dt, minval(dqc_dt), maxval(dqc_dt))
-        dqr_dt = normalize(dqr_dt, minval(dqr_dt), maxval(dqr_dt))
-        dqs_dt = normalize(dqs_dt, minval(dqs_dt), maxval(dqs_dt))
 
         print *,"Defining tensors from time step", start_step, "through", end_step, "with strides of", stride
 
@@ -287,14 +289,20 @@ contains
             qv_in(lon,lat,level,time), qc_in(lon,lat,level,time), qr_in(lon,lat,level,time), qs_in(lon,lat,level,time) &
           ] &
           ), lon = 1, size(qv_in,1))], lat = 1, size(qv_in,2))], level = 1, size(qv_in,3))], time = start_step, end_step, stride)]
-
+ 
         outputs = [( [( [( [( &
           tensor_t( &
             [dpt_dt(lon,lat,level,time), dqv_dt(lon,lat,level,time), dqc_dt(lon,lat,level,time), dqr_dt(lon,lat,level,time), &
              dqs_dt(lon,lat,level,time) &
             ] &
           ), lon = 1, size(qv_in,1))], lat = 1, size(qv_in,2))], level = 1, size(qv_in,3))], time = start_step, end_step, stride)]
-        
+
+        print *,"Normalizing inputs tensors"
+        inputs = input_range%map_to_unit_range(inputs)
+
+        print *,"Normalizing outputs tensors"
+        outputs = output_range%map_to_unit_range(outputs)
+
         print *, "Eliminating",int(100*(1.-keep)),"% of the grid points that have all-zero time derivatives"
 
         associate(num_grid_pts => size(outputs))

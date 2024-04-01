@@ -225,20 +225,41 @@ contains
   module procedure construct_from_padded_arrays
 #endif
 
-     trainable_engine%metadata_ = metadata
-     trainable_engine%n = nodes
-     trainable_engine%w = weights
-     trainable_engine%b = biases
-     trainable_engine%differentiable_activation_strategy_ = differentiable_activation_strategy
 
-     call trainable_engine%assert_consistent
+    trainable_engine%metadata_ = metadata
+    trainable_engine%n = nodes
+    trainable_engine%w = weights
+    trainable_engine%b = biases
+    trainable_engine%differentiable_activation_strategy_ = differentiable_activation_strategy
+
+    block 
+      integer i
+
+      if (present(input_range)) then
+         trainable_engine%input_range_ = input_range
+      else
+        associate(num_inputs => nodes(lbound(nodes,1)))
+          trainable_engine%input_range_ = tensor_range_t("inputs", minima=[(0., i=1,num_inputs)], maxima=[(1., i=1,num_inputs)])
+        end associate
+      end if
+
+      if (present(output_range)) then
+         trainable_engine%output_range_ = output_range
+      else
+        associate(num_outputs => nodes(ubound(nodes,1)))
+          trainable_engine%output_range_ = tensor_range_t("outputs", minima=[(0., i=1,num_outputs)], maxima=[(1., i=1,num_outputs)])
+        end associate
+      end if
+    end block
+
+    call trainable_engine%assert_consistent
   end procedure
 
   module procedure to_inference_engine
     ! assignment-stmt disallows the procedure from being pure because it might
     ! deallocate polymorphic allocatable subcomponent `activation_strategy_`
     ! TODO: consider how this affects design
-    inference_engine = inference_engine_t(metadata = self%metadata_, weights = self%w, biases = self%b, nodes = self%n)
+    inference_engine = inference_engine_t(self%metadata_, self%w, self%b, self%n, self%input_range_, self%output_range_)
   end procedure
 
   module procedure perturbed_identity_network
@@ -261,7 +282,8 @@ contains
           activation => training_configuration%differentiable_activation_strategy() &
         )
           trainable_engine = trainable_engine_t( &
-            nodes = n, weights = w, biases = b, differentiable_activation_strategy = activation, metadata = metadata &
+            nodes = n, weights = w, biases = b, differentiable_activation_strategy = activation, metadata = metadata, &
+            input_range = input_range, output_range = output_range &
           )
         end associate
       end associate
