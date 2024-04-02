@@ -36,9 +36,12 @@ contains
 
     associate(w => self%weights_, b => self%biases_, n => self%nodes_, output_layer => ubound(self%nodes_,1))
 
+
       allocate(a(maxval(n), input_layer:output_layer))
 
-      a(1:n(input_layer),input_layer) = inputs%values()
+      associate(normalized_inputs => self%input_range_%map_to_unit_range(inputs))
+        a(1:n(input_layer),input_layer) = normalized_inputs%values()
+      end associate
 
       feed_forward: &
       do l = input_layer+1, output_layer
@@ -47,7 +50,9 @@ contains
         end associate
       end do feed_forward
  
-      outputs = tensor_t(a(1:n(output_layer), output_layer))
+      associate(normalized_outputs => tensor_t(a(1:n(output_layer), output_layer)))
+        outputs = self%output_range_%map_from_unit_range(normalized_outputs)
+      end associate
 
     end associate
 
