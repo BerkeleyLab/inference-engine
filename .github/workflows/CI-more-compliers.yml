@@ -33,8 +33,9 @@ jobs:
           compiler: ${{ matrix.toolchain.compiler }}
           version: ${{ matrix.toolchain.version }}
 
-      - run: |
+      - name: Run intel
+        if: contains(matrix.toolchain, 'intel')
+        run:
           ${{ env.FC }} ... # environment vars FC, CC, and CXX are set
           ${{ steps.setup-fortran.outputs.fc }} ... # outputs work too
-          export PATH="${HOME}/.local/bin:$PATH"
-          ./setup.sh
+          fpm test --compiler ifx --flag "-coarray"
