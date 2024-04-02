@@ -238,7 +238,7 @@ contains
         else
           close(network_unit)
 
-          print *,"Calculating inputs tensor component ranges."
+          print *,"Calculating input tensor component ranges."
           input_range = tensor_range_t( &
             layer  = "inputs", &
             minima = [minval(pressure_in), minval(potential_temperature_in), minval(temperature_in), &
@@ -246,7 +246,7 @@ contains
             maxima = [maxval(pressure_in), maxval(potential_temperature_in), maxval(temperature_in), &
               maxval(qv_in), maxval(qc_in), maxval(qr_in), maxval(qs_in)] &
           )
-          print *,"Calculating outputs tensor component ranges."
+          print *,"Calculating output tensor component ranges."
           output_range = tensor_range_t( &
             layer  = "outputs", &
             minima = [minval(dpt_dt), minval(dqv_dt), minval(dqc_dt), minval(dqr_dt), minval(dqs_dt)], &
@@ -297,10 +297,10 @@ contains
             ] &
           ), lon = 1, size(qv_in,1))], lat = 1, size(qv_in,2))], level = 1, size(qv_in,3))], time = start_step, end_step, stride)]
 
-        print *,"Normalizing inputs tensors"
+        print *,"Normalizing input tensors"
         inputs = input_range%map_to_unit_range(inputs)
 
-        print *,"Normalizing outputs tensors"
+        print *,"Normalizing output tensors"
         outputs = output_range%map_to_unit_range(outputs)
 
         print *, "Eliminating",int(100*(1.-keep)),"% of the grid points that have all-zero time derivatives"
