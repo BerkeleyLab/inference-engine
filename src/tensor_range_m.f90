@@ -13,9 +13,10 @@ module tensor_range_m
     character(len=:), allocatable :: layer_
     real, allocatable, dimension(:) :: minima_, maxima_
   contains
-    procedure map_to_unit_range
-    procedure map_from_unit_range
+    procedure map_to_training_range
+    procedure map_from_training_range
     procedure to_json
+    procedure in_range
     generic :: operator(==) => equals
     procedure, private :: equals
   end type
@@ -39,14 +40,14 @@ module tensor_range_m
 
   interface
 
-    elemental module function map_to_unit_range(self, tensor) result(normalized_tensor)
+    elemental module function map_to_training_range(self, tensor) result(normalized_tensor)
       implicit none
       class(tensor_range_t), intent(in) :: self
       type(tensor_t), intent(in) :: tensor
       type(tensor_t) normalized_tensor
     end function
 
-    elemental module function map_from_unit_range(self, tensor) result(unnormalized_tensor)
+    elemental module function map_from_training_range(self, tensor) result(unnormalized_tensor)
       implicit none
       class(tensor_range_t), intent(in) :: self
       type(tensor_t), intent(in) :: tensor
@@ -63,6 +64,13 @@ module tensor_range_m
       implicit none
       class(tensor_range_t), intent(in) :: lhs, rhs
       logical lhs_equals_rhs
+    end function
+
+    elemental module function in_range(self, tensor) result(is_in_range)
+      implicit none
+      class(tensor_range_t), intent(in) :: self
+      type(tensor_t), intent(in) :: tensor
+      logical is_in_range
     end function
 
   end interface

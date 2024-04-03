@@ -80,7 +80,7 @@
             <li class="list-inline-item" id="statements"><i class="fa fa-list-ol"></i>
               <a data-bs-toggle="tooltip"
                  data-bs-placement="bottom" data-html="true"
-                 title=" 3.9% of total for modules and submodules.">55 statements</a>
+                 title=" 4.3% of total for modules and submodules.">62 statements</a>
             </li>
 
             <li class="list-inline-item" id="source-file">
@@ -127,10 +127,11 @@
       <div id="inters-0" class="collapse">
         <div class="list-group list-group-flush">
             <a class="list-group-item" href="../module/tensor_range_m.html#interface-tensor_range_t">tensor_range_t</a>
-            <a class="list-group-item" href="../module/tensor_range_m.html#interface-equals~4">equals</a>
-            <a class="list-group-item" href="../module/tensor_range_m.html#interface-map_from_unit_range">map_from_unit_range</a>
-            <a class="list-group-item" href="../module/tensor_range_m.html#interface-map_to_unit_range">map_to_unit_range</a>
-            <a class="list-group-item" href="../module/tensor_range_m.html#interface-to_json~5">to_json</a>
+            <a class="list-group-item" href="../module/tensor_range_m.html#interface-equals~3">equals</a>
+            <a class="list-group-item" href="../module/tensor_range_m.html#interface-in_range">in_range</a>
+            <a class="list-group-item" href="../module/tensor_range_m.html#interface-map_from_training_range~2">map_from_training_range</a>
+            <a class="list-group-item" href="../module/tensor_range_m.html#interface-map_to_training_range~2">map_to_training_range</a>
+            <a class="list-group-item" href="../module/tensor_range_m.html#interface-to_json~4">to_json</a>
         </div>
       </div>
     </div>
@@ -826,7 +827,7 @@ large graphs.</div>
           <li class="list-group-item">
                 <h3>
     private pure module function from_components(layer, minima, maxima) result(tensor_range)  
-    <a href="../proc/from_components.html"><button type="button" class="btn btn-info depwarn">Implementation &rarr;</button></a>
+    <a href="../proc/from_components~4.html"><button type="button" class="btn btn-info depwarn">Implementation &rarr;</button></a>
 
     </h3>
   
@@ -900,7 +901,7 @@ large graphs.</div>
           <li class="list-group-item">
                 <h3>
     private module function from_json(lines) result(tensor_range)  
-    <a href="../proc/from_json.html"><button type="button" class="btn btn-info depwarn">Implementation &rarr;</button></a>
+    <a href="../proc/from_json~3.html"><button type="button" class="btn btn-info depwarn">Implementation &rarr;</button></a>
 
     </h3>
   
@@ -918,7 +919,7 @@ large graphs.</div>
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-lines~6"></span>
+              <span class="anchor" id="variable-lines~5"></span>
               type(string_t),
             </td>
 <td>intent(in)</td>
@@ -946,7 +947,7 @@ large graphs.</div>
 
               <div class="card">
     <div class="card-header bg-light codesum">
-      <span class="anchor" id="interface-equals~4"></span>
+      <span class="anchor" id="interface-equals~3"></span>
       <h3>        interface
       </h3>
     </div>
@@ -954,7 +955,7 @@ large graphs.</div>
         <li class="list-group-item">
               <h3>
     private elemental module function equals(lhs, rhs) result(lhs_equals_rhs)  
-    <a href="../proc/equals.html"><button type="button" class="btn btn-info depwarn">Implementation &rarr;</button></a>
+    <a href="../proc/equals~5.html"><button type="button" class="btn btn-info depwarn">Implementation &rarr;</button></a>
 
     </h3>
   
@@ -972,7 +973,7 @@ large graphs.</div>
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-lhs~5"></span>
+              <span class="anchor" id="variable-lhs~4"></span>
               class(<a href='../type/tensor_range_t.html'>tensor_range_t</a>),
             </td>
 <td>intent(in)</td>
@@ -987,7 +988,7 @@ large graphs.</div>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-rhs~6"></span>
+              <span class="anchor" id="variable-rhs~5"></span>
               class(<a href='../type/tensor_range_t.html'>tensor_range_t</a>),
             </td>
 <td>intent(in)</td>
@@ -1015,15 +1016,15 @@ large graphs.</div>
 
               <div class="card">
     <div class="card-header bg-light codesum">
-      <span class="anchor" id="interface-map_from_unit_range"></span>
+      <span class="anchor" id="interface-in_range"></span>
       <h3>        interface
       </h3>
     </div>
     <ul class="list-group">
         <li class="list-group-item">
               <h3>
-    private elemental module function map_from_unit_range(self, tensor) result(unnormalized_tensor)  
-    <a href="../proc/map_from_unit_range.html"><button type="button" class="btn btn-info depwarn">Implementation &rarr;</button></a>
+    private elemental module function in_range(self, tensor) result(is_in_range)  
+    <a href="../proc/in_range.html"><button type="button" class="btn btn-info depwarn">Implementation &rarr;</button></a>
 
     </h3>
   
@@ -1041,7 +1042,145 @@ large graphs.</div>
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-self~53"></span>
+              <span class="anchor" id="variable-self~51"></span>
+              class(<a href='../type/tensor_range_t.html'>tensor_range_t</a>),
+            </td>
+<td>intent(in)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>self</strong></td>
+            <td>
+                
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-tensor~5"></span>
+              type(<a href='../type/tensor_t.html'>tensor_t</a>),
+            </td>
+<td>intent(in)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>tensor</strong></td>
+            <td>
+                
+            </td>
+        </tr>
+    </tbody>
+  </table>
+
+    <h4>
+    Return Value
+    <small>logical</small>
+    </h4>
+    
+
+        </li>
+    </ul>
+  </div>
+
+              <div class="card">
+    <div class="card-header bg-light codesum">
+      <span class="anchor" id="interface-map_from_training_range~2"></span>
+      <h3>        interface
+      </h3>
+    </div>
+    <ul class="list-group">
+        <li class="list-group-item">
+              <h3>
+    private elemental module function map_from_training_range(self, tensor) result(unnormalized_tensor)  
+    <a href="../proc/map_from_training_range.html"><button type="button" class="btn btn-info depwarn">Implementation &rarr;</button></a>
+
+    </h3>
+  
+
+  <h4>Arguments</h4>
+      <table class="table table-striped varlist">
+    <thead>
+      <tr>
+        <th scope="col">Type</th>
+<th scope="col">Intent</th><th scope="col">Optional</th>        <th scope="col">Attributes</th>
+        <th scope="col"></th>
+        <th scope="col">Name</th>
+        <th scope="col"></th>
+    </thead>
+    <tbody>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-self~49"></span>
+              class(<a href='../type/tensor_range_t.html'>tensor_range_t</a>),
+            </td>
+<td>intent(in)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>self</strong></td>
+            <td>
+                
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-tensor~4"></span>
+              type(<a href='../type/tensor_t.html'>tensor_t</a>),
+            </td>
+<td>intent(in)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>tensor</strong></td>
+            <td>
+                
+            </td>
+        </tr>
+    </tbody>
+  </table>
+
+    <h4>
+    Return Value
+    <small>type(<a href='../type/tensor_t.html'>tensor_t</a>)</small>
+    </h4>
+    
+
+        </li>
+    </ul>
+  </div>
+
+              <div class="card">
+    <div class="card-header bg-light codesum">
+      <span class="anchor" id="interface-map_to_training_range~2"></span>
+      <h3>        interface
+      </h3>
+    </div>
+    <ul class="list-group">
+        <li class="list-group-item">
+              <h3>
+    private elemental module function map_to_training_range(self, tensor) result(normalized_tensor)  
+    <a href="../proc/map_to_training_range.html"><button type="button" class="btn btn-info depwarn">Implementation &rarr;</button></a>
+
+    </h3>
+  
+
+  <h4>Arguments</h4>
+      <table class="table table-striped varlist">
+    <thead>
+      <tr>
+        <th scope="col">Type</th>
+<th scope="col">Intent</th><th scope="col">Optional</th>        <th scope="col">Attributes</th>
+        <th scope="col"></th>
+        <th scope="col">Name</th>
+        <th scope="col"></th>
+    </thead>
+    <tbody>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-self~48"></span>
               class(<a href='../type/tensor_range_t.html'>tensor_range_t</a>),
             </td>
 <td>intent(in)</td>
@@ -1084,76 +1223,7 @@ large graphs.</div>
 
               <div class="card">
     <div class="card-header bg-light codesum">
-      <span class="anchor" id="interface-map_to_unit_range"></span>
-      <h3>        interface
-      </h3>
-    </div>
-    <ul class="list-group">
-        <li class="list-group-item">
-              <h3>
-    private elemental module function map_to_unit_range(self, tensor) result(normalized_tensor)  
-    <a href="../proc/map_to_unit_range.html"><button type="button" class="btn btn-info depwarn">Implementation &rarr;</button></a>
-
-    </h3>
-  
-
-  <h4>Arguments</h4>
-      <table class="table table-striped varlist">
-    <thead>
-      <tr>
-        <th scope="col">Type</th>
-<th scope="col">Intent</th><th scope="col">Optional</th>        <th scope="col">Attributes</th>
-        <th scope="col"></th>
-        <th scope="col">Name</th>
-        <th scope="col"></th>
-    </thead>
-    <tbody>
-        <tr>
-            <td>
-              <span class="anchor" id="variable-self~52"></span>
-              class(<a href='../type/tensor_range_t.html'>tensor_range_t</a>),
-            </td>
-<td>intent(in)</td>
-              <td></td>            <td>
-              
-            </td>
-            <td>::</td>
-            <td><strong>self</strong></td>
-            <td>
-                
-            </td>
-        </tr>
-        <tr>
-            <td>
-              <span class="anchor" id="variable-tensor~2"></span>
-              type(<a href='../type/tensor_t.html'>tensor_t</a>),
-            </td>
-<td>intent(in)</td>
-              <td></td>            <td>
-              
-            </td>
-            <td>::</td>
-            <td><strong>tensor</strong></td>
-            <td>
-                
-            </td>
-        </tr>
-    </tbody>
-  </table>
-
-    <h4>
-    Return Value
-    <small>type(<a href='../type/tensor_t.html'>tensor_t</a>)</small>
-    </h4>
-    
-
-        </li>
-    </ul>
-  </div>
-
-              <div class="card">
-    <div class="card-header bg-light codesum">
-      <span class="anchor" id="interface-to_json~5"></span>
+      <span class="anchor" id="interface-to_json~4"></span>
       <h3>        interface
       </h3>
     </div>
@@ -1161,7 +1231,7 @@ large graphs.</div>
         <li class="list-group-item">
               <h3>
     private pure module function to_json(self) result(lines)  
-    <a href="../proc/to_json.html"><button type="button" class="btn btn-info depwarn">Implementation &rarr;</button></a>
+    <a href="../proc/to_json~4.html"><button type="button" class="btn btn-info depwarn">Implementation &rarr;</button></a>
 
     </h3>
   
@@ -1179,7 +1249,7 @@ large graphs.</div>
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-self~54"></span>
+              <span class="anchor" id="variable-self~50"></span>
               class(<a href='../type/tensor_range_t.html'>tensor_range_t</a>),
             </td>
 <td>intent(in)</td>
@@ -1324,27 +1394,32 @@ large graphs.</div>
           <tbody>
               <tr>
                 <td>  procedure, public ::
-  <strong><a href='../type/tensor_range_t.html#boundprocedure-map_from_unit_range'>map_from_unit_range</a></strong></td>
+  <strong><a href='../type/tensor_range_t.html#boundprocedure-in_range'>in_range</a></strong></td>
                 <td></td>
               </tr>
               <tr>
                 <td>  procedure, public ::
-  <strong><a href='../type/tensor_range_t.html#boundprocedure-map_to_unit_range'>map_to_unit_range</a></strong></td>
+  <strong><a href='../type/tensor_range_t.html#boundprocedure-map_from_training_range~2'>map_from_training_range</a></strong></td>
+                <td></td>
+              </tr>
+              <tr>
+                <td>  procedure, public ::
+  <strong><a href='../type/tensor_range_t.html#boundprocedure-map_to_training_range~2'>map_to_training_range</a></strong></td>
                 <td></td>
               </tr>
               <tr>
                 <td>  generic, public ::
-  <strong><a href='../type/tensor_range_t.html#boundprocedure-operator%28%3D%3D%29~5'>operator(==)</a></strong> => <a href='/home/runner/work/inference-engine/inference-engine/doc/html/type/tensor_range_t.html#boundprocedure-equals~5'>equals</a></td>
+  <strong><a href='../type/tensor_range_t.html#boundprocedure-operator%28%3D%3D%29~4'>operator(==)</a></strong> => <a href='/home/runner/work/inference-engine/inference-engine/doc/html/type/tensor_range_t.html#boundprocedure-equals~4'>equals</a></td>
                 <td></td>
               </tr>
               <tr>
                 <td>  procedure, public ::
-  <strong><a href='../type/tensor_range_t.html#boundprocedure-to_json~5'>to_json</a></strong></td>
+  <strong><a href='../type/tensor_range_t.html#boundprocedure-to_json~4'>to_json</a></strong></td>
                 <td></td>
               </tr>
               <tr>
                 <td>  procedure, private ::
-  <strong><a href='../type/tensor_range_t.html#boundprocedure-equals~5'>equals</a></strong></td>
+  <strong><a href='../type/tensor_range_t.html#boundprocedure-equals~4'>equals</a></strong></td>
                 <td></td>
               </tr>
           </tbody>
@@ -1374,7 +1449,7 @@ large graphs.</div>
             <p class="text-end">
               Documentation generated by
               <a href="https://github.com/Fortran-FOSS-Programmers/ford">FORD</a>
- on 2024-04-03 00:13              </p>
+ on 2024-04-03 00:21              </p>
           </div>
         </div>
         <br>
