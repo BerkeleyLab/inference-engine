@@ -217,7 +217,6 @@ contains
 
       train_network: &
       block
-        type(tensor_range_t) input_range, output_range
         type(trainable_engine_t) trainable_engine
         type(mini_batch_t), allocatable :: mini_batches(:)
         type(bin_t), allocatable :: bins(:)
@@ -238,26 +237,27 @@ contains
         else
           close(network_unit)
 
-          print *,"Calculating input tensor component ranges."
-          input_range = tensor_range_t( &
-            layer  = "inputs", &
-            minima = [minval(pressure_in), minval(potential_temperature_in), minval(temperature_in), &
-              minval(qv_in), minval(qc_in), minval(qr_in), minval(qs_in)], &
-            maxima = [maxval(pressure_in), maxval(potential_temperature_in), maxval(temperature_in), &
-              maxval(qv_in), maxval(qc_in), maxval(qr_in), maxval(qs_in)] &
-          )
-          print *,"Calculating output tensor component ranges."
-          output_range = tensor_range_t( &
-            layer  = "outputs", &
-            minima = [minval(dpt_dt), minval(dqv_dt), minval(dqc_dt), minval(dqr_dt), minval(dqs_dt)], &
-            maxima = [maxval(dpt_dt), maxval(dqv_dt), maxval(dqc_dt), maxval(dqr_dt), maxval(dqs_dt)] &
-          )
-          print *,"Initializing a new network"
           initialize_network: &
           block
             character(len=len('YYYYMMDD')) date
+            type(tensor_range_t) input_range, output_range
 
             call date_and_time(date)
+            print *,"Calculating input tensor component ranges."
+            input_range = tensor_range_t( &
+              layer  = "inputs", &
+              minima = [minval(pressure_in), minval(potential_temperature_in), minval(temperature_in), &
+                minval(qv_in), minval(qc_in), minval(qr_in), minval(qs_in)], &
+              maxima = [maxval(pressure_in), maxval(potential_temperature_in), maxval(temperature_in), &
+                maxval(qv_in), maxval(qc_in), maxval(qr_in), maxval(qs_in)] &
+            )
+            print *,"Calculating output tensor component ranges."
+            output_range = tensor_range_t( &
+              layer  = "outputs", &
+              minima = [minval(dpt_dt), minval(dqv_dt), minval(dqc_dt), minval(dqr_dt), minval(dqs_dt)], &
+              maxima = [maxval(dpt_dt), maxval(dqv_dt), maxval(dqc_dt), maxval(dqr_dt), maxval(dqs_dt)] &
+            )
+            print *,"Initializing a new network"
 
             associate(activation => training_configuration%differentiable_activation_strategy())
               associate( &
@@ -298,10 +298,10 @@ contains
           ), lon = 1, size(qv_in,1))], lat = 1, size(qv_in,2))], level = 1, size(qv_in,3))], time = start_step, end_step, stride)]
 
         print *,"Normalizing input tensors"
-        inputs = input_range%map_to_unit_range(inputs)
+        inputs = input_range%map_to_training_range(inputs)
 
         print *,"Normalizing output tensors"
-        outputs = output_range%map_to_unit_range(outputs)
+        outputs = output_range%map_to_training_range(outputs)
 
         print *, "Eliminating",int(100*(1.-keep)),"% of the grid points that have all-zero time derivatives"
 
