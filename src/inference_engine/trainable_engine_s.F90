@@ -68,7 +68,9 @@ contains
 
       allocate(a(maxval(n), input_layer:output_layer)) ! Activations
 
-      a(1:n(input_layer),input_layer) = inputs%values()
+      associate(normalized_inputs => self%input_range_%map_to_unit_range(inputs))
+        a(1:n(input_layer),input_layer) = normalized_inputs%values()
+      end associate
 
       feed_forward: &
       do l = 1,output_layer
@@ -77,7 +79,9 @@ contains
         )
       end do feed_forward
  
-      outputs = tensor_t(a(1:n(output_layer),output_layer))
+      associate(normalized_outputs => tensor_t(a(1:n(output_layer), output_layer)))
+        outputs = self%output_range_%map_from_unit_range(normalized_outputs)
+      end associate
 
     end associate
 
