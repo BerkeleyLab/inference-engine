@@ -23,7 +23,7 @@ module inference_engine_m_
   type inference_engine_t
     !! Encapsulate the minimal information needed to perform inference
     private
-    type(tensor_range_t) inputs_range_, outputs_range_
+    type(tensor_range_t) input_range_, output_range_
     type(string_t) metadata_(size(key))
     real(rkind), allocatable :: weights_(:,:,:), biases_(:,:)
     integer, allocatable :: nodes_(:)
@@ -59,13 +59,13 @@ module inference_engine_m_
 
   interface inference_engine_t
 
-    pure module function construct_from_padded_arrays(metadata, weights, biases, nodes, inputs_range, outputs_range) &
+    pure module function construct_from_padded_arrays(metadata, weights, biases, nodes, input_range, output_range) &
       result(inference_engine)
       implicit none
       type(string_t), intent(in) :: metadata(:)
       real(rkind), intent(in) :: weights(:,:,:), biases(:,:)
       integer, intent(in) :: nodes(0:)
-      type(tensor_range_t), intent(in), optional :: inputs_range, outputs_range
+      type(tensor_range_t), intent(in), optional :: input_range, output_range
       type(inference_engine_t) inference_engine
     end function
 

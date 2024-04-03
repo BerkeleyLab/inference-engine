@@ -160,12 +160,12 @@
       </a>
       <div id="boundprocs-0" class="collapse">
         <div class="list-group list-group-flush">
-            <a class="list-group-item" href="../type/network_configuration_t.html#boundprocedure-activation_name~3">activation_name</a>
-            <a class="list-group-item" href="../type/network_configuration_t.html#boundprocedure-equals~5">equals</a>
-            <a class="list-group-item" href="../type/network_configuration_t.html#boundprocedure-nodes_per_layer~5">nodes_per_layer</a>
-            <a class="list-group-item" href="../type/network_configuration_t.html#boundprocedure-operator%28%3D%3D%29~5">operator(==)</a>
+            <a class="list-group-item" href="../type/network_configuration_t.html#boundprocedure-activation_name~2">activation_name</a>
+            <a class="list-group-item" href="../type/network_configuration_t.html#boundprocedure-equals~3">equals</a>
+            <a class="list-group-item" href="../type/network_configuration_t.html#boundprocedure-nodes_per_layer~3">nodes_per_layer</a>
+            <a class="list-group-item" href="../type/network_configuration_t.html#boundprocedure-operator%28%3D%3D%29~3">operator(==)</a>
             <a class="list-group-item" href="../type/network_configuration_t.html#boundprocedure-skip_connections~2">skip_connections</a>
-            <a class="list-group-item" href="../type/network_configuration_t.html#boundprocedure-to_json~5">to_json</a>
+            <a class="list-group-item" href="../type/network_configuration_t.html#boundprocedure-to_json~4">to_json</a>
         </div>
       </div>
     </div>
@@ -356,7 +356,7 @@ large graphs.</div>
           <li class="list-group-item">
                 <h3>
     private pure module function from_components(skip_connections, nodes_per_layer, activation_name) result(network_configuration)  
-    <a href="../proc/from_components.html"><button type="button" class="btn btn-info depwarn">Implementation &rarr;</button></a>
+    <a href="../proc/from_components~4.html"><button type="button" class="btn btn-info depwarn">Implementation &rarr;</button></a>
 
     </h3>
   
@@ -389,7 +389,7 @@ large graphs.</div>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-nodes_per_layer~6"></span>
+              <span class="anchor" id="variable-nodes_per_layer~4"></span>
               integer,
             </td>
 <td>intent(in)</td>
@@ -404,7 +404,7 @@ large graphs.</div>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-activation_name~4"></span>
+              <span class="anchor" id="variable-activation_name~3"></span>
               character(len=*),
             </td>
 <td>intent(in)</td>
@@ -430,7 +430,7 @@ large graphs.</div>
           <li class="list-group-item">
                 <h3>
     private pure module function from_json(lines) result(network_configuration)  
-    <a href="../proc/from_json.html"><button type="button" class="btn btn-info depwarn">Implementation &rarr;</button></a>
+    <a href="../proc/from_json~3.html"><button type="button" class="btn btn-info depwarn">Implementation &rarr;</button></a>
 
     </h3>
   
@@ -448,7 +448,7 @@ large graphs.</div>
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-lines~7"></span>
+              <span class="anchor" id="variable-lines~3"></span>
               type(string_t),
             </td>
 <td>intent(in)</td>
@@ -483,7 +483,7 @@ large graphs.</div>
           <div class="row">
               <div class="card mt-3">
     <div class="card-header codesum">
-      <span class="anchor" id="boundprocedure-activation_name~3"></span>
+      <span class="anchor" id="boundprocedure-activation_name~2"></span>
       <h3>
           procedure, public ::
   <strong>activation_name</strong>
@@ -543,7 +543,7 @@ large graphs.</div>
           <div class="row">
               <div class="card mt-3">
     <div class="card-header codesum">
-      <span class="anchor" id="boundprocedure-equals~5"></span>
+      <span class="anchor" id="boundprocedure-equals~3"></span>
       <h3>
           procedure, public ::
   <strong>equals</strong>
@@ -555,7 +555,7 @@ large graphs.</div>
               <h3>interface </h3>
                   <h3>
     private elemental module function equals(lhs, rhs) result(lhs_equals_rhs)  
-    <a href="../proc/equals.html"><button type="button" class="btn btn-info depwarn">Implementation &rarr;</button></a>
+    <a href="../proc/equals~5.html"><button type="button" class="btn btn-info depwarn">Implementation &rarr;</button></a>
 </h3>
 
   
@@ -618,7 +618,7 @@ large graphs.</div>
           <div class="row">
               <div class="card mt-3">
     <div class="card-header codesum">
-      <span class="anchor" id="boundprocedure-nodes_per_layer~5"></span>
+      <span class="anchor" id="boundprocedure-nodes_per_layer~3"></span>
       <h3>
           procedure, public ::
   <strong>nodes_per_layer</strong>
@@ -630,7 +630,7 @@ large graphs.</div>
               <h3>interface </h3>
                   <h3>
     private pure module function nodes_per_layer(self) result(nodes)  
-    <a href="../proc/nodes_per_layer.html"><button type="button" class="btn btn-info depwarn">Implementation &rarr;</button></a>
+    <a href="../proc/nodes_per_layer~2.html"><button type="button" class="btn btn-info depwarn">Implementation &rarr;</button></a>
 </h3>
 
   
@@ -678,17 +678,17 @@ large graphs.</div>
           <div class="row">
               <div class="card mt-3">
     <div class="card-header codesum">
-      <span class="anchor" id="boundprocedure-operator%28%3D%3D%29~5"></span>
+      <span class="anchor" id="boundprocedure-operator%28%3D%3D%29~3"></span>
       <h3>
           generic, public ::
-  <strong>operator(==)</strong> => <a href='/home/runner/work/inference-engine/inference-engine/doc/html/type/network_configuration_t.html#boundprocedure-equals~5'>equals</a>
+  <strong>operator(==)</strong> => <a href='/home/runner/work/inference-engine/inference-engine/doc/html/type/network_configuration_t.html#boundprocedure-equals~3'>equals</a>
         
       </h3>
     </div>
     <ul class="list-group">
         <li class="list-group-item">
                   <h3>
-    private  interface <a href='../interface/equals~4.html'>equals</a>()  
+    private  interface <a href='../interface/equals~3.html'>equals</a>()  
 </h3>
     
 
@@ -717,7 +717,7 @@ large graphs.</div>
               <h3>interface </h3>
                   <h3>
     private elemental module function skip_connections(self) result(using_skip)  
-    <a href="../proc/skip_connections.html"><button type="button" class="btn btn-info depwarn">Implementation &rarr;</button></a>
+    <a href="../proc/skip_connections~2.html"><button type="button" class="btn btn-info depwarn">Implementation &rarr;</button></a>
 </h3>
 
   
@@ -765,7 +765,7 @@ large graphs.</div>
           <div class="row">
               <div class="card mt-3">
     <div class="card-header codesum">
-      <span class="anchor" id="boundprocedure-to_json~5"></span>
+      <span class="anchor" id="boundprocedure-to_json~4"></span>
       <h3>
           procedure, public ::
   <strong>to_json</strong>
@@ -777,7 +777,7 @@ large graphs.</div>
               <h3>interface </h3>
                   <h3>
     private pure module function to_json(self) result(lines)  
-    <a href="../proc/to_json.html"><button type="button" class="btn btn-info depwarn">Implementation &rarr;</button></a>
+    <a href="../proc/to_json~4.html"><button type="button" class="btn btn-info depwarn">Implementation &rarr;</button></a>
 </h3>
 
   
@@ -840,7 +840,7 @@ large graphs.</div>
             <p class="text-end">
               Documentation generated by
               <a href="https://github.com/Fortran-FOSS-Programmers/ford">FORD</a>
- on 2024-04-01 03:33              </p>
+ on 2024-04-03 00:13              </p>
           </div>
         </div>
         <br>

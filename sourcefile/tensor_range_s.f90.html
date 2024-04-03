@@ -80,7 +80,7 @@
             <li class="list-inline-item" id="statements"><i class="fa fa-list-ol"></i>
               <a data-bs-toggle="tooltip"
                  data-bs-placement="bottom" data-html="true"
-                 title=" 2.9% of total for source files.">68 statements</a>
+                 title=" 2.7% of total for source files.">64 statements</a>
             </li>
 
             <li class="list-inline-item" id="source-file">
@@ -357,29 +357,21 @@ large graphs.</div>
 <a id="ln-73" name="ln-73" href="#ln-73"></a>
 <a id="ln-74" name="ln-74" href="#ln-74"></a><span class="k">  module procedure </span><span class="n">map_to_unit_range</span>
 <a id="ln-75" name="ln-75" href="#ln-75"></a><span class="w">    </span><span class="k">associate</span><span class="p">(</span><span class="n">tensor_values</span><span class="w"> </span><span class="o">=&gt;</span><span class="w"> </span><span class="n">tensor</span><span class="p">%</span><span class="n">values</span><span class="p">())</span>
-<a id="ln-76" name="ln-76" href="#ln-76"></a><span class="w">      </span><span class="k">call </span><span class="n">assert</span><span class="p">(</span><span class="k">all</span><span class="p">(</span><span class="n">tensor_values</span><span class="o">&gt;=</span><span class="n">self</span><span class="p">%</span><span class="n">minima_</span><span class="p">)</span><span class="w"> </span><span class="p">.</span><span class="nb">and</span><span class="p">.</span><span class="w"> </span><span class="k">all</span><span class="p">(</span><span class="n">tensor_values</span><span class="o">&lt;=</span><span class="n">self</span><span class="p">%</span><span class="n">maxima_</span><span class="p">),</span><span class="w"> </span><span class="p">&amp;</span>
-<a id="ln-77" name="ln-77" href="#ln-77"></a><span class="w">        </span><span class="s2">&quot;tensor_range_s(map_to_unit_range): unnormalized range&quot;</span><span class="p">)</span>
-<a id="ln-78" name="ln-78" href="#ln-78"></a><span class="w">      </span><span class="k">associate</span><span class="p">(</span><span class="n">normalized_values</span><span class="w"> </span><span class="o">=&gt;</span><span class="w"> </span><span class="p">(</span><span class="n">tensor_values</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="n">self</span><span class="p">%</span><span class="n">minima_</span><span class="p">)</span><span class="o">/</span><span class="p">(</span><span class="n">self</span><span class="p">%</span><span class="n">maxima_</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="n">self</span><span class="p">%</span><span class="n">minima_</span><span class="p">))</span>
-<a id="ln-79" name="ln-79" href="#ln-79"></a><span class="w">        </span><span class="k">call </span><span class="n">assert</span><span class="p">(</span><span class="k">all</span><span class="p">(</span><span class="n">normalized_values</span><span class="o">&gt;=</span><span class="mf">0.</span><span class="p">)</span><span class="w"> </span><span class="p">.</span><span class="nb">and</span><span class="p">.</span><span class="w"> </span><span class="k">all</span><span class="p">(</span><span class="n">normalized_values</span><span class="o">&lt;=</span><span class="mf">1.</span><span class="p">),</span><span class="w"> </span><span class="p">&amp;</span>
-<a id="ln-80" name="ln-80" href="#ln-80"></a><span class="w">          </span><span class="s2">&quot;tensor_range_s(map_to_unit_range): normalized range&quot;</span><span class="p">)</span>
-<a id="ln-81" name="ln-81" href="#ln-81"></a><span class="w">        </span><span class="n">normalized_tensor</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">tensor_t</span><span class="p">(</span><span class="n">normalized_values</span><span class="p">)</span>
-<a id="ln-82" name="ln-82" href="#ln-82"></a><span class="w">      </span><span class="k">end associate</span>
-<a id="ln-83" name="ln-83" href="#ln-83"></a><span class="k">    end associate</span>
-<a id="ln-84" name="ln-84" href="#ln-84"></a><span class="k">  end procedure</span>
-<a id="ln-85" name="ln-85" href="#ln-85"></a>
-<a id="ln-86" name="ln-86" href="#ln-86"></a><span class="k">  module procedure </span><span class="n">map_from_unit_range</span>
-<a id="ln-87" name="ln-87" href="#ln-87"></a><span class="w">    </span><span class="k">associate</span><span class="p">(</span><span class="n">tensor_values</span><span class="w"> </span><span class="o">=&gt;</span><span class="w"> </span><span class="n">tensor</span><span class="p">%</span><span class="n">values</span><span class="p">())</span>
-<a id="ln-88" name="ln-88" href="#ln-88"></a><span class="w">      </span><span class="k">call </span><span class="n">assert</span><span class="p">(</span><span class="k">all</span><span class="p">(</span><span class="n">tensor_values</span><span class="o">&gt;=</span><span class="mf">0.</span><span class="p">).</span><span class="nb">and</span><span class="p">.</span><span class="k">all</span><span class="p">(</span><span class="n">tensor_values</span><span class="o">&lt;=</span><span class="mf">1.</span><span class="p">),</span><span class="w"> </span><span class="p">&amp;</span>
-<a id="ln-89" name="ln-89" href="#ln-89"></a><span class="w">        </span><span class="s2">&quot;tensor_range_s(map_from_unit_range): normalized input&quot;</span><span class="p">)</span>
-<a id="ln-90" name="ln-90" href="#ln-90"></a><span class="w">      </span><span class="k">associate</span><span class="p">(</span><span class="n">unnormalized_values</span><span class="w"> </span><span class="o">=&gt;</span><span class="w"> </span><span class="n">self</span><span class="p">%</span><span class="n">minima_</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">tensor_values</span><span class="o">*</span><span class="p">(</span><span class="n">self</span><span class="p">%</span><span class="n">maxima_</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="n">self</span><span class="p">%</span><span class="n">minima_</span><span class="p">))</span>
-<a id="ln-91" name="ln-91" href="#ln-91"></a><span class="w">        </span><span class="k">call </span><span class="n">assert</span><span class="p">(</span><span class="k">all</span><span class="p">([</span><span class="n">unnormalized_values</span><span class="o">&gt;=</span><span class="n">self</span><span class="p">%</span><span class="n">minima_</span><span class="p">,</span><span class="w"> </span><span class="n">unnormalized_values</span><span class="o">&lt;=</span><span class="n">self</span><span class="p">%</span><span class="n">maxima_</span><span class="p">]),</span><span class="w"> </span><span class="p">&amp;</span>
-<a id="ln-92" name="ln-92" href="#ln-92"></a><span class="w">          </span><span class="s2">&quot;tensor_range_s(map_to_unit_range): unnormalized range&quot;</span><span class="p">)</span>
-<a id="ln-93" name="ln-93" href="#ln-93"></a><span class="w">        </span><span class="n">unnormalized_tensor</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">tensor_t</span><span class="p">(</span><span class="n">unnormalized_values</span><span class="p">)</span>
-<a id="ln-94" name="ln-94" href="#ln-94"></a><span class="w">      </span><span class="k">end associate</span>
-<a id="ln-95" name="ln-95" href="#ln-95"></a><span class="k">    end associate</span>
-<a id="ln-96" name="ln-96" href="#ln-96"></a><span class="k">  end procedure</span>
-<a id="ln-97" name="ln-97" href="#ln-97"></a>
-<a id="ln-98" name="ln-98" href="#ln-98"></a><span class="k">end submodule </span><span class="n">tensor_range_s</span>
+<a id="ln-76" name="ln-76" href="#ln-76"></a><span class="w">      </span><span class="k">associate</span><span class="p">(</span><span class="n">normalized_values</span><span class="w"> </span><span class="o">=&gt;</span><span class="w"> </span><span class="p">(</span><span class="n">tensor_values</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="n">self</span><span class="p">%</span><span class="n">minima_</span><span class="p">)</span><span class="o">/</span><span class="p">(</span><span class="n">self</span><span class="p">%</span><span class="n">maxima_</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="n">self</span><span class="p">%</span><span class="n">minima_</span><span class="p">))</span>
+<a id="ln-77" name="ln-77" href="#ln-77"></a><span class="w">        </span><span class="n">normalized_tensor</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">tensor_t</span><span class="p">(</span><span class="n">normalized_values</span><span class="p">)</span>
+<a id="ln-78" name="ln-78" href="#ln-78"></a><span class="w">      </span><span class="k">end associate</span>
+<a id="ln-79" name="ln-79" href="#ln-79"></a><span class="k">    end associate</span>
+<a id="ln-80" name="ln-80" href="#ln-80"></a><span class="k">  end procedure</span>
+<a id="ln-81" name="ln-81" href="#ln-81"></a>
+<a id="ln-82" name="ln-82" href="#ln-82"></a><span class="k">  module procedure </span><span class="n">map_from_unit_range</span>
+<a id="ln-83" name="ln-83" href="#ln-83"></a><span class="w">    </span><span class="k">associate</span><span class="p">(</span><span class="n">tensor_values</span><span class="w"> </span><span class="o">=&gt;</span><span class="w"> </span><span class="n">tensor</span><span class="p">%</span><span class="n">values</span><span class="p">())</span>
+<a id="ln-84" name="ln-84" href="#ln-84"></a><span class="w">      </span><span class="k">associate</span><span class="p">(</span><span class="n">unnormalized_values</span><span class="w"> </span><span class="o">=&gt;</span><span class="w"> </span><span class="n">self</span><span class="p">%</span><span class="n">minima_</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">tensor_values</span><span class="o">*</span><span class="p">(</span><span class="n">self</span><span class="p">%</span><span class="n">maxima_</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="n">self</span><span class="p">%</span><span class="n">minima_</span><span class="p">))</span>
+<a id="ln-85" name="ln-85" href="#ln-85"></a><span class="w">        </span><span class="n">unnormalized_tensor</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">tensor_t</span><span class="p">(</span><span class="n">unnormalized_values</span><span class="p">)</span>
+<a id="ln-86" name="ln-86" href="#ln-86"></a><span class="w">      </span><span class="k">end associate</span>
+<a id="ln-87" name="ln-87" href="#ln-87"></a><span class="k">    end associate</span>
+<a id="ln-88" name="ln-88" href="#ln-88"></a><span class="k">  end procedure</span>
+<a id="ln-89" name="ln-89" href="#ln-89"></a>
+<a id="ln-90" name="ln-90" href="#ln-90"></a><span class="k">end submodule </span><span class="n">tensor_range_s</span>
 </pre></div>
 
       </section>
@@ -398,7 +390,7 @@ large graphs.</div>
             <p class="text-end">
               Documentation generated by
               <a href="https://github.com/Fortran-FOSS-Programmers/ford">FORD</a>
- on 2024-04-01 03:33              </p>
+ on 2024-04-03 00:13              </p>
           </div>
         </div>
         <br>
