@@ -68,7 +68,7 @@ contains
 
       allocate(a(maxval(n), input_layer:output_layer)) ! Activations
 
-      associate(normalized_inputs => self%input_range_%map_to_unit_range(inputs))
+      associate(normalized_inputs => self%input_range_%map_to_training_range(inputs))
         a(1:n(input_layer),input_layer) = normalized_inputs%values()
       end associate
 
@@ -80,7 +80,7 @@ contains
       end do feed_forward
  
       associate(normalized_outputs => tensor_t(a(1:n(output_layer), output_layer)))
-        outputs = self%output_range_%map_from_unit_range(normalized_outputs)
+        outputs = self%output_range_%map_from_training_range(normalized_outputs)
       end associate
 
     end associate
@@ -303,5 +303,14 @@ contains
     end function
 
   end procedure
+
+  module procedure map_to_training_range
+    normalized_tensor = self%input_range_%map_to_training_range(tensor)
+  end procedure
+
+  module procedure map_from_training_range
+    unnormalized_tensor = self%output_range_%map_from_training_range(tensor)
+  end procedure
+  
 
 end submodule trainable_engine_s

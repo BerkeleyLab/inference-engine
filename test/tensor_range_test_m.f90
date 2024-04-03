@@ -43,7 +43,7 @@ contains
         ], &
       outcomes => &
         [ write_then_read_tensor_range(), & 
-          map_to_from_unit_range() &
+          map_to_from_training_range() &
         ] & 
     )
       call assert(size(descriptions) == size(outcomes),"tensor_range_test_m(results): size(descriptions) == size(outcomes)")
@@ -63,13 +63,13 @@ contains
     end associate
   end function
 
-  function map_to_from_unit_range() result(test_passes)
+  function map_to_from_training_range() result(test_passes)
     logical test_passes
     real, parameter :: tolerance = 1.E-08
 
     associate(tensor_range => tensor_range_t(layer="output", minima=[-4., 0., 1., -1.], maxima=[0., 2., 5., 1.]))
       associate(tensor => tensor_t([-2., 0., 5., 0.]))
-        associate(round_trip => tensor_range%map_from_unit_range(tensor_range%map_to_unit_range(tensor)))
+        associate(round_trip => tensor_range%map_from_training_range(tensor_range%map_to_training_range(tensor)))
           test_passes = all(abs(tensor%values() - round_trip%values()) < tolerance)
         end associate
       end associate

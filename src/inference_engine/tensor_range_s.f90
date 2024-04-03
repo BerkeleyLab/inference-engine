@@ -71,7 +71,7 @@ contains
     ]
   end procedure
 
-  module procedure map_to_unit_range
+  module procedure map_to_training_range
     associate(tensor_values => tensor%values())
       associate(normalized_values => (tensor_values - self%minima_)/(self%maxima_ - self%minima_))
         normalized_tensor = tensor_t(normalized_values)
@@ -79,12 +79,16 @@ contains
     end associate
   end procedure
 
-  module procedure map_from_unit_range
+  module procedure map_from_training_range
     associate(tensor_values => tensor%values())
       associate(unnormalized_values => self%minima_ + tensor_values*(self%maxima_ - self%minima_))
         unnormalized_tensor = tensor_t(unnormalized_values)
       end associate
     end associate
+  end procedure
+
+  module procedure in_range
+    is_in_range = all(tensor%values() >= self%minima_) .and. all(tensor%values() <= self%maxima_)
   end procedure
 
 end submodule tensor_range_s
