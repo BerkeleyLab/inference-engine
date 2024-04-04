@@ -23,6 +23,9 @@ submodule(inference_engine_m_) inference_engine_s
 contains
 
   module procedure to_exchange
+    exchange%input_range_ = self%input_range_
+    exchange%output_range_ = self%output_range_
+    exchange%metadata_ = self%metadata_
     exchange%metadata_ = self%metadata_
     exchange%weights_ = self%weights_
     exchange%biases_ = self%biases_
@@ -228,7 +231,7 @@ contains
        end associate
     end block
 
-    inference_engine = hidden_layers%inference_engine(metadata, output_layer) 
+    inference_engine = hidden_layers%inference_engine(metadata, output_layer, input_range, output_range)
 
     call set_activation_strategy(inference_engine)
     call assert_consistency(inference_engine)

@@ -250,6 +250,7 @@ contains
             ] &
           ), lon = 1, size(qv_in,1))], lat = 1, size(qv_in,2))], level = 1, size(qv_in,3))], time = start_step, end_step, stride)]
 
+        read_or_initialize_engine: &
         if (io_status==0) then
           print *,"Reading network from file " // network_file
           trainable_engine = trainable_engine_t(inference_engine_t(file_t(string_t(network_file))))
@@ -277,14 +278,6 @@ contains
                 minima = [minval(dpt_dt), minval(dqv_dt), minval(dqc_dt), minval(dqr_dt), minval(dqs_dt)], &
                 maxima = [maxval(dpt_dt), maxval(dqv_dt), maxval(dqc_dt), maxval(dqr_dt), maxval(dqs_dt)] &
               ))
-                print *,"Normalizing input tensors"
-                inputs = input_range%map_to_training_range(inputs)
-
-                print *,"Normalizing output tensors"
-                outputs = output_range%map_to_training_range(outputs)
-
-                print *,"Initializing a new network"
-
                 associate(activation => training_configuration%differentiable_activation_strategy())
                   associate( &
                     model_name => string_t("Simple microphysics"), &
@@ -303,7 +296,13 @@ contains
               end associate
             end associate
           end block initialize_network
-        end if
+        end if read_or_initialize_engine
+
+        print *,"Normalizing input tensors"
+        inputs = trainable_engine%map_to_input_training_range(inputs)
+
+        print *,"Normalizing output tensors"
+        outputs = trainable_engine%map_to_output_training_range(outputs)
 
         print *, "Eliminating",int(100*(1.-keep)),"% of the grid points that have all-zero time derivatives"
 

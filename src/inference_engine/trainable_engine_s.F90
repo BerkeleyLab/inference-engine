@@ -25,6 +25,8 @@ contains
   module procedure construct_from_inference_engine
 
     associate(exchange => inference_engine%to_exchange())
+      trainable_engine%input_range_ = exchange%input_range_
+      trainable_engine%output_range_ = exchange%output_range_
       trainable_engine%metadata_ = exchange%metadata_
       trainable_engine%w = exchange%weights_
       trainable_engine%b = exchange%biases_
@@ -304,11 +306,19 @@ contains
 
   end procedure
 
-  module procedure map_to_training_range
+  module procedure map_to_input_training_range
     normalized_tensor = self%input_range_%map_to_training_range(tensor)
   end procedure
 
-  module procedure map_from_training_range
+  module procedure map_from_input_training_range
+    unnormalized_tensor = self%input_range_%map_from_training_range(tensor)
+  end procedure
+  
+  module procedure map_to_output_training_range
+    normalized_tensor = self%output_range_%map_to_training_range(tensor)
+  end procedure
+
+  module procedure map_from_output_training_range
     unnormalized_tensor = self%output_range_%map_from_training_range(tensor)
   end procedure
   
