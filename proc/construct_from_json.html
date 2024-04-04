@@ -1,0 +1,557 @@
+<!-- -*- mode: jinja2 -*- -->
+
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+      <meta name="description" content="A deep learning library targeting high-performance computing (HPC) applications with performance-critical inference and training needs.">
+    <meta name="author" content="Berkeley Lab" >
+    <link rel="icon" href="../favicon.png">
+
+    <title>construct_from_json &ndash; Inference-Engine</title>
+
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet"
+          integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
+    <link href="../css/pygments.css" rel="stylesheet">
+    <link href="../css/font-awesome.min.css" rel="stylesheet">
+    <link href="../css/local.css" rel="stylesheet">
+      <link  href="../tipuesearch/tipuesearch.css" rel="stylesheet">
+
+    <script src="https://code.jquery.com/jquery-3.7.1.min.js" integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
+    <script src="../js/svg-pan-zoom.min.js"></script>
+  </head>
+
+  <body>
+
+    <!-- Fixed navbar -->
+    <div class="container-fluid mb-sm-4 mb-xl-2">
+      <nav class="navbar navbar-expand-lg navbar-dark bg-dark fixed-top">
+        <div class="container">
+          <a class="navbar-brand" href="../index.html">Inference-Engine </a>
+          <button type="button" class="navbar-toggler" data-bs-toggle="collapse" data-bs-target="#navbar"
+                  aria-expanded="false" aria-controls="navbar" aria-label="Toggle navigation">
+                  <span class="navbar-toggler-icon">
+          </button>
+
+          <div id="navbar" class="navbar-collapse collapse">
+            <ul class="navbar-nav">
+                  <li class="nav-item">
+                    <a class="nav-link" href="../lists/files.html">Source Files</a>
+                  </li>
+                <li class="nav-item">
+                  <a class="nav-link" href="../lists/modules.html">Modules</a>
+                </li>
+                <li class="nav-item">
+                  <a class="nav-link" href="../lists/procedures.html">Procedures</a>
+                </li>
+                <li class="nav-item">
+                  <a class="nav-link" href="../lists/absint.html">Abstract Interfaces</a>
+                </li>
+                <li class="nav-item">
+                  <a class="nav-link" href="../lists/types.html">Derived Types</a>
+                </li>
+                <li class="nav-item">
+                  <a class="nav-link" href="../lists/programs.html">Programs</a>
+                </li>
+            </ul>
+              <div class="d-flex align-items-end flex-grow-1">
+                <form action="../search.html" role="search" class="ms-auto">
+                  <input type="text" class="form-control" aria-label="Search" placeholder="Search" name="q" id="tipue_search_input" autocomplete="off" required>
+                </form>
+              </div>
+          </div><!--/.nav-collapse -->
+        </div>
+      </nav>
+    </div>
+
+    <div class="container">
+  <div class="row">
+    <h1>construct_from_json
+      <small>Module Procedure</small>
+      
+    </h1>
+      <div class="container p-2 mb-4 bg-light border rounded-3">
+    <div class="row align-items-center justify-content-between" id="info-bar">
+      <div class="col">
+        <ul class="list-inline" style="margin-bottom:0px;display:inline">
+
+            <li class="list-inline-item" id="statements"><i class="fa fa-list-ol"></i>
+              <a data-bs-toggle="tooltip" data-bs-placement="bottom" data-bs-html="true"
+                 title=" 2.3% of total for procedures.">79 statements</a>
+            </li>
+
+            <li class="list-inline-item" id="source-file">
+              <i class="fa fa-code"></i>
+              <a href="../src/inference_engine_s.f90"> Source File</a>
+            </li>
+        </ul>
+      </div>
+      <div class="col">
+        <nav aria-label="breadcrumb">
+          <ol class="breadcrumb justify-content-end mb-0">
+                <li class="breadcrumb-item"><a href='../sourcefile/inference_engine_s.f90.html'>inference_engine_s.f90</a></li>
+                <li class="breadcrumb-item"><a href='../module/inference_engine_s.html'>inference_engine_s</a></li>
+            <li class="breadcrumb-item active" aria-current="page">construct_from_json</li>
+          </ol>
+        </nav>
+      </div>
+    </div>
+  </div>
+  <script>
+    $(function () {
+    $('[data-bs-toggle="tooltip"]').tooltip()
+    })
+  </script>
+
+  </div>
+  
+  <div class="row">
+    <div class="col-md-3 hidden-xs hidden-sm visible-md visible-lg">
+      <div id="sidebar">
+      <h3>Contents</h3>
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+
+
+  </div>
+
+    </div>
+    
+    <div class="col-md-9" id='text'>
+    <h2>module procedure construct_from_json <small>impure elemental module function construct_from_json(file_) result(inference_engine)</small>  
+</h2>
+    
+
+
+
+    <h3>Arguments</h3>
+        <table class="table table-striped varlist">
+    <thead>
+      <tr>
+        <th scope="col">Type</th>
+<th scope="col">Intent</th><th scope="col">Optional</th>        <th scope="col">Attributes</th>
+        <th scope="col"></th>
+        <th scope="col">Name</th>
+        <th scope="col"></th>
+    </thead>
+    <tbody>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-file_"></span>
+              type(file_t),
+            </td>
+<td>intent(in)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>file_</strong></td>
+            <td>
+                
+            </td>
+        </tr>
+    </tbody>
+  </table>
+
+      <h3>Return Value
+        <small>
+          <span class="anchor" id="variable-inference_engine~15"></span>
+          type(<a href='../type/inference_engine_t.html'>inference_engine_t</a>)
+        </small>
+      </h3>
+      
+    <br>
+    <div class="card">
+      <div class="card-header">
+  <h3 class="card-title">Calls</h3>
+      </div>
+      <div class="card-body">
+  <div class="depgraph"><?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN"
+ "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
+<!-- Generated by graphviz version 10.0.1 (20240210.2158)
+ -->
+<!-- Title: proc~~construct_from_json~~CallsGraph Pages: 1 -->
+<svg id="procconstruct_from_jsonCallsGraph" width="641pt" height="406pt"
+ viewBox="0.00 0.00 641.00 405.93" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+<g id="proc~~construct_from_json~~CallsGraph" class="graph" transform="scale(0.984518 0.984518) rotate(0) translate(4 408.32)">
+<title>proc~~construct_from_json~~CallsGraph</title>
+<polygon fill="white" stroke="none" points="-4,4 -4,-408.32 647.08,-408.32 647.08,4 -4,4"/>
+<!-- proc~construct_from_json -->
+<g id="proc~~construct_from_json~~CallsGraph_node1" class="node">
+<title>proc~construct_from_json</title>
+<polygon fill="none" stroke="black" points="118.02,-209.27 0,-209.27 0,-185 118.02,-185 118.02,-209.27"/>
+<text text-anchor="middle" x="59.01" y="-193.53" font-family="Helvetica,sans-Serif" font-size="10.50">construct_from_json</text>
+</g>
+<!-- assert -->
+<g id="proc~~construct_from_json~~CallsGraph_node2" class="node">
+<title>assert</title>
+<polygon fill="#777777" stroke="#777777" points="621.94,-356.27 567.94,-356.27 567.94,-332 621.94,-332 621.94,-356.27"/>
+<text text-anchor="middle" x="594.94" y="-340.53" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">assert</text>
+</g>
+<!-- proc~construct_from_json&#45;&gt;assert -->
+<g id="proc~~construct_from_json~~CallsGraph_edge1" class="edge">
+<title>proc~construct_from_json&#45;&gt;assert</title>
+<path fill="none" stroke="#ff0000" d="M62.46,-209.4C69.71,-241.9 94.34,-330.14 154.02,-365.13 284.9,-441.87 477.17,-387.04 557.05,-358.49"/>
+<polygon fill="#ff0000" stroke="#ff0000" points="557.94,-361.89 566.13,-355.17 555.54,-355.32 557.94,-361.89"/>
+</g>
+<!-- interface~assert_consistency -->
+<g id="proc~~construct_from_json~~CallsGraph_node3" class="node">
+<title>interface~assert_consistency</title>
+<g id="a_proc~~construct_from_json~~CallsGraph_node3"><a xlink:href="../interface/assert_consistency.html" xlink:title="assert_consistency">
+<polygon fill="#a7506f" stroke="#a7506f" points="284.41,-356.27 173.14,-356.27 173.14,-332 284.41,-332 284.41,-356.27"/>
+<text text-anchor="middle" x="228.78" y="-340.53" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">assert_consistency</text>
+</a>
+</g>
+</g>
+<!-- proc~construct_from_json&#45;&gt;interface~assert_consistency -->
+<g id="proc~~construct_from_json~~CallsGraph_edge2" class="edge">
+<title>proc~construct_from_json&#45;&gt;interface~assert_consistency</title>
+<path fill="none" stroke="#ff0000" d="M65.82,-209.65C78.27,-235.04 109.98,-292.77 154.02,-323.13 156.69,-324.98 159.52,-326.66 162.46,-328.19"/>
+<polygon fill="#ff0000" stroke="#ff0000" points="160.84,-331.3 171.39,-332.24 163.73,-324.93 160.84,-331.3"/>
+</g>
+<!-- interface~count_layers -->
+<g id="proc~~construct_from_json~~CallsGraph_node4" class="node">
+<title>interface~count_layers</title>
+<g id="a_proc~~construct_from_json~~CallsGraph_node4"><a xlink:href="../interface/count_layers.html" xlink:title="layer_t%count_layers">
+<polygon fill="#a7506f" stroke="#a7506f" points="291.16,-314.27 166.39,-314.27 166.39,-290 291.16,-290 291.16,-314.27"/>
+<text text-anchor="middle" x="228.78" y="-298.53" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">layer_t%count_layers</text>
+</a>
+</g>
+</g>
+<!-- proc~construct_from_json&#45;&gt;interface~count_layers -->
+<g id="proc~~construct_from_json~~CallsGraph_edge3" class="edge">
+<title>proc~construct_from_json&#45;&gt;interface~count_layers</title>
+<path fill="none" stroke="#ff0000" d="M70.55,-209.62C86.69,-227.95 119.32,-262.03 154.02,-281.13 156.72,-282.62 159.53,-284.01 162.41,-285.3"/>
+<polygon fill="#ff0000" stroke="#ff0000" points="161.09,-288.55 171.68,-289.04 163.71,-282.05 161.09,-288.55"/>
+</g>
+<!-- interface~count_neurons -->
+<g id="proc~~construct_from_json~~CallsGraph_node5" class="node">
+<title>interface~count_neurons</title>
+<g id="a_proc~~construct_from_json~~CallsGraph_node5"><a xlink:href="../interface/count_neurons.html" xlink:title="layer_t%count_neurons">
+<polygon fill="#a7506f" stroke="#a7506f" points="296.41,-272.27 161.14,-272.27 161.14,-248 296.41,-248 296.41,-272.27"/>
+<text text-anchor="middle" x="228.78" y="-256.53" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">layer_t%count_neurons</text>
+</a>
+</g>
+</g>
+<!-- proc~construct_from_json&#45;&gt;interface~count_neurons -->
+<g id="proc~~construct_from_json~~CallsGraph_edge4" class="edge">
+<title>proc~construct_from_json&#45;&gt;interface~count_neurons</title>
+<path fill="none" stroke="#ff0000" d="M85.54,-209.73C104.22,-218.66 130.33,-230.52 154.02,-239.13 158.92,-240.92 164.05,-242.65 169.23,-244.3"/>
+<polygon fill="#ff0000" stroke="#ff0000" points="167.81,-247.52 178.4,-247.12 169.87,-240.83 167.81,-247.52"/>
+</g>
+<!-- interface~inference_engine -->
+<g id="proc~~construct_from_json~~CallsGraph_node6" class="node">
+<title>interface~inference_engine</title>
+<g id="a_proc~~construct_from_json~~CallsGraph_node6"><a xlink:href="../interface/inference_engine.html" xlink:title="layer_t%inference_engine">
+<polygon fill="#a7506f" stroke="#a7506f" points="303.54,-230.27 154.02,-230.27 154.02,-206 303.54,-206 303.54,-230.27"/>
+<text text-anchor="middle" x="228.78" y="-214.53" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">layer_t%inference_engine</text>
+</a>
+</g>
+</g>
+<!-- proc~construct_from_json&#45;&gt;interface~inference_engine -->
+<g id="proc~~construct_from_json~~CallsGraph_edge5" class="edge">
+<title>proc~construct_from_json&#45;&gt;interface~inference_engine</title>
+<path fill="none" stroke="#ff0000" d="M118.22,-204.42C126.09,-205.41 134.3,-206.43 142.52,-207.46"/>
+<polygon fill="#ff0000" stroke="#ff0000" points="141.86,-210.91 152.22,-208.68 142.73,-203.96 141.86,-210.91"/>
+</g>
+<!-- interface~to_json~2 -->
+<g id="proc~~construct_from_json~~CallsGraph_node7" class="node">
+<title>interface~to_json~2</title>
+<g id="a_proc~~construct_from_json~~CallsGraph_node7"><a xlink:href="../interface/to_json~2.html" xlink:title="tensor_range_t%to_json">
+<polygon fill="#a7506f" stroke="#a7506f" points="297.91,-188.27 159.64,-188.27 159.64,-164 297.91,-164 297.91,-188.27"/>
+<text text-anchor="middle" x="228.78" y="-172.53" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">tensor_range_t%to_json</text>
+</a>
+</g>
+</g>
+<!-- proc~construct_from_json&#45;&gt;interface~to_json~2 -->
+<g id="proc~~construct_from_json~~CallsGraph_edge6" class="edge">
+<title>proc~construct_from_json&#45;&gt;interface~to_json~2</title>
+<path fill="none" stroke="#ff0000" d="M118.22,-189.85C127.84,-188.64 137.97,-187.38 148.02,-186.12"/>
+<polygon fill="#ff0000" stroke="#ff0000" points="148.31,-189.61 157.79,-184.9 147.44,-182.66 148.31,-189.61"/>
+</g>
+<!-- lines -->
+<g id="proc~~construct_from_json~~CallsGraph_node8" class="node">
+<title>lines</title>
+<polygon fill="#777777" stroke="#777777" points="255.78,-146.27 201.78,-146.27 201.78,-122 255.78,-122 255.78,-146.27"/>
+<text text-anchor="middle" x="228.78" y="-130.53" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">lines</text>
+</g>
+<!-- proc~construct_from_json&#45;&gt;lines -->
+<g id="proc~~construct_from_json~~CallsGraph_edge7" class="edge">
+<title>proc~construct_from_json&#45;&gt;lines</title>
+<path fill="none" stroke="#ff0000" d="M85.54,-184.54C104.22,-175.61 130.33,-163.75 154.02,-155.13 165.78,-150.86 178.84,-146.89 190.67,-143.59"/>
+<polygon fill="#ff0000" stroke="#ff0000" points="191.36,-147.03 200.09,-141.02 189.52,-140.27 191.36,-147.03"/>
+</g>
+<!-- proc~set_activation_strategy -->
+<g id="proc~~construct_from_json~~CallsGraph_node9" class="node">
+<title>proc~set_activation_strategy</title>
+<g id="a_proc~~construct_from_json~~CallsGraph_node9"><a xlink:href="../proc/set_activation_strategy.html" xlink:title="set_activation_strategy">
+<polygon fill="#d9534f" stroke="#d9534f" points="295.66,-66.27 161.89,-66.27 161.89,-42 295.66,-42 295.66,-66.27"/>
+<text text-anchor="middle" x="228.78" y="-50.53" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">set_activation_strategy</text>
+</a>
+</g>
+</g>
+<!-- proc~construct_from_json&#45;&gt;proc~set_activation_strategy -->
+<g id="proc~~construct_from_json~~CallsGraph_edge8" class="edge">
+<title>proc~construct_from_json&#45;&gt;proc~set_activation_strategy</title>
+<path fill="none" stroke="#ff0000" d="M66.83,-184.65C80.39,-160.94 112.99,-109.21 154.02,-80.13 158.75,-76.79 163.94,-73.83 169.33,-71.23"/>
+<polygon fill="#ff0000" stroke="#ff0000" points="170.67,-74.47 178.44,-67.27 167.88,-68.05 170.67,-74.47"/>
+</g>
+<!-- string -->
+<g id="proc~~construct_from_json~~CallsGraph_node10" class="node">
+<title>string</title>
+<polygon fill="#777777" stroke="#777777" points="452.17,-86.27 398.17,-86.27 398.17,-62 452.17,-62 452.17,-86.27"/>
+<text text-anchor="middle" x="425.17" y="-70.53" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">string</text>
+</g>
+<!-- proc~construct_from_json&#45;&gt;string -->
+<g id="proc~~construct_from_json~~CallsGraph_edge9" class="edge">
+<title>proc~construct_from_json&#45;&gt;string</title>
+<path fill="none" stroke="#ff0000" d="M69.73,-184.67C85.28,-165.71 117.72,-130.06 154.02,-113.13 230.88,-77.3 332.31,-72.51 386.39,-72.87"/>
+<polygon fill="#ff0000" stroke="#ff0000" points="386.25,-76.37 396.3,-73.01 386.35,-69.37 386.25,-76.37"/>
+</g>
+<!-- string_t -->
+<g id="proc~~construct_from_json~~CallsGraph_node11" class="node">
+<title>string_t</title>
+<polygon fill="#777777" stroke="#777777" points="255.78,-24.27 201.78,-24.27 201.78,0 255.78,0 255.78,-24.27"/>
+<text text-anchor="middle" x="228.78" y="-8.53" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">string_t</text>
+</g>
+<!-- proc~construct_from_json&#45;&gt;string_t -->
+<g id="proc~~construct_from_json~~CallsGraph_edge10" class="edge">
+<title>proc~construct_from_json&#45;&gt;string_t</title>
+<path fill="none" stroke="#ff0000" d="M63.54,-184.69C72.9,-154.03 101.29,-74.39 154.02,-33.13 164.38,-25.03 177.72,-20.06 190.21,-17"/>
+<polygon fill="#ff0000" stroke="#ff0000" points="190.76,-20.46 199.84,-15.01 189.34,-13.61 190.76,-20.46"/>
+</g>
+<!-- proc~difference_consistency -->
+<g id="proc~~construct_from_json~~CallsGraph_node12" class="node">
+<title>proc~difference_consistency</title>
+<g id="a_proc~~construct_from_json~~CallsGraph_node12"><a xlink:href="../proc/difference_consistency.html" xlink:title="difference_consistency">
+<polygon fill="#d9534f" stroke="#d9534f" points="491.68,-356.27 358.66,-356.27 358.66,-332 491.68,-332 491.68,-356.27"/>
+<text text-anchor="middle" x="425.17" y="-340.53" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">difference_consistency</text>
+</a>
+</g>
+</g>
+<!-- interface~assert_consistency&#45;&gt;proc~difference_consistency -->
+<g id="proc~~construct_from_json~~CallsGraph_edge11" class="edge">
+<title>interface~assert_consistency&#45;&gt;proc~difference_consistency</title>
+<path fill="none" stroke="#ff9900" stroke-dasharray="5,2" d="M284.71,-344.13C304.03,-344.13 326.13,-344.13 346.94,-344.13"/>
+<polygon fill="#ff9900" stroke="#ff9900" points="346.84,-347.64 356.84,-344.14 346.84,-340.64 346.84,-347.64"/>
+</g>
+<!-- proc~inference_engine_consistency -->
+<g id="proc~~construct_from_json~~CallsGraph_node13" class="node">
+<title>proc~inference_engine_consistency</title>
+<g id="a_proc~~construct_from_json~~CallsGraph_node13"><a xlink:href="../proc/inference_engine_consistency.html" xlink:title="inference_engine_consistency">
+<polygon fill="#d9534f" stroke="#d9534f" points="510.81,-314.27 339.54,-314.27 339.54,-290 510.81,-290 510.81,-314.27"/>
+<text text-anchor="middle" x="425.17" y="-298.53" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">inference_engine_consistency</text>
+</a>
+</g>
+</g>
+<!-- interface~assert_consistency&#45;&gt;proc~inference_engine_consistency -->
+<g id="proc~~construct_from_json~~CallsGraph_edge12" class="edge">
+<title>interface~assert_consistency&#45;&gt;proc~inference_engine_consistency</title>
+<path fill="none" stroke="#ff9900" stroke-dasharray="5,2" d="M284.71,-332.27C306.51,-327.56 331.84,-322.08 354.89,-317.1"/>
+<polygon fill="#ff9900" stroke="#ff9900" points="355.48,-320.56 364.51,-315.03 354,-313.72 355.48,-320.56"/>
+</g>
+<!-- proc~set_activation_strategy&#45;&gt;string -->
+<g id="proc~~construct_from_json~~CallsGraph_edge13" class="edge">
+<title>proc~set_activation_strategy&#45;&gt;string</title>
+<path fill="none" stroke="#3200ff" d="M296.14,-60.96C326.33,-64.07 360.96,-67.63 386.58,-70.27"/>
+<polygon fill="#3200ff" stroke="#3200ff" points="386.21,-73.75 396.52,-71.29 386.93,-66.78 386.21,-73.75"/>
+</g>
+<!-- proc~difference_consistency&#45;&gt;assert -->
+<g id="proc~~construct_from_json~~CallsGraph_edge14" class="edge">
+<title>proc~difference_consistency&#45;&gt;assert</title>
+<path fill="none" stroke="#ff0000" d="M492,-344.13C513.79,-344.13 537.29,-344.13 556.23,-344.13"/>
+<polygon fill="#ff0000" stroke="#ff0000" points="556.15,-347.64 566.15,-344.14 556.15,-340.64 556.15,-347.64"/>
+</g>
+<!-- intrinsic_array_t -->
+<g id="proc~~construct_from_json~~CallsGraph_node14" class="node">
+<title>intrinsic_array_t</title>
+<polygon fill="#777777" stroke="#777777" points="643.08,-314.27 546.81,-314.27 546.81,-290 643.08,-290 643.08,-314.27"/>
+<text text-anchor="middle" x="594.94" y="-298.53" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">intrinsic_array_t</text>
+</g>
+<!-- proc~difference_consistency&#45;&gt;intrinsic_array_t -->
+<g id="proc~~construct_from_json~~CallsGraph_edge15" class="edge">
+<title>proc~difference_consistency&#45;&gt;intrinsic_array_t</title>
+<path fill="none" stroke="#ff0000" d="M477.2,-331.51C488.29,-328.76 499.94,-325.86 510.81,-323.13 518.75,-321.15 527.12,-319.04 535.36,-316.97"/>
+<polygon fill="#ff0000" stroke="#ff0000" points="536.17,-320.37 545.01,-314.53 534.45,-313.59 536.17,-320.37"/>
+</g>
+<!-- proc~inference_engine_consistency&#45;&gt;assert -->
+<g id="proc~~construct_from_json~~CallsGraph_edge16" class="edge">
+<title>proc~inference_engine_consistency&#45;&gt;assert</title>
+<path fill="none" stroke="#00ffff" d="M477.2,-314.76C488.29,-317.51 499.94,-320.41 510.81,-323.13 525.85,-326.9 542.41,-331.08 556.77,-334.71"/>
+<polygon fill="#00ffff" stroke="#00ffff" points="555.72,-338.05 566.27,-337.11 557.44,-331.27 555.72,-338.05"/>
+</g>
+<!-- proc~inference_engine_consistency&#45;&gt;intrinsic_array_t -->
+<g id="proc~~construct_from_json~~CallsGraph_edge17" class="edge">
+<title>proc~inference_engine_consistency&#45;&gt;intrinsic_array_t</title>
+<path fill="none" stroke="#00ffff" d="M511.04,-302.13C519.14,-302.13 527.22,-302.13 534.99,-302.13"/>
+<polygon fill="#00ffff" stroke="#00ffff" points="534.99,-305.64 544.99,-302.14 534.99,-298.64 534.99,-305.64"/>
+</g>
+</g>
+</svg>
+</div>                <script>
+                  var panprocconstruct_from_jsonCallsGraph = svgPanZoom('#procconstruct_from_jsonCallsGraph',
+                    {zoomEnabled: true, controlIconsEnabled: true, fit: true, center: true,}
+                  );
+                </script>          <div>
+            <a type="button" class="graph-help" data-bs-toggle="modal" href="#CallsGraph-help-text">Help</a>
+          </div>
+          <div class="modal fade" id="CallsGraph-help-text" tabindex="-1" role="dialog">
+            <div class="modal-dialog modal-lg" role="document">
+              <div class="modal-content">
+                <div class="modal-header">
+                  <h4 class="modal-title" id="-graph-help-label">Graph Key</h4>
+                  <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+<p>Nodes of different colours represent the following: </p>
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN"
+ "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
+<!-- Generated by graphviz version 10.0.1 (20240210.2158)
+ -->
+<!-- Title: Graph Key Pages: 1 -->
+<svg width="641pt" height="28pt"
+ viewBox="0.00 0.00 641.00 28.20" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+<g id="graph0" class="graph" transform="scale(0.873868 0.873868) rotate(0) translate(4 28.27)">
+<title>Graph Key</title>
+<polygon fill="white" stroke="none" points="-4,4 -4,-28.27 729.52,-28.27 729.52,4 -4,4"/>
+<!-- Subroutine -->
+<g id="node1" class="node">
+<title>Subroutine</title>
+<polygon fill="#d9534f" stroke="#d9534f" points="69.27,-24.27 0,-24.27 0,0 69.27,0 69.27,-24.27"/>
+<text text-anchor="middle" x="34.63" y="-8.53" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">Subroutine</text>
+</g>
+<!-- Function -->
+<g id="node2" class="node">
+<title>Function</title>
+<polygon fill="#d94e8f" stroke="#d94e8f" points="143.89,-24.27 87.38,-24.27 87.38,0 143.89,0 143.89,-24.27"/>
+<text text-anchor="middle" x="115.63" y="-8.53" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">Function</text>
+</g>
+<!-- Interface -->
+<g id="node3" class="node">
+<title>Interface</title>
+<polygon fill="#a7506f" stroke="#a7506f" points="221.39,-24.27 161.88,-24.27 161.88,0 221.39,0 221.39,-24.27"/>
+<text text-anchor="middle" x="191.63" y="-8.53" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">Interface</text>
+</g>
+<!-- Type Bound Procedure -->
+<g id="node4" class="node">
+<title>Type Bound Procedure</title>
+<polygon fill="#a7506f" stroke="#a7506f" points="368.27,-24.27 239,-24.27 239,0 368.27,0 368.27,-24.27"/>
+<text text-anchor="middle" x="303.63" y="-8.53" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">Type Bound Procedure</text>
+</g>
+<!-- Unknown Procedure Type -->
+<g id="node5" class="node">
+<title>Unknown Procedure Type</title>
+<polygon fill="#777777" stroke="#777777" points="529.39,-24.27 385.88,-24.27 385.88,0 529.39,0 529.39,-24.27"/>
+<text text-anchor="middle" x="457.63" y="-8.53" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">Unknown Procedure Type</text>
+</g>
+<!-- Program -->
+<g id="node6" class="node">
+<title>Program</title>
+<polygon fill="#f0ad4e" stroke="#f0ad4e" points="603.89,-24.27 547.38,-24.27 547.38,0 603.89,0 603.89,-24.27"/>
+<text text-anchor="middle" x="575.63" y="-8.53" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">Program</text>
+</g>
+<!-- This Page&#39;s Entity -->
+<g id="node7" class="node">
+<title>This Page&#39;s Entity</title>
+<polygon fill="none" stroke="black" points="725.52,-24.27 621.75,-24.27 621.75,0 725.52,0 725.52,-24.27"/>
+<text text-anchor="middle" x="673.63" y="-8.53" font-family="Helvetica,sans-Serif" font-size="10.50">This Page&#39;s Entity</text>
+</g>
+</g>
+</svg>
+
+<p>Solid arrows point from a procedure to one which it calls. Dashed 
+arrows point from an interface to procedures which implement that interface.
+This could include the module procedures in a generic interface or the
+implementation in a submodule of an interface in a parent module.
+</p>
+ Where possible, edges connecting nodes are
+given different colours to make them easier to distinguish in
+large graphs.</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <br>
+
+
+    
+    
+
+    
+    
+
+
+
+    
+    
+    </div>
+  </div>
+
+      <hr>
+    </div> <!-- /container -->
+    <footer>
+      <div class="container">
+        <div class="row justify-content-between">
+          <div class="col">
+            <p>
+              Inference-Engine
+ was developed by Berkeley Lab<br>              &copy; 2024 
+</p>
+          </div>
+          <div class="col">
+            <p class="text-end">
+              Documentation generated by
+              <a href="https://github.com/Fortran-FOSS-Programmers/ford">FORD</a>
+ on 2024-04-04 20:52              </p>
+          </div>
+        </div>
+        <br>
+      </div> <!-- /container -->
+    </footer>
+
+    <!-- Bootstrap core JavaScript -->
+    <!-- Placed at the end of the document so the pages load faster -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"
+            integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p" crossorigin="anonymous"></script>    
+
+    <!-- MathJax JavaScript
+             ================================================== -->
+             <!-- Placed at the end of the document so the pages load faster -->
+        <script type="text/x-mathjax-config">
+          MathJax.Hub.Config({
+          TeX: { extensions: ['AMSmath.js','AMSsymbols.js','noErrors.js','noUndefined.js'], equationNumbers: { autoNumber: 'AMS' } },
+          jax: ['input/TeX','input/MathML','output/HTML-CSS'],
+          extensions: ['tex2jax.js','mml2jax.js','MathMenu.js','MathZoom.js']
+          });
+        </script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+
+          <script src="../tipuesearch/tipuesearch_content.js"></script>
+          <script src="../tipuesearch/tipuesearch_set.js"></script>
+          <script src="../tipuesearch/tipuesearch.js"></script>
+
+  </body>
+</html>

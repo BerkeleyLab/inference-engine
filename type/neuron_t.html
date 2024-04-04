@@ -78,9 +78,8 @@
         <ul class="list-inline" style="margin-bottom:0px;display:inline">
 
             <li class="list-inline-item" id="statements"><i class="fa fa-list-ol"></i>
-              <a data-bs-toggle="tooltip"
-                 data-bs-placement="bottom" data-html="true"
-                 title="<p> 6.3% of total for derived types.</p>Including implementation: 12 statements,  6.2% of total for derived types.">20 statements</a>
+              <a data-bs-toggle="tooltip" data-bs-placement="bottom" data-bs-html="true"
+                 title="<p> 6.2% of total for derived types.</p>Including implementation: 12 statements,  6.1% of total for derived types.">20 statements</a>
             </li>
 
             <li class="list-inline-item" id="source-file">
@@ -178,7 +177,7 @@
     </div>
     
     <div class="col-md-9" id='text'>
-      <h2>
+      <h2 id="type-def-statement">
         type, public :: neuron_t</h2>
     <p>linked list of neurons</p>
 <br>      <div class="card">
@@ -206,8 +205,8 @@
 <!-- type~neuron_t&#45;&gt;type~neuron_t -->
 <g id="type~~neuron_t~~InheritedByGraph_edge1" class="edge">
 <title>type~neuron_t&#45;&gt;type~neuron_t</title>
-<path fill="none" stroke="#255000" stroke-dasharray="5,2" d="M39.7,-24.52C43.18,-33.41 39.62,-42.27 29.01,-42.27 23.21,-42.27 19.52,-39.62 17.93,-35.76"/>
-<polygon fill="#255000" stroke="#255000" points="21.42,-36.15 18.27,-26.03 14.42,-35.9 21.42,-36.15"/>
+<path fill="none" stroke="#ff0000" stroke-dasharray="5,2" d="M39.7,-24.52C43.18,-33.41 39.62,-42.27 29.01,-42.27 23.21,-42.27 19.52,-39.62 17.93,-35.76"/>
+<polygon fill="#ff0000" stroke="#ff0000" points="21.42,-36.15 18.27,-26.03 14.42,-35.9 21.42,-36.15"/>
 <text text-anchor="middle" x="29.01" y="-44.49" font-family="Helvetica,sans-Serif" font-size="9.50">next</text>
 </g>
 <!-- type~layer_t -->
@@ -222,15 +221,15 @@
 <!-- type~layer_t&#45;&gt;type~neuron_t -->
 <g id="type~~neuron_t~~InheritedByGraph_edge2" class="edge">
 <title>type~layer_t&#45;&gt;type~neuron_t</title>
-<path fill="none" stroke="#255000" stroke-dasharray="5,2" d="M127.52,-12.13C110.72,-12.13 88.59,-12.13 69.67,-12.13"/>
-<polygon fill="#255000" stroke="#255000" points="69.89,-8.64 59.89,-12.14 69.89,-15.64 69.89,-8.64"/>
+<path fill="none" stroke="#ff0000" stroke-dasharray="5,2" d="M127.52,-12.13C110.72,-12.13 88.59,-12.13 69.67,-12.13"/>
+<polygon fill="#ff0000" stroke="#ff0000" points="69.89,-8.64 59.89,-12.14 69.89,-15.64 69.89,-8.64"/>
 <text text-anchor="middle" x="92.89" y="-14.36" font-family="Helvetica,sans-Serif" font-size="9.50">neuron</text>
 </g>
 <!-- type~layer_t&#45;&gt;type~layer_t -->
 <g id="type~~neuron_t~~InheritedByGraph_edge3" class="edge">
 <title>type~layer_t&#45;&gt;type~layer_t</title>
-<path fill="none" stroke="#255000" stroke-dasharray="5,2" d="M165.12,-24.52C168.49,-33.41 165.04,-42.27 154.77,-42.27 149.15,-42.27 145.57,-39.62 144.04,-35.76"/>
-<polygon fill="#255000" stroke="#255000" points="147.53,-36.14 144.37,-26.03 140.53,-35.91 147.53,-36.14"/>
+<path fill="none" stroke="#ff0000" stroke-dasharray="5,2" d="M165.12,-24.52C168.49,-33.41 165.04,-42.27 154.77,-42.27 149.15,-42.27 145.57,-39.62 144.04,-35.76"/>
+<polygon fill="#ff0000" stroke="#ff0000" points="147.53,-36.14 144.37,-26.03 140.53,-35.91 147.53,-36.14"/>
 <text text-anchor="middle" x="154.77" y="-44.49" font-family="Helvetica,sans-Serif" font-size="9.50">next</text>
 </g>
 </g>
@@ -369,7 +368,7 @@ large graphs.</div>
           <li class="list-group-item">
                 <h3>
     private pure recursive module function construct(neuron_lines, start) result(neuron)  
-    <a href="../proc/construct~3.html"><button type="button" class="btn btn-info depwarn">Implementation &rarr;</button></a>
+    <a href="../proc/construct~2.html"><button type="button" class="btn btn-info depwarn">Implementation &rarr;</button></a>
 
     </h3>
   <p>construct linked list of neuron_t objects from an array of JSON-formatted text lines</p>
@@ -509,7 +508,7 @@ large graphs.</div>
               <h3>interface </h3>
                   <h3>
     private module function next_allocated(self) result(next_is_allocated)  
-    <a href="../proc/next_allocated.html"><button type="button" class="btn btn-info depwarn">Implementation &rarr;</button></a>
+    <a href="../proc/next_allocated~2.html"><button type="button" class="btn btn-info depwarn">Implementation &rarr;</button></a>
 </h3>
 
   
@@ -569,7 +568,7 @@ large graphs.</div>
               <h3>interface </h3>
                   <h3>
     private module function next_pointer(self) result(next_ptr)  
-    <a href="../proc/next_pointer.html"><button type="button" class="btn btn-info depwarn">Implementation &rarr;</button></a>
+    <a href="../proc/next_pointer~2.html"><button type="button" class="btn btn-info depwarn">Implementation &rarr;</button></a>
 </h3>
 
   
@@ -629,7 +628,7 @@ large graphs.</div>
               <h3>interface </h3>
                   <h3>
     private pure module function num_inputs(self) result(size_weights)  
-    <a href="../proc/num_inputs.html"><button type="button" class="btn btn-info depwarn">Implementation &rarr;</button></a>
+    <a href="../proc/num_inputs~2.html"><button type="button" class="btn btn-info depwarn">Implementation &rarr;</button></a>
 </h3>
 
   
@@ -745,14 +744,17 @@ large graphs.</div>
     <footer>
       <div class="container">
         <div class="row justify-content-between">
-          <div class="col"><p>Inference-Engine was developed by Berkeley Lab<br>&copy; 2024 
+          <div class="col">
+            <p>
+              Inference-Engine
+ was developed by Berkeley Lab<br>              &copy; 2024 
 </p>
           </div>
           <div class="col">
             <p class="text-end">
               Documentation generated by
               <a href="https://github.com/Fortran-FOSS-Programmers/ford">FORD</a>
- on 2024-04-03 00:21              </p>
+ on 2024-04-04 20:52              </p>
           </div>
         </div>
         <br>

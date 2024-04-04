@@ -5,6 +5,7 @@ module layer_m
   use sourcery_string_m, only : string_t
   use kind_parameters_m, only : rkind
   use inference_engine_m_, only : inference_engine_t
+  use tensor_range_m, only :  tensor_range_t
   implicit none
 
   private
@@ -39,11 +40,12 @@ module layer_m
 
   interface
 
-    module function inference_engine(hidden_layers, metadata, output_layer) result(inference_engine_)
+    module function inference_engine(hidden_layers, metadata, output_layer, input_range, output_range) result(inference_engine_)
       implicit none
       class(layer_t), intent(in), target :: hidden_layers
       type(layer_t), intent(in), target :: output_layer
       type(string_t), intent(in) :: metadata(:)
+      type(tensor_range_t), intent(in) :: input_range, output_range
       type(inference_engine_t) inference_engine_
     end function
 

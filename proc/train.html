@@ -1,0 +1,550 @@
+<!-- -*- mode: jinja2 -*- -->
+
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+      <meta name="description" content="A deep learning library targeting high-performance computing (HPC) applications with performance-critical inference and training needs.">
+    <meta name="author" content="Berkeley Lab" >
+    <link rel="icon" href="../favicon.png">
+
+    <title>train &ndash; Inference-Engine</title>
+
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet"
+          integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
+    <link href="../css/pygments.css" rel="stylesheet">
+    <link href="../css/font-awesome.min.css" rel="stylesheet">
+    <link href="../css/local.css" rel="stylesheet">
+      <link  href="../tipuesearch/tipuesearch.css" rel="stylesheet">
+
+    <script src="https://code.jquery.com/jquery-3.7.1.min.js" integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
+    <script src="../js/svg-pan-zoom.min.js"></script>
+  </head>
+
+  <body>
+
+    <!-- Fixed navbar -->
+    <div class="container-fluid mb-sm-4 mb-xl-2">
+      <nav class="navbar navbar-expand-lg navbar-dark bg-dark fixed-top">
+        <div class="container">
+          <a class="navbar-brand" href="../index.html">Inference-Engine </a>
+          <button type="button" class="navbar-toggler" data-bs-toggle="collapse" data-bs-target="#navbar"
+                  aria-expanded="false" aria-controls="navbar" aria-label="Toggle navigation">
+                  <span class="navbar-toggler-icon">
+          </button>
+
+          <div id="navbar" class="navbar-collapse collapse">
+            <ul class="navbar-nav">
+                  <li class="nav-item">
+                    <a class="nav-link" href="../lists/files.html">Source Files</a>
+                  </li>
+                <li class="nav-item">
+                  <a class="nav-link" href="../lists/modules.html">Modules</a>
+                </li>
+                <li class="nav-item">
+                  <a class="nav-link" href="../lists/procedures.html">Procedures</a>
+                </li>
+                <li class="nav-item">
+                  <a class="nav-link" href="../lists/absint.html">Abstract Interfaces</a>
+                </li>
+                <li class="nav-item">
+                  <a class="nav-link" href="../lists/types.html">Derived Types</a>
+                </li>
+                <li class="nav-item">
+                  <a class="nav-link" href="../lists/programs.html">Programs</a>
+                </li>
+            </ul>
+              <div class="d-flex align-items-end flex-grow-1">
+                <form action="../search.html" role="search" class="ms-auto">
+                  <input type="text" class="form-control" aria-label="Search" placeholder="Search" name="q" id="tipue_search_input" autocomplete="off" required>
+                </form>
+              </div>
+          </div><!--/.nav-collapse -->
+        </div>
+      </nav>
+    </div>
+
+    <div class="container">
+  <div class="row">
+    <h1>train
+      <small>Module Procedure</small>
+      
+    </h1>
+      <div class="container p-2 mb-4 bg-light border rounded-3">
+    <div class="row align-items-center justify-content-between" id="info-bar">
+      <div class="col">
+        <ul class="list-inline" style="margin-bottom:0px;display:inline">
+
+            <li class="list-inline-item" id="statements"><i class="fa fa-list-ol"></i>
+              <a data-bs-toggle="tooltip" data-bs-placement="bottom" data-bs-html="true"
+                 title=" 2.8% of total for procedures.">94 statements</a>
+            </li>
+
+            <li class="list-inline-item" id="source-file">
+              <i class="fa fa-code"></i>
+              <a href="../src/trainable_engine_s.F90"> Source File</a>
+            </li>
+        </ul>
+      </div>
+      <div class="col">
+        <nav aria-label="breadcrumb">
+          <ol class="breadcrumb justify-content-end mb-0">
+                <li class="breadcrumb-item"><a href='../sourcefile/trainable_engine_s.f90.html'>trainable_engine_s.F90</a></li>
+                <li class="breadcrumb-item"><a href='../module/trainable_engine_s.html'>trainable_engine_s</a></li>
+            <li class="breadcrumb-item active" aria-current="page">train</li>
+          </ol>
+        </nav>
+      </div>
+    </div>
+  </div>
+  <script>
+    $(function () {
+    $('[data-bs-toggle="tooltip"]').tooltip()
+    })
+  </script>
+
+  </div>
+  
+  <div class="row">
+    <div class="col-md-3 hidden-xs hidden-sm visible-md visible-lg">
+      <div id="sidebar">
+      <h3>Contents</h3>
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+
+
+  </div>
+
+    </div>
+    
+    <div class="col-md-9" id='text'>
+    <h2>module procedure train <small>pure module subroutine train(self, mini_batches_arr, cost, adam, learning_rate)</small>  
+    <a href="../interface/train.html"><button type="button" class="btn btn-info depwarn">Interface &rarr;</button></a>
+</h2>
+    
+
+
+
+    <h3>Arguments</h3>
+        <table class="table table-striped varlist">
+    <thead>
+      <tr>
+        <th scope="col">Type</th>
+<th scope="col">Intent</th><th scope="col">Optional</th>        <th scope="col">Attributes</th>
+        <th scope="col"></th>
+        <th scope="col">Name</th>
+        <th scope="col"></th>
+    </thead>
+    <tbody>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-self~2"></span>
+              class(<a href='../type/trainable_engine_t.html'>trainable_engine_t</a>),
+            </td>
+<td>intent(inout)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>self</strong></td>
+            <td>
+                
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-mini_batches_arr"></span>
+              type(<a href='../type/mini_batch_t.html'>mini_batch_t</a>),
+            </td>
+<td>intent(in)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>mini_batches_arr</strong>(:)</td>
+            <td>
+                
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-cost"></span>
+              real(kind=rkind),
+            </td>
+<td>intent(out),</td>
+              <td>optional,</td>            <td>
+              allocatable
+            </td>
+            <td>::</td>
+            <td><strong>cost</strong>(:)</td>
+            <td>
+                
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-adam"></span>
+              logical,
+            </td>
+<td>intent(in)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>adam</strong></td>
+            <td>
+                
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-learning_rate"></span>
+              real(kind=rkind),
+            </td>
+<td>intent(in)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>learning_rate</strong></td>
+            <td>
+                
+            </td>
+        </tr>
+    </tbody>
+  </table>
+
+    <br>
+    <div class="card">
+      <div class="card-header">
+  <h3 class="card-title">Calls</h3>
+      </div>
+      <div class="card-body">
+  <div class="depgraph"><?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN"
+ "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
+<!-- Generated by graphviz version 10.0.1 (20240210.2158)
+ -->
+<!-- Title: proc~~train~~CallsGraph Pages: 1 -->
+<svg id="proctrainCallsGraph" width="310pt" height="452pt"
+ viewBox="0.00 0.00 309.77 452.27" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+<g id="proc~~train~~CallsGraph" class="graph" transform="scale(1 1) rotate(0) translate(4 448.27)">
+<title>proc~~train~~CallsGraph</title>
+<polygon fill="white" stroke="none" points="-4,4 -4,-448.27 305.77,-448.27 305.77,4 -4,4"/>
+<!-- proc~train -->
+<g id="proc~~train~~CallsGraph_node1" class="node">
+<title>proc~train</title>
+<polygon fill="none" stroke="black" points="54,-234.27 0,-234.27 0,-210 54,-210 54,-234.27"/>
+<text text-anchor="middle" x="27" y="-218.53" font-family="Helvetica,sans-Serif" font-size="10.50">train</text>
+</g>
+<!-- activation -->
+<g id="proc~~train~~CallsGraph_node2" class="node">
+<title>activation</title>
+<polygon fill="#777777" stroke="#777777" points="227.89,-444.27 163.88,-444.27 163.88,-420 227.89,-420 227.89,-444.27"/>
+<text text-anchor="middle" x="195.88" y="-428.53" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">activation</text>
+</g>
+<!-- proc~train&#45;&gt;activation -->
+<g id="proc~~train~~CallsGraph_edge1" class="edge">
+<title>proc~train&#45;&gt;activation</title>
+<path fill="none" stroke="#ff0000" d="M28.05,-234.55C28.92,-268.49 36.27,-363.46 90,-411.13 106.88,-426.11 131.36,-431.6 152.43,-433.24"/>
+<polygon fill="#ff0000" stroke="#ff0000" points="152.04,-436.72 162.2,-433.71 152.38,-429.73 152.04,-436.72"/>
+</g>
+<!-- activation_derivative -->
+<g id="proc~~train~~CallsGraph_node3" class="node">
+<title>activation_derivative</title>
+<polygon fill="#777777" stroke="#777777" points="257.14,-402.27 134.62,-402.27 134.62,-378 257.14,-378 257.14,-402.27"/>
+<text text-anchor="middle" x="195.88" y="-386.53" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">activation_derivative</text>
+</g>
+<!-- proc~train&#45;&gt;activation_derivative -->
+<g id="proc~~train~~CallsGraph_edge2" class="edge">
+<title>proc~train&#45;&gt;activation_derivative</title>
+<path fill="none" stroke="#ff0000" d="M29.38,-234.7C33.25,-263.39 46.87,-333.93 90,-369.13 99.53,-376.91 111.14,-382.07 123.13,-385.45"/>
+<polygon fill="#ff0000" stroke="#ff0000" points="122.19,-388.82 132.72,-387.72 123.8,-382.01 122.19,-388.82"/>
+</g>
+<!-- beta -->
+<g id="proc~~train~~CallsGraph_node4" class="node">
+<title>beta</title>
+<polygon fill="#777777" stroke="#777777" points="222.88,-360.27 168.88,-360.27 168.88,-336 222.88,-336 222.88,-360.27"/>
+<text text-anchor="middle" x="195.88" y="-344.53" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">beta</text>
+</g>
+<!-- proc~train&#45;&gt;beta -->
+<g id="proc~~train~~CallsGraph_edge3" class="edge">
+<title>proc~train&#45;&gt;beta</title>
+<path fill="none" stroke="#ff0000" d="M31.59,-234.48C38.75,-256.8 57.03,-303.72 90,-327.13 109.42,-340.93 135.7,-346.17 157.1,-347.97"/>
+<polygon fill="#ff0000" stroke="#ff0000" points="156.71,-351.45 166.9,-348.56 157.13,-344.46 156.71,-351.45"/>
+</g>
+<!-- expected_outputs -->
+<g id="proc~~train~~CallsGraph_node5" class="node">
+<title>expected_outputs</title>
+<polygon fill="#777777" stroke="#777777" points="248.52,-318.27 143.25,-318.27 143.25,-294 248.52,-294 248.52,-318.27"/>
+<text text-anchor="middle" x="195.88" y="-302.53" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">expected_outputs</text>
+</g>
+<!-- proc~train&#45;&gt;expected_outputs -->
+<g id="proc~~train~~CallsGraph_edge4" class="edge">
+<title>proc~train&#45;&gt;expected_outputs</title>
+<path fill="none" stroke="#ff0000" d="M36.71,-234.75C47.47,-249.3 67.18,-272.8 90,-285.13 102.7,-292 117.35,-296.63 131.61,-299.75"/>
+<polygon fill="#ff0000" stroke="#ff0000" points="130.94,-303.19 141.42,-301.66 132.27,-296.32 130.94,-303.19"/>
+</g>
+<!-- inputs -->
+<g id="proc~~train~~CallsGraph_node6" class="node">
+<title>inputs</title>
+<polygon fill="#777777" stroke="#777777" points="222.88,-276.27 168.88,-276.27 168.88,-252 222.88,-252 222.88,-276.27"/>
+<text text-anchor="middle" x="195.88" y="-260.53" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">inputs</text>
+</g>
+<!-- proc~train&#45;&gt;inputs -->
+<g id="proc~~train~~CallsGraph_edge5" class="edge">
+<title>proc~train&#45;&gt;inputs</title>
+<path fill="none" stroke="#ff0000" d="M54.32,-231.89C65.26,-235.72 78.15,-239.95 90,-243.13 112.19,-249.09 137.43,-254.19 157.59,-257.88"/>
+<polygon fill="#ff0000" stroke="#ff0000" points="156.86,-261.3 167.32,-259.61 158.09,-254.41 156.86,-261.3"/>
+</g>
+<!-- interface~assert_consistent -->
+<g id="proc~~train~~CallsGraph_node7" class="node">
+<title>interface~assert_consistent</title>
+<g id="a_proc~~train~~CallsGraph_node7"><a xlink:href="../interface/assert_consistent.html" xlink:title="trainable_engine_t%assert_consistent">
+<polygon fill="#a7506f" stroke="#a7506f" points="301.77,-234.27 90,-234.27 90,-210 301.77,-210 301.77,-234.27"/>
+<text text-anchor="middle" x="195.88" y="-218.53" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">trainable_engine_t%assert_consistent</text>
+</a>
+</g>
+</g>
+<!-- proc~train&#45;&gt;interface~assert_consistent -->
+<g id="proc~~train~~CallsGraph_edge6" class="edge">
+<title>proc~train&#45;&gt;interface~assert_consistent</title>
+<path fill="none" stroke="#ff0000" d="M54.44,-222.13C61.55,-222.13 69.72,-222.13 78.46,-222.13"/>
+<polygon fill="#ff0000" stroke="#ff0000" points="78.29,-225.64 88.29,-222.14 78.29,-218.64 78.29,-225.64"/>
+</g>
+<!-- interface~input_output_pairs -->
+<g id="proc~~train~~CallsGraph_node8" class="node">
+<title>interface~input_output_pairs</title>
+<g id="a_proc~~train~~CallsGraph_node8"><a xlink:href="../interface/input_output_pairs.html" xlink:title="mini_batch_t%input_output_pairs">
+<polygon fill="#a7506f" stroke="#a7506f" points="289.39,-192.27 102.37,-192.27 102.37,-168 289.39,-168 289.39,-192.27"/>
+<text text-anchor="middle" x="195.88" y="-176.53" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">mini_batch_t%input_output_pairs</text>
+</a>
+</g>
+</g>
+<!-- proc~train&#45;&gt;interface~input_output_pairs -->
+<g id="proc~~train~~CallsGraph_edge7" class="edge">
+<title>proc~train&#45;&gt;interface~input_output_pairs</title>
+<path fill="none" stroke="#ff0000" d="M54.32,-212.38C65.26,-208.55 78.15,-204.32 90,-201.13 97.83,-199.03 106.04,-197.04 114.27,-195.18"/>
+<polygon fill="#ff0000" stroke="#ff0000" points="114.98,-198.6 124,-193.04 113.48,-191.77 114.98,-198.6"/>
+</g>
+<!-- interface~num_inputs -->
+<g id="proc~~train~~CallsGraph_node9" class="node">
+<title>interface~num_inputs</title>
+<g id="a_proc~~train~~CallsGraph_node9"><a xlink:href="../interface/num_inputs.html" xlink:title="trainable_engine_t%num_inputs">
+<polygon fill="#a7506f" stroke="#a7506f" points="286.77,-150.27 105,-150.27 105,-126 286.77,-126 286.77,-150.27"/>
+<text text-anchor="middle" x="195.88" y="-134.53" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">trainable_engine_t%num_inputs</text>
+</a>
+</g>
+</g>
+<!-- proc~train&#45;&gt;interface~num_inputs -->
+<g id="proc~~train~~CallsGraph_edge8" class="edge">
+<title>proc~train&#45;&gt;interface~num_inputs</title>
+<path fill="none" stroke="#ff0000" d="M36.71,-209.52C47.47,-194.97 67.18,-171.47 90,-159.13 92.87,-157.58 95.84,-156.14 98.89,-154.81"/>
+<polygon fill="#ff0000" stroke="#ff0000" points="100.03,-158.13 108.07,-151.23 97.48,-151.6 100.03,-158.13"/>
+</g>
+<!-- interface~num_layers -->
+<g id="proc~~train~~CallsGraph_node10" class="node">
+<title>interface~num_layers</title>
+<g id="a_proc~~train~~CallsGraph_node10"><a xlink:href="../interface/num_layers.html" xlink:title="trainable_engine_t%num_layers">
+<polygon fill="#a7506f" stroke="#a7506f" points="286.77,-108.27 105,-108.27 105,-84 286.77,-84 286.77,-108.27"/>
+<text text-anchor="middle" x="195.88" y="-92.54" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">trainable_engine_t%num_layers</text>
+</a>
+</g>
+</g>
+<!-- proc~train&#45;&gt;interface~num_layers -->
+<g id="proc~~train~~CallsGraph_edge9" class="edge">
+<title>proc~train&#45;&gt;interface~num_layers</title>
+<path fill="none" stroke="#ff0000" d="M31.59,-209.79C38.75,-187.47 57.03,-140.55 90,-117.14 91.59,-116.01 93.22,-114.94 94.89,-113.92"/>
+<polygon fill="#ff0000" stroke="#ff0000" points="96.3,-117.14 103.52,-109.38 93.04,-110.94 96.3,-117.14"/>
+</g>
+<!-- interface~values -->
+<g id="proc~~train~~CallsGraph_node11" class="node">
+<title>interface~values</title>
+<g id="a_proc~~train~~CallsGraph_node11"><a xlink:href="../interface/values.html" xlink:title="tensor_t%values">
+<polygon fill="#a7506f" stroke="#a7506f" points="245.14,-66.27 146.62,-66.27 146.62,-42 245.14,-42 245.14,-66.27"/>
+<text text-anchor="middle" x="195.88" y="-50.53" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">tensor_t%values</text>
+</a>
+</g>
+</g>
+<!-- proc~train&#45;&gt;interface~values -->
+<g id="proc~~train~~CallsGraph_edge10" class="edge">
+<title>proc~train&#45;&gt;interface~values</title>
+<path fill="none" stroke="#ff0000" d="M29.38,-209.57C33.25,-180.88 46.87,-110.34 90,-75.14 102.74,-64.73 119.22,-59.02 135.32,-55.99"/>
+<polygon fill="#ff0000" stroke="#ff0000" points="135.51,-59.5 144.87,-54.52 134.45,-52.58 135.51,-59.5"/>
+</g>
+<!-- obeta -->
+<g id="proc~~train~~CallsGraph_node12" class="node">
+<title>obeta</title>
+<polygon fill="#777777" stroke="#777777" points="222.88,-24.27 168.88,-24.27 168.88,0 222.88,0 222.88,-24.27"/>
+<text text-anchor="middle" x="195.88" y="-8.53" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">obeta</text>
+</g>
+<!-- proc~train&#45;&gt;obeta -->
+<g id="proc~~train~~CallsGraph_edge11" class="edge">
+<title>proc~train&#45;&gt;obeta</title>
+<path fill="none" stroke="#ff0000" d="M28.05,-209.72C28.92,-175.78 36.27,-80.81 90,-33.13 108.13,-17.05 135.05,-11.91 157.07,-10.73"/>
+<polygon fill="#ff0000" stroke="#ff0000" points="156.97,-14.23 166.88,-10.48 156.79,-7.24 156.97,-14.23"/>
+</g>
+</g>
+</svg>
+</div>          <div>
+            <a type="button" class="graph-help" data-bs-toggle="modal" href="#CallsGraph-help-text">Help</a>
+          </div>
+          <div class="modal fade" id="CallsGraph-help-text" tabindex="-1" role="dialog">
+            <div class="modal-dialog modal-lg" role="document">
+              <div class="modal-content">
+                <div class="modal-header">
+                  <h4 class="modal-title" id="-graph-help-label">Graph Key</h4>
+                  <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+<p>Nodes of different colours represent the following: </p>
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN"
+ "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
+<!-- Generated by graphviz version 10.0.1 (20240210.2158)
+ -->
+<!-- Title: Graph Key Pages: 1 -->
+<svg width="641pt" height="28pt"
+ viewBox="0.00 0.00 641.00 28.20" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+<g id="graph0" class="graph" transform="scale(0.873868 0.873868) rotate(0) translate(4 28.27)">
+<title>Graph Key</title>
+<polygon fill="white" stroke="none" points="-4,4 -4,-28.27 729.52,-28.27 729.52,4 -4,4"/>
+<!-- Subroutine -->
+<g id="node1" class="node">
+<title>Subroutine</title>
+<polygon fill="#d9534f" stroke="#d9534f" points="69.27,-24.27 0,-24.27 0,0 69.27,0 69.27,-24.27"/>
+<text text-anchor="middle" x="34.63" y="-8.53" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">Subroutine</text>
+</g>
+<!-- Function -->
+<g id="node2" class="node">
+<title>Function</title>
+<polygon fill="#d94e8f" stroke="#d94e8f" points="143.89,-24.27 87.38,-24.27 87.38,0 143.89,0 143.89,-24.27"/>
+<text text-anchor="middle" x="115.63" y="-8.53" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">Function</text>
+</g>
+<!-- Interface -->
+<g id="node3" class="node">
+<title>Interface</title>
+<polygon fill="#a7506f" stroke="#a7506f" points="221.39,-24.27 161.88,-24.27 161.88,0 221.39,0 221.39,-24.27"/>
+<text text-anchor="middle" x="191.63" y="-8.53" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">Interface</text>
+</g>
+<!-- Type Bound Procedure -->
+<g id="node4" class="node">
+<title>Type Bound Procedure</title>
+<polygon fill="#a7506f" stroke="#a7506f" points="368.27,-24.27 239,-24.27 239,0 368.27,0 368.27,-24.27"/>
+<text text-anchor="middle" x="303.63" y="-8.53" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">Type Bound Procedure</text>
+</g>
+<!-- Unknown Procedure Type -->
+<g id="node5" class="node">
+<title>Unknown Procedure Type</title>
+<polygon fill="#777777" stroke="#777777" points="529.39,-24.27 385.88,-24.27 385.88,0 529.39,0 529.39,-24.27"/>
+<text text-anchor="middle" x="457.63" y="-8.53" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">Unknown Procedure Type</text>
+</g>
+<!-- Program -->
+<g id="node6" class="node">
+<title>Program</title>
+<polygon fill="#f0ad4e" stroke="#f0ad4e" points="603.89,-24.27 547.38,-24.27 547.38,0 603.89,0 603.89,-24.27"/>
+<text text-anchor="middle" x="575.63" y="-8.53" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">Program</text>
+</g>
+<!-- This Page&#39;s Entity -->
+<g id="node7" class="node">
+<title>This Page&#39;s Entity</title>
+<polygon fill="none" stroke="black" points="725.52,-24.27 621.75,-24.27 621.75,0 725.52,0 725.52,-24.27"/>
+<text text-anchor="middle" x="673.63" y="-8.53" font-family="Helvetica,sans-Serif" font-size="10.50">This Page&#39;s Entity</text>
+</g>
+</g>
+</svg>
+
+<p>Solid arrows point from a procedure to one which it calls. Dashed 
+arrows point from an interface to procedures which implement that interface.
+This could include the module procedures in a generic interface or the
+implementation in a submodule of an interface in a parent module.
+</p>
+ Where possible, edges connecting nodes are
+given different colours to make them easier to distinguish in
+large graphs.</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <br>
+
+
+    
+    
+
+    
+    
+
+
+
+    
+    
+    </div>
+  </div>
+
+      <hr>
+    </div> <!-- /container -->
+    <footer>
+      <div class="container">
+        <div class="row justify-content-between">
+          <div class="col">
+            <p>
+              Inference-Engine
+ was developed by Berkeley Lab<br>              &copy; 2024 
+</p>
+          </div>
+          <div class="col">
+            <p class="text-end">
+              Documentation generated by
+              <a href="https://github.com/Fortran-FOSS-Programmers/ford">FORD</a>
+ on 2024-04-04 20:52              </p>
+          </div>
+        </div>
+        <br>
+      </div> <!-- /container -->
+    </footer>
+
+    <!-- Bootstrap core JavaScript -->
+    <!-- Placed at the end of the document so the pages load faster -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"
+            integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p" crossorigin="anonymous"></script>    
+
+    <!-- MathJax JavaScript
+             ================================================== -->
+             <!-- Placed at the end of the document so the pages load faster -->
+        <script type="text/x-mathjax-config">
+          MathJax.Hub.Config({
+          TeX: { extensions: ['AMSmath.js','AMSsymbols.js','noErrors.js','noUndefined.js'], equationNumbers: { autoNumber: 'AMS' } },
+          jax: ['input/TeX','input/MathML','output/HTML-CSS'],
+          extensions: ['tex2jax.js','mml2jax.js','MathMenu.js','MathZoom.js']
+          });
+        </script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+
+          <script src="../tipuesearch/tipuesearch_content.js"></script>
+          <script src="../tipuesearch/tipuesearch_set.js"></script>
+          <script src="../tipuesearch/tipuesearch.js"></script>
+
+  </body>
+</html>
