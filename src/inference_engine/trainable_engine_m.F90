@@ -32,8 +32,10 @@ module trainable_engine_m
     procedure :: num_inputs
     procedure :: num_outputs
     procedure :: to_inference_engine
-    procedure :: map_to_training_range
-    procedure :: map_from_training_range
+    procedure :: map_to_input_training_range
+    procedure :: map_from_input_training_range
+    procedure :: map_to_output_training_range
+    procedure :: map_from_output_training_range
   end type
 
   integer, parameter :: input_layer = 0
@@ -123,14 +125,28 @@ module trainable_engine_m
       type(inference_engine_t) :: inference_engine
     end function
 
-    elemental module function map_to_training_range(self, tensor) result(normalized_tensor)
+    elemental module function map_to_input_training_range(self, tensor) result(normalized_tensor)
       implicit none
       class(trainable_engine_t), intent(in) :: self
       type(tensor_t), intent(in) :: tensor
       type(tensor_t) normalized_tensor
     end function
 
-    elemental module function map_from_training_range(self, tensor) result(unnormalized_tensor)
+    elemental module function map_from_input_training_range(self, tensor) result(unnormalized_tensor)
+      implicit none
+      class(trainable_engine_t), intent(in) :: self
+      type(tensor_t), intent(in) :: tensor
+      type(tensor_t) unnormalized_tensor
+    end function
+
+    elemental module function map_to_output_training_range(self, tensor) result(normalized_tensor)
+      implicit none
+      class(trainable_engine_t), intent(in) :: self
+      type(tensor_t), intent(in) :: tensor
+      type(tensor_t) normalized_tensor
+    end function
+
+    elemental module function map_from_output_training_range(self, tensor) result(unnormalized_tensor)
       implicit none
       class(trainable_engine_t), intent(in) :: self
       type(tensor_t), intent(in) :: tensor
