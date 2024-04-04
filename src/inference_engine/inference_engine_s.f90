@@ -22,7 +22,6 @@ contains
     exchange%input_range_ = self%input_range_
     exchange%output_range_ = self%output_range_
     exchange%metadata_ = self%metadata_
-    exchange%metadata_ = self%metadata_
     exchange%weights_ = self%weights_
     exchange%biases_ = self%biases_
     exchange%nodes_ = self%nodes_
