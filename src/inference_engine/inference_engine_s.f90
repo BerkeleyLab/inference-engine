@@ -11,10 +11,6 @@ submodule(inference_engine_m_) inference_engine_s
   use sourcery_formats_m, only : separated_values
   implicit none
 
-#ifndef NO_EXTRAPOLATION
-#define NO_EXTRAPOLATION .false.
-#endif
-
   interface assert_consistency
     procedure inference_engine_consistency
     procedure difference_consistency
@@ -41,8 +37,6 @@ contains
 
     call assert_consistency(self)
 
-    if (NO_EXTRAPOLATION) call assert(self%input_range_%in_range(inputs), "inference_engine_s(infer): inputs in range")
-
     associate(w => self%weights_, b => self%biases_, n => self%nodes_, output_layer => ubound(self%nodes_,1))
 
       allocate(a(maxval(n), input_layer:output_layer))
@@ -63,8 +57,6 @@ contains
       end associate
 
     end associate
-
-    if (NO_EXTRAPOLATION) call assert(self%output_range_%in_range(outputs), "inference_engine_s(infer): outputs in range")
 
   end procedure
 
