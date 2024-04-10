@@ -55,10 +55,10 @@ module layer_m
       integer num_layers
     end function
 
-    module function count_neurons(layer) result(neurons_per_layer)
+    module function count_neurons(layer) result(neurons_per_layer_result)
       implicit none
       class(layer_t), intent(in), target :: layer
-      integer, allocatable :: neurons_per_layer(:)
+      integer, allocatable :: neurons_per_layer_result(:)
     end function
 
     module function count_inputs(layer) result(num_inputs)

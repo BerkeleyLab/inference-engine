@@ -132,7 +132,7 @@ contains
 
     layer_ptr => layer
 
-    allocate(neurons_per_layer(0))
+    allocate(neurons_per_layer_result(0))
 
     do  
       num_neurons = 1 
@@ -142,7 +142,7 @@ contains
         neuron_ptr => neuron_ptr%next_pointer()
         num_neurons = num_neurons + 1 
       end do
-      neurons_per_layer = [neurons_per_layer, num_neurons]
+      neurons_per_layer_result = [neurons_per_layer_result, num_neurons]
       if (.not. allocated(layer_ptr%next)) exit
       layer_ptr => layer_ptr%next
     end do
