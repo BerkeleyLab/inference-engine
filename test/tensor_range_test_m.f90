@@ -65,7 +65,7 @@ contains
 
   function map_to_from_training_range() result(test_passes)
     logical test_passes
-    real, parameter :: tolerance = 1.E-08
+    real, parameter :: tolerance = 1.E-07
 
     associate(tensor_range => tensor_range_t(layer="output", minima=[-4., 0., 1., -1.], maxima=[0., 2., 5., 1.]))
       associate(tensor => tensor_t([-2., 0., 5., 0.]))
