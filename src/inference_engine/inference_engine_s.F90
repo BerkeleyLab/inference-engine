@@ -40,9 +40,17 @@ contains
 
       allocate(a(maxval(n), input_layer:output_layer))
 
+#ifndef _CRAYFTN
       associate(normalized_inputs => self%input_range_%map_to_training_range(inputs))
         a(1:n(input_layer),input_layer) = normalized_inputs%values()
       end associate
+#else
+      block
+        type(tensor_t) normalized_inputs
+        normalized_inputs = self%input_range_%map_to_training_range(inputs)
+        a(1:n(input_layer),input_layer) = normalized_inputs%values()
+      end block
+#endif
 
       feed_forward: &
       do l = input_layer+1, output_layer
@@ -193,14 +201,24 @@ contains
 
     call assert(adjustl(lines(l)%string())=='"tensor_range": {', 'from_json: expecting "tensor_range": {', lines(l)%string())
 
+#ifndef _CRAYFTN
     associate(prototype => tensor_range_t("",[0.],[1.]))
+#else
+    block
+      type(tensor_range_t) prototype
+      prototype = tensor_range_t("",[0.],[1.])
+#endif
       associate(num_lines => size(prototype%to_json()))
         input_range = tensor_range_t(lines(l:l+num_lines-1))
         l = l + num_lines
         output_range = tensor_range_t(lines(l:l+num_lines-1))
         l = l + num_lines
       end associate
+#ifndef _CRAYFTN
     end associate
+#else
+    end block
+#endif
 
     call assert(adjustl(lines(l)%string())=='"hidden_layers": [', 'from_json: expecting "hidden_layers": [', lines(l)%string())
     l = l + 1
