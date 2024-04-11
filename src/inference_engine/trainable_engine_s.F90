@@ -24,7 +24,13 @@ contains
 
   module procedure construct_from_inference_engine
 
+#ifndef _CRAYFTN
     associate(exchange => inference_engine%to_exchange())
+#else
+    use inference_engine_m_, only: exchange_t
+    type(exchange_t) exchange
+    exchange = inference_engine%to_exchange()
+#endif
       trainable_engine%input_range_ = exchange%input_range_
       trainable_engine%output_range_ = exchange%output_range_
       trainable_engine%metadata_ = exchange%metadata_
@@ -38,7 +44,9 @@ contains
            error stop &
            "trainable_engine_s(from_inference_engine): activation strategy must be a differentiable_activation_stragegy_t"
       end select
+#ifndef _CRAYFTN
     end associate
+#endif
 
   end procedure
 
