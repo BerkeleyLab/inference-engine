@@ -79,12 +79,10 @@ contains
   end procedure
 
   module procedure differentiable_activation_strategy
-#ifdef __INTEL_COMPILER
+#if defined __INTEL_COMPILER || _CRAYFTN
     type(string_t) :: activation_name
     activation_name = self%network_configuration_%activation_name()
-#endif
-
-#ifndef __INTEL_COMPILER
+#else
     associate(activation_name => self%network_configuration_%activation_name())
 #endif
       select case(activation_name%string())
@@ -97,7 +95,8 @@ contains
         case default
           error stop 'activation_strategy_factory_s(factory): unrecognized activation name "' // activation_name%string() // '"' 
       end select
-#ifndef __INTEL_COMPILER
+#if defined __INTEL_COMPILER || _CRAYFTN
+#else
     end associate
 #endif
   end procedure
