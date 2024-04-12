@@ -55,12 +55,18 @@ contains
   function write_then_read_tensor_range() result(test_passes)
     logical test_passes
     type(file_t) :: json_file
-
+#ifdef _CRAYFTN
+    type(tensor_range_t) :: tensor_range
+    tensor_range = tensor_range_t(layer="input", minima=[-1., 0., 1.], maxima=[1., 2., 4.])
+#else
     associate(tensor_range => tensor_range_t(layer="input", minima=[-1., 0., 1.], maxima=[1., 2., 4.]))
+#endif
       associate(from_json => tensor_range_t(tensor_range%to_json()))
         test_passes = tensor_range == from_json
       end associate
+#ifndef _CRAYFTN
     end associate
+#endif
   end function
 
   function map_to_from_training_range() result(test_passes)
