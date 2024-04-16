@@ -308,11 +308,26 @@ contains
       difference%nodes_difference_(l)  = self%nodes_(l) - rhs%nodes_(l)
      
       associate(n => self%nodes_)
+#ifndef __INTEL_COMPILER
         do concurrent(l = 1:ubound(n,1))
           difference%weights_difference_(1:n(l),1:n(l-1),l) = self%weights_(1:n(l),1:n(l-1),l) - rhs%weights_(1:n(l),1:n(l-1),l)
           difference%biases_difference_(1:n(l),l) = self%biases_(1:n(l),l) - rhs%biases_(1:n(l),l)
           difference%nodes_difference_(l) = self%nodes_(l) - rhs%nodes_(l)
         end do
+#else
+        block
+          integer j, k
+          do l = 1, ubound(n,1)
+            do j = 1, n(l)
+              do k = 1, n(l-1)
+                difference%weights_difference_(j,k,l) = self%weights_(j,k,l) - rhs%weights_(j,k,l)
+                difference%biases_difference_(j,l) = self%biases_(j,l) - rhs%biases_(j,l)
+                difference%nodes_difference_(l) = self%nodes_(l) - rhs%nodes_(l)
+              end do
+            end do
+          end do
+        end block
+#endif
       end associate
 
     end block
