@@ -286,7 +286,7 @@ contains
       !! Depending on where in the random-number sequence the weights start, this test can pass for lower
       !! numbers of iterations, e.g., 400000. Using more iterations gives more robust convergence.
 #else
-    integer, parameter :: num_inputs=2, mini_batch_size = 1, num_iterations=52219
+    integer, parameter :: num_inputs=2, mini_batch_size = 1, num_iterations=49000
       !! Reducing num_iterations yields a less robust test, but increasing num_iterations causes this
       !! test to crash when compiled with the Intel ifx compiler.
 #endif
