@@ -299,7 +299,7 @@ contains
     allocate(training_outputs(mini_batch_size, num_iterations))
     do concurrent(batch=1:mini_batch_size, iter=1:num_iterations)
       training_inputs(batch, iter) = tensor_t(merge(true, false, harvest(:,batch,iter) < 0.5E0))
-      training_outputs(batch, iter) = xor(training_inputs(batch, iter))
+      training_outputs(batch, iter) = local_xor(training_inputs(batch, iter))
     end do
 
     allocate(mini_batches(size(training_inputs,1)*num_iterations))
@@ -315,14 +315,14 @@ contains
     block
       integer i
 
-      expected_test_outputs = [(xor(test_inputs(i)), i=1, size(test_inputs))]
+      expected_test_outputs = [(local_xor(test_inputs(i)), i=1, size(test_inputs))]
       actual_outputs = trainable_engine%infer(test_inputs)
       test_passes = [(abs(actual_outputs(i)%values() - expected_test_outputs(i)%values()) < tolerance, i=1, size(actual_outputs))]
     end block
 
   contains
     
-    pure function xor(inputs) result(expected_outputs)
+    pure function local_xor(inputs) result(expected_outputs)
       type(tensor_t), intent(in) :: inputs
       type(tensor_t) expected_outputs
       associate(sum_inputs => sum(inputs%values()))
@@ -335,6 +335,7 @@ contains
   function perturbed_identity_network(perturbation_magnitude) result(trainable_engine)
     type(trainable_engine_t) trainable_engine
     real(rkind), intent(in) :: perturbation_magnitude
+#ifndef _CRAYFTN
     integer, parameter :: nodes_per_layer(*) = [2, 2, 2, 2]
     integer, parameter :: max_n = maxval(nodes_per_layer), layers = size(nodes_per_layer)
     real(rkind), parameter :: identity(*,*,*) = &
@@ -351,6 +352,7 @@ contains
       differentiable_activation_strategy = relu_t(), &
       metadata = [string_t("Identity"), string_t("Damian Rouson"), string_t("2023-09-18"), string_t("relu"), string_t("false")] &
     )
+#endif
   end function
 
   function preserves_identity_mapping() result(test_passes)
@@ -384,10 +386,16 @@ contains
 
       block
         real(rkind), parameter :: tolerance = 1.E-06
-
+#ifdef _CRAYFTN
+        type(tensor_t), allocatable :: network_outputs(:)
+        network_outputs = trainable_engine%infer(inputs)
+#else
         associate(network_outputs => trainable_engine%infer(inputs))
+#endif
           test_passes = [maxval(abs([(network_outputs(i)%values() - inputs(i)%values(), i=1,num_pairs)])) < tolerance]
+#ifndef _CRAYFTN
         end associate
+#endif
       end block
 
    end associate
@@ -432,10 +440,16 @@ contains
 
       block
         real(rkind), parameter :: tolerance = 1.E-06
-
+#ifdef _CRAYFTN
+        type(tensor_t), allocatable :: network_outputs(:)
+        network_outputs = trainable_engine%infer(inputs)
+#else
         associate(network_outputs => trainable_engine%infer(inputs))
+#endif
           test_passes = [maxval(abs([(network_outputs(i)%values() - inputs(i)%values(), i=1,num_pairs)])) < tolerance]
+#ifndef _CRAYFTN
         end associate
+#endif
       end block
 
    end associate
