@@ -34,7 +34,13 @@ contains
 
     character(len=*), parameter :: longest_description = &
           "mapping (false,false) to false"
-
+#ifdef _CRAYFTN
+    character(len=len(longest_description)), allocatable :: descriptions(:)
+    logical, allocatable :: outcomes(:)
+    descriptions = [ "mapping (true,true) to false", "mapping (true,false) to false", &
+                     "mapping (false,true) to true", "mapping (false,false) to false" ]
+    outcomes = xor_and_2nd_input_truth_table()
+#else
     associate( &
       descriptions => &
         [ character(len=len(longest_description)) :: &
@@ -47,10 +53,12 @@ contains
         [ xor_and_2nd_input_truth_table() & 
         ] & 
     )
+#endif
       call assert(size(descriptions) == size(outcomes),"asymetric_engine_test_m(results): size(descriptions) == size(outcomes)")
       test_results = test_result_t(descriptions, outcomes)
+#ifndef _CRAYFTN
     end associate
-       
+#endif
   end function
 
   function xor_and_2nd_input_network() result(inference_engine)
