@@ -335,12 +335,19 @@ contains
   function perturbed_identity_network(perturbation_magnitude) result(trainable_engine)
     type(trainable_engine_t) trainable_engine
     real(rkind), intent(in) :: perturbation_magnitude
-#ifndef _CRAYFTN
     integer, parameter :: nodes_per_layer(*) = [2, 2, 2, 2]
     integer, parameter :: max_n = maxval(nodes_per_layer), layers = size(nodes_per_layer)
+#ifndef _CRAYFTN
     real(rkind), parameter :: identity(*,*,*) = &
       reshape([real(rkind):: [1,0], [0,1] ,[1,0], [0,1], [1,0], [0,1]], [max_n, max_n, layers-1])
+#else
+    real(rkind), allocatable :: identity(:,:,:)
+#endif
     real(rkind) harvest(size(identity,1), size(identity,2), size(identity,3))
+
+#ifdef _CRAYFTN
+    identity = reshape([real(rkind):: [1,0], [0,1] ,[1,0], [0,1], [1,0], [0,1]], [max_n, max_n, layers-1])
+#endif
 
     call random_number(harvest)
     harvest = perturbation_magnitude*harvest
@@ -352,7 +359,6 @@ contains
       differentiable_activation_strategy = relu_t(), &
       metadata = [string_t("Identity"), string_t("Damian Rouson"), string_t("2023-09-18"), string_t("relu"), string_t("false")] &
     )
-#endif
   end function
 
   function preserves_identity_mapping() result(test_passes)
