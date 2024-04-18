@@ -54,17 +54,18 @@ contains
   function write_then_read_network_configuration() result(test_passes)
     logical test_passes
 #ifdef _CRAYFTN
-    type(network_configuration_t) :: constructed_from_components
+    type(network_configuration_t) :: constructed_from_components, constructed_from_json
     constructed_from_components= &
       network_configuration_t(skip_connections=.false., nodes_per_layer=[2,72,2], activation_name="sigmoid")
+    constructed_from_json = network_configuration_t(constructed_from_components%to_json())
 #else
     associate(constructed_from_components=> &
       network_configuration_t(skip_connections=.false., nodes_per_layer=[2,72,2], activation_name="sigmoid"))
-#endif
       associate(constructed_from_json => network_configuration_t(constructed_from_components%to_json()))
+#endif
         test_passes = constructed_from_components == constructed_from_json 
-      end associate
 #ifndef _CRAYFTN
+      end associate
     end associate
 #endif
   end function
