@@ -18,12 +18,12 @@ submodule(inference_engine_m_) inference_engine_s
 
 contains
 
-  module procedure input_range
-    my_input_range = self%input_range_
+  module procedure map_to_input_range
+    normalized_tensor = self%input_range_%map_to_training_range(tensor)
   end procedure
 
-  module procedure output_range
-    my_output_range = self%output_range_
+  module procedure map_from_output_range
+    tensor = self%output_range_%map_from_training_range(normalized_tensor)
   end procedure
 
   module procedure to_exchange
