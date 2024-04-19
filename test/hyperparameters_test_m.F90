@@ -52,13 +52,19 @@ contains
 
   function write_then_read_hyperparameters() result(test_passes)
     logical test_passes
-
+#ifdef _CRAYFTN
+    type(hyperparameters_t) :: hyperparameters, from_json
+    hyperparameters = hyperparameters_t(mini_batches=5, learning_rate=1., optimizer = "stochastic gradient descent")
+    from_json = hyperparameters_t(hyperparameters%to_json())
+#else
     associate(hyperparameters => hyperparameters_t(mini_batches=5, learning_rate=1., optimizer = "stochastic gradient descent"))
       associate(from_json => hyperparameters_t(hyperparameters%to_json()))
+#endif
         test_passes = hyperparameters == from_json
+#ifndef _CRAYFTN
       end associate
     end associate
-
+#endif
   end function
 
 end module hyperparameters_test_m

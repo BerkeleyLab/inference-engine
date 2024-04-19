@@ -54,7 +54,15 @@ contains
 
     allocate(character(len=size(self%nodes_per_layer_)*char_per_elem + brackets) :: nodes_per_layer_string)
 
+#ifdef _CRAYFTN
+    if (self%skip_connections_) then
+      write(skip_connections_string,*) "true"
+    else
+      write(skip_connections_string,*) "false"
+    end if
+#else
     write(skip_connections_string,*) trim(merge("true ","false",self%skip_connections_))
+#endif
     write(nodes_per_layer_string, csv) self%nodes_per_layer_
 
     lines = [ &

@@ -52,16 +52,24 @@ contains
 
   function construct_and_convert_to_and_from_json() result(test_passes)
     logical test_passes
-
+#ifdef _CRAYFTN
+    type(training_configuration_t) :: training_configuration, from_json
+    training_configuration = training_configuration_t( &
+      hyperparameters_t(mini_batches=5, learning_rate=1., optimizer = "adam"), &
+      network_configuration_t(skip_connections=.false., nodes_per_layer=[2,72,2], activation_name="sigmoid"))
+    from_json = training_configuration_t(file_t(training_configuration%to_json()))
+#else
     associate(training_configuration => training_configuration_t( &
       hyperparameters_t(mini_batches=5, learning_rate=1., optimizer = "adam"), &
       network_configuration_t(skip_connections=.false., nodes_per_layer=[2,72,2], activation_name="sigmoid") &
     ))
       associate(from_json => training_configuration_t(file_t(training_configuration%to_json())))
+#endif
         test_passes = training_configuration == from_json
+#ifndef _CRAYFTN
       end associate
     end associate
-
+#endif
   end function
 
 end module training_configuration_test_m
