@@ -18,12 +18,12 @@ submodule(inference_engine_m_) inference_engine_s
 
 contains
 
-  module procedure input_range
-    my_input_range = self%input_range_
+  module procedure map_to_input_range
+    normalized_tensor = self%input_range_%map_to_training_range(tensor)
   end procedure
 
-  module procedure output_range
-    my_output_range = self%output_range_
+  module procedure map_from_output_range
+    tensor = self%output_range_%map_from_training_range(normalized_tensor)
   end procedure
 
   module procedure to_exchange
@@ -48,9 +48,17 @@ contains
 
       allocate(a(maxval(n), input_layer:output_layer))
 
+#ifndef _CRAYFTN
       associate(normalized_inputs => self%input_range_%map_to_training_range(inputs))
         a(1:n(input_layer),input_layer) = normalized_inputs%values()
       end associate
+#else
+      block
+        type(tensor_t) normalized_inputs
+        normalized_inputs = self%input_range_%map_to_training_range(inputs)
+        a(1:n(input_layer),input_layer) = normalized_inputs%values()
+      end block
+#endif
 
       feed_forward: &
       do l = input_layer+1, output_layer
@@ -58,10 +66,20 @@ contains
           a(1:n(l),l) = self%activation_strategy_%activation(z)
         end associate
       end do feed_forward
- 
+
+#ifdef _CRAYFTN
+      block
+        type(tensor_t) :: normalized_outputs
+        normalized_outputs = tensor_t(a(1:n(output_layer), output_layer))
+#else
       associate(normalized_outputs => tensor_t(a(1:n(output_layer), output_layer)))
+#endif
         outputs = self%output_range_%map_from_training_range(normalized_outputs)
+#ifdef _CRAYFTN
+      end block
+#else
       end associate
+#endif
 
     end associate
 
@@ -201,14 +219,24 @@ contains
 
     call assert(adjustl(lines(l)%string())=='"tensor_range": {', 'from_json: expecting "tensor_range": {', lines(l)%string())
 
+#ifndef _CRAYFTN
     associate(prototype => tensor_range_t("",[0.],[1.]))
+#else
+    block
+      type(tensor_range_t) prototype
+      prototype = tensor_range_t("",[0.],[1.])
+#endif
       associate(num_lines => size(prototype%to_json()))
         input_range = tensor_range_t(lines(l:l+num_lines-1))
         l = l + num_lines
         output_range = tensor_range_t(lines(l:l+num_lines-1))
         l = l + num_lines
       end associate
+#ifndef _CRAYFTN
     end associate
+#else
+    end block
+#endif
 
     call assert(adjustl(lines(l)%string())=='"hidden_layers": [', 'from_json: expecting "hidden_layers": [', lines(l)%string())
     l = l + 1

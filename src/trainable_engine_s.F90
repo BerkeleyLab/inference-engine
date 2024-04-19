@@ -4,6 +4,9 @@ submodule(trainable_engine_m) trainable_engine_s
   use assert_m, only : assert
   use intrinsic_array_m, only : intrinsic_array_t
   use tensor_m, only : tensor_t
+#ifdef _CRAYFTN
+  use input_output_pair_m, only : input_output_pair_t
+#endif
   implicit none
 
   integer, parameter :: input_layer = 0
@@ -24,7 +27,13 @@ contains
 
   module procedure construct_from_inference_engine
 
+#ifndef _CRAYFTN
     associate(exchange => inference_engine%to_exchange())
+#else
+    use inference_engine_m_, only: exchange_t
+    type(exchange_t) exchange
+    exchange = inference_engine%to_exchange()
+#endif
       trainable_engine%input_range_ = exchange%input_range_
       trainable_engine%output_range_ = exchange%output_range_
       trainable_engine%metadata_ = exchange%metadata_
@@ -38,7 +47,9 @@ contains
            error stop &
            "trainable_engine_s(from_inference_engine): activation strategy must be a differentiable_activation_stragegy_t"
       end select
+#ifndef _CRAYFTN
     end associate
+#endif
 
   end procedure
 
@@ -70,9 +81,19 @@ contains
 
       allocate(a(maxval(n), input_layer:output_layer)) ! Activations
 
+#ifndef _CRAYFTN
       associate(normalized_inputs => self%input_range_%map_to_training_range(inputs))
+#else
+      block
+        type(tensor_t) normalized_inputs
+        normalized_inputs = self%input_range_%map_to_training_range(inputs)
+#endif
         a(1:n(input_layer),input_layer) = normalized_inputs%values()
+#ifndef _CRAYFTN
       end associate
+#else
+      end block
+#endif
 
       feed_forward: &
       do l = 1,output_layer
@@ -134,12 +155,22 @@ contains
 
           if (present(cost)) cost(batch) = 0.
           dcdw = 0.; dcdb = 0.
-          
+
+#ifndef _CRAYFTN
           associate(input_output_pairs => mini_batches_arr(batch)%input_output_pairs())
+#else
+          block
+            type(input_output_pair_t), allocatable :: input_output_pairs(:)
+            input_output_pairs = mini_batches_arr(batch)%input_output_pairs()
+#endif
             inputs = input_output_pairs%inputs()
             expected_outputs = input_output_pairs%expected_outputs()
             mini_batch_size = size(input_output_pairs)
+#ifndef _CRAYFTN
           end associate
+#else
+          end block
+#endif
 
           iterate_through_batch: &
           do pair = 1, mini_batch_size
