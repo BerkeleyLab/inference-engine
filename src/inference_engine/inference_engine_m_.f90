@@ -31,6 +31,8 @@ module inference_engine_m_
   contains
     procedure :: infer
     procedure :: to_json
+    procedure :: input_range
+    procedure :: output_range
     procedure :: num_inputs
     procedure :: num_outputs
     procedure :: nodes_per_layer
@@ -79,6 +81,18 @@ module inference_engine_m_
   end interface
 
   interface
+
+    pure module function input_range(self) result(my_input_range)
+      implicit none
+      class(inference_engine_t), intent(in) :: self
+      type(tensor_range_t) my_input_range
+    end function
+
+    pure module function output_range(self) result(my_output_range)
+      implicit none
+      class(inference_engine_t), intent(in) :: self
+      type(tensor_range_t) my_output_range
+    end function
 
     pure module function to_exchange(self) result(exchange)
       implicit none
