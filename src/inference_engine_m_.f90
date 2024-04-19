@@ -31,8 +31,8 @@ module inference_engine_m_
   contains
     procedure :: infer
     procedure :: to_json
-    procedure :: map_to_input_range
-    procedure :: map_from_output_range
+    procedure :: input_range
+    procedure :: output_range
     procedure :: num_inputs
     procedure :: num_outputs
     procedure :: nodes_per_layer
@@ -82,20 +82,16 @@ module inference_engine_m_
 
   interface
 
-    elemental module function map_to_input_range(self, tensor) result(normalized_tensor)
-      !! The result contains the input tensor values normalized to fall on the range used during training
+    pure module function input_range(self) result(my_input_range)
       implicit none
       class(inference_engine_t), intent(in) :: self
-      type(tensor_t), intent(in) :: tensor
-      type(tensor_t) normalized_tensor
+      type(tensor_range_t) my_input_range
     end function
 
-    elemental module function map_from_output_range(self, normalized_tensor) result(tensor)
-      !! The result contains the output tensor values unnormalized via the inverse of the mapping used in training
+    pure module function output_range(self) result(my_output_range)
       implicit none
       class(inference_engine_t), intent(in) :: self
-      type(tensor_t), intent(in) :: normalized_tensor
-      type(tensor_t) tensor
+      type(tensor_range_t) my_output_range
     end function
 
     pure module function to_exchange(self) result(exchange)

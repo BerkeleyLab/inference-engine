@@ -537,12 +537,12 @@ large graphs.</div>
 <a id="ln-18" name="ln-18" href="#ln-18"></a>
 <a id="ln-19" name="ln-19" href="#ln-19"></a><span class="k">contains</span>
 <a id="ln-20" name="ln-20" href="#ln-20"></a>
-<a id="ln-21" name="ln-21" href="#ln-21"></a><span class="k">  module procedure </span><span class="n">map_to_input_range</span>
-<a id="ln-22" name="ln-22" href="#ln-22"></a><span class="w">    </span><span class="n">normalized_tensor</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">self</span><span class="p">%</span><span class="n">input_range_</span><span class="p">%</span><span class="n">map_to_training_range</span><span class="p">(</span><span class="n">tensor</span><span class="p">)</span>
+<a id="ln-21" name="ln-21" href="#ln-21"></a><span class="k">  module procedure </span><span class="n">input_range</span>
+<a id="ln-22" name="ln-22" href="#ln-22"></a><span class="w">    </span><span class="n">my_input_range</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">self</span><span class="p">%</span><span class="n">input_range_</span>
 <a id="ln-23" name="ln-23" href="#ln-23"></a><span class="w">  </span><span class="k">end procedure</span>
 <a id="ln-24" name="ln-24" href="#ln-24"></a>
-<a id="ln-25" name="ln-25" href="#ln-25"></a><span class="k">  module procedure </span><span class="n">map_from_output_range</span>
-<a id="ln-26" name="ln-26" href="#ln-26"></a><span class="w">    </span><span class="n">tensor</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">self</span><span class="p">%</span><span class="n">output_range_</span><span class="p">%</span><span class="n">map_from_training_range</span><span class="p">(</span><span class="n">normalized_tensor</span><span class="p">)</span>
+<a id="ln-25" name="ln-25" href="#ln-25"></a><span class="k">  module procedure </span><span class="n">output_range</span>
+<a id="ln-26" name="ln-26" href="#ln-26"></a><span class="w">    </span><span class="n">my_output_range</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">self</span><span class="p">%</span><span class="n">output_range_</span>
 <a id="ln-27" name="ln-27" href="#ln-27"></a><span class="w">  </span><span class="k">end procedure</span>
 <a id="ln-28" name="ln-28" href="#ln-28"></a>
 <a id="ln-29" name="ln-29" href="#ln-29"></a><span class="k">  module procedure </span><span class="n">to_exchange</span>
