@@ -18,6 +18,14 @@ submodule(inference_engine_m_) inference_engine_s
 
 contains
 
+  module procedure input_range
+    my_input_range = self%input_range_
+  end procedure
+
+  module procedure output_range
+    my_output_range = self%output_range_
+  end procedure
+
   module procedure to_exchange
     exchange%input_range_ = self%input_range_
     exchange%output_range_ = self%output_range_

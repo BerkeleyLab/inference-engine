@@ -79,7 +79,7 @@
 
             <li class="list-inline-item" id="statements"><i class="fa fa-list-ol"></i>
               <a data-bs-toggle="tooltip" data-bs-placement="bottom" data-bs-html="true"
-                 title=" 5.7% of total for modules and submodules.">124 statements</a>
+                 title=" 6.2% of total for modules and submodules.">136 statements</a>
             </li>
 
             <li class="list-inline-item" id="source-file">
@@ -140,14 +140,16 @@
             <a class="list-group-item" href="../module/inference_engine_m_.html#interface-inference_engine_t">inference_engine_t</a>
             <a class="list-group-item" href="../module/inference_engine_m_.html#interface-activation_function_name">activation_function_name</a>
             <a class="list-group-item" href="../module/inference_engine_m_.html#interface-assert_conformable_with">assert_conformable_with</a>
-            <a class="list-group-item" href="../module/inference_engine_m_.html#interface-nodes_per_layer">nodes_per_layer</a>
+            <a class="list-group-item" href="../module/inference_engine_m_.html#interface-input_range">input_range</a>
+            <a class="list-group-item" href="../module/inference_engine_m_.html#interface-nodes_per_layer~2">nodes_per_layer</a>
             <a class="list-group-item" href="../module/inference_engine_m_.html#interface-norm">norm</a>
             <a class="list-group-item" href="../module/inference_engine_m_.html#interface-num_inputs">num_inputs</a>
             <a class="list-group-item" href="../module/inference_engine_m_.html#interface-num_outputs">num_outputs</a>
+            <a class="list-group-item" href="../module/inference_engine_m_.html#interface-output_range">output_range</a>
             <a class="list-group-item" href="../module/inference_engine_m_.html#interface-skip">skip</a>
             <a class="list-group-item" href="../module/inference_engine_m_.html#interface-subtract">subtract</a>
             <a class="list-group-item" href="../module/inference_engine_m_.html#interface-to_exchange">to_exchange</a>
-            <a class="list-group-item" href="../module/inference_engine_m_.html#interface-to_json">to_json</a>
+            <a class="list-group-item" href="../module/inference_engine_m_.html#interface-to_json~3">to_json</a>
         </div>
       </div>
     </div>
@@ -190,13 +192,13 @@
         <ul class="list-group list-group-flush">
             <li class="list-group-item">
               <ul class="list-inline">
-                  <li class="list-inline-item"><a href='tensor_range_m.html'>tensor_range_m</a></li>
-                  <li class="list-inline-item">sourcery_file_m</li>
                   <li class="list-inline-item"><a href='kind_parameters_m.html'>kind_parameters_m</a></li>
                   <li class="list-inline-item"><a href='tensor_m.html'>tensor_m</a></li>
                   <li class="list-inline-item">sourcery_string_m</li>
-                  <li class="list-inline-item"><a href='activation_strategy_m.html'>activation_strategy_m</a></li>
+                  <li class="list-inline-item">sourcery_file_m</li>
+                  <li class="list-inline-item"><a href='tensor_range_m.html'>tensor_range_m</a></li>
                   <li class="list-inline-item"><a href='differentiable_activation_strategy_m.html'>differentiable_activation_strategy_m</a></li>
+                  <li class="list-inline-item"><a href='activation_strategy_m.html'>activation_strategy_m</a></li>
               </ul>
             </li>
             <li class="list-group-item">
@@ -997,7 +999,7 @@ parameter
         <li class="list-group-item">
               <h3>
     public elemental module function infer(self, inputs) result(outputs)  
-    <a href="../proc/infer.html"><button type="button" class="btn btn-info depwarn">Implementation &rarr;</button></a>
+    <a href="../proc/infer~2.html"><button type="button" class="btn btn-info depwarn">Implementation &rarr;</button></a>
 
     </h3>
   
@@ -1015,7 +1017,7 @@ parameter
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-self~7"></span>
+              <span class="anchor" id="variable-self~28"></span>
               class(<a href='../type/inference_engine_t.html'>inference_engine_t</a>),
             </td>
 <td>intent(in)</td>
@@ -1030,7 +1032,7 @@ parameter
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-inputs"></span>
+              <span class="anchor" id="variable-inputs~3"></span>
               type(<a href='../type/tensor_t.html'>tensor_t</a>),
             </td>
 <td>intent(in)</td>
@@ -1110,7 +1112,7 @@ parameter
           <li class="list-group-item">
                 <h3>
     private pure module function construct_from_padded_arrays(metadata, weights, biases, nodes, input_range, output_range) result(inference_engine)  
-    <a href="../proc/construct_from_padded_arrays.html"><button type="button" class="btn btn-info depwarn">Implementation &rarr;</button></a>
+    <a href="../proc/construct_from_padded_arrays~2.html"><button type="button" class="btn btn-info depwarn">Implementation &rarr;</button></a>
 
     </h3>
   
@@ -1128,7 +1130,7 @@ parameter
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-metadata"></span>
+              <span class="anchor" id="variable-metadata~3"></span>
               type(string_t),
             </td>
 <td>intent(in)</td>
@@ -1173,7 +1175,7 @@ parameter
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-nodes"></span>
+              <span class="anchor" id="variable-nodes~4"></span>
               integer,
             </td>
 <td>intent(in)</td>
@@ -1188,7 +1190,7 @@ parameter
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-input_range"></span>
+              <span class="anchor" id="variable-input_range~4"></span>
               type(<a href='../type/tensor_range_t.html'>tensor_range_t</a>),
             </td>
 <td>intent(in),</td>
@@ -1203,7 +1205,7 @@ parameter
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-output_range"></span>
+              <span class="anchor" id="variable-output_range~4"></span>
               type(<a href='../type/tensor_range_t.html'>tensor_range_t</a>),
             </td>
 <td>intent(in),</td>
@@ -1257,7 +1259,7 @@ parameter
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-self~11"></span>
+              <span class="anchor" id="variable-self~32"></span>
               class(<a href='../type/inference_engine_t.html'>inference_engine_t</a>),
             </td>
 <td>intent(in)</td>
@@ -1311,7 +1313,7 @@ parameter
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-self~6"></span>
+              <span class="anchor" id="variable-self~27"></span>
               class(<a href='../type/inference_engine_t.html'>inference_engine_t</a>),
             </td>
 <td>intent(in)</td>
@@ -1326,7 +1328,7 @@ parameter
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-inference_engine~4"></span>
+              <span class="anchor" id="variable-inference_engine~12"></span>
               type(<a href='../type/inference_engine_t.html'>inference_engine_t</a>),
             </td>
 <td>intent(in)</td>
@@ -1349,15 +1351,15 @@ parameter
 
               <div class="card">
     <div class="card-header bg-light codesum">
-      <span class="anchor" id="interface-nodes_per_layer"></span>
+      <span class="anchor" id="interface-input_range"></span>
       <h3>        interface
       </h3>
     </div>
     <ul class="list-group">
         <li class="list-group-item">
               <h3>
-    private pure module function nodes_per_layer(self) result(node_count)  
-    <a href="../proc/nodes_per_layer.html"><button type="button" class="btn btn-info depwarn">Implementation &rarr;</button></a>
+    private pure module function input_range(self) result(my_input_range)  
+    <a href="../proc/input_range.html"><button type="button" class="btn btn-info depwarn">Implementation &rarr;</button></a>
 
     </h3>
   
@@ -1375,7 +1377,61 @@ parameter
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-self~10"></span>
+              <span class="anchor" id="variable-self~21"></span>
+              class(<a href='../type/inference_engine_t.html'>inference_engine_t</a>),
+            </td>
+<td>intent(in)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>self</strong></td>
+            <td>
+                
+            </td>
+        </tr>
+    </tbody>
+  </table>
+
+    <h4>
+    Return Value
+    <small>type(<a href='../type/tensor_range_t.html'>tensor_range_t</a>)</small>
+    </h4>
+    
+
+        </li>
+    </ul>
+  </div>
+
+              <div class="card">
+    <div class="card-header bg-light codesum">
+      <span class="anchor" id="interface-nodes_per_layer~2"></span>
+      <h3>        interface
+      </h3>
+    </div>
+    <ul class="list-group">
+        <li class="list-group-item">
+              <h3>
+    private pure module function nodes_per_layer(self) result(node_count)  
+    <a href="../proc/nodes_per_layer~2.html"><button type="button" class="btn btn-info depwarn">Implementation &rarr;</button></a>
+
+    </h3>
+  
+
+  <h4>Arguments</h4>
+      <table class="table table-striped varlist">
+    <thead>
+      <tr>
+        <th scope="col">Type</th>
+<th scope="col">Intent</th><th scope="col">Optional</th>        <th scope="col">Attributes</th>
+        <th scope="col"></th>
+        <th scope="col">Name</th>
+        <th scope="col"></th>
+    </thead>
+    <tbody>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-self~31"></span>
               class(<a href='../type/inference_engine_t.html'>inference_engine_t</a>),
             </td>
 <td>intent(in)</td>
@@ -1429,7 +1485,7 @@ parameter
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-self~4"></span>
+              <span class="anchor" id="variable-self~25"></span>
               class(<a href='../type/difference_t.html'>difference_t</a>),
             </td>
 <td>intent(in)</td>
@@ -1465,7 +1521,7 @@ parameter
         <li class="list-group-item">
               <h3>
     private elemental module function num_inputs(self) result(input_count)  
-    <a href="../proc/num_inputs.html"><button type="button" class="btn btn-info depwarn">Implementation &rarr;</button></a>
+    <a href="../proc/num_inputs~3.html"><button type="button" class="btn btn-info depwarn">Implementation &rarr;</button></a>
 
     </h3>
   
@@ -1483,7 +1539,7 @@ parameter
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-self~9"></span>
+              <span class="anchor" id="variable-self~30"></span>
               class(<a href='../type/inference_engine_t.html'>inference_engine_t</a>),
             </td>
 <td>intent(in)</td>
@@ -1519,7 +1575,7 @@ parameter
         <li class="list-group-item">
               <h3>
     private elemental module function num_outputs(self) result(output_count)  
-    <a href="../proc/num_outputs.html"><button type="button" class="btn btn-info depwarn">Implementation &rarr;</button></a>
+    <a href="../proc/num_outputs~2.html"><button type="button" class="btn btn-info depwarn">Implementation &rarr;</button></a>
 
     </h3>
   
@@ -1537,7 +1593,7 @@ parameter
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-self~8"></span>
+              <span class="anchor" id="variable-self~29"></span>
               class(<a href='../type/inference_engine_t.html'>inference_engine_t</a>),
             </td>
 <td>intent(in)</td>
@@ -1556,6 +1612,60 @@ parameter
     <h4>
     Return Value
     <small>integer</small>
+    </h4>
+    
+
+        </li>
+    </ul>
+  </div>
+
+              <div class="card">
+    <div class="card-header bg-light codesum">
+      <span class="anchor" id="interface-output_range"></span>
+      <h3>        interface
+      </h3>
+    </div>
+    <ul class="list-group">
+        <li class="list-group-item">
+              <h3>
+    private pure module function output_range(self) result(my_output_range)  
+    <a href="../proc/output_range.html"><button type="button" class="btn btn-info depwarn">Implementation &rarr;</button></a>
+
+    </h3>
+  
+
+  <h4>Arguments</h4>
+      <table class="table table-striped varlist">
+    <thead>
+      <tr>
+        <th scope="col">Type</th>
+<th scope="col">Intent</th><th scope="col">Optional</th>        <th scope="col">Attributes</th>
+        <th scope="col"></th>
+        <th scope="col">Name</th>
+        <th scope="col"></th>
+    </thead>
+    <tbody>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-self~22"></span>
+              class(<a href='../type/inference_engine_t.html'>inference_engine_t</a>),
+            </td>
+<td>intent(in)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>self</strong></td>
+            <td>
+                
+            </td>
+        </tr>
+    </tbody>
+  </table>
+
+    <h4>
+    Return Value
+    <small>type(<a href='../type/tensor_range_t.html'>tensor_range_t</a>)</small>
     </h4>
     
 
@@ -1591,7 +1701,7 @@ parameter
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-self~12"></span>
+              <span class="anchor" id="variable-self~33"></span>
               class(<a href='../type/inference_engine_t.html'>inference_engine_t</a>),
             </td>
 <td>intent(in)</td>
@@ -1645,7 +1755,7 @@ parameter
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-self~5"></span>
+              <span class="anchor" id="variable-self~26"></span>
               class(<a href='../type/inference_engine_t.html'>inference_engine_t</a>),
             </td>
 <td>intent(in)</td>
@@ -1660,7 +1770,7 @@ parameter
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-rhs"></span>
+              <span class="anchor" id="variable-rhs~3"></span>
               type(<a href='../type/inference_engine_t.html'>inference_engine_t</a>),
             </td>
 <td>intent(in)</td>
@@ -1714,7 +1824,7 @@ parameter
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-self~2"></span>
+              <span class="anchor" id="variable-self~23"></span>
               class(<a href='../type/inference_engine_t.html'>inference_engine_t</a>),
             </td>
 <td>intent(in)</td>
@@ -1742,7 +1852,7 @@ parameter
 
               <div class="card">
     <div class="card-header bg-light codesum">
-      <span class="anchor" id="interface-to_json"></span>
+      <span class="anchor" id="interface-to_json~3"></span>
       <h3>        interface
       </h3>
     </div>
@@ -1750,7 +1860,7 @@ parameter
         <li class="list-group-item">
               <h3>
     private impure elemental module function to_json(self) result(json_file)  
-    <a href="../proc/to_json~3.html"><button type="button" class="btn btn-info depwarn">Implementation &rarr;</button></a>
+    <a href="../proc/to_json~2.html"><button type="button" class="btn btn-info depwarn">Implementation &rarr;</button></a>
 
     </h3>
   
@@ -1768,7 +1878,7 @@ parameter
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-self~3"></span>
+              <span class="anchor" id="variable-self~24"></span>
               class(<a href='../type/inference_engine_t.html'>inference_engine_t</a>),
             </td>
 <td>intent(in)</td>
@@ -2240,12 +2350,17 @@ parameter
               </tr>
               <tr>
                 <td>  procedure, public ::
-  <strong><a href='../type/inference_engine_t.html#boundprocedure-nodes_per_layer~2'>nodes_per_layer</a></strong></td>
+  <strong><a href='../type/inference_engine_t.html#boundprocedure-input_range~3'>input_range</a></strong></td>
                 <td></td>
               </tr>
               <tr>
                 <td>  procedure, public ::
-  <strong><a href='../type/inference_engine_t.html#boundprocedure-num_inputs'>num_inputs</a></strong></td>
+  <strong><a href='../type/inference_engine_t.html#boundprocedure-nodes_per_layer~4'>nodes_per_layer</a></strong></td>
+                <td></td>
+              </tr>
+              <tr>
+                <td>  procedure, public ::
+  <strong><a href='../type/inference_engine_t.html#boundprocedure-num_inputs~3'>num_inputs</a></strong></td>
                 <td></td>
               </tr>
               <tr>
@@ -2260,6 +2375,11 @@ parameter
               </tr>
               <tr>
                 <td>  procedure, public ::
+  <strong><a href='../type/inference_engine_t.html#boundprocedure-output_range~3'>output_range</a></strong></td>
+                <td></td>
+              </tr>
+              <tr>
+                <td>  procedure, public ::
   <strong><a href='../type/inference_engine_t.html#boundprocedure-skip'>skip</a></strong></td>
                 <td></td>
               </tr>
@@ -2270,7 +2390,7 @@ parameter
               </tr>
               <tr>
                 <td>  procedure, public ::
-  <strong><a href='../type/inference_engine_t.html#boundprocedure-to_json'>to_json</a></strong></td>
+  <strong><a href='../type/inference_engine_t.html#boundprocedure-to_json~3'>to_json</a></strong></td>
                 <td></td>
               </tr>
               <tr>
@@ -2308,7 +2428,7 @@ parameter
             <p class="text-end">
               Documentation generated by
               <a href="https://github.com/Fortran-FOSS-Programmers/ford">FORD</a>
- on 2024-04-10 17:43              </p>
+ on 2024-04-19 16:44              </p>
           </div>
         </div>
         <br>
