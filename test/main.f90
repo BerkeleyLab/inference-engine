@@ -8,6 +8,7 @@ program main
   use network_configuration_test_m, only : network_configuration_test_t
   use training_configuration_test_m, only : training_configuration_test_t
   use tensor_range_test_m, only : tensor_range_test_t
+  use sourcery_m, only : command_line_t
   implicit none
 
   type(inference_engine_test_t) inference_engine_test
@@ -20,6 +21,19 @@ program main
   real t_start, t_finish
 
   integer :: passes=0, tests=0
+
+  print_usage_if_help_requested: &
+  block
+    type(command_line_t) command_line
+    character(len=*), parameter :: usage = &
+      new_line('') // new_line('') // &
+      'Usage: fpm test -- [--help] | [--contains <substring>]' // &
+      new_line('') // new_line('') // &
+      'where square brackets ([]) denote optional arguments, a pipe (|) separates alternative arguments,' // new_line('') // &
+      'angular brackets (<>) denote a user-provided value, and passing a substring limits execution to' // new_line('') // &
+      'the tests with test subjects or test descriptions containing the user-specified substring.' // new_line('')
+    if (command_line%argument_present([character(len=len("--help"))::"--help","-h"])) stop usage
+  end block print_usage_if_help_requested
 
   call cpu_time(t_start)
   call random_init(repeatable=.true.,image_distinct=.true.)
