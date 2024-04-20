@@ -52,10 +52,11 @@ contains
         check_write_then_read_ptr) &
     ]
 #endif
-    associate(substring_in_subject => index(subject(), test_description_substring) /= 0)
-      associate(substring_in_description => test_descriptions%contains_text(string_t(test_description_substring)))
-        test_descriptions = pack(test_descriptions, substring_in_subject .or. substring_in_description)
-      end associate
+    associate( &
+      substring_in_subject => index(subject(), test_description_substring) /= 0, &
+      substring_in_description => test_descriptions%contains_text(string_t(test_description_substring)) &
+    )
+      test_descriptions = pack(test_descriptions, substring_in_subject .or. substring_in_description)
     end associate
     test_results = test_descriptions%run()
   end function
@@ -68,7 +69,6 @@ contains
         test_passes = hyperparameters == from_json
       end associate
     end associate
-
   end function
 
 end module hyperparameters_test_m

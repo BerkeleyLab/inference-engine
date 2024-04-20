@@ -5,13 +5,12 @@ module trainable_engine_test_m
 
   ! External dependencies
   use assert_m, only : assert, intrinsic_array_t
-  use sourcery_m, only : string_t, bin_t, test_t, test_result_t
+  use sourcery_m, only : string_t, test_t, test_result_t, file_t, bin_t
 
   ! Internal dependencies
   use inference_engine_m, only : &
     trainable_engine_t, tensor_t, sigmoid_t, input_output_pair_t, mini_batch_t, relu_t, shuffle
   use kind_parameters_m, only : rkind
-
   implicit none
 
   private

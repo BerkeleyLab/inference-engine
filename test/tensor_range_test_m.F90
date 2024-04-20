@@ -5,8 +5,11 @@ module tensor_range_test_m
 
   ! External dependencies
   use assert_m, only : assert
-  use sourcery_m, only : string_t, test_t, test_result_t, file_t
+  use sourcery_m, only : string_t, test_t, test_result_t, test_description_t, test_description_substring, file_t
   use inference_engine_m, only : tensor_range_t, tensor_t
+#ifdef __GFORTRAN__
+  use sourcery_m, only : test_function_i
+#endif
 
   ! Internal dependencies
   use tensor_range_m, only : tensor_range_t
@@ -31,25 +34,30 @@ contains
 
   function results() result(test_results)
     type(test_result_t), allocatable :: test_results(:)
+    type(test_description_t), allocatable :: test_descriptions(:)
 
-    character(len=*), parameter :: longest_description = &
-          "component-wise construction followed by conversion to and from JSON"
+#ifndef __GFORTRAN__
+    test_descriptions = [ & 
+      test_description_t("component-wise construction followed by conversion to and from JSON", write_then_read_tensor_range), &
+      test_description_t("mapping to and from the unit interval as an identity transformation", map_to_from_training_range) &
+    ]
+#else
+    procedure(test_function_i), pointer :: check_write_then_read_ptr, check_map_to_from_range_ptr 
+    check_write_then_read_ptr   => write_then_read_tensor_range
+    check_map_to_from_range_ptr => map_to_from_training_range
 
+    test_descriptions = [ &
+      test_description_t("component-wise construction followed by conversion to and from JSON", check_write_then_read_ptr), &
+      test_description_t("mapping to and from the unit interval as an identity transformation", check_map_to_from_range_ptr) &
+    ]
+#endif
     associate( &
-      descriptions => &
-        [ character(len=len(longest_description)) :: &
-          "component-wise construction followed by conversion to and from JSON", &
-          "mapping to and from the unit interval as an identity transformation" &
-        ], &
-      outcomes => &
-        [ write_then_read_tensor_range(), & 
-          map_to_from_training_range() &
-        ] & 
+      substring_in_subject => index(subject(), test_description_substring) /= 0, &
+      substring_in_description => test_descriptions%contains_text(string_t(test_description_substring)) &
     )
-      call assert(size(descriptions) == size(outcomes),"tensor_range_test_m(results): size(descriptions) == size(outcomes)")
-      test_results = test_result_t(descriptions, outcomes)
+      test_descriptions = pack(test_descriptions, substring_in_subject .or. substring_in_description)
     end associate
-       
+    test_results = test_descriptions%run()
   end function
 
   function write_then_read_tensor_range() result(test_passes)
