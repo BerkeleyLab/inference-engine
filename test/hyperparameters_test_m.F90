@@ -69,6 +69,7 @@ contains
         test_passes = hyperparameters == from_json
       end associate
     end associate
+
   end function
 
 end module hyperparameters_test_m
