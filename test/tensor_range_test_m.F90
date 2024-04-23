@@ -56,15 +56,16 @@ contains
     logical test_passes
     type(file_t) :: json_file
 #ifdef _CRAYFTN
-    type(tensor_range_t) :: tensor_range
+    type(tensor_range_t) :: tensor_range, from_json
     tensor_range = tensor_range_t(layer="input", minima=[-1., 0., 1.], maxima=[1., 2., 4.])
+    from_json = tensor_range_t(tensor_range%to_json())
 #else
     associate(tensor_range => tensor_range_t(layer="input", minima=[-1., 0., 1.], maxima=[1., 2., 4.]))
-#endif
       associate(from_json => tensor_range_t(tensor_range%to_json()))
+#endif
         test_passes = tensor_range == from_json
-      end associate
 #ifndef _CRAYFTN
+      end associate
     end associate
 #endif
   end function
