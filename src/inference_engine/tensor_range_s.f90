@@ -50,7 +50,7 @@ contains
   end procedure 
 
   module procedure to_json
-    integer, parameter :: characters_per_value=17
+    integer, parameter :: characters_per_value=30
     character(len=*), parameter :: indent = repeat(" ",ncopies=4)
     character(len=:), allocatable :: csv_format, minima_string, maxima_string
 
