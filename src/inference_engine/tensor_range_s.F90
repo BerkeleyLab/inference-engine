@@ -72,19 +72,33 @@ contains
   end procedure
 
   module procedure map_to_training_range
+#ifdef _CRAYFTN
+    real(rkind), allocatable :: tensor_values(:), normalized_values(:)
+    tensor_values = tensor%values()
+    normalized_values = (tensor_values - self%minima_)/(self%maxima_ - self%minima_)
+    normalized_tensor = tensor_t(normalized_values)
+#else
     associate(tensor_values => tensor%values())
       associate(normalized_values => (tensor_values - self%minima_)/(self%maxima_ - self%minima_))
         normalized_tensor = tensor_t(normalized_values)
       end associate
     end associate
+#endif
   end procedure
 
   module procedure map_from_training_range
+#ifdef _CRAYFTN
+    real(rkind), allocatable :: tensor_values(:), unnormalized_values(:)
+    tensor_values = tensor%values()
+    unnormalized_values = self%minima_ + tensor_values*(self%maxima_ - self%minima_)
+    unnormalized_tensor = tensor_t(unnormalized_values)
+#else
     associate(tensor_values => tensor%values())
       associate(unnormalized_values => self%minima_ + tensor_values*(self%maxima_ - self%minima_))
         unnormalized_tensor = tensor_t(unnormalized_values)
       end associate
     end associate
+#endif
   end procedure
 
   module procedure in_range
