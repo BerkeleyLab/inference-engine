@@ -84,13 +84,19 @@ program learn_exponentiation
       block
         real, parameter :: tolerance = 1.E-06
         integer p
-
+#ifdef _CRAYFTN
+        type(tensor_t), allocatable :: network_outputs(:)
+        network_outputs = trainable_engine%infer(inputs)
+#else
         associate(network_outputs => trainable_engine%infer(inputs))
+#endif
           print "(a,69x,a)","  Outputs", "| Desired outputs"
           do p = 1, num_pairs
             print "(6G13.5, a1, 6G13.5)",network_outputs(p)%values(),       "|", desired_outputs(p)%values()
           end do
+#ifndef _CRAYFTN
         end associate
+#endif
       end block
 
    end associate

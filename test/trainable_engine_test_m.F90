@@ -298,7 +298,7 @@ contains
     allocate(training_outputs(mini_batch_size, num_iterations))
     do concurrent(batch=1:mini_batch_size, iter=1:num_iterations)
       training_inputs(batch, iter) = tensor_t(merge(true, false, harvest(:,batch,iter) < 0.5E0))
-      training_outputs(batch, iter) = xor(training_inputs(batch, iter))
+      training_outputs(batch, iter) = local_xor(training_inputs(batch, iter))
     end do
 
     allocate(mini_batches(size(training_inputs,1)*num_iterations))
@@ -314,14 +314,14 @@ contains
     block
       integer i
 
-      expected_test_outputs = [(xor(test_inputs(i)), i=1, size(test_inputs))]
+      expected_test_outputs = [(local_xor(test_inputs(i)), i=1, size(test_inputs))]
       actual_outputs = trainable_engine%infer(test_inputs)
       test_passes = [(abs(actual_outputs(i)%values() - expected_test_outputs(i)%values()) < tolerance, i=1, size(actual_outputs))]
     end block
 
   contains
     
-    pure function xor(inputs) result(expected_outputs)
+    pure function local_xor(inputs) result(expected_outputs)
       type(tensor_t), intent(in) :: inputs
       type(tensor_t) expected_outputs
       associate(sum_inputs => sum(inputs%values()))
@@ -336,9 +336,17 @@ contains
     real(rkind), intent(in) :: perturbation_magnitude
     integer, parameter :: nodes_per_layer(*) = [2, 2, 2, 2]
     integer, parameter :: max_n = maxval(nodes_per_layer), layers = size(nodes_per_layer)
+#ifndef _CRAYFTN
     real(rkind), parameter :: identity(*,*,*) = &
       reshape([real(rkind):: [1,0], [0,1] ,[1,0], [0,1], [1,0], [0,1]], [max_n, max_n, layers-1])
+#else
+    real(rkind), allocatable :: identity(:,:,:)
+#endif
     real(rkind) harvest(size(identity,1), size(identity,2), size(identity,3))
+
+#ifdef _CRAYFTN
+    identity = reshape([real(rkind):: [1,0], [0,1] ,[1,0], [0,1], [1,0], [0,1]], [max_n, max_n, layers-1])
+#endif
 
     call random_number(harvest)
     harvest = perturbation_magnitude*harvest
@@ -370,7 +378,14 @@ contains
       call assert(num_inputs == num_outputs,"trainable_engine_test_m(identity_mapping): # inputs == # outputs", &
         intrinsic_array_t([num_inputs, num_outputs]) &
       )
+#ifdef _CRAYFTN
+      allocate(inputs(num_pairs))
+      do i = 1, num_pairs
+         inputs(i) = tensor_t(real([i,2*i], rkind)/num_pairs)
+      end do
+#else
       inputs = [(tensor_t(real([i,2*i], rkind)/num_pairs), i = 1, num_pairs)]
+#endif
       associate(outputs => inputs)
         input_output_pairs = input_output_pair_t(inputs, outputs)
       end associate
@@ -383,10 +398,16 @@ contains
 
       block
         real(rkind), parameter :: tolerance = 1.E-06
-
+#ifdef _CRAYFTN
+        type(tensor_t), allocatable :: network_outputs(:)
+        network_outputs = trainable_engine%infer(inputs)
+#else
         associate(network_outputs => trainable_engine%infer(inputs))
+#endif
           test_passes = [maxval(abs([(network_outputs(i)%values() - inputs(i)%values(), i=1,num_pairs)])) < tolerance]
+#ifndef _CRAYFTN
         end associate
+#endif
       end block
 
    end associate
@@ -417,7 +438,14 @@ contains
       call assert(num_inputs == num_outputs,"trainable_engine_test_m(identity_mapping): # inputs == # outputs", &
         intrinsic_array_t([num_inputs, num_outputs]) &
       )
+#ifdef _CRAYFTN
+      allocate(inputs(num_pairs))
+      do i = 1, num_pairs
+        inputs(i) = tensor_t(real([i,2*i], rkind)/(2*num_pairs))
+      end do
+#else
       inputs = [(tensor_t(real([i,2*i], rkind)/(2*num_pairs)), i = 1, num_pairs)]
+#endif
       associate(outputs => inputs)
         input_output_pairs = input_output_pair_t(inputs, outputs)
       end associate
@@ -431,10 +459,16 @@ contains
 
       block
         real(rkind), parameter :: tolerance = 1.E-06
-
+#ifdef _CRAYFTN
+        type(tensor_t), allocatable :: network_outputs(:)
+        network_outputs = trainable_engine%infer(inputs)
+#else
         associate(network_outputs => trainable_engine%infer(inputs))
+#endif
           test_passes = [maxval(abs([(network_outputs(i)%values() - inputs(i)%values(), i=1,num_pairs)])) < tolerance]
+#ifndef _CRAYFTN
         end associate
+#endif
       end block
 
    end associate
