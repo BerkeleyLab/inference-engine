@@ -40,10 +40,10 @@ program main
   call hyperparameters_test%report(passes, tests)
   call network_configuration_test%report(passes, tests)
   call training_configuration_test%report(passes, tests)
+  call tensor_range_test%report(passes, tests)
   call asymmetric_engine_test%report(passes, tests)
   call inference_engine_test%report(passes, tests)
   call trainable_engine_test%report(passes, tests)
-  call tensor_range_test%report(passes, tests)
   call cpu_time(t_finish)
 
   print *
