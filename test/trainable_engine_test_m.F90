@@ -132,7 +132,6 @@ contains
         integer i
 
         associate( &
-          substring_in_subject => index(subject(), test_description_substring) /= 0, &
           substring_in_description_vector => &
             [(any(vector_test_descriptions(i)%contains_text(test_description_substring)), i=1,num_vector_tests)] &
         )
