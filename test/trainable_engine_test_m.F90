@@ -67,7 +67,11 @@ contains
   function results() result(test_results)
     type(test_result_t), allocatable :: test_results(:)
     type(test_description_t), allocatable :: test_descriptions(:)
-    !type(vector_test_description_t), allocatable :: vector_test_descriptions(:)
+    type(vector_test_description_t), allocatable :: vector_test_descriptions(:)
+    type(xor_gate_test_function_t) xor_gate_test_function
+    type(or_gate_test_function_t) or_gate_test_function
+    type(not_and_test_function_t) not_and_test_function
+    type(and_gate_test_function_t) and_gate_test_function
 
 #ifndef __GFORTRAN__
     test_descriptions = [ &
@@ -90,32 +94,32 @@ contains
       ]
 #endif
 
-    !vector_test_descriptions = [ &
-    !  vector_test_description_t( &
-    !    ["learning the mapping (true,true) -> true with 2 hidden layers trained on skewed AND-gate data"&
-    !    ,"learning the mapping (false,true) -> false with 2 hidden layers trained on skewed AND-gate data"&
-    !    ,"learning the mapping (true,false) -> false with 2 hidden layers trained on skewed AND-gate data"&
-    !    ,"learning the mapping (false,false) -> false with 2 hidden layers trained on skewed AND-gate data"&
-    !    ], and_gate_test_function_t), &
-    !  vector_test_description_t( &
-    !    ["learning the mapping (true,true) -> false with 2 hidden layers trained on skewed NOT-AND-gate data"                    ,&
-    !    ,"learning the mapping (false,true) -> true with 2 hidden layers trained on skewed NOT-AND-gate data"                    ,&
-    !    ,"learning the mapping (true,false) -> true with 2 hidden layers trained on skewed NOT-AND-gate data"                    ,&
-    !    ,"learning the mapping (false,false) -> true with 2 hidden layers trained on skewed NOT-AND-gate data"                   ,&
-    !    ], not_and_test_function_t), &
-    !  vector_test_description_t( &
-    !    ["learning the mapping (true,true) -> true with 2 hidden layers trained on symmetric OR-gate data and random weights" &
-    !    ,"learning the mapping (false,true) -> true with 2 hidden layers trained on symmetric OR-gate data and random weights" &
-    !    ,"learning the mapping (true,false) -> true with 2 hidden layers trained on symmetric OR-gate data and random weights" &
-    !    ,"learning the mapping (false,false) -> false with 2 hidden layers trained on symmetric OR-gate data and random weights" &
-    !    ], or_gate_test_function_t), &
-    !  vector_test_description_t( &
-    !    ["learning the mapping (true,true) -> false with 2 hidden layers trained on symmetric XOR-gate data and random weights" &
-    !    ,"learning the mapping (false,true) -> true with 2 hidden layers trained on symmetric XOR-gate data and random weights" &
-    !    ,"learning the mapping (true,false) -> true with 2 hidden layers trained on symmetric XOR-gate data and random weights" &
-    !    ,"learning the mapping (false,false) -> false with 2 hidden layers trained on symmetric XOR-gate data and random weights" &
-    !    ], xor_gate_test_function_t) &
-    !  ]
+    vector_test_descriptions = [ &
+      vector_test_description_t( &
+        [string_t("learning to map (true,true)->true with 2 hidden layers trained on skewed AND-gate data") &
+        ,string_t("learning to map (false,true)->false with 2 hidden layers trained on skewed AND-gate data") &
+        ,string_t("learning to map (true,false)->false with 2 hidden layers trained on skewed AND-gate data") &
+        ,string_t("learning to map (false,false)->false with 2 hidden layers trained on skewed AND-gate data") &
+        ], and_gate_test_function), &
+      vector_test_description_t( &
+        [string_t("learning to map (true,true)->false with 2 hidden layers trained on skewed NOT-AND-gate data") &
+        ,string_t("learning to map (false,true)->true with 2 hidden layers trained on skewed NOT-AND-gate data") &
+        ,string_t("learning to map (true,false)->true with 2 hidden layers trained on skewed NOT-AND-gate data") &
+        ,string_t("learning to map (false,false)->true with 2 hidden layers trained on skewed NOT-AND-gate data") &
+        ], not_and_test_function), &
+      vector_test_description_t( &
+        [string_t("learning to map (true,true)->true with 2 hidden layers trained on symmetric OR-gate data & random weights") &
+        ,string_t("learning to map (false,true)->true with 2 hidden layers trained on symmetric OR-gate data & random weights") &
+        ,string_t("learning to map (true,false)->true with 2 hidden layers trained on symmetric OR-gate data & random weights") &
+        ,string_t("learning to map (false,false)->false with 2 hidden layers trained on symmetric OR-gate data & random weights") &
+        ], or_gate_test_function), &
+      vector_test_description_t( &
+        [string_t("learning to map (true,true)->false with 2 hidden layers trained on symmetric XOR-gate data & random weights") &
+        ,string_t("learning to map (false,true)->true with 2 hidden layers trained on symmetric XOR-gate data & random weights") &
+        ,string_t("learning to map (true,false)->true with 2 hidden layers trained on symmetric XOR-gate data & random weights") &
+        ,string_t("learning to map (false,false)->false with 2 hidden layers trained on symmetric XOR-gate data & random weights") &
+        ], xor_gate_test_function) &
+      ]
 
     associate( &
       substring_in_subject => index(subject(), test_description_substring) /= 0, &

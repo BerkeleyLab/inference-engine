@@ -40,22 +40,22 @@ contains
     type(xor_and_2nd_input_t) xor_and_2nd_input
 
     associate( vector_test_description => vector_test_description_t( &
-        [ string_t("mapping (true,true) to false"), & 
-          string_t("mapping (true,false) to false"), &
-          string_t("mapping (false,true) to true"), &
-          string_t("mapping (false,false) to false") &
-        ], xor_and_2nd_input) &
+      [ string_t("mapping (true,true) to false"), & 
+        string_t("mapping (true,false) to false"), &
+        string_t("mapping (false,true) to true"), &
+        string_t("mapping (false,false) to false") &
+      ], xor_and_2nd_input) &
     )
       associate(substring_in_subject => index(subject(), test_description_substring) /= 0)
         associate(substring_in_description => vector_test_description%contains_text(test_description_substring))
-        if (substring_in_subject) then
-          test_results = vector_test_description%run()
-        else if (any(substring_in_description)) then
-          test_results = vector_test_description%run()
-          test_results = pack(test_results, test_results%description_contains(string_t(test_description_substring)))
-         else
-          test_results = [test_result_t::]
-        end if
+          if (substring_in_subject) then
+            test_results = vector_test_description%run()
+          else if (any(substring_in_description)) then
+            test_results = vector_test_description%run()
+            test_results = pack(test_results, test_results%description_contains(string_t(test_description_substring)))
+           else
+            test_results = [test_result_t::]
+          end if
         end associate
       end associate
     end associate
