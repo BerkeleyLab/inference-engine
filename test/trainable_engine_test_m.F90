@@ -5,17 +5,40 @@ module trainable_engine_test_m
 
   ! External dependencies
   use assert_m, only : assert, intrinsic_array_t
-  use sourcery_m, only : string_t, test_t, test_result_t, file_t, bin_t
+  use sourcery_m, only : test_t, test_result_t, test_description_t, test_description_substring, string_t, file_t, bin_t, &
+    vector_test_description_t, vector_function_strategy_t
+#ifdef __GFORTRAN__
+  use sourcery_m, only : test_function_i
+#endif
 
   ! Internal dependencies
-  use inference_engine_m, only : &
-    trainable_engine_t, tensor_t, sigmoid_t, input_output_pair_t, mini_batch_t, relu_t, shuffle
+  use inference_engine_m, only : trainable_engine_t, tensor_t, sigmoid_t, input_output_pair_t, mini_batch_t, relu_t, shuffle
   use kind_parameters_m, only : rkind
   implicit none
 
   private
   public :: trainable_engine_test_t
 
+  type, extends(vector_function_strategy_t) :: and_gate_test_function_t
+  contains
+    procedure, nopass :: vector_function => and_gate_with_skewed_training_data
+  end type
+    
+  type, extends(vector_function_strategy_t) :: not_and_test_function_t
+  contains
+    procedure, nopass :: vector_function => not_and_gate_with_skewed_training_data
+  end type
+    
+  type, extends(vector_function_strategy_t) :: or_gate_test_function_t
+  contains
+    procedure, nopass :: vector_function => or_gate_with_random_weights
+  end type
+    
+  type, extends(vector_function_strategy_t) :: xor_gate_test_function_t
+  contains
+    procedure, nopass :: vector_function => xor_gate_with_random_weights
+  end type
+    
   type, extends(test_t) :: trainable_engine_test_t
   contains
     procedure, nopass :: subject
@@ -43,45 +66,64 @@ contains
 
   function results() result(test_results)
     type(test_result_t), allocatable :: test_results(:)
+    type(test_description_t), allocatable :: test_descriptions(:)
+    !type(vector_test_description_t), allocatable :: vector_test_descriptions(:)
 
-    character(len=*), parameter :: longest_description = &
-        "learning the mapping (false,false) -> false with 2 hidden layers trained on symmetric OR-gate data and random weights"
+#ifndef __GFORTRAN__
+    test_descriptions = [ &
+      test_description_t("preserving an identity mapping with 2 hidden layers", &
+         preserves_identity_mapping), &
+      test_description_t("training a perturbed identity mapping to converge to an identity mapping using the Adam optimizer", &
+         perturbed_identity_converges) &
+      ]
+#else
+    procedure(test_function_i), pointer :: preserves_identity_ptr, perturbed_identity_ptr
+    preserves_identity_ptr => preserves_identity_mapping
+    perturbed_identity_ptr => perturbed_identity_converges
+
+    test_descriptions = [ &
+      test_description_t( &
+         "preserving an identity mapping with 2 hidden layers", &
+         preserves_identity_ptr), &
+      test_description_t("training a perturbed identity mapping to converge to an identity mapping using the Adam optimizer", &
+         perturbed_identity_ptr) &
+      ]
+#endif
+
+    !vector_test_descriptions = [ &
+    !  vector_test_description_t( &
+    !    ["learning the mapping (true,true) -> true with 2 hidden layers trained on skewed AND-gate data"&
+    !    ,"learning the mapping (false,true) -> false with 2 hidden layers trained on skewed AND-gate data"&
+    !    ,"learning the mapping (true,false) -> false with 2 hidden layers trained on skewed AND-gate data"&
+    !    ,"learning the mapping (false,false) -> false with 2 hidden layers trained on skewed AND-gate data"&
+    !    ], and_gate_test_function_t), &
+    !  vector_test_description_t( &
+    !    ["learning the mapping (true,true) -> false with 2 hidden layers trained on skewed NOT-AND-gate data"                    ,&
+    !    ,"learning the mapping (false,true) -> true with 2 hidden layers trained on skewed NOT-AND-gate data"                    ,&
+    !    ,"learning the mapping (true,false) -> true with 2 hidden layers trained on skewed NOT-AND-gate data"                    ,&
+    !    ,"learning the mapping (false,false) -> true with 2 hidden layers trained on skewed NOT-AND-gate data"                   ,&
+    !    ], not_and_test_function_t), &
+    !  vector_test_description_t( &
+    !    ["learning the mapping (true,true) -> true with 2 hidden layers trained on symmetric OR-gate data and random weights" &
+    !    ,"learning the mapping (false,true) -> true with 2 hidden layers trained on symmetric OR-gate data and random weights" &
+    !    ,"learning the mapping (true,false) -> true with 2 hidden layers trained on symmetric OR-gate data and random weights" &
+    !    ,"learning the mapping (false,false) -> false with 2 hidden layers trained on symmetric OR-gate data and random weights" &
+    !    ], or_gate_test_function_t), &
+    !  vector_test_description_t( &
+    !    ["learning the mapping (true,true) -> false with 2 hidden layers trained on symmetric XOR-gate data and random weights" &
+    !    ,"learning the mapping (false,true) -> true with 2 hidden layers trained on symmetric XOR-gate data and random weights" &
+    !    ,"learning the mapping (true,false) -> true with 2 hidden layers trained on symmetric XOR-gate data and random weights" &
+    !    ,"learning the mapping (false,false) -> false with 2 hidden layers trained on symmetric XOR-gate data and random weights" &
+    !    ], xor_gate_test_function_t) &
+    !  ]
 
     associate( &
-      descriptions => &
-      [ character(len=len(longest_description)) :: &
-        "preserving an identity mapping with 2 hidden layers"                                                                   ,&
-        "training a perturbed identity mapping to converge to an identity mapping using the Adam optimizer"                     ,&
-        "learning the mapping (true,true) -> true with 2 hidden layers trained on skewed AND-gate data"                         ,&
-        "learning the mapping (false,true) -> false with 2 hidden layers trained on skewed AND-gate data"                       ,&
-        "learning the mapping (true,false) -> false with 2 hidden layers trained on skewed AND-gate data"                       ,&
-        "learning the mapping (false,false) -> false with 2 hidden layers trained on skewed AND-gate data"                      ,&
-        "learning the mapping (true,true) -> false with 2 hidden layers trained on skewed NOT-AND-gate data"                    ,&
-        "learning the mapping (false,true) -> true with 2 hidden layers trained on skewed NOT-AND-gate data"                    ,&
-        "learning the mapping (true,false) -> true with 2 hidden layers trained on skewed NOT-AND-gate data"                    ,&
-        "learning the mapping (false,false) -> true with 2 hidden layers trained on skewed NOT-AND-gate data"                   ,&
-        "learning the mapping (true,true) -> true with 2 hidden layers trained on symmetric OR-gate data and random weights"    ,&
-        "learning the mapping (false,true) -> true with 2 hidden layers trained on symmetric OR-gate data and random weights"   ,&
-        "learning the mapping (true,false) -> true with 2 hidden layers trained on symmetric OR-gate data and random weights"   ,&
-        "learning the mapping (false,false) -> false with 2 hidden layers trained on symmetric OR-gate data and random weights" ,&
-        "learning the mapping (true,true) -> false with 2 hidden layers trained on symmetric XOR-gate data and random weights"  ,&
-        "learning the mapping (false,true) -> true with 2 hidden layers trained on symmetric XOR-gate data and random weights"  ,&
-        "learning the mapping (true,false) -> true with 2 hidden layers trained on symmetric XOR-gate data and random weights"  ,&
-        "learning the mapping (false,false) -> false with 2 hidden layers trained on symmetric XOR-gate data and random weights" &
-      ], outcomes => [ &
-        preserves_identity_mapping(), &
-        perturbed_identity_converges(), &
-        and_gate_with_skewed_training_data(), &
-        not_and_gate_with_skewed_training_data(), &
-        or_gate_with_random_weights(), &
-        xor_gate_with_random_weights()  &
-      ] &
+      substring_in_subject => index(subject(), test_description_substring) /= 0, &
+      substring_in_description => test_descriptions%contains_text(string_t(test_description_substring)) &
     )
-      associate(d => size(descriptions), o => size(outcomes))
-        call assert(d == o, "trainable_engine_test_m(results): size(descriptions) == size(outcomes)", intrinsic_array_t([d,o]))
-      end associate
-      test_results = test_result_t(descriptions, outcomes)
+      test_descriptions = pack(test_descriptions, substring_in_subject .or. substring_in_description)
     end associate
+    test_results = test_descriptions%run()
   end function
 
   subroutine print_truth_table(gate_name, gate_function_ptr, test_inputs, actual_outputs)
@@ -361,7 +403,7 @@ contains
   end function
 
   function preserves_identity_mapping() result(test_passes)
-    logical, allocatable :: test_passes(:)
+    logical test_passes
     type(mini_batch_t), allocatable :: mini_batches(:)
     type(input_output_pair_t), allocatable :: input_output_pairs(:)
     type(tensor_t), allocatable :: inputs(:)
@@ -404,7 +446,7 @@ contains
 #else
         associate(network_outputs => trainable_engine%infer(inputs))
 #endif
-          test_passes = [maxval(abs([(network_outputs(i)%values() - inputs(i)%values(), i=1,num_pairs)])) < tolerance]
+          test_passes = maxval(abs([(network_outputs(i)%values() - inputs(i)%values(), i=1,num_pairs)])) < tolerance
 #ifndef _CRAYFTN
         end associate
 #endif
@@ -419,7 +461,7 @@ contains
     ! (i.e., mapping inputs to outputs identically). This test operates at the edge of a radius of
     ! non-convergence, i.e., for the given size training data set, decrementing num_epochs or num_bins
     ! or negating adam or not shuffling doesn't converge within the specified output-value tolerance.
-    logical, allocatable :: test_passes(:)
+    logical test_passes
     type(mini_batch_t), allocatable :: mini_batches(:)
     type(input_output_pair_t), allocatable :: input_output_pairs(:)
     type(tensor_t), allocatable :: inputs(:)
@@ -465,7 +507,7 @@ contains
 #else
         associate(network_outputs => trainable_engine%infer(inputs))
 #endif
-          test_passes = [maxval(abs([(network_outputs(i)%values() - inputs(i)%values(), i=1,num_pairs)])) < tolerance]
+          test_passes = maxval(abs([(network_outputs(i)%values() - inputs(i)%values(), i=1,num_pairs)])) < tolerance
 #ifndef _CRAYFTN
         end associate
 #endif
