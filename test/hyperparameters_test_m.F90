@@ -4,7 +4,6 @@ module hyperparameters_test_m
   !! Test hyperparameters_t object I/O and construction
 
   ! External dependencies
-  use assert_m, only : assert
   use inference_engine_m, only : hyperparameters_t
   use sourcery_m, only : test_t, test_result_t, test_description_t, test_description_substring, string_t
 #ifdef __GFORTRAN__
