@@ -98,7 +98,7 @@ contains
   end function
 
   function multi_hidden_layer_net_to_from_json() result(test_passes)
-    logical, allocatable :: test_passes
+    logical test_passes
     type(inference_engine_t) inference_engine, from_json
     type(file_t) json_file
     type(difference_t) difference
