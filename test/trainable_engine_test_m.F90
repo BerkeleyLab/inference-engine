@@ -65,8 +65,8 @@ contains
   end function
 
   function results() result(test_results)
-    type(test_result_t), allocatable :: test_results(:)
-    type(test_description_t), allocatable :: test_descriptions(:)
+    type(test_result_t), allocatable :: test_results(:), scalar_test_results(:), vector_test_results(:)
+    type(test_description_t), allocatable :: scalar_test_descriptions(:)
     type(vector_test_description_t), allocatable :: vector_test_descriptions(:)
     type(xor_gate_test_function_t) xor_gate_test_function
     type(or_gate_test_function_t) or_gate_test_function
@@ -74,7 +74,7 @@ contains
     type(and_gate_test_function_t) and_gate_test_function
 
 #ifndef __GFORTRAN__
-    test_descriptions = [ &
+    scalar_test_descriptions = [ &
       test_description_t("preserving an identity mapping with 2 hidden layers", &
          preserves_identity_mapping), &
       test_description_t("training a perturbed identity mapping to converge to an identity mapping using the Adam optimizer", &
@@ -85,7 +85,7 @@ contains
     preserves_identity_ptr => preserves_identity_mapping
     perturbed_identity_ptr => perturbed_identity_converges
 
-    test_descriptions = [ &
+    scalar_test_descriptions = [ &
       test_description_t( &
          "preserving an identity mapping with 2 hidden layers", &
          preserves_identity_ptr), &
@@ -123,11 +123,35 @@ contains
 
     associate( &
       substring_in_subject => index(subject(), test_description_substring) /= 0, &
-      substring_in_description => test_descriptions%contains_text(string_t(test_description_substring)) &
+      substring_in_description => scalar_test_descriptions%contains_text(string_t(test_description_substring)) &
     )
-      test_descriptions = pack(test_descriptions, substring_in_subject .or. substring_in_description)
+      scalar_test_descriptions = pack(scalar_test_descriptions, substring_in_subject .or. substring_in_description)
     end associate
-    test_results = test_descriptions%run()
+
+      block
+        integer i
+
+      associate(num_vector_tests => size(vector_test_descriptions))
+      associate( &
+        substring_in_subject => index(subject(), test_description_substring) /= 0 &
+       ,substring_in_description_vector => &
+          [(any(vector_test_descriptions(i)%contains_text(test_description_substring)), i=1,num_vector_tests)] &
+      )
+          if (substring_in_subject) then
+            vector_test_results = [(vector_test_descriptions(i)%run(), i=1,num_vector_tests)]
+          else if (any(substring_in_description_vector)) then
+            vector_test_descriptions = pack(vector_test_descriptions, substring_in_description_vector)
+            vector_test_results =  [(vector_test_descriptions(i)%run(), i=1,size(vector_test_descriptions))]
+            vector_test_results =  &
+              pack(vector_test_results, vector_test_results%description_contains(string_t(test_description_substring)))
+           else
+            vector_test_results = [test_result_t::]
+          end if
+      end associate
+      test_results = [scalar_test_descriptions%run(), vector_test_results]
+      end associate
+      end block
+
   end function
 
   subroutine print_truth_table(gate_name, gate_function_ptr, test_inputs, actual_outputs)
@@ -322,7 +346,7 @@ contains
     logical, allocatable :: test_passes(:)
     type(mini_batch_t), allocatable :: mini_batches(:)
     type(tensor_t), allocatable, dimension(:,:) :: training_inputs, training_outputs 
-    type(tensor_t), allocatable, dimension(:) :: tmp, tmp2, actual_outputs, test_inputs, expected_test_outputs
+    type(tensor_t), allocatable, dimension(:) :: actual_outputs, test_inputs, expected_test_outputs
     type(trainable_engine_t) trainable_engine
     real(rkind), parameter :: tolerance = 1.E-02_rkind
     real(rkind), allocatable :: harvest(:,:,:)
