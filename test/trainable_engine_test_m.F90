@@ -5,7 +5,7 @@ module trainable_engine_test_m
 
   ! External dependencies
   use assert_m, only : assert, intrinsic_array_t
-  use sourcery_m, only : test_t, test_result_t, test_description_t, test_description_substring, string_t, file_t, bin_t, &
+  use sourcery_m, only : test_t, test_result_t, test_description_t, test_description_substring, string_t, bin_t, &
     vector_test_description_t, vector_function_strategy_t
 #ifdef __GFORTRAN__
   use sourcery_m, only : test_function_i
@@ -65,7 +65,7 @@ contains
   end function
 
   function results() result(test_results)
-    type(test_result_t), allocatable :: test_results(:), scalar_test_results(:), vector_test_results(:)
+    type(test_result_t), allocatable :: test_results(:), vector_test_results(:)
     type(test_description_t), allocatable :: scalar_test_descriptions(:)
     type(vector_test_description_t), allocatable :: vector_test_descriptions(:)
     type(xor_gate_test_function_t) xor_gate_test_function
@@ -114,43 +114,42 @@ contains
         ,string_t("learning to map (false,false)->false with 2 hidden layers trained on symmetric OR-gate data & random weights") &
         ], or_gate_test_function), &
       vector_test_description_t( &
-        [string_t("learning to map (true,true)->false with 2 hidden layers trained on symmetric XOR-gate data & random weights") &
-        ,string_t("learning to map (false,true)->true with 2 hidden layers trained on symmetric XOR-gate data & random weights") &
-        ,string_t("learning to map (true,false)->true with 2 hidden layers trained on symmetric XOR-gate data & random weights") &
-        ,string_t("learning to map (false,false)->false with 2 hidden layers trained on symmetric XOR-gate data & random weights") &
+      [string_t("learning (true,true)->false with 2 hidden layers trained on symmetric XOR-gate data & random weights with Adam")&
+      ,string_t("learning (false,true)->true with 2 hidden layers trained on symmetric XOR-gate data & random weights with Adam")&
+      ,string_t("learning (true,false)->true with 2 hidden layers trained on symmetric XOR-gate data & random weights with Adam")&
+      ,string_t("learning (false,false)->false with 2 hidden layers trained on symmetric XOR-gate data & random weights with Adam")&
         ], xor_gate_test_function) &
       ]
 
     associate( &
       substring_in_subject => index(subject(), test_description_substring) /= 0, &
-      substring_in_description => scalar_test_descriptions%contains_text(string_t(test_description_substring)) &
+      substring_in_description => scalar_test_descriptions%contains_text(string_t(test_description_substring)), &
+      num_vector_tests => size(vector_test_descriptions) &
     )
       scalar_test_descriptions = pack(scalar_test_descriptions, substring_in_subject .or. substring_in_description)
-    end associate
 
       block
         integer i
 
-      associate(num_vector_tests => size(vector_test_descriptions))
-      associate( &
-        substring_in_subject => index(subject(), test_description_substring) /= 0 &
-       ,substring_in_description_vector => &
-          [(any(vector_test_descriptions(i)%contains_text(test_description_substring)), i=1,num_vector_tests)] &
-      )
+        associate( &
+          substring_in_subject => index(subject(), test_description_substring) /= 0, &
+          substring_in_description_vector => &
+            [(any(vector_test_descriptions(i)%contains_text(test_description_substring)), i=1,num_vector_tests)] &
+        )
           if (substring_in_subject) then
             vector_test_results = [(vector_test_descriptions(i)%run(), i=1,num_vector_tests)]
           else if (any(substring_in_description_vector)) then
-            vector_test_descriptions = pack(vector_test_descriptions, substring_in_description_vector)
-            vector_test_results =  [(vector_test_descriptions(i)%run(), i=1,size(vector_test_descriptions))]
-            vector_test_results =  &
-              pack(vector_test_results, vector_test_results%description_contains(string_t(test_description_substring)))
+              vector_test_descriptions = pack(vector_test_descriptions, substring_in_description_vector)
+              vector_test_results =  [(vector_test_descriptions(i)%run(), i=1,size(vector_test_descriptions))]
+              vector_test_results =  &
+                pack(vector_test_results, vector_test_results%description_contains(string_t(test_description_substring)))
            else
             vector_test_results = [test_result_t::]
           end if
-      end associate
-      test_results = [scalar_test_descriptions%run(), vector_test_results]
-      end associate
+          test_results = [scalar_test_descriptions%run(), vector_test_results]
+        end associate
       end block
+    end associate
 
   end function
 
@@ -300,8 +299,8 @@ contains
   function or_gate_with_random_weights() result(test_passes)
     logical, allocatable :: test_passes(:)
     type(mini_batch_t), allocatable :: mini_batches(:)
-    type(tensor_t), allocatable :: training_inputs(:,:), tmp(:), test_inputs(:), actual_outputs(:)
-    type(tensor_t), allocatable :: training_outputs(:,:), expected_test_outputs(:), tmp2(:)
+    type(tensor_t), allocatable :: training_inputs(:,:), test_inputs(:), actual_outputs(:)
+    type(tensor_t), allocatable :: training_outputs(:,:), expected_test_outputs(:)
     type(trainable_engine_t) trainable_engine
     real(rkind), parameter :: tolerance = 1.E-02_rkind
     real(rkind), allocatable :: harvest(:,:,:)
@@ -378,7 +377,7 @@ contains
 
     trainable_engine = two_random_hidden_layers()
 
-    call trainable_engine%train(mini_batches, adam=.false., learning_rate=1.5)
+    call trainable_engine%train(mini_batches, adam=.true., learning_rate=1.5)
 
     test_inputs = [tensor_t([true,true]), tensor_t([false,true]), tensor_t([true,false]), tensor_t([false,false])]
     block
