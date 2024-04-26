@@ -4,9 +4,11 @@ module hyperparameters_test_m
   !! Test hyperparameters_t object I/O and construction
 
   ! External dependencies
-  use assert_m, only : assert
-  use sourcery_m, only : string_t, test_t, test_result_t, file_t
   use inference_engine_m, only : hyperparameters_t
+  use sourcery_m, only : test_t, test_result_t, test_description_t, test_description_substring, string_t
+#ifdef __GFORTRAN__
+  use sourcery_m, only : test_function_i
+#endif
 
   ! Internal dependencies
   use hyperparameters_m, only : hyperparameters_t
@@ -30,24 +32,32 @@ contains
   end function
 
   function results() result(test_results)
+    type(test_description_t), allocatable :: test_descriptions(:)
     type(test_result_t), allocatable :: test_results(:)
 
-    character(len=*), parameter :: longest_description = &
-          "component-wise construction followed by conversion to and from JSON"
+#ifndef __GFORTRAN__
+    test_descriptions = [ & 
+      test_description_t( &
+        string_t("component-wise construction followed by conversion to and from JSON"), &
+        write_then_read_hyperparameters) &
+    ]
+#else
+    procedure(test_function_i), pointer :: check_write_then_read_ptr
+    check_write_then_read_ptr => write_then_read_hyperparameters
 
+    test_descriptions = [ &
+      test_description_t( &
+        string_t("component-wise construction followed by conversion to and from JSON"), &
+        check_write_then_read_ptr) &
+    ]
+#endif
     associate( &
-      descriptions => &
-        [ character(len=len(longest_description)) :: &
-          "component-wise construction followed by conversion to and from JSON" &
-        ], &
-      outcomes => &
-        [ write_then_read_hyperparameters() & 
-        ] & 
+      substring_in_subject => index(subject(), test_description_substring) /= 0, &
+      substring_in_description => test_descriptions%contains_text(string_t(test_description_substring)) &
     )
-      call assert(size(descriptions) == size(outcomes),"hyperparameters_test_m(results): size(descriptions) == size(outcomes)")
-      test_results = test_result_t(descriptions, outcomes)
+      test_descriptions = pack(test_descriptions, substring_in_subject .or. substring_in_description)
     end associate
-       
+    test_results = test_descriptions%run()
   end function
 
   function write_then_read_hyperparameters() result(test_passes)

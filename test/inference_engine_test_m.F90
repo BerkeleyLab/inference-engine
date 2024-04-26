@@ -6,7 +6,10 @@ module inference_engine_test_m
   ! External dependencies
   use assert_m, only : assert
   use kind_parameters_m, only : rkind
-  use sourcery_m, only : string_t, test_t, test_result_t, file_t
+  use sourcery_m, only : test_t, test_result_t, test_description_t, test_description_substring, string_t, file_t
+#ifdef __GFORTRAN__
+  use sourcery_m, only : test_function_i
+#endif
 
   ! Internal dependencies
   use inference_engine_m, only : inference_engine_t, tensor_t, difference_t
@@ -31,25 +34,33 @@ contains
 
   function results() result(test_results)
     type(test_result_t), allocatable :: test_results(:)
+    type(test_description_t), allocatable :: test_descriptions(:)
 
-    character(len=*), parameter :: longest_description = &
-          "converting a network with 2 hidden layers to and from JSON format"
+#ifndef __GFORTRAN__
+    test_descriptions = [ &
+      test_description_t("performing elemental inference with 1 hidden layer", elemental_infer_with_1_hidden_layer_xor_net), &
+      test_description_t("performing elemental inference with 2 hidden layers", elemental_infer_with_2_hidden_layer_xor_net), &
+      test_description_t("converting a network with 2 hidden layers to and from JSON format", multi_hidden_layer_net_to_from_json) &
+    ]
+#else
+    procedure(test_function_i), pointer :: elemental_infer_1_ptr, elemental_infer_2_ptr, multi_hidden_ptr
+    elemental_infer_1_ptr => elemental_infer_with_1_hidden_layer_xor_net
+    elemental_infer_2_ptr => elemental_infer_with_2_hidden_layer_xor_net
+    multi_hidden_ptr => multi_hidden_layer_net_to_from_json
 
+    test_descriptions = [ &
+      test_description_t("performing elemental inference with 1 hidden layer", elemental_infer_1_ptr), &
+      test_description_t("performing elemental inference with 2 hidden layers", elemental_infer_2_ptr), &
+      test_description_t("converting a network with 2 hidden layers to and from JSON format", multi_hidden_ptr) &
+    ]
+#endif
     associate( &
-      descriptions => &
-        [ character(len=len(longest_description)) :: &
-          "performing elemental inference with 1 hidden layer", &
-          "performing elemental inference with 2 hidden layers", &
-          "converting a network with 2 hidden layers to and from JSON format"  &
-        ], &
-      outcomes => &
-        [ elemental_infer_with_1_hidden_layer_xor_net(), elemental_infer_with_2_hidden_layer_xor_net(), &
-          multi_hidden_layer_net_to_from_json() &
-        ] &
+      substring_in_subject => index(subject(), test_description_substring) /= 0, &
+      substring_in_description => test_descriptions%contains_text(string_t(test_description_substring)) &
     )
-      call assert(size(descriptions) == size(outcomes), "inference_engine_test(results): size(descriptions) == size(outcomes)")
-      test_results = test_result_t(descriptions, outcomes)
+      test_descriptions = pack(test_descriptions, substring_in_subject .or. substring_in_description)
     end associate
+    test_results = test_descriptions%run()
   end function
 
   function single_hidden_layer_xor_network() result(inference_engine)
@@ -98,7 +109,7 @@ contains
   end function
 
   function multi_hidden_layer_net_to_from_json() result(test_passes)
-    logical, allocatable :: test_passes
+    logical test_passes
     type(inference_engine_t) inference_engine, from_json
     type(file_t) json_file
     type(difference_t) difference
@@ -112,7 +123,7 @@ contains
   end function
 
   function elemental_infer_with_1_hidden_layer_xor_net() result(test_passes)
-    logical, allocatable :: test_passes(:)
+    logical test_passes
     type(inference_engine_t) inference_engine
 
     inference_engine = single_hidden_layer_xor_network()
@@ -125,15 +136,15 @@ contains
       associate(array_of_inputs => [tensor_t([true,true]), tensor_t([true,false]), tensor_t([false,true]), tensor_t([false,false])])
         truth_table = inference_engine%infer(array_of_inputs)
       end associate
-      test_passes = [ &
+      test_passes = all( &
         abs(truth_table(1)%values() - false) < tolerance .and. abs(truth_table(2)%values() - true) < tolerance .and. &
         abs(truth_table(3)%values() - true) < tolerance .and. abs(truth_table(4)%values() - false) < tolerance &
-      ]
+      )
     end block
   end function
 
   function elemental_infer_with_2_hidden_layer_xor_net() result(test_passes)
-    logical, allocatable :: test_passes(:)
+    logical test_passes
     type(inference_engine_t) inference_engine
 
     inference_engine = multi_layer_xor_network()
@@ -146,10 +157,10 @@ contains
       associate(array_of_inputs => [tensor_t([true,true]), tensor_t([true,false]), tensor_t([false,true]), tensor_t([false,false])])
         truth_table = inference_engine%infer(array_of_inputs)
       end associate
-      test_passes = [ &
+      test_passes = all( &
         abs(truth_table(1)%values() - false) < tolerance .and. abs(truth_table(2)%values() - true) < tolerance .and. &
         abs(truth_table(3)%values() - true) < tolerance .and. abs(truth_table(4)%values() - false) < tolerance &
-      ]
+      )
     end block
   end function
 

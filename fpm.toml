@@ -1,9 +1,9 @@
 name = "inference-engine"
-version = "0.11.0"
+version = "0.11.1"
 license = "see LICENSE.txt"
 author = "Damian Rouson, Tan Nguyen, Jordan Welsman, David Torres, Brad Richardson, Katherine Rasmussen, Federica Villani"
 maintainer = "rouson@lbl.gov"
 
 [dependencies]
 assert = {git = "https://github.com/sourceryinstitute/assert", tag = "1.6.0"}
-sourcery = {git = "https://github.com/sourceryinstitute/sourcery", tag = "4.6.1"}
+sourcery = {git = "https://github.com/sourceryinstitute/sourcery", tag = "4.8.0"}

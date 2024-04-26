@@ -5,7 +5,8 @@ module asymmetric_engine_test_m
 
   ! External dependencies
   use assert_m, only : assert
-  use sourcery_m, only : string_t, test_t, test_result_t
+  use sourcery_m, only : &
+    test_t, test_result_t, vector_test_description_t, test_description_substring, string_t, vector_function_strategy_t
 
   ! Internal dependencies
   use inference_engine_m, only : inference_engine_t, tensor_t
@@ -22,6 +23,11 @@ module asymmetric_engine_test_m
     procedure, nopass :: results
   end type
 
+  type, extends(vector_function_strategy_t) :: xor_and_2nd_input_t
+  contains
+    procedure, nopass :: vector_function => xor_and_2nd_input_truth_table 
+  end type
+
 contains
 
   pure function subject() result(specimen)
@@ -31,34 +37,28 @@ contains
 
   function results() result(test_results)
     type(test_result_t), allocatable :: test_results(:)
+    type(xor_and_2nd_input_t) xor_and_2nd_input
 
-    character(len=*), parameter :: longest_description = &
-          "mapping (false,false) to false"
-#ifdef _CRAYFTN
-    character(len=len(longest_description)), allocatable :: descriptions(:)
-    logical, allocatable :: outcomes(:)
-    descriptions = [ "mapping (true,true) to false", "mapping (true,false) to false", &
-                     "mapping (false,true) to true", "mapping (false,false) to false" ]
-    outcomes = xor_and_2nd_input_truth_table()
-#else
-    associate( &
-      descriptions => &
-        [ character(len=len(longest_description)) :: &
-          "mapping (true,true) to false", &
-          "mapping (true,false) to false", &
-          "mapping (false,true) to true", &
-          "mapping (false,false) to false" &
-        ], &
-      outcomes => &
-        [ xor_and_2nd_input_truth_table() & 
-        ] & 
+    associate( vector_test_description => vector_test_description_t( &
+      [ string_t("mapping (true,true) to false"), & 
+        string_t("mapping (true,false) to false"), &
+        string_t("mapping (false,true) to true"), &
+        string_t("mapping (false,false) to false") &
+      ], xor_and_2nd_input) &
     )
-#endif
-      call assert(size(descriptions) == size(outcomes),"asymetric_engine_test_m(results): size(descriptions) == size(outcomes)")
-      test_results = test_result_t(descriptions, outcomes)
-#ifndef _CRAYFTN
+      associate(substring_in_subject => index(subject(), test_description_substring) /= 0)
+        associate(substring_in_description => vector_test_description%contains_text(test_description_substring))
+          if (substring_in_subject) then
+            test_results = vector_test_description%run()
+          else if (any(substring_in_description)) then
+            test_results = vector_test_description%run()
+            test_results = pack(test_results, test_results%description_contains(string_t(test_description_substring)))
+           else
+            test_results = [test_result_t::]
+          end if
+        end associate
+      end associate
     end associate
-#endif
   end function
 
   function xor_and_2nd_input_network() result(inference_engine)
