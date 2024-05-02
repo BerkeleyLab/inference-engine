@@ -127,13 +127,13 @@
         <div class="list-group list-group-flush">
             <a class="list-group-item" href="../module/training_configuration_m.html#interface-training_configuration_t">training_configuration_t</a>
             <a class="list-group-item" href="../module/training_configuration_m.html#interface-differentiable_activation_strategy">differentiable_activation_strategy</a>
-            <a class="list-group-item" href="../module/training_configuration_m.html#interface-equals~2">equals</a>
-            <a class="list-group-item" href="../module/training_configuration_m.html#interface-learning_rate">learning_rate</a>
-            <a class="list-group-item" href="../module/training_configuration_m.html#interface-mini_batches">mini_batches</a>
+            <a class="list-group-item" href="../module/training_configuration_m.html#interface-equals~4">equals</a>
+            <a class="list-group-item" href="../module/training_configuration_m.html#interface-learning_rate~2">learning_rate</a>
+            <a class="list-group-item" href="../module/training_configuration_m.html#interface-mini_batches~2">mini_batches</a>
             <a class="list-group-item" href="../module/training_configuration_m.html#interface-nodes_per_layer~3">nodes_per_layer</a>
-            <a class="list-group-item" href="../module/training_configuration_m.html#interface-optimizer_name">optimizer_name</a>
+            <a class="list-group-item" href="../module/training_configuration_m.html#interface-optimizer_name~2">optimizer_name</a>
             <a class="list-group-item" href="../module/training_configuration_m.html#interface-skip_connections~2">skip_connections</a>
-            <a class="list-group-item" href="../module/training_configuration_m.html#interface-to_json~3">to_json</a>
+            <a class="list-group-item" href="../module/training_configuration_m.html#interface-to_json~5">to_json</a>
         </div>
       </div>
     </div>
@@ -175,11 +175,11 @@
             <li class="list-group-item">
               <ul class="list-inline">
                   <li class="list-inline-item">sourcery_string_m</li>
-                  <li class="list-inline-item">sourcery_file_m</li>
-                  <li class="list-inline-item"><a href='network_configuration_m.html'>network_configuration_m</a></li>
                   <li class="list-inline-item"><a href='kind_parameters_m.html'>kind_parameters_m</a></li>
                   <li class="list-inline-item"><a href='differentiable_activation_strategy_m.html'>differentiable_activation_strategy_m</a></li>
+                  <li class="list-inline-item"><a href='network_configuration_m.html'>network_configuration_m</a></li>
                   <li class="list-inline-item"><a href='hyperparameters_m.html'>hyperparameters_m</a></li>
+                  <li class="list-inline-item">sourcery_file_m</li>
               </ul>
             </li>
             <li class="list-group-item">
@@ -907,7 +907,7 @@ large graphs.</div>
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-hyperparameters"></span>
+              <span class="anchor" id="variable-hyperparameters~3"></span>
               type(<a href='../type/hyperparameters_t.html'>hyperparameters_t</a>),
             </td>
 <td>intent(in)</td>
@@ -1020,7 +1020,7 @@ large graphs.</div>
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-self~34"></span>
+              <span class="anchor" id="variable-self~61"></span>
               class(<a href='../type/training_configuration_t.html'>training_configuration_t</a>),
             </td>
 <td>intent(in)</td>
@@ -1048,7 +1048,7 @@ large graphs.</div>
 
               <div class="card">
     <div class="card-header bg-light codesum">
-      <span class="anchor" id="interface-equals~2"></span>
+      <span class="anchor" id="interface-equals~4"></span>
       <h3>        interface
       </h3>
     </div>
@@ -1074,7 +1074,7 @@ large graphs.</div>
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-lhs~2"></span>
+              <span class="anchor" id="variable-lhs~5"></span>
               class(<a href='../type/training_configuration_t.html'>training_configuration_t</a>),
             </td>
 <td>intent(in)</td>
@@ -1089,7 +1089,7 @@ large graphs.</div>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-rhs~3"></span>
+              <span class="anchor" id="variable-rhs~6"></span>
               class(<a href='../type/training_configuration_t.html'>training_configuration_t</a>),
             </td>
 <td>intent(in)</td>
@@ -1117,7 +1117,7 @@ large graphs.</div>
 
               <div class="card">
     <div class="card-header bg-light codesum">
-      <span class="anchor" id="interface-learning_rate"></span>
+      <span class="anchor" id="interface-learning_rate~2"></span>
       <h3>        interface
       </h3>
     </div>
@@ -1125,7 +1125,7 @@ large graphs.</div>
         <li class="list-group-item">
               <h3>
     private elemental module function learning_rate(self) result(rate)  
-    <a href="../proc/learning_rate~2.html"><button type="button" class="btn btn-info depwarn">Implementation &rarr;</button></a>
+    <a href="../proc/learning_rate.html"><button type="button" class="btn btn-info depwarn">Implementation &rarr;</button></a>
 
     </h3>
   
@@ -1143,7 +1143,7 @@ large graphs.</div>
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-self~33"></span>
+              <span class="anchor" id="variable-self~60"></span>
               class(<a href='../type/training_configuration_t.html'>training_configuration_t</a>),
             </td>
 <td>intent(in)</td>
@@ -1171,7 +1171,7 @@ large graphs.</div>
 
               <div class="card">
     <div class="card-header bg-light codesum">
-      <span class="anchor" id="interface-mini_batches"></span>
+      <span class="anchor" id="interface-mini_batches~2"></span>
       <h3>        interface
       </h3>
     </div>
@@ -1179,7 +1179,7 @@ large graphs.</div>
         <li class="list-group-item">
               <h3>
     private elemental module function mini_batches(self) result(num_mini_batches)  
-    <a href="../proc/mini_batches~2.html"><button type="button" class="btn btn-info depwarn">Implementation &rarr;</button></a>
+    <a href="../proc/mini_batches.html"><button type="button" class="btn btn-info depwarn">Implementation &rarr;</button></a>
 
     </h3>
   
@@ -1197,7 +1197,7 @@ large graphs.</div>
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-self~31"></span>
+              <span class="anchor" id="variable-self~58"></span>
               class(<a href='../type/training_configuration_t.html'>training_configuration_t</a>),
             </td>
 <td>intent(in)</td>
@@ -1251,7 +1251,7 @@ large graphs.</div>
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-self~35"></span>
+              <span class="anchor" id="variable-self~62"></span>
               class(<a href='../type/training_configuration_t.html'>training_configuration_t</a>),
             </td>
 <td>intent(in)</td>
@@ -1279,7 +1279,7 @@ large graphs.</div>
 
               <div class="card">
     <div class="card-header bg-light codesum">
-      <span class="anchor" id="interface-optimizer_name"></span>
+      <span class="anchor" id="interface-optimizer_name~2"></span>
       <h3>        interface
       </h3>
     </div>
@@ -1287,7 +1287,7 @@ large graphs.</div>
         <li class="list-group-item">
               <h3>
     private elemental module function optimizer_name(self) result(identifier)  
-    <a href="../proc/optimizer_name~2.html"><button type="button" class="btn btn-info depwarn">Implementation &rarr;</button></a>
+    <a href="../proc/optimizer_name.html"><button type="button" class="btn btn-info depwarn">Implementation &rarr;</button></a>
 
     </h3>
   
@@ -1305,7 +1305,7 @@ large graphs.</div>
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-self~32"></span>
+              <span class="anchor" id="variable-self~59"></span>
               class(<a href='../type/training_configuration_t.html'>training_configuration_t</a>),
             </td>
 <td>intent(in)</td>
@@ -1359,7 +1359,7 @@ large graphs.</div>
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-self~36"></span>
+              <span class="anchor" id="variable-self~63"></span>
               class(<a href='../type/training_configuration_t.html'>training_configuration_t</a>),
             </td>
 <td>intent(in)</td>
@@ -1387,7 +1387,7 @@ large graphs.</div>
 
               <div class="card">
     <div class="card-header bg-light codesum">
-      <span class="anchor" id="interface-to_json~3"></span>
+      <span class="anchor" id="interface-to_json~5"></span>
       <h3>        interface
       </h3>
     </div>
@@ -1413,7 +1413,7 @@ large graphs.</div>
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-self~30"></span>
+              <span class="anchor" id="variable-self~57"></span>
               class(<a href='../type/training_configuration_t.html'>training_configuration_t</a>),
             </td>
 <td>intent(in)</td>
@@ -1546,32 +1546,32 @@ large graphs.</div>
               </tr>
               <tr>
                 <td>  procedure, public ::
-  <strong><a href='../type/training_configuration_t.html#boundprocedure-equals~2'>equals</a></strong></td>
+  <strong><a href='../type/training_configuration_t.html#boundprocedure-equals~5'>equals</a></strong></td>
                 <td></td>
               </tr>
               <tr>
                 <td>  procedure, public ::
-  <strong><a href='../type/training_configuration_t.html#boundprocedure-learning_rate~2'>learning_rate</a></strong></td>
+  <strong><a href='../type/training_configuration_t.html#boundprocedure-learning_rate~4'>learning_rate</a></strong></td>
                 <td></td>
               </tr>
               <tr>
                 <td>  procedure, public ::
-  <strong><a href='../type/training_configuration_t.html#boundprocedure-mini_batches'>mini_batches</a></strong></td>
+  <strong><a href='../type/training_configuration_t.html#boundprocedure-mini_batches~3'>mini_batches</a></strong></td>
                 <td></td>
               </tr>
               <tr>
                 <td>  procedure, public ::
-  <strong><a href='../type/training_configuration_t.html#boundprocedure-nodes_per_layer~4'>nodes_per_layer</a></strong></td>
+  <strong><a href='../type/training_configuration_t.html#boundprocedure-nodes_per_layer~6'>nodes_per_layer</a></strong></td>
                 <td></td>
               </tr>
               <tr>
                 <td>  generic, public ::
-  <strong><a href='../type/training_configuration_t.html#boundprocedure-operator%28%3D%3D%29~2'>operator(==)</a></strong> => <a href='/home/runner/work/inference-engine/inference-engine/doc/html/type/training_configuration_t.html#boundprocedure-equals~2'>equals</a></td>
+  <strong><a href='../type/training_configuration_t.html#boundprocedure-operator%28%3D%3D%29~5'>operator(==)</a></strong> => <a href='/home/runner/work/inference-engine/inference-engine/doc/html/type/training_configuration_t.html#boundprocedure-equals~5'>equals</a></td>
                 <td></td>
               </tr>
               <tr>
                 <td>  procedure, public ::
-  <strong><a href='../type/training_configuration_t.html#boundprocedure-optimizer_name'>optimizer_name</a></strong></td>
+  <strong><a href='../type/training_configuration_t.html#boundprocedure-optimizer_name~2'>optimizer_name</a></strong></td>
                 <td></td>
               </tr>
               <tr>
@@ -1581,7 +1581,7 @@ large graphs.</div>
               </tr>
               <tr>
                 <td>  procedure, public ::
-  <strong><a href='../type/training_configuration_t.html#boundprocedure-to_json~3'>to_json</a></strong></td>
+  <strong><a href='../type/training_configuration_t.html#boundprocedure-to_json~5'>to_json</a></strong></td>
                 <td></td>
               </tr>
           </tbody>
@@ -1614,7 +1614,7 @@ large graphs.</div>
             <p class="text-end">
               Documentation generated by
               <a href="https://github.com/Fortran-FOSS-Programmers/ford">FORD</a>
- on 2024-05-02 20:51              </p>
+ on 2024-05-02 21:10              </p>
           </div>
         </div>
         <br>
