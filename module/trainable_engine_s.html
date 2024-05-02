@@ -154,7 +154,7 @@
             <a class="list-group-item" href="../module/trainable_engine_s.html#proc-num_inputs~3">num_inputs</a>
             <a class="list-group-item" href="../module/trainable_engine_s.html#proc-num_layers">num_layers</a>
             <a class="list-group-item" href="../module/trainable_engine_s.html#proc-num_outputs~2">num_outputs</a>
-            <a class="list-group-item" href="../module/trainable_engine_s.html#proc-perturbed_identity_network~5">perturbed_identity_network</a>
+            <a class="list-group-item" href="../module/trainable_engine_s.html#proc-perturbed_identity_network~8">perturbed_identity_network</a>
             <a class="list-group-item" href="../module/trainable_engine_s.html#proc-to_inference_engine">to_inference_engine</a>
             <a class="list-group-item" href="../module/trainable_engine_s.html#proc-train">train</a>
         </div>
@@ -179,9 +179,9 @@
         <ul class="list-group list-group-flush">
             <li class="list-group-item">
               <ul class="list-inline">
-                  <li class="list-inline-item">intrinsic_array_m</li>
-                  <li class="list-inline-item">assert_m</li>
                   <li class="list-inline-item"><a href='tensor_m.html'>tensor_m</a></li>
+                  <li class="list-inline-item">assert_m</li>
+                  <li class="list-inline-item">intrinsic_array_m</li>
               </ul>
             </li>
             <li class="list-group-item">
@@ -730,7 +730,7 @@ parameter
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-self~14"></span>
+              <span class="anchor" id="variable-self~18"></span>
               class(<a href='../type/trainable_engine_t.html'>trainable_engine_t</a>),
             </td>
 <td>intent(in)</td>
@@ -770,7 +770,7 @@ parameter
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-inference_engine~5"></span>
+              <span class="anchor" id="variable-inference_engine~4"></span>
               type(<a href='../type/inference_engine_t.html'>inference_engine_t</a>),
             </td>
 <td>intent(in)</td>
@@ -815,7 +815,7 @@ parameter
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-nodes"></span>
+              <span class="anchor" id="variable-nodes~3"></span>
               integer,
             </td>
 <td>intent(in)</td>
@@ -845,7 +845,7 @@ parameter
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-biases"></span>
+              <span class="anchor" id="variable-biases~2"></span>
               real(kind=rkind),
             </td>
 <td>intent(in)</td>
@@ -932,7 +932,7 @@ parameter
 
               <div class="card">
     <div class="card-header codesum"><span class="anchor" id="proc-infer~2"></span> <h3>module procedure /home/runner/work/inference-engine/inference-engine/doc/html/module/trainable_engine_s.html <a href='../proc/infer~2.html'>infer</a> <small>elemental module function infer(self, inputs) result(outputs)</small>  
-    <a href="../interface/infer.html"><button type="button" class="btn btn-info depwarn">Interface &rarr;</button></a>
+    <a href="../interface/infer~2.html"><button type="button" class="btn btn-info depwarn">Interface &rarr;</button></a>
 </h3></div>
     <div class="card-body">
           
@@ -951,7 +951,7 @@ parameter
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-self~16"></span>
+              <span class="anchor" id="variable-self~20"></span>
               class(<a href='../type/trainable_engine_t.html'>trainable_engine_t</a>),
             </td>
 <td>intent(in)</td>
@@ -1012,7 +1012,7 @@ parameter
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-self~22"></span>
+              <span class="anchor" id="variable-self~26"></span>
               class(<a href='../type/trainable_engine_t.html'>trainable_engine_t</a>),
             </td>
 <td>intent(in)</td>
@@ -1027,7 +1027,7 @@ parameter
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-tensor~2"></span>
+              <span class="anchor" id="variable-tensor~4"></span>
               type(<a href='../type/tensor_t.html'>tensor_t</a>),
             </td>
 <td>intent(in)</td>
@@ -1073,7 +1073,7 @@ parameter
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-self~24"></span>
+              <span class="anchor" id="variable-self~28"></span>
               class(<a href='../type/trainable_engine_t.html'>trainable_engine_t</a>),
             </td>
 <td>intent(in)</td>
@@ -1088,7 +1088,7 @@ parameter
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-tensor~4"></span>
+              <span class="anchor" id="variable-tensor~6"></span>
               type(<a href='../type/tensor_t.html'>tensor_t</a>),
             </td>
 <td>intent(in)</td>
@@ -1134,7 +1134,7 @@ parameter
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-self~21"></span>
+              <span class="anchor" id="variable-self~25"></span>
               class(<a href='../type/trainable_engine_t.html'>trainable_engine_t</a>),
             </td>
 <td>intent(in)</td>
@@ -1149,7 +1149,7 @@ parameter
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-tensor"></span>
+              <span class="anchor" id="variable-tensor~3"></span>
               type(<a href='../type/tensor_t.html'>tensor_t</a>),
             </td>
 <td>intent(in)</td>
@@ -1195,7 +1195,7 @@ parameter
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-self~23"></span>
+              <span class="anchor" id="variable-self~27"></span>
               class(<a href='../type/trainable_engine_t.html'>trainable_engine_t</a>),
             </td>
 <td>intent(in)</td>
@@ -1210,7 +1210,7 @@ parameter
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-tensor~3"></span>
+              <span class="anchor" id="variable-tensor~5"></span>
               type(<a href='../type/tensor_t.html'>tensor_t</a>),
             </td>
 <td>intent(in)</td>
@@ -1256,7 +1256,7 @@ parameter
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-self~17"></span>
+              <span class="anchor" id="variable-self~21"></span>
               class(<a href='../type/trainable_engine_t.html'>trainable_engine_t</a>),
             </td>
 <td>intent(in)</td>
@@ -1302,7 +1302,7 @@ parameter
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-self~19"></span>
+              <span class="anchor" id="variable-self~23"></span>
               class(<a href='../type/trainable_engine_t.html'>trainable_engine_t</a>),
             </td>
 <td>intent(in)</td>
@@ -1329,7 +1329,7 @@ parameter
 
               <div class="card">
     <div class="card-header codesum"><span class="anchor" id="proc-num_outputs~2"></span> <h3>module procedure /home/runner/work/inference-engine/inference-engine/doc/html/module/trainable_engine_s.html <a href='../proc/num_outputs~2.html'>num_outputs</a> <small>elemental module function num_outputs(self) result(n_out)</small>  
-    <a href="../interface/num_outputs.html"><button type="button" class="btn btn-info depwarn">Interface &rarr;</button></a>
+    <a href="../interface/num_outputs~2.html"><button type="button" class="btn btn-info depwarn">Interface &rarr;</button></a>
 </h3></div>
     <div class="card-body">
           
@@ -1348,7 +1348,7 @@ parameter
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-self~18"></span>
+              <span class="anchor" id="variable-self~22"></span>
               class(<a href='../type/trainable_engine_t.html'>trainable_engine_t</a>),
             </td>
 <td>intent(in)</td>
@@ -1374,7 +1374,7 @@ parameter
   </div>
 
               <div class="card">
-    <div class="card-header codesum"><span class="anchor" id="proc-perturbed_identity_network~5"></span> <h3>module procedure /home/runner/work/inference-engine/inference-engine/doc/html/module/trainable_engine_s.html <a href='../proc/perturbed_identity_network~5.html'>perturbed_identity_network</a> <small>module function perturbed_identity_network(training_configuration, perturbation_magnitude, metadata, input_range, output_range) result(trainable_engine)</small>  
+    <div class="card-header codesum"><span class="anchor" id="proc-perturbed_identity_network~8"></span> <h3>module procedure /home/runner/work/inference-engine/inference-engine/doc/html/module/trainable_engine_s.html <a href='../proc/perturbed_identity_network~8.html'>perturbed_identity_network</a> <small>module function perturbed_identity_network(training_configuration, perturbation_magnitude, metadata, input_range, output_range) result(trainable_engine)</small>  
 </h3></div>
     <div class="card-body">
           
@@ -1408,7 +1408,7 @@ parameter
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-perturbation_magnitude~2"></span>
+              <span class="anchor" id="variable-perturbation_magnitude"></span>
               real(kind=rkind),
             </td>
 <td>intent(in)</td>
@@ -1499,7 +1499,7 @@ parameter
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-self~20"></span>
+              <span class="anchor" id="variable-self~24"></span>
               class(<a href='../type/trainable_engine_t.html'>trainable_engine_t</a>),
             </td>
 <td>intent(in)</td>
@@ -1545,7 +1545,7 @@ parameter
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-self~15"></span>
+              <span class="anchor" id="variable-self~19"></span>
               class(<a href='../type/trainable_engine_t.html'>trainable_engine_t</a>),
             </td>
 <td>intent(inout)</td>
@@ -1605,7 +1605,7 @@ parameter
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-learning_rate~3"></span>
+              <span class="anchor" id="variable-learning_rate"></span>
               real(kind=rkind),
             </td>
 <td>intent(in)</td>
@@ -1644,7 +1644,7 @@ parameter
             <p class="text-end">
               Documentation generated by
               <a href="https://github.com/Fortran-FOSS-Programmers/ford">FORD</a>
- on 2024-05-02 20:25              </p>
+ on 2024-05-02 20:51              </p>
           </div>
         </div>
         <br>
