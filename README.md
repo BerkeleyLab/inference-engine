@@ -81,6 +81,12 @@ run the tests,  please execute the following command
 fpm test --compiler ifx --flag "-coarray -coarray-num-images=1"
 ```
 
+#### _Experimental:_ Automatic offloading of `do concurrent` to GPUs
+This capability is under development with the goal to facilitate GPU automatic offloading via the following command:
+```
+fpm test --compiler ifx --flag "-coarray -coarray-num-images=1 -fopenmp-target-do-concurrent -qopenmp -fopenmp-targets=spir64"
+```
+
 ### NAG (`nagfor`) -- under development
 As of this writing, `nagfor` compiles all of Inference-Engine and passes only tests that involve neither inference nor training.
 We are working with NAG on supporting inference and training with `nagfor`.
