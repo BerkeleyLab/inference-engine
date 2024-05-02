@@ -20,7 +20,7 @@ jobs:
 
     - name: Install Dependencies MacOS
       run: |
-        brew install gcc@${GCC_V} gcc@9
+        brew install gcc@${GCC_V}
         sudo ln -s $(which gfortran-${GCC_V}) $(dirname $(which gfortran-${GCC_V}))/gfortran
 
     - name: Build and Test
