@@ -16,7 +16,6 @@ module inference_engine_m
  use swish_m, only : swish_t
  use tensor_m, only : tensor_t
  use tensor_range_m, only : tensor_range_t
- use trainable_engine_m, only : trainable_engine_t
  use training_configuration_m, only : training_configuration_t
  use ubounds_m, only : ubounds_t
  implicit none
