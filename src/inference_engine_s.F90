@@ -1,14 +1,9 @@
 ! Copyright (c), The Regents of the University of California
 ! Terms of use are as specified in LICENSE.txt
 submodule(inference_engine_m_) inference_engine_s
-  use assert_m, only : assert, intrinsic_array_t
   use step_m, only : step_t
   use sourcery_formats_m, only : separated_values
   implicit none
-
-  interface assert_consistency
-    procedure inference_engine_consistency
-  end interface
 
 contains
 
@@ -25,8 +20,6 @@ contains
     real(rkind), allocatable :: a(:,:)
     integer, parameter :: input_layer = 0
     integer k, l
-
-    call assert_consistency(self)
 
     associate(w => self%weights_, b => self%biases_, n => self%nodes_, output_layer => ubound(self%nodes_,1))
 
@@ -69,31 +62,6 @@ contains
 
   end procedure
 
-  pure subroutine inference_engine_consistency(self)
-
-    type(inference_engine_t), intent(in) :: self
-
-    integer, parameter :: input_layer=0
-
-    associate( &
-      all_allocated=>[allocated(self%weights_),allocated(self%biases_),allocated(self%nodes_),allocated(self%activation_strategy_)]&
-    )   
-      call assert(all(all_allocated),"inference_engine_s(inference_engine_consistency): fully_allocated", &
-        intrinsic_array_t(all_allocated))
-    end associate
-
-    associate(max_width=>maxval(self%nodes_), component_dims=>[size(self%biases_,1), size(self%weights_,1), size(self%weights_,2)])
-      call assert(all(component_dims == max_width), "inference_engine_s(inference_engine_consistency): conformable arrays", &
-        intrinsic_array_t([max_width,component_dims]))
-    end associate
-
-    associate(input_subscript => lbound(self%nodes_,1))
-      call assert(input_subscript == input_layer, "inference_engine_s(inference_engine_consistency): n base subsscript", &
-        input_subscript)
-    end associate
-
-  end subroutine
-
   module procedure construct_from_padded_arrays
 
     inference_engine%metadata_ = metadata
@@ -126,48 +94,11 @@ contains
     end block
 
     inference_engine%activation_strategy_ = step_t()
-    call assert_consistency(inference_engine)
 
   end procedure construct_from_padded_arrays
 
-  module procedure assert_conformable_with
-
-    call assert_consistency(self)
-    call assert_consistency(inference_engine)
-
-    associate(equal_shapes => [ &
-      shape(self%weights_) == shape(inference_engine%weights_), &
-      shape(self%biases_) == shape(inference_engine%biases_), &
-      shape(self%nodes_) == shape(inference_engine%nodes_)  &
-     ])
-      call assert(all(equal_shapes), "assert_conformable_with: all(equal_shapes)", intrinsic_array_t(equal_shapes))
-    end associate
-
-    call assert(same_type_as(self%activation_strategy_, inference_engine%activation_strategy_), "assert_conformable_with: types)")
-    
-  end procedure
-
-  module procedure num_outputs
-    call assert_consistency(self)
-    output_count = self%nodes_(ubound(self%nodes_,1))
-  end procedure
-
   module procedure num_inputs
-    call assert_consistency(self)
     input_count = self%nodes_(lbound(self%nodes_,1))
-  end procedure
-
-  module procedure nodes_per_layer
-    call assert_consistency(self)
-    node_count = self%nodes_
-  end procedure
-
-  module procedure skip
-    use_skip_connections = self%metadata_(findloc(key, "usingSkipConnections", dim=1))%string() == "true"
-  end procedure
-
-  module procedure activation_function_name
-    activation_name = self%metadata_(findloc(key, "activationFunction", dim=1))
   end procedure
 
 end submodule inference_engine_s

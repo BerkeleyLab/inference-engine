@@ -26,14 +26,7 @@ module inference_engine_m_
     class(activation_strategy_t), allocatable :: activation_strategy_ ! Strategy Pattern facilitates elemental activation
   contains
     procedure :: infer
-    procedure :: map_to_input_range
-    procedure :: map_from_output_range
     procedure :: num_inputs
-    procedure :: num_outputs
-    procedure :: nodes_per_layer
-    procedure :: assert_conformable_with
-    procedure :: skip
-    procedure :: activation_function_name
   end type
 
   interface inference_engine_t
@@ -68,12 +61,6 @@ module inference_engine_m_
       type(tensor_t) tensor
     end function
 
-    elemental module subroutine assert_conformable_with(self, inference_engine)
-      implicit none
-      class(inference_engine_t), intent(in) :: self
-      type(inference_engine_t), intent(in) :: inference_engine
-    end subroutine
-
     elemental module function infer(self, inputs) result(outputs)
       implicit none
       class(inference_engine_t), intent(in) :: self
@@ -81,34 +68,10 @@ module inference_engine_m_
       type(tensor_t) outputs
     end function
 
-    elemental module function num_outputs(self) result(output_count)
-      implicit none
-      class(inference_engine_t), intent(in) :: self
-      integer output_count
-    end function
-
     elemental module function num_inputs(self) result(input_count)
       implicit none
       class(inference_engine_t), intent(in) :: self
       integer input_count
-    end function
-
-    pure module function nodes_per_layer(self) result(node_count)
-      implicit none
-      class(inference_engine_t), intent(in) :: self
-      integer, allocatable :: node_count(:)
-    end function
-
-    elemental module function activation_function_name(self) result(activation_name)
-      implicit none
-      class(inference_engine_t), intent(in) :: self
-      type(string_t) activation_name
-    end function
-
-    pure module function skip(self) result(use_skip_connections)
-      implicit none
-      class(inference_engine_t), intent(in) :: self
-      logical use_skip_connections
     end function
 
   end interface
