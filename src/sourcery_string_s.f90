@@ -130,18 +130,6 @@ contains
 
   end procedure
 
-  module procedure string_t_eq_string_t
-    lhs_eq_rhs = lhs%string_ == rhs%string_
-  end procedure
-   
-  module procedure string_t_eq_character
-    lhs_eq_rhs = lhs%string_ == rhs
-  end procedure
-
-  module procedure character_eq_string_t
-    lhs_eq_rhs = lhs == rhs%string_
-  end procedure
-   
   module procedure assign_string_t_to_character
     lhs = rhs%string_
   end procedure
