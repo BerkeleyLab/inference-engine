@@ -1,6 +1,8 @@
 submodule(training_configuration_m) training_configuration_s
   use assert_m, only : assert
-  use inference_engine_m, only : relu_t, sigmoid_t, swish_t
+  use sigmoid_m, only : sigmoid_t
+  use swish_m, only : swish_t
+  use relu_m, only : relu_t
   implicit none
 
   character(len=*), parameter :: header="{", footer="}", separator = ","
