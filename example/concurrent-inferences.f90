@@ -13,7 +13,7 @@ program concurrent_inferences
   inference_engine%metadata = [string_t("")]
 
   do concurrent(i=1:size(inferences))
-    inferences(i) = infer(inference_engine)           
+    inferences(i) = infer(inference_engine)
   end do
 
 contains
