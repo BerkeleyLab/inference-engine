@@ -2,7 +2,6 @@
 ! Terms of use are as specified in LICENSE.txt
 module inference_engine_m_
   !! Define an abstraction that supports inference operationsn on a neural network
-  use activation_strategy_m, only : activation_strategy_t
   use sourcery_string_m, only : string_t
   use kind_parameters_m, only : rkind
   use tensor_m, only : tensor_t
@@ -21,7 +20,6 @@ module inference_engine_m_
     type(string_t) metadata_(size(key))
     real(rkind), allocatable :: weights_(:,:,:), biases_(:,:)
     integer, allocatable :: nodes_(:)
-    class(activation_strategy_t), allocatable :: activation_strategy_ ! Strategy Pattern facilitates elemental activation
   contains
     procedure :: infer
     procedure :: num_inputs
