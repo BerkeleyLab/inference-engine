@@ -25,17 +25,9 @@ contains
 
       allocate(a(maxval(n), input_layer:output_layer))
 
-#ifndef _CRAYFTN
       associate(normalized_inputs => self%input_range_%map_to_training_range(inputs))
         a(1:n(input_layer),input_layer) = normalized_inputs%values()
       end associate
-#else
-      block
-        type(tensor_t) normalized_inputs
-        normalized_inputs = self%input_range_%map_to_training_range(inputs)
-        a(1:n(input_layer),input_layer) = normalized_inputs%values()
-      end block
-#endif
 
       feed_forward: &
       do l = input_layer+1, output_layer
@@ -44,19 +36,9 @@ contains
         end associate
       end do feed_forward
 
-#ifdef _CRAYFTN
-      block
-        type(tensor_t) :: normalized_outputs
-        normalized_outputs = tensor_t(a(1:n(output_layer), output_layer))
-#else
       associate(normalized_outputs => tensor_t(a(1:n(output_layer), output_layer)))
-#endif
         outputs = self%output_range_%map_from_training_range(normalized_outputs)
-#ifdef _CRAYFTN
-      end block
-#else
       end associate
-#endif
 
     end associate
 
