@@ -3,11 +3,11 @@ program concurrent_inferences
   implicit none
 
   type tensor_t
-    real, allocatable :: values(:)
+    real t
   end type
 
   type inference_engine_t
-    type(string_t), allocatable :: metadata_(:)
+    type(string_t), allocatable :: metadata(:)
   end type
 
   type(tensor_t) outputs(1)
@@ -15,14 +15,15 @@ program concurrent_inferences
   integer i
 
   inference_engine = inference_engine_t([string_t(""), string_t("")])
+
   do concurrent(i=1:size(outputs))
-    outputs(i)%values = infer(inference_engine)           
+    outputs(i)%t = infer(inference_engine)           
   end do
 
 contains
   pure function infer(self) 
     type(inference_engine_t), intent(in) :: self
-    real infer(1)
-    infer = [0.]
+    real infer
+    infer = 0.
   end function
 end program
