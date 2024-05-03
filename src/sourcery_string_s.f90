@@ -142,18 +142,6 @@ contains
     lhs_eq_rhs = lhs == rhs%string_
   end procedure
    
-  module procedure string_t_ne_string_t
-    lhs_ne_rhs = lhs%string_ /= rhs%string_
-  end procedure
-   
-  module procedure string_t_ne_character
-    lhs_ne_rhs = lhs%string_ /= rhs
-  end procedure
-
-  module procedure character_ne_string_t
-    lhs_ne_rhs = lhs /= rhs%string_
-  end procedure
-   
   module procedure assign_string_t_to_character
     lhs = rhs%string_
   end procedure
