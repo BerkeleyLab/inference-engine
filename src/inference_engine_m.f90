@@ -4,16 +4,16 @@ module string_m
   type string_t
     character(len=:), allocatable :: string
   contains
-    generic :: array => real_array
-    procedure real_array
+    generic :: generic_value => real_value
+    procedure real_value
   end type
 
 contains
 
-  function real_array(self)
+  function real_value(self)
     class(string_t), intent(in) :: self
-    real real_array(1)
-    real_array = 0.
+    real real_value
+    real_value = 0.
   end function
 
 end module
