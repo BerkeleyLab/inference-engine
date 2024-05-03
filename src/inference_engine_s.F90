@@ -3,8 +3,6 @@
 submodule(inference_engine_m_) inference_engine_s
   use assert_m, only : assert, intrinsic_array_t
   use step_m, only : step_t
-  use layer_m, only : layer_t
-  use neuron_m, only : neuron_t
   use sourcery_formats_m, only : separated_values
   implicit none
 
