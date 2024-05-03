@@ -10,8 +10,8 @@ program concurrent_inferences
   integer i
 
   inference_engine = inference_engine_t( &
-    metadata = [string_t("XOR"), string_t("Damian Rouson"), string_t("2023-07-02"), string_t("step"), string_t("false")], &
-    nodes = nodes_per_layer &
+    metadata_ = [string_t("XOR"), string_t("Damian Rouson"), string_t("2023-07-02"), string_t("step"), string_t("false")], &
+    nodes_ = nodes_per_layer &
   )
 
   allocate(inputs(1))
