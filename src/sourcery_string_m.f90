@@ -1,5 +1,4 @@
 module sourcery_string_m
-  use characterizable_m, only : characterizable_t
   implicit none
   
   private
@@ -7,7 +6,7 @@ module sourcery_string_m
   public :: array_of_strings
   public :: operator(.cat.) ! element-wise concatenation operator
 
-  type, extends(characterizable_t) :: string_t
+  type string_t
     private
     character(len=:), allocatable :: string_
   contains
