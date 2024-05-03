@@ -24,7 +24,7 @@ module inference_engine_m
 
 contains
 
-  elemental function infer(self, inputs) result(outputs)
+  pure function infer(self, inputs) result(outputs)
     class(inference_engine_t), intent(in) :: self
     type(tensor_t), intent(in) :: inputs
     type(tensor_t) outputs
