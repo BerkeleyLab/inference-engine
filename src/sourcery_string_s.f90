@@ -7,14 +7,6 @@ contains
     new_string%string_ = string
   end procedure
 
-  module procedure as_character
-    raw_string = self%string_
-  end procedure
-
-  module procedure is_allocated
-    string_allocated = allocated(self%string_)
-  end procedure
-
   module procedure from_default_integer
     integer, parameter :: sign_width = 1, digits_width = range(i) + 1
     character(len = digits_width + sign_width) characters
@@ -33,7 +25,7 @@ contains
 
     concatenated_strings = ""
     do s = 1, size(strings)
-      concatenated_strings = concatenated_strings // strings(s)%string()
+      concatenated_strings = concatenated_strings // strings(s)%string_
     end do
   end procedure
 
@@ -59,50 +51,10 @@ contains
 
   end procedure
 
-  module procedure get_json_key
-    character(len=:), allocatable :: raw_line
-  
-    raw_line = self%string()
-    associate(opening_key_quotes => index(raw_line, '"'), separator => index(raw_line, ':'))
-      associate(closing_key_quotes => opening_key_quotes + index(raw_line(opening_key_quotes+1:), '"'))
-        unquoted_key = string_t(trim(raw_line(opening_key_quotes+1:closing_key_quotes-1)))
-      end associate
-    end associate
-
-  end procedure
-
-  module procedure file_extension
-    character(len=:), allocatable :: name_
-
-    name_ = trim(adjustl(self%string()))
-
-    associate( dot_location => index(name_, '.', back=.true.) )
-      if (dot_location < len(name_)) then
-        extension = trim(adjustl(name_(dot_location+1:)))
-      else
-        extension = ""
-      end if
-    end associate
-  end procedure
-
-  module procedure base_name
-    character(len=:), allocatable :: name_
-
-    name_ = self%string()
-    
-    associate(dot_location => index(name_, '.', back=.true.) )
-      if (dot_location < len(name_)) then
-        base = trim(adjustl(name_(1:dot_location-1)))
-      else
-        base = ""
-      end if
-    end associate
-  end procedure
-
   module procedure get_json_real
     character(len=:), allocatable :: raw_line, string_value
 
-    raw_line = self%string()
+    raw_line = self%string_
     associate(text_after_colon => raw_line(index(raw_line, ':')+1:))
       associate(trailing_comma => index(text_after_colon, ','))
         if (trailing_comma == 0) then
@@ -120,7 +72,7 @@ contains
 
     character(len=:), allocatable :: raw_line
 
-    raw_line = self%string()
+    raw_line = self%string_
     associate(text_after_colon => raw_line(index(raw_line, ':')+1:))
       associate(opening_value_quotes => index(text_after_colon, '"'))
         associate(closing_value_quotes => opening_value_quotes + index(text_after_colon(opening_value_quotes+1:), '"'))
@@ -138,7 +90,7 @@ contains
   module procedure get_json_logical
     character(len=:), allocatable :: raw_line, string_value
 
-    raw_line = self%string()
+    raw_line = self%string_
     associate(text_after_colon => raw_line(index(raw_line, ':')+1:))
       associate(trailing_comma => index(text_after_colon, ','))
         if (trailing_comma == 0) then
@@ -155,7 +107,7 @@ contains
   module procedure get_json_integer
     character(len=:), allocatable :: raw_line, string_value
 
-    raw_line = self%string()
+    raw_line = self%string_
     associate(text_after_colon => raw_line(index(raw_line, ':')+1:))
       associate(trailing_comma => index(text_after_colon, ','))
         if (trailing_comma == 0) then
@@ -178,7 +130,7 @@ contains
     real, allocatable :: real_array(:)
     integer i
 
-    raw_line = self%string()
+    raw_line = self%string_
     associate(colon => index(raw_line, ":"))
       associate(opening_bracket => colon + index(raw_line(colon+1:), "["))
         associate(closing_bracket => opening_bracket + index(raw_line(opening_bracket+1:), "]"))
@@ -196,31 +148,31 @@ contains
   end procedure
 
   module procedure string_t_eq_string_t
-    lhs_eq_rhs = lhs%string() == rhs%string()
+    lhs_eq_rhs = lhs%string_ == rhs%string_
   end procedure
    
   module procedure string_t_eq_character
-    lhs_eq_rhs = lhs%string() == rhs
+    lhs_eq_rhs = lhs%string_ == rhs
   end procedure
 
   module procedure character_eq_string_t
-    lhs_eq_rhs = lhs == rhs%string()
+    lhs_eq_rhs = lhs == rhs%string_
   end procedure
    
   module procedure string_t_ne_string_t
-    lhs_ne_rhs = lhs%string() /= rhs%string()
+    lhs_ne_rhs = lhs%string_ /= rhs%string_
   end procedure
    
   module procedure string_t_ne_character
-    lhs_ne_rhs = lhs%string() /= rhs
+    lhs_ne_rhs = lhs%string_ /= rhs
   end procedure
 
   module procedure character_ne_string_t
-    lhs_ne_rhs = lhs /= rhs%string()
+    lhs_ne_rhs = lhs /= rhs%string_
   end procedure
    
   module procedure assign_string_t_to_character
-    lhs = rhs%string()
+    lhs = rhs%string_
   end procedure
    
   module procedure assign_character_to_string_t

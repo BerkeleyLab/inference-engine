@@ -10,12 +10,6 @@ module sourcery_string_m
     private
     character(len=:), allocatable :: string_
   contains
-    procedure :: as_character
-    generic :: string => as_character
-    procedure :: is_allocated
-    procedure :: get_json_key
-    procedure :: file_extension
-    procedure :: base_name
     generic :: operator(//)   => string_t_cat_string_t, string_t_cat_character, character_cat_string_t
     generic :: operator(/=)   => string_t_ne_string_t, string_t_ne_character, character_ne_string_t
     generic :: operator(==)   => string_t_eq_string_t, string_t_eq_character, character_eq_string_t
@@ -67,40 +61,10 @@ module sourcery_string_m
   end interface
 
   interface
-    pure module function as_character(self) result(raw_string)
-      implicit none
-      class(string_t), intent(in) :: self
-      character(len=:), allocatable :: raw_string
-    end function
-
     pure module function array_of_strings(delimited_strings, delimiter) result(strings_array)
       implicit none
       character(len=*), intent(in) :: delimited_strings, delimiter
       type(string_t), allocatable :: strings_array(:)
-    end function
-
-    elemental module function is_allocated(self) result(string_allocated)
-      implicit none
-      class(string_t), intent(in) :: self
-      logical string_allocated
-    end function
-
-    elemental module function get_json_key(self) result(unquoted_key)
-     implicit none
-      class(string_t), intent(in) :: self
-      type(string_t) unquoted_key
-    end function
-
-    elemental module function file_extension(self) result(extension)
-      !! result contains all characters in file_name after the last dot (.)
-      class(string_t), intent(in) :: self
-      type(string_t) extension
-    end function
-
-    pure module function base_name(self) result(base)
-      !! result contains all characters in file_name before the last dot (.)
-      class(string_t), intent(in) :: self
-      type(string_t) base
     end function
 
     pure module function get_json_real(self, key, mold) result(value_)
