@@ -18,8 +18,6 @@ module inference_engine_m
   type inference_engine_t
     type(string_t) metadata_(size(key))
     integer, allocatable :: nodes_(:)
-  contains
-    procedure :: infer
   end type
 
 contains

@@ -17,10 +17,6 @@ program concurrent_inferences
   end do
 
   do concurrent(i=1:size(inputs))
-    outputs(i) = inference_engine%infer(inputs(i))           
-  end do
-
-  do concurrent(i=1:size(inputs))
     outputs(i) = infer(inference_engine, inputs(i))           
   end do
 end program
