@@ -3,7 +3,6 @@
 module inference_engine_m_
   !! Define an abstraction that supports inference operationsn on a neural network
   use activation_strategy_m, only : activation_strategy_t
-  use sourcery_file_m, only : file_t
   use sourcery_string_m, only : string_t
   use kind_parameters_m, only : rkind
   use tensor_m, only : tensor_t
@@ -13,7 +12,6 @@ module inference_engine_m_
 
   private
   public :: inference_engine_t
-  public :: exchange_t
   public :: infer
 
   character(len=*), parameter :: key(*) = [character(len=len("usingSkipConnections")) :: &
@@ -37,15 +35,6 @@ module inference_engine_m_
     procedure :: assert_conformable_with
     procedure :: skip
     procedure :: activation_function_name
-    procedure :: to_exchange
-  end type
-
-  type exchange_t
-    type(tensor_range_t) input_range_, output_range_
-    type(string_t) metadata_(size(key))
-    real(rkind), allocatable :: weights_(:,:,:), biases_(:,:)
-    integer, allocatable :: nodes_(:)
-    class(activation_strategy_t), allocatable :: activation_strategy_ ! Strategy Pattern facilitates elemental activation
   end type
 
   interface inference_engine_t
@@ -78,12 +67,6 @@ module inference_engine_m_
       class(inference_engine_t), intent(in) :: self
       type(tensor_t), intent(in) :: normalized_tensor
       type(tensor_t) tensor
-    end function
-
-    pure module function to_exchange(self) result(exchange)
-      implicit none
-      class(inference_engine_t), intent(in) :: self
-      type(exchange_t) exchange
     end function
 
     elemental module subroutine assert_conformable_with(self, inference_engine)

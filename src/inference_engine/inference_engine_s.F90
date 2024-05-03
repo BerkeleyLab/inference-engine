@@ -25,16 +25,6 @@ contains
     tensor = self%output_range_%map_from_training_range(normalized_tensor)
   end procedure
 
-  module procedure to_exchange
-    exchange%input_range_ = self%input_range_
-    exchange%output_range_ = self%output_range_
-    exchange%metadata_ = self%metadata_
-    exchange%weights_ = self%weights_
-    exchange%biases_ = self%biases_
-    exchange%nodes_ = self%nodes_
-    exchange%activation_strategy_ = self%activation_strategy_ 
-  end procedure
-
   module procedure infer
 
     real(rkind), allocatable :: a(:,:)
