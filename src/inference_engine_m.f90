@@ -19,7 +19,7 @@ module inference_engine_m
 contains
 
   pure function infer(self) result(outputs)
-    class(inference_engine_t), intent(in) :: self
+    type(inference_engine_t), intent(in) :: self
     type(tensor_t) outputs
     outputs = tensor_t([0.])
   end function
