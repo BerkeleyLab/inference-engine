@@ -5,7 +5,7 @@ program concurrent_inferences
   !! and use the network to perform concurrent inferences.
   use inference_engine_m_, only : inference_engine_t, infer
   use tensor_m, only : tensor_t
-  use sourcery_m, only : string_t, command_line_t, file_t
+  use sourcery_m, only : string_t
   implicit none
 
   type(inference_engine_t) network, inference_engine

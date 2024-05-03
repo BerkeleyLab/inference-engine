@@ -2,7 +2,6 @@
 ! Terms of use are as specified in LICENSE.txt
 submodule(inference_engine_m_) inference_engine_s
   use step_m, only : step_t
-  use sourcery_formats_m, only : separated_values
   implicit none
 contains
   module procedure infer
