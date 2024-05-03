@@ -3,9 +3,6 @@
 submodule(inference_engine_m_) inference_engine_s
   use assert_m, only : assert, intrinsic_array_t
   use step_m, only : step_t
-  use swish_m, only : swish_t
-  use sigmoid_m, only : sigmoid_t
-  use relu_m, only : relu_t
   use layer_m, only : layer_t
   use neuron_m, only : neuron_t
   use sourcery_formats_m, only : separated_values
@@ -99,28 +96,6 @@ contains
 
   end subroutine
 
-  pure subroutine set_activation_strategy(inference_engine)
-    type(inference_engine_t), intent(inout) :: inference_engine
-    character(len=:), allocatable :: function_name
-    ! This code is called in both constructors and and can't be refactored into a factory method
-    ! pattern because the result would need to be allocatable and polymorphic, which would preclude
-    ! the function being pure so it wouldn't be possible to call it from inside the pure constructor
-    ! functions.
-    function_name = inference_engine%metadata_(findloc(key, "activationFunction", dim=1))%string()
-    select case(function_name)
-      case("swish")
-        inference_engine%activation_strategy_ = swish_t()
-      case("sigmoid")
-        inference_engine%activation_strategy_ = sigmoid_t()
-      case("step")
-        inference_engine%activation_strategy_ = step_t()
-      case("relu")
-        inference_engine%activation_strategy_ = relu_t()
-      case default
-        error stop "inference_engine_s(set_activation_strategy): unrecognized activation strategy '"//function_name//"'"
-    end select
-  end subroutine
-
   module procedure construct_from_padded_arrays
 
     inference_engine%metadata_ = metadata
@@ -152,7 +127,7 @@ contains
       end if
     end block
 
-    call set_activation_strategy(inference_engine)
+    inference_engine%activation_strategy_ = step_t()
     call assert_consistency(inference_engine)
 
   end procedure construct_from_padded_arrays

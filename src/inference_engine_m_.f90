@@ -7,7 +7,6 @@ module inference_engine_m_
   use kind_parameters_m, only : rkind
   use tensor_m, only : tensor_t
   use tensor_range_m, only : tensor_range_t
-  use differentiable_activation_strategy_m, only :differentiable_activation_strategy_t
   implicit none
 
   private
