@@ -11,12 +11,6 @@ module sourcery_string_m
   end type
 
   interface
-    pure module function array_of_strings(delimited_strings, delimiter) result(strings_array)
-      implicit none
-      character(len=*), intent(in) :: delimited_strings, delimiter
-      type(string_t), allocatable :: strings_array(:)
-    end function
-
     pure module function get_json_real(self, key, mold) result(value_)
       implicit none
       class(string_t), intent(in) :: self, key
