@@ -13,7 +13,6 @@ module inference_engine_m_
 
   private
   public :: inference_engine_t
-  public :: difference_t
   public :: exchange_t
   public :: infer
 
@@ -38,8 +37,6 @@ module inference_engine_m_
     procedure :: nodes_per_layer
     procedure :: assert_conformable_with
     procedure :: skip
-    procedure, private :: subtract
-    generic :: operator(-) => subtract
     procedure :: activation_function_name
     procedure :: to_exchange
   end type
@@ -50,14 +47,6 @@ module inference_engine_m_
     real(rkind), allocatable :: weights_(:,:,:), biases_(:,:)
     integer, allocatable :: nodes_(:)
     class(activation_strategy_t), allocatable :: activation_strategy_ ! Strategy Pattern facilitates elemental activation
-  end type
-
-  type difference_t
-    private
-    real(rkind), allocatable :: weights_difference_(:,:,:), biases_difference_(:,:)
-    integer, allocatable :: nodes_difference_(:)
-  contains
-    procedure :: norm
   end type
 
   interface inference_engine_t
@@ -108,19 +97,6 @@ module inference_engine_m_
       implicit none
       class(inference_engine_t), intent(in) :: self
       type(file_t) json_file
-    end function
-
-    elemental module function norm(self) result(norm_of_self)
-      implicit none
-      class(difference_t), intent(in) :: self
-      real(rkind)  norm_of_self
-    end function
-
-    elemental module function subtract(self, rhs) result(difference)
-      implicit none
-      class(inference_engine_t), intent(in) :: self
-      type(inference_engine_t), intent(in) :: rhs
-      type(difference_t)  difference
     end function
 
     elemental module subroutine assert_conformable_with(self, inference_engine)
