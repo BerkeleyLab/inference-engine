@@ -3,15 +3,6 @@ submodule(sourcery_string_m) sourcery_string_s
   
 contains
 
-  module procedure concatenate_elements
-    integer s 
-
-    concatenated_strings = ""
-    do s = 1, size(strings)
-      concatenated_strings = concatenated_strings // strings(s)%string_
-    end do
-  end procedure
-
   module procedure array_of_strings
     character(len=:), allocatable :: remainder, next_string
     integer next_delimiter, string_end

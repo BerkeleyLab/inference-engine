@@ -16,16 +16,6 @@ module sourcery_string_m
     procedure, private, pass(rhs) :: assign_string_t_to_character
   end type
 
-  interface operator(.cat.)
-
-   pure  module function concatenate_elements(strings) result(concatenated_strings)
-      implicit none
-      type(string_t), intent(in) :: strings(:)
-      type(string_t) concatenated_strings
-    end function
-
-  end interface
-
   interface
     pure module function array_of_strings(delimited_strings, delimiter) result(strings_array)
       implicit none
