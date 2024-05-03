@@ -14,17 +14,14 @@ module inference_engine_m
 
   type inference_engine_t
     type(string_t), allocatable :: metadata_(:)
-    integer, allocatable :: nodes_(:)
   end type
 
 contains
 
-  pure function infer(self, inputs) result(outputs)
+  pure function infer(self) result(outputs)
     class(inference_engine_t), intent(in) :: self
-    type(tensor_t), intent(in) :: inputs
     type(tensor_t) outputs
-    integer i
-    outputs = tensor_t([(0., i=1,self%nodes_(ubound(self%nodes_,1)))])
+    outputs = tensor_t([0.])
   end function
 
   function real_array(self)
