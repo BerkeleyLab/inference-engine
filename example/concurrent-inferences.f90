@@ -9,12 +9,11 @@ program concurrent_inferences
   implicit none
 
   type(inference_engine_t) network, inference_engine
-  type(tensor_t), allocatable :: inputs(:,:,:), outputs(:,:,:)
-  real, allocatable :: input_components(:,:,:,:)
-  integer, parameter :: lat=263, lon=317, lev=15 ! latitudes, longitudes, levels (elevations)
-  integer i, j, k
+  type(tensor_t), allocatable :: inputs(:), outputs(:)
+  real, allocatable :: input_components(:,:)
+  integer i
   integer, parameter :: nodes_per_layer(*) = [2, 3, 1]
- integer, parameter :: max_n = maxval(nodes_per_layer), layers = size(nodes_per_layer)
+  integer, parameter :: max_n = maxval(nodes_per_layer), layers = size(nodes_per_layer)
 
   inference_engine = inference_engine_t( &
     metadata = [string_t("XOR"), string_t("Damian Rouson"), string_t("2023-07-02"), string_t("step"), string_t("false")], &
@@ -23,21 +22,20 @@ program concurrent_inferences
     nodes = nodes_per_layer &
   )
 
-  allocate(inputs(lat,lon,lev))
-  allocate(outputs(lat,lon,lev))
-  allocate(input_components(lat,lon,lev,inference_engine%num_inputs()))
+  allocate(inputs(1))
+  allocate(outputs(size(inputs)))
+  allocate(input_components(1,inference_engine%num_inputs()))
   call random_number(input_components)
 
-  do concurrent(i=1:lat, j=1:lon, k=1:lev)
-    inputs(i,j,k) = tensor_t(input_components(i,j,k,:))
+  do concurrent(i=1:size(inputs))
+    inputs(i) = tensor_t(input_components(i,:))
   end do
 
-  do concurrent(i=1:lat, j=1:lon, k=1:lev)
-    outputs(i,j,k) = inference_engine%infer(inputs(i,j,k))           
+  do concurrent(i=1:size(inputs))
+    outputs(i) = inference_engine%infer(inputs(i))           
   end do
 
-  do concurrent(i=1:lat, j=1:lon, k=1:lev)
-    outputs(i,j,k) = infer(inference_engine, inputs(i,j,k))           
+  do concurrent(i=1:size(inputs))
+    outputs(i) = infer(inference_engine, inputs(i))           
   end do
-
 end program
