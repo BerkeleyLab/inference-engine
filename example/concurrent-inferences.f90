@@ -1,6 +1,5 @@
 program concurrent_inferences
-  use inference_engine_m, only : inference_engine_t, infer, tensor_t
-  use sourcery_string_m, only : string_t
+  use inference_engine_m, only : inference_engine_t, infer, tensor_t, string_t
   implicit none
 
   type(inference_engine_t) network, inference_engine
