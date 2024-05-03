@@ -7,26 +7,18 @@ module inference_engine_m_
   use tensor_m, only : tensor_t
   implicit none
 
-  private
-  public :: inference_engine_t
-  public :: infer
-
   character(len=*), parameter :: key(*) = [character(len=len("usingSkipConnections")) :: &
     "modelName", "modelAuthor", "compilationDate", "activationFunction", "usingSkipConnections"]
 
   type inference_engine_t
-    !! Encapsulate the minimal information needed to perform inference
-    private
     type(string_t) metadata_(size(key))
     real(rkind), allocatable :: weights_(:,:,:), biases_(:,:)
     integer, allocatable :: nodes_(:)
   contains
     procedure :: infer
-    procedure :: num_inputs
   end type
 
   interface inference_engine_t
-
     pure module function construct_from_padded_arrays(metadata, weights, biases, nodes) &
       result(inference_engine)
       implicit none
@@ -35,24 +27,15 @@ module inference_engine_m_
       integer, intent(in) :: nodes(0:)
       type(inference_engine_t) inference_engine
     end function
-
   end interface
 
   interface
-
     elemental module function infer(self, inputs) result(outputs)
       implicit none
       class(inference_engine_t), intent(in) :: self
       type(tensor_t), intent(in) :: inputs
       type(tensor_t) outputs
     end function
-
-    elemental module function num_inputs(self) result(input_count)
-      implicit none
-      class(inference_engine_t), intent(in) :: self
-      integer input_count
-    end function
-
   end interface
 
 end module inference_engine_m_

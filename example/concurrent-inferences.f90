@@ -24,7 +24,7 @@ program concurrent_inferences
 
   allocate(inputs(1))
   allocate(outputs(size(inputs)))
-  allocate(input_components(1,inference_engine%num_inputs()))
+  allocate(input_components(1, inference_engine%nodes_(lbound(inference_engine%nodes_,1))))
   call random_number(input_components)
 
   do concurrent(i=1:size(inputs))

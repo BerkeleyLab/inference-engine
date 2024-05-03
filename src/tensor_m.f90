@@ -4,11 +4,7 @@ module tensor_m
   use kind_parameters_m, only : rkind
   implicit none
 
-  private
-  public :: tensor_t
-
   type tensor_t
-    private
     real(rkind), allocatable :: values_(:)
   contains
     procedure values

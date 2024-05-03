@@ -14,8 +14,4 @@ contains
     inference_engine%biases_ = biases
     inference_engine%nodes_ = nodes
   end procedure 
-
-  module procedure num_inputs
-    input_count = self%nodes_(lbound(self%nodes_,1))
-  end procedure
 end submodule
