@@ -2,20 +2,14 @@ program concurrent_inferences
   use inference_engine_m, only : inference_engine_t, infer, tensor_t, string_t
   implicit none
 
-  type(inference_engine_t) network, inference_engine
-  type(tensor_t), allocatable :: inputs(:), outputs(:)
-  real, allocatable :: input_components(:,:)
-  integer, parameter :: nodes_per_layer(*) = [2, 3, 1]
+  type(inference_engine_t) inference_engine
+  type(tensor_t) inputs(1)
+  type(tensor_t) outputs(size(inputs))
+  integer, parameter :: nodes(*) = [2, 3, 1]
+  real input_components(size(inputs), nodes(size(nodes)))
   integer i
 
-  inference_engine = inference_engine_t( &
-    metadata_ = [string_t("XOR"), string_t("Damian Rouson"), string_t("2023-07-02"), string_t("step"), string_t("false")], &
-    nodes_ = nodes_per_layer &
-  )
-
-  allocate(inputs(1))
-  allocate(outputs(size(inputs)))
-  allocate(input_components(1, inference_engine%nodes_(lbound(inference_engine%nodes_,1))))
+  inference_engine = inference_engine_t([string_t(""), string_t("")], nodes)
   call random_number(input_components)
 
   do concurrent(i=1:size(inputs))

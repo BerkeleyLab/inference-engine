@@ -9,7 +9,7 @@ module inference_engine_m
   end type
 
   character(len=*), parameter :: key(*) = [character(len=len("usingSkipConnections")) :: &
-    "modelName", "modelAuthor", "compilationDate", "activationFunction", "usingSkipConnections"]
+    "modelName", "modelAuthor"]
 
   type tensor_t
     real, allocatable :: values_(:)
