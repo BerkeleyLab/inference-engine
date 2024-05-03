@@ -1,9 +1,5 @@
-! Copyright (c), The Regents of the University of California
-! Terms of use are as specified in LICENSE.txt
 program concurrent_inferences
-  !! This program demonstrates how to read a neural network from a JSON file
-  !! and use the network to perform concurrent inferences.
-  use inference_engine_m_, only : inference_engine_t, infer, tensor_t
+  use inference_engine_m, only : inference_engine_t, infer, tensor_t
   use sourcery_m, only : string_t
   implicit none
 
