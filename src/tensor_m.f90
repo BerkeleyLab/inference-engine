@@ -11,16 +11,6 @@ module tensor_m
     procedure num_components
   end type
 
-  interface tensor_t
-
-    pure module function construct_from_components(values) result(tensor)
-      implicit none
-      real(rkind), intent(in) :: values(:)
-      type(tensor_t) tensor
-    end function
-
-  end interface
-
   interface
 
     pure module function values(self) result(tensor_values)
