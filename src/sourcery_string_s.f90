@@ -1,8 +1,6 @@
 submodule(sourcery_string_m) sourcery_string_s
   implicit none
-  
 contains
-
   module procedure array_of_strings
     character(len=:), allocatable :: remainder, next_string
     integer next_delimiter, string_end
@@ -120,13 +118,4 @@ contains
     end associate
 
   end procedure
-
-  module procedure assign_string_t_to_character
-    lhs = rhs%string_
-  end procedure
-   
-  module procedure assign_character_to_string_t
-    lhs%string_ = rhs
-  end procedure
-
-end submodule sourcery_string_s
+end submodule

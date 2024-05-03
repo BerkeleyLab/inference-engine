@@ -4,13 +4,10 @@ module sourcery_string_m
   type string_t
     character(len=:), allocatable :: string_
   contains
-    generic :: assignment(= ) => assign_string_t_to_character, assign_character_to_string_t
     generic :: get_json_value =>     get_json_integer_array, get_json_logical, get_json_integer, get_json_string, get_json_real, &
                                      get_json_real_array
     procedure, private            :: get_json_integer_array, get_json_logical, get_json_integer, get_json_string, get_json_real, &
                                      get_json_real_array
-    procedure, private            :: assign_character_to_string_t
-    procedure, private, pass(rhs) :: assign_string_t_to_character
   end type
 
   interface
@@ -60,19 +57,5 @@ module sourcery_string_m
       real, intent(in) :: mold(:)
       real, allocatable :: value_(:)
     end function
-
-    pure module subroutine assign_character_to_string_t(lhs, rhs)
-      implicit none
-      class(string_t), intent(inout) :: lhs
-      character(len=*), intent(in) :: rhs
-    end subroutine
-
-    pure module subroutine assign_string_t_to_character(lhs, rhs)
-      implicit none
-      class(string_t), intent(in) :: rhs
-      character(len=:), intent(out), allocatable :: lhs
-    end subroutine
-
   end interface
-  
 end module sourcery_string_m
