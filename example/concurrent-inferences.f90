@@ -14,7 +14,7 @@ program concurrent_inferences
   type(inference_engine_t) inference_engine
   integer i
 
-  inference_engine = inference_engine_t([string_t(""), string_t("")])
+  inference_engine%metadata = [string_t("")]
 
   do concurrent(i=1:size(outputs))
     outputs(i)%t = infer(inference_engine)           
