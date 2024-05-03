@@ -1,5 +1,5 @@
 module inference_engine_m
-  use sourcery_string_m, only : string_t
+  use string_m, only : string_t
   implicit none
 
   character(len=*), parameter :: key(*) = [character(len=len("usingSkipConnections")) :: &
