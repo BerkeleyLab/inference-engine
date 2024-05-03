@@ -8,15 +8,12 @@ module inference_engine_m
     procedure real_array
   end type
 
-  character(len=*), parameter :: key(*) = [character(len=len("usingSkipConnections")) :: &
-    "modelName", "modelAuthor"]
-
   type tensor_t
     real, allocatable :: values_(:)
   end type
 
   type inference_engine_t
-    type(string_t) metadata_(size(key))
+    type(string_t), allocatable :: metadata_(:)
     integer, allocatable :: nodes_(:)
   end type
 
