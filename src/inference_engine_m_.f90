@@ -2,11 +2,14 @@
 ! Terms of use are as specified in LICENSE.txt
 module inference_engine_m_
   use sourcery_string_m, only : string_t
-  use tensor_m, only : tensor_t
   implicit none
 
   character(len=*), parameter :: key(*) = [character(len=len("usingSkipConnections")) :: &
     "modelName", "modelAuthor", "compilationDate", "activationFunction", "usingSkipConnections"]
+
+  type tensor_t
+    real, allocatable :: values_(:)
+  end type
 
   type inference_engine_t
     type(string_t) metadata_(size(key))
