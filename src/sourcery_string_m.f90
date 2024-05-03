@@ -1,13 +1,7 @@
 module sourcery_string_m
   implicit none
   
-  private
-  public :: string_t
-  public :: array_of_strings
-  public :: operator(.cat.) ! element-wise concatenation operator
-
   type string_t
-    private
     character(len=:), allocatable :: string_
   contains
     generic :: operator(//)   => string_t_cat_string_t, string_t_cat_character, character_cat_string_t
@@ -27,28 +21,6 @@ module sourcery_string_m
     procedure, private, pass(rhs) :: character_eq_string_t
     procedure, private, pass(rhs) :: assign_string_t_to_character
   end type
-
-  interface string_t
-
-    elemental module function construct(string) result(new_string)
-      implicit none
-      character(len=*), intent(in) :: string
-      type(string_t) new_string
-    end function
-
-    elemental module function from_default_integer(i) result(string)
-      implicit none
-      integer, intent(in) :: i
-      type(string_t) string
-    end function
-
-    elemental module function from_real(x) result(string)
-      implicit none
-      real, intent(in) :: x
-      type(string_t) string
-    end function
-
-  end interface
 
   interface operator(.cat.)
 
