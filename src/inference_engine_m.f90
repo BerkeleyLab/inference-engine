@@ -11,7 +11,6 @@ module inference_engine_m
 
   type inference_engine_t
     type(string_t) metadata_(size(key))
-    real, allocatable :: weights_(:,:,:), biases_(:,:)
     integer, allocatable :: nodes_(:)
   contains
     procedure :: infer
@@ -29,14 +28,11 @@ contains
     outputs = tensor_t([(0., i=1,self%nodes_(ubound(self%nodes_,1)))])
   end function
 
-  pure function construct_from_padded_arrays(metadata, weights, biases, nodes)   result(inference_engine)
+  pure function construct_from_padded_arrays(metadata, nodes) result(inference_engine)
     type(string_t), intent(in) :: metadata(:)
-    real, intent(in) :: weights(:,:,:), biases(:,:)
     integer, intent(in) :: nodes(0:)
     type(inference_engine_t) inference_engine
     inference_engine%metadata_ = metadata
-    inference_engine%weights_ = weights
-    inference_engine%biases_ = biases
     inference_engine%nodes_ = nodes
   end function
 end module
