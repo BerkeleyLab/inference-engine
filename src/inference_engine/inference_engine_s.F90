@@ -140,7 +140,7 @@ contains
     end associate
 
   end subroutine
-
+#ifdef __INTEL_COMPILER
   pure subroutine inference_engine_minimal_consistency(self)
 
     type(inference_engine_minimal_t), intent(in) :: self
@@ -165,7 +165,7 @@ contains
     end associate
 
   end subroutine
-
+#endif
   pure subroutine difference_consistency(self)
 
     type(difference_t), intent(in) :: self
