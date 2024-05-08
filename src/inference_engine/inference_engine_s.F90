@@ -13,6 +13,7 @@ submodule(inference_engine_m_) inference_engine_s
 
   interface assert_consistency
     procedure inference_engine_consistency
+    procedure inference_engine_minimal_consistency
     procedure difference_consistency
   end interface
 
@@ -85,6 +86,36 @@ contains
 
   end procedure
 
+  module procedure infer_minimal_type
+
+    real(rkind), allocatable :: a(:,:)
+    integer, parameter :: input_layer = 0
+    integer k, l
+
+    call assert_consistency(self)
+
+    associate(w => self%weights_, b => self%biases_, n => self%nodes_, output_layer => ubound(self%nodes_,1))
+
+      allocate(a(maxval(n), input_layer:output_layer))
+
+      associate(normalized_inputs => self%input_range_%map_to_training_range(inputs))
+        a(1:n(input_layer),input_layer) = normalized_inputs%values()
+      end associate
+
+      feed_forward: &
+      do l = input_layer+1, output_layer
+        associate(z => matmul(w(1:n(l),1:n(l-1),l), a(1:n(l-1),l-1)) + b(1:n(l),l))
+          a(1:n(l),l) = self%activation_strategy_%activation(z)
+        end associate
+      end do feed_forward
+
+      associate(normalized_outputs => tensor_t(a(1:n(output_layer), output_layer)))
+        outputs = self%output_range_%map_from_training_range(normalized_outputs)
+      end associate
+    end associate
+
+  end procedure
+
   pure subroutine inference_engine_consistency(self)
 
     type(inference_engine_t), intent(in) :: self
@@ -104,7 +135,32 @@ contains
     end associate
 
     associate(input_subscript => lbound(self%nodes_,1))
-      call assert(input_subscript == input_layer, "inference_engine_s(inference_engine_consistency): n base subsscript", &
+      call assert(input_subscript == input_layer, "inference_engine_s(inference_engine_consistency): n base subscript", &
+        input_subscript)
+    end associate
+
+  end subroutine
+
+  pure subroutine inference_engine_minimal_consistency(self)
+
+    type(inference_engine_minimal_t), intent(in) :: self
+
+    integer, parameter :: input_layer=0
+
+    associate( &
+      all_allocated=>[allocated(self%weights_),allocated(self%biases_),allocated(self%nodes_),allocated(self%activation_strategy_)]&
+    )
+      call assert(all(all_allocated),"inference_engine_s(inference_engine_minimal_consistency): fully_allocated", &
+        intrinsic_array_t(all_allocated))
+    end associate
+
+    associate(max_width=>maxval(self%nodes_), component_dims=>[size(self%biases_,1), size(self%weights_,1), size(self%weights_,2)])
+      call assert(all(component_dims == max_width), "inference_engine_s(inference_engine_minimal_consistency): conformable arrays", &
+        intrinsic_array_t([max_width,component_dims]))
+    end associate
+
+    associate(input_subscript => lbound(self%nodes_,1))
+      call assert(input_subscript == input_layer, "inference_engine_s(inference_engine_minimal_consistency): n base subscript", &
         input_subscript)
     end associate
 
@@ -568,6 +624,15 @@ contains
     json_file = file_t(lines)
 
   end procedure to_json
+
+#ifdef __INTEL_COMPILER
+  module procedure to_minimal_engine
+    minimal_engine = inference_engine_minimal_t( &
+      self%input_range_, self%output_range_, &
+      self%weights_, self%biases_, &
+      self%nodes_, self%activation_strategy_)
+  end procedure
+#endif
 
   module procedure skip
     use_skip_connections = self%metadata_(findloc(key, "usingSkipConnections", dim=1))%string() == "true"

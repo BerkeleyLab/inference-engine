@@ -4,6 +4,9 @@ program concurrent_inferences
   !! This program demonstrates how to read a neural network from a JSON file
   !! and use the network to perform concurrent inferences.
   use inference_engine_m, only : inference_engine_t, tensor_t, infer
+#ifdef __INTEL_COMPILER
+  use inference_engine_m_, only : inference_engine_minimal_t, infer_minimal_type
+#endif
   use sourcery_m, only : string_t, command_line_t, file_t
   use assert_m, only : assert
   use iso_fortran_env, only : int64, real64
@@ -60,20 +63,36 @@ program concurrent_inferences
       end do
       call system_clock(t_finish)
       print *,"Looping inference time: ", real(t_finish - t_start, real64)/real(clock_rate, real64)
-
+#ifdef __INTEL_COMPILER
+      block
+      type(inference_engine_minimal_t) :: inference_engine_minimal
+      inference_engine_minimal = inference_engine%to_minimal_engine()
+#endif
       print *,"Performing concurrent inference"
       call system_clock(t_start)
       do concurrent(i=1:lat, j=1:lon, k=1:lev)
-        outputs(i,j,k) = inference_engine%infer(inputs(i,j,k))           
+#ifndef __INTEL_COMPILER
+        outputs(i,j,k) = inference_engine%infer(inputs(i,j,k))
+#else
+        outputs(i,j,k) = inference_engine_minimal%infer_minimal_type(inputs(i,j,k))
+#endif
       end do
       call system_clock(t_finish)
       print *,"Concurrent inference time: ", real(t_finish - t_start, real64)/real(clock_rate, real64)
 
       print *,"Performing concurrent inference with a non-type-bound inference procedure"
       call system_clock(t_start)
+
       do concurrent(i=1:lat, j=1:lon, k=1:lev)
-        outputs(i,j,k) = infer(inference_engine, inputs(i,j,k))           
+#ifndef __INTEL_COMPILER
+        outputs(i,j,k) = infer(inference_engine, inputs(i,j,k))
+#else
+        outputs(i,j,k) = infer_minimal_type(inference_engine_minimal, inputs(i,j,k))
+#endif
       end do
+#ifdef __INTEL_COMPILER
+      end block
+#endif
       call system_clock(t_finish)
       print *,"Concurrent inference time with non-type-bound procedure: ", real(t_finish - t_start, real64)/real(clock_rate, real64)
 

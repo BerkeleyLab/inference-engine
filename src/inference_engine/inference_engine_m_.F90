@@ -16,12 +16,15 @@ module inference_engine_m_
   public :: difference_t
   public :: exchange_t
   public :: infer
+#ifdef __INTEL_COMPILER
+  public :: inference_engine_minimal_t, infer_minimal_type
+#endif
 
   character(len=*), parameter :: key(*) = [character(len=len("usingSkipConnections")) :: &
     "modelName", "modelAuthor", "compilationDate", "activationFunction", "usingSkipConnections"]
 
   type inference_engine_t
-    !! Encapsulate the minimal information needed to perform inference
+    !! Encapsulate the information needed to perform inference plus metadata
     private
     type(tensor_range_t) input_range_, output_range_
     type(string_t) metadata_(size(key))
@@ -31,6 +34,9 @@ module inference_engine_m_
   contains
     procedure :: infer
     procedure :: to_json
+#ifdef __INTEL_COMPILER
+    procedure :: to_minimal_engine
+#endif
     procedure :: map_to_input_range
     procedure :: map_from_output_range
     procedure :: num_inputs
@@ -51,6 +57,28 @@ module inference_engine_m_
     integer, allocatable :: nodes_(:)
     class(activation_strategy_t), allocatable :: activation_strategy_ ! Strategy Pattern facilitates elemental activation
   end type
+
+#ifdef __INTEL_COMPILER
+  type inference_engine_minimal_t
+    !! Encapsulate the minimal information needed to perform inference
+    type(tensor_range_t) input_range_, output_range_
+    real(rkind), allocatable :: weights_(:,:,:), biases_(:,:)
+    integer, allocatable :: nodes_(:)
+    class(activation_strategy_t), allocatable :: activation_strategy_ ! Strategy Pattern facilitates elemental activation
+  contains
+    procedure :: infer_minimal_type
+  end type inference_engine_minimal_t
+
+  interface
+    elemental module function infer_minimal_type(self, inputs) result(outputs)
+      implicit none
+      class(inference_engine_minimal_t), intent(in) :: self
+      type(tensor_t), intent(in) :: inputs
+      type(tensor_t) outputs
+    end function
+  end interface
+
+#endif
 
   type difference_t
     private
@@ -109,7 +137,13 @@ module inference_engine_m_
       class(inference_engine_t), intent(in) :: self
       type(file_t) json_file
     end function
-
+#ifdef __INTEL_COMPILER
+    elemental module function to_minimal_engine(self) result(minimal_engine)
+      implicit none
+      class(inference_engine_t), intent(in) :: self
+      type(inference_engine_minimal_t) :: minimal_engine
+    end function
+#endif
     elemental module function norm(self) result(norm_of_self)
       implicit none
       class(difference_t), intent(in) :: self
