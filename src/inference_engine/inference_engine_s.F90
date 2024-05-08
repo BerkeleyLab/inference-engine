@@ -85,7 +85,7 @@ contains
     end associate
 
   end procedure
-
+#ifdef __INTEL_COMPILER
   module procedure infer_minimal_type
 
     real(rkind), allocatable :: a(:,:)
@@ -115,7 +115,7 @@ contains
     end associate
 
   end procedure
-
+#endif
   pure subroutine inference_engine_consistency(self)
 
     type(inference_engine_t), intent(in) :: self
