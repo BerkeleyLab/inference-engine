@@ -15,13 +15,13 @@ module inference_engine_m_
   public :: inference_engine_t
   public :: difference_t
   public :: exchange_t
-  public :: infer
+  public :: numerics_t, infer
 
   character(len=*), parameter :: key(*) = [character(len=len("usingSkipConnections")) :: &
     "modelName", "modelAuthor", "compilationDate", "activationFunction", "usingSkipConnections"]
 
   type inference_engine_t
-    !! Encapsulate the minimal information needed to perform inference
+    !! Encapsulate the information needed to perform inference
     private
     type(tensor_range_t) input_range_, output_range_
     type(string_t) metadata_(size(key))
@@ -29,7 +29,7 @@ module inference_engine_m_
     integer, allocatable :: nodes_(:)
     class(activation_strategy_t), allocatable :: activation_strategy_ ! Strategy Pattern facilitates elemental activation
   contains
-    procedure :: infer
+    procedure :: to_numerics
     procedure :: to_json
     procedure :: map_to_input_range
     procedure :: map_from_output_range
@@ -42,6 +42,17 @@ module inference_engine_m_
     generic :: operator(-) => subtract
     procedure :: activation_function_name
     procedure :: to_exchange
+  end type
+
+  type numerics_t
+    !! Encapsulate the minimal information needed to perform inference
+    private
+    type(tensor_range_t) input_range_, output_range_
+    real(rkind), allocatable :: weights_(:,:,:), biases_(:,:)
+    integer, allocatable :: nodes_(:)
+    class(activation_strategy_t), allocatable :: activation_strategy_ ! Strategy Pattern facilitates elemental activation
+  contains
+    procedure :: infer
   end type
 
   type exchange_t
@@ -104,6 +115,12 @@ module inference_engine_m_
       type(exchange_t) exchange
     end function
 
+    pure elemental module function to_numerics(self) result(numerics)
+      implicit none
+      class(inference_engine_t), intent(in) :: self
+      type(numerics_t) numerics
+    end function
+
     impure elemental module function to_json(self) result(json_file)
       implicit none
       class(inference_engine_t), intent(in) :: self
@@ -131,7 +148,7 @@ module inference_engine_m_
 
     elemental module function infer(self, inputs) result(outputs)
       implicit none
-      class(inference_engine_t), intent(in) :: self
+      class(numerics_t), intent(in) :: self
       type(tensor_t), intent(in) :: inputs
       type(tensor_t) outputs
     end function

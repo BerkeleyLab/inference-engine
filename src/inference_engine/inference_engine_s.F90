@@ -42,7 +42,7 @@ contains
     integer, parameter :: input_layer = 0
     integer k, l
 
-    call assert_consistency(self)
+    call numerics_consistency(self%weights_, self%biases_, self%nodes_, self%activation_strategy_)
 
     associate(w => self%weights_, b => self%biases_, n => self%nodes_, output_layer => ubound(self%nodes_,1))
 
@@ -86,24 +86,30 @@ contains
   end procedure
 
   pure subroutine inference_engine_consistency(self)
-
     type(inference_engine_t), intent(in) :: self
+    call numerics_consistency(self%weights_, self%biases_, self%nodes_, self%activation_strategy_)
+  end subroutine
+
+  pure subroutine numerics_consistency(weights, biases, nodes, activation_strategy)
+    real(rkind), allocatable, intent(in) :: weights(:,:,:), biases(:,:)
+    integer, allocatable, intent(in) :: nodes(:)
+    class(activation_strategy_t), allocatable, intent(in) :: activation_strategy
 
     integer, parameter :: input_layer=0
 
     associate( &
-      all_allocated=>[allocated(self%weights_),allocated(self%biases_),allocated(self%nodes_),allocated(self%activation_strategy_)]&
+      all_allocated=>[allocated(weights),allocated(biases),allocated(nodes),allocated(activation_strategy)]&
     )   
       call assert(all(all_allocated),"inference_engine_s(inference_engine_consistency): fully_allocated", &
         intrinsic_array_t(all_allocated))
     end associate
 
-    associate(max_width=>maxval(self%nodes_), component_dims=>[size(self%biases_,1), size(self%weights_,1), size(self%weights_,2)])
+    associate(max_width=>maxval(nodes), component_dims=>[size(biases,1), size(weights,1), size(weights,2)])
       call assert(all(component_dims == max_width), "inference_engine_s(inference_engine_consistency): conformable arrays", &
         intrinsic_array_t([max_width,component_dims]))
     end associate
 
-    associate(input_subscript => lbound(self%nodes_,1))
+    associate(input_subscript => lbound(nodes,1))
       call assert(input_subscript == input_layer, "inference_engine_s(inference_engine_consistency): n base subsscript", &
         input_subscript)
     end associate
@@ -388,6 +394,13 @@ contains
   module procedure nodes_per_layer
     call assert_consistency(self)
     node_count = self%nodes_
+  end procedure
+
+  module procedure to_numerics
+    numerics = numerics_t( &
+      self%input_range_, self%output_range_, &
+      self%weights_, self%biases_, &
+      self%nodes_, self%activation_strategy_)
   end procedure
 
   module procedure to_json

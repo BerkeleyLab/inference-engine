@@ -9,7 +9,7 @@ module asymmetric_engine_test_m
     test_t, test_result_t, vector_test_description_t, test_description_substring, string_t, vector_function_strategy_t
 
   ! Internal dependencies
-  use inference_engine_m, only : inference_engine_t, tensor_t
+  use inference_engine_m, only : inference_engine_t, tensor_t, numerics_t
   use kind_parameters_m, only : rkind
 
   implicit none
@@ -122,11 +122,13 @@ contains
     block
       real(rkind), parameter :: tolerance = 1.E-08_rkind, false = 0._rkind, true = 1._rkind
       type(tensor_t) true_true, true_false, false_true, false_false
+      type(numerics_t) :: numerics
+      numerics = asymmetric%to_numerics()
 
-      true_true = asymmetric%infer(tensor_t([true,true]))
-      true_false = asymmetric%infer(tensor_t([true,false]))
-      false_true = asymmetric%infer(tensor_t([false,true]))
-      false_false = asymmetric%infer(tensor_t([false,false]))
+      true_true = numerics%infer(tensor_t([true,true]))
+      true_false = numerics%infer(tensor_t([true,false]))
+      false_true = numerics%infer(tensor_t([false,true]))
+      false_false = numerics%infer(tensor_t([false,false]))
 
       associate( &
         true_true_outputs => true_true%values(), &
