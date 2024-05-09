@@ -397,10 +397,12 @@ contains
   end procedure
 
   module procedure to_numerics
-    numerics = numerics_t( &
-      self%input_range_, self%output_range_, &
-      self%weights_, self%biases_, &
-      self%nodes_, self%activation_strategy_)
+    numerics%input_range_ = self%input_range_
+    numerics%output_range_ = self%output_range_
+    numerics%weights_ = self%weights_
+    numerics%biases_ = self%biases_
+    numerics%nodes_ = self%nodes_
+    numerics%activation_strategy_ = self%activation_strategy_
   end procedure
 
   module procedure to_json
