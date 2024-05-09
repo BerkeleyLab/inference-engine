@@ -12,7 +12,7 @@ module inference_engine_test_m
 #endif
 
   ! Internal dependencies
-  use inference_engine_m, only : inference_engine_t, tensor_t, difference_t
+  use inference_engine_m, only : inference_engine_t, tensor_t, difference_t, numerics_t
 
   implicit none
 
@@ -132,9 +132,11 @@ contains
       type(tensor_t), allocatable :: truth_table(:)
       real(rkind), parameter :: tolerance = 1.E-08_rkind, false = 0._rkind, true = 1._rkind
       integer i
+      type(numerics_t) :: numerics
+      numerics = inference_engine%to_numerics()
 
       associate(array_of_inputs => [tensor_t([true,true]), tensor_t([true,false]), tensor_t([false,true]), tensor_t([false,false])])
-        truth_table = inference_engine%infer(array_of_inputs)
+        truth_table = numerics%infer(array_of_inputs)
       end associate
       test_passes = all( &
         abs(truth_table(1)%values() - false) < tolerance .and. abs(truth_table(2)%values() - true) < tolerance .and. &
@@ -153,9 +155,11 @@ contains
       type(tensor_t), allocatable :: truth_table(:)
       real(rkind), parameter :: tolerance = 1.E-08_rkind, false = 0._rkind, true = 1._rkind
       integer i
+      type(numerics_t) :: numerics
+      numerics = inference_engine%to_numerics()
 
       associate(array_of_inputs => [tensor_t([true,true]), tensor_t([true,false]), tensor_t([false,true]), tensor_t([false,false])])
-        truth_table = inference_engine%infer(array_of_inputs)
+        truth_table = numerics%infer(array_of_inputs)
       end associate
       test_passes = all( &
         abs(truth_table(1)%values() - false) < tolerance .and. abs(truth_table(2)%values() - true) < tolerance .and. &
