@@ -62,7 +62,7 @@ module inference_engine_m_
 
   interface inference_engine_t
 
-    pure module function construct_from_padded_arrays(metadata, weights, biases, nodes, input_range, output_range) &
+    module function construct_from_padded_arrays(metadata, weights, biases, nodes, input_range, output_range) &
       result(inference_engine)
       implicit none
       type(string_t), intent(in) :: metadata(:)
