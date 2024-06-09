@@ -1,6 +1,6 @@
 ! Copyright (c), The Regents of the University of California
 ! Terms of use are as specified in LICENSE.txt
-submodule(neural_net_m) neural_net_s
+submodule(inference_engine_m) inference_engine_s
   use assert_m, only : assert
   use step_m, only : step_t
   use swish_m, only : swish_t
@@ -9,7 +9,7 @@ submodule(neural_net_m) neural_net_s
   implicit none
 
   interface assert_consistency
-    procedure neural_net_consistency
+    procedure inference_engine_consistency
     procedure difference_consistency
   end interface
 
@@ -82,25 +82,25 @@ contains
 
   end procedure
 
-  pure subroutine neural_net_consistency(self)
+  pure subroutine inference_engine_consistency(self)
 
-    type(neural_net_t), intent(in) :: self
+    type(inference_engine_t), intent(in) :: self
 
     integer, parameter :: input_layer=0
 
     associate( &
       all_allocated=>[allocated(self%weights_),allocated(self%biases_),allocated(self%nodes_),allocated(self%activation_strategy_)]&
     )   
-      call assert(all(all_allocated),"neural_net_s(neural_net_consistency): fully_allocated")
+      call assert(all(all_allocated),"inference_engine_s(inference_engine_consistency): fully_allocated")
         
     end associate
 
     associate(max_width=>maxval(self%nodes_), component_dims=>[size(self%biases_,1), size(self%weights_,1), size(self%weights_,2)])
-      call assert(all(component_dims == max_width), "neural_net_s(neural_net_consistency): conformable arrays")
+      call assert(all(component_dims == max_width), "inference_engine_s(inference_engine_consistency): conformable arrays")
     end associate
 
     associate(input_subscript => lbound(self%nodes_,1))
-      call assert(input_subscript == input_layer, "neural_net_s(neural_net_consistency): n base subsscript")
+      call assert(input_subscript == input_layer, "inference_engine_s(inference_engine_consistency): n base subsscript")
     end associate
 
   end subroutine
@@ -114,87 +114,87 @@ contains
     associate( &
       all_allocated=>[allocated(self%weights_difference_),allocated(self%biases_difference_),allocated(self%nodes_difference_)] &
     )   
-      call assert(all(all_allocated),"neural_net_s(difference_consistency): fully_allocated")
+      call assert(all(all_allocated),"inference_engine_s(difference_consistency): fully_allocated")
     end associate
 
     call assert(all(size(self%biases_difference_,1)==[size(self%weights_difference_,1), size(self%weights_difference_,2)]), &
-      "neural_net_s(difference_consistency): conformable arrays" &
+      "inference_engine_s(difference_consistency): conformable arrays" &
     )
 
   end subroutine
 
-  pure subroutine set_activation_strategy(neural_net)
-    type(neural_net_t), intent(inout) :: neural_net
+  subroutine set_activation_strategy(inference_engine)
+    type(inference_engine_t), intent(inout) :: inference_engine
     character(len=:), allocatable :: function_name
     ! This code is called in both constructors and and can't be refactored into a factory method
     ! pattern because the result would need to be allocatable and polymorphic, which would preclude
     ! the function being pure so it wouldn't be possible to call it from inside the pure constructor
     ! functions.
-    function_name = neural_net%metadata_(findloc(key, "activationFunction", dim=1))%string_
+    function_name = inference_engine%metadata_(findloc(key, "activationFunction", dim=1))%string_
     select case(function_name)
       case("swish")
-        neural_net%activation_strategy_ = swish_t()
+        inference_engine%activation_strategy_ = swish_t()
       case("sigmoid")
-        neural_net%activation_strategy_ = sigmoid_t()
+        inference_engine%activation_strategy_ = sigmoid_t()
       case("step")
-        neural_net%activation_strategy_ = step_t()
+        inference_engine%activation_strategy_ = step_t()
       case("relu")
-        neural_net%activation_strategy_ = relu_t()
+        inference_engine%activation_strategy_ = relu_t()
       case default
-        error stop "neural_net_s(set_activation_strategy): unrecognized activation strategy '"//function_name//"'"
+        error stop "inference_engine_s(set_activation_strategy): unrecognized activation strategy '"//function_name//"'"
     end select
   end subroutine
 
   module procedure construct_from_padded_arrays
 
-    neural_net%metadata_ = metadata
-    neural_net%weights_ = weights
-    neural_net%biases_ = biases
-    neural_net%nodes_ = nodes
+    inference_engine%metadata_ = metadata
+    inference_engine%weights_ = weights
+    inference_engine%biases_ = biases
+    inference_engine%nodes_ = nodes
 
     block
       integer i
 
       if (present(input_range)) then
-        neural_net%input_range_ = input_range
+        inference_engine%input_range_ = input_range
       else
         associate(num_inputs => nodes(lbound(nodes,1)))
           associate(default_minima => [(0., i=1,num_inputs)], default_maxima => [(1., i=1,num_inputs)])
-            neural_net%input_range_ = tensor_range_t("inputs", default_minima, default_maxima)
+            inference_engine%input_range_ = tensor_range_t("inputs", default_minima, default_maxima)
           end associate
         end associate
       end if
 
       if (present(output_range)) then
-        neural_net%output_range_ = output_range
+        inference_engine%output_range_ = output_range
       else
         associate(num_outputs => nodes(ubound(nodes,1)))
           associate(default_minima => [(0., i=1,num_outputs)], default_maxima => [(1., i=1,num_outputs)])
-            neural_net%output_range_ = tensor_range_t("outputs", default_minima, default_maxima)
+            inference_engine%output_range_ = tensor_range_t("outputs", default_minima, default_maxima)
           end associate
         end associate
       end if
     end block
 
-    call set_activation_strategy(neural_net)
-    call assert_consistency(neural_net)
+    call set_activation_strategy(inference_engine)
+    call assert_consistency(inference_engine)
 
   end procedure construct_from_padded_arrays
 
   module procedure assert_conformable_with
 
     call assert_consistency(self)
-    call assert_consistency(neural_net)
+    call assert_consistency(inference_engine)
 
     associate(equal_shapes => [ &
-      shape(self%weights_) == shape(neural_net%weights_), &
-      shape(self%biases_) == shape(neural_net%biases_), &
-      shape(self%nodes_) == shape(neural_net%nodes_)  &
+      shape(self%weights_) == shape(inference_engine%weights_), &
+      shape(self%biases_) == shape(inference_engine%biases_), &
+      shape(self%nodes_) == shape(inference_engine%nodes_)  &
      ])
       call assert(all(equal_shapes), "assert_conformable_with: all(equal_shapes)")
     end associate
 
-    call assert(same_type_as(self%activation_strategy_, neural_net%activation_strategy_), "assert_conformable_with: types)")
+    call assert(same_type_as(self%activation_strategy_, inference_engine%activation_strategy_), "assert_conformable_with: types)")
     
   end procedure
 
@@ -273,4 +273,4 @@ contains
     activation_name = self%metadata_(findloc(key, "activationFunction", dim=1))
   end procedure
 
-end submodule neural_net_s
+end submodule inference_engine_s

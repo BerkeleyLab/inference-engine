@@ -1,6 +1,6 @@
 ! Copyright (c), The Regents of the University of California
 ! Terms of use are as specified in LICENSE.txt
-module neural_net_m
+module inference_engine_m
   !! Define an abstraction that supports inference operationsn on a neural network
   use activation_strategy_m, only : activation_strategy_t
   use file_m, only : file_t
@@ -11,7 +11,7 @@ module neural_net_m
   implicit none
 
   private
-  public :: neural_net_t
+  public :: inference_engine_t
   public :: difference_t
   public :: exchange_t
   public :: infer
@@ -19,7 +19,7 @@ module neural_net_m
   character(len=*), parameter :: key(*) = [character(len=len("usingSkipConnections")) :: &
     "modelName", "modelAuthor", "compilationDate", "activationFunction", "usingSkipConnections"]
 
-  type neural_net_t
+  type inference_engine_t
     !! Encapsulate the minimal information needed to perform inference
     private
     type(tensor_range_t) input_range_, output_range_
@@ -58,16 +58,16 @@ module neural_net_m
     procedure :: norm
   end type
 
-  interface neural_net_t
+  interface inference_engine_t
 
-    pure module function construct_from_padded_arrays(metadata, weights, biases, nodes, input_range, output_range) &
-      result(neural_net)
+    module function construct_from_padded_arrays(metadata, weights, biases, nodes, input_range, output_range) &
+      result(inference_engine)
       implicit none
       type(string_t), intent(in) :: metadata(:)
       real(rkind), intent(in) :: weights(:,:,:), biases(:,:)
       integer, intent(in) :: nodes(0:)
       type(tensor_range_t), intent(in), optional :: input_range, output_range
-      type(neural_net_t) neural_net
+      type(inference_engine_t) inference_engine
     end function
 
   end interface
@@ -77,7 +77,7 @@ module neural_net_m
     elemental module function map_to_input_range(self, tensor) result(normalized_tensor)
       !! The result contains the input tensor values normalized to fall on the range used during training
       implicit none
-      class(neural_net_t), intent(in) :: self
+      class(inference_engine_t), intent(in) :: self
       type(tensor_t), intent(in) :: tensor
       type(tensor_t) normalized_tensor
     end function
@@ -85,14 +85,14 @@ module neural_net_m
     elemental module function map_from_output_range(self, normalized_tensor) result(tensor)
       !! The result contains the output tensor values unnormalized via the inverse of the mapping used in training
       implicit none
-      class(neural_net_t), intent(in) :: self
+      class(inference_engine_t), intent(in) :: self
       type(tensor_t), intent(in) :: normalized_tensor
       type(tensor_t) tensor
     end function
 
-    pure module function to_exchange(self) result(exchange)
+    module function to_exchange(self) result(exchange)
       implicit none
-      class(neural_net_t), intent(in) :: self
+      class(inference_engine_t), intent(in) :: self
       type(exchange_t) exchange
     end function
 
@@ -104,54 +104,54 @@ module neural_net_m
 
     elemental module function subtract(self, rhs) result(difference)
       implicit none
-      class(neural_net_t), intent(in) :: self
-      type(neural_net_t), intent(in) :: rhs
+      class(inference_engine_t), intent(in) :: self
+      type(inference_engine_t), intent(in) :: rhs
       type(difference_t)  difference
     end function
 
-    elemental module subroutine assert_conformable_with(self, neural_net)
+    elemental module subroutine assert_conformable_with(self, inference_engine)
       implicit none
-      class(neural_net_t), intent(in) :: self
-      type(neural_net_t), intent(in) :: neural_net
+      class(inference_engine_t), intent(in) :: self
+      type(inference_engine_t), intent(in) :: inference_engine
     end subroutine
 
     elemental module function infer(self, inputs) result(outputs)
       implicit none
-      class(neural_net_t), intent(in) :: self
+      class(inference_engine_t), intent(in) :: self
       type(tensor_t), intent(in) :: inputs
       type(tensor_t) outputs
     end function
 
     elemental module function num_outputs(self) result(output_count)
       implicit none
-      class(neural_net_t), intent(in) :: self
+      class(inference_engine_t), intent(in) :: self
       integer output_count
     end function
 
     elemental module function num_inputs(self) result(input_count)
       implicit none
-      class(neural_net_t), intent(in) :: self
+      class(inference_engine_t), intent(in) :: self
       integer input_count
     end function
 
     pure module function nodes_per_layer(self) result(node_count)
       implicit none
-      class(neural_net_t), intent(in) :: self
+      class(inference_engine_t), intent(in) :: self
       integer, allocatable :: node_count(:)
     end function
 
     elemental module function activation_function_name(self) result(activation_name)
       implicit none
-      class(neural_net_t), intent(in) :: self
+      class(inference_engine_t), intent(in) :: self
       type(string_t) activation_name
     end function
 
     pure module function skip(self) result(use_skip_connections)
       implicit none
-      class(neural_net_t), intent(in) :: self
+      class(inference_engine_t), intent(in) :: self
       logical use_skip_connections
     end function
 
   end interface
 
-end module neural_net_m
+end module inference_engine_m
