@@ -31,7 +31,7 @@ module hyperparameters_m
     pure module function from_components(mini_batches, learning_rate, optimizer) result(hyperparameters)
       implicit none
       integer, intent(in) :: mini_batches
-      real, intent(in) :: learning_rate
+      real(rkind), intent(in) :: learning_rate
       character(len=*), intent(in) :: optimizer
       type(hyperparameters_t) hyperparameters
     end function

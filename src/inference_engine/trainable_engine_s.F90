@@ -217,9 +217,9 @@ contains
           if (adam) then
             block
               ! Adam parameters  
-              real, parameter :: beta(*) = [.9_rkind, .999_rkind]
-              real, parameter :: obeta(*) = [1._rkind - beta(1), 1._rkind - beta(2)]
-              real, parameter :: epsilon = real(1.D-08,rkind)
+              real(rkind), parameter :: beta(*) = [.9_rkind, .999_rkind]
+              real(rkind), parameter :: obeta(*) = [1._rkind - beta(1), 1._rkind - beta(2)]
+              real(rkind), parameter :: epsilon = real(1.D-08,rkind)
 
               adam_adjust_weights_and_biases: &
               do concurrent(l = 1:output_layer)

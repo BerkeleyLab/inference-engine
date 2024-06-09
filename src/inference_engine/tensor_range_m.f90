@@ -3,6 +3,7 @@
 module tensor_range_m
   use tensor_m, only : tensor_t
   use sourcery_m, only : string_t
+  use kind_parameters_m, only : rkind
   implicit none
   
   private
@@ -11,7 +12,7 @@ module tensor_range_m
   type tensor_range_t
     private
     character(len=:), allocatable :: layer_
-    real, allocatable, dimension(:) :: minima_, maxima_
+    real(rkind), allocatable, dimension(:) :: minima_, maxima_
   contains
     procedure map_to_training_range
     procedure map_from_training_range
@@ -26,7 +27,7 @@ module tensor_range_m
     pure module function from_components(layer, minima, maxima) result(tensor_range)
       implicit none
       character(len=*), intent(in) :: layer
-      real, dimension(:), intent(in) :: minima, maxima
+      real(rkind), dimension(:), intent(in) :: minima, maxima
       type(tensor_range_t) tensor_range
     end function
 

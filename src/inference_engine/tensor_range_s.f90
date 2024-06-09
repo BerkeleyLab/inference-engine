@@ -35,7 +35,7 @@ contains
   end procedure
 
   module procedure equals
-    real, parameter :: tolerance = 1.E-08
+    real(rkind), parameter :: tolerance = 1.E-08
 
     call assert(allocated(lhs%layer_) .and. allocated(rhs%layer_), "tensor_range_s(equals): allocated layer_ components")
     call assert(allocated(lhs%minima_) .and. allocated(rhs%minima_), "tensor_range_s(equals): allocated minima_ components)")
