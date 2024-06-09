@@ -98,7 +98,7 @@ module inference_engine_m_
       type(tensor_t) tensor
     end function
 
-    pure module function to_exchange(self) result(exchange)
+    module function to_exchange(self) result(exchange)
       implicit none
       class(inference_engine_t), intent(in) :: self
       type(exchange_t) exchange

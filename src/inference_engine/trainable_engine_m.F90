@@ -42,11 +42,11 @@ module trainable_engine_m
 
   interface trainable_engine_t
 #ifdef __INTEL_COMPILER
-     pure module function construct_trainable_engine_from_padded_arrays( &
+     module function construct_trainable_engine_from_padded_arrays( &
        nodes, weights, biases, differentiable_activation_strategy, metadata, input_range, output_range &
      ) &
 #else
-     pure module function construct_from_padded_arrays( &
+     module function construct_from_padded_arrays( &
        nodes, weights, biases, differentiable_activation_strategy, metadata, input_range, output_range &
      ) &
 #endif
@@ -60,7 +60,7 @@ module trainable_engine_m
       type(trainable_engine_t) trainable_engine
     end function
 
-    pure module function construct_from_inference_engine(inference_engine) result(trainable_engine)
+    module function construct_from_inference_engine(inference_engine) result(trainable_engine)
       implicit none
       type(inference_engine_t), intent(in) :: inference_engine
       type(trainable_engine_t) trainable_engine
