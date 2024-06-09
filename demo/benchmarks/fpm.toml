@@ -1,0 +1,5 @@
+name = "inference-engine-benchmarks"
+version = "0.1.0"
+license = "see LICENSE.txt"
+author = "Damian Rouson"
+maintainer = "rouson@lbl.gov"

@@ -1,0 +1,73 @@
+! Copyright (c), The Regents of the University of California
+! Terms of use are as specified in LICENSE.txt
+module range_m
+  use tensor_m, only : tensor_t
+  use string_m, only : string_t
+  use kind_parameters_m, only : rkind
+  implicit none
+  
+  private
+  public :: range_t
+
+  type range_t
+    private
+    character(len=:), allocatable :: layer_
+    real(rkind), allocatable, dimension(:) :: minima_, maxima_
+  contains
+    procedure map_to_training_range
+    procedure map_from_training_range
+    procedure to_json
+    procedure in_range
+    generic :: operator(==) => equals
+    procedure, private :: equals
+  end type
+
+  interface range_t
+
+    pure module function from_components(layer, minima, maxima) result(range)
+      implicit none
+      character(len=*), intent(in) :: layer
+      real(rkind), dimension(:), intent(in) :: minima, maxima
+      type(range_t) range
+    end function
+
+  end interface
+
+  interface
+
+    elemental module function map_to_training_range(self, tensor) result(normalized_tensor)
+      implicit none
+      class(range_t), intent(in) :: self
+      type(tensor_t), intent(in) :: tensor
+      type(tensor_t) normalized_tensor
+    end function
+
+    elemental module function map_from_training_range(self, tensor) result(unnormalized_tensor)
+      implicit none
+      class(range_t), intent(in) :: self
+      type(tensor_t), intent(in) :: tensor
+      type(tensor_t) unnormalized_tensor
+    end function
+
+    pure module function to_json(self) result(lines)
+      implicit none
+      class(range_t), intent(in) :: self
+      type(string_t), allocatable :: lines(:)
+    end function
+
+    elemental module function equals(lhs, rhs) result(lhs_equals_rhs)
+      implicit none
+      class(range_t), intent(in) :: lhs, rhs
+      logical lhs_equals_rhs
+    end function
+
+    elemental module function in_range(self, tensor) result(is_in_range)
+      implicit none
+      class(range_t), intent(in) :: self
+      type(tensor_t), intent(in) :: tensor
+      logical is_in_range
+    end function
+
+  end interface
+
+end module range_m
