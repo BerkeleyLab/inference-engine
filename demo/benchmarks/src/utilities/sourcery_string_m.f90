@@ -1,4 +1,4 @@
-module string_m
+module sourcery_string_m
   implicit none
 
   type string_t

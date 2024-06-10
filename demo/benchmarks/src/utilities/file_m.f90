@@ -1,5 +1,5 @@
 module file_m
-  use string_m, only : string_t
+  use sourcery_string_m, only : string_t
   implicit none
 
   type file_t

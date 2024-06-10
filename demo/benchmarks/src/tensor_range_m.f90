@@ -2,7 +2,7 @@
 ! Terms of use are as specified in LICENSE.txt
 module tensor_range_m
   use tensor_m, only : tensor_t
-  use string_m, only : string_t
+  use sourcery_string_m, only : string_t
   use kind_parameters_m, only : rkind
   implicit none
   
