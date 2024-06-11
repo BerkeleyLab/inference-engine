@@ -24,11 +24,11 @@ module tensor_range_m
 
   interface tensor_range_t
 
-    pure module function from_components(layer, minima, maxima) result(range)
+    pure module function from_components(layer, minima, maxima) result(tensor_range)
       implicit none
       character(len=*), intent(in) :: layer
       real(rkind), dimension(:), intent(in) :: minima, maxima
-      type(tensor_range_t) range
+      type(tensor_range_t) tensor_range
     end function
 
   end interface

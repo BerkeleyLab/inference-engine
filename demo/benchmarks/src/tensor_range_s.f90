@@ -9,13 +9,13 @@ contains
 
   module procedure from_components
     call assert(size(minima)==size(maxima),"tensor_range_s(from_components): size(minima)==size(maxima)")
-    range%layer_ = layer
-    range%minima_ = minima
-    range%maxima_ = maxima 
+    tensor_range%layer_ = layer
+    tensor_range%minima_ = minima
+    tensor_range%maxima_ = maxima 
   end procedure
 
   module procedure equals
-    real, parameter :: tolerance = 1.E-08
+    real(rkind), parameter :: tolerance = 1.E-08
 
     call assert(allocated(lhs%layer_) .and. allocated(rhs%layer_), "tensor_range_s(equals): allocated layer_ components")
     call assert(allocated(lhs%minima_) .and. allocated(rhs%minima_), "tensor_range_s(equals): allocated minima_ components)")
