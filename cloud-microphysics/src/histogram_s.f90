@@ -116,21 +116,37 @@ contains
           v_mapped = normalize(v, v_min, v_max)
         end if
 
-        associate(v_mapped_min => merge(v_min, 0., raw), v_mapped_max => merge(v_max, 1., raw))
+        
+        !associate(v_mapped_min => merge(v_min, 0., raw), v_mapped_max => merge(v_max, 1., raw))
+        block
+          real v_avg,range,percent_range,v_mapped_min,v_mapped_max
+          v_mapped_min = merge(v_min, 0., raw)
+          v_mapped_max = merge(v_max, 1., raw)
+          v_avg = 0.5*(v_mapped_max - v_mapped_min)
+          range = v_mapped_max - v_mapped_min
+          percent_range = .05
+          v_mapped_min = v_mapped_min - percent_range*range
+          v_mapped_max = v_mapped_max + percent_range*range
           associate(dv => (v_mapped_max - v_mapped_min)/real(num_bins))
             associate(v_bin_min => [(v_mapped_min + (i-1)*dv, i=1,num_bins)])
-              associate(smidgen => .0001*abs(dv)) ! use to make the high end of the bin range inclusive of the max value
+              associate(smidgen => .01*abs(dv)) ! use to make the high end of the bin range inclusive of the max value
                 associate(v_bin_max => [v_bin_min(2:), v_mapped_max + smidgen])
                   do concurrent(i = 1:num_bins)
-                    in_bin(i) = count(v_mapped >= v_bin_min(i) .and. v_mapped < v_bin_max(i)) ! replace with Fortran 2023 reduction
-                    histogram%frequency_(i) = real(in_bin(i)) / real(cardinality)
-                    histogram%bin_midpoint_(i) = v_bin_min(i) + 0.5*dv
+                    associate(v_in_bin_i => pack(v_mapped, v_mapped >= v_bin_min(i) .and. v_mapped < v_bin_max(i)))
+                      in_bin(i) = size(v_in_bin_i)
+                      histogram%frequency_(i) = real(in_bin(i)) / real(cardinality)
+                      if (size(v_in_bin_i)/=0) then
+                        histogram%bin_midpoint_(i) = sum(v_in_bin_i)/real(in_bin(i))
+                      else
+                        histogram%bin_midpoint_(i) = v_bin_min(i) + 0.5*dv
+                      endif
+                    end associate
                   end do
                 end associate
               end associate
             end associate
           end associate
-        end associate
+        end block
         associate(binned => sum(in_bin))
           call assert(cardinality == binned, "histogram_m(normalize): lossless binning", intrinsic_array_t([cardinality, binned]))
         end associate

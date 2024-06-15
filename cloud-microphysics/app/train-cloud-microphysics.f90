@@ -310,7 +310,7 @@ contains
           if (allocated(harvest)) deallocate(harvest)
           allocate(harvest(num_grid_pts))
           call random_number(harvest)
-          associate(keepers => [(any(outputs(i)%values()/=0.) .or. harvest(i)<keep, i=1,num_grid_pts)])
+          associate(keepers => [(any(abs(outputs(i)%values())<0.01) .or. harvest(i)<keep, i=1,num_grid_pts)])
             input_output_pairs = input_output_pair_t(pack(inputs, keepers), pack(outputs, keepers))
             print *, size(input_output_pairs), "points retained out of ", num_grid_pts, " points total"
           end associate
