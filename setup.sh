@@ -74,8 +74,8 @@ if ! command -v fpm > /dev/null ; then
   fi
 fi
 
-FPM_FC=${FC:-"gfortran-13"}
-FPM_CC=${CC:-"gcc-13"}
+FPM_FC=${FC:-"gfortran-14"}
+FPM_CC=${CC:-"gcc-14"}
 
 fpm test --profile release --flag "-fopenmp"
 
