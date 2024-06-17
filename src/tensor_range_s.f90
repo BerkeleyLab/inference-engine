@@ -2,7 +2,7 @@
 ! Terms of use are as specified in LICENSE.txt
 submodule(tensor_range_m) tensor_range_s
   use assert_m, only : assert
-  use sourcery_m, only : separated_values
+  use julienne_m, only : separated_values
   use kind_parameters_m, only : rkind
   implicit none
   

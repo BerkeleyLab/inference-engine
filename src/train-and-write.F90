@@ -10,7 +10,7 @@ program train_and_write
   !! that is uniformly distributed on the range [0,0.1].
   use inference_engine_m, only : &
     inference_engine_t, trainable_engine_t, mini_batch_t, tensor_t, input_output_pair_t, shuffle, relu_t
-  use sourcery_m, only : string_t, file_t, command_line_t, bin_t
+  use julienne_m, only : string_t, file_t, command_line_t, bin_t
   use assert_m, only : assert, intrinsic_array_t
   implicit none
 
@@ -72,7 +72,7 @@ program train_and_write
       block
         real, parameter :: tolerance = 1.E-06
         integer p
-#ifdef _CRAYFTN
+#if defined _CRAYFTN || __GFORTRAN__
         type(tensor_t), allocatable :: network_outputs(:)
         network_outputs = trainable_engine%infer(inputs)
 #else
@@ -84,7 +84,8 @@ program train_and_write
           do p = 1, num_pairs
             print *,network_outputs(p)%values(),"|", inputs(p)%values(), "|",  network_outputs(p)%values() - inputs(p)%values()
           end do
-#ifndef _CRAYFTN
+#if defined _CRAYFTN || __GFORTRAN__
+#else
         end associate
 #endif
       end block

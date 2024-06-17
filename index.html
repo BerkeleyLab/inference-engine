@@ -124,45 +124,33 @@ https://github.com/berkeleylab/inference-engine" role="button">GitHub</a>
 <p>The available optimizers for training neural networks are
 1. Stochastic gradient descent
 2. Adam (recommended)</p>
-<h2 id="prerequisite">Prerequisite</h2>
-<p>Building Inference-Engine requires a Fortran 2018 compiler.  With <code>gfortran</code>, the required minimum compiler version is 13.</p>
-<h2 id="building-and-testing">Building and Testing</h2>
+<h2 id="build-and-test">Build and Test</h2>
+<p>With the <a href="https://github.com/fortran-lang/fpm">Fortran Package Manager</a> (<code>fpm</code>) and a recent version of a Fortran compiler installed, enter one of the commmands below to build the Inference-Engine library and run the test suite:</p>
 <h3 id="gnu-gfortran">GNU (<code>gfortran</code>)</h3>
-<h4 id="macos">macOS</h4>
-<p>To build, and test Inference-Engine with <code>gfortran</code> in your <code>PATH</code> and your present working directory set to your 
-local copy of the <code>inference-engine</code> repository, enter the following commands in macOS Terminal window 
-(using the default <code>zsh</code> shell or <code>bash</code>):</p>
-<div class="codehilite"><pre><span></span><code>./setup.sh
-</code></pre></div>
-
-<p>whereupon the trailing output will provide instructions for running the codes in the <a href="./example">example</a> subdirectory.</p>
-<h4 id="linux-including-the-windows-subsystem-for-linux">Linux (including the Windows Subsystem for Linux)</h4>
-<p>The above <code>setup.sh</code> script assumes that you have either have <code>fpm</code> installed and or that the script can use Homebrew
-to install it.  If neither is true, please [install <code>fpm</code>] and then build and test Inference-Engine with the 
-following command:</p>
 <div class="codehilite"><pre><span></span><code>fpm test
 </code></pre></div>
 
-<h3 id="intel-ifx-under-development">Intel (<code>ifx</code>) -- under development</h3>
-<p>As of this writing, <code>ifx</code> compiles all of Inference-Engine and all tests pass except tests involving training.
-We are working with Intel on supporting training with <code>ifx</code>.  If you would like to build Inference-Engine and
-run the tests,  please execute the following command</p>
-<div class="codehilite"><pre><span></span><code>fpm test --compiler ifx --flag &quot;-coarray -coarray-num-images=1&quot;
+<h3 id="intel-ifx">Intel (<code>ifx</code>)</h3>
+<div class="codehilite"><pre><span></span><code>fpm test --compiler ifx
 </code></pre></div>
 
 <h4 id="experimental-automatic-offloading-of-do-concurrent-to-gpus"><em>Experimental:</em> Automatic offloading of <code>do concurrent</code> to GPUs</h4>
 <p>This capability is under development with the goal to facilitate GPU automatic offloading via the following command:</p>
-<div class="codehilite"><pre><span></span><code><span class="nv">fpm</span><span class="w"> </span><span class="nv">test</span><span class="w"> </span><span class="o">--</span><span class="nv">compiler</span><span class="w"> </span><span class="nv">ifx</span><span class="w"> </span><span class="o">--</span><span class="nv">flag</span><span class="w"> </span><span class="s2">&quot;-coarray -coarray-num-images=1 -fopenmp-target-do-concurrent -qopenmp -fopenmp-targets=spir64&quot;</span>
+<div class="codehilite"><pre><span></span><code><span class="nv">fpm</span><span class="w"> </span><span class="nv">test</span><span class="w"> </span><span class="o">--</span><span class="nv">compiler</span><span class="w"> </span><span class="nv">ifx</span><span class="w"> </span><span class="o">--</span><span class="nv">flag</span><span class="w"> </span><span class="s2">&quot;-fopenmp-target-do-concurrent -qopenmp -fopenmp-targets=spir64&quot;</span>
 </code></pre></div>
 
+<h3 id="llvm-flang-new">LLVM (<code>flang-new</code>)</h3>
+<p>Support for LLVM <code>flang-new</code> is under development and currently requires building <code>flang-new</code> from source with assumed-rank support enabled:</p>
+<div class="codehilite"><pre><span></span><code>fpm test --compiler flang-new --flag &quot;-mmlir -allow-assumed-rank&quot;
+</code></pre></div>
+
+<p>A script that might help with building <code>flang-new</code> from source is in the <a href="https://github.com/rouson/handy-dandy/blob/main/src/fresh-llvm-build.sh">handy-dandy</a> repository.</p>
 <h3 id="nag-nagfor-under-development">NAG (<code>nagfor</code>) -- under development</h3>
-<p>As of this writing, <code>nagfor</code> compiles all of Inference-Engine and passes only tests that involve neither inference nor training.
-We are working with NAG on supporting inference and training with <code>nagfor</code>.</p>
-<div class="codehilite"><pre><span></span><code>fpm test --compiler nagfor --flag &quot;-fpp -f2018 -coarray=single&quot;
+<div class="codehilite"><pre><span></span><code>fpm test --compiler nagfor --flag -fpp
 </code></pre></div>
 
 <h3 id="hpe-crayftnsh-under-development">HPE (<code>crayftn.sh</code>) -- under development</h3>
-<p>As of this writing, the Cray Compiler Environment (CCE) Fortran compiler does not build Inference-Engine.
+<p>Support for the Cray Compiler Environment (CCE) Fortran compiler is under development.
 Building with the CCE <code>ftn</code> compiler wrapper requires an additional trivial wrapper.
 With a shell script named <code>crayftn.sh</code> of the following form in your <code>PATH</code></p>
 <div class="codehilite"><pre><span></span><code><span class="ch">#!/bin/bash</span>
@@ -279,7 +267,7 @@ ftn<span class="w"> </span><span class="s2">&quot;</span><span class="nv">$@</sp
             <p class="text-end">
               Documentation generated by
               <a href="https://github.com/Fortran-FOSS-Programmers/ford">FORD</a>
- on 2024-05-08 17:27              </p>
+ on 2024-06-17 18:36              </p>
           </div>
         </div>
         <br>

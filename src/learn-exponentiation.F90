@@ -22,7 +22,7 @@ program learn_exponentiation
   !! This trains a neural network to learn the following six polynomial functions of its eight inputs.
   use inference_engine_m, only : &
     inference_engine_t, trainable_engine_t, mini_batch_t, tensor_t, input_output_pair_t, shuffle, relu_t
-  use sourcery_m, only : string_t, file_t, command_line_t, bin_t
+  use julienne_m, only : string_t, file_t, command_line_t, bin_t
   use assert_m, only : assert, intrinsic_array_t
   use exponentiation_m, only : y
   implicit none
@@ -84,7 +84,7 @@ program learn_exponentiation
       block
         real, parameter :: tolerance = 1.E-06
         integer p
-#ifdef _CRAYFTN
+#if defined _CRAYFTN || __GFORTRAN__
         type(tensor_t), allocatable :: network_outputs(:)
         network_outputs = trainable_engine%infer(inputs)
 #else
@@ -94,7 +94,8 @@ program learn_exponentiation
           do p = 1, num_pairs
             print "(6G13.5, a1, 6G13.5)",network_outputs(p)%values(),       "|", desired_outputs(p)%values()
           end do
-#ifndef _CRAYFTN
+#if defined _CRAYFTN || __GFORTRAN__
+#else
         end associate
 #endif
       end block

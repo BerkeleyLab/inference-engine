@@ -1,6 +1,6 @@
 submodule(network_configuration_m) network_configuration_s
   use assert_m, only : assert
-  use sourcery_formats_m, only : csv
+  use julienne_formats_m, only : csv
   implicit none
 
   character(len=*), parameter :: skip_connections_key  = "skip connections"
