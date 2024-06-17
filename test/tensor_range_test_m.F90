@@ -5,10 +5,10 @@ module tensor_range_test_m
 
   ! External dependencies
   use assert_m, only : assert
-  use sourcery_m, only : string_t, test_t, test_result_t, test_description_t, test_description_substring, file_t
+  use julienne_m, only : string_t, test_t, test_result_t, test_description_t, test_description_substring, file_t
   use inference_engine_m, only : tensor_range_t, tensor_t
 #ifdef __GFORTRAN__
-  use sourcery_m, only : test_function_i
+  use julienne_m, only : test_function_i
 #endif
 
   ! Internal dependencies

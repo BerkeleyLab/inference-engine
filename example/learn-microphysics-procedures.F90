@@ -5,7 +5,7 @@ program learn_microphysics_procedures
   !! in of ICAR (https://github.com/BerkeleyLab/icar).
   use inference_engine_m, only : &
     inference_engine_t, trainable_engine_t, mini_batch_t, tensor_t, input_output_pair_t, shuffle, sigmoid_t 
-  use sourcery_m, only : string_t, file_t, command_line_t, bin_t, csv
+  use julienne_m, only : string_t, file_t, command_line_t, bin_t, csv
   use assert_m, only : assert, intrinsic_array_t
   use thompson_tensors_m, only : y, T, p
   use iso_fortran_env, only : int64, output_unit
@@ -120,7 +120,7 @@ program learn_microphysics_procedures
         report_network_performance: &
         block
           integer p
-#ifdef _CRAYFTN
+#if defined _CRAYFTN || __GFORTRAN__
           type(tensor_t), allocatable :: network_outputs(:)
           network_outputs = trainable_engine%infer(inputs)
 #else
@@ -130,7 +130,8 @@ program learn_microphysics_procedures
             do p = 1, num_pairs
               print "(6(G13.5,2x))", inputs(p)%values(), network_outputs(p)%values(), desired_outputs(p)%values()
             end do
-#ifndef _CRAYFTN
+#if defined _CRAYFTN || __GFORTRAN__
+#else
           end associate
 #endif
         end block report_network_performance

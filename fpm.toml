@@ -5,5 +5,5 @@ author = "Damian Rouson, Tan Nguyen, Jordan Welsman, David Torres, Brad Richards
 maintainer = "rouson@lbl.gov"
 
 [dependencies]
-assert = {git = "https://github.com/sourceryinstitute/assert", tag = "1.6.0"}
-sourcery = {git = "https://github.com/sourceryinstitute/sourcery", tag = "4.8.1"}
+assert = {git = "https://github.com/sourceryinstitute/assert", tag = "1.7.0"}
+julienne = {git = "https://github.com/sourceryinstitute/julienne", tag = "2ca5c93e11b46395608fd00abbdf797d9be0b3d4"}

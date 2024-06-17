@@ -48,54 +48,41 @@ The available optimizers for training neural networks are
 1. Stochastic gradient descent
 2. Adam (recommended)
 
-Prerequisite
-------------
-Building Inference-Engine requires a Fortran 2018 compiler.  With `gfortran`, the required minimum compiler version is 13.
-
-Building and Testing
---------------------
+Build and Test
+--------------
+With the [Fortran Package Manager] (`fpm`) and a recent version of a Fortran compiler installed, enter one of the commmands below to build the Inference-Engine library and run the test suite:
 
 ### GNU (`gfortran`)
-#### macOS
-To build, and test Inference-Engine with `gfortran` in your `PATH` and your present working directory set to your 
-local copy of the `inference-engine` repository, enter the following commands in macOS Terminal window 
-(using the default `zsh` shell or `bash`):
-```
-./setup.sh
-```
-whereupon the trailing output will provide instructions for running the codes in the [example](./example) subdirectory.
-
-#### Linux (including the Windows Subsystem for Linux)
-The above `setup.sh` script assumes that you have either have `fpm` installed and or that the script can use Homebrew
-to install it.  If neither is true, please [install `fpm`] and then build and test Inference-Engine with the 
-following command:
 ```
 fpm test
 ```
 
-### Intel (`ifx`) -- under development
-As of this writing, `ifx` compiles all of Inference-Engine and all tests pass except tests involving training.
-We are working with Intel on supporting training with `ifx`.  If you would like to build Inference-Engine and
-run the tests,  please execute the following command
+### Intel (`ifx`)
 ```
-fpm test --compiler ifx --flag "-coarray -coarray-num-images=1"
+fpm test --compiler ifx
 ```
 
 #### _Experimental:_ Automatic offloading of `do concurrent` to GPUs
 This capability is under development with the goal to facilitate GPU automatic offloading via the following command:
 ```
-fpm test --compiler ifx --flag "-coarray -coarray-num-images=1 -fopenmp-target-do-concurrent -qopenmp -fopenmp-targets=spir64"
+fpm test --compiler ifx --flag "-fopenmp-target-do-concurrent -qopenmp -fopenmp-targets=spir64"
 ```
 
-### NAG (`nagfor`) -- under development
-As of this writing, `nagfor` compiles all of Inference-Engine and passes only tests that involve neither inference nor training.
-We are working with NAG on supporting inference and training with `nagfor`.
+### LLVM (`flang-new`)
+Support for LLVM `flang-new` is under development and currently requires building `flang-new` from source with assumed-rank support enabled:
 ```
-fpm test --compiler nagfor --flag "-fpp -f2018 -coarray=single"
+fpm test --compiler flang-new --flag "-mmlir -allow-assumed-rank"
+```
+A script that might help with building `flang-new` from source is in the [handy-dandy] repository.
+
+
+### NAG (`nagfor`) -- under development
+```
+fpm test --compiler nagfor --flag -fpp
 ```
 
 ### HPE (`crayftn.sh`) -- under development
-As of this writing, the Cray Compiler Environment (CCE) Fortran compiler does not build Inference-Engine.
+Support for the Cray Compiler Environment (CCE) Fortran compiler is under development.
 Building with the CCE `ftn` compiler wrapper requires an additional trivial wrapper.
 With a shell script named `crayftn.sh` of the following form in your `PATH`
 ```
@@ -146,3 +133,5 @@ Please see the Inference-Engine GitHub Pages [site] for HTML documentation gener
 [sourcery]: https://github.com/sourceryinstitute/sourcery
 [rojff]: https://gitlab.com/everythingfunctional/rojff
 [install `fpm`]: https://fpm.fortran-lang.org/install/index.html#install
+[Fortran Package Manager]: https://github.com/fortran-lang/fpm
+[handy-dandy]: https://github.com/rouson/handy-dandy/blob/main/src/fresh-llvm-build.sh

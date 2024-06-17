@@ -8,17 +8,18 @@ jobs:
     runs-on: ${{ matrix.os }}
     strategy:
       matrix:
-        os: [macOS-latest]
+        os: [macOS-12]
       fail-fast: true
     env:
       FC: gfortran
-      GCC_V: 13
+      GCC_V: 14
 
     steps:
     - name: Checkout code
       uses: actions/checkout@v2
 
     - name: Install Dependencies MacOS
+      if: contains(matrix.os, 'mac')
       run: |
         brew install gcc@${GCC_V}
         sudo ln -s $(which gfortran-${GCC_V}) $(dirname $(which gfortran-${GCC_V}))/gfortran

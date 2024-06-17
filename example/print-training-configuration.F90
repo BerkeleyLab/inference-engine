@@ -1,7 +1,7 @@
 program print_training_configuration
   !! Demonstrate how to construct and print a training_configuration_t object
   use inference_engine_m, only : training_configuration_t, hyperparameters_t, network_configuration_t
-  use sourcery_m, only : file_t
+  use julienne_m, only : file_t
   implicit none
 #ifdef _CRAYFTN
   type(training_configuration_t) :: training_configuration

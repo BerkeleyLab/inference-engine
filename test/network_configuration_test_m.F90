@@ -5,9 +5,9 @@ module network_configuration_test_m
 
   ! External dependencies
   use inference_engine_m, only : network_configuration_t
-  use sourcery_m, only : test_t, test_result_t, test_description_t, test_description_substring, string_t, file_t
+  use julienne_m, only : test_t, test_result_t, test_description_t, test_description_substring, string_t, file_t
 #ifdef __GFORTRAN__
-  use sourcery_m, only : test_function_i
+  use julienne_m, only : test_function_i
 #endif
 
   ! Internal dependencies

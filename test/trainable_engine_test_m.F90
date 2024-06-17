@@ -5,10 +5,10 @@ module trainable_engine_test_m
 
   ! External dependencies
   use assert_m, only : assert, intrinsic_array_t
-  use sourcery_m, only : test_t, test_result_t, test_description_t, test_description_substring, string_t, bin_t, &
+  use julienne_m, only : test_t, test_result_t, test_description_t, test_description_substring, string_t, bin_t, &
     vector_test_description_t, vector_function_strategy_t
 #ifdef __GFORTRAN__
-  use sourcery_m, only : test_function_i
+  use julienne_m, only : test_function_i
 #endif
 
   ! Internal dependencies
@@ -466,14 +466,15 @@ contains
 
       block
         real(rkind), parameter :: tolerance = 1.E-06
-#ifdef _CRAYFTN
+#if defined _CRAYFTN || __GFORTRAN__
         type(tensor_t), allocatable :: network_outputs(:)
         network_outputs = trainable_engine%infer(inputs)
 #else
         associate(network_outputs => trainable_engine%infer(inputs))
 #endif
           test_passes = maxval(abs([(network_outputs(i)%values() - inputs(i)%values(), i=1,num_pairs)])) < tolerance
-#ifndef _CRAYFTN
+#if defined _CRAYFTN || __GFORTRAN__
+#else
         end associate
 #endif
       end block
@@ -527,14 +528,15 @@ contains
 
       block
         real(rkind), parameter :: tolerance = 1.E-06
-#ifdef _CRAYFTN
+#if defined _CRAYFTN || __GFORTRAN__
         type(tensor_t), allocatable :: network_outputs(:)
         network_outputs = trainable_engine%infer(inputs)
 #else
         associate(network_outputs => trainable_engine%infer(inputs))
 #endif
           test_passes = maxval(abs([(network_outputs(i)%values() - inputs(i)%values(), i=1,num_pairs)])) < tolerance
-#ifndef _CRAYFTN
+#if defined _CRAYFTN || __GFORTRAN__
+#else
         end associate
 #endif
       end block

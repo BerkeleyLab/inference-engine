@@ -8,7 +8,7 @@ submodule(inference_engine_m_) inference_engine_s
   use relu_m, only : relu_t
   use layer_m, only : layer_t
   use neuron_m, only : neuron_t
-  use sourcery_formats_m, only : separated_values
+  use julienne_formats_m, only : separated_values
   implicit none
 
   interface assert_consistency
