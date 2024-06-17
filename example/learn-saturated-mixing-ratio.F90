@@ -119,7 +119,7 @@ program train_saturated_mixture_ratio
         report_network_performance: &
         block
           integer p
-#ifdef _CRAYFTN
+#if defined _CRAYFTN || __GFORTRAN__
           type(tensor_t), allocatable :: network_outputs(:)
           network_outputs = trainable_engine%infer(inputs)
 #else
@@ -129,7 +129,8 @@ program train_saturated_mixture_ratio
             do p = 1, num_pairs
               print "(4(G13.5,2x))", inputs(p)%values(), network_outputs(p)%values(), desired_outputs(p)%values()
             end do
-#ifndef _CRAYFTN
+#if defined _CRAYFTN || __GFORTRAN__
+#else
           end associate
 #endif
         end block report_network_performance

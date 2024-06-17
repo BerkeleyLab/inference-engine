@@ -466,14 +466,15 @@ contains
 
       block
         real(rkind), parameter :: tolerance = 1.E-06
-#ifdef _CRAYFTN
+#if defined _CRAYFTN || __GFORTRAN__
         type(tensor_t), allocatable :: network_outputs(:)
         network_outputs = trainable_engine%infer(inputs)
 #else
         associate(network_outputs => trainable_engine%infer(inputs))
 #endif
           test_passes = maxval(abs([(network_outputs(i)%values() - inputs(i)%values(), i=1,num_pairs)])) < tolerance
-#ifndef _CRAYFTN
+#if defined _CRAYFTN || __GFORTRAN__
+#else
         end associate
 #endif
       end block
@@ -527,14 +528,15 @@ contains
 
       block
         real(rkind), parameter :: tolerance = 1.E-06
-#ifdef _CRAYFTN
+#if defined _CRAYFTN || __GFORTRAN__
         type(tensor_t), allocatable :: network_outputs(:)
         network_outputs = trainable_engine%infer(inputs)
 #else
         associate(network_outputs => trainable_engine%infer(inputs))
 #endif
           test_passes = maxval(abs([(network_outputs(i)%values() - inputs(i)%values(), i=1,num_pairs)])) < tolerance
-#ifndef _CRAYFTN
+#if defined _CRAYFTN || __GFORTRAN__
+#else
         end associate
 #endif
       end block

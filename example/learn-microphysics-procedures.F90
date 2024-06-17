@@ -120,7 +120,7 @@ program learn_microphysics_procedures
         report_network_performance: &
         block
           integer p
-#ifdef _CRAYFTN
+#if defined _CRAYFTN || __GFORTRAN__
           type(tensor_t), allocatable :: network_outputs(:)
           network_outputs = trainable_engine%infer(inputs)
 #else
@@ -130,7 +130,8 @@ program learn_microphysics_procedures
             do p = 1, num_pairs
               print "(6(G13.5,2x))", inputs(p)%values(), network_outputs(p)%values(), desired_outputs(p)%values()
             end do
-#ifndef _CRAYFTN
+#if defined _CRAYFTN || __GFORTRAN__
+#else
           end associate
 #endif
         end block report_network_performance
