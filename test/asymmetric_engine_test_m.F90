@@ -5,7 +5,7 @@ module asymmetric_engine_test_m
 
   ! External dependencies
   use assert_m, only : assert
-  use sourcery_m, only : &
+  use julienne_m, only : &
     test_t, test_result_t, vector_test_description_t, test_description_substring, string_t, vector_function_strategy_t
 
   ! Internal dependencies

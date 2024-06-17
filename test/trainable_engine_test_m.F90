@@ -5,10 +5,10 @@ module trainable_engine_test_m
 
   ! External dependencies
   use assert_m, only : assert, intrinsic_array_t
-  use sourcery_m, only : test_t, test_result_t, test_description_t, test_description_substring, string_t, bin_t, &
+  use julienne_m, only : test_t, test_result_t, test_description_t, test_description_substring, string_t, bin_t, &
     vector_test_description_t, vector_function_strategy_t
 #ifdef __GFORTRAN__
-  use sourcery_m, only : test_function_i
+  use julienne_m, only : test_function_i
 #endif
 
   ! Internal dependencies

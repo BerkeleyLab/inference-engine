@@ -5,7 +5,7 @@ program learn_microphysics_procedures
   !! in of ICAR (https://github.com/BerkeleyLab/icar).
   use inference_engine_m, only : &
     inference_engine_t, trainable_engine_t, mini_batch_t, tensor_t, input_output_pair_t, shuffle, sigmoid_t 
-  use sourcery_m, only : string_t, file_t, command_line_t, bin_t, csv
+  use julienne_m, only : string_t, file_t, command_line_t, bin_t, csv
   use assert_m, only : assert, intrinsic_array_t
   use thompson_tensors_m, only : y, T, p
   use iso_fortran_env, only : int64, output_unit

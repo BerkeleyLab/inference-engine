@@ -3,7 +3,7 @@
 module sigmoid_m
   use differentiable_activation_strategy_m, only : differentiable_activation_strategy_t
   use kind_parameters_m, only : rkind
-  use sourcery_string_m, only : string_t
+  use julienne_string_m, only : string_t
   implicit none
 
   private

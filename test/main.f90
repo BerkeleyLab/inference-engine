@@ -8,7 +8,7 @@ program main
   use network_configuration_test_m, only : network_configuration_test_t
   use training_configuration_test_m, only : training_configuration_test_t
   use tensor_range_test_m, only : tensor_range_test_t
-  use sourcery_m, only : command_line_t
+  use julienne_m, only : command_line_t
   implicit none
 
   type(inference_engine_test_t) inference_engine_test

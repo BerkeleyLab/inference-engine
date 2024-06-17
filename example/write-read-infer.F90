@@ -8,7 +8,7 @@ program write_read_infer
   !! non-negative inputs to the corresponding outputs using a RELU activation
   !! function.
   use inference_engine_m, only : inference_engine_t, relu_t, tensor_t
-  use sourcery_m, only : string_t, command_line_t, file_t
+  use julienne_m, only : string_t, command_line_t, file_t
   use kind_parameters_m, only : rkind
   implicit none
 

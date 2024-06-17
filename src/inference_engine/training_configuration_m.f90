@@ -1,6 +1,6 @@
 module training_configuration_m
-  use sourcery_string_m, only : string_t
-  use sourcery_file_m, only : file_t
+  use julienne_string_m, only : string_t
+  use julienne_file_m, only : file_t
   use hyperparameters_m, only : hyperparameters_t
   use network_configuration_m, only : network_configuration_t
   use kind_parameters_m, only  : rkind
