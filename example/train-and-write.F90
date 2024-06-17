@@ -72,7 +72,7 @@ program train_and_write
       block
         real, parameter :: tolerance = 1.E-06
         integer p
-#ifdef _CRAYFTN
+#if defined _CRAYFTN || __GFORTRAN__
         type(tensor_t), allocatable :: network_outputs(:)
         network_outputs = trainable_engine%infer(inputs)
 #else
@@ -84,7 +84,8 @@ program train_and_write
           do p = 1, num_pairs
             print *,network_outputs(p)%values(),"|", inputs(p)%values(), "|",  network_outputs(p)%values() - inputs(p)%values()
           end do
-#ifndef _CRAYFTN
+#if defined _CRAYFTN || __GFORTRAN__
+#else
         end associate
 #endif
       end block
