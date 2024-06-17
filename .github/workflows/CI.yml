@@ -43,6 +43,7 @@ jobs:
     - name: Build and Test Ubuntu
       if: contains(matrix.os, 'ubuntu')
       run: |
+        fpm --version
         export FPM_FC=gfortran-14
         export FPM_CC=gcc-14
         fpm test
