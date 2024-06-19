@@ -95,46 +95,57 @@ contains
 
   module procedure construct
 
-    integer, allocatable :: in_bin(:)
-    integer i
+    integer i, j, k, n
+    integer, allocatable :: bin_count(:)
+    integer, parameter :: performance_threshold = 80
+    real, parameter :: capture_maxval = 1.0001 ! ensure maxval(v_max) falls within the highest bin
+    real, allocatable :: v_mapped(:,:,:,:)
 
     histogram%variable_name_ = variable_name
     histogram%unmapped_min_ = minval(v)
     histogram%unmapped_max_ = maxval(v)
 
-    allocate(   histogram%frequency_(num_bins))
+    allocate(histogram%frequency_(num_bins))
     allocate(histogram%bin_midpoint_(num_bins))
-    allocate(                in_bin(num_bins))
+    allocate(bin_count(num_bins))
 
     associate(v_min => (histogram%unmapped_min_), v_max => (histogram%unmapped_max_), cardinality => size(v))
-      block
-        real, allocatable :: v_mapped(:,:,:,:)
-
-        if (raw)  then
-          v_mapped = v
-        else
-          v_mapped = normalize(v, v_min, v_max)
-        end if
-
-        associate(v_mapped_min => merge(v_min, 0., raw), v_mapped_max => merge(v_max, 1., raw))
-          associate(dv => (v_mapped_max - v_mapped_min)/real(num_bins))
-            associate(v_bin_min => [(v_mapped_min + (i-1)*dv, i=1,num_bins)])
-              associate(smidgen => .0001*abs(dv)) ! use to make the high end of the bin range inclusive of the max value
-                associate(v_bin_max => [v_bin_min(2:), v_mapped_max + smidgen])
-                  do concurrent(i = 1:num_bins)
-                    in_bin(i) = count(v_mapped >= v_bin_min(i) .and. v_mapped < v_bin_max(i)) ! replace with Fortran 2023 reduction
-                    histogram%frequency_(i) = real(in_bin(i)) / real(cardinality)
-                    histogram%bin_midpoint_(i) = v_bin_min(i) + 0.5*dv
-                  end do
-                end associate
+      if (raw)  then
+        v_mapped = v
+      else
+        v_mapped = normalize(v, v_min, v_max)
+      end if
+      associate(v_mapped_min => merge(v_min, 0., raw), v_mapped_max => capture_maxval*merge(v_max, 1., raw))
+        associate(dv => (v_mapped_max - v_mapped_min)/real(num_bins))
+          associate(v_bin_min => [(v_mapped_min + (i-1)*dv, i=1,num_bins)])
+            if (num_bins < performance_threshold) then
+              associate(v_bin_max => [v_bin_min(2:), v_mapped_max])
+                do concurrent(i = 1:num_bins)
+                  bin_count(i) = count(v_mapped >= v_bin_min(i) .and. v_mapped < v_bin_max(i))
+                end do
               end associate
-            end associate
+            else
+              bin_count = 0
+              do i = 1,size(v_mapped,1)
+                do j = 1,size(v_mapped,2)
+                  do k = 1,size(v_mapped,3)
+                    do n = 1,size(v_mapped,4)
+                      associate(bin => floor((v_mapped(i,j,k,n) - v_mapped_min)/dv) + 1)
+                        bin_count(bin) = bin_count(bin) + 1
+                      end associate
+                    end do
+                  end do
+                end do
+              end do
+            end if
+            histogram%frequency_ = real(bin_count) / real(cardinality)
+            histogram%bin_midpoint_ = v_bin_min + 0.5*dv
           end associate
         end associate
-        associate(binned => sum(in_bin))
-          call assert(cardinality == binned, "histogram_m(normalize): lossless binning", intrinsic_array_t([cardinality, binned]))
-        end associate
-      end block
+      end associate
+      associate(binned => sum(bin_count))
+        call assert(cardinality == binned, "histogram_s(construct): lossless binning", intrinsic_array_t([cardinality, binned]))
+      end associate
     end associate
 
   end procedure
