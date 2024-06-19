@@ -62,7 +62,7 @@ module inference_engine_m_
 
   interface inference_engine_t
 
-    pure module function construct_from_padded_arrays(metadata, weights, biases, nodes, input_range, output_range) &
+    impure module function construct_from_padded_arrays(metadata, weights, biases, nodes, input_range, output_range) &
       result(inference_engine)
       implicit none
       type(string_t), intent(in) :: metadata(:)
@@ -98,7 +98,7 @@ module inference_engine_m_
       type(tensor_t) tensor
     end function
 
-    pure module function to_exchange(self) result(exchange)
+    impure module function to_exchange(self) result(exchange)
       implicit none
       class(inference_engine_t), intent(in) :: self
       type(exchange_t) exchange

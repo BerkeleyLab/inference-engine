@@ -845,11 +845,11 @@ large graphs.</div>
 <a id="ln-42" name="ln-42" href="#ln-42"></a>
 <a id="ln-43" name="ln-43" href="#ln-43"></a><span class="w">  </span><span class="k">interface </span><span class="n">trainable_engine_t</span>
 <a id="ln-44" name="ln-44" href="#ln-44"></a><span class="cp">#ifdef __INTEL_COMPILER</span>
-<a id="ln-45" name="ln-45" href="#ln-45"></a><span class="w">     </span><span class="k">pure module function </span><span class="n">construct_trainable_engine_from_padded_arrays</span><span class="p">(</span><span class="w"> </span><span class="p">&amp;</span>
+<a id="ln-45" name="ln-45" href="#ln-45"></a><span class="w">     </span><span class="k">impure module function </span><span class="n">construct_trainable_engine_from_padded_arrays</span><span class="p">(</span><span class="w"> </span><span class="p">&amp;</span>
 <a id="ln-46" name="ln-46" href="#ln-46"></a><span class="w">       </span><span class="n">nodes</span><span class="p">,</span><span class="w"> </span><span class="n">weights</span><span class="p">,</span><span class="w"> </span><span class="n">biases</span><span class="p">,</span><span class="w"> </span><span class="n">differentiable_activation_strategy</span><span class="p">,</span><span class="w"> </span><span class="n">metadata</span><span class="p">,</span><span class="w"> </span><span class="n">input_range</span><span class="p">,</span><span class="w"> </span><span class="n">output_range</span><span class="w"> </span><span class="p">&amp;</span>
 <a id="ln-47" name="ln-47" href="#ln-47"></a><span class="w">     </span><span class="p">)</span><span class="w"> </span><span class="p">&amp;</span>
 <a id="ln-48" name="ln-48" href="#ln-48"></a><span class="cp">#else</span>
-<a id="ln-49" name="ln-49" href="#ln-49"></a><span class="w">     </span><span class="k">pure module function </span><span class="n">construct_from_padded_arrays</span><span class="p">(</span><span class="w"> </span><span class="p">&amp;</span>
+<a id="ln-49" name="ln-49" href="#ln-49"></a><span class="w">     </span><span class="k">impure module function </span><span class="n">construct_from_padded_arrays</span><span class="p">(</span><span class="w"> </span><span class="p">&amp;</span>
 <a id="ln-50" name="ln-50" href="#ln-50"></a><span class="w">       </span><span class="n">nodes</span><span class="p">,</span><span class="w"> </span><span class="n">weights</span><span class="p">,</span><span class="w"> </span><span class="n">biases</span><span class="p">,</span><span class="w"> </span><span class="n">differentiable_activation_strategy</span><span class="p">,</span><span class="w"> </span><span class="n">metadata</span><span class="p">,</span><span class="w"> </span><span class="n">input_range</span><span class="p">,</span><span class="w"> </span><span class="n">output_range</span><span class="w"> </span><span class="p">&amp;</span>
 <a id="ln-51" name="ln-51" href="#ln-51"></a><span class="w">     </span><span class="p">)</span><span class="w"> </span><span class="p">&amp;</span>
 <a id="ln-52" name="ln-52" href="#ln-52"></a><span class="cp">#endif</span>
@@ -863,7 +863,7 @@ large graphs.</div>
 <a id="ln-60" name="ln-60" href="#ln-60"></a><span class="w">      </span><span class="k">type</span><span class="p">(</span><span class="n">trainable_engine_t</span><span class="p">)</span><span class="w"> </span><span class="n">trainable_engine</span>
 <a id="ln-61" name="ln-61" href="#ln-61"></a><span class="w">    </span><span class="k">end function</span>
 <a id="ln-62" name="ln-62" href="#ln-62"></a>
-<a id="ln-63" name="ln-63" href="#ln-63"></a><span class="k">    pure module function </span><span class="n">construct_from_inference_engine</span><span class="p">(</span><span class="n">inference_engine</span><span class="p">)</span><span class="w"> </span><span class="k">result</span><span class="p">(</span><span class="n">trainable_engine</span><span class="p">)</span>
+<a id="ln-63" name="ln-63" href="#ln-63"></a><span class="k">    impure module function </span><span class="n">construct_from_inference_engine</span><span class="p">(</span><span class="n">inference_engine</span><span class="p">)</span><span class="w"> </span><span class="k">result</span><span class="p">(</span><span class="n">trainable_engine</span><span class="p">)</span>
 <a id="ln-64" name="ln-64" href="#ln-64"></a><span class="w">      </span><span class="k">implicit none</span>
 <a id="ln-65" name="ln-65" href="#ln-65"></a><span class="k">      type</span><span class="p">(</span><span class="n">inference_engine_t</span><span class="p">),</span><span class="w"> </span><span class="k">intent</span><span class="p">(</span><span class="n">in</span><span class="p">)</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">inference_engine</span>
 <a id="ln-66" name="ln-66" href="#ln-66"></a><span class="w">      </span><span class="k">type</span><span class="p">(</span><span class="n">trainable_engine_t</span><span class="p">)</span><span class="w"> </span><span class="n">trainable_engine</span>
@@ -980,7 +980,7 @@ large graphs.</div>
             <p class="text-end">
               Documentation generated by
               <a href="https://github.com/Fortran-FOSS-Programmers/ford">FORD</a>
- on 2024-06-17 19:25              </p>
+ on 2024-06-19 00:11              </p>
           </div>
         </div>
         <br>
