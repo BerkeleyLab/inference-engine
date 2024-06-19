@@ -128,13 +128,9 @@ contains
 
   end subroutine
 
-  pure subroutine set_activation_strategy(inference_engine)
+  impure subroutine set_activation_strategy(inference_engine)
     type(inference_engine_t), intent(inout) :: inference_engine
     character(len=:), allocatable :: function_name
-    ! This code is called in both constructors and and can't be refactored into a factory method
-    ! pattern because the result would need to be allocatable and polymorphic, which would preclude
-    ! the function being pure so it wouldn't be possible to call it from inside the pure constructor
-    ! functions.
     function_name = inference_engine%metadata_(findloc(key, "activationFunction", dim=1))%string()
     select case(function_name)
       case("swish")

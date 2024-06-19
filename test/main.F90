@@ -50,7 +50,9 @@ program main
   print *,"Test suite execution time: ",t_finish - t_start
   print *
   print '(*(a,:,g0))',"_________ In total, ",passes," of ",tests, " tests pass. _________"
+#ifndef __flang__
   sync all
+#endif
   print *
   if (passes/=tests) error stop "-------- One or more tests failed. See the above report. ---------"
 end program
