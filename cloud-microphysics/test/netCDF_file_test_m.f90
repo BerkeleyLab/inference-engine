@@ -8,7 +8,7 @@ module NetCDF_file_test_m
 
   ! External dependencies
   use assert_m, only : assert
-  use sourcery_m, only : string_t, test_t, test_result_t
+  use julienne_m, only : string_t, test_t, test_result_t
   use netcdf, only : &
      nf90_create, nf90_def_dim, nf90_def_var, nf90_enddef, nf90_put_var, nf90_inquire_dimension, & ! functions
      nf90_close, nf90_open, nf90_inq_varid, nf90_get_var, nf90_inquire_variable, &
