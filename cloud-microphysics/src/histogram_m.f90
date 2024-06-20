@@ -2,7 +2,7 @@
 ! Terms of use are as specified in LICENSE.txt
 module histogram_m
   !! Generate and represent histograms
-  use sourcery_m, only : file_t
+  use julienne_m, only : file_t
   implicit none
 
   private

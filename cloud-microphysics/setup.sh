@@ -54,8 +54,7 @@ if ! command -v brew > /dev/null ; then
   fi
 fi
 
-brew tap fortran-lang/fortran # required for building fpm
-brew install fortran-lang/fortran/fpm netcdf netcdf-fortran pkg-config coreutils # coreutils supports `realpath` below
+brew install netcdf netcdf-fortran pkg-config coreutils # coreutils supports `realpath` below
 
 PREFIX=`realpath $PREFIX`
 
@@ -65,8 +64,8 @@ NETCDFF_LIB_PATH="`brew --prefix netcdf-fortran`/lib"
 
 FPM_LD_FLAG=" -L$NETCDF_LIB_PATH -L$HDF5_LIB_PATH -L$NETCDFF_LIB_PATH"
 FPM_FLAG="-fcoarray=single -O3 -fallow-argument-mismatch -ffree-line-length-none -L$NETCDF_LIB_PATH -L$HDF5_LIB_PATH"
-FPM_FC=${FC:-"gfortran-13"}
-FPM_CC=${CC:-"gcc-13"}
+FPM_FC=${FC:-"gfortran-14"}
+FPM_CC=${CC:-"gcc-14"}
 
 mkdir -p build
 

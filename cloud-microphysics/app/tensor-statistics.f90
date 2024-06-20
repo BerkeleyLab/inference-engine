@@ -7,7 +7,7 @@ program tensor_statistics
   !! 2. Saves the resulting statistics to text files with space-separated columns and column labels.
 
   ! External dependencies:
-  use sourcery_m, only : command_line_t, file_t, string_t
+  use julienne_m, only : command_line_t, file_t, string_t
   use assert_m, only : assert, intrinsic_array_t
   use inference_engine_m, only : rkind, ubounds_t
   use ieee_arithmetic, only : ieee_is_nan

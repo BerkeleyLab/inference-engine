@@ -3,7 +3,7 @@
 submodule(histogram_m) histogram_s
   use assert_m, only : assert, intrinsic_array_t
   use kind_parameters_m, only : rkind
-  use sourcery_m, only : string_t, operator(.cat.)
+  use julienne_m, only : string_t, operator(.cat.)
   implicit none
 
 contains
