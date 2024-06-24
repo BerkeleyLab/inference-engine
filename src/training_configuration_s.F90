@@ -1,6 +1,6 @@
 submodule(training_configuration_m) training_configuration_s
   use assert_m, only : assert
-  use inference_engine_m, only : relu_t, sigmoid_t, swish_t
+  use inference_engine_m, only : gelu_t, relu_t, sigmoid_t, swish_t
   implicit none
 
   character(len=*), parameter :: header="{", footer="}", separator = ","
@@ -86,6 +86,8 @@ contains
     associate(activation_name => self%network_configuration_%activation_name())
 #endif
       select case(activation_name%string())
+        case ("gelu")
+          strategy = gelu_t()
         case ("relu")
           strategy = relu_t()
         case ("sigmoid")

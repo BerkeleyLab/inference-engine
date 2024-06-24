@@ -5,6 +5,7 @@ submodule(inference_engine_m_) inference_engine_s
   use step_m, only : step_t
   use swish_m, only : swish_t
   use sigmoid_m, only : sigmoid_t
+  use gelu_m, only : gelu_t
   use relu_m, only : relu_t
   use layer_m, only : layer_t
   use neuron_m, only : neuron_t
@@ -139,6 +140,8 @@ contains
         inference_engine%activation_strategy_ = sigmoid_t()
       case("step")
         inference_engine%activation_strategy_ = step_t()
+      case("gelu")
+        inference_engine%activation_strategy_ = gelu_t()
       case("relu")
         inference_engine%activation_strategy_ = relu_t()
       case default
