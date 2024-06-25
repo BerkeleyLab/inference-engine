@@ -6,6 +6,8 @@ submodule(histogram_m) histogram_s
   use julienne_m, only : string_t, operator(.cat.)
   implicit none
 
+  real(rkind), parameter :: zero = 0._rkind, one = 1._rkind, two=2._rkind, half = one/two
+
 contains
 
   module procedure variable_name
@@ -25,15 +27,15 @@ contains
   end procedure
 
   module procedure num_bins
-    bins = size(self%bin_midpoint_)
+    bins = size(self%bin_value_)
   end procedure
 
-  module procedure bin_midpoint
-    midpoint = self%bin_midpoint_(bin)
+  module procedure bin_value
+    v = self%bin_value_(bin)
   end procedure
 
   module procedure bin_frequency
-    frequency = self%frequency_(bin)
+    frequency = self%bin_frequency_(bin)
   end procedure
 
   module procedure to_separate_file
@@ -48,11 +50,19 @@ contains
 
       allocate(comments(num_histograms))
 
-      block 
+      block
         integer line
         do line  = 1, size(comments)
-          comments(line) = "# " // histograms(line)%variable_name() // " range: " // &
-            string_t(histograms(line)%unmapped_min()) // "  " // string_t(histograms(line)%unmapped_max())
+          associate( &
+            mode_frequency => string_t(int(100*maxval(histograms(line)%bin_frequency_))), &
+            range_min => string_t(histograms(line)%unmapped_min()), &
+            range_max =>  string_t(histograms(line)%unmapped_max()) &
+           )
+             comments(line) = "# " &
+               // trim(histograms(line)%variable_name_) &
+               // " range: [" // trim(range_min%string()) // ", " //  trim(range_max%string()) // "]" &
+               // ", mode frequency: " // trim(mode_frequency%string()) // "%"
+          end associate
         end do
       end block
 
@@ -72,7 +82,7 @@ contains
 
           allocate(columns(num_bins))
           do b = 1, num_bins
-            columns(b) =  string_t(histograms(1)%bin_midpoint(b)) // &
+            columns(b) =  string_t(histograms(1)%bin_value_(b)) // &
               .cat. [("  " // string_t(histograms(h)%bin_frequency(b)), h=1,num_histograms)]
           end do
         end block
@@ -98,15 +108,15 @@ contains
     integer i, j, k, n
     integer, allocatable :: bin_count(:)
     integer, parameter :: performance_threshold = 80
-    real, parameter :: capture_maxval = 1.0001 ! ensure maxval(v_max) falls within the highest bin
+    real, parameter :: capture_maxval = 1.0001_rkind ! ensure maxval(v_max) falls within the highest bin
     real, allocatable :: v_mapped(:,:,:,:)
 
     histogram%variable_name_ = variable_name
     histogram%unmapped_min_ = minval(v)
     histogram%unmapped_max_ = maxval(v)
 
-    allocate(histogram%frequency_(num_bins))
-    allocate(histogram%bin_midpoint_(num_bins))
+    allocate(histogram%bin_frequency_(num_bins))
+    allocate(histogram%bin_value_(num_bins))
     allocate(bin_count(num_bins))
 
     associate(v_min => (histogram%unmapped_min_), v_max => (histogram%unmapped_max_), cardinality => size(v))
@@ -115,31 +125,31 @@ contains
       else
         v_mapped = normalize(v, v_min, v_max)
       end if
-      associate(v_mapped_min => merge(v_min, 0., raw), v_mapped_max => capture_maxval*merge(v_max, 1., raw))
+      associate(v_mapped_min => merge(v_min, zero, raw), v_mapped_max => capture_maxval*merge(v_max, one, raw))
         associate(dv => (v_mapped_max - v_mapped_min)/real(num_bins))
           associate(v_bin_min => [(v_mapped_min + (i-1)*dv, i=1,num_bins)])
-            if (num_bins < performance_threshold) then
-              associate(v_bin_max => [v_bin_min(2:), v_mapped_max])
+            associate(v_bin_max => [v_bin_min(2:), v_mapped_max])
+              histogram%bin_value_ = half*[v_bin_min + v_bin_max] ! switching to average yields problems likely related to roundoff
+              if (num_bins < performance_threshold) then
                 do concurrent(i = 1:num_bins)
                   bin_count(i) = count(v_mapped >= v_bin_min(i) .and. v_mapped < v_bin_max(i))
                 end do
-              end associate
-            else
-              bin_count = 0
-              do i = 1,size(v_mapped,1)
-                do j = 1,size(v_mapped,2)
-                  do k = 1,size(v_mapped,3)
-                    do n = 1,size(v_mapped,4)
-                      associate(bin => floor((v_mapped(i,j,k,n) - v_mapped_min)/dv) + 1)
-                        bin_count(bin) = bin_count(bin) + 1
-                      end associate
+              else
+                bin_count = 0
+                do i = 1,size(v_mapped,1)
+                  do j = 1,size(v_mapped,2)
+                    do k = 1,size(v_mapped,3)
+                      do n = 1,size(v_mapped,4)
+                        associate(bin => floor((v_mapped(i,j,k,n) - v_mapped_min)/dv) + 1)
+                          bin_count(bin) = bin_count(bin) + 1
+                        end associate
+                      end do
                     end do
                   end do
                 end do
-              end do
-            end if
-            histogram%frequency_ = real(bin_count) / real(cardinality)
-            histogram%bin_midpoint_ = v_bin_min + 0.5*dv
+                histogram%bin_frequency_ = real(bin_count,rkind) / real(cardinality,rkind)
+              end if
+            end associate
           end associate
         end associate
       end associate
