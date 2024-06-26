@@ -13,14 +13,14 @@ module histogram_m
     private
     character(len=:), allocatable :: variable_name_
     real unmapped_min_, unmapped_max_
-    real, allocatable :: frequency_(:), bin_midpoint_(:)
+    real, allocatable :: bin_frequency_(:), bin_value_(:)
   contains
     procedure variable_name
     procedure unmapped_range
     procedure unmapped_min
     procedure unmapped_max
     procedure num_bins
-    procedure bin_midpoint
+    procedure bin_value
     procedure bin_frequency
   end type
 
@@ -86,11 +86,11 @@ module histogram_m
       real range_maximum
     end function
 
-    elemental module function bin_midpoint(self, bin) result(midpoint)
+    elemental module function bin_value(self, bin) result(v)
       implicit none
       class(histogram_t), intent(in) :: self
       integer, intent(in) :: bin
-      real midpoint
+      real v
     end function
 
     pure module function bin_frequency(self, bin) result(frequency)

@@ -98,6 +98,7 @@ contains
   subroutine compute_histograms(base_name, raw)
     character(len=*), intent(in) :: base_name
     logical, intent(in) :: raw
+    integer(int64) t_histo_start, t_histo_finish 
 
     real, allocatable, dimension(:,:,:,:) :: &
       pressure_in , potential_temperature_in , temperature_in , &
@@ -134,8 +135,8 @@ contains
            ubounds_t(ubound(pressure_in)), ubounds_t(ubound(temperature_in)) &
           ]
 
-        print *,"Calculating input tensor histograms and writing to file"
-
+        print *,"Calculating input tensor histograms."
+        call system_clock(t_histo_start)
         histograms = [ &
           histogram_t(pressure_in, "pressure", num_bins, raw) &
          ,histogram_t(potential_temperature_in, 'potential-temperature', num_bins, raw) &
@@ -145,6 +146,10 @@ contains
          ,histogram_t(qr_in, "qr", num_bins, raw) &
          ,histogram_t(qs_in, "qs", num_bins, raw) &
         ]
+        call system_clock(t_histo_finish)
+        print *,"Seven input histograms done in ", real(t_histo_finish - t_histo_start, real64)/real(clock_rate, real64), " sec."
+
+        print *,"Writing input tensor histograms file"
         block
           type(file_t) histograms_file
           integer h
@@ -206,8 +211,8 @@ contains
       call assert(.not. any(ieee_is_nan(dqr_dt)), ".not. any(ieee_is_nan(dqr_dt)")
       call assert(.not. any(ieee_is_nan(dqs_dt)), ".not. any(ieee_is_nan(dqs_dt)")
 
-      print *,"Calculating output tensor histograms and writing to file"
-
+      print *,"Calculating output tensor histograms."
+      call system_clock(t_histo_start, clock_rate)
       histograms = [ &
          histogram_t(dpt_dt, "dptdt", num_bins, raw) &
         ,histogram_t(dqv_dt, "dqvdt", num_bins, raw) &
@@ -215,6 +220,8 @@ contains
         ,histogram_t(dqr_dt, "dqrdt", num_bins, raw) &
         ,histogram_t(dqs_dt, "dqsdt", num_bins, raw) &
       ]
+      call system_clock(t_histo_finish)
+      print *,"Five output histograms done in ", real(t_histo_finish - t_histo_start, real64)/real(clock_rate, real64), " sec."
       block
         type(file_t) histograms_file
         integer h
