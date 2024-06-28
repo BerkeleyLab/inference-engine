@@ -9,6 +9,7 @@ module metadata_m
     private
     type(string_t) modelName_, modelAuthor_, compilationDate_, activationFunction_, usingSkipConnections_
   contains
+    procedure :: strings
     procedure :: to_json
     procedure :: equals
     generic :: operator(==) => equals
@@ -32,6 +33,12 @@ module metadata_m
   end interface
 
   interface
+
+    pure module function strings(self) result(components)
+      implicit none
+      class(metadata_t), intent(in) :: self
+      type(string_t), allocatable :: components(:)
+    end function
 
     pure module function to_json(self) result(lines)
       implicit none

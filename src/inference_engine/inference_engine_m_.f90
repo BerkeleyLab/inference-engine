@@ -6,6 +6,7 @@ module inference_engine_m_
   use julienne_file_m, only : file_t
   use julienne_string_m, only : string_t
   use kind_parameters_m, only : rkind
+  use metadata_m, only : metadata_t
   use tensor_m, only : tensor_t
   use tensor_range_m, only : tensor_range_t
   use differentiable_activation_strategy_m, only :differentiable_activation_strategy_t
@@ -47,6 +48,7 @@ module inference_engine_m_
   type exchange_t
     type(tensor_range_t) input_range_, output_range_
     type(string_t) metadata_(size(key))
+    type(metadata_t) metadata_object
     real(rkind), allocatable :: weights_(:,:,:), biases_(:,:)
     integer, allocatable :: nodes_(:)
     class(activation_strategy_t), allocatable :: activation_strategy_ ! Strategy Pattern facilitates elemental activation

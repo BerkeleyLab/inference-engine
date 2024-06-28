@@ -6,6 +6,7 @@ module trainable_engine_m
   use inference_engine_m_, only : inference_engine_t
   use differentiable_activation_strategy_m, only : differentiable_activation_strategy_t
   use kind_parameters_m, only : rkind
+  use metadata_m, only : metadata_t
   use tensor_m, only :  tensor_t
   use tensor_range_m, only :  tensor_range_t
   use mini_batch_m, only : mini_batch_t
@@ -19,7 +20,7 @@ module trainable_engine_m
     !! Encapsulate the information needed to perform training
     private
     type(tensor_range_t) input_range_, output_range_
-    type(string_t), allocatable :: metadata_(:)
+    type(metadata_t) metadata_
     real(rkind), allocatable :: w(:,:,:) ! weights
     real(rkind), allocatable :: b(:,:) ! biases
     integer, allocatable :: n(:) ! nodes per layer

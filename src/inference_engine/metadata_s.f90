@@ -4,6 +4,10 @@ submodule(metadata_m) metadata_s
 
 contains
 
+  module procedure strings
+    components = [self%modelName_, self%modelAuthor_, self%compilationDate_, self%activationFunction_, self%usingSkipConnections_]
+  end procedure 
+  
   module procedure from_components
     metadata%modelName_ = modelName
     metadata%modelAuthor_ = modelAuthor

@@ -36,7 +36,8 @@ contains
 #endif
       trainable_engine%input_range_ = exchange%input_range_
       trainable_engine%output_range_ = exchange%output_range_
-      trainable_engine%metadata_ = exchange%metadata_
+      trainable_engine%metadata_ = &
+        metadata_t(exchange%metadata_(1),exchange%metadata_(2),exchange%metadata_(3),exchange%metadata_(4),exchange%metadata_(5))
       trainable_engine%w = exchange%weights_
       trainable_engine%b = exchange%biases_
       trainable_engine%n = exchange%nodes_
@@ -262,8 +263,7 @@ contains
   module procedure construct_from_padded_arrays
 #endif
 
-
-    trainable_engine%metadata_ = metadata
+    trainable_engine%metadata_ = metadata_t(metadata(1),metadata(2),metadata(3),metadata(4),metadata(5))
     trainable_engine%n = nodes
     trainable_engine%w = weights
     trainable_engine%b = biases
@@ -296,7 +296,8 @@ contains
     ! assignment-stmt disallows the procedure from being pure because it might
     ! deallocate polymorphic allocatable subcomponent `activation_strategy_`
     ! TODO: consider how this affects design
-    inference_engine = inference_engine_t(self%metadata_, self%w, self%b, self%n, self%input_range_, self%output_range_)
+    inference_engine = inference_engine_t( &
+      self%metadata_%strings(), self%w, self%b, self%n, self%input_range_, self%output_range_)
   end procedure
 
   module procedure perturbed_identity_network
