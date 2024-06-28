@@ -47,8 +47,7 @@ module inference_engine_m_
 
   type exchange_t
     type(tensor_range_t) input_range_, output_range_
-    type(string_t) metadata_(size(key))
-    type(metadata_t) metadata_object
+    type(metadata_t) metadata_
     real(rkind), allocatable :: weights_(:,:,:), biases_(:,:)
     integer, allocatable :: nodes_(:)
     class(activation_strategy_t), allocatable :: activation_strategy_ ! Strategy Pattern facilitates elemental activation

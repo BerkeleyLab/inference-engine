@@ -30,8 +30,7 @@ contains
   module procedure to_exchange
     exchange%input_range_ = self%input_range_
     exchange%output_range_ = self%output_range_
-    exchange%metadata_ = self%metadata_
-    exchange%metadata_object = metadata_t(self%metadata_(1),self%metadata_(2),self%metadata_(3),self%metadata_(4),self%metadata_(5))
+    exchange%metadata_ = metadata_t(self%metadata_(1),self%metadata_(2),self%metadata_(3),self%metadata_(4),self%metadata_(5))
     exchange%weights_ = self%weights_
     exchange%biases_ = self%biases_
     exchange%nodes_ = self%nodes_

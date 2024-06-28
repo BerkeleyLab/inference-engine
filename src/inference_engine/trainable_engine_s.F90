@@ -36,8 +36,7 @@ contains
 #endif
       trainable_engine%input_range_ = exchange%input_range_
       trainable_engine%output_range_ = exchange%output_range_
-      trainable_engine%metadata_ = &
-        metadata_t(exchange%metadata_(1),exchange%metadata_(2),exchange%metadata_(3),exchange%metadata_(4),exchange%metadata_(5))
+      trainable_engine%metadata_ = exchange%metadata_
       trainable_engine%w = exchange%weights_
       trainable_engine%b = exchange%biases_
       trainable_engine%n = exchange%nodes_
