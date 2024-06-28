@@ -422,30 +422,18 @@ contains
       )
         allocate(lines(num_lines))
 
-        line = 1
-        lines(line) = string_t('{')
+        lines(1:8) = &
+          [ string_t('{') &
+           ,string_t('    "metadata": {') &
+           ,string_t('        "modelName": "' // self%metadata_(findloc(key, "modelName", dim=1))%string() // '",') &
+           ,string_t('        "modelAuthor": "' // self%metadata_(findloc(key, "modelAuthor", dim=1))%string() // '",') &
+           ,string_t('        "compilationDate": "' // self%metadata_(findloc(key, "compilationDate", dim=1))%string() // '",') &
+           ,string_t('        "activationFunction": "'//self%metadata_(findloc(key, "activationFunction", dim=1))%string() // '",')&
+           ,string_t('        "usingSkipConnections": ' // self%metadata_(findloc(key, "usingSkipConnections", dim=1))%string()) &
+           ,string_t('    },') &
+          ]
 
-        line = line + 1
-        lines(line) = string_t('    "metadata": {')
-
-        line = line + 1
-        lines(line) = string_t('        "modelName": "' // &
-                                                       self%metadata_(findloc(key, "modelName", dim=1))%string() // '",')
-        line = line + 1
-        lines(line) = string_t('        "modelAuthor": "' // &
-                                                       self%metadata_(findloc(key, "modelAuthor", dim=1))%string() // '",')
-        line = line + 1
-        lines(line) = string_t('        "compilationDate": "' // &
-                                                       self%metadata_(findloc(key, "compilationDate", dim=1))%string() // '",')
-        line = line + 1
-        lines(line) = string_t('        "activationFunction": "' // &
-                                                       self%metadata_(findloc(key, "activationFunction", dim=1))%string() // '",')
-        line = line + 1
-        lines(line) = string_t('        "usingSkipConnections": ' // &
-                                                       self%metadata_(findloc(key, "usingSkipConnections", dim=1))%string())
-
-        line = line + 1
-        lines(line) = string_t('    },')
+        line = 8
 
         block
           type(string_t), allocatable :: input_range_json(:), output_range_json(:)
