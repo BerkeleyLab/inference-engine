@@ -30,7 +30,9 @@ contains
   module procedure to_exchange
     exchange%input_range_ = self%input_range_
     exchange%output_range_ = self%output_range_
-    exchange%metadata_ = metadata_t(self%metadata_(1),self%metadata_(2),self%metadata_(3),self%metadata_(4),self%metadata_(5))
+    associate(strings => self%metadata_%strings())
+      exchange%metadata_ = metadata_t(strings(1),strings(2),strings(3),strings(4),strings(5))
+    end associate
     exchange%weights_ = self%weights_
     exchange%biases_ = self%biases_
     exchange%nodes_ = self%nodes_
@@ -131,27 +133,27 @@ contains
 
   impure subroutine set_activation_strategy(inference_engine)
     type(inference_engine_t), intent(inout) :: inference_engine
-    character(len=:), allocatable :: function_name
-    function_name = inference_engine%metadata_(findloc(key, "activationFunction", dim=1))%string()
-    select case(function_name)
-      case("swish")
-        inference_engine%activation_strategy_ = swish_t()
-      case("sigmoid")
-        inference_engine%activation_strategy_ = sigmoid_t()
-      case("step")
-        inference_engine%activation_strategy_ = step_t()
-      case("gelu")
-        inference_engine%activation_strategy_ = gelu_t()
-      case("relu")
-        inference_engine%activation_strategy_ = relu_t()
-      case default
-        error stop "inference_engine_s(set_activation_strategy): unrecognized activation strategy '"//function_name//"'"
-    end select
+    associate(strings => inference_engine%metadata_%strings())
+      select case(strings(4)%string())
+        case("swish")
+          inference_engine%activation_strategy_ = swish_t()
+        case("sigmoid")
+          inference_engine%activation_strategy_ = sigmoid_t()
+        case("step")
+          inference_engine%activation_strategy_ = step_t()
+        case("gelu")
+          inference_engine%activation_strategy_ = gelu_t()
+        case("relu")
+          inference_engine%activation_strategy_ = relu_t()
+        case default
+          error stop "inference_engine_s(set_activation_strategy): unrecognized activation strategy '"//strings(4)%string()//"'"
+      end select
+    end associate
   end subroutine
 
   module procedure construct_from_padded_arrays
 
-    inference_engine%metadata_ = metadata
+    inference_engine%metadata_ = metadata_t(metadata(1),metadata(2),metadata(3),metadata(4),metadata(5))
     inference_engine%weights_ = weights
     inference_engine%biases_ = biases
     inference_engine%nodes_ = nodes
@@ -201,21 +203,7 @@ contains
     call assert(adjustl(lines(l)%string())=="{", "construct_from_json: expecting '{' to start outermost object", lines(l)%string())
 #endif
 
-    l = 2
-    metadata = [string_t(""),string_t(""),string_t(""),string_t(""),string_t("false")]
-    if (adjustl(lines(l)%string()) == '"metadata": {') then
-      block
-        character(len=:), allocatable :: justified_line
-        do 
-          l = l + 1
-          justified_line = adjustl(lines(l)%string())
-          if (justified_line == "},") exit
-          metadata(findloc(key, trim(get_key_string(justified_line)), dim=1)) = get_key_value(justified_line)
-        end do
-        l = l + 1
-      end block
-    end if
-
+    l = 9
     call assert(adjustl(lines(l)%string())=='"tensor_range": {', 'from_json: expecting "tensor_range": {', lines(l)%string())
 
 #ifndef _CRAYFTN
@@ -257,7 +245,9 @@ contains
        end associate
     end block
 
-    inference_engine = hidden_layers%inference_engine(metadata, output_layer, input_range, output_range)
+    associate(metadata_object => metadata_t(lines(2:8)))
+      inference_engine = hidden_layers%inference_engine(metadata_object%strings(), output_layer, input_range, output_range)
+    end associate
 
     call set_activation_strategy(inference_engine)
     call assert_consistency(inference_engine)
@@ -398,7 +388,8 @@ contains
     character(len=17) :: single_value
     integer, parameter :: &
       outer_object_braces = 2, hidden_layer_outer_brackets = 2, lines_per_neuron = 4, inner_brackets_per_layer  = 2, &
-      output_layer_brackets = 2, metadata_outer_braces = 2, input_range_object = 5, output_range_object = 5
+      output_layer_brackets = 2, metadata_outer_braces = 2, input_range_object = 5, output_range_object = 5, &
+      metadata_object = 5
 
     call assert_consistency(self)
 
@@ -415,30 +406,20 @@ contains
 
       associate(num_lines => &
         outer_object_braces &
-        + metadata_outer_braces + size(key) &
+        + metadata_outer_braces + metadata_object  &
         + input_range_object + output_range_object &
         + hidden_layer_outer_brackets + (num_hidden_layers)*(inner_brackets_per_layer + neurons_per_layer*lines_per_neuron) &
         + output_layer_brackets + num_outputs*lines_per_neuron &
       )
         allocate(lines(num_lines))
 
-        lines(1:8) = &
-          [ string_t('{') &
-           ,string_t('    "metadata": {') &
-           ,string_t('        "modelName": "' // self%metadata_(findloc(key, "modelName", dim=1))%string() // '",') &
-           ,string_t('        "modelAuthor": "' // self%metadata_(findloc(key, "modelAuthor", dim=1))%string() // '",') &
-           ,string_t('        "compilationDate": "' // self%metadata_(findloc(key, "compilationDate", dim=1))%string() // '",') &
-           ,string_t('        "activationFunction": "'//self%metadata_(findloc(key, "activationFunction", dim=1))%string() // '",')&
-           ,string_t('        "usingSkipConnections": ' // self%metadata_(findloc(key, "usingSkipConnections", dim=1))%string()) &
-           ,string_t('    },') &
-          ]
-
-        line = 8
+        lines(1) = string_t('{')
+        lines(2:8) = self%metadata_%to_json()
 
         block
           type(string_t), allocatable :: input_range_json(:), output_range_json(:)
 
-          line = line + 1
+          line = 9
           input_range_json = self%input_range_%to_json() 
           associate(last_line => ubound(input_range_json,1))
             call assert(last_line==input_range_object, "inference_engine_s(to_json): input_range object line count")
@@ -557,11 +538,15 @@ contains
   end procedure to_json
 
   module procedure skip
-    use_skip_connections = self%metadata_(findloc(key, "usingSkipConnections", dim=1))%string() == "true"
+    associate(strings => self%metadata_%strings())
+      use_skip_connections = merge(.true., .false.,  strings(5) == "true")
+    end associate
   end procedure
 
   module procedure activation_function_name
-    activation_name = self%metadata_(findloc(key, "activationFunction", dim=1))
+    associate(strings => self%metadata_%strings())
+      activation_name = strings(4)
+    end associate
   end procedure
 
 end submodule inference_engine_s
