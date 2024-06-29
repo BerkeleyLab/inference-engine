@@ -187,61 +187,77 @@ contains
 
   end procedure construct_from_padded_arrays
 
-  module procedure construct_from_json
+  module procedure from_json
 
     type(string_t), allocatable :: lines(:), metadata(:)
     type(tensor_range_t) input_range, output_range
     type(layer_t) hidden_layers, output_layer
     type(neuron_t) output_neuron
     real(rkind), allocatable :: hidden_weights(:,:,:)
+    character(len=:), allocatable :: justified_line
     integer l
+#ifdef _CRAYFTN
+    type(tensor_range_t) prototype
+    prototype = tensor_range_t("",[0.],[1.])
+#endif
 
     lines = file_%lines()
-
-    l = 1
-    call assert(adjustl(lines(l)%string())=="{", "construct_from_json: expecting '{' to start outermost object", lines(l)%string())
-
-    l = 9
-    call assert(adjustl(lines(l)%string())=='"tensor_range": {', 'from_json: expecting "tensor_range": {', lines(l)%string())
-
+    associate(num_lines => size(lines))
+      
+      call assert(adjustl(lines(1)%string())=="{", "inference_engine_s(from_json): expected outermost object '{'")
+      
 #ifndef _CRAYFTN
-    associate(prototype => tensor_range_t("",[0.],[1.]))
-#else
-    block
-      type(tensor_range_t) prototype
-      prototype = tensor_range_t("",[0.],[1.])
+      associate(prototype => tensor_range_t("",[0.],[1.]))
 #endif
-      associate(num_lines => size(prototype%to_json()))
-        input_range = tensor_range_t(lines(l:l+num_lines-1))
-        l = l + num_lines
-        output_range = tensor_range_t(lines(l:l+num_lines-1))
-        l = l + num_lines
+        associate(range_lines => size(prototype%to_json()))
+
+          find_inputs_range: &
+          do l = 1, num_lines
+            justified_line = adjustl(lines(l)%string())
+            if (justified_line == '"inputs_range": {') exit 
+          end do find_inputs_range
+          call assert(justified_line =='"inputs_range": {', 'from_json: expecting "inputs_range": {', justified_line)
+          input_range = tensor_range_t(lines(l:l+range_lines-1))
+
+          find_outputs_range: &
+          do l = 1, num_lines
+            justified_line = adjustl(lines(l)%string())
+            if (justified_line == '"outputs_range": {') exit 
+          end do find_outputs_range
+          call assert(justified_line =='"outputs_range": {', 'from_json: expecting "outputs_range": {', justified_line)
+          output_range = tensor_range_t(lines(l:l+range_lines-1))
+
+        end associate
+#ifndef _CRAYFTN
       end associate
-#ifndef _CRAYFTN
-    end associate
-#else
-    end block
 #endif
 
-    call assert(adjustl(lines(l)%string())=='"hidden_layers": [', 'from_json: expecting "hidden_layers": [', lines(l)%string())
-    l = l + 1
+      find_hidden_layers: &
+      do l = 1, num_lines
+        justified_line = adjustl(lines(l)%string())
+        if (justified_line == '"hidden_layers": [') exit 
+      end do find_hidden_layers
+      call assert(justified_line=='"hidden_layers": [', 'from_json: expecting "hidden_layers": [', justified_line)
 
-    block 
-       integer, parameter :: lines_per_neuron=4, bracket_lines_per_layer=2
-       character(len=:), allocatable :: output_layer_line
-             
-       hidden_layers = layer_t(lines, start=l)
+      read_hidden_layers: &
+      block 
+         integer, parameter :: lines_per_neuron=4, bracket_lines_per_layer=2
+         character(len=:), allocatable :: output_layer_line
+               
+         hidden_layers = layer_t(lines, start=l+1)
 
-       associate( output_layer_line_number => l + lines_per_neuron*sum(hidden_layers%count_neurons()) &
-         + bracket_lines_per_layer*hidden_layers%count_layers() + 1)
+         associate( output_layer_line_number => l + 1 + lines_per_neuron*sum(hidden_layers%count_neurons()) &
+           + bracket_lines_per_layer*hidden_layers%count_layers() + 1)
 
-         output_layer_line = lines(output_layer_line_number)%string()
-         call assert(adjustl(output_layer_line)=='"output_layer": [', 'from_json: expecting "output_layer": [', &
-           lines(output_layer_line_number)%string())
+           output_layer_line = lines(output_layer_line_number)%string()
+           call assert(adjustl(output_layer_line)=='"output_layer": [', 'from_json: expecting "output_layer": [', &
+             lines(output_layer_line_number)%string())
 
-         output_layer = layer_t(lines, start=output_layer_line_number)
-       end associate
-    end block
+           output_layer = layer_t(lines, start=output_layer_line_number)
+         end associate
+      end block read_hidden_layers
+    
+    end associate
 
     associate(metadata_object => metadata_t(lines(2:8)))
       inference_engine = hidden_layers%inference_engine(metadata_object%strings(), output_layer, input_range, output_range)
@@ -291,7 +307,7 @@ contains
 #endif
     end function
 
-  end procedure construct_from_json
+  end procedure from_json
 
   module procedure assert_conformable_with
 

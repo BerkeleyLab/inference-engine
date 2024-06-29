@@ -22,7 +22,7 @@ contains
     tensor_range_key_found = .false.
 
     do l=1,size(lines)
-      if (lines(l)%get_json_key() == "tensor_range") then
+      if (lines(l)%get_json_key() == "inputs_range" .or. lines(l)%get_json_key() == "outputs_range") then
         tensor_range_key_found = .true.
         tensor_range%layer_  = lines(l+1)%get_json_value(key=string_t("layer"), mold=string_t(""))
         tensor_range%minima_ = lines(l+2)%get_json_value(key=string_t("minima"), mold=[0.])
@@ -62,13 +62,17 @@ contains
     allocate(character(len=size(self%maxima_)*(characters_per_value+1)-1)::maxima_string)
     write(minima_string, fmt = csv_format) self%minima_
     write(maxima_string, fmt = csv_format) self%maxima_
-    lines = [ &
-      string_t(indent // '"tensor_range": {'), &
-      string_t(indent // '  "layer": "' // trim(adjustl(self%layer_)) // '",'), &
-      string_t(indent // '  "minima": [' // trim(adjustl(minima_string)) // '],'), & 
-      string_t(indent // '  "maxima": [' // trim(adjustl(maxima_string)) // ']'), &
-      string_t(indent // '}') &
-    ]
+    block 
+      character(len=:), allocatable :: layer
+      layer = trim(adjustl(self%layer_))
+      lines = [ &
+        string_t(indent // '"'//layer//'_range": {'), &
+        string_t(indent // '  "layer": "' // layer // '",'), &
+        string_t(indent // '  "minima": [' // trim(adjustl(minima_string)) // '],'), & 
+        string_t(indent // '  "maxima": [' // trim(adjustl(maxima_string)) // ']'), &
+        string_t(indent // '}') &
+      ]
+    end block
   end procedure
 
   module procedure map_to_training_range

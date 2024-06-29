@@ -73,7 +73,7 @@ module inference_engine_m_
       type(inference_engine_t) inference_engine
     end function
 
-    impure elemental module function construct_from_json(file_) result(inference_engine)
+    impure elemental module function from_json(file_) result(inference_engine)
       implicit none
       type(file_t), intent(in) :: file_
       type(inference_engine_t) inference_engine
