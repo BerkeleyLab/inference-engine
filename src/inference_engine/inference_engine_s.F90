@@ -199,9 +199,7 @@ contains
     lines = file_%lines()
 
     l = 1
-#ifndef NAGFOR
     call assert(adjustl(lines(l)%string())=="{", "construct_from_json: expecting '{' to start outermost object", lines(l)%string())
-#endif
 
     l = 9
     call assert(adjustl(lines(l)%string())=='"tensor_range": {', 'from_json: expecting "tensor_range": {', lines(l)%string())
