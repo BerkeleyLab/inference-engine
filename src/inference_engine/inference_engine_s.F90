@@ -197,8 +197,10 @@ contains
     character(len=:), allocatable :: justified_line
     integer l
 #ifdef _CRAYFTN
-    type(tensor_range_t) prototype
-    prototype = tensor_range_t("",[0.],[1.])
+    type(tensor_range_t) proto_range
+    type(metadata_t) proto_meta
+    proto_range = tensor_range_t("",[0.],[1.])
+    proto_meta = metadata_t(string_t(""),string_t(""),string_t(""),string_t(""),string_t(""))
 #endif
 
     lines = file_%lines()
@@ -207,9 +209,9 @@ contains
       call assert(adjustl(lines(1)%string())=="{", "inference_engine_s(from_json): expected outermost object '{'")
       
 #ifndef _CRAYFTN
-      associate(prototype => tensor_range_t("",[0.],[1.]))
+      associate(proto_range => tensor_range_t("",[0.],[1.]))
 #endif
-        associate(range_lines => size(prototype%to_json()))
+        associate(range_lines => size(proto_range%to_json()))
 
           find_inputs_range: &
           do l = 1, num_lines
@@ -257,10 +259,22 @@ contains
          end associate
       end block read_hidden_layers
     
-    end associate
+      find_metadata: &
+      do l = 1, num_lines
+        justified_line = adjustl(lines(l)%string())
+        if (justified_line == '"metadata": {') exit 
+      end do find_metadata
+      call assert(justified_line=='"metadata": {', 'from_json: expecting "metadata": {', justified_line)
 
-    associate(metadata_object => metadata_t(lines(2:8)))
-      inference_engine = hidden_layers%inference_engine(metadata_object%strings(), output_layer, input_range, output_range)
+#ifndef _CRAYFTN
+      associate(proto_meta => metadata_t(string_t(""),string_t(""),string_t(""),string_t(""),string_t("")))
+#endif
+       associate(metadata_object => metadata_t(lines(l:l+size(proto_meta%to_json())-1)))
+         inference_engine = hidden_layers%inference_engine(metadata_object%strings(), output_layer, input_range, output_range)
+       end associate
+#ifndef _CRAYFTN
+      end associate
+#endif
     end associate
 
     call set_activation_strategy(inference_engine)
