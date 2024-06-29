@@ -131,25 +131,25 @@ contains
 
   end subroutine
 
-  impure subroutine set_activation_strategy(inference_engine)
-    type(inference_engine_t), intent(inout) :: inference_engine
-    associate(strings => inference_engine%metadata_%strings())
-      select case(strings(4)%string())
-        case("swish")
-          inference_engine%activation_strategy_ = swish_t()
-        case("sigmoid")
-          inference_engine%activation_strategy_ = sigmoid_t()
-        case("step")
-          inference_engine%activation_strategy_ = step_t()
-        case("gelu")
-          inference_engine%activation_strategy_ = gelu_t()
-        case("relu")
-          inference_engine%activation_strategy_ = relu_t()
-        case default
-          error stop "inference_engine_s(set_activation_strategy): unrecognized activation strategy '"//strings(4)%string()//"'"
-      end select
-    end associate
-  end subroutine
+  impure function activation_factory(activation_name) result(activation)
+    character(len=*), intent(in) :: activation_name
+    class(activation_strategy_t), allocatable :: activation
+
+    select case(activation_name)
+      case("swish")
+        activation = swish_t()
+      case("sigmoid")
+        activation = sigmoid_t()
+      case("step")
+        activation = step_t()
+      case("gelu")
+        activation = gelu_t()
+      case("relu")
+        activation = relu_t()
+      case default
+        error stop "inference_engine_s(activation_factory): unrecognized activation strategy '"//activation_name//"'"
+    end select
+  end function
 
   module procedure construct_from_padded_arrays
 
@@ -182,7 +182,10 @@ contains
       end if
     end block
 
-    call set_activation_strategy(inference_engine)
+    associate(strings => inference_engine%metadata_%strings())
+      inference_engine%activation_strategy_ = activation_factory(strings(4)%string())
+    end associate
+
     call assert_consistency(inference_engine)
 
   end procedure construct_from_padded_arrays
@@ -277,7 +280,10 @@ contains
 #endif
     end associate
 
-    call set_activation_strategy(inference_engine)
+    associate(strings => inference_engine%metadata_%strings())
+      inference_engine%activation_strategy_ = activation_factory(strings(4)%string())
+    end associate
+
     call assert_consistency(inference_engine)
 
   contains
