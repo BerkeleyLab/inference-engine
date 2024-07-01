@@ -422,58 +422,60 @@ contains
     character(len=17) :: single_value
     integer, parameter :: &
       outer_object_braces = 2, hidden_layer_outer_brackets = 2, lines_per_neuron = 4, inner_brackets_per_layer  = 2, &
-      output_layer_brackets = 2, metadata_outer_braces = 2, input_range_object = 5, output_range_object = 5, &
-      metadata_object = 5
+      output_layer_brackets = 2
+#ifdef _CRAYFTN
+    type(tensor_range_t) proto_range
+    type(metadata_t) proto_meta
+    proto_range = tensor_range_t("",[0.],[1.])
+    proto_meta = metadata_t(string_t(""),string_t(""),string_t(""),string_t(""),string_t(""))
+#endif
 
     call assert_consistency(self)
 
     csv_format = separated_values(separator=",", mold=[real(rkind)::])
 
-    associate(num_hidden_layers => size(self%nodes_)-2, &
+    associate( &
+      num_hidden_layers => size(self%nodes_)-2, &
       neurons_per_layer => self%nodes_(lbound(self%nodes_,1)+1), &
       num_outputs => self%num_outputs(), &
       num_inputs => self%num_inputs() &
     )
-
-      call assert(all(neurons_per_layer==self%nodes_(lbound(self%nodes_,1)+1 : ubound(self%nodes_,1)-1)), &
-        "to_json: uniform hidden layers")
-
-      associate(num_lines => &
-        outer_object_braces &
-        + metadata_outer_braces + metadata_object  &
-        + input_range_object + output_range_object &
-        + hidden_layer_outer_brackets + (num_hidden_layers)*(inner_brackets_per_layer + neurons_per_layer*lines_per_neuron) &
-        + output_layer_brackets + num_outputs*lines_per_neuron &
+#ifndef _CRAYFTN
+      associate( &
+        proto_range => tensor_range_t("",[0.],[1.]), &
+        proto_meta => metadata_t(string_t(""),string_t(""),string_t(""),string_t(""),string_t("")) &
       )
-        allocate(lines(num_lines))
+#endif
+        associate( &
+          num_tensor_range_lines => size(proto_range%to_json()), &
+          num_metadata_lines => size(proto_meta%to_json()) &
+        )
+        call assert(all(neurons_per_layer==self%nodes_(lbound(self%nodes_,1)+1 : ubound(self%nodes_,1)-1)), &
+          "to_json: uniform hidden layers")
 
-        lines(1) = string_t('{')
-        lines(2:8) = self%metadata_%to_json()
+        associate( &
+          num_lines => outer_object_braces + num_metadata_lines + 2 * num_tensor_range_lines &
+          + hidden_layer_outer_brackets + (num_hidden_layers)*(inner_brackets_per_layer + neurons_per_layer*lines_per_neuron) &
+          + output_layer_brackets + num_outputs*lines_per_neuron &
+        )
+          allocate(lines(num_lines))
 
-        block
-          type(string_t), allocatable :: input_range_json(:), output_range_json(:)
-
-          line = 9
-          input_range_json = self%input_range_%to_json() 
-          associate(last_line => ubound(input_range_json,1))
-            call assert(last_line==input_range_object, "inference_engine_s(to_json): input_range object line count")
-            input_range_json(last_line) = input_range_json(last_line) // ","
-            lines(line:line+input_range_object-1) = input_range_json
-            line = line + input_range_object-1
-          end associate
-
+          line = 1
+          lines(line) = string_t('{')
           line = line + 1
-          output_range_json = self%output_range_%to_json() 
-          associate(last_line => ubound(output_range_json,1))
-            call assert(last_line==output_range_object, "inference_engine_s(to_json): output_range object line count")
-            output_range_json(last_line) = output_range_json(last_line) // ","
-            lines(line:line+output_range_object-1) = output_range_json
-            line = line + input_range_object-1
-          end associate
-        end block
 
-        line = line + 1
-        lines(line) = string_t('     "hidden_layers": [')
+          lines(line:line+num_metadata_lines-1) = self%metadata_%to_json()
+          line = line + num_metadata_lines
+
+          lines(line:line+num_tensor_range_lines-1) =  self%input_range_%to_json()
+          lines(line+num_tensor_range_lines-1) =  lines(line+num_tensor_range_lines-1)  // ","
+          line = line + num_tensor_range_lines
+
+          lines(line:line+num_tensor_range_lines-1) =  self%output_range_%to_json() 
+          lines(line+num_tensor_range_lines-1) = lines(line+num_tensor_range_lines-1) // ","
+          line = line + num_tensor_range_lines
+
+          lines(line) = string_t('     "hidden_layers": [')
 
         layer = 1 
         line = line + 1
@@ -564,7 +566,11 @@ contains
         lines(line) = string_t('}')
 
         call assert(line == num_lines, "inference_engine_t%to_json: all lines defined", intrinsic_array_t([num_lines, line]))
+        end associate
       end associate
+#ifndef _CRAYFTN
+      end associate
+#endif
     end associate
  
     json_file = file_t(lines)
