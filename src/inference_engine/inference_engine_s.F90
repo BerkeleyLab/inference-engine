@@ -195,13 +195,13 @@ contains
     type(string_t), allocatable :: lines(:), metadata(:)
     type(tensor_range_t) input_range, output_range
     type(layer_t) hidden_layers, output_layer
-    type(neuron_t) output_neuron
     real(rkind), allocatable :: hidden_weights(:,:,:)
     character(len=:), allocatable :: justified_line
     integer l
 #ifdef _CRAYFTN
     type(tensor_range_t) proto_range
     type(metadata_t) proto_meta
+    type(neuron_t) proto_neuron
     proto_range = tensor_range_t("",[0.],[1.])
     proto_meta = metadata_t(string_t(""),string_t(""),string_t(""),string_t(""),string_t(""))
 #endif
@@ -476,9 +476,9 @@ contains
             line = line + num_tensor_range_lines
 
             lines(line) = string_t('     "hidden_layers": [')
+            line = line + 1
 
             layer = 1 
-            line = line + 1
             lines(line) = string_t('         [')
             do neuron = 1, neurons_per_layer
               line = line + 1
