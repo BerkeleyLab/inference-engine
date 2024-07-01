@@ -450,124 +450,124 @@ contains
           num_tensor_range_lines => size(proto_range%to_json()), &
           num_metadata_lines => size(proto_meta%to_json()) &
         )
-        call assert(all(neurons_per_layer==self%nodes_(lbound(self%nodes_,1)+1 : ubound(self%nodes_,1)-1)), &
-          "to_json: uniform hidden layers")
+          call assert(all(neurons_per_layer==self%nodes_(lbound(self%nodes_,1)+1 : ubound(self%nodes_,1)-1)), &
+            "to_json: uniform hidden layers")
 
-        associate( &
-          num_lines => outer_object_braces + num_metadata_lines + 2 * num_tensor_range_lines &
-          + hidden_layer_outer_brackets + (num_hidden_layers)*(inner_brackets_per_layer + neurons_per_layer*lines_per_neuron) &
-          + output_layer_brackets + num_outputs*lines_per_neuron &
-        )
-          allocate(lines(num_lines))
+          associate( &
+            num_lines => outer_object_braces + num_metadata_lines + 2 * num_tensor_range_lines &
+            + hidden_layer_outer_brackets + (num_hidden_layers)*(inner_brackets_per_layer + neurons_per_layer*lines_per_neuron) &
+            + output_layer_brackets + num_outputs*lines_per_neuron &
+          )
+            allocate(lines(num_lines))
 
-          line = 1
-          lines(line) = string_t('{')
-          line = line + 1
+            line = 1
+            lines(line) = string_t('{')
+            line = line + 1
 
-          lines(line:line+num_metadata_lines-1) = self%metadata_%to_json()
-          line = line + num_metadata_lines
+            lines(line:line+num_metadata_lines-1) = self%metadata_%to_json()
+            line = line + num_metadata_lines
 
-          lines(line:line+num_tensor_range_lines-1) =  self%input_range_%to_json()
-          lines(line+num_tensor_range_lines-1) =  lines(line+num_tensor_range_lines-1)  // ","
-          line = line + num_tensor_range_lines
+            lines(line:line+num_tensor_range_lines-1) =  self%input_range_%to_json()
+            lines(line+num_tensor_range_lines-1) =  lines(line+num_tensor_range_lines-1)  // ","
+            line = line + num_tensor_range_lines
 
-          lines(line:line+num_tensor_range_lines-1) =  self%output_range_%to_json() 
-          lines(line+num_tensor_range_lines-1) = lines(line+num_tensor_range_lines-1) // ","
-          line = line + num_tensor_range_lines
+            lines(line:line+num_tensor_range_lines-1) =  self%output_range_%to_json() 
+            lines(line+num_tensor_range_lines-1) = lines(line+num_tensor_range_lines-1) // ","
+            line = line + num_tensor_range_lines
 
-          lines(line) = string_t('     "hidden_layers": [')
+            lines(line) = string_t('     "hidden_layers": [')
 
-        layer = 1 
-        line = line + 1
-        lines(line) = string_t('         [')
-        do neuron = 1, neurons_per_layer
-          line = line + 1
-          lines(line) = string_t('             {')
-          line = line + 1
-          if (allocated(comma_separated_values)) deallocate(comma_separated_values)
-          allocate(character(len=num_inputs*(characters_per_value+1)-1)::comma_separated_values)
-          block
-            integer l          
-            associate(n => self%nodes_)
-              l = 1
-              write(comma_separated_values, fmt = csv_format) self%weights_(neuron,1:n(l-1),l)
-            end associate
-          end block
-          lines(line) = string_t('                "weights": [' // trim(comma_separated_values) // '],')
-          line = line + 1
-          write(single_value, fmt = csv_format) self%biases_(neuron,layer)
-          lines(line) = string_t('                 "bias": ' // trim(single_value))
-          line = line + 1
-          lines(line) = string_t("             }" // trim(merge(' ',',',neuron==neurons_per_layer)))
-        end do
-        line = line + 1
-        lines(line) = string_t(trim(merge("         ] ", "         ],", any(num_hidden_layers==[1,line]))))
+            layer = 1 
+            line = line + 1
+            lines(line) = string_t('         [')
+            do neuron = 1, neurons_per_layer
+              line = line + 1
+              lines(line) = string_t('             {')
+              line = line + 1
+              if (allocated(comma_separated_values)) deallocate(comma_separated_values)
+              allocate(character(len=num_inputs*(characters_per_value+1)-1)::comma_separated_values)
+              block
+                integer l          
+                associate(n => self%nodes_)
+                  l = 1
+                  write(comma_separated_values, fmt = csv_format) self%weights_(neuron,1:n(l-1),l)
+                end associate
+              end block
+              lines(line) = string_t('                "weights": [' // trim(comma_separated_values) // '],')
+              line = line + 1
+              write(single_value, fmt = csv_format) self%biases_(neuron,layer)
+              lines(line) = string_t('                 "bias": ' // trim(single_value))
+              line = line + 1
+              lines(line) = string_t("             }" // trim(merge(' ',',',neuron==neurons_per_layer)))
+            end do
+            line = line + 1
+            lines(line) = string_t(trim(merge("         ] ", "         ],", any(num_hidden_layers==[1,line]))))
 
-        do layer = 1, num_hidden_layers-1
-          line = line + 1
-          lines(line) = string_t('         [')
-          block
-            real(rkind), allocatable :: hidden_layer_weights(:,:)
-            integer j, l
-          
-            associate(n => self%nodes_, l => layer + 1)
-              allocate(hidden_layer_weights(n(l),n(l-1)))
-              do concurrent(j = 1:n(l))
-                hidden_layer_weights(j,1:n(l-1)) = self%weights_(j,1:n(l-1),l)
+            do layer = 1, num_hidden_layers-1
+              line = line + 1
+              lines(line) = string_t('         [')
+              block
+                real(rkind), allocatable :: hidden_layer_weights(:,:)
+                integer j, l
+              
+                associate(n => self%nodes_, l => layer + 1)
+                  allocate(hidden_layer_weights(n(l),n(l-1)))
+                  do concurrent(j = 1:n(l))
+                    hidden_layer_weights(j,1:n(l-1)) = self%weights_(j,1:n(l-1),l)
+                  end do
+                  hidden_layer_weights = transpose(hidden_layer_weights)
+                end associate
+              do neuron = 1, neurons_per_layer
+                line = line + 1
+                lines(line) = string_t('             {')
+                line = line + 1
+                if (allocated(comma_separated_values)) deallocate(comma_separated_values)
+                allocate(character(len=neurons_per_layer*(characters_per_value+1)-1)::comma_separated_values)
+                write(comma_separated_values, fmt = csv_format) hidden_layer_weights(:, neuron)
+                lines(line) = string_t('                "weights": [' // trim(comma_separated_values) // '],')
+                line = line + 1
+                write(single_value, fmt = csv_format) self%biases_(neuron,layer+1)
+                lines(line) = string_t('                 "bias": ' // trim(single_value))
+                line = line + 1
+                lines(line) = string_t("             }" // trim(merge(' ',',',neuron==neurons_per_layer)))
               end do
-              hidden_layer_weights = transpose(hidden_layer_weights)
-            end associate
-          do neuron = 1, neurons_per_layer
-            line = line + 1
-            lines(line) = string_t('             {')
-            line = line + 1
-            if (allocated(comma_separated_values)) deallocate(comma_separated_values)
-            allocate(character(len=neurons_per_layer*(characters_per_value+1)-1)::comma_separated_values)
-            write(comma_separated_values, fmt = csv_format) hidden_layer_weights(:, neuron)
-            lines(line) = string_t('                "weights": [' // trim(comma_separated_values) // '],')
-            line = line + 1
-            write(single_value, fmt = csv_format) self%biases_(neuron,layer+1)
-            lines(line) = string_t('                 "bias": ' // trim(single_value))
-            line = line + 1
-            lines(line) = string_t("             }" // trim(merge(' ',',',neuron==neurons_per_layer)))
-          end do
-          end block
-          line = line + 1
-          lines(line) = string_t("         ]" // trim(merge(' ',',',layer==num_hidden_layers-1)))
-        end do
+              end block
+              line = line + 1
+              lines(line) = string_t("         ]" // trim(merge(' ',',',layer==num_hidden_layers-1)))
+            end do
 
-        line = line + 1
-        lines(line) = string_t("     ],")
+            line = line + 1
+            lines(line) = string_t("     ],")
 
-        line = line + 1
-        lines(line) = string_t('     "output_layer": [')
+            line = line + 1
+            lines(line) = string_t('     "output_layer": [')
 
-        do neuron = 1, num_outputs
-          line = line + 1
-          lines(line) = string_t('             {')
-          line = line + 1
-          if (allocated(comma_separated_values)) deallocate(comma_separated_values)
-          allocate(character(len=neurons_per_layer*(characters_per_value+1)-1)::comma_separated_values)
-          associate(n => self%nodes_, l => ubound(self%nodes_,1))
-            write(comma_separated_values, fmt = csv_format) self%weights_(neuron,1:n(l-1),l)
+            do neuron = 1, num_outputs
+              line = line + 1
+              lines(line) = string_t('             {')
+              line = line + 1
+              if (allocated(comma_separated_values)) deallocate(comma_separated_values)
+              allocate(character(len=neurons_per_layer*(characters_per_value+1)-1)::comma_separated_values)
+              associate(n => self%nodes_, l => ubound(self%nodes_,1))
+                write(comma_separated_values, fmt = csv_format) self%weights_(neuron,1:n(l-1),l)
+              end associate
+              lines(line) = string_t('                "weights": [' // trim(comma_separated_values) // '],')
+              line = line + 1
+              write(single_value, fmt = csv_format) self%biases_(neuron,ubound(self%biases_,2))
+              lines(line) = string_t('                 "bias": ' // trim(single_value))
+              line = line + 1
+              lines(line) = string_t("             }" // trim(merge(' ',',',neuron==num_outputs)))
+            end do
+
+            line = line + 1
+            lines(line) = string_t('     ]')
+
+            line = line + 1
+            lines(line) = string_t('}')
+
+            call assert(line == num_lines, "inference_engine_t%to_json: all lines defined", intrinsic_array_t([num_lines, line]))
           end associate
-          lines(line) = string_t('                "weights": [' // trim(comma_separated_values) // '],')
-          line = line + 1
-          write(single_value, fmt = csv_format) self%biases_(neuron,ubound(self%biases_,2))
-          lines(line) = string_t('                 "bias": ' // trim(single_value))
-          line = line + 1
-          lines(line) = string_t("             }" // trim(merge(' ',',',neuron==num_outputs)))
-        end do
-
-        line = line + 1
-        lines(line) = string_t('     ]')
-
-        line = line + 1
-        lines(line) = string_t('}')
-
-        call assert(line == num_lines, "inference_engine_t%to_json: all lines defined", intrinsic_array_t([num_lines, line]))
         end associate
-      end associate
 #ifndef _CRAYFTN
       end associate
 #endif
