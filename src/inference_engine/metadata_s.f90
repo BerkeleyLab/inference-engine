@@ -49,10 +49,10 @@ contains
 
     lines = [ &
       string_t(indent // '"metadata": {'), &
-      string_t(indent // indent // '"modelName" : "'  // trim(adjustl(self%modelName_%string()))  // '"' ), &
-      string_t(indent // indent // '"modelAuthor" : "'  // trim(adjustl(self%modelAuthor_%string())) // '"' ), &
-      string_t(indent // indent // '"compilationDate" : "' // trim(adjustl(self%compilationDate_%string())) // '"'), &
-      string_t(indent // indent // '"activationFunction" : "' // trim(adjustl(self%activationFunction_%string())) // '"'), &
+      string_t(indent // indent // '"modelName" : "'  // trim(adjustl(self%modelName_%string()))  // '",' ), &
+      string_t(indent // indent // '"modelAuthor" : "'  // trim(adjustl(self%modelAuthor_%string())) // '",' ), &
+      string_t(indent // indent // '"compilationDate" : "' // trim(adjustl(self%compilationDate_%string())) // '",'), &
+      string_t(indent // indent // '"activationFunction" : "' // trim(adjustl(self%activationFunction_%string())) // '",'), &
       string_t(indent // indent // '"usingSkipConnections" : "' // trim(adjustl(self%usingSkipConnections_%string())) // '"'), &
       string_t(indent // '},') &
     ]
