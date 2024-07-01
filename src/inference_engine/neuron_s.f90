@@ -2,11 +2,32 @@
 ! Terms of use are as specified in LICENSE.txt
 submodule(neuron_m) neuron_s
   use assert_m, only : assert
+  use julienne_formats_m, only : separated_values
   implicit none
 
 contains
 
-  module procedure construct
+  module procedure to_json
+    integer, parameter :: characters_per_value=17
+    character(len=*), parameter :: indent = repeat(" ",ncopies=4)
+    character(len=:), allocatable :: csv_format, weights_string, bias_string
+
+    call assert(allocated(self%weights_), "neuron_s(to_json): allocated weights_")
+
+    csv_format = separated_values(separator=",", mold=[real(rkind)::])
+    allocate(character(len=size(self%weights_)*(characters_per_value+1)-1)::weights_string)
+    allocate(character(len=characters_per_value)::bias_string)
+    write(weights_string, fmt = csv_format) self%weights_
+    write(bias_string,*) self%bias_
+    lines = [ &
+      string_t(indent // '{'), &
+      string_t(indent // '  "weights": [' // trim(adjustl(weights_string)) // '],'), &
+      string_t(indent // '  "bias": ' // trim(adjustl(bias_string))), &
+      string_t(indent // '}') &
+    ]
+  end procedure
+
+  module procedure from_json
 
     character(len=:), allocatable :: line
     integer i
@@ -37,8 +58,13 @@ contains
     line = adjustl(neuron_lines(start+3)%string())
     call assert(line(1:1)=='}', "neuron_s(construct): neuron object end", line)
     line = adjustr(neuron_lines(start+3)%string())
-    if (line(len(line):len(line)) == ",") neuron%next = construct(neuron_lines, start+4)
+    if (line(len(line):len(line)) == ",") neuron%next = from_json(neuron_lines, start+4)
 
+  end procedure
+
+  module procedure from_components
+    neuron%weights_ = weights
+    neuron%bias_ = bias
   end procedure
 
   module procedure weights
