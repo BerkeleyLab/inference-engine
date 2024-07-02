@@ -30,7 +30,9 @@ contains
   module procedure to_exchange
     exchange%input_range_ = self%input_range_
     exchange%output_range_ = self%output_range_
-    exchange%metadata_ = self%metadata_
+    associate(strings => self%metadata_%strings())
+      exchange%metadata_ = metadata_t(strings(1),strings(2),strings(3),strings(4),strings(5))
+    end associate
     exchange%weights_ = self%weights_
     exchange%biases_ = self%biases_
     exchange%nodes_ = self%nodes_
@@ -129,29 +131,29 @@ contains
 
   end subroutine
 
-  impure subroutine set_activation_strategy(inference_engine)
-    type(inference_engine_t), intent(inout) :: inference_engine
-    character(len=:), allocatable :: function_name
-    function_name = inference_engine%metadata_(findloc(key, "activationFunction", dim=1))%string()
-    select case(function_name)
+  impure function activation_factory(activation_name) result(activation)
+    character(len=*), intent(in) :: activation_name
+    class(activation_strategy_t), allocatable :: activation
+
+    select case(activation_name)
       case("swish")
-        inference_engine%activation_strategy_ = swish_t()
+        activation = swish_t()
       case("sigmoid")
-        inference_engine%activation_strategy_ = sigmoid_t()
+        activation = sigmoid_t()
       case("step")
-        inference_engine%activation_strategy_ = step_t()
+        activation = step_t()
       case("gelu")
-        inference_engine%activation_strategy_ = gelu_t()
+        activation = gelu_t()
       case("relu")
-        inference_engine%activation_strategy_ = relu_t()
+        activation = relu_t()
       case default
-        error stop "inference_engine_s(set_activation_strategy): unrecognized activation strategy '"//function_name//"'"
+        error stop "inference_engine_s(activation_factory): unrecognized activation strategy '"//activation_name//"'"
     end select
-  end subroutine
+  end function
 
   module procedure construct_from_padded_arrays
 
-    inference_engine%metadata_ = metadata
+    inference_engine%metadata_ = metadata_t(metadata(1),metadata(2),metadata(3),metadata(4),metadata(5))
     inference_engine%weights_ = weights
     inference_engine%biases_ = biases
     inference_engine%nodes_ = nodes
@@ -180,86 +182,117 @@ contains
       end if
     end block
 
-    call set_activation_strategy(inference_engine)
+    associate(strings => inference_engine%metadata_%strings())
+      inference_engine%activation_strategy_ = activation_factory(strings(4)%string())
+    end associate
+
     call assert_consistency(inference_engine)
 
   end procedure construct_from_padded_arrays
 
-  module procedure construct_from_json
+  module procedure from_json
 
     type(string_t), allocatable :: lines(:), metadata(:)
     type(tensor_range_t) input_range, output_range
     type(layer_t) hidden_layers, output_layer
-    type(neuron_t) output_neuron
     real(rkind), allocatable :: hidden_weights(:,:,:)
+    character(len=:), allocatable :: justified_line
     integer l
+#ifdef _CRAYFTN
+    type(tensor_range_t) proto_range
+    type(metadata_t) proto_meta
+    type(neuron_t) proto_neuron
+    proto_range = tensor_range_t("",[0.],[1.])
+    proto_meta = metadata_t(string_t(""),string_t(""),string_t(""),string_t(""),string_t(""))
+    proto_neuron = neuron_t(weights=[0.], bias=0.)
+#endif
 
     lines = file_%lines()
+    call assert(adjustl(lines(1)%string())=="{", "inference_engine_s(from_json): expected outermost object '{'")
 
-    l = 1
-#ifndef NAGFOR
-    call assert(adjustl(lines(l)%string())=="{", "construct_from_json: expecting '{' to start outermost object", lines(l)%string())
-#endif
-
-    l = 2
-    metadata = [string_t(""),string_t(""),string_t(""),string_t(""),string_t("false")]
-    if (adjustl(lines(l)%string()) == '"metadata": {') then
-      block
-        character(len=:), allocatable :: justified_line
-        do 
-          l = l + 1
-          justified_line = adjustl(lines(l)%string())
-          if (justified_line == "},") exit
-          metadata(findloc(key, trim(get_key_string(justified_line)), dim=1)) = get_key_value(justified_line)
-        end do
-        l = l + 1
-      end block
-    end if
-
-    call assert(adjustl(lines(l)%string())=='"tensor_range": {', 'from_json: expecting "tensor_range": {', lines(l)%string())
-
+    associate(num_lines => size(lines))
+      
 #ifndef _CRAYFTN
-    associate(prototype => tensor_range_t("",[0.],[1.]))
-#else
-    block
-      type(tensor_range_t) prototype
-      prototype = tensor_range_t("",[0.],[1.])
+      associate(proto_range => tensor_range_t("",[0.],[1.]))
 #endif
-      associate(num_lines => size(prototype%to_json()))
-        input_range = tensor_range_t(lines(l:l+num_lines-1))
-        l = l + num_lines
-        output_range = tensor_range_t(lines(l:l+num_lines-1))
-        l = l + num_lines
+        associate(range_lines => size(proto_range%to_json()))
+
+          find_inputs_range: &
+          do l = 1, num_lines
+            justified_line = adjustl(lines(l)%string())
+            if (justified_line == '"inputs_range": {') exit 
+          end do find_inputs_range
+          call assert(justified_line =='"inputs_range": {', 'from_json: expecting "inputs_range": {', justified_line)
+          input_range = tensor_range_t(lines(l:l+range_lines-1))
+
+          find_outputs_range: &
+          do l = 1, num_lines
+            justified_line = adjustl(lines(l)%string())
+            if (justified_line == '"outputs_range": {') exit 
+          end do find_outputs_range
+          call assert(justified_line =='"outputs_range": {', 'from_json: expecting "outputs_range": {', justified_line)
+          output_range = tensor_range_t(lines(l:l+range_lines-1))
+
+        end associate
+#ifndef _CRAYFTN
       end associate
-#ifndef _CRAYFTN
-    end associate
-#else
-    end block
 #endif
 
-    call assert(adjustl(lines(l)%string())=='"hidden_layers": [', 'from_json: expecting "hidden_layers": [', lines(l)%string())
-    l = l + 1
+      find_hidden_layers: &
+      do l = 1, num_lines
+        justified_line = adjustl(lines(l)%string())
+        if (justified_line == '"hidden_layers": [') exit 
+      end do find_hidden_layers
+      call assert(justified_line=='"hidden_layers": [', 'from_json: expecting "hidden_layers": [', justified_line)
 
-    block 
-       integer, parameter :: lines_per_neuron=4, bracket_lines_per_layer=2
-       character(len=:), allocatable :: output_layer_line
-             
-       hidden_layers = layer_t(lines, start=l)
+      read_hidden_layers: &
+      block 
+        integer, parameter :: bracket_lines_per_layer=2
+        character(len=:), allocatable :: output_layer_line
+               
+        hidden_layers = layer_t(lines, start=l+1)
 
-       associate( output_layer_line_number => l + lines_per_neuron*sum(hidden_layers%count_neurons()) &
-         + bracket_lines_per_layer*hidden_layers%count_layers() + 1)
+#ifndef _CRAYFTN
+        associate(proto_neuron => neuron_t(weights=[0.], bias=0.))
+#endif
+          associate(num_neuron_lines => size(proto_neuron%to_json()))
+            associate( output_layer_line_number => l + 1 + num_neuron_lines*sum(hidden_layers%count_neurons()) &
+              + bracket_lines_per_layer*hidden_layers%count_layers() + 1)
 
-         output_layer_line = lines(output_layer_line_number)%string()
-         call assert(adjustl(output_layer_line)=='"output_layer": [', 'from_json: expecting "output_layer": [', &
-           lines(output_layer_line_number)%string())
+              output_layer_line = lines(output_layer_line_number)%string()
+              call assert(adjustl(output_layer_line)=='"output_layer": [', 'from_json: expecting "output_layer": [', &
+                lines(output_layer_line_number)%string())
 
-         output_layer = layer_t(lines, start=output_layer_line_number)
+              output_layer = layer_t(lines, start=output_layer_line_number)
+            end associate
+          end associate
+#ifndef _CRAYFTN
+        end associate
+#endif
+      end block read_hidden_layers
+    
+      find_metadata: &
+      do l = 1, num_lines
+        justified_line = adjustl(lines(l)%string())
+        if (justified_line == '"metadata": {') exit 
+      end do find_metadata
+      call assert(justified_line=='"metadata": {', 'from_json: expecting "metadata": {', justified_line)
+
+#ifndef _CRAYFTN
+      associate(proto_meta => metadata_t(string_t(""),string_t(""),string_t(""),string_t(""),string_t("")))
+#endif
+       associate(metadata_object => metadata_t(lines(l:l+size(proto_meta%to_json())-1)))
+         inference_engine = hidden_layers%inference_engine(metadata_object%strings(), output_layer, input_range, output_range)
        end associate
-    end block
+#ifndef _CRAYFTN
+      end associate
+#endif
+    end associate ! associate(num_lines ... )
 
-    inference_engine = hidden_layers%inference_engine(metadata, output_layer, input_range, output_range)
+    associate(strings => inference_engine%metadata_%strings())
+      inference_engine%activation_strategy_ = activation_factory(strings(4)%string())
+    end associate
 
-    call set_activation_strategy(inference_engine)
     call assert_consistency(inference_engine)
 
   contains
@@ -303,7 +336,7 @@ contains
 #endif
     end function
 
-  end procedure construct_from_json
+  end procedure from_json
 
   module procedure assert_conformable_with
 
@@ -397,171 +430,160 @@ contains
     character(len=:), allocatable :: comma_separated_values, csv_format
     character(len=17) :: single_value
     integer, parameter :: &
-      outer_object_braces = 2, hidden_layer_outer_brackets = 2, lines_per_neuron = 4, inner_brackets_per_layer  = 2, &
-      output_layer_brackets = 2, metadata_outer_braces = 2, input_range_object = 5, output_range_object = 5
+      outer_object_braces = 2, hidden_layer_outer_brackets = 2, inner_brackets_per_layer  = 2, &
+      output_layer_brackets = 2
+#ifdef _CRAYFTN
+    type(tensor_range_t) proto_range
+    type(metadata_t) proto_meta
+    type(neuron_t) proto_neuron
+    proto_range = tensor_range_t("",[0._rkind],[1._rkind])
+    proto_meta = metadata_t(string_t(""),string_t(""),string_t(""),string_t(""),string_t(""))
+    proto_neuron = neuron_t([0._rkind],0._rkind)
+#endif
 
     call assert_consistency(self)
 
     csv_format = separated_values(separator=",", mold=[real(rkind)::])
 
-    associate(num_hidden_layers => size(self%nodes_)-2, &
+    associate( &
+      num_hidden_layers => size(self%nodes_)-2, &
       neurons_per_layer => self%nodes_(lbound(self%nodes_,1)+1), &
       num_outputs => self%num_outputs(), &
       num_inputs => self%num_inputs() &
     )
-
-      call assert(all(neurons_per_layer==self%nodes_(lbound(self%nodes_,1)+1 : ubound(self%nodes_,1)-1)), &
-        "to_json: uniform hidden layers")
-
-      associate(num_lines => &
-        outer_object_braces &
-        + metadata_outer_braces + size(key) &
-        + input_range_object + output_range_object &
-        + hidden_layer_outer_brackets + (num_hidden_layers)*(inner_brackets_per_layer + neurons_per_layer*lines_per_neuron) &
-        + output_layer_brackets + num_outputs*lines_per_neuron &
+#ifndef _CRAYFTN
+      associate( &
+        proto_range => tensor_range_t("",[0._rkind],[1._rkind]), &
+        proto_meta => metadata_t(string_t(""),string_t(""),string_t(""),string_t(""),string_t("")), &
+        proto_neuron => neuron_t([0._rkind],0._rkind) &
       )
-        allocate(lines(num_lines))
+#endif
+        associate( &
+          num_tensor_range_lines => size(proto_range%to_json()), &
+          num_metadata_lines => size(proto_meta%to_json()), &
+          num_neuron_lines => size(proto_neuron%to_json()) &
+        )
+          call assert(all(neurons_per_layer==self%nodes_(lbound(self%nodes_,1)+1 : ubound(self%nodes_,1)-1)), &
+            "to_json: uniform hidden layers")
 
-        line = 1
-        lines(line) = string_t('{')
+          associate( &
+            num_lines => outer_object_braces + num_metadata_lines + 2 * num_tensor_range_lines &
+            + hidden_layer_outer_brackets + num_hidden_layers*(inner_brackets_per_layer + neurons_per_layer*num_neuron_lines) &
+            + output_layer_brackets + num_outputs*num_neuron_lines&
+          )
+            allocate(lines(num_lines))
 
-        line = line + 1
-        lines(line) = string_t('    "metadata": {')
+            line = 1
+            lines(line) = string_t('{')
+            line = line + 1
 
-        line = line + 1
-        lines(line) = string_t('        "modelName": "' // &
-                                                       self%metadata_(findloc(key, "modelName", dim=1))%string() // '",')
-        line = line + 1
-        lines(line) = string_t('        "modelAuthor": "' // &
-                                                       self%metadata_(findloc(key, "modelAuthor", dim=1))%string() // '",')
-        line = line + 1
-        lines(line) = string_t('        "compilationDate": "' // &
-                                                       self%metadata_(findloc(key, "compilationDate", dim=1))%string() // '",')
-        line = line + 1
-        lines(line) = string_t('        "activationFunction": "' // &
-                                                       self%metadata_(findloc(key, "activationFunction", dim=1))%string() // '",')
-        line = line + 1
-        lines(line) = string_t('        "usingSkipConnections": ' // &
-                                                       self%metadata_(findloc(key, "usingSkipConnections", dim=1))%string())
+            lines(line:line+num_metadata_lines-1) = self%metadata_%to_json()
+            line = line + num_metadata_lines
 
-        line = line + 1
-        lines(line) = string_t('    },')
+            lines(line:line+num_tensor_range_lines-1) =  self%input_range_%to_json()
+            lines(line+num_tensor_range_lines-1) =  lines(line+num_tensor_range_lines-1)  // ","
+            line = line + num_tensor_range_lines
 
-        block
-          type(string_t), allocatable :: input_range_json(:), output_range_json(:)
+            lines(line:line+num_tensor_range_lines-1) =  self%output_range_%to_json() 
+            lines(line+num_tensor_range_lines-1) = lines(line+num_tensor_range_lines-1) // ","
+            line = line + num_tensor_range_lines
 
-          line = line + 1
-          input_range_json = self%input_range_%to_json() 
-          associate(last_line => ubound(input_range_json,1))
-            call assert(last_line==input_range_object, "inference_engine_s(to_json): input_range object line count")
-            input_range_json(last_line) = input_range_json(last_line) // ","
-            lines(line:line+input_range_object-1) = input_range_json
-            line = line + input_range_object-1
-          end associate
+            lines(line) = string_t('     "hidden_layers": [')
+            line = line + 1
 
-          line = line + 1
-          output_range_json = self%output_range_%to_json() 
-          associate(last_line => ubound(output_range_json,1))
-            call assert(last_line==output_range_object, "inference_engine_s(to_json): output_range object line count")
-            output_range_json(last_line) = output_range_json(last_line) // ","
-            lines(line:line+output_range_object-1) = output_range_json
-            line = line + input_range_object-1
-          end associate
-        end block
+            layer = 1 
+            lines(line) = string_t('         [')
+            do neuron = 1, neurons_per_layer
+              line = line + 1
+              lines(line) = string_t('             {')
+              line = line + 1
+              if (allocated(comma_separated_values)) deallocate(comma_separated_values)
+              allocate(character(len=num_inputs*(characters_per_value+1)-1)::comma_separated_values)
+              block
+                integer l          
+                associate(n => self%nodes_)
+                  l = 1
+                  write(comma_separated_values, fmt = csv_format) self%weights_(neuron,1:n(l-1),l)
+                end associate
+              end block
+              lines(line) = string_t('                "weights": [' // trim(comma_separated_values) // '],')
+              line = line + 1
+              write(single_value, fmt = csv_format) self%biases_(neuron,layer)
+              lines(line) = string_t('                 "bias": ' // trim(single_value))
+              line = line + 1
+              lines(line) = string_t("             }" // trim(merge(' ',',',neuron==neurons_per_layer)))
+            end do
+            line = line + 1
+            lines(line) = string_t(trim(merge("         ] ", "         ],", any(num_hidden_layers==[1,line]))))
 
-        line = line + 1
-        lines(line) = string_t('     "hidden_layers": [')
-
-        layer = 1 
-        line = line + 1
-        lines(line) = string_t('         [')
-        do neuron = 1, neurons_per_layer
-          line = line + 1
-          lines(line) = string_t('             {')
-          line = line + 1
-          if (allocated(comma_separated_values)) deallocate(comma_separated_values)
-          allocate(character(len=num_inputs*(characters_per_value+1)-1)::comma_separated_values)
-          block
-            integer l          
-            associate(n => self%nodes_)
-              l = 1
-              write(comma_separated_values, fmt = csv_format) self%weights_(neuron,1:n(l-1),l)
-            end associate
-          end block
-          lines(line) = string_t('                "weights": [' // trim(comma_separated_values) // '],')
-          line = line + 1
-          write(single_value, fmt = csv_format) self%biases_(neuron,layer)
-          lines(line) = string_t('                 "bias": ' // trim(single_value))
-          line = line + 1
-          lines(line) = string_t("             }" // trim(merge(' ',',',neuron==neurons_per_layer)))
-        end do
-        line = line + 1
-        lines(line) = string_t(trim(merge("         ] ", "         ],", any(num_hidden_layers==[1,line]))))
-
-        do layer = 1, num_hidden_layers-1
-          line = line + 1
-          lines(line) = string_t('         [')
-          block
-            real(rkind), allocatable :: hidden_layer_weights(:,:)
-            integer j, l
-          
-            associate(n => self%nodes_, l => layer + 1)
-              allocate(hidden_layer_weights(n(l),n(l-1)))
-              do concurrent(j = 1:n(l))
-                hidden_layer_weights(j,1:n(l-1)) = self%weights_(j,1:n(l-1),l)
+            do layer = 1, num_hidden_layers-1
+              line = line + 1
+              lines(line) = string_t('         [')
+              block
+                real(rkind), allocatable :: hidden_layer_weights(:,:)
+                integer j, l
+              
+                associate(n => self%nodes_, l => layer + 1)
+                  allocate(hidden_layer_weights(n(l),n(l-1)))
+                  do concurrent(j = 1:n(l))
+                    hidden_layer_weights(j,1:n(l-1)) = self%weights_(j,1:n(l-1),l)
+                  end do
+                  hidden_layer_weights = transpose(hidden_layer_weights)
+                end associate
+              do neuron = 1, neurons_per_layer
+                line = line + 1
+                lines(line) = string_t('             {')
+                line = line + 1
+                if (allocated(comma_separated_values)) deallocate(comma_separated_values)
+                allocate(character(len=neurons_per_layer*(characters_per_value+1)-1)::comma_separated_values)
+                write(comma_separated_values, fmt = csv_format) hidden_layer_weights(:, neuron)
+                lines(line) = string_t('                "weights": [' // trim(comma_separated_values) // '],')
+                line = line + 1
+                write(single_value, fmt = csv_format) self%biases_(neuron,layer+1)
+                lines(line) = string_t('                 "bias": ' // trim(single_value))
+                line = line + 1
+                lines(line) = string_t("             }" // trim(merge(' ',',',neuron==neurons_per_layer)))
               end do
-              hidden_layer_weights = transpose(hidden_layer_weights)
-            end associate
-          do neuron = 1, neurons_per_layer
-            line = line + 1
-            lines(line) = string_t('             {')
-            line = line + 1
-            if (allocated(comma_separated_values)) deallocate(comma_separated_values)
-            allocate(character(len=neurons_per_layer*(characters_per_value+1)-1)::comma_separated_values)
-            write(comma_separated_values, fmt = csv_format) hidden_layer_weights(:, neuron)
-            lines(line) = string_t('                "weights": [' // trim(comma_separated_values) // '],')
-            line = line + 1
-            write(single_value, fmt = csv_format) self%biases_(neuron,layer+1)
-            lines(line) = string_t('                 "bias": ' // trim(single_value))
-            line = line + 1
-            lines(line) = string_t("             }" // trim(merge(' ',',',neuron==neurons_per_layer)))
-          end do
-          end block
-          line = line + 1
-          lines(line) = string_t("         ]" // trim(merge(' ',',',layer==num_hidden_layers-1)))
-        end do
+              end block
+              line = line + 1
+              lines(line) = string_t("         ]" // trim(merge(' ',',',layer==num_hidden_layers-1)))
+            end do
 
-        line = line + 1
-        lines(line) = string_t("     ],")
+            line = line + 1
+            lines(line) = string_t("     ],")
 
-        line = line + 1
-        lines(line) = string_t('     "output_layer": [')
+            line = line + 1
+            lines(line) = string_t('     "output_layer": [')
 
-        do neuron = 1, num_outputs
-          line = line + 1
-          lines(line) = string_t('             {')
-          line = line + 1
-          if (allocated(comma_separated_values)) deallocate(comma_separated_values)
-          allocate(character(len=neurons_per_layer*(characters_per_value+1)-1)::comma_separated_values)
-          associate(n => self%nodes_, l => ubound(self%nodes_,1))
-            write(comma_separated_values, fmt = csv_format) self%weights_(neuron,1:n(l-1),l)
+            do neuron = 1, num_outputs
+              line = line + 1
+              lines(line) = string_t('             {')
+              line = line + 1
+              if (allocated(comma_separated_values)) deallocate(comma_separated_values)
+              allocate(character(len=neurons_per_layer*(characters_per_value+1)-1)::comma_separated_values)
+              associate(n => self%nodes_, l => ubound(self%nodes_,1))
+                write(comma_separated_values, fmt = csv_format) self%weights_(neuron,1:n(l-1),l)
+              end associate
+              lines(line) = string_t('                "weights": [' // trim(comma_separated_values) // '],')
+              line = line + 1
+              write(single_value, fmt = csv_format) self%biases_(neuron,ubound(self%biases_,2))
+              lines(line) = string_t('                 "bias": ' // trim(single_value))
+              line = line + 1
+              lines(line) = string_t("             }" // trim(merge(' ',',',neuron==num_outputs)))
+            end do
+
+            line = line + 1
+            lines(line) = string_t('     ]')
+
+            line = line + 1
+            lines(line) = string_t('}')
+
+            call assert(line == num_lines, "inference_engine_t%to_json: all lines defined", intrinsic_array_t([num_lines, line]))
           end associate
-          lines(line) = string_t('                "weights": [' // trim(comma_separated_values) // '],')
-          line = line + 1
-          write(single_value, fmt = csv_format) self%biases_(neuron,ubound(self%biases_,2))
-          lines(line) = string_t('                 "bias": ' // trim(single_value))
-          line = line + 1
-          lines(line) = string_t("             }" // trim(merge(' ',',',neuron==num_outputs)))
-        end do
-
-        line = line + 1
-        lines(line) = string_t('     ]')
-
-        line = line + 1
-        lines(line) = string_t('}')
-
-        call assert(line == num_lines, "inference_engine_t%to_json: all lines defined", intrinsic_array_t([num_lines, line]))
+        end associate
+#ifndef _CRAYFTN
       end associate
+#endif
     end associate
  
     json_file = file_t(lines)
@@ -569,11 +591,15 @@ contains
   end procedure to_json
 
   module procedure skip
-    use_skip_connections = self%metadata_(findloc(key, "usingSkipConnections", dim=1))%string() == "true"
+    associate(strings => self%metadata_%strings())
+      use_skip_connections = merge(.true., .false.,  strings(5) == "true")
+    end associate
   end procedure
 
   module procedure activation_function_name
-    activation_name = self%metadata_(findloc(key, "activationFunction", dim=1))
+    associate(strings => self%metadata_%strings())
+      activation_name = strings(4)
+    end associate
   end procedure
 
 end submodule inference_engine_s
