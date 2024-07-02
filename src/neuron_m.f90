@@ -15,6 +15,7 @@ module neuron_m
     real(rkind) bias_
     type(neuron_t), allocatable :: next
   contains
+    procedure :: to_json
     procedure :: weights
     procedure :: bias
     procedure :: next_allocated
@@ -24,7 +25,7 @@ module neuron_m
 
   interface neuron_t
 
-    pure recursive module function construct(neuron_lines, start) result(neuron)
+    pure recursive module function from_json(neuron_lines, start) result(neuron)
       !! construct linked list of neuron_t objects from an array of JSON-formatted text lines
       implicit none
       type(string_t), intent(in) :: neuron_lines(:)
@@ -32,9 +33,22 @@ module neuron_m
       type(neuron_t) neuron
     end function
 
+    pure module function from_components(weights, bias) result(neuron)
+      !! construct single neuron_t object from an array of weights and a bias
+      real(rkind), intent(in) :: weights(:)
+      real(rkind), intent(in) :: bias
+      type(neuron_t) neuron
+    end function
+
   end interface
 
   interface
+
+    pure module function to_json(self) result(lines)
+      implicit none
+      class(neuron_t), intent(in) :: self
+      type(string_t), allocatable :: lines(:)
+    end function
 
     module function weights(self) result(my_weights)
       implicit none

@@ -79,7 +79,7 @@
 
             <li class="list-inline-item" id="statements"><i class="fa fa-list-ol"></i>
               <a data-bs-toggle="tooltip" data-bs-placement="bottom" data-bs-html="true"
-                 title=" 2.4% of total for modules and submodules.">54 statements</a>
+                 title=" 2.7% of total for modules and submodules.">65 statements</a>
             </li>
 
             <li class="list-inline-item" id="source-file">
@@ -129,7 +129,8 @@
             <a class="list-group-item" href="../module/neuron_m.html#interface-bias">bias</a>
             <a class="list-group-item" href="../module/neuron_m.html#interface-next_allocated~2">next_allocated</a>
             <a class="list-group-item" href="../module/neuron_m.html#interface-next_pointer~2">next_pointer</a>
-            <a class="list-group-item" href="../module/neuron_m.html#interface-num_inputs~3">num_inputs</a>
+            <a class="list-group-item" href="../module/neuron_m.html#interface-num_inputs~2">num_inputs</a>
+            <a class="list-group-item" href="../module/neuron_m.html#interface-to_json~5">to_json</a>
             <a class="list-group-item" href="../module/neuron_m.html#interface-weights">weights</a>
         </div>
       </div>
@@ -488,8 +489,67 @@ large graphs.</div>
     <ul class="list-group">
           <li class="list-group-item">
                 <h3>
-    private pure recursive module function construct(neuron_lines, start) result(neuron)  
-    <a href="../proc/construct~2.html"><button type="button" class="btn btn-info depwarn">Implementation &rarr;</button></a>
+    private pure module function from_components(weights, bias) result(neuron)  
+    <a href="../proc/from_components~4.html"><button type="button" class="btn btn-info depwarn">Implementation &rarr;</button></a>
+
+    </h3>
+  <p>construct single neuron_t object from an array of weights and a bias</p>
+
+  <h4>Arguments</h4>
+      <table class="table table-striped varlist">
+    <thead>
+      <tr>
+        <th scope="col">Type</th>
+<th scope="col">Intent</th><th scope="col">Optional</th>        <th scope="col">Attributes</th>
+        <th scope="col"></th>
+        <th scope="col">Name</th>
+        <th scope="col"></th>
+    </thead>
+    <tbody>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-weights~3"></span>
+              real(kind=rkind),
+            </td>
+<td>intent(in)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>weights</strong>(:)</td>
+            <td>
+                
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-bias~2"></span>
+              real(kind=rkind),
+            </td>
+<td>intent(in)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>bias</strong></td>
+            <td>
+                
+            </td>
+        </tr>
+    </tbody>
+  </table>
+
+    <h4>
+    Return Value
+    <small>type(<a href='../type/neuron_t.html'>neuron_t</a>)</small>
+    </h4>
+    
+
+          </li>
+          <li class="list-group-item">
+                <h3>
+    private pure recursive module function from_json(neuron_lines, start) result(neuron)  
+    <a href="../proc/from_json~4.html"><button type="button" class="btn btn-info depwarn">Implementation &rarr;</button></a>
 
     </h3>
   <p>construct linked list of neuron_t objects from an array of JSON-formatted text lines</p>
@@ -576,7 +636,7 @@ large graphs.</div>
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-self~47"></span>
+              <span class="anchor" id="variable-self~42"></span>
               class(<a href='../type/neuron_t.html'>neuron_t</a>),
             </td>
 <td>intent(in)</td>
@@ -630,7 +690,7 @@ large graphs.</div>
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-self~48"></span>
+              <span class="anchor" id="variable-self~43"></span>
               class(<a href='../type/neuron_t.html'>neuron_t</a>),
             </td>
 <td>intent(in)</td>
@@ -684,7 +744,7 @@ large graphs.</div>
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-self~49"></span>
+              <span class="anchor" id="variable-self~44"></span>
               class(<a href='../type/neuron_t.html'>neuron_t</a>),
             </td>
 <td>intent(in),</td>
@@ -712,7 +772,7 @@ large graphs.</div>
 
               <div class="card">
     <div class="card-header bg-light codesum">
-      <span class="anchor" id="interface-num_inputs~3"></span>
+      <span class="anchor" id="interface-num_inputs~2"></span>
       <h3>        interface
       </h3>
     </div>
@@ -738,7 +798,7 @@ large graphs.</div>
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-self~50"></span>
+              <span class="anchor" id="variable-self~45"></span>
               class(<a href='../type/neuron_t.html'>neuron_t</a>),
             </td>
 <td>intent(in)</td>
@@ -757,6 +817,60 @@ large graphs.</div>
     <h4>
     Return Value
     <small>integer</small>
+    </h4>
+    
+
+        </li>
+    </ul>
+  </div>
+
+              <div class="card">
+    <div class="card-header bg-light codesum">
+      <span class="anchor" id="interface-to_json~5"></span>
+      <h3>        interface
+      </h3>
+    </div>
+    <ul class="list-group">
+        <li class="list-group-item">
+              <h3>
+    private pure module function to_json(self) result(lines)  
+    <a href="../proc/to_json~4.html"><button type="button" class="btn btn-info depwarn">Implementation &rarr;</button></a>
+
+    </h3>
+  
+
+  <h4>Arguments</h4>
+      <table class="table table-striped varlist">
+    <thead>
+      <tr>
+        <th scope="col">Type</th>
+<th scope="col">Intent</th><th scope="col">Optional</th>        <th scope="col">Attributes</th>
+        <th scope="col"></th>
+        <th scope="col">Name</th>
+        <th scope="col"></th>
+    </thead>
+    <tbody>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-self~40"></span>
+              class(<a href='../type/neuron_t.html'>neuron_t</a>),
+            </td>
+<td>intent(in)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>self</strong></td>
+            <td>
+                
+            </td>
+        </tr>
+    </tbody>
+  </table>
+
+    <h4>
+    Return Value
+    <small>type(string_t), allocatable, (:)</small>
     </h4>
     
 
@@ -792,7 +906,7 @@ large graphs.</div>
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-self~46"></span>
+              <span class="anchor" id="variable-self~41"></span>
               class(<a href='../type/neuron_t.html'>neuron_t</a>),
             </td>
 <td>intent(in)</td>
@@ -910,9 +1024,20 @@ large graphs.</div>
                   <td>
                         private
 
+                    pure, module
+                    function
+                    <strong>from_components</strong>
+                    (weights, bias)
+                  </td>
+                  <td><p>construct single neuron_t object from an array of weights and a bias</p></td>
+                </tr>
+                <tr>
+                  <td>
+                        private
+
                     pure, recursive, module
                     function
-                    <strong>construct</strong>
+                    <strong>from_json</strong>
                     (neuron_lines, start)
                   </td>
                   <td><p>construct linked list of neuron_t objects from an array of JSON-formatted text lines</p></td>
@@ -941,12 +1066,17 @@ large graphs.</div>
               </tr>
               <tr>
                 <td>  procedure, public ::
-  <strong><a href='../type/neuron_t.html#boundprocedure-num_inputs~5'>num_inputs</a></strong></td>
+  <strong><a href='../type/neuron_t.html#boundprocedure-num_inputs~4'>num_inputs</a></strong></td>
                 <td></td>
               </tr>
               <tr>
                 <td>  procedure, public ::
-  <strong><a href='../type/neuron_t.html#boundprocedure-weights~3'>weights</a></strong></td>
+  <strong><a href='../type/neuron_t.html#boundprocedure-to_json~5'>to_json</a></strong></td>
+                <td></td>
+              </tr>
+              <tr>
+                <td>  procedure, public ::
+  <strong><a href='../type/neuron_t.html#boundprocedure-weights~2'>weights</a></strong></td>
                 <td></td>
               </tr>
           </tbody>
@@ -979,7 +1109,7 @@ large graphs.</div>
             <p class="text-end">
               Documentation generated by
               <a href="https://github.com/Fortran-FOSS-Programmers/ford">FORD</a>
- on 2024-06-26 17:15              </p>
+ on 2024-07-02 06:24              </p>
           </div>
         </div>
         <br>
