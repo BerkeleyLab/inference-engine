@@ -55,7 +55,6 @@ contains
       string_t(indent // indent // '"activationFunction" : "' // trim(adjustl(self%activationFunction_%string())) // '",'), &
       string_t(indent // indent // '"usingSkipConnections" : "' // trim(adjustl(self%usingSkipConnections_%string())) // '"'), &
       string_t(indent // '}') &
-      !string_t(indent // '},') &
     ]
   end procedure
 
