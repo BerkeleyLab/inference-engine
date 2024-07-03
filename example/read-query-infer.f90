@@ -10,7 +10,6 @@ program read_query_infer
   implicit none
 
   type(command_line_t) command_line
-  type(inference_engine_t) inference_engine
 
   associate(file_name => string_t(command_line%flag_value("--input-file")))
 
@@ -33,7 +32,7 @@ program read_query_infer
 
       block
         integer, parameter :: tensor_size = 2, num_tests = 3
-        real, parameter :: tensor_range = 11.
+        real, parameter :: tensor_range = 11._rkind
         real harvest(tensor_size)
         integer i
 
