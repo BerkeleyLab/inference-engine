@@ -18,9 +18,6 @@ module inference_engine_m_
   public :: exchange_t
   public :: infer
 
-  character(len=*), parameter :: key(*) = [character(len=len("usingSkipConnections")) :: &
-    "modelName", "modelAuthor", "compilationDate", "activationFunction", "usingSkipConnections"]
-
   type inference_engine_t
     !! Encapsulate the minimal information needed to perform inference
     private
