@@ -34,6 +34,7 @@ module inference_engine_m_
     procedure :: to_json
     procedure :: map_to_input_range
     procedure :: map_from_output_range
+    procedure :: num_hidden_layers
     procedure :: num_inputs
     procedure :: num_outputs
     procedure :: nodes_per_layer
@@ -141,6 +142,12 @@ module inference_engine_m_
       implicit none
       class(inference_engine_t), intent(in) :: self
       integer output_count
+    end function
+
+    elemental module function num_hidden_layers(self) result(hidden_layer_count)
+      implicit none
+      class(inference_engine_t), intent(in) :: self
+      integer hidden_layer_count
     end function
 
     elemental module function num_inputs(self) result(input_count)

@@ -40,7 +40,7 @@ contains
       end associate
     end do
 
-    call assert(trim(adjustl(lines(size(lines))%string())) == "}," , "metadata_s(from_json): metadata object end found")
+    call assert(any(trim(adjustl(lines(size(lines))%string())) == ["},","} "]), "metadata_s(from_json): metadata object end found")
   end procedure
 
   module procedure to_json
@@ -54,7 +54,8 @@ contains
       string_t(indent // indent // '"compilationDate" : "' // trim(adjustl(self%compilationDate_%string())) // '",'), &
       string_t(indent // indent // '"activationFunction" : "' // trim(adjustl(self%activationFunction_%string())) // '",'), &
       string_t(indent // indent // '"usingSkipConnections" : "' // trim(adjustl(self%usingSkipConnections_%string())) // '"'), &
-      string_t(indent // '},') &
+      string_t(indent // '}') &
+      !string_t(indent // '},') &
     ]
   end procedure
 

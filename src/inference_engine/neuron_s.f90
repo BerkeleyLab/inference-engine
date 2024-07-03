@@ -9,7 +9,7 @@ contains
 
   module procedure to_json
     integer, parameter :: characters_per_value=17
-    character(len=*), parameter :: indent = repeat(" ",ncopies=4)
+    character(len=*), parameter :: indent = repeat(" ",ncopies=12)
     character(len=:), allocatable :: csv_format, weights_string, bias_string
 
     call assert(allocated(self%weights_), "neuron_s(to_json): allocated weights_")
