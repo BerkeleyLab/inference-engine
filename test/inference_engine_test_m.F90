@@ -40,18 +40,21 @@ contains
     test_descriptions = [ &
       test_description_t("performing elemental inference with 1 hidden layer", elemental_infer_with_1_hidden_layer_xor_net), &
       test_description_t("performing elemental inference with 2 hidden layers", elemental_infer_with_2_hidden_layer_xor_net), &
-      test_description_t("converting a network with 2 hidden layers to and from JSON format", multi_hidden_layer_net_to_from_json) &
+      test_description_t("converting a network with 2 hidden layers to and from JSON format", multi_hidden_layer_net_to_from_json), &
+      test_description_t("converting a network with varying-width hidden layers to/from JSON", varying_width_net_to_from_json) &
     ]
 #else
-    procedure(test_function_i), pointer :: elemental_infer_1_ptr, elemental_infer_2_ptr, multi_hidden_ptr
+    procedure(test_function_i), pointer :: elemental_infer_1_ptr, elemental_infer_2_ptr, multi_hidden_ptr, vary_width_ptr
     elemental_infer_1_ptr => elemental_infer_with_1_hidden_layer_xor_net
     elemental_infer_2_ptr => elemental_infer_with_2_hidden_layer_xor_net
     multi_hidden_ptr => multi_hidden_layer_net_to_from_json
+    vary_width_ptr => varying_width_net_to_from_json
 
     test_descriptions = [ &
       test_description_t("performing elemental inference with 1 hidden layer", elemental_infer_1_ptr), &
       test_description_t("performing elemental inference with 2 hidden layers", elemental_infer_2_ptr), &
-      test_description_t("converting a network with 2 hidden layers to and from JSON format", multi_hidden_ptr) &
+      test_description_t("converting a network with 2 hidden layers to and from JSON format", multi_hidden_ptr), &
+      test_description_t("converting a network with varying-width hidden layers to/from JSON", vary_width_ptr) &
     ]
 #endif
     associate( &
@@ -90,6 +93,24 @@ contains
     )
   end function
 
+  function varying_width() result(inference_engine)
+    type(inference_engine_t) inference_engine
+    integer, parameter :: inputs = 2, hidden(*) = [2,3], outputs = 2 ! number of neurons in input, output, and hidden layers
+    integer, parameter :: n(*) = [inputs, hidden(1), hidden(2), outputs] ! nodes per layer
+    integer, parameter :: n_max = maxval(n), layers=size(n)   ! max layer width, number of layers
+    integer, parameter :: w_shape(*) = [n_max, n_max, layers-1], b_shape(*) = [n_max, n_max]
+    integer i
+    real(rkind), allocatable :: w(:,:,:), b(:,:)
+
+    w = reshape( [(i, i=1,product(w_shape))], w_shape)
+    b = reshape( [(maxval(w) + i, i=1,product(b_shape))], b_shape)
+
+    inference_engine = inference_engine_t( &
+      metadata = [string_t("random"), string_t("Damian Rouson"), string_t("2024-07-03"), string_t("sigmoid"), string_t("false")], &
+      weights = w, biases = b, nodes = n &
+    )
+  end function
+
   function distinct_parameters() result(inference_engine)
     type(inference_engine_t) inference_engine
     integer, parameter :: inputs = 2, hidden = 3, outputs = 1 ! number of neurons in input, output, and hidden layers
@@ -120,6 +141,19 @@ contains
     from_json = inference_engine_t(json_file)
     difference = inference_engine  - from_json
     test_passes = difference%norm() < tolerance
+  end function
+
+  function varying_width_net_to_from_json() result(test_passes)
+    logical test_passes
+    real, parameter :: tolerance = 1.0E-06
+    type(difference_t) difference
+
+    associate(inference_engine => varying_width())
+      associate(from_json => inference_engine_t( inference_engine%to_json() ))
+        difference = inference_engine  - from_json
+        test_passes = difference%norm() < tolerance
+      end associate
+    end associate
   end function
 
   function elemental_infer_with_1_hidden_layer_xor_net() result(test_passes)
