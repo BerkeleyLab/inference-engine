@@ -521,7 +521,11 @@ contains
             lines(line) = string_t('     "output_layer": [')
             layer = last_hidden + 1
             do n = 1, self%nodes_(layer)
-              associate(neuron => neuron_t(weights=[zero], bias=zero), neuron_start=>line+1, neuron_end=>line+neuron_lines)
+              associate( &
+                  neuron => neuron_t(weights=self%weights_(n,1:self%nodes_(layer-1),layer), bias=self%biases_(n,layer)), &
+                  neuron_start=>line+1, &
+                  neuron_end=>line+neuron_lines &
+              )
                 lines(neuron_start:neuron_end) = neuron%to_json()
                 lines(neuron_end) = lines(neuron_end) // trim(merge(" ", ",", n==self%nodes_(layer)))
               end associate
