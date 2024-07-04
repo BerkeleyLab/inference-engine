@@ -38,23 +38,27 @@ contains
 
 #ifndef __GFORTRAN__
     test_descriptions = [ &
-      test_description_t("performing elemental inference with 1 hidden layer", elemental_infer_with_1_hidden_layer_xor_net), &
-      test_description_t("performing elemental inference with 2 hidden layers", elemental_infer_with_2_hidden_layer_xor_net), &
-      test_description_t("converting a network with 2 hidden layers to and from JSON format", multi_hidden_layer_net_to_from_json), &
-      test_description_t("converting a network with varying-width hidden layers to/from JSON", varying_width_net_to_from_json) &
+       test_description_t("performing elemental inference with 1 hidden layer", elemental_infer_with_1_hidden_layer_xor_net) &
+      ,test_description_t("performing elemental inference with 2 hidden layers", elemental_infer_with_2_hidden_layer_xor_net) &
+      ,test_description_t("converting a network with 2 hidden layers to and from JSON format", multi_hidden_layer_net_to_from_json)&
+      ,test_description_t("converting a network with varying-width hidden layers to/from JSON", varying_width_net_to_from_json) &
+      ,test_description_t("performing inference with a network with hidden layers of varying width", infer_with_varying_width_net) &
     ]
 #else
-    procedure(test_function_i), pointer :: elemental_infer_1_ptr, elemental_infer_2_ptr, multi_hidden_ptr, vary_width_ptr
+    procedure(test_function_i), pointer :: &
+      elemental_infer_1_ptr, elemental_infer_2_ptr, multi_hidden_ptr, vary_width_ptr, vary_width_infer_ptr
     elemental_infer_1_ptr => elemental_infer_with_1_hidden_layer_xor_net
     elemental_infer_2_ptr => elemental_infer_with_2_hidden_layer_xor_net
     multi_hidden_ptr => multi_hidden_layer_net_to_from_json
     vary_width_ptr => varying_width_net_to_from_json
+    vary_width_infer_ptr => infer_with_varying_width_net
 
     test_descriptions = [ &
-      test_description_t("performing elemental inference with 1 hidden layer", elemental_infer_1_ptr), &
-      test_description_t("performing elemental inference with 2 hidden layers", elemental_infer_2_ptr), &
-      test_description_t("converting a network with 2 hidden layers to and from JSON format", multi_hidden_ptr), &
-      test_description_t("converting a network with varying-width hidden layers to/from JSON", vary_width_ptr) &
+       test_description_t("performing elemental inference with 1 hidden layer", elemental_infer_1_ptr) &
+      ,test_description_t("performing elemental inference with 2 hidden layers", elemental_infer_2_ptr) &
+      ,test_description_t("converting a network with 2 hidden layers to and from JSON format", multi_hidden_ptr) &
+      ,test_description_t("converting a network with varying-width hidden layers to/from JSON", vary_width_ptr) &
+      ,test_description_t("performing inference with varyring-width hidden layers", vary_width_infer_ptr)  &
     ]
 #endif
     associate( &
@@ -90,6 +94,32 @@ contains
         [max_n, max_n, layers-1]), &
       biases = reshape([[0.,-1.99,0.], [0., 0., 0.], [0., 0., 0.]], [max_n, layers-1]), &
       nodes = nodes_per_layer &
+    )
+  end function
+
+  function decrement_split_combine_increment() result(inference_engine)
+    !! Define a network that produces outputs identical to the 2 inputs for any input greater than or equal to 1
+    !! based on the following algorithm:
+    !! 1. A 1st hidden layer that forwards input 1 unmolested and decrements input 2 by 1,
+    !! 2. A 2nd hidden layer that forwards input 1 unmolested and splits input 2 into two halves,
+    !! 3. An output layer that recombines those two halves and increments the result by 1.
+    type(inference_engine_t) inference_engine
+    integer, parameter :: inputs = 2, hidden(*) = [2,3], outputs = 2 ! number of neurons in input, output, and hidden layers
+    integer, parameter :: n(*) = [inputs, hidden(1), hidden(2), outputs] ! nodes per layer
+    integer, parameter :: n_max = maxval(n), layers=size(n) ! max layer width, number of layers
+    integer, parameter :: w_shape(*) = [n_max, n_max, layers-1], b_shape(*) = [n_max, n_max]
+    real(rkind), parameter :: & 
+      w(*,*,*) = reshape( [1.,0.,0., 0.,1.,0., 0.,0.,0., 1.,0.,0., 0.,.5,.5, 0.,0.,0., 1.,0.,0., 0.,1.,0., 0.,1.,1.], w_shape), &
+      b(*,*) = reshape( [0.,-1.,0., 0.,0.,0., 0.,1.,0.], b_shape)
+
+    inference_engine = inference_engine_t( &
+      metadata = [ &
+        string_t("Decrement/Split/Combine/Increment => Identity") &
+       ,string_t("Damian Rouson") &
+       ,string_t("2024-07-03") &
+       ,string_t("relu") &
+       ,string_t("false") &
+     ], weights = w, biases = b, nodes = n &
     )
   end function
 
@@ -154,6 +184,18 @@ contains
         test_passes = difference%norm() < tolerance
       end associate
     end associate
+  end function
+
+  function infer_with_varying_width_net() result(test_passes)
+    logical test_passes
+    type(inference_engine_t) inference_engine
+    type(tensor_t) inputs, outputs
+    real(rkind), parameter :: tolerance = 1.E-08_rkind
+
+    inference_engine = decrement_split_combine_increment()
+    inputs = tensor_t([1.1, 2.7])
+    outputs = inference_engine%infer(inputs)
+    test_passes = all(abs(inputs%values() - outputs%values()) < tolerance)
   end function
 
   function elemental_infer_with_1_hidden_layer_xor_net() result(test_passes)
