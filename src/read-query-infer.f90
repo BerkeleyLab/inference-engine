@@ -10,7 +10,6 @@ program read_query_infer
   implicit none
 
   type(command_line_t) command_line
-  type(inference_engine_t) inference_engine
 
   associate(file_name => string_t(command_line%flag_value("--input-file")))
 
@@ -32,8 +31,7 @@ program read_query_infer
       print *, "Performing inference:"
 
       block
-        integer, parameter :: tensor_size = 2, num_tests = 3
-        real, parameter :: tensor_range = 11.
+        integer, parameter :: tensor_size = 2, num_tests = 3, tensor_min = 1., tensor_max = 4.0
         real harvest(tensor_size)
         integer i
 
@@ -43,7 +41,7 @@ program read_query_infer
 
         do i = 1, num_tests
           call random_number(harvest)
-          associate(inputs => tensor_t(tensor_range*harvest))
+          associate(inputs => tensor_t(tensor_min + (tensor_max-tensor_min)*harvest))
             associate(outputs => inference_engine%infer(inputs))
               print '(2(2g12.5,a,2x))', inputs%values(), "|",  outputs%values()
             end associate
