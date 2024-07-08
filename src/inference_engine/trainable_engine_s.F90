@@ -292,11 +292,7 @@ contains
   end procedure
 
   module procedure to_inference_engine
-    ! assignment-stmt disallows the procedure from being pure because it might
-    ! deallocate polymorphic allocatable subcomponent `activation_strategy_`
-    ! TODO: consider how this affects design
-    inference_engine = inference_engine_t( &
-      self%metadata_%strings(), self%w, self%b, self%n, self%input_range_, self%output_range_)
+    inference_engine = inference_engine_t(self%metadata_%strings(), self%w, self%b, self%n, self%input_range_, self%output_range_)
   end procedure
 
   module procedure perturbed_identity_network
@@ -335,6 +331,20 @@ contains
       unit_vector = real([(merge(1,0,j==k),k=1,n)])
     end function
 
+  end procedure
+
+  module procedure map_to_training_ranges
+    associate( &
+      inputs => input_output_pair%inputs(), &
+      expected_outputs => input_output_pair%expected_outputs() &
+    )
+      associate( &
+         normalized_inputs => self%input_range_%map_to_training_range(inputs), &
+         normalized_outputs => self%output_range_%map_to_training_range(expected_outputs) &
+      )
+        normalized_input_output_pair = input_output_pair_t(normalized_inputs, normalized_outputs)
+      end associate
+    end associate
   end procedure
 
   module procedure map_to_input_training_range

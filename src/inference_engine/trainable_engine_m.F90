@@ -11,6 +11,7 @@ module trainable_engine_m
   use tensor_range_m, only :  tensor_range_t
   use mini_batch_m, only : mini_batch_t
   use training_configuration_m, only : training_configuration_t
+  use input_output_pair_m, only : input_output_pair_t
   implicit none
 
   private
@@ -37,6 +38,7 @@ module trainable_engine_m
     procedure :: map_from_input_training_range
     procedure :: map_to_output_training_range
     procedure :: map_from_output_training_range
+    procedure :: map_to_training_ranges
   end type
 
   integer, parameter :: input_layer = 0
@@ -152,6 +154,13 @@ module trainable_engine_m
       class(trainable_engine_t), intent(in) :: self
       type(tensor_t), intent(in) :: tensor
       type(tensor_t) unnormalized_tensor
+    end function
+
+    elemental module function map_to_training_ranges(self, input_output_pair) result(normalized_input_output_pair)
+      implicit none
+      class(trainable_engine_t), intent(in) :: self
+      type(input_output_pair_t), intent(in) :: input_output_pair
+      type(input_output_pair_t) normalized_input_output_pair
     end function
 
   end interface

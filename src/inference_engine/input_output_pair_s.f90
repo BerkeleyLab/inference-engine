@@ -36,4 +36,11 @@ contains
 
   end procedure
 
+  module procedure write_to_stdout
+    integer i
+    do i = 1, size(input_output_pairs)
+      print *, input_output_pairs(i)%inputs_%values(), " | ", input_output_pairs(i)%expected_outputs_%values()
+    end do
+  end procedure
+
 end submodule input_output_pair_s

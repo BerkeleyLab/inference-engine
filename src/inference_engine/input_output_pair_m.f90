@@ -8,6 +8,7 @@ module input_output_pair_m
   private
   public :: input_output_pair_t
   public :: shuffle
+  public :: write_to_stdout
 
   type input_output_pair_t
     private
@@ -44,6 +45,11 @@ module input_output_pair_m
     module subroutine shuffle(pairs)
       implicit none
       type(input_output_pair_t), intent(inout) :: pairs(:)
+    end subroutine
+
+    module subroutine write_to_stdout(input_output_pairs)
+      implicit none
+      type(input_output_pair_t), intent(in) :: input_output_pairs(:)
     end subroutine
 
   end interface
