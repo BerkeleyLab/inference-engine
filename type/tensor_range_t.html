@@ -79,7 +79,7 @@
 
             <li class="list-inline-item" id="statements"><i class="fa fa-list-ol"></i>
               <a data-bs-toggle="tooltip" data-bs-placement="bottom" data-bs-html="true"
-                 title="<p> 7.0% of total for derived types.</p>Including implementation: 12 statements,  5.6% of total for derived types.">25 statements</a>
+                 title="<p> 7.4% of total for derived types.</p>Including implementation: 13 statements,  5.9% of total for derived types.">27 statements</a>
             </li>
 
             <li class="list-inline-item" id="source-file">
@@ -119,6 +119,7 @@
       </a>
       <div id="vars-0" class="collapse">
         <div class="list-group list-group-flush">
+            <a class="list-group-item" href="../type/tensor_range_t.html#variable-bin_widths_">bin_widths_</a>
             <a class="list-group-item" href="../type/tensor_range_t.html#variable-layer_">layer_</a>
             <a class="list-group-item" href="../type/tensor_range_t.html#variable-maxima_">maxima_</a>
             <a class="list-group-item" href="../type/tensor_range_t.html#variable-minima_">minima_</a>
@@ -159,12 +160,13 @@
       </a>
       <div id="boundprocs-0" class="collapse">
         <div class="list-group list-group-flush">
+            <a class="list-group-item" href="../type/tensor_range_t.html#boundprocedure-bin">bin</a>
             <a class="list-group-item" href="../type/tensor_range_t.html#boundprocedure-in_range">in_range</a>
             <a class="list-group-item" href="../type/tensor_range_t.html#boundprocedure-map_from_training_range">map_from_training_range</a>
             <a class="list-group-item" href="../type/tensor_range_t.html#boundprocedure-map_to_training_range">map_to_training_range</a>
-            <a class="list-group-item" href="../type/tensor_range_t.html#boundprocedure-operator%28%3D%3D%29~2">operator(==)</a>
-            <a class="list-group-item" href="../type/tensor_range_t.html#boundprocedure-to_json">to_json</a>
-            <a class="list-group-item" href="../type/tensor_range_t.html#boundprocedure-equals~2">equals</a>
+            <a class="list-group-item" href="../type/tensor_range_t.html#boundprocedure-operator%28%3D%3D%29~4">operator(==)</a>
+            <a class="list-group-item" href="../type/tensor_range_t.html#boundprocedure-to_json~3">to_json</a>
+            <a class="list-group-item" href="../type/tensor_range_t.html#boundprocedure-equals~4">equals</a>
         </div>
       </div>
     </div>
@@ -213,7 +215,7 @@
 </g>
 </g>
 <!-- type~exchange_t&#45;&gt;type~tensor_range_t -->
-<g id="type~~tensor_range_t~~InheritedByGraph_edge1" class="edge">
+<g id="type~~tensor_range_t~~InheritedByGraph_edge2" class="edge">
 <title>type~exchange_t&#45;&gt;type~tensor_range_t</title>
 <path fill="none" stroke="#ff0000" stroke-dasharray="5,2" d="M282.82,-92.74C241.1,-88.46 169.69,-80.3 109.02,-69.14 106.88,-68.74 104.7,-68.32 102.51,-67.88"/>
 <polygon fill="#ff0000" stroke="#ff0000" points="103.45,-64.5 92.94,-65.84 101.99,-71.35 103.45,-64.5"/>
@@ -229,7 +231,7 @@
 </g>
 </g>
 <!-- type~inference_engine_t&#45;&gt;type~tensor_range_t -->
-<g id="type~~tensor_range_t~~InheritedByGraph_edge2" class="edge">
+<g id="type~~tensor_range_t~~InheritedByGraph_edge3" class="edge">
 <title>type~inference_engine_t&#45;&gt;type~tensor_range_t</title>
 <path fill="none" stroke="#ff0000" stroke-dasharray="5,2" d="M262.53,-54.13C215.88,-54.13 149.57,-54.13 102.75,-54.13"/>
 <polygon fill="#ff0000" stroke="#ff0000" points="102.8,-50.64 92.8,-54.14 102.8,-57.64 102.8,-50.64"/>
@@ -245,7 +247,7 @@
 </g>
 </g>
 <!-- type~trainable_engine_t&#45;&gt;type~tensor_range_t -->
-<g id="type~~tensor_range_t~~InheritedByGraph_edge3" class="edge">
+<g id="type~~tensor_range_t~~InheritedByGraph_edge1" class="edge">
 <title>type~trainable_engine_t&#45;&gt;type~tensor_range_t</title>
 <path fill="none" stroke="#ff0000" stroke-dasharray="5,2" d="M263.73,-17.41C221.37,-21.92 161.21,-29.21 109.02,-38.88 106.88,-39.28 104.7,-39.71 102.5,-40.15"/>
 <polygon fill="#ff0000" stroke="#ff0000" points="101.97,-36.69 92.93,-42.21 103.44,-43.53 101.97,-36.69"/>
@@ -320,6 +322,23 @@ large graphs.</div>
     <tbody>
         <tr>
             <td>
+              <span class="anchor" id="variable-bin_widths_"></span>
+              real,
+            </td>
+              <td>private,</td>
+            <td>
+              allocatable, dimension(:)
+            </td>
+            <td>::</td>
+            <td><strong>bin_widths_</strong></td>
+                <td></td>
+                <td></td>
+            <td>
+                
+            </td>
+        </tr>
+        <tr>
+            <td>
               <span class="anchor" id="variable-layer_"></span>
               character(len=:),
             </td>
@@ -386,8 +405,8 @@ large graphs.</div>
     <ul class="list-group">
           <li class="list-group-item">
                 <h3>
-    private pure module function from_components(layer, minima, maxima) result(tensor_range)  
-    <a href="../proc/from_components~4.html"><button type="button" class="btn btn-info depwarn">Implementation &rarr;</button></a>
+    private pure module function from_components(layer, minima, maxima, num_bins) result(tensor_range)  
+    <a href="../proc/from_components.html"><button type="button" class="btn btn-info depwarn">Implementation &rarr;</button></a>
 
     </h3>
   
@@ -405,7 +424,7 @@ large graphs.</div>
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-layer~5"></span>
+              <span class="anchor" id="variable-layer"></span>
               character(len=*),
             </td>
 <td>intent(in)</td>
@@ -448,6 +467,21 @@ large graphs.</div>
                 
             </td>
         </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-num_bins"></span>
+              integer,
+            </td>
+<td>intent(in),</td>
+              <td>optional</td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>num_bins</strong></td>
+            <td>
+                
+            </td>
+        </tr>
     </tbody>
   </table>
 
@@ -461,7 +495,7 @@ large graphs.</div>
           <li class="list-group-item">
                 <h3>
     private module function from_json(lines) result(tensor_range)  
-    <a href="../proc/from_json~4.html"><button type="button" class="btn btn-info depwarn">Implementation &rarr;</button></a>
+    <a href="../proc/from_json.html"><button type="button" class="btn btn-info depwarn">Implementation &rarr;</button></a>
 
     </h3>
   
@@ -479,7 +513,7 @@ large graphs.</div>
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-lines~4"></span>
+              <span class="anchor" id="variable-lines~3"></span>
               type(string_t),
             </td>
 <td>intent(in)</td>
@@ -511,6 +545,96 @@ large graphs.</div>
 
       <section>
         <h2>Type-Bound Procedures</h2>
+          <div class="row">
+              <div class="card mt-3">
+    <div class="card-header codesum">
+      <span class="anchor" id="boundprocedure-bin"></span>
+      <h3>
+          procedure, public ::
+  <strong>bin</strong>
+        
+      </h3>
+    </div>
+    <ul class="list-group">
+        <li class="list-group-item">
+              <h3>interface </h3>
+                  <h3>
+    private pure module function bin(self, tensor, num_bins) result(phase_space_bin)  
+    <a href="../proc/bin.html"><button type="button" class="btn btn-info depwarn">Implementation &rarr;</button></a>
+</h3>
+
+  
+
+  <h4>Arguments</h4>
+      <table class="table table-striped varlist">
+    <thead>
+      <tr>
+        <th scope="col">Type</th>
+<th scope="col">Intent</th><th scope="col">Optional</th>        <th scope="col">Attributes</th>
+        <th scope="col"></th>
+        <th scope="col">Name</th>
+        <th scope="col"></th>
+    </thead>
+    <tbody>
+        <tr>
+            <td>
+              <span class="anchor" ></span>
+              class(<a href='tensor_range_t.html'>tensor_range_t</a>),
+            </td>
+<td>intent(in)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>self</strong></td>
+            <td>
+                
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" ></span>
+              type(<a href='tensor_t.html'>tensor_t</a>),
+            </td>
+<td>intent(in)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>tensor</strong></td>
+            <td>
+                
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" ></span>
+              integer,
+            </td>
+<td>intent(in)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>num_bins</strong></td>
+            <td>
+                
+            </td>
+        </tr>
+    </tbody>
+  </table>
+
+    <h4>
+    Return Value
+    <small>type(<a href='phase_space_bin_t.html'>phase_space_bin_t</a>)</small>
+    </h4>
+    
+
+        </li>
+    </ul>
+  </div>
+
+          </div>
           <div class="row">
               <div class="card mt-3">
     <div class="card-header codesum">
@@ -739,17 +863,17 @@ large graphs.</div>
           <div class="row">
               <div class="card mt-3">
     <div class="card-header codesum">
-      <span class="anchor" id="boundprocedure-operator%28%3D%3D%29~2"></span>
+      <span class="anchor" id="boundprocedure-operator%28%3D%3D%29~4"></span>
       <h3>
           generic, public ::
-  <strong>operator(==)</strong> => <a href='/home/runner/work/inference-engine/inference-engine/doc/html/type/tensor_range_t.html#boundprocedure-equals~2'>equals</a>
+  <strong>operator(==)</strong> => <a href='/home/runner/work/inference-engine/inference-engine/doc/html/type/tensor_range_t.html#boundprocedure-equals~4'>equals</a>
         
       </h3>
     </div>
     <ul class="list-group">
         <li class="list-group-item">
                   <h3>
-    private  interface <a href='../interface/equals.html'>equals</a>()  
+    private  interface <a href='../interface/equals~3.html'>equals</a>()  
 </h3>
     
 
@@ -766,7 +890,7 @@ large graphs.</div>
           <div class="row">
               <div class="card mt-3">
     <div class="card-header codesum">
-      <span class="anchor" id="boundprocedure-to_json"></span>
+      <span class="anchor" id="boundprocedure-to_json~3"></span>
       <h3>
           procedure, public ::
   <strong>to_json</strong>
@@ -778,7 +902,7 @@ large graphs.</div>
               <h3>interface </h3>
                   <h3>
     private pure module function to_json(self) result(lines)  
-    <a href="../proc/to_json~5.html"><button type="button" class="btn btn-info depwarn">Implementation &rarr;</button></a>
+    <a href="../proc/to_json.html"><button type="button" class="btn btn-info depwarn">Implementation &rarr;</button></a>
 </h3>
 
   
@@ -826,7 +950,7 @@ large graphs.</div>
           <div class="row">
               <div class="card mt-3">
     <div class="card-header codesum">
-      <span class="anchor" id="boundprocedure-equals~2"></span>
+      <span class="anchor" id="boundprocedure-equals~4"></span>
       <h3>
           procedure, private ::
   <strong>equals</strong>
@@ -838,7 +962,7 @@ large graphs.</div>
               <h3>interface </h3>
                   <h3>
     private elemental module function equals(lhs, rhs) result(lhs_equals_rhs)  
-    <a href="../proc/equals~5.html"><button type="button" class="btn btn-info depwarn">Implementation &rarr;</button></a>
+    <a href="../proc/equals~2.html"><button type="button" class="btn btn-info depwarn">Implementation &rarr;</button></a>
 </h3>
 
   
@@ -919,7 +1043,7 @@ large graphs.</div>
             <p class="text-end">
               Documentation generated by
               <a href="https://github.com/Fortran-FOSS-Programmers/ford">FORD</a>
- on 2024-07-07 22:58              </p>
+ on 2024-07-08 05:13              </p>
           </div>
         </div>
         <br>

@@ -132,7 +132,7 @@ contains
 
   end subroutine
 
-  impure function activation_factory(activation_name) result(activation)
+  impure function activation_factory_method(activation_name) result(activation)
     character(len=*), intent(in) :: activation_name
     class(activation_strategy_t), allocatable :: activation
 
@@ -148,7 +148,7 @@ contains
       case("relu")
         activation = relu_t()
       case default
-        error stop "inference_engine_s(activation_factory): unrecognized activation strategy '"//activation_name//"'"
+        error stop "inference_engine_s(activation_factory_method): unrecognized activation strategy '"//activation_name//"'"
     end select
   end function
 
@@ -183,9 +183,8 @@ contains
       end if
     end block
 
-    associate(strings => inference_engine%metadata_%strings())
-      inference_engine%activation_strategy_ = activation_factory(strings(4)%string())
-    end associate
+    if (allocated(inference_engine%activation_strategy_)) deallocate(inference_engine%activation_strategy_)
+    allocate(inference_engine%activation_strategy_, source = activation_factory_method(metadata(4)%string()))
 
     call assert_consistency(inference_engine)
 
@@ -193,7 +192,7 @@ contains
 
   module procedure from_json
 
-    type(string_t), allocatable :: lines(:), metadata(:)
+    type(string_t), allocatable :: lines(:)
     type(tensor_range_t) input_range, output_range
     type(layer_t) hidden_layers, output_layer
     real(rkind), allocatable :: hidden_weights(:,:,:)
@@ -207,6 +206,7 @@ contains
     proto_meta = metadata_t(string_t(""),string_t(""),string_t(""),string_t(""),string_t(""))
     proto_neuron = neuron_t(weights=[0.], bias=0.)
 #endif
+
 
     lines = file_%lines()
     call assert(adjustl(lines(1)%string())=="{", "inference_engine_s(from_json): expected outermost object '{'")
@@ -282,17 +282,17 @@ contains
 #ifndef _CRAYFTN
       associate(proto_meta => metadata_t(string_t(""),string_t(""),string_t(""),string_t(""),string_t("")))
 #endif
-       associate(metadata_object => metadata_t(lines(l:l+size(proto_meta%to_json())-1)))
-         inference_engine = hidden_layers%inference_engine(metadata_object%strings(), output_layer, input_range, output_range)
+       associate(metadata => metadata_t(lines(l:l+size(proto_meta%to_json())-1)))
+         associate(metadata_strings => metadata%strings())
+           inference_engine = hidden_layers%inference_engine(metadata_strings, output_layer, input_range, output_range)
+           if (allocated(inference_engine%activation_strategy_)) deallocate(inference_engine%activation_strategy_)
+           allocate(inference_engine%activation_strategy_, source = activation_factory_method(metadata_strings(4)%string()))
+         end associate
        end associate
 #ifndef _CRAYFTN
       end associate
 #endif
     end associate ! associate(num_lines ... )
-
-    associate(strings => inference_engine%metadata_%strings())
-      inference_engine%activation_strategy_ = activation_factory(strings(4)%string())
-    end associate
 
     call assert_consistency(inference_engine)
 

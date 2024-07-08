@@ -79,7 +79,7 @@
 
             <li class="list-inline-item" id="statements"><i class="fa fa-list-ol"></i>
               <a data-bs-toggle="tooltip" data-bs-placement="bottom" data-bs-html="true"
-                 title=" 2.8% of total for modules and submodules.">65 statements</a>
+                 title=" 2.7% of total for modules and submodules.">65 statements</a>
             </li>
 
             <li class="list-inline-item" id="source-file">
@@ -129,8 +129,8 @@
             <a class="list-group-item" href="../module/neuron_m.html#interface-bias">bias</a>
             <a class="list-group-item" href="../module/neuron_m.html#interface-next_allocated~2">next_allocated</a>
             <a class="list-group-item" href="../module/neuron_m.html#interface-next_pointer~2">next_pointer</a>
-            <a class="list-group-item" href="../module/neuron_m.html#interface-num_inputs">num_inputs</a>
-            <a class="list-group-item" href="../module/neuron_m.html#interface-to_json~3">to_json</a>
+            <a class="list-group-item" href="../module/neuron_m.html#interface-num_inputs~3">num_inputs</a>
+            <a class="list-group-item" href="../module/neuron_m.html#interface-to_json~7">to_json</a>
             <a class="list-group-item" href="../module/neuron_m.html#interface-weights">weights</a>
         </div>
       </div>
@@ -172,8 +172,8 @@
         <ul class="list-group list-group-flush">
             <li class="list-group-item">
               <ul class="list-inline">
-                  <li class="list-inline-item">julienne_string_m</li>
                   <li class="list-inline-item"><a href='kind_parameters_m.html'>kind_parameters_m</a></li>
+                  <li class="list-inline-item">julienne_string_m</li>
               </ul>
             </li>
             <li class="list-group-item">
@@ -490,7 +490,7 @@ large graphs.</div>
           <li class="list-group-item">
                 <h3>
     private pure module function from_components(weights, bias) result(neuron)  
-    <a href="../proc/from_components~5.html"><button type="button" class="btn btn-info depwarn">Implementation &rarr;</button></a>
+    <a href="../proc/from_components~3.html"><button type="button" class="btn btn-info depwarn">Implementation &rarr;</button></a>
 
     </h3>
   <p>construct single neuron_t object from an array of weights and a bias</p>
@@ -508,7 +508,7 @@ large graphs.</div>
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-weights~2"></span>
+              <span class="anchor" id="variable-weights~4"></span>
               real(kind=rkind),
             </td>
 <td>intent(in)</td>
@@ -549,7 +549,7 @@ large graphs.</div>
           <li class="list-group-item">
                 <h3>
     private pure recursive module function from_json(neuron_lines, start) result(neuron)  
-    <a href="../proc/from_json~5.html"><button type="button" class="btn btn-info depwarn">Implementation &rarr;</button></a>
+    <a href="../proc/from_json~3.html"><button type="button" class="btn btn-info depwarn">Implementation &rarr;</button></a>
 
     </h3>
   <p>construct linked list of neuron_t objects from an array of JSON-formatted text lines</p>
@@ -636,7 +636,7 @@ large graphs.</div>
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-self~20"></span>
+              <span class="anchor" id="variable-self~66"></span>
               class(<a href='../type/neuron_t.html'>neuron_t</a>),
             </td>
 <td>intent(in)</td>
@@ -690,7 +690,7 @@ large graphs.</div>
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-self~21"></span>
+              <span class="anchor" id="variable-self~67"></span>
               class(<a href='../type/neuron_t.html'>neuron_t</a>),
             </td>
 <td>intent(in)</td>
@@ -744,7 +744,7 @@ large graphs.</div>
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-self~22"></span>
+              <span class="anchor" id="variable-self~68"></span>
               class(<a href='../type/neuron_t.html'>neuron_t</a>),
             </td>
 <td>intent(in),</td>
@@ -772,7 +772,7 @@ large graphs.</div>
 
               <div class="card">
     <div class="card-header bg-light codesum">
-      <span class="anchor" id="interface-num_inputs"></span>
+      <span class="anchor" id="interface-num_inputs~3"></span>
       <h3>        interface
       </h3>
     </div>
@@ -780,7 +780,7 @@ large graphs.</div>
         <li class="list-group-item">
               <h3>
     private pure module function num_inputs(self) result(size_weights)  
-    <a href="../proc/num_inputs~3.html"><button type="button" class="btn btn-info depwarn">Implementation &rarr;</button></a>
+    <a href="../proc/num_inputs.html"><button type="button" class="btn btn-info depwarn">Implementation &rarr;</button></a>
 
     </h3>
   
@@ -798,7 +798,7 @@ large graphs.</div>
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-self~23"></span>
+              <span class="anchor" id="variable-self~69"></span>
               class(<a href='../type/neuron_t.html'>neuron_t</a>),
             </td>
 <td>intent(in)</td>
@@ -826,7 +826,7 @@ large graphs.</div>
 
               <div class="card">
     <div class="card-header bg-light codesum">
-      <span class="anchor" id="interface-to_json~3"></span>
+      <span class="anchor" id="interface-to_json~7"></span>
       <h3>        interface
       </h3>
     </div>
@@ -834,7 +834,7 @@ large graphs.</div>
         <li class="list-group-item">
               <h3>
     private pure module function to_json(self) result(lines)  
-    <a href="../proc/to_json~6.html"><button type="button" class="btn btn-info depwarn">Implementation &rarr;</button></a>
+    <a href="../proc/to_json~3.html"><button type="button" class="btn btn-info depwarn">Implementation &rarr;</button></a>
 
     </h3>
   
@@ -852,7 +852,7 @@ large graphs.</div>
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-self~18"></span>
+              <span class="anchor" id="variable-self~64"></span>
               class(<a href='../type/neuron_t.html'>neuron_t</a>),
             </td>
 <td>intent(in)</td>
@@ -906,7 +906,7 @@ large graphs.</div>
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-self~19"></span>
+              <span class="anchor" id="variable-self~65"></span>
               class(<a href='../type/neuron_t.html'>neuron_t</a>),
             </td>
 <td>intent(in)</td>
@@ -997,7 +997,7 @@ large graphs.</div>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-weights_"></span>
+              <span class="anchor" id="variable-weights_~3"></span>
               real(kind=rkind),
             </td>
               <td>private,</td>
@@ -1066,17 +1066,17 @@ large graphs.</div>
               </tr>
               <tr>
                 <td>  procedure, public ::
-  <strong><a href='../type/neuron_t.html#boundprocedure-num_inputs~2'>num_inputs</a></strong></td>
+  <strong><a href='../type/neuron_t.html#boundprocedure-num_inputs~5'>num_inputs</a></strong></td>
                 <td></td>
               </tr>
               <tr>
                 <td>  procedure, public ::
-  <strong><a href='../type/neuron_t.html#boundprocedure-to_json~3'>to_json</a></strong></td>
+  <strong><a href='../type/neuron_t.html#boundprocedure-to_json~7'>to_json</a></strong></td>
                 <td></td>
               </tr>
               <tr>
                 <td>  procedure, public ::
-  <strong><a href='../type/neuron_t.html#boundprocedure-weights'>weights</a></strong></td>
+  <strong><a href='../type/neuron_t.html#boundprocedure-weights~3'>weights</a></strong></td>
                 <td></td>
               </tr>
           </tbody>
@@ -1109,7 +1109,7 @@ large graphs.</div>
             <p class="text-end">
               Documentation generated by
               <a href="https://github.com/Fortran-FOSS-Programmers/ford">FORD</a>
- on 2024-07-07 22:58              </p>
+ on 2024-07-08 05:13              </p>
           </div>
         </div>
         <br>

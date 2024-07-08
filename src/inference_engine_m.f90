@@ -5,7 +5,7 @@ module inference_engine_m
  use activation_strategy_m, only : activation_strategy_t
  use differentiable_activation_strategy_m, only : differentiable_activation_strategy_t
  use hyperparameters_m, only : hyperparameters_t
- use input_output_pair_m, only : input_output_pair_t, shuffle
+ use input_output_pair_m, only : input_output_pair_t, shuffle, write_to_stdout
  use inference_engine_m_, only : inference_engine_t, difference_t, infer
  use kind_parameters_m, only : rkind
  use metadata_m, only : metadata_t
@@ -17,7 +17,7 @@ module inference_engine_m
  use step_m, only : step_t
  use swish_m, only : swish_t
  use tensor_m, only : tensor_t
- use tensor_range_m, only : tensor_range_t
+ use tensor_range_m, only : tensor_range_t, phase_space_bin_t
  use trainable_engine_m, only : trainable_engine_t
  use training_configuration_m, only : training_configuration_t
  use ubounds_m, only : ubounds_t
