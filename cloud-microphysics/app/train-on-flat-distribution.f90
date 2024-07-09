@@ -14,7 +14,7 @@ program train_on_flat_distribution
   use assert_m, only : assert, intrinsic_array_t
   use inference_engine_m, only : &
     inference_engine_t, mini_batch_t, input_output_pair_t, tensor_t, trainable_engine_t, rkind, tensor_range_t, &
-    training_configuration_t, shuffle, write_to_stdout, phase_space_bin_t
+    training_configuration_t, shuffle, phase_space_bin_t
 
   !! Internal dependencies;
   use NetCDF_file_m, only: NetCDF_file_t
@@ -26,7 +26,7 @@ program train_on_flat_distribution
     'Usage: ' // new_line('a') // new_line('a') // &
     './build/run-fpm.sh run train-cloud-microphysics -- \' // new_line('a') // &
     '  --base <string> --epochs <integer> \' // new_line('a') // &
-    '  [--start <integer>] [--end <integer>] [--stride <integer>] [--bins <integer>]'// &
+    '  [--start <integer>] [--end <integer>] [--stride <integer>] [--bins <integer>] [--report <integer>]'// &
     new_line('a') // new_line('a') // &
     'where angular brackets denote user-provided values and square brackets denote optional arguments.' // new_line('a') // &
     'The presence of a file named "stop" halts execution gracefully.'
@@ -35,12 +35,12 @@ program train_on_flat_distribution
   character(len=*), parameter :: plot_file_name = "cost.plt"
 
   integer(int64) t_start, t_finish, clock_rate
-  integer plot_unit, num_epochs, previous_epoch, start_step, stride, num_bins
+  integer plot_unit, num_epochs, previous_epoch, start_step, stride, num_bins, report_interval
   integer, allocatable :: end_step
   character(len=:), allocatable :: base_name
 
   call system_clock(t_start, clock_rate)
-  call get_command_line_arguments(base_name, num_epochs, start_step, end_step, stride, num_bins)
+  call get_command_line_arguments(base_name, num_epochs, start_step, end_step, stride, num_bins, report_interval)
   call create_or_append_to(plot_file_name, plot_unit, previous_epoch)
   call read_train_write( &
     training_configuration_t(file_t(string_t(training_config_file_name))), base_name, plot_unit, previous_epoch, num_epochs &
@@ -84,14 +84,14 @@ contains
     end if
   end subroutine
 
-  subroutine get_command_line_arguments(base_name, num_epochs, start_step, end_step, stride, num_bins)
+  subroutine get_command_line_arguments(base_name, num_epochs, start_step, end_step, stride, num_bins, report_interval)
     character(len=:), allocatable, intent(out) :: base_name
-    integer, intent(out) :: num_epochs, start_step, stride, num_bins
+    integer, intent(out) :: num_epochs, start_step, stride, num_bins, report_interval
     integer, intent(out), allocatable :: end_step
 
     ! local variables
     type(command_line_t) command_line
-    character(len=:), allocatable :: stride_string, epochs_string, start_string, end_string, bins_string
+    character(len=:), allocatable :: stride_string, epochs_string, start_string, end_string, bins_string, report_string
 
     base_name = command_line%flag_value("--base") ! gfortran 13 seg faults if this is an association
     epochs_string = command_line%flag_value("--epochs")
@@ -99,6 +99,7 @@ contains
     end_string = command_line%flag_value("--end")
     stride_string = command_line%flag_value("--stride")
     bins_string = command_line%flag_value("--bins")
+    report_string = command_line%flag_value("--report")
 
     associate(required_arguments => len(base_name)/=0 .and. len(epochs_string)/=0)
        if (.not. required_arguments) error stop usage 
@@ -116,6 +117,12 @@ contains
       start_step = 1
     else
       read(start_string,*) start_step
+    end if
+
+    if (len(report_string)==0) then
+      report_interval = 1
+    else
+      read(report_string,*) report_interval
     end if
 
     if (len(bins_string)/=0) then
@@ -287,7 +294,7 @@ contains
                   associate(residual_network => string_t(trim(merge("true ", "false", training_configuration%skip_connections())))) 
                     trainable_engine = trainable_engine_t( &
                       training_configuration,  &
-                      perturbation_magnitude = 0.5, &
+                      perturbation_magnitude = 0.05, &
                       metadata = [ &
                         string_t("Simple microphysics"), string_t("train-on-flat-dist"), date_string, activation%function_name(), &
                         residual_network &
@@ -316,9 +323,8 @@ contains
               keepers(i) = .true.
             end do 
             input_output_pairs = input_output_pair_t(pack(inputs, keepers), pack(outputs, keepers))
-            print *, "Kept ", size(input_output_pairs), " out of ", size(outputs), " input/output pairs " // &
-                     " in ", count(occupied)," out of ", size(occupied), " bins."
-            call write_to_stdout(input_output_pairs)
+            print *, "Kept ", size(input_output_pairs), " out of ", size(outputs, kind=int64), " input/output pairs " // &
+                     " in ", count(occupied)," out of ", size(occupied, kind=int64), " bins."
           end block
         end associate ! output_range
 
@@ -343,8 +349,8 @@ contains
             if (size(bins)>1) call shuffle(input_output_pairs) ! set up for stochastic gradient descent
             mini_batches = [(mini_batch_t(input_output_pairs(bins(b)%first():bins(b)%last())), b = 1, size(bins))]
             call trainable_engine%train(mini_batches, cost, adam, learning_rate)
-            print *, epoch, sum(cost)/size(cost)
-            write(plot_unit,*) epoch, sum(cost)/size(cost)
+            if (mod(epoch,report_interval)==0) print *, epoch, sum(cost)/size(cost)
+            if (mod(epoch,report_interval)==0) write(plot_unit,*) epoch, sum(cost)/size(cost)
 
             open(newunit=network_unit, file=network_file, form='formatted', status='unknown', iostat=io_status, action='write')
             associate(inference_engine => trainable_engine%to_inference_engine())
