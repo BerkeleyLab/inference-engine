@@ -1,25 +1,22 @@
 ! Copyright (c), The Regents of the University of California
 ! Terms of use are as specified in LICENSE.txt
-#ifndef __INTEL_FORTRAN
-!! Due to a suspected Intel ifx compilerlbug, the above C preprocessor macro
-!! effectively eliminates this file's source code when building with an Intel compiler.
-
-program train_cloud_microphysics
+program train_on_flat_distribution
   !! Train a neural network to represent the simplest cloud microphysics model from
   !! the Intermediate Complexity Atmospheric Research Model (ICAR) at
   !! https://github.com/BerkeleyLab/icar.
 
-  !! External dependencies:
-  use julienne_m, only : string_t, file_t, command_line_t, bin_t
-  use assert_m, only : assert, intrinsic_array_t
-  use tensor_range_m, only : tensor_range_t
+  !! Intrinic modules :
   use ieee_arithmetic, only : ieee_is_nan
   use iso_fortran_env, only : int64, real64
 
-  !! Internal dependencies;
+  !! External dependencies:
+  use julienne_m, only : string_t, file_t, command_line_t, bin_t
+  use assert_m, only : assert, intrinsic_array_t
   use inference_engine_m, only : &
-    inference_engine_t, mini_batch_t, input_output_pair_t, tensor_t, trainable_engine_t, rkind, &
-    training_configuration_t, shuffle
+    inference_engine_t, mini_batch_t, input_output_pair_t, tensor_t, trainable_engine_t, rkind, tensor_range_t, &
+    training_configuration_t, shuffle, phase_space_bin_t
+
+  !! Internal dependencies;
   use NetCDF_file_m, only: NetCDF_file_t
   use ubounds_m, only : ubounds_t
   implicit none
@@ -29,7 +26,7 @@ program train_cloud_microphysics
     'Usage: ' // new_line('a') // new_line('a') // &
     './build/run-fpm.sh run train-cloud-microphysics -- \' // new_line('a') // &
     '  --base <string> --epochs <integer> \' // new_line('a') // &
-    '  [--start <integer>] [--end <integer>] [--stride <integer>]' // &
+    '  [--start <integer>] [--end <integer>] [--stride <integer>] [--bins <integer>] [--report <integer>]'// &
     new_line('a') // new_line('a') // &
     'where angular brackets denote user-provided values and square brackets denote optional arguments.' // new_line('a') // &
     'The presence of a file named "stop" halts execution gracefully.'
@@ -38,12 +35,12 @@ program train_cloud_microphysics
   character(len=*), parameter :: plot_file_name = "cost.plt"
 
   integer(int64) t_start, t_finish, clock_rate
-  integer plot_unit, num_epochs, previous_epoch, start_step, stride
+  integer plot_unit, num_epochs, previous_epoch, start_step, stride, num_bins, report_interval
   integer, allocatable :: end_step
   character(len=:), allocatable :: base_name
 
   call system_clock(t_start, clock_rate)
-  call get_command_line_arguments(base_name, num_epochs, start_step, end_step, stride)
+  call get_command_line_arguments(base_name, num_epochs, start_step, end_step, stride, num_bins, report_interval)
   call create_or_append_to(plot_file_name, plot_unit, previous_epoch)
   call read_train_write( &
     training_configuration_t(file_t(string_t(training_config_file_name))), base_name, plot_unit, previous_epoch, num_epochs &
@@ -87,20 +84,22 @@ contains
     end if
   end subroutine
 
-  subroutine get_command_line_arguments(base_name, num_epochs, start_step, end_step, stride)
+  subroutine get_command_line_arguments(base_name, num_epochs, start_step, end_step, stride, num_bins, report_interval)
     character(len=:), allocatable, intent(out) :: base_name
-    integer, intent(out) :: num_epochs, start_step, stride
+    integer, intent(out) :: num_epochs, start_step, stride, num_bins, report_interval
     integer, intent(out), allocatable :: end_step
 
     ! local variables
     type(command_line_t) command_line
-    character(len=:), allocatable :: stride_string, epochs_string, start_string, end_string
+    character(len=:), allocatable :: stride_string, epochs_string, start_string, end_string, bins_string, report_string
 
     base_name = command_line%flag_value("--base") ! gfortran 13 seg faults if this is an association
     epochs_string = command_line%flag_value("--epochs")
     start_string = command_line%flag_value("--start")
     end_string = command_line%flag_value("--end")
     stride_string = command_line%flag_value("--stride")
+    bins_string = command_line%flag_value("--bins")
+    report_string = command_line%flag_value("--report")
 
     associate(required_arguments => len(base_name)/=0 .and. len(epochs_string)/=0)
        if (.not. required_arguments) error stop usage 
@@ -118,6 +117,18 @@ contains
       start_step = 1
     else
       read(start_string,*) start_step
+    end if
+
+    if (len(report_string)==0) then
+      report_interval = 1
+    else
+      read(report_string,*) report_interval
+    end if
+
+    if (len(bins_string)/=0) then
+      read(bins_string,*) num_bins
+    else
+      num_bins = 1
     end if
 
     if (len(end_string)/=0) then
@@ -146,49 +157,47 @@ contains
     integer t, b, t_end
     logical stop_requested
 
-    associate( &
-      network_input => base_name // "_input.nc", &
-      network_output => base_name // "_output.nc", &
-      network_file => base_name // "_network.json" &
-    )
-      print *,"Reading network inputs from " // network_input
-
-      associate(network_input_file => netCDF_file_t(network_input))
-        ! Skipping the following unnecessary inputs that are in the current file format as of 14 Aug 2023:
-        ! precipitation, snowfall
-        call network_input_file%input("pressure", pressure_in)
-        call network_input_file%input("potential_temperature", potential_temperature_in)
-        call network_input_file%input("temperature", temperature_in)
-        call network_input_file%input("qv", qv_in)
-        call network_input_file%input("qc", qc_in)
-        call network_input_file%input("qr", qr_in)
-        call network_input_file%input("qs", qs_in)
-        call network_input_file%input("time", time_in)
-        t_end = size(time_in)
-        lbounds = [lbound(pressure_in), lbound(temperature_in), lbound(qv_in), lbound(qc_in), lbound(qr_in), lbound(qs_in)]
-        ubounds = &
-          [ubounds_t(ubound(qv_in)), ubounds_t(ubound(qc_in)), ubounds_t(ubound(qr_in)), ubounds_t(ubound(qs_in)), &
-           ubounds_t(ubound(pressure_in)), ubounds_t(ubound(temperature_in)) &
-          ]
+    associate( network_file => base_name // "_network.json")
+      associate(network_input => base_name // "_input.nc")
+        print *,"Reading network inputs from " // network_input
+        associate(network_input_file => netCDF_file_t(network_input))
+          ! Skipping the following unnecessary inputs that are in the current file format as of 14 Aug 2023:
+          ! precipitation, snowfall
+          call network_input_file%input("pressure", pressure_in)
+          call network_input_file%input("potential_temperature", potential_temperature_in)
+          call network_input_file%input("temperature", temperature_in)
+          call network_input_file%input("qv", qv_in)
+          call network_input_file%input("qc", qc_in)
+          call network_input_file%input("qr", qr_in)
+          call network_input_file%input("qs", qs_in)
+          call network_input_file%input("time", time_in)
+          t_end = size(time_in)
+          lbounds = [lbound(pressure_in), lbound(temperature_in), lbound(qv_in), lbound(qc_in), lbound(qr_in), lbound(qs_in)]
+          ubounds = &
+            [ubounds_t(ubound(qv_in)), ubounds_t(ubound(qc_in)), ubounds_t(ubound(qr_in)), ubounds_t(ubound(qs_in)), &
+             ubounds_t(ubound(pressure_in)), ubounds_t(ubound(temperature_in)) &
+            ]
+        end associate
       end associate
 
-      print *,"Reading network outputs from " // network_output
-
-      associate(network_output_file => netCDF_file_t(network_output))
-        call network_output_file%input("potential_temperature", potential_temperature_out)
-        ! Skipping the following unnecessary outputs that are in the current file format as of 14 Aug 2023:
-        ! pressure, temperature, precipitation, snowfall
-        call network_output_file%input("qv", qv_out)
-        call network_output_file%input("qc", qc_out)
-        call network_output_file%input("qr", qr_out)
-        call network_output_file%input("qs", qs_out)
-        call network_output_file%input("time", time_out)
-        lbounds = [lbounds, lbound(qv_out), lbound(qc_out), lbound(qr_out), lbound(qs_out)]
-        ubounds = [ubounds, ubounds_t(ubound(qv_out)), ubounds_t(ubound(qc_out)), &
-          ubounds_t(ubound(qr_out)), ubounds_t(ubound(qs_out))]
-        call assert(all(lbounds == 1), "main: default input/output lower bounds", intrinsic_array_t(lbounds))
-        call assert(all(ubounds == ubounds(1)), "main: matching input/output upper bounds")
-        call assert(all(abs(time_in(2:t_end) - time_out(1:t_end-1))<tolerance), "main: matching time stamps")
+      associate(network_output => base_name // "_output.nc")
+        print *,"Reading network outputs from " // network_output
+        associate(network_output_file => netCDF_file_t(network_output))
+          call network_output_file%input("potential_temperature", potential_temperature_out)
+          ! Skipping the following unnecessary outputs that are in the current file format as of 14 Aug 2023:
+          ! pressure, temperature, precipitation, snowfall
+          call network_output_file%input("qv", qv_out)
+          call network_output_file%input("qc", qc_out)
+          call network_output_file%input("qr", qr_out)
+          call network_output_file%input("qs", qs_out)
+          call network_output_file%input("time", time_out)
+          lbounds = [lbounds, lbound(qv_out), lbound(qc_out), lbound(qr_out), lbound(qs_out)]
+          ubounds = [ubounds, ubounds_t(ubound(qv_out)), ubounds_t(ubound(qc_out)), &
+            ubounds_t(ubound(qr_out)), ubounds_t(ubound(qs_out))]
+          call assert(all(lbounds == 1), "main: default input/output lower bounds", intrinsic_array_t(lbounds))
+          call assert(all(ubounds == ubounds(1)), "main: matching input/output upper bounds")
+          call assert(all(abs(time_in(2:t_end) - time_out(1:t_end-1))<tolerance), "main: matching time stamps")
+        end associate
       end associate
 
       print *,"Calculating time derivatives"
@@ -222,9 +231,7 @@ contains
         type(bin_t), allocatable :: bins(:)
         type(input_output_pair_t), allocatable :: input_output_pairs(:)
         type(tensor_t), allocatable, dimension(:) :: inputs, outputs
-        real(rkind), parameter :: keep = 0.01
         real(rkind), allocatable :: cost(:)
-        real(rkind), allocatable :: harvest(:)
         integer i, batch, lon, lat, level, time, network_unit, io_status, epoch
         integer(int64) start_training, finish_training
 
@@ -250,71 +257,79 @@ contains
             ] &
           ), lon = 1, size(qv_in,1))], lat = 1, size(qv_in,2))], level = 1, size(qv_in,3))], time = start_step, end_step, stride)]
 
-        read_or_initialize_engine: &
-        if (io_status==0) then
-          print *,"Reading network from file " // network_file
-          trainable_engine = trainable_engine_t(inference_engine_t(file_t(string_t(network_file))))
-          close(network_unit)
-        else
-          close(network_unit)
+        print *,"Calculating output tensor component ranges."
+        associate(output_range => tensor_range_t( &
+          layer  = "outputs", &
+          minima = [minval(dpt_dt), minval(dqv_dt), minval(dqc_dt), minval(dqr_dt), minval(dqs_dt)], &
+          maxima = [maxval(dpt_dt), maxval(dqv_dt), maxval(dqc_dt), maxval(dqr_dt), maxval(dqs_dt)], &
+          num_bins = num_bins &
+        ))
+          read_or_initialize_engine: &
+          if (io_status==0) then
+            print *,"Reading network from file " // network_file
+            trainable_engine = trainable_engine_t(inference_engine_t(file_t(string_t(network_file))))
+            close(network_unit)
+          else
+            close(network_unit)
 
-          initialize_network: &
-          block
-            character(len=len('YYYYMMDD')) date
+            initialize_network: &
+            block
+              character(len=len('YYYYMMDD')) date
 
-            call date_and_time(date)
+              call date_and_time(date)
 
-            print *,"Calculating input tensor component ranges."
-            associate(input_range => tensor_range_t( &
-              layer  = "inputs", &
-              minima = [minval(pressure_in), minval(potential_temperature_in), minval(temperature_in), &
-                minval(qv_in), minval(qc_in), minval(qr_in), minval(qs_in)], &
-              maxima = [maxval(pressure_in), maxval(potential_temperature_in), maxval(temperature_in), &
-                maxval(qv_in), maxval(qc_in), maxval(qr_in), maxval(qs_in)] &
-            ))
-              print *,"Calculating output tensor component ranges."
-              associate(output_range => tensor_range_t( &
-                layer  = "outputs", &
-                minima = [minval(dpt_dt), minval(dqv_dt), minval(dqc_dt), minval(dqr_dt), minval(dqs_dt)], &
-                maxima = [maxval(dpt_dt), maxval(dqv_dt), maxval(dqc_dt), maxval(dqr_dt), maxval(dqs_dt)] &
-              ))
+              print *,"Calculating input tensor component ranges."
+              associate( &
+                input_range => tensor_range_t( &
+                  layer  = "inputs", &
+                  minima = [minval(pressure_in), minval(potential_temperature_in), minval(temperature_in), &
+                    minval(qv_in), minval(qc_in), minval(qr_in), minval(qs_in)], &
+                  maxima = [maxval(pressure_in), maxval(potential_temperature_in), maxval(temperature_in), &
+                    maxval(qv_in), maxval(qc_in), maxval(qr_in), maxval(qs_in)], &
+                  num_bins = num_bins &
+                ), &
+                date_string => string_t(date) &
+              )
                 associate(activation => training_configuration%differentiable_activation_strategy())
-                  associate( &
-                    model_name => string_t("Simple microphysics"), &
-                    author => string_t("Inference Engine"), &
-                    date_string => string_t(date), &
-                    activation_name => activation%function_name(), &
-                    residual_network => string_t(trim(merge("true ", "false", training_configuration%skip_connections()))) &
-                  )
+                  associate(residual_network => string_t(trim(merge("true ", "false", training_configuration%skip_connections())))) 
                     trainable_engine = trainable_engine_t( &
-                      training_configuration, perturbation_magnitude=0.05, &
-                      metadata = [model_name, author, date_string, activation_name, residual_network], &
-                      input_range = input_range, output_range = output_range &
+                      training_configuration,  &
+                      perturbation_magnitude = 0.05, &
+                      metadata = [ &
+                        string_t("Simple microphysics"), string_t("train-on-flat-dist"), date_string, activation%function_name(), &
+                        residual_network &
+                      ], input_range = input_range, output_range = output_range &
                     )
                   end associate
                 end associate
-              end associate
-            end associate
-          end block initialize_network
-        end if read_or_initialize_engine
+              end associate ! input_range, date_string
+            end block initialize_network
+          end if read_or_initialize_engine
 
-        print *,"Normalizing input tensors"
-        inputs = trainable_engine%map_to_input_training_range(inputs)
+          print *, "Conditionally sampling for a flat distribution of output values"
+          block
+            integer i
+            logical occupied(num_bins, num_bins, num_bins, num_bins, num_bins)
+            logical keepers(size(outputs))
+            type(phase_space_bin_t), allocatable :: bin(:)
+            occupied = .false.
+            keepers = .false.
 
-        print *,"Normalizing output tensors"
-        outputs = trainable_engine%map_to_output_training_range(outputs)
+            bin = [(output_range%bin(outputs(i), num_bins), i=1,size(outputs))]
 
-        print *, "Eliminating",int(100*(1.-keep)),"% of the grid points that have all-zero time derivatives"
-
-        associate(num_grid_pts => size(outputs))
-          if (allocated(harvest)) deallocate(harvest)
-          allocate(harvest(num_grid_pts))
-          call random_number(harvest)
-          associate(keepers => [(any(outputs(i)%values()/=0.) .or. harvest(i)<keep, i=1,num_grid_pts)])
+            do i = 1, size(outputs)
+              if (occupied(bin(i)%loc(1),bin(i)%loc(2),bin(i)%loc(3),bin(i)%loc(4),bin(i)%loc(5))) cycle
+              occupied(bin(i)%loc(1),bin(i)%loc(2),bin(i)%loc(3),bin(i)%loc(4),bin(i)%loc(5)) = .true.
+              keepers(i) = .true.
+            end do 
             input_output_pairs = input_output_pair_t(pack(inputs, keepers), pack(outputs, keepers))
-            print *, size(input_output_pairs), "points retained out of ", num_grid_pts, " points total"
-          end associate
-        end associate
+            print *, "Kept ", size(input_output_pairs), " out of ", size(outputs, kind=int64), " input/output pairs " // &
+                     " in ", count(occupied)," out of ", size(occupied, kind=int64), " bins."
+          end block
+        end associate ! output_range
+
+        print *,"Normalizing the remaining input and output tensors"
+        input_output_pairs = trainable_engine%map_to_training_ranges(input_output_pairs)
 
         associate( &
           num_pairs => size(input_output_pairs), &
@@ -331,11 +346,11 @@ contains
 
           do epoch = previous_epoch + 1, previous_epoch + num_epochs
 
-            call shuffle(input_output_pairs) ! set up for stochastic gradient descent
+            if (size(bins)>1) call shuffle(input_output_pairs) ! set up for stochastic gradient descent
             mini_batches = [(mini_batch_t(input_output_pairs(bins(b)%first():bins(b)%last())), b = 1, size(bins))]
             call trainable_engine%train(mini_batches, cost, adam, learning_rate)
-            print *, epoch, sum(cost)/size(cost)
-            write(plot_unit,*) epoch, sum(cost)/size(cost)
+            if (mod(epoch,report_interval)==0) print *, epoch, sum(cost)/size(cost)
+            if (mod(epoch,report_interval)==0) write(plot_unit,*) epoch, sum(cost)/size(cost)
 
             open(newunit=network_unit, file=network_file, form='formatted', status='unknown', iostat=io_status, action='write')
             associate(inference_engine => trainable_engine%to_inference_engine())
@@ -343,7 +358,6 @@ contains
                 call json_file%write_lines(string_t(network_file))
               end associate
             end associate
-
             close(network_unit)
 
             inquire(file="stop", exist=stop_requested)
@@ -361,8 +375,7 @@ contains
         print *,"Training time: ", real(finish_training - start_training, real64)/real(clock_rate, real64),"for",num_epochs,"epochs"
 
       end block train_network
-
-    end associate
+    end associate ! network_file
 
     close(plot_unit)
 
@@ -375,5 +388,4 @@ contains
     x_normalized = (x - x_min)/(x_max - x_min)
   end function
 
-end program train_cloud_microphysics
-#endif // __INTEL_FORTRAN
+end program train_on_flat_distribution
