@@ -8,7 +8,7 @@ jobs:
     runs-on: ${{ matrix.os }}
     strategy:
       matrix:
-        os: [macOS-12]
+        os: [macOS-12, ubuntu-24.04]
       fail-fast: true
     env:
       FC: gfortran
@@ -18,13 +18,32 @@ jobs:
     - name: Checkout code
       uses: actions/checkout@v2
 
+    - uses: fortran-lang/setup-fpm@v4
+      with:
+        github-token: ${{ secrets.GITHUB_TOKEN }}
+
     - name: Install Dependencies MacOS
       if: contains(matrix.os, 'mac')
       run: |
         brew install gcc@${GCC_V}
         sudo ln -s $(which gfortran-${GCC_V}) $(dirname $(which gfortran-${GCC_V}))/gfortran
 
-    - name: Build and Test
+    - name: Install on Ubuntu
+      if: contains(matrix.os, 'ubuntu')
+      run: |
+        sudo apt update
+        sudo apt install -y build-essential gfortran-14 gcc-14 g++-14
+
+    - name: Build and Test MacOS
+      if: contains(matrix.os, 'mac')
       run: |
         export PATH="${HOME}/.local/bin:$PATH"
         ./setup.sh
+
+    - name: Build and Test Ubuntu
+      if: contains(matrix.os, 'ubuntu')
+      run: |
+        fpm --version
+        export FPM_FC=gfortran-14
+        export FPM_CC=gcc-14
+        fpm test
