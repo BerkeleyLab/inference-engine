@@ -344,31 +344,34 @@ contains
 
           call system_clock(start_training)
 
-          do epoch = previous_epoch + 1, previous_epoch + num_epochs
+          associate(starting_epoch => previous_epoch + 1, ending_epoch => previous_epoch + num_epochs)
+            do epoch = starting_epoch, ending_epoch
 
-            if (size(bins)>1) call shuffle(input_output_pairs) ! set up for stochastic gradient descent
-            mini_batches = [(mini_batch_t(input_output_pairs(bins(b)%first():bins(b)%last())), b = 1, size(bins))]
-            call trainable_engine%train(mini_batches, cost, adam, learning_rate)
-            if (mod(epoch,report_interval)==0) print *, epoch, sum(cost)/size(cost)
-            if (mod(epoch,report_interval)==0) write(plot_unit,*) epoch, sum(cost)/size(cost)
+              if (size(bins)>1) call shuffle(input_output_pairs) ! set up for stochastic gradient descent
+              mini_batches = [(mini_batch_t(input_output_pairs(bins(b)%first():bins(b)%last())), b = 1, size(bins))]
+              call trainable_engine%train(mini_batches, cost, adam, learning_rate)
+              if (any(epoch == [starting_epoch, ending_epoch]) .or. mod(epoch, report_interval)==0) then
+                print *, epoch, sum(cost)/size(cost)
+                write(plot_unit,*) epoch, sum(cost)/size(cost)
+                open(newunit=network_unit, file=network_file, form='formatted', status='unknown', iostat=io_status, action='write')
+                associate(inference_engine => trainable_engine%to_inference_engine())
+                  associate(json_file => inference_engine%to_json())
+                    call json_file%write_lines(string_t(network_file))
+                  end associate
+                end associate
+                close(network_unit)
+              end if
 
-            open(newunit=network_unit, file=network_file, form='formatted', status='unknown', iostat=io_status, action='write')
-            associate(inference_engine => trainable_engine%to_inference_engine())
-              associate(json_file => inference_engine%to_json())
-                call json_file%write_lines(string_t(network_file))
-              end associate
-            end associate
-            close(network_unit)
+              inquire(file="stop", exist=stop_requested)
 
-            inquire(file="stop", exist=stop_requested)
+              graceful_exit: &
+              if (stop_requested) then
+                print *,'Shutting down because a file named "stop" was found.'
+                return
+              end if graceful_exit
 
-            graceful_exit: &
-            if (stop_requested) then
-              print *,'Shutting down because a file named "stop" was found.'
-              return
-            end if graceful_exit
-
-          end do
+            end do
+          end associate
         end associate
 
         call system_clock(finish_training)
