@@ -26,6 +26,9 @@ module trainable_engine_m
     real(rkind), allocatable :: b(:,:) ! biases
     integer, allocatable :: n(:) ! nodes per layer
     class(differentiable_activation_strategy_t), allocatable :: differentiable_activation_strategy_ 
+    real(rkind), allocatable, dimension(:,:) :: a
+    real(rkind), allocatable, dimension(:,:,:) :: dcdw, vdw, sdw, vdwc, sdwc
+    real(rkind), allocatable, dimension(:,:) :: z, delta, dcdb, vdb, sdb, vdbc, sdbc
   contains
     procedure :: assert_consistent
     procedure :: train
