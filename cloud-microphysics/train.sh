@@ -1,12 +1,15 @@
 #!/bin/zsh
 i=0
-while (( i++ < 120)); do
-  if [ -f stop ]; then
-    echo "---------> File named 'stop' found. train.sh removing 'stop' and exiting <-------------"
-    rm stop
-    exit 0
-  fi 
-  print ""
-  echo "---------> Run $i <-------------"
-  ./build/run-fpm.sh run train-cloud-microphysics -- --base training --epochs 100000 --bins 10 --start 720 --report 1000
+j=2
+while (( j++ < 10)); do
+ while (( i++ < 12)); do
+   if [ -f stop ]; then
+     echo "---------> 'stop' file found -- removing 'stop' & exiting <-------------"
+     rm stop
+     exit 0
+   fi 
+   print ""
+   echo "---------> Run $i <--------->"
+   ./train-cloud-microphysics --base training --epochs 1000000 --bins $j --report 1000 --start 360 --stride 10
+ done
 done
