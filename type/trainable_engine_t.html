@@ -127,7 +127,7 @@
             <a class="list-group-item" href="../type/trainable_engine_t.html#variable-differentiable_activation_strategy_">differentiable_activation_strategy_</a>
             <a class="list-group-item" href="../type/trainable_engine_t.html#variable-input_range_">input_range_</a>
             <a class="list-group-item" href="../type/trainable_engine_t.html#variable-metadata_">metadata_</a>
-            <a class="list-group-item" href="../type/trainable_engine_t.html#variable-n~5">n</a>
+            <a class="list-group-item" href="../type/trainable_engine_t.html#variable-n">n</a>
             <a class="list-group-item" href="../type/trainable_engine_t.html#variable-output_range_">output_range_</a>
             <a class="list-group-item" href="../type/trainable_engine_t.html#variable-sdb">sdb</a>
             <a class="list-group-item" href="../type/trainable_engine_t.html#variable-sdbc">sdbc</a>
@@ -183,7 +183,7 @@
             <a class="list-group-item" href="../type/trainable_engine_t.html#boundprocedure-map_to_input_training_range">map_to_input_training_range</a>
             <a class="list-group-item" href="../type/trainable_engine_t.html#boundprocedure-map_to_output_training_range">map_to_output_training_range</a>
             <a class="list-group-item" href="../type/trainable_engine_t.html#boundprocedure-map_to_training_ranges">map_to_training_ranges</a>
-            <a class="list-group-item" href="../type/trainable_engine_t.html#boundprocedure-num_inputs">num_inputs</a>
+            <a class="list-group-item" href="../type/trainable_engine_t.html#boundprocedure-num_inputs~2">num_inputs</a>
             <a class="list-group-item" href="../type/trainable_engine_t.html#boundprocedure-num_layers">num_layers</a>
             <a class="list-group-item" href="../type/trainable_engine_t.html#boundprocedure-num_outputs">num_outputs</a>
             <a class="list-group-item" href="../type/trainable_engine_t.html#boundprocedure-to_inference_engine">to_inference_engine</a>
@@ -511,7 +511,7 @@ large graphs.</div>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-n~5"></span>
+              <span class="anchor" id="variable-n"></span>
               integer,
             </td>
               <td>private,</td>
@@ -775,7 +775,7 @@ large graphs.</div>
           <li class="list-group-item">
                 <h3>
     private impure module function construct_from_padded_arrays(nodes, weights, biases, differentiable_activation_strategy, metadata, input_range, output_range) result(trainable_engine)  
-    <a href="../proc/construct_from_padded_arrays~2.html"><button type="button" class="btn btn-info depwarn">Implementation &rarr;</button></a>
+    <a href="../proc/construct_from_padded_arrays.html"><button type="button" class="btn btn-info depwarn">Implementation &rarr;</button></a>
 
     </h3>
   
@@ -793,7 +793,7 @@ large graphs.</div>
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-nodes~2"></span>
+              <span class="anchor" id="variable-nodes"></span>
               integer,
             </td>
 <td>intent(in)</td>
@@ -853,7 +853,7 @@ large graphs.</div>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-metadata~3"></span>
+              <span class="anchor" id="variable-metadata"></span>
               type(string_t),
             </td>
 <td>intent(in)</td>
@@ -909,7 +909,7 @@ large graphs.</div>
           <li class="list-group-item">
                 <h3>
     private module function perturbed_identity_network(training_configuration, perturbation_magnitude, metadata, input_range, output_range) result(trainable_engine)  
-    <a href="../proc/perturbed_identity_network~7.html"><button type="button" class="btn btn-info depwarn">Implementation &rarr;</button></a>
+    <a href="../proc/perturbed_identity_network~3.html"><button type="button" class="btn btn-info depwarn">Implementation &rarr;</button></a>
 
     </h3>
   
@@ -942,7 +942,7 @@ large graphs.</div>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-perturbation_magnitude~3"></span>
+              <span class="anchor" id="variable-perturbation_magnitude"></span>
               real(kind=rkind),
             </td>
 <td>intent(in)</td>
@@ -957,7 +957,7 @@ large graphs.</div>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-metadata~4"></span>
+              <span class="anchor" id="variable-metadata~2"></span>
               type(string_t),
             </td>
 <td>intent(in)</td>
@@ -1089,7 +1089,7 @@ large graphs.</div>
               <h3>interface </h3>
                   <h3>
     private elemental module function infer(self, inputs) result(outputs)  
-    <a href="../proc/infer~2.html"><button type="button" class="btn btn-info depwarn">Implementation &rarr;</button></a>
+    <a href="../proc/infer.html"><button type="button" class="btn btn-info depwarn">Implementation &rarr;</button></a>
 </h3>
 
   
@@ -1527,7 +1527,7 @@ large graphs.</div>
           <div class="row">
               <div class="card mt-3">
     <div class="card-header codesum">
-      <span class="anchor" id="boundprocedure-num_inputs"></span>
+      <span class="anchor" id="boundprocedure-num_inputs~2"></span>
       <h3>
           procedure, public ::
   <strong>num_inputs</strong>
@@ -1539,7 +1539,7 @@ large graphs.</div>
               <h3>interface </h3>
                   <h3>
     private elemental module function num_inputs(self) result(n_in)  
-    <a href="../proc/num_inputs~3.html"><button type="button" class="btn btn-info depwarn">Implementation &rarr;</button></a>
+    <a href="../proc/num_inputs~2.html"><button type="button" class="btn btn-info depwarn">Implementation &rarr;</button></a>
 </h3>
 
   
@@ -1659,7 +1659,7 @@ large graphs.</div>
               <h3>interface </h3>
                   <h3>
     private elemental module function num_outputs(self) result(n_out)  
-    <a href="../proc/num_outputs~2.html"><button type="button" class="btn btn-info depwarn">Implementation &rarr;</button></a>
+    <a href="../proc/num_outputs.html"><button type="button" class="btn btn-info depwarn">Implementation &rarr;</button></a>
 </h3>
 
   
@@ -1900,7 +1900,7 @@ large graphs.</div>
             <p class="text-end">
               Documentation generated by
               <a href="https://github.com/Fortran-FOSS-Programmers/ford">FORD</a>
- on 2024-07-15 21:18              </p>
+ on 2024-07-18 01:38              </p>
           </div>
         </div>
         <br>

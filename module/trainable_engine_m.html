@@ -190,14 +190,14 @@
             <li class="list-group-item">
               <ul class="list-inline">
                   <li class="list-inline-item"><a href='tensor_m.html'>tensor_m</a></li>
-                  <li class="list-inline-item"><a href='inference_engine_m_.html'>inference_engine_m_</a></li>
-                  <li class="list-inline-item"><a href='differentiable_activation_strategy_m.html'>differentiable_activation_strategy_m</a></li>
-                  <li class="list-inline-item">julienne_string_m</li>
-                  <li class="list-inline-item"><a href='tensor_range_m.html'>tensor_range_m</a></li>
-                  <li class="list-inline-item"><a href='kind_parameters_m.html'>kind_parameters_m</a></li>
                   <li class="list-inline-item"><a href='metadata_m.html'>metadata_m</a></li>
                   <li class="list-inline-item"><a href='training_configuration_m.html'>training_configuration_m</a></li>
                   <li class="list-inline-item"><a href='input_output_pair_m.html'>input_output_pair_m</a></li>
+                  <li class="list-inline-item"><a href='tensor_range_m.html'>tensor_range_m</a></li>
+                  <li class="list-inline-item">julienne_string_m</li>
+                  <li class="list-inline-item"><a href='inference_engine_m_.html'>inference_engine_m_</a></li>
+                  <li class="list-inline-item"><a href='differentiable_activation_strategy_m.html'>differentiable_activation_strategy_m</a></li>
+                  <li class="list-inline-item"><a href='kind_parameters_m.html'>kind_parameters_m</a></li>
                   <li class="list-inline-item"><a href='mini_batch_m.html'>mini_batch_m</a></li>
               </ul>
             </li>
@@ -1207,7 +1207,7 @@ parameter
           <li class="list-group-item">
                 <h3>
     private impure module function construct_from_padded_arrays(nodes, weights, biases, differentiable_activation_strategy, metadata, input_range, output_range) result(trainable_engine)  
-    <a href="../proc/construct_from_padded_arrays~2.html"><button type="button" class="btn btn-info depwarn">Implementation &rarr;</button></a>
+    <a href="../proc/construct_from_padded_arrays.html"><button type="button" class="btn btn-info depwarn">Implementation &rarr;</button></a>
 
     </h3>
   
@@ -1225,7 +1225,7 @@ parameter
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-nodes~2"></span>
+              <span class="anchor" id="variable-nodes"></span>
               integer,
             </td>
 <td>intent(in)</td>
@@ -1285,7 +1285,7 @@ parameter
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-metadata~3"></span>
+              <span class="anchor" id="variable-metadata"></span>
               type(string_t),
             </td>
 <td>intent(in)</td>
@@ -1341,7 +1341,7 @@ parameter
           <li class="list-group-item">
                 <h3>
     private module function perturbed_identity_network(training_configuration, perturbation_magnitude, metadata, input_range, output_range) result(trainable_engine)  
-    <a href="../proc/perturbed_identity_network~7.html"><button type="button" class="btn btn-info depwarn">Implementation &rarr;</button></a>
+    <a href="../proc/perturbed_identity_network~3.html"><button type="button" class="btn btn-info depwarn">Implementation &rarr;</button></a>
 
     </h3>
   
@@ -1374,7 +1374,7 @@ parameter
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-perturbation_magnitude~3"></span>
+              <span class="anchor" id="variable-perturbation_magnitude"></span>
               real(kind=rkind),
             </td>
 <td>intent(in)</td>
@@ -1389,7 +1389,7 @@ parameter
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-metadata~4"></span>
+              <span class="anchor" id="variable-metadata~2"></span>
               type(string_t),
             </td>
 <td>intent(in)</td>
@@ -1473,7 +1473,7 @@ parameter
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-self~8"></span>
+              <span class="anchor" id="variable-self~7"></span>
               class(<a href='../type/trainable_engine_t.html'>trainable_engine_t</a>),
             </td>
 <td>intent(in)</td>
@@ -1504,7 +1504,7 @@ parameter
         <li class="list-group-item">
               <h3>
     private elemental module function infer(self, inputs) result(outputs)  
-    <a href="../proc/infer~2.html"><button type="button" class="btn btn-info depwarn">Implementation &rarr;</button></a>
+    <a href="../proc/infer.html"><button type="button" class="btn btn-info depwarn">Implementation &rarr;</button></a>
 
     </h3>
   
@@ -1522,7 +1522,7 @@ parameter
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-self~10"></span>
+              <span class="anchor" id="variable-self~9"></span>
               class(<a href='../type/trainable_engine_t.html'>trainable_engine_t</a>),
             </td>
 <td>intent(in)</td>
@@ -1537,7 +1537,7 @@ parameter
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-inputs"></span>
+              <span class="anchor" id="variable-inputs~2"></span>
               type(<a href='../type/tensor_t.html'>tensor_t</a>),
             </td>
 <td>intent(in)</td>
@@ -1591,7 +1591,7 @@ parameter
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-self~16"></span>
+              <span class="anchor" id="variable-self~15"></span>
               class(<a href='../type/trainable_engine_t.html'>trainable_engine_t</a>),
             </td>
 <td>intent(in)</td>
@@ -1660,7 +1660,7 @@ parameter
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-self~18"></span>
+              <span class="anchor" id="variable-self~17"></span>
               class(<a href='../type/trainable_engine_t.html'>trainable_engine_t</a>),
             </td>
 <td>intent(in)</td>
@@ -1729,7 +1729,7 @@ parameter
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-self~15"></span>
+              <span class="anchor" id="variable-self~14"></span>
               class(<a href='../type/trainable_engine_t.html'>trainable_engine_t</a>),
             </td>
 <td>intent(in)</td>
@@ -1798,7 +1798,7 @@ parameter
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-self~17"></span>
+              <span class="anchor" id="variable-self~16"></span>
               class(<a href='../type/trainable_engine_t.html'>trainable_engine_t</a>),
             </td>
 <td>intent(in)</td>
@@ -1867,7 +1867,7 @@ parameter
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-self~19"></span>
+              <span class="anchor" id="variable-self~18"></span>
               class(<a href='../type/trainable_engine_t.html'>trainable_engine_t</a>),
             </td>
 <td>intent(in)</td>
@@ -1918,7 +1918,7 @@ parameter
         <li class="list-group-item">
               <h3>
     private elemental module function num_inputs(self) result(n_in)  
-    <a href="../proc/num_inputs~3.html"><button type="button" class="btn btn-info depwarn">Implementation &rarr;</button></a>
+    <a href="../proc/num_inputs~2.html"><button type="button" class="btn btn-info depwarn">Implementation &rarr;</button></a>
 
     </h3>
   
@@ -1936,7 +1936,7 @@ parameter
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-self~11"></span>
+              <span class="anchor" id="variable-self~10"></span>
               class(<a href='../type/trainable_engine_t.html'>trainable_engine_t</a>),
             </td>
 <td>intent(in)</td>
@@ -1990,7 +1990,7 @@ parameter
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-self~13"></span>
+              <span class="anchor" id="variable-self~12"></span>
               class(<a href='../type/trainable_engine_t.html'>trainable_engine_t</a>),
             </td>
 <td>intent(in)</td>
@@ -2026,7 +2026,7 @@ parameter
         <li class="list-group-item">
               <h3>
     private elemental module function num_outputs(self) result(n_out)  
-    <a href="../proc/num_outputs~2.html"><button type="button" class="btn btn-info depwarn">Implementation &rarr;</button></a>
+    <a href="../proc/num_outputs.html"><button type="button" class="btn btn-info depwarn">Implementation &rarr;</button></a>
 
     </h3>
   
@@ -2044,7 +2044,7 @@ parameter
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-self~12"></span>
+              <span class="anchor" id="variable-self~11"></span>
               class(<a href='../type/trainable_engine_t.html'>trainable_engine_t</a>),
             </td>
 <td>intent(in)</td>
@@ -2098,7 +2098,7 @@ parameter
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-self~14"></span>
+              <span class="anchor" id="variable-self~13"></span>
               class(<a href='../type/trainable_engine_t.html'>trainable_engine_t</a>),
             </td>
 <td>intent(in)</td>
@@ -2152,7 +2152,7 @@ parameter
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-self~9"></span>
+              <span class="anchor" id="variable-self~8"></span>
               class(<a href='../type/trainable_engine_t.html'>trainable_engine_t</a>),
             </td>
 <td>intent(inout)</td>
@@ -2182,7 +2182,7 @@ parameter
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-cost~3"></span>
+              <span class="anchor" id="variable-cost"></span>
               real(kind=rkind),
             </td>
 <td>intent(out),</td>
@@ -2400,7 +2400,7 @@ parameter
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-n~5"></span>
+              <span class="anchor" id="variable-n"></span>
               integer,
             </td>
               <td>private,</td>
@@ -2687,7 +2687,7 @@ parameter
               </tr>
               <tr>
                 <td>  procedure, public ::
-  <strong><a href='../type/trainable_engine_t.html#boundprocedure-num_inputs'>num_inputs</a></strong></td>
+  <strong><a href='../type/trainable_engine_t.html#boundprocedure-num_inputs~2'>num_inputs</a></strong></td>
                 <td></td>
               </tr>
               <tr>
@@ -2740,7 +2740,7 @@ parameter
             <p class="text-end">
               Documentation generated by
               <a href="https://github.com/Fortran-FOSS-Programmers/ford">FORD</a>
- on 2024-07-15 21:18              </p>
+ on 2024-07-18 01:38              </p>
           </div>
         </div>
         <br>
