@@ -169,6 +169,10 @@ contains
             end block
 #endif  
 
+            block
+            real(rkind), allocatable :: pair_cost(:)
+            if (present(cost)) allocate(pair_cost(mini_batch_size))
+
             iterate_through_batch: &
             do pair = 1, mini_batch_size
 
@@ -181,8 +185,10 @@ contains
               end do feed_forward
 
               associate(y => expected_outputs(pair)%values())
-                if (present(cost)) &
+                if (present(cost)) then
                   cost(batch)= cost(batch) + sum((y(1:n(output_layer))-a(1:n(output_layer),output_layer))**2)/(2.e0*mini_batch_size)
+                  pair_cost(pair) = sum((y(1:n(output_layer))-a(1:n(output_layer),output_layer))**2)
+                end if
             
                 delta(1:n(output_layer),output_layer) = &
                   (a(1:n(output_layer),output_layer) - y(1:n(output_layer))) &
@@ -210,6 +216,8 @@ contains
               end block
     
             end do iterate_through_batch
+            if (present(cost)) call assert(abs(cost(batch) - sum(pair_cost)/(2.e0*mini_batch_size)) < 1.0E-8, "concurrent training")
+            end block
           
             if (adam) then
               block
