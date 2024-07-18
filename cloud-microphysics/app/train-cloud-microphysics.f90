@@ -26,7 +26,7 @@ program train_on_flat_distribution
     'Usage: ' // new_line('a') // new_line('a') // &
     './build/run-fpm.sh run train-cloud-microphysics -- \' // new_line('a') // &
     '  --base <string> --epochs <integer> \' // new_line('a') // &
-    '  [--start <integer>] [--end <integer>] [--stride <integer>] [--bins <integer>] [--report <integer>]'// &
+    '  [--start <integer>] [--end <integer>] [--stride <integer>] [--bins <integer>] [--report <integer>] [--tolerance <real>]'// &
     new_line('a') // new_line('a') // &
     'where angular brackets denote user-provided values and square brackets denote optional arguments.' // new_line('a') // &
     'The presence of a file named "stop" halts execution gracefully.'
@@ -38,9 +38,10 @@ program train_on_flat_distribution
   integer plot_unit, num_epochs, previous_epoch, start_step, stride, num_bins, report_interval
   integer, allocatable :: end_step
   character(len=:), allocatable :: base_name
+  real cost_tolerance
 
   call system_clock(t_start, clock_rate)
-  call get_command_line_arguments(base_name, num_epochs, start_step, end_step, stride, num_bins, report_interval)
+  call get_command_line_arguments(base_name, num_epochs, start_step, end_step, stride, num_bins, report_interval, cost_tolerance)
   call create_or_append_to(plot_file_name, plot_unit, previous_epoch)
   call read_train_write( &
     training_configuration_t(file_t(string_t(training_config_file_name))), base_name, plot_unit, previous_epoch, num_epochs &
@@ -84,14 +85,17 @@ contains
     end if
   end subroutine
 
-  subroutine get_command_line_arguments(base_name, num_epochs, start_step, end_step, stride, num_bins, report_interval)
+  subroutine get_command_line_arguments &
+    (base_name, num_epochs, start_step, end_step, stride, num_bins, report_interval, cost_tolerance)
     character(len=:), allocatable, intent(out) :: base_name
     integer, intent(out) :: num_epochs, start_step, stride, num_bins, report_interval
     integer, intent(out), allocatable :: end_step
+    real, intent(out) :: cost_tolerance
 
     ! local variables
     type(command_line_t) command_line
-    character(len=:), allocatable :: stride_string, epochs_string, start_string, end_string, bins_string, report_string
+    character(len=:), allocatable :: &
+      stride_string, epochs_string, start_string, end_string, bins_string, report_string, tolerance_string
 
     base_name = command_line%flag_value("--base") ! gfortran 13 seg faults if this is an association
     epochs_string = command_line%flag_value("--epochs")
@@ -100,6 +104,7 @@ contains
     stride_string = command_line%flag_value("--stride")
     bins_string = command_line%flag_value("--bins")
     report_string = command_line%flag_value("--report")
+    tolerance_string = command_line%flag_value("--tolerance")
 
     associate(required_arguments => len(base_name)/=0 .and. len(epochs_string)/=0)
        if (.not. required_arguments) error stop usage 
@@ -136,6 +141,18 @@ contains
       read(end_string,*) end_step
     end if
  
+    if (len(start_string)==0) then
+      start_step = 1
+    else
+      read(start_string,*) start_step
+    end if
+
+    if (len(tolerance_string)==0) then
+      cost_tolerance = 5.0E-08
+    else
+      read(tolerance_string,*) cost_tolerance
+    end if
+
   end subroutine get_command_line_arguments
 
   subroutine read_train_write(training_configuration, base_name, plot_unit, previous_epoch, num_epochs)
@@ -152,7 +169,6 @@ contains
       dpt_dt, dqv_dt, dqc_dt, dqr_dt, dqs_dt
     type(ubounds_t), allocatable :: ubounds(:)
     double precision, allocatable, dimension(:) :: time_in, time_out
-    double precision, parameter :: tolerance = 1.E-07
     integer, allocatable :: lbounds(:)
     integer t, b, t_end
     logical stop_requested
@@ -196,7 +212,12 @@ contains
             ubounds_t(ubound(qr_out)), ubounds_t(ubound(qs_out))]
           call assert(all(lbounds == 1), "main: default input/output lower bounds", intrinsic_array_t(lbounds))
           call assert(all(ubounds == ubounds(1)), "main: matching input/output upper bounds")
-          call assert(all(abs(time_in(2:t_end) - time_out(1:t_end-1))<tolerance), "main: matching time stamps")
+          block
+            double precision, parameter :: time_tolerance = 1.E-07
+            associate(matching_time_stamps => all(abs(time_in(2:t_end) - time_out(1:t_end-1))<time_tolerance))
+              call assert(matching_time_stamps, "main: matching time stamps")
+            end associate
+          end block
         end associate
       end associate
 
@@ -345,22 +366,37 @@ contains
           call system_clock(start_training)
 
           associate(starting_epoch => previous_epoch + 1, ending_epoch => previous_epoch + num_epochs)
+            epochs: &
             do epoch = starting_epoch, ending_epoch
 
               if (size(bins)>1) call shuffle(input_output_pairs) ! set up for stochastic gradient descent
               mini_batches = [(mini_batch_t(input_output_pairs(bins(b)%first():bins(b)%last())), b = 1, size(bins))]
               call trainable_engine%train(mini_batches, cost, adam, learning_rate)
-              if (any(epoch == [starting_epoch, ending_epoch]) .or. mod(epoch, report_interval)==0) then
-                print *, epoch, sum(cost)/size(cost)
-                write(plot_unit,*) epoch, sum(cost)/size(cost)
-                open(newunit=network_unit, file=network_file, form='formatted', status='unknown', iostat=io_status, action='write')
-                associate(inference_engine => trainable_engine%to_inference_engine())
-                  associate(json_file => inference_engine%to_json())
-                    call json_file%write_lines(string_t(network_file))
-                  end associate
+
+              associate(average_cost => sum(cost)/size(cost))
+                associate(converged => average_cost <= cost_tolerance)
+                  if (any([converged, epoch == [starting_epoch, ending_epoch], mod(epoch, report_interval)==0])) then
+                    print *, epoch, average_cost
+                    write(plot_unit,*) epoch, average_cost
+                    open(newunit=network_unit, file=network_file, form='formatted', status='unknown', iostat=io_status, action='write')
+                    associate(inference_engine => trainable_engine%to_inference_engine())
+                      associate(json_file => inference_engine%to_json())
+                        call json_file%write_lines(string_t(network_file))
+                      end associate
+                    end associate
+                    close(network_unit)
+                  end if
+                  signal_convergence: & 
+                  if (converged) then
+                    block
+                      integer unit
+                      open(newunit=unit, file="converged", status="unknown") ! The train.sh script detects & removes this file.
+                      close(unit)
+                      exit epochs
+                    end block
+                  end if signal_convergence
                 end associate
-                close(network_unit)
-              end if
+              end associate
 
               inquire(file="stop", exist=stop_requested)
 
@@ -370,7 +406,7 @@ contains
                 return
               end if graceful_exit
 
-            end do
+            end do epochs
           end associate
         end associate
 
