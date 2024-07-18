@@ -10,6 +10,7 @@ submodule(trainable_engine_m) trainable_engine_s
   implicit none
 
   integer, parameter :: input_layer = 0
+  real(rkind), parameter :: two = 2._rkind
 
 contains
 
@@ -150,7 +151,6 @@ contains
           iterate_across_batches: &
           do batch = 1, num_mini_batches
 
-            if (present(cost)) cost(batch) = 0.
             dcdw = 0.; dcdb = 0.
 
 #ifndef _CRAYFTN
@@ -174,7 +174,7 @@ contains
             if (present(cost)) allocate(pair_cost(mini_batch_size))
 
             iterate_through_batch: &
-            do pair = 1, mini_batch_size
+            do concurrent (pair = 1:mini_batch_size)
 
               a(1:self%num_inputs(), input_layer) = inputs(pair)%values()
 
@@ -185,10 +185,7 @@ contains
               end do feed_forward
 
               associate(y => expected_outputs(pair)%values())
-                if (present(cost)) then
-                  cost(batch)= cost(batch) + sum((y(1:n(output_layer))-a(1:n(output_layer),output_layer))**2)/(2.e0*mini_batch_size)
-                  pair_cost(pair) = sum((y(1:n(output_layer))-a(1:n(output_layer),output_layer))**2)
-                end if
+                if (present(cost)) pair_cost(pair) = sum((y(1:n(output_layer))-a(1:n(output_layer),output_layer))**2)
             
                 delta(1:n(output_layer),output_layer) = &
                   (a(1:n(output_layer),output_layer) - y(1:n(output_layer))) &
@@ -216,7 +213,7 @@ contains
               end block
     
             end do iterate_through_batch
-            if (present(cost)) call assert(abs(cost(batch) - sum(pair_cost)/(2.e0*mini_batch_size)) < 1.0E-8, "concurrent training")
+            if (present(cost)) cost(batch) = sum(pair_cost)/(two*mini_batch_size)
             end block
           
             if (adam) then
