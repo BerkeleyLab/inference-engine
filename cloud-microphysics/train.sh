@@ -23,9 +23,15 @@ while (( j++ < max_bins )); do
 
    if [ -f converged ]; then
      echo ""
-     echo "---------> 'converged' file found -- removing 'converged' & exiting inner loop <-------------"
-     rm converged
+     echo "---------> 'converged' file found exiting inner loop <-------------"
      break
    fi 
  done
+ if [ -f converged ]; then
+   echo "---------> removing 'converged' file <-------------"
+   rm converged
+ else
+   echo ""
+   echo "---------> train.sh: training with $j bins did not converge within $max_inner inner-loop iterations <-------------"
+ fi
 done
