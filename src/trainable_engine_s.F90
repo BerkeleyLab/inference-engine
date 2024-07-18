@@ -10,6 +10,7 @@ submodule(trainable_engine_m) trainable_engine_s
   implicit none
 
   integer, parameter :: input_layer = 0
+  real(rkind), parameter :: two = 2._rkind
 
 contains
 
@@ -138,10 +139,7 @@ contains
         a => self%a, dcdw => self%dcdw, vdw => self%vdw, sdw => self%sdw, vdwc => self%vdwc, sdwc => self%sdwc, &
         z => self%z, delta => self%delta, dcdb => self%dcdb, vdb => self%vdb, sdb => self%sdb, vdbc => self%vdbc, sdbc=> self%sdbc &
       )
-        vdw = 0.d0
-        sdw = 1.d0
-        vdb = 0.d0
-        sdb = 1.d0
+        vdw = 0.d0; sdw = 1.d0; vdb = 0.d0; sdb = 1.d0
 
         associate(w => self%w, b => self%b, n => self%n, num_mini_batches => size(mini_batches_arr))
 
@@ -150,7 +148,6 @@ contains
           iterate_across_batches: &
           do batch = 1, num_mini_batches
 
-            if (present(cost)) cost(batch) = 0.
             dcdw = 0.; dcdb = 0.
 
 #ifndef _CRAYFTN
@@ -168,48 +165,52 @@ contains
 #else
             end block
 #endif  
+            block
+              real(rkind), allocatable :: pair_cost(:)
+              if (present(cost)) allocate(pair_cost(mini_batch_size))
 
-            iterate_through_batch: &
-            do pair = 1, mini_batch_size
+              iterate_through_batch: &
+              do concurrent (pair = 1:mini_batch_size)
 
-              a(1:self%num_inputs(), input_layer) = inputs(pair)%values()
+                a(1:self%num_inputs(), input_layer) = inputs(pair)%values()
 
-              feed_forward: &
-              do l = 1,output_layer
-                z(1:n(l),l) = matmul(w(1:n(l),1:n(l-1),l), a(1:n(l-1),l-1)) + b(1:n(l),l)
-                a(1:n(l),l) = self%differentiable_activation_strategy_%activation(z(1:n(l),l))
-              end do feed_forward
-
-              associate(y => expected_outputs(pair)%values())
-                if (present(cost)) &
-                  cost(batch)= cost(batch) + sum((y(1:n(output_layer))-a(1:n(output_layer),output_layer))**2)/(2.e0*mini_batch_size)
-            
-                delta(1:n(output_layer),output_layer) = &
-                  (a(1:n(output_layer),output_layer) - y(1:n(output_layer))) &
-                  * self%differentiable_activation_strategy_%activation_derivative(z(1:n(output_layer),output_layer))
-              end associate
-              
-              associate(n_hidden => self%num_layers()-2)
-                back_propagate_error: &
-                do l = n_hidden,1,-1
-                  delta(1:n(l),l) = matmul(transpose(w(1:n(l+1),1:n(l),l+1)), delta(1:n(l+1),l+1)) &
-                    * self%differentiable_activation_strategy_%activation_derivative(z(1:n(l),l))
-                end do back_propagate_error
-              end associate
-
-              block
-                integer j
-
-                sum_gradients: &
+                feed_forward: &
                 do l = 1,output_layer
-                  dcdb(1:n(l),l) = dcdb(1:n(l),l) + delta(1:n(l),l)
-                  do concurrent(j = 1:n(l))
-                    dcdw(j,1:n(l-1),l) = dcdw(j,1:n(l-1),l) + a(1:n(l-1),l-1)*delta(j,l)
-                  end do
-                end do sum_gradients
-              end block
+                  z(1:n(l),l) = matmul(w(1:n(l),1:n(l-1),l), a(1:n(l-1),l-1)) + b(1:n(l),l)
+                  a(1:n(l),l) = self%differentiable_activation_strategy_%activation(z(1:n(l),l))
+                end do feed_forward
+
+                associate(y => expected_outputs(pair)%values())
+                  if (present(cost)) pair_cost(pair) = sum((y(1:n(output_layer))-a(1:n(output_layer),output_layer))**2)
+              
+                  delta(1:n(output_layer),output_layer) = &
+                    (a(1:n(output_layer),output_layer) - y(1:n(output_layer))) &
+                    * self%differentiable_activation_strategy_%activation_derivative(z(1:n(output_layer),output_layer))
+                end associate
+                
+                associate(n_hidden => self%num_layers()-2)
+                  back_propagate_error: &
+                  do l = n_hidden,1,-1
+                    delta(1:n(l),l) = matmul(transpose(w(1:n(l+1),1:n(l),l+1)), delta(1:n(l+1),l+1)) &
+                      * self%differentiable_activation_strategy_%activation_derivative(z(1:n(l),l))
+                  end do back_propagate_error
+                end associate
+
+                block
+                  integer j
+                  sum_gradients: &
+                  do l = 1,output_layer
+                    dcdb(1:n(l),l) = dcdb(1:n(l),l) + delta(1:n(l),l)
+                    do concurrent(j = 1:n(l))
+                      dcdw(j,1:n(l-1),l) = dcdw(j,1:n(l-1),l) + a(1:n(l-1),l-1)*delta(j,l)
+                    end do
+                  end do sum_gradients
+                end block
     
-            end do iterate_through_batch
+              end do iterate_through_batch
+
+              if (present(cost)) cost(batch) = sum(pair_cost)/(two*mini_batch_size)
+            end block
           
             if (adam) then
               block
