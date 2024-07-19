@@ -54,43 +54,44 @@ With the [Fortran Package Manager] (`fpm`) and a recent version of a Fortran com
 
 ### GNU (`gfortran`)
 ```
-fpm test
+fpm test --profile release
 ```
 
 ### Intel (`ifx`)
 ```
-fpm test --compiler ifx
+fpm test --compiler ifx --profile release
 ```
 
 #### _Experimental:_ Automatic offloading of `do concurrent` to GPUs
-This capability is under development with the goal to facilitate GPU automatic offloading via the following command:
+This capability is under development with the goal to facilitate automatic GPU offloading via the following command:
 ```
 fpm test --compiler ifx --flag "-fopenmp-target-do-concurrent -qopenmp -fopenmp-targets=spir64"
 ```
 
 ### LLVM (`flang-new`)
-Support for LLVM `flang-new` is under development and currently requires building `flang-new` from source with assumed-rank support enabled:
+Building with `flang-new` requires passing flags to enable the compiler's experimental support for assumed-rank entities:
 ```
-fpm test --compiler flang-new --flag "-mmlir -allow-assumed-rank"
+fpm test --compiler flang-new --flag "-mmlir -allow-assumed-rank -O3"
 ```
 A script that might help with building `flang-new` from source is in the [handy-dandy] repository.
 
 
-### NAG (`nagfor`) -- under development
+### NAG (`nagfor`)
 ```
-fpm test --compiler nagfor --flag -fpp
+fpm test --compiler nagfor --flag -fpp --profile release
 ```
 
 ### HPE (`crayftn.sh`) -- under development
 Support for the Cray Compiler Environment (CCE) Fortran compiler is under development.
-Building with the CCE `ftn` compiler wrapper requires an additional trivial wrapper.
-With a shell script named `crayftn.sh` of the following form in your `PATH`
+Building with the CCE `ftn` compiler wrapper requires an additional trivial wrapper
+shell script. For example, create a file `crayftn.sh` with the following contents and
+place this file's location in your `PATH`:
 ```
 #!/bin/bash
 
 ftn "$@"
 ```
-execute the following command:
+Then execute
 ```
 fpm test --compiler crayftn.sh
 ```
