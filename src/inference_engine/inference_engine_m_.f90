@@ -7,8 +7,14 @@ module inference_engine_m_
   use julienne_string_m, only : string_t
   use kind_parameters_m, only : rkind
   use metadata_m, only : metadata_t
+#ifdef __INTEL_COMPILER
+  use metadata_m, only : metadata_from_json => from_json
+#endif
   use tensor_m, only : tensor_t
   use tensor_range_m, only : tensor_range_t
+#ifdef __INTEL_COMPILER
+  use tensor_range_m, only : tensor_range_from_json => from_json
+#endif
   use differentiable_activation_strategy_m, only :differentiable_activation_strategy_t
   implicit none
 

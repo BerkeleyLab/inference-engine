@@ -4,6 +4,9 @@ module metadata_m
 
   private
   public :: metadata_t
+#ifdef __INTEL_COMPILER
+  public :: from_json
+#endif
 
   type metadata_t
     private

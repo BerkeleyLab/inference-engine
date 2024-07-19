@@ -224,7 +224,11 @@ contains
             if (justified_line == '"inputs_range": {') exit 
           end do find_inputs_range
           call assert(justified_line =='"inputs_range": {', 'from_json: expecting "inputs_range": {', justified_line)
+#ifndef __INTEL_COMPILER
           input_range = tensor_range_t(lines(l:l+range_lines-1))
+#else
+          input_range = tensor_range_from_json(lines(l:l+range_lines-1))
+#endif
 
           find_outputs_range: &
           do l = 1, num_lines
@@ -282,7 +286,11 @@ contains
 #ifndef _CRAYFTN
       associate(proto_meta => metadata_t(string_t(""),string_t(""),string_t(""),string_t(""),string_t("")))
 #endif
+#ifndef __INTEL_COMPILER
        associate(metadata => metadata_t(lines(l:l+size(proto_meta%to_json())-1)))
+#else
+       associate(metadata => metadata_from_json(lines(l:l+size(proto_meta%to_json())-1)))
+#endif
          associate(metadata_strings => metadata%strings())
            inference_engine = hidden_layers%inference_engine(metadata_strings, output_layer, input_range, output_range)
            if (allocated(inference_engine%activation_strategy_)) deallocate(inference_engine%activation_strategy_)

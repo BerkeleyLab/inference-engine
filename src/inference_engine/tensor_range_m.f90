@@ -8,6 +8,9 @@ module tensor_range_m
   
   private
   public :: tensor_range_t
+#ifdef __INTEL_COMPILER
+  public :: from_json
+#endif
   public :: phase_space_bin_t
 
   type phase_space_bin_t
