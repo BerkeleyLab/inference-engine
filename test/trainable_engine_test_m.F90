@@ -348,14 +348,16 @@ contains
     type(trainable_engine_t) trainable_engine
     real(rkind), parameter :: tolerance = 1.E-02_rkind
     real(rkind), allocatable :: harvest(:,:,:)
-#ifndef __INTEL_COMPILER
+#ifdef __flang__
+      !! Reducing num_iterations yields a less robust test, but moving away from local minima by
+      !! increasing num_iterations causes this test to crash when compiled with the flang or ifx compilers.
+    integer, parameter :: num_inputs=2, mini_batch_size = 1, num_iterations=50000
+#elif defined __INTEL_COMPILER
+    integer, parameter :: num_inputs=2, mini_batch_size = 1, num_iterations=49000
+#else
     integer, parameter :: num_inputs=2, mini_batch_size = 1, num_iterations=500000
       !! Depending on where in the random-number sequence the weights start, this test can pass for lower
       !! numbers of iterations, e.g., 400000. Using more iterations gives more robust convergence.
-#else
-    integer, parameter :: num_inputs=2, mini_batch_size = 1, num_iterations=49000
-      !! Reducing num_iterations yields a less robust test, but increasing num_iterations causes this
-      !! test to crash when compiled with the Intel ifx compiler.
 #endif
     integer batch, iter
 
