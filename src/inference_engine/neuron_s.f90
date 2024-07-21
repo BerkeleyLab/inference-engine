@@ -80,7 +80,11 @@ contains
   end procedure
 
   module procedure next_pointer
-    next_ptr => self%next
+    if (allocated(self%next)) then
+      next_ptr => self%next
+    else
+      next_ptr => null()
+    end if
   end procedure
 
   module procedure num_inputs
