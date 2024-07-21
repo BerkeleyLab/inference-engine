@@ -2,7 +2,6 @@
 ! Terms of use are as specified in LICENSE.txt
 module mini_batch_m
   use input_output_pair_m, only : input_output_pair_t
-  use kind_parameters_m, only : rkind
   implicit none
 
   private

@@ -3,7 +3,6 @@
 module tensor_range_m
   use tensor_m, only : tensor_t
   use julienne_m, only : string_t
-  use kind_parameters_m, only : rkind
   implicit none
   
   private
