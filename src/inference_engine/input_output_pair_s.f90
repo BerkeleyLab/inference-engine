@@ -1,7 +1,6 @@
 ! Copyright (c), The Regents of the University of California
 ! Terms of use are as specified in LICENSE.txt
 submodule(input_output_pair_m) input_output_pair_s
-  use assert_m, only : assert
   implicit none
 
 contains
