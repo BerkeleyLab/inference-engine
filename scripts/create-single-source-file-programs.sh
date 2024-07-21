@@ -114,7 +114,7 @@ fi
 echo "Creating saturated-mixing-ratio.F90"
 cat single-file.F90 \
   ../example/supporting-modules/saturated_mixing_ratio_m.f90 \
-  ../example/learn-saturated-mixing-ratio.f90 \
+  ../example/learn-saturated-mixing-ratio.F90 \
 > saturated-mixing-ratio.F90
 
 if [ ! -f saturated-mixing-ratio.F90 ]; then
