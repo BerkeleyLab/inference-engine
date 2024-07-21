@@ -146,12 +146,12 @@
       <div id="modprocs-0" class="collapse">
         <div class="list-group list-group-flush">
             <a class="list-group-item" href="../module/network_configuration_s.html#proc-activation_name">activation_name</a>
-            <a class="list-group-item" href="../module/network_configuration_s.html#proc-equals~2">equals</a>
-            <a class="list-group-item" href="../module/network_configuration_s.html#proc-from_components~2">from_components</a>
-            <a class="list-group-item" href="../module/network_configuration_s.html#proc-from_json~3">from_json</a>
-            <a class="list-group-item" href="../module/network_configuration_s.html#proc-nodes_per_layer~2">nodes_per_layer</a>
+            <a class="list-group-item" href="../module/network_configuration_s.html#proc-equals~4">equals</a>
+            <a class="list-group-item" href="../module/network_configuration_s.html#proc-from_components~4">from_components</a>
+            <a class="list-group-item" href="../module/network_configuration_s.html#proc-from_json~4">from_json</a>
+            <a class="list-group-item" href="../module/network_configuration_s.html#proc-nodes_per_layer">nodes_per_layer</a>
             <a class="list-group-item" href="../module/network_configuration_s.html#proc-skip_connections">skip_connections</a>
-            <a class="list-group-item" href="../module/network_configuration_s.html#proc-to_json~3">to_json</a>
+            <a class="list-group-item" href="../module/network_configuration_s.html#proc-to_json~4">to_json</a>
         </div>
       </div>
     </div>
@@ -174,8 +174,8 @@
         <ul class="list-group list-group-flush">
             <li class="list-group-item">
               <ul class="list-inline">
-                  <li class="list-inline-item">assert_m</li>
                   <li class="list-inline-item">julienne_formats_m</li>
+                  <li class="list-inline-item">assert_m</li>
               </ul>
             </li>
             <li class="list-group-item">
@@ -436,7 +436,7 @@ parameter
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-self~39"></span>
+              <span class="anchor" id="variable-self~38"></span>
               class(<a href='../type/network_configuration_t.html'>network_configuration_t</a>),
             </td>
 <td>intent(in)</td>
@@ -462,8 +462,8 @@ parameter
   </div>
 
               <div class="card">
-    <div class="card-header codesum"><span class="anchor" id="proc-equals~2"></span> <h3>module procedure /home/runner/work/inference-engine/inference-engine/doc/html/module/network_configuration_s.html <a href='../proc/equals~2.html'>equals</a> <small>elemental module function equals(lhs, rhs) result(lhs_equals_rhs)</small>  
-    <a href="../interface/equals~2.html"><button type="button" class="btn btn-info depwarn">Interface &rarr;</button></a>
+    <div class="card-header codesum"><span class="anchor" id="proc-equals~4"></span> <h3>module procedure /home/runner/work/inference-engine/inference-engine/doc/html/module/network_configuration_s.html <a href='../proc/equals~4.html'>equals</a> <small>elemental module function equals(lhs, rhs) result(lhs_equals_rhs)</small>  
+    <a href="../interface/equals~3.html"><button type="button" class="btn btn-info depwarn">Interface &rarr;</button></a>
 </h3></div>
     <div class="card-body">
           
@@ -482,7 +482,7 @@ parameter
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-lhs~3"></span>
+              <span class="anchor" id="variable-lhs~4"></span>
               class(<a href='../type/network_configuration_t.html'>network_configuration_t</a>),
             </td>
 <td>intent(in)</td>
@@ -497,7 +497,7 @@ parameter
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-rhs~4"></span>
+              <span class="anchor" id="variable-rhs~5"></span>
               class(<a href='../type/network_configuration_t.html'>network_configuration_t</a>),
             </td>
 <td>intent(in)</td>
@@ -523,7 +523,7 @@ parameter
   </div>
 
               <div class="card">
-    <div class="card-header codesum"><span class="anchor" id="proc-from_components~2"></span> <h3>module procedure /home/runner/work/inference-engine/inference-engine/doc/html/module/network_configuration_s.html <a href='../proc/from_components~2.html'>from_components</a> <small>pure module function from_components(skip_connections, nodes_per_layer, activation_name) result(network_configuration)</small>  
+    <div class="card-header codesum"><span class="anchor" id="proc-from_components~4"></span> <h3>module procedure /home/runner/work/inference-engine/inference-engine/doc/html/module/network_configuration_s.html <a href='../proc/from_components~4.html'>from_components</a> <small>pure module function from_components(skip_connections, nodes_per_layer, activation_name) result(network_configuration)</small>  
 </h3></div>
     <div class="card-body">
           
@@ -542,7 +542,7 @@ parameter
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-skip_connections~2"></span>
+              <span class="anchor" id="variable-skip_connections~3"></span>
               logical,
             </td>
 <td>intent(in)</td>
@@ -557,7 +557,7 @@ parameter
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-nodes_per_layer~5"></span>
+              <span class="anchor" id="variable-nodes_per_layer~6"></span>
               integer,
             </td>
 <td>intent(in)</td>
@@ -572,7 +572,7 @@ parameter
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-activation_name~5"></span>
+              <span class="anchor" id="variable-activation_name~4"></span>
               character(len=*),
             </td>
 <td>intent(in)</td>
@@ -598,7 +598,7 @@ parameter
   </div>
 
               <div class="card">
-    <div class="card-header codesum"><span class="anchor" id="proc-from_json~3"></span> <h3>module procedure /home/runner/work/inference-engine/inference-engine/doc/html/module/network_configuration_s.html <a href='../proc/from_json~3.html'>from_json</a> <small>pure module function from_json(lines) result(network_configuration)</small>  
+    <div class="card-header codesum"><span class="anchor" id="proc-from_json~4"></span> <h3>module procedure /home/runner/work/inference-engine/inference-engine/doc/html/module/network_configuration_s.html <a href='../proc/from_json~4.html'>from_json</a> <small>pure module function from_json(lines) result(network_configuration)</small>  
 </h3></div>
     <div class="card-body">
           
@@ -643,8 +643,54 @@ parameter
   </div>
 
               <div class="card">
-    <div class="card-header codesum"><span class="anchor" id="proc-nodes_per_layer~2"></span> <h3>module procedure /home/runner/work/inference-engine/inference-engine/doc/html/module/network_configuration_s.html <a href='../proc/nodes_per_layer~2.html'>nodes_per_layer</a> <small>pure module function nodes_per_layer(self) result(nodes)</small>  
-    <a href="../interface/nodes_per_layer~2.html"><button type="button" class="btn btn-info depwarn">Interface &rarr;</button></a>
+    <div class="card-header codesum"><span class="anchor" id="proc-nodes_per_layer"></span> <h3>module procedure /home/runner/work/inference-engine/inference-engine/doc/html/module/network_configuration_s.html <a href='../proc/nodes_per_layer.html'>nodes_per_layer</a> <small>pure module function nodes_per_layer(self) result(nodes)</small>  
+    <a href="../interface/nodes_per_layer~3.html"><button type="button" class="btn btn-info depwarn">Interface &rarr;</button></a>
+</h3></div>
+    <div class="card-body">
+          
+  
+
+  <h4>Arguments</h4>
+      <table class="table table-striped varlist">
+    <thead>
+      <tr>
+        <th scope="col">Type</th>
+<th scope="col">Intent</th><th scope="col">Optional</th>        <th scope="col">Attributes</th>
+        <th scope="col"></th>
+        <th scope="col">Name</th>
+        <th scope="col"></th>
+    </thead>
+    <tbody>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-self~39"></span>
+              class(<a href='../type/network_configuration_t.html'>network_configuration_t</a>),
+            </td>
+<td>intent(in)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>self</strong></td>
+            <td>
+
+            </td>
+        </tr>
+    </tbody>
+  </table>
+
+    <h4>
+    Return Value
+    <small>integer, allocatable, (:)</small>
+    </h4>
+    
+
+    </div>
+  </div>
+
+              <div class="card">
+    <div class="card-header codesum"><span class="anchor" id="proc-skip_connections"></span> <h3>module procedure /home/runner/work/inference-engine/inference-engine/doc/html/module/network_configuration_s.html <a href='../proc/skip_connections.html'>skip_connections</a> <small>elemental module function skip_connections(self) result(using_skip)</small>  
+    <a href="../interface/skip_connections~2.html"><button type="button" class="btn btn-info depwarn">Interface &rarr;</button></a>
 </h3></div>
     <div class="card-body">
           
@@ -681,52 +727,6 @@ parameter
 
     <h4>
     Return Value
-    <small>integer, allocatable, (:)</small>
-    </h4>
-    
-
-    </div>
-  </div>
-
-              <div class="card">
-    <div class="card-header codesum"><span class="anchor" id="proc-skip_connections"></span> <h3>module procedure /home/runner/work/inference-engine/inference-engine/doc/html/module/network_configuration_s.html <a href='../proc/skip_connections.html'>skip_connections</a> <small>elemental module function skip_connections(self) result(using_skip)</small>  
-    <a href="../interface/skip_connections.html"><button type="button" class="btn btn-info depwarn">Interface &rarr;</button></a>
-</h3></div>
-    <div class="card-body">
-          
-  
-
-  <h4>Arguments</h4>
-      <table class="table table-striped varlist">
-    <thead>
-      <tr>
-        <th scope="col">Type</th>
-<th scope="col">Intent</th><th scope="col">Optional</th>        <th scope="col">Attributes</th>
-        <th scope="col"></th>
-        <th scope="col">Name</th>
-        <th scope="col"></th>
-    </thead>
-    <tbody>
-        <tr>
-            <td>
-              <span class="anchor" id="variable-self~41"></span>
-              class(<a href='../type/network_configuration_t.html'>network_configuration_t</a>),
-            </td>
-<td>intent(in)</td>
-              <td></td>            <td>
-              
-            </td>
-            <td>::</td>
-            <td><strong>self</strong></td>
-            <td>
-
-            </td>
-        </tr>
-    </tbody>
-  </table>
-
-    <h4>
-    Return Value
     <small>logical</small>
     </h4>
     
@@ -735,8 +735,8 @@ parameter
   </div>
 
               <div class="card">
-    <div class="card-header codesum"><span class="anchor" id="proc-to_json~3"></span> <h3>module procedure /home/runner/work/inference-engine/inference-engine/doc/html/module/network_configuration_s.html <a href='../proc/to_json~3.html'>to_json</a> <small>pure module function to_json(self) result(lines)</small>  
-    <a href="../interface/to_json~3.html"><button type="button" class="btn btn-info depwarn">Interface &rarr;</button></a>
+    <div class="card-header codesum"><span class="anchor" id="proc-to_json~4"></span> <h3>module procedure /home/runner/work/inference-engine/inference-engine/doc/html/module/network_configuration_s.html <a href='../proc/to_json~4.html'>to_json</a> <small>pure module function to_json(self) result(lines)</small>  
+    <a href="../interface/to_json~4.html"><button type="button" class="btn btn-info depwarn">Interface &rarr;</button></a>
 </h3></div>
     <div class="card-body">
           
@@ -755,7 +755,7 @@ parameter
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-self~38"></span>
+              <span class="anchor" id="variable-self~37"></span>
               class(<a href='../type/network_configuration_t.html'>network_configuration_t</a>),
             </td>
 <td>intent(in)</td>
@@ -799,7 +799,7 @@ parameter
             <p class="text-end">
               Documentation generated by
               <a href="https://github.com/Fortran-FOSS-Programmers/ford">FORD</a>
- on 2024-07-21 05:03              </p>
+ on 2024-07-21 05:47              </p>
           </div>
         </div>
         <br>
