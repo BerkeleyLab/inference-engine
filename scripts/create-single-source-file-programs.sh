@@ -124,5 +124,13 @@ else
   echo "saturated-mixing-ratio.F90 wasn't created -- something went wrong"
 fi
 
+echo "Example compile commands:"
+echo ""
+echo 'gfortran -fcoarray=single -O3 -o saturated-mixing-ratio saturated-mixing-ratio.F90'
+echo 'flang-new -O3 -mmlir -allow-assumed-rank -o saturated-mixing-ratio saturated-mixing-ratio.F90'
+echo 'nagfor -fpp -O4 -o saturated-mixing-ratio saturated-mixing-ratio.F90'
+echo 'ifx -O3 -o saturated-mixing-ratio saturated-mixing-ratio.F90'
+
 rm single-file.F90
+
 echo "-------------------------------------------------------------------------"
