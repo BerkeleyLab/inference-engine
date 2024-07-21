@@ -59,13 +59,13 @@ fpm test --profile release
 
 ### Intel (`ifx`)
 ```
-fpm test --compiler ifx --profile release
+fpm test --compiler ifx --profile release --flag -O3
 ```
 
 #### _Experimental:_ Automatic offloading of `do concurrent` to GPUs
 This capability is under development with the goal to facilitate automatic GPU offloading via the following command:
 ```
-fpm test --compiler ifx --flag "-fopenmp-target-do-concurrent -qopenmp -fopenmp-targets=spir64"
+fpm test --compiler ifx --profile releae --flag "-fopenmp-target-do-concurrent -qopenmp -fopenmp-targets=spir64 -O3"
 ```
 
 ### LLVM (`flang-new`)
