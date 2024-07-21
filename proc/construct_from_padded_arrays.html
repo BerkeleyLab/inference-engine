@@ -79,20 +79,20 @@
 
             <li class="list-inline-item" id="statements"><i class="fa fa-list-ol"></i>
               <a data-bs-toggle="tooltip" data-bs-placement="bottom" data-bs-html="true"
-                 title=" 0.6% of total for procedures.">25 statements</a>
+                 title=" 0.7% of total for procedures.">30 statements</a>
             </li>
 
             <li class="list-inline-item" id="source-file">
               <i class="fa fa-code"></i>
-              <a href="../src/trainable_engine_s.F90"> Source File</a>
+              <a href="../src/inference_engine_s.F90"> Source File</a>
             </li>
         </ul>
       </div>
       <div class="col">
         <nav aria-label="breadcrumb">
           <ol class="breadcrumb justify-content-end mb-0">
-                <li class="breadcrumb-item"><a href='../sourcefile/trainable_engine_s.f90.html'>trainable_engine_s.F90</a></li>
-                <li class="breadcrumb-item"><a href='../module/trainable_engine_s.html'>trainable_engine_s</a></li>
+                <li class="breadcrumb-item"><a href='../sourcefile/inference_engine_s.f90.html'>inference_engine_s.F90</a></li>
+                <li class="breadcrumb-item"><a href='../module/inference_engine_s.html'>inference_engine_s</a></li>
             <li class="breadcrumb-item active" aria-current="page">construct_from_padded_arrays</li>
           </ol>
         </nav>
@@ -138,7 +138,7 @@
     </div>
     
     <div class="col-md-9" id='text'>
-    <h2>module procedure construct_from_padded_arrays <small>impure module function construct_from_padded_arrays(nodes, weights, biases, differentiable_activation_strategy, metadata, input_range, output_range) result(trainable_engine)</small>  
+    <h2>module procedure construct_from_padded_arrays <small>impure module function construct_from_padded_arrays(metadata, weights, biases, nodes, input_range, output_range) result(inference_engine)</small>  
 </h2>
     
 
@@ -157,67 +157,7 @@
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-nodes~6"></span>
-              integer,
-            </td>
-<td>intent(in)</td>
-              <td></td>            <td>
-              
-            </td>
-            <td>::</td>
-            <td><strong>nodes</strong>(input_layer:)</td>
-            <td>
-                
-            </td>
-        </tr>
-        <tr>
-            <td>
-              <span class="anchor" id="variable-weights~4"></span>
-              real(kind=rkind),
-            </td>
-<td>intent(in)</td>
-              <td></td>            <td>
-              
-            </td>
-            <td>::</td>
-            <td><strong>weights</strong>(:,:,:)</td>
-            <td>
-                
-            </td>
-        </tr>
-        <tr>
-            <td>
-              <span class="anchor" id="variable-biases~2"></span>
-              real(kind=rkind),
-            </td>
-<td>intent(in)</td>
-              <td></td>            <td>
-              
-            </td>
-            <td>::</td>
-            <td><strong>biases</strong>(:,:)</td>
-            <td>
-                
-            </td>
-        </tr>
-        <tr>
-            <td>
-              <span class="anchor" id="variable-differentiable_activation_strategy~2"></span>
-              class(<a href='../type/differentiable_activation_strategy_t.html'>differentiable_activation_strategy_t</a>),
-            </td>
-<td>intent(in)</td>
-              <td></td>            <td>
-              
-            </td>
-            <td>::</td>
-            <td><strong>differentiable_activation_strategy</strong></td>
-            <td>
-                
-            </td>
-        </tr>
-        <tr>
-            <td>
-              <span class="anchor" id="variable-metadata~5"></span>
+              <span class="anchor" id="variable-metadata~2"></span>
               type(string_t),
             </td>
 <td>intent(in)</td>
@@ -232,7 +172,52 @@
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-input_range~4"></span>
+              <span class="anchor" id="variable-weights"></span>
+              real(kind=rkind),
+            </td>
+<td>intent(in)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>weights</strong>(:,:,:)</td>
+            <td>
+                
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-biases"></span>
+              real(kind=rkind),
+            </td>
+<td>intent(in)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>biases</strong>(:,:)</td>
+            <td>
+                
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-nodes"></span>
+              integer,
+            </td>
+<td>intent(in)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>nodes</strong>(0:)</td>
+            <td>
+                
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-input_range~2"></span>
               type(<a href='../type/tensor_range_t.html'>tensor_range_t</a>),
             </td>
 <td>intent(in),</td>
@@ -247,7 +232,7 @@
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-output_range~4"></span>
+              <span class="anchor" id="variable-output_range~2"></span>
               type(<a href='../type/tensor_range_t.html'>tensor_range_t</a>),
             </td>
 <td>intent(in),</td>
@@ -265,8 +250,8 @@
 
       <h3>Return Value
         <small>
-          <span class="anchor" id="variable-trainable_engine~8"></span>
-          type(<a href='../type/trainable_engine_t.html'>trainable_engine_t</a>)
+          <span class="anchor" id="variable-inference_engine~3"></span>
+          type(<a href='../type/inference_engine_t.html'>inference_engine_t</a>)
         </small>
       </h3>
       
@@ -282,35 +267,132 @@
 <!-- Generated by graphviz version 12.0.0 (20240704.0754)
  -->
 <!-- Title: proc~~construct_from_padded_arrays~~CallsGraph Pages: 1 -->
-<svg id="procconstruct_from_padded_arraysCallsGraph" width="432pt" height="32pt"
- viewBox="0.00 0.00 431.54 32.27" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
-<g id="proc~~construct_from_padded_arrays~~CallsGraph" class="graph" transform="scale(1 1) rotate(0) translate(4 28.27)">
+<svg id="procconstruct_from_padded_arraysCallsGraph" width="641pt" height="123pt"
+ viewBox="0.00 0.00 641.00 123.48" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+<g id="proc~~construct_from_padded_arrays~~CallsGraph" class="graph" transform="scale(0.899548 0.899548) rotate(0) translate(4 133.27)">
 <title>proc~~construct_from_padded_arrays~~CallsGraph</title>
-<polygon fill="white" stroke="none" points="-4,4 -4,-28.27 427.54,-28.27 427.54,4 -4,4"/>
+<polygon fill="white" stroke="none" points="-4,4 -4,-133.27 708.58,-133.27 708.58,4 -4,4"/>
 <!-- proc~construct_from_padded_arrays -->
 <g id="proc~~construct_from_padded_arrays~~CallsGraph_node1" class="node">
 <title>proc~construct_from_padded_arrays</title>
-<polygon fill="none" stroke="black" points="175.77,-24.27 0,-24.27 0,0 175.77,0 175.77,-24.27"/>
-<text text-anchor="middle" x="87.88" y="-8.53" font-family="Helvetica,sans-Serif" font-size="10.50">construct_from_padded_arrays</text>
+<polygon fill="none" stroke="black" points="175.77,-66.27 0,-66.27 0,-42 175.77,-42 175.77,-66.27"/>
+<text text-anchor="middle" x="87.88" y="-50.54" font-family="Helvetica,sans-Serif" font-size="10.50">construct_from_padded_arrays</text>
 </g>
-<!-- interface~assert_consistent -->
+<!-- interface~assert_consistency -->
 <g id="proc~~construct_from_padded_arrays~~CallsGraph_node2" class="node">
-<title>interface~assert_consistent</title>
-<g id="a_proc~~construct_from_padded_arrays~~CallsGraph_node2"><a xlink:href="../interface/assert_consistent.html" xlink:title="trainable_engine_t%assert_consistent">
-<polygon fill="#a7506f" stroke="#a7506f" points="423.54,-24.27 211.77,-24.27 211.77,0 423.54,0 423.54,-24.27"/>
-<text text-anchor="middle" x="317.66" y="-8.53" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">trainable_engine_t%assert_consistent</text>
+<title>interface~assert_consistency</title>
+<g id="a_proc~~construct_from_padded_arrays~~CallsGraph_node2"><a xlink:href="../interface/assert_consistency.html" xlink:title="assert_consistency">
+<polygon fill="#a7506f" stroke="#a7506f" points="344.04,-108.27 232.77,-108.27 232.77,-84 344.04,-84 344.04,-108.27"/>
+<text text-anchor="middle" x="288.4" y="-92.54" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">assert_consistency</text>
 </a>
 </g>
 </g>
-<!-- proc~construct_from_padded_arrays&#45;&gt;interface~assert_consistent -->
+<!-- proc~construct_from_padded_arrays&#45;&gt;interface~assert_consistency -->
 <g id="proc~~construct_from_padded_arrays~~CallsGraph_edge1" class="edge">
-<title>proc~construct_from_padded_arrays&#45;&gt;interface~assert_consistent</title>
-<path fill="none" stroke="#ff0000" d="M175.97,-12.13C183.82,-12.13 191.86,-12.13 199.91,-12.13"/>
-<polygon fill="#ff0000" stroke="#ff0000" points="199.78,-15.64 209.78,-12.14 199.78,-8.64 199.78,-15.64"/>
+<title>proc~construct_from_padded_arrays&#45;&gt;interface~assert_consistency</title>
+<path fill="none" stroke="#ff0000" d="M148.45,-66.74C171.42,-71.6 197.79,-77.18 221.34,-82.16"/>
+<polygon fill="#ff0000" stroke="#ff0000" points="220.3,-85.52 230.81,-84.16 221.75,-78.67 220.3,-85.52"/>
+</g>
+<!-- proc~activation_factory_method -->
+<g id="proc~~construct_from_padded_arrays~~CallsGraph_node3" class="node">
+<title>proc~activation_factory_method</title>
+<g id="a_proc~~construct_from_padded_arrays~~CallsGraph_node3"><a xlink:href="../proc/activation_factory_method.html" xlink:title="activation_factory_method">
+<polygon fill="#d94e8f" stroke="#d94e8f" points="365.04,-66.27 211.77,-66.27 211.77,-42 365.04,-42 365.04,-66.27"/>
+<text text-anchor="middle" x="288.4" y="-50.54" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">activation_factory_method</text>
+</a>
+</g>
+</g>
+<!-- proc~construct_from_padded_arrays&#45;&gt;proc~activation_factory_method -->
+<g id="proc~~construct_from_padded_arrays~~CallsGraph_edge2" class="edge">
+<title>proc~construct_from_padded_arrays&#45;&gt;proc~activation_factory_method</title>
+<path fill="none" stroke="#ff0000" d="M176.25,-54.14C184.15,-54.14 192.15,-54.14 200.04,-54.14"/>
+<polygon fill="#ff0000" stroke="#ff0000" points="200,-57.64 210,-54.14 200,-50.64 200,-57.64"/>
+</g>
+<!-- string -->
+<g id="proc~~construct_from_padded_arrays~~CallsGraph_node4" class="node">
+<title>string</title>
+<polygon fill="#777777" stroke="#777777" points="315.4,-24.27 261.4,-24.27 261.4,0 315.4,0 315.4,-24.27"/>
+<text text-anchor="middle" x="288.4" y="-8.54" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">string</text>
+</g>
+<!-- proc~construct_from_padded_arrays&#45;&gt;string -->
+<g id="proc~~construct_from_padded_arrays~~CallsGraph_edge3" class="edge">
+<title>proc~construct_from_padded_arrays&#45;&gt;string</title>
+<path fill="none" stroke="#ff0000" d="M148.45,-41.53C181.37,-34.57 221.27,-26.13 249.86,-20.08"/>
+<polygon fill="#ff0000" stroke="#ff0000" points="250.44,-23.53 259.5,-18.04 248.99,-16.68 250.44,-23.53"/>
+</g>
+<!-- proc~difference_consistency -->
+<g id="proc~~construct_from_padded_arrays~~CallsGraph_node5" class="node">
+<title>proc~difference_consistency</title>
+<g id="a_proc~~construct_from_padded_arrays~~CallsGraph_node5"><a xlink:href="../proc/difference_consistency.html" xlink:title="difference_consistency">
+<polygon fill="#d9534f" stroke="#d9534f" points="553.18,-129.27 420.16,-129.27 420.16,-105 553.18,-105 553.18,-129.27"/>
+<text text-anchor="middle" x="486.67" y="-113.54" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">difference_consistency</text>
+</a>
+</g>
+</g>
+<!-- interface~assert_consistency&#45;&gt;proc~difference_consistency -->
+<g id="proc~~construct_from_padded_arrays~~CallsGraph_edge4" class="edge">
+<title>interface~assert_consistency&#45;&gt;proc~difference_consistency</title>
+<path fill="none" stroke="#ff0000" stroke-dasharray="5,2" d="M344.34,-102.01C364.24,-104.14 387.1,-106.59 408.55,-108.88"/>
+<polygon fill="#ff0000" stroke="#ff0000" points="408.14,-112.36 418.45,-109.94 408.88,-105.4 408.14,-112.36"/>
+</g>
+<!-- proc~inference_engine_consistency -->
+<g id="proc~~construct_from_padded_arrays~~CallsGraph_node6" class="node">
+<title>proc~inference_engine_consistency</title>
+<g id="a_proc~~construct_from_padded_arrays~~CallsGraph_node6"><a xlink:href="../proc/inference_engine_consistency.html" xlink:title="inference_engine_consistency">
+<polygon fill="#d9534f" stroke="#d9534f" points="572.31,-87.27 401.04,-87.27 401.04,-63 572.31,-63 572.31,-87.27"/>
+<text text-anchor="middle" x="486.67" y="-71.54" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">inference_engine_consistency</text>
+</a>
+</g>
+</g>
+<!-- interface~assert_consistency&#45;&gt;proc~inference_engine_consistency -->
+<g id="proc~~construct_from_padded_arrays~~CallsGraph_edge5" class="edge">
+<title>interface~assert_consistency&#45;&gt;proc~inference_engine_consistency</title>
+<path fill="none" stroke="#ff0000" stroke-dasharray="5,2" d="M344.34,-90.26C358.39,-88.75 373.92,-87.09 389.39,-85.44"/>
+<polygon fill="#ff0000" stroke="#ff0000" points="389.55,-88.94 399.12,-84.4 388.8,-81.98 389.55,-88.94"/>
+</g>
+<!-- assert -->
+<g id="proc~~construct_from_padded_arrays~~CallsGraph_node7" class="node">
+<title>assert</title>
+<polygon fill="#777777" stroke="#777777" points="683.44,-129.27 629.44,-129.27 629.44,-105 683.44,-105 683.44,-129.27"/>
+<text text-anchor="middle" x="656.44" y="-113.54" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">assert</text>
+</g>
+<!-- proc~difference_consistency&#45;&gt;assert -->
+<g id="proc~~construct_from_padded_arrays~~CallsGraph_edge6" class="edge">
+<title>proc~difference_consistency&#45;&gt;assert</title>
+<path fill="none" stroke="#ff0000" d="M553.5,-117.14C575.29,-117.14 598.79,-117.14 617.73,-117.14"/>
+<polygon fill="#ff0000" stroke="#ff0000" points="617.65,-120.64 627.65,-117.14 617.65,-113.64 617.65,-120.64"/>
+</g>
+<!-- intrinsic_array_t -->
+<g id="proc~~construct_from_padded_arrays~~CallsGraph_node8" class="node">
+<title>intrinsic_array_t</title>
+<polygon fill="#777777" stroke="#777777" points="704.58,-87.27 608.31,-87.27 608.31,-63 704.58,-63 704.58,-87.27"/>
+<text text-anchor="middle" x="656.44" y="-71.54" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">intrinsic_array_t</text>
+</g>
+<!-- proc~difference_consistency&#45;&gt;intrinsic_array_t -->
+<g id="proc~~construct_from_padded_arrays~~CallsGraph_edge7" class="edge">
+<title>proc~difference_consistency&#45;&gt;intrinsic_array_t</title>
+<path fill="none" stroke="#ff0000" d="M538.7,-104.51C549.79,-101.76 561.44,-98.86 572.31,-96.14 580.25,-94.15 588.62,-92.04 596.86,-89.97"/>
+<polygon fill="#ff0000" stroke="#ff0000" points="597.67,-93.37 606.51,-87.53 595.95,-86.59 597.67,-93.37"/>
+</g>
+<!-- proc~inference_engine_consistency&#45;&gt;assert -->
+<g id="proc~~construct_from_padded_arrays~~CallsGraph_edge8" class="edge">
+<title>proc~inference_engine_consistency&#45;&gt;assert</title>
+<path fill="none" stroke="#00ffff" d="M538.7,-87.76C549.79,-90.51 561.44,-93.41 572.31,-96.14 587.35,-99.9 603.91,-104.08 618.27,-107.71"/>
+<polygon fill="#00ffff" stroke="#00ffff" points="617.22,-111.05 627.77,-110.11 618.94,-104.27 617.22,-111.05"/>
+</g>
+<!-- proc~inference_engine_consistency&#45;&gt;intrinsic_array_t -->
+<g id="proc~~construct_from_padded_arrays~~CallsGraph_edge9" class="edge">
+<title>proc~inference_engine_consistency&#45;&gt;intrinsic_array_t</title>
+<path fill="none" stroke="#00ffff" d="M572.54,-75.14C580.64,-75.14 588.72,-75.14 596.49,-75.14"/>
+<polygon fill="#00ffff" stroke="#00ffff" points="596.49,-78.64 606.49,-75.14 596.49,-71.64 596.49,-78.64"/>
 </g>
 </g>
 </svg>
-</div>          <div>
+</div>                <script>
+                  var panprocconstruct_from_padded_arraysCallsGraph = svgPanZoom('#procconstruct_from_padded_arraysCallsGraph',
+                    {zoomEnabled: true, controlIconsEnabled: true, fit: true, center: true,}
+                  );
+                </script>          <div>
             <a type="button" class="graph-help" data-bs-toggle="modal" href="#CallsGraph-help-text">Help</a>
           </div>
           <div class="modal fade" id="CallsGraph-help-text" tabindex="-1" role="dialog">
@@ -422,7 +504,7 @@ large graphs.</div>
             <p class="text-end">
               Documentation generated by
               <a href="https://github.com/Fortran-FOSS-Programmers/ford">FORD</a>
- on 2024-07-19 18:36              </p>
+ on 2024-07-21 03:07              </p>
           </div>
         </div>
         <br>
