@@ -5,23 +5,27 @@
 # This script concatenates the Inference-Engine software stack into
 # single-source-file programs.
 
-if [ -d ../build/dependencies/assert ] || [ -d ../build/dependencies/julienne ]; then
-  echo "Dependencies assert and julienne were found in ../build/dependencies as expected." 
-else
+echo ""
+echo "---------------------- create-single-source-file.sh ----------------------------"
+if [ ! -d ../build/dependencies/assert ] || [ ! -d ../build/dependencies/julienne ]; then
   echo ""
   echo ""
-  echo "-------------------- create-single-source-file.sh -----------------------"
   echo "Dependencies assert and julienne were not found in ../build/dependencies." 
   echo "Running fpm build to download the dependencies." 
   echo "This unavoidably builds inference-engine too." 
-  echo "-------------------------------------------------------------------------"
   echo ""
   echo ""
   fpm build
 fi
 
-echo "Concatenating assert, julienne, and inference-engine." 
+if [ -d ../build/dependencies/assert ] && [ -d ../build/dependencies/julienne ]; then
+  echo "------------- Dependencies assert and julienne are in ../build/dependencies ------------------"
+else
+  echo "Dependencies assert and julienne are not in ../build/dependencies. Something went wrong."
+  exit 1
+fi
 
+echo "Concatenating assert, julienne, and inference-engine." 
 cat \
   ../build/dependencies/assert/src/assert/characterizable_m.f90 \
   ../build/dependencies/assert/src/assert/intrinsic_array_m.F90 \
@@ -97,19 +101,14 @@ cat \
   ../src/inference_engine/trainable_engine_s.F90 \
 >> single-file.F90
 
-echo ""
-echo ""
-echo "-------------------- create-single-source-file.sh -----------------------"
-
 echo "Creating concurrent-inferences.F90"
 cat single-file.F90 \
   ../example/concurrent-inferences.f90 \
 > concurrent-inferences.F90
 
-if [ -f concurrent-inferences.F90 ]; then
-  echo "concurrent-inferences.F90 created."
-else
+if [ ! -f concurrent-inferences.F90 ]; then
   echo "concurrent-inferences.F90 wasn't created -- something went wrong"
+  exit 1
 fi
 
 echo "Creating saturated-mixing-ratio.F90"
@@ -118,14 +117,14 @@ cat single-file.F90 \
   ../example/learn-saturated-mixing-ratio.f90 \
 > saturated-mixing-ratio.F90
 
-if [ -f saturated-mixing-ratio.F90 ]; then
-  echo "saturated-mixing-ratio.F90 created."
-else
+if [ ! -f saturated-mixing-ratio.F90 ]; then
   echo "saturated-mixing-ratio.F90 wasn't created -- something went wrong"
+  exit 1
 fi
 
-echo "Example compile commands:"
+echo "saturated-mixing-ratio.F90 and concurrent-inferences.F90 created."
 echo ""
+echo "Example compile commands:"
 echo 'gfortran -fcoarray=single -O3 -o saturated-mixing-ratio saturated-mixing-ratio.F90'
 echo 'flang-new -O3 -mmlir -allow-assumed-rank -o saturated-mixing-ratio saturated-mixing-ratio.F90'
 echo 'nagfor -fpp -O4 -o saturated-mixing-ratio saturated-mixing-ratio.F90'
