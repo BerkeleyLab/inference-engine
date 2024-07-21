@@ -44,7 +44,7 @@ contains
 
     real(rkind), allocatable :: a(:,:)
     integer, parameter :: input_layer = 0
-    integer k, l
+    integer l
 
     call assert_consistency(self)
 
