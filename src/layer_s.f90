@@ -2,7 +2,7 @@
 ! Terms of use are as specified in LICENSE.txt
 submodule(layer_m) layer_s
   use assert_m, only : assert
-  use intrinsic_array_m, only : intrinsic_array_t
+  use kind_parameters_m, only : rkind
   implicit none
 
 contains
@@ -172,7 +172,11 @@ contains
   end procedure
 
   module procedure next_pointer
-    next_ptr => self%next
+    if (allocated(self%next)) then
+      next_ptr => self%next
+    else
+      next_ptr => null()
+    end if
   end procedure
 
 end submodule layer_s

@@ -3,7 +3,6 @@
 module layer_m
   use neuron_m, only : neuron_t
   use julienne_string_m, only : string_t
-  use kind_parameters_m, only : rkind
   use inference_engine_m_, only : inference_engine_t
   use tensor_range_m, only :  tensor_range_t
   implicit none
