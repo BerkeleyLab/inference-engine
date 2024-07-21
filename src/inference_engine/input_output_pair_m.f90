@@ -1,7 +1,6 @@
 ! Copyright (c), The Regents of the University of California
 ! Terms of use are as specified in LICENSE.txt
 module input_output_pair_m
-  use kind_parameters_m, only : rkind
   use tensor_m, only : tensor_t
   implicit none
 

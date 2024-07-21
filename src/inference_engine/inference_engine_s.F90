@@ -44,7 +44,7 @@ contains
 
     real(rkind), allocatable :: a(:,:)
     integer, parameter :: input_layer = 0
-    integer k, l
+    integer l
 
     call assert_consistency(self)
 
@@ -195,7 +195,6 @@ contains
     type(string_t), allocatable :: lines(:)
     type(tensor_range_t) input_range, output_range
     type(layer_t) hidden_layers, output_layer
-    real(rkind), allocatable :: hidden_weights(:,:,:)
     character(len=:), allocatable :: justified_line
     integer l
 #ifdef _CRAYFTN
