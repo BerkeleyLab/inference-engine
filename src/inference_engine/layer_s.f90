@@ -3,6 +3,7 @@
 submodule(layer_m) layer_s
   use assert_m, only : assert
   use intrinsic_array_m, only : intrinsic_array_t
+  use kind_parameters_m, only : rkind
   implicit none
 
 contains
