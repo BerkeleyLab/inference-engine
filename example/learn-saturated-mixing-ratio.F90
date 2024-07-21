@@ -174,7 +174,7 @@ contains
     type(trainable_engine_t) trainable_engine
     real, intent(in) :: perturbation_magnitude
     integer, intent(in)  :: n(:)
-    integer j, k, l
+    integer k, l
     real, allocatable :: identity(:,:,:), w_harvest(:,:,:), b_harvest(:,:)
 
     associate(n_max => maxval(n), layers => size(n))
@@ -224,6 +224,8 @@ contains
         lines = plot_file%lines()
         last_line = lines(size(lines))%string()
         read(last_line,*, iostat=io_status) previous_epoch, cost, previous_clock
+        associate(eliminate_unreferenced_variable_warning => cost)
+        end associate
         if ((io_status /= io_success .and. last_line == header) .or. len(trim(last_line))==0) then
           previous_epoch = 0
           previous_clock = 0
