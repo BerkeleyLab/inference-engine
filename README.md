@@ -52,7 +52,7 @@ Build and Test
 --------------
 With the [Fortran Package Manager] (`fpm`) and a recent version of a Fortran compiler installed, enter one of the commmands below to build the Inference-Engine library and run the test suite:
 
-### GNU (`gfortran`)
+### GNU (`gfortran`) 13 or higher required
 ```
 fpm test --profile release
 ```
