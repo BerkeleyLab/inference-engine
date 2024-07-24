@@ -42,7 +42,7 @@ program train_on_flat_distribution
 
   call system_clock(t_start, clock_rate)
   call get_command_line_arguments(base_name, num_epochs, start_step, end_step, stride, num_bins, report_interval, cost_tolerance)
-  call create_or_append_to(plot_file_name, plot_unit, previous_epoch)
+  if (this_image()==1) call create_or_append_to(plot_file_name, plot_unit, previous_epoch)
   call read_train_write( &
     training_configuration_t(file_t(string_t(training_config_file_name))), base_name, plot_unit, previous_epoch, num_epochs &
   )
