@@ -63,9 +63,9 @@ HDF5_LIB_PATH="`brew --prefix hdf5`/lib"
 NETCDFF_LIB_PATH="`brew --prefix netcdf-fortran`/lib"
 
 FPM_LD_FLAG=" -L$NETCDF_LIB_PATH -L$HDF5_LIB_PATH -L$NETCDFF_LIB_PATH"
-FPM_FLAG="-fcoarray=single -O3 -fallow-argument-mismatch -ffree-line-length-none -L$NETCDF_LIB_PATH -L$HDF5_LIB_PATH"
-FPM_FC=${FC:-"gfortran-14"}
-FPM_CC=${CC:-"gcc-14"}
+FPM_FLAG="-O3 -fallow-argument-mismatch -ffree-line-length-none -L$NETCDF_LIB_PATH -L$HDF5_LIB_PATH"
+FPM_FC=${FC:-"caf"}
+FPM_CC=${CC:-"mpicc"}
 
 mkdir -p build
 
@@ -92,7 +92,7 @@ echo "INFERENCE_ENGINE_FPM_FLAG=\"$FPM_FLAG\""              >> $INFERENCE_ENGINE
 echo "Name: inference-engine"                               >> $INFERENCE_ENGINE_PC
 echo "Description: Inference Engine"                        >> $INFERENCE_ENGINE_PC
 echo "URL: https://github.com/berkeleylab/inference-engine" >> $INFERENCE_ENGINE_PC
-echo "Version: 0.1.2"                                       >> $INFERENCE_ENGINE_PC
+echo "Version: 0.2.0"                                       >> $INFERENCE_ENGINE_PC
 if [ $CI = true ]; then
   echo "---------------"
   echo "cat $INFERENCE_ENGINE_PC"
