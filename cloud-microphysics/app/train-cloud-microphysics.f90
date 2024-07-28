@@ -31,20 +31,25 @@ program train_on_flat_distribution
     'where angular brackets denote user-provided values and square brackets denote optional arguments.' // new_line('a') // &
     'The presence of a file named "stop" halts execution gracefully.'
 
-  character(len=*), parameter :: training_config_file_name = "training_configuration.json"
-  character(len=*), parameter :: plot_file_name = "cost.plt"
+  type command_line_arguments_t 
+    integer num_epochs, previous_epoch, start_step, stride, num_bins, report_interval
+    integer, allocatable :: end_step
+    character(len=:), allocatable :: base_name
+    real cost_tolerance
+  end type
+
+  type(command_line_arguments_t) args
 
   integer(int64) t_start, t_finish, clock_rate
-  integer plot_unit, num_epochs, previous_epoch, start_step, stride, num_bins, report_interval
-  integer, allocatable :: end_step
-  character(len=:), allocatable :: base_name
-  real cost_tolerance
+  integer plot_unit, previous_epoch
 
   call system_clock(t_start, clock_rate)
-  call get_command_line_arguments(base_name, num_epochs, start_step, end_step, stride, num_bins, report_interval, cost_tolerance)
-  if (this_image()==1) call create_or_append_to(plot_file_name, plot_unit, previous_epoch)
+  args = get_command_line_arguments() 
+  
+  if (this_image()==1) call create_or_append_to("cost.plt", plot_unit, previous_epoch)
   call read_train_write( &
-    training_configuration_t(file_t(string_t(training_config_file_name))), base_name, plot_unit, previous_epoch, num_epochs &
+    training_configuration_t(file_t(string_t("training_configuration.json"))), &
+    args%base_name, plot_unit, previous_epoch, args%num_epochs &
   )
   call system_clock(t_finish)
 
@@ -85,17 +90,14 @@ contains
     end if
   end subroutine
 
-  subroutine get_command_line_arguments &
-    (base_name, num_epochs, start_step, end_step, stride, num_bins, report_interval, cost_tolerance)
-    character(len=:), allocatable, intent(out) :: base_name
-    integer, intent(out) :: num_epochs, start_step, stride, num_bins, report_interval
-    integer, intent(out), allocatable :: end_step
-    real, intent(out) :: cost_tolerance
-
-    ! local variables
+  function get_command_line_arguments() result(command_line_arguments)
+    type(command_line_arguments_t) command_line_arguments
     type(command_line_t) command_line
     character(len=:), allocatable :: &
-      stride_string, epochs_string, start_string, end_string, bins_string, report_string, tolerance_string
+      base_name, epochs_string, start_string, end_string, stride_string, bins_string, report_string, tolerance_string
+    real cost_tolerance
+    integer, allocatable :: end_step
+    integer num_epochs, num_bins, start_step, stride, report_interval
 
     base_name = command_line%flag_value("--base") ! gfortran 13 seg faults if this is an association
     epochs_string = command_line%flag_value("--epochs")
@@ -137,7 +139,7 @@ contains
     end if
 
     if (len(end_string)/=0) then
-      if (.not. allocated(end_step)) allocate(end_step)
+      allocate(end_step)
       read(end_string,*) end_step
     end if
  
@@ -153,7 +155,17 @@ contains
       read(tolerance_string,*) cost_tolerance
     end if
 
-  end subroutine get_command_line_arguments
+    if (allocated(end_step)) then 
+      command_line_arguments = command_line_arguments_t( &
+        num_epochs, previous_epoch, start_step, stride, num_bins, report_interval, end_step, base_name, cost_tolerance &
+      )
+    else
+      command_line_arguments = command_line_arguments_t( &
+        num_epochs, previous_epoch, start_step, stride, num_bins, report_interval, null(), base_name, cost_tolerance &
+      )
+    end if
+    
+  end function get_command_line_arguments
 
   subroutine read_train_write(training_configuration, base_name, plot_unit, previous_epoch, num_epochs)
     type(training_configuration_t), intent(in) :: training_configuration
@@ -258,9 +270,9 @@ contains
 
         open(newunit=network_unit, file=network_file, form='formatted', status='old', iostat=io_status, action='read')
 
-        if (.not. allocated(end_step)) end_step = t_end
+        if (.not. allocated(args%end_step)) args%end_step = t_end
 
-        print *,"Defining tensors from time step", start_step, "through", end_step, "with strides of", stride
+        print *,"Defining tensors from time step", args%start_step, "through", args%end_step, "with strides of", args%stride
 
         ! The following temporary copies are required by gfortran bug 100650 and possibly 49324
         ! See https://gcc.gnu.org/bugzilla/show_bug.cgi?id=100650 and https://gcc.gnu.org/bugzilla/show_bug.cgi?id=49324
@@ -269,21 +281,23 @@ contains
           [ pressure_in(lon,lat,level,time), potential_temperature_in(lon,lat,level,time), temperature_in(lon,lat,level,time), &
             qv_in(lon,lat,level,time), qc_in(lon,lat,level,time), qr_in(lon,lat,level,time), qs_in(lon,lat,level,time) &
           ] &
-          ), lon = 1, size(qv_in,1))], lat = 1, size(qv_in,2))], level = 1, size(qv_in,3))], time = start_step, end_step, stride)]
+          ), lon = 1, size(qv_in,1))], lat = 1, size(qv_in,2))], level = 1, size(qv_in,3))], &
+          time = args%start_step, args%end_step, args%stride)]
  
         outputs = [( [( [( [( &
           tensor_t( &
             [dpt_dt(lon,lat,level,time), dqv_dt(lon,lat,level,time), dqc_dt(lon,lat,level,time), dqr_dt(lon,lat,level,time), &
              dqs_dt(lon,lat,level,time) &
             ] &
-          ), lon = 1, size(qv_in,1))], lat = 1, size(qv_in,2))], level = 1, size(qv_in,3))], time = start_step, end_step, stride)]
+          ), lon = 1, size(qv_in,1))], lat = 1, size(qv_in,2))], level = 1, size(qv_in,3))], &
+          time = args%start_step, args%end_step, args%stride)]
 
         print *,"Calculating output tensor component ranges."
         associate(output_range => tensor_range_t( &
           layer  = "outputs", &
           minima = [minval(dpt_dt), minval(dqv_dt), minval(dqc_dt), minval(dqr_dt), minval(dqs_dt)], &
           maxima = [maxval(dpt_dt), maxval(dqv_dt), maxval(dqc_dt), maxval(dqr_dt), maxval(dqs_dt)], &
-          num_bins = num_bins &
+          num_bins = args%num_bins &
         ))
           read_or_initialize_engine: &
           if (io_status==0) then
@@ -307,7 +321,7 @@ contains
                     minval(qv_in), minval(qc_in), minval(qr_in), minval(qs_in)], &
                   maxima = [maxval(pressure_in), maxval(potential_temperature_in), maxval(temperature_in), &
                     maxval(qv_in), maxval(qc_in), maxval(qr_in), maxval(qs_in)], &
-                  num_bins = num_bins &
+                  num_bins = args%num_bins &
                 ), &
                 date_string => string_t(date) &
               )
@@ -330,13 +344,13 @@ contains
           print *, "Conditionally sampling for a flat distribution of output values"
           block
             integer i
-            logical occupied(num_bins, num_bins, num_bins, num_bins, num_bins)
+            logical occupied(args%num_bins, args%num_bins, args%num_bins, args%num_bins, args%num_bins)
             logical keepers(size(outputs))
             type(phase_space_bin_t), allocatable :: bin(:)
             occupied = .false.
             keepers = .false.
 
-            bin = [(output_range%bin(outputs(i), num_bins), i=1,size(outputs))]
+            bin = [(output_range%bin(outputs(i), args%num_bins), i=1,size(outputs))]
 
             do i = 1, size(outputs)
               if (occupied(bin(i)%loc(1),bin(i)%loc(2),bin(i)%loc(3),bin(i)%loc(4),bin(i)%loc(5))) cycle
@@ -374,8 +388,8 @@ contains
               call trainable_engine%train(mini_batches, cost, adam, learning_rate)
 
               associate(average_cost => sum(cost)/size(cost))
-                associate(converged => average_cost <= cost_tolerance)
-                  if (any([converged, epoch == [starting_epoch, ending_epoch], mod(epoch, report_interval)==0])) then
+                associate(converged => average_cost <= args%cost_tolerance)
+                  if (any([converged, epoch == [starting_epoch, ending_epoch], mod(epoch, args%report_interval)==0])) then
                     print *, epoch, average_cost
                     write(plot_unit,*) epoch, average_cost
                     open(newunit=network_unit, file=network_file, form='formatted', status='unknown', iostat=io_status, action='write')
