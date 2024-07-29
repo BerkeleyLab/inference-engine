@@ -16,7 +16,7 @@ program train_on_flat_distribution
     inference_engine_t, mini_batch_t, input_output_pair_t, tensor_t, trainable_engine_t, rkind, tensor_range_t, &
     training_configuration_t, shuffle, phase_space_bin_t
 
-  !! Internal dependencies;
+  !! Internal dependencies:
   use NetCDF_file_m, only: NetCDF_file_t
   use ubounds_m, only : ubounds_t
   implicit none
@@ -32,25 +32,32 @@ program train_on_flat_distribution
     'The presence of a file named "stop" halts execution gracefully.'
 
   type command_line_arguments_t 
-    integer num_epochs, previous_epoch, start_step, stride, num_bins, report_interval
+    integer num_epochs, start_step, stride, num_bins, report_interval
     integer, allocatable :: end_step
     character(len=:), allocatable :: base_name
     real cost_tolerance
   end type
 
-  type(command_line_arguments_t) args
+  type plot_file_t
+    character(len=:), allocatable :: file_name
+    integer plot_unit, previous_epoch
+  end type
 
   integer(int64) t_start, t_finish, clock_rate
-  integer plot_unit, previous_epoch
 
   call system_clock(t_start, clock_rate)
-  args = get_command_line_arguments() 
-  
-  if (this_image()==1) call create_or_append_to("cost.plt", plot_unit, previous_epoch)
-  call read_train_write( &
-    training_configuration_t(file_t(string_t("training_configuration.json"))), &
-    args%base_name, plot_unit, previous_epoch, args%num_epochs &
+
+  associate( &
+    command_line_arguments => get_command_line_arguments(), &
+    training_configuration =>  training_configuration_t(file_t(string_t("training_configuration.json"))) &
   )
+    if (this_image()==1) then
+      call read_train_write(training_configuration, command_line_arguments, create_or_append_to("cost.plt"))
+    else
+      call read_train_write(training_configuration, command_line_arguments)
+    end if
+  end associate
+
   call system_clock(t_finish)
 
   print *,"System clock time: ", real(t_finish - t_start, real64)/real(clock_rate, real64)
@@ -58,15 +65,14 @@ program train_on_flat_distribution
 
 contains
 
-  subroutine create_or_append_to(plot_file_name, plot_unit, previous_epoch)
+  function create_or_append_to(plot_file_name) result(plot_file)
+    type(plot_file_t) plot_file
     character(len=*), intent(in) :: plot_file_name
-    integer, intent(out) :: plot_unit, previous_epoch
- 
-    !local variables:
+    integer plot_unit, previous_epoch
     logical preexisting_plot_file
 
     inquire(file=plot_file_name, exist=preexisting_plot_file)
-    open(newunit=plot_unit,file="cost.plt",status="unknown",position="append")
+    open(newunit=plot_unit, file=plot_file_name, status="unknown", position="append")
 
     if (.not. preexisting_plot_file) then
       write(plot_unit,*) "      Epoch  Cost (avg)"
@@ -88,7 +94,8 @@ contains
         end associate
       end associate
     end if
-  end subroutine
+    plot_file = plot_file_t(plot_file_name, plot_unit, previous_epoch)
+  end function
 
   function get_command_line_arguments() result(command_line_arguments)
     type(command_line_arguments_t) command_line_arguments
@@ -157,20 +164,20 @@ contains
 
     if (allocated(end_step)) then 
       command_line_arguments = command_line_arguments_t( &
-        num_epochs, previous_epoch, start_step, stride, num_bins, report_interval, end_step, base_name, cost_tolerance &
+        num_epochs, start_step, stride, num_bins, report_interval, end_step, base_name, cost_tolerance &
       )
     else
       command_line_arguments = command_line_arguments_t( &
-        num_epochs, previous_epoch, start_step, stride, num_bins, report_interval, null(), base_name, cost_tolerance &
+        num_epochs, start_step, stride, num_bins, report_interval, null(), base_name, cost_tolerance &
       )
     end if
     
   end function get_command_line_arguments
 
-  subroutine read_train_write(training_configuration, base_name, plot_unit, previous_epoch, num_epochs)
+  subroutine read_train_write(training_configuration, args, plot_file)
     type(training_configuration_t), intent(in) :: training_configuration
-    character(len=*), intent(in) :: base_name
-    integer, intent(in) :: plot_unit, previous_epoch, num_epochs
+    type(command_line_arguments_t), intent(in) :: args
+    type(plot_file_t), intent(in), optional :: plot_file 
 
     ! local variables:
     real, allocatable, dimension(:,:,:,:) :: &
@@ -185,8 +192,8 @@ contains
     integer t, b, t_end
     logical stop_requested
 
-    associate( network_file => base_name // "_network.json")
-      associate(network_input => base_name // "_input.nc")
+    associate( net_file => args%base_name // "_network.json")
+      associate(network_input => args%base_name // "_input.nc")
         print *,"Reading network inputs from " // network_input
         associate(network_input_file => netCDF_file_t(network_input))
           ! Skipping the following unnecessary inputs that are in the current file format as of 14 Aug 2023:
@@ -208,7 +215,7 @@ contains
         end associate
       end associate
 
-      associate(network_output => base_name // "_output.nc")
+      associate(network_output => args%base_name // "_output.nc")
         print *,"Reading network outputs from " // network_output
         associate(network_output_file => netCDF_file_t(network_output))
           call network_output_file%input("potential_temperature", potential_temperature_out)
@@ -265,14 +272,18 @@ contains
         type(input_output_pair_t), allocatable :: input_output_pairs(:)
         type(tensor_t), allocatable, dimension(:) :: inputs, outputs
         real(rkind), allocatable :: cost(:)
-        integer i, batch, lon, lat, level, time, network_unit, io_status, epoch
+        integer i, batch, lon, lat, level, time, net_unit, io_status, epoch, end_step
         integer(int64) start_training, finish_training
 
-        open(newunit=network_unit, file=network_file, form='formatted', status='old', iostat=io_status, action='read')
+        open(newunit=net_unit, file=net_file, form='formatted', status='old', iostat=io_status, action='read')
 
-        if (.not. allocated(args%end_step)) args%end_step = t_end
+        if (allocated(args%end_step)) then
+          end_step = args%end_step
+        else
+          end_step = t_end
+        end if
 
-        print *,"Defining tensors from time step", args%start_step, "through", args%end_step, "with strides of", args%stride
+        print *,"Defining tensors from time step", args%start_step, "through", end_step, "with strides of", args%stride
 
         ! The following temporary copies are required by gfortran bug 100650 and possibly 49324
         ! See https://gcc.gnu.org/bugzilla/show_bug.cgi?id=100650 and https://gcc.gnu.org/bugzilla/show_bug.cgi?id=49324
@@ -282,7 +293,7 @@ contains
             qv_in(lon,lat,level,time), qc_in(lon,lat,level,time), qr_in(lon,lat,level,time), qs_in(lon,lat,level,time) &
           ] &
           ), lon = 1, size(qv_in,1))], lat = 1, size(qv_in,2))], level = 1, size(qv_in,3))], &
-          time = args%start_step, args%end_step, args%stride)]
+          time = args%start_step, end_step, args%stride)]
  
         outputs = [( [( [( [( &
           tensor_t( &
@@ -290,7 +301,7 @@ contains
              dqs_dt(lon,lat,level,time) &
             ] &
           ), lon = 1, size(qv_in,1))], lat = 1, size(qv_in,2))], level = 1, size(qv_in,3))], &
-          time = args%start_step, args%end_step, args%stride)]
+          time = args%start_step, end_step, args%stride)]
 
         print *,"Calculating output tensor component ranges."
         associate(output_range => tensor_range_t( &
@@ -301,11 +312,11 @@ contains
         ))
           read_or_initialize_engine: &
           if (io_status==0) then
-            print *,"Reading network from file " // network_file
-            trainable_engine = trainable_engine_t(inference_engine_t(file_t(string_t(network_file))))
-            close(network_unit)
+            print *,"Reading network from file " // net_file
+            trainable_engine = trainable_engine_t(inference_engine_t(file_t(string_t(net_file))))
+            close(net_unit)
           else
-            close(network_unit)
+            close(net_unit)
 
             initialize_network: &
             block
@@ -326,7 +337,7 @@ contains
                 date_string => string_t(date) &
               )
                 associate(activation => training_configuration%differentiable_activation_strategy())
-                  associate(residual_network => string_t(trim(merge("true ", "false", training_configuration%skip_connections())))) 
+                  associate(residual_network => string_t(trim(merge("true ", "false", training_configuration%skip_connections()))))
                     trainable_engine = trainable_engine_t( &
                       training_configuration,  &
                       perturbation_magnitude = 0.05, &
@@ -370,7 +381,8 @@ contains
           num_pairs => size(input_output_pairs), &
           n_bins => training_configuration%mini_batches(), &
           adam => merge(.true., .false., training_configuration%optimizer_name() == "adam"), &
-          learning_rate => training_configuration%learning_rate() &
+          learning_rate => training_configuration%learning_rate(), &
+          me => this_image() &
         )
           bins = [(bin_t(num_items=num_pairs, num_bins=n_bins, bin_number=b), b = 1, n_bins)]
 
@@ -378,59 +390,76 @@ contains
           print *, "       Epoch  Cost (avg)"
 
           call system_clock(start_training)
+        
+          train_write_and_maybe_exit: &
+          block
+            integer first_epoch
 
-          associate(starting_epoch => previous_epoch + 1, ending_epoch => previous_epoch + num_epochs)
-            epochs: &
-            do epoch = starting_epoch, ending_epoch
+            if (me==1) first_epoch = plot_file%previous_epoch + 1
+            call co_broadcast(first_epoch, source_image=1)
 
-              if (size(bins)>1) call shuffle(input_output_pairs) ! set up for stochastic gradient descent
-              mini_batches = [(mini_batch_t(input_output_pairs(bins(b)%first():bins(b)%last())), b = 1, size(bins))]
-              call trainable_engine%train(mini_batches, cost, adam, learning_rate)
+            associate(last_epoch => first_epoch + args%num_epochs - 1)
+              epochs: &
+              do epoch = first_epoch, last_epoch
 
-              associate(average_cost => sum(cost)/size(cost))
-                associate(converged => average_cost <= args%cost_tolerance)
-                  if (any([converged, epoch == [starting_epoch, ending_epoch], mod(epoch, args%report_interval)==0])) then
-                    print *, epoch, average_cost
-                    write(plot_unit,*) epoch, average_cost
-                    open(newunit=network_unit, file=network_file, form='formatted', status='unknown', iostat=io_status, action='write')
-                    associate(inference_engine => trainable_engine%to_inference_engine())
-                      associate(json_file => inference_engine%to_json())
-                        call json_file%write_lines(string_t(network_file))
+                if (size(bins)>1) call shuffle(input_output_pairs) ! set up for stochastic gradient descent
+                mini_batches = [(mini_batch_t(input_output_pairs(bins(b)%first():bins(b)%last())), b = 1, size(bins))]
+
+                call trainable_engine%train(mini_batches, cost, adam, learning_rate)
+
+                associate(average_cost => sum(cost)/size(cost))
+                  associate(converged => average_cost <= args%cost_tolerance)
+
+                    image_1_maybe_writes: &
+                    if (me==1 .and. any([converged, epoch==[first_epoch,last_epoch], mod(epoch,args%report_interval)==0])) then
+
+                      print *, epoch, average_cost
+                      write(plot_file%plot_unit,*) epoch, average_cost
+
+                      open(newunit=net_unit, file=net_file, form='formatted', status='unknown', iostat=io_status, action='write')
+                      associate(inference_engine => trainable_engine%to_inference_engine())
+                        associate(json_file => inference_engine%to_json())
+                          call json_file%write_lines(string_t(net_file))
+                        end associate
                       end associate
-                    end associate
-                    close(network_unit)
-                  end if
-                  signal_convergence: & 
-                  if (converged) then
-                    block
-                      integer unit
-                      open(newunit=unit, file="converged", status="unknown") ! The train.sh script detects & removes this file.
-                      close(unit)
-                      exit epochs
-                    end block
-                  end if signal_convergence
+                      close(net_unit)
+
+                    end if image_1_maybe_writes
+
+                    signal_convergence: & 
+                    if (converged) then
+                      block
+                        integer unit
+                        open(newunit=unit, file="converged", status="unknown") ! The train.sh script detects & removes this file.
+                        close(unit)
+                        exit epochs
+                      end block
+                    end if signal_convergence
+                  end associate
                 end associate
-              end associate
 
-              inquire(file="stop", exist=stop_requested)
+                inquire(file="stop", exist=stop_requested)
 
-              graceful_exit: &
-              if (stop_requested) then
-                print *,'Shutting down because a file named "stop" was found.'
-                return
-              end if graceful_exit
+                graceful_exit: &
+                if (stop_requested) then
+                  print *,'Shutting down because a file named "stop" was found.'
+                  return
+                end if graceful_exit
 
-            end do epochs
-          end associate
+              end do epochs
+            end associate
+          end block train_write_and_maybe_exit
+
         end associate
 
         call system_clock(finish_training)
-        print *,"Training time: ", real(finish_training - start_training, real64)/real(clock_rate, real64),"for",num_epochs,"epochs"
+        print *,"Training time: ", real(finish_training - start_training, real64)/real(clock_rate, real64),"for", &
+          args%num_epochs,"epochs"
 
       end block train_network
-    end associate ! network_file
+    end associate ! net_file
 
-    close(plot_unit)
+    close(plot_file%plot_unit)
 
   end subroutine read_train_write
 
