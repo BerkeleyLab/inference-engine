@@ -37,7 +37,7 @@ module saturated_mixing_ratio_m
   real, parameter :: freezing_threshold = 273.15       ! [K]
   real, parameter :: T_min = 236.352524, T_max = 307.610779
   real, parameter :: p_min = 29671.1348, p_max = 98596.7578
-  integer, parameter :: resolution = 10
+  integer, parameter :: resolution = 20 
   integer i
   real, parameter :: T(*) = [(real(i)/real(resolution), i=0,resolution)]
   real, parameter :: p(*) = [(real(i)/real(resolution), i=0,resolution)]

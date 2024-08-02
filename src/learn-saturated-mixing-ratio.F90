@@ -24,7 +24,7 @@ program train_saturated_mixture_ratio
   call system_clock(counter_start, clock_rate)
 
   block
-    integer, parameter :: max_num_epochs = 10000000, num_mini_batches = 6
+    integer, parameter :: max_num_epochs = 10000000, num_mini_batches = 7
     integer num_pairs ! number of input/output pairs
 
     type(mini_batch_t), allocatable :: mini_batches(:)
@@ -35,7 +35,7 @@ program train_saturated_mixture_ratio
     real, allocatable :: cost(:), random_numbers(:)
     integer io_status, network_unit, plot_unit
     integer, parameter :: io_success=0, diagnostics_print_interval = 1000, network_save_interval = 10000
-    integer, parameter :: nodes_per_layer(*) = [2, 72, 1]
+    integer, parameter :: nodes_per_layer(*) = [2, 4, 72, 2, 1]
     real, parameter :: cost_tolerance = 1.E-08
 
     call random_init(image_distinct=.true., repeatable=.true.)
