@@ -20,7 +20,7 @@ program concurrent_inferences
   end if
 
   block 
-    type(inference_engine_t) network, inference_engine
+    type(inference_engine_t) inference_engine
     type(tensor_t), allocatable :: inputs(:,:,:), outputs(:,:,:)
     real, allocatable :: input_components(:,:,:,:)
     integer, parameter :: lat=263, lon=317, lev=15 ! latitudes, longitudes, levels (elevations)
