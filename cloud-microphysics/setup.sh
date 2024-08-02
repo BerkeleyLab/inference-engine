@@ -66,6 +66,7 @@ FPM_LD_FLAG=" -L$NETCDF_LIB_PATH -L$HDF5_LIB_PATH -L$NETCDFF_LIB_PATH"
 FPM_FLAG="-O3 -fallow-argument-mismatch -ffree-line-length-none -L$NETCDF_LIB_PATH -L$HDF5_LIB_PATH"
 FPM_FC=${FPM_FC:-"caf"}
 FPM_CC=${FPM_CC:-"mpicc"}
+FPM_RUNNER="cafrun -n 1"
 
 mkdir -p build
 
@@ -87,6 +88,7 @@ fi
 INFERENCE_ENGINE_PC="$PKG_CONFIG_PATH/inference-engine.pc"
 echo "INFERENCE_ENGINE_FPM_CC=\"$FPM_CC\""                  >  $INFERENCE_ENGINE_PC
 echo "INFERENCE_ENGINE_FPM_FC=\"$FPM_FC\""                  >> $INFERENCE_ENGINE_PC
+echo "INFERENCE_ENGINE_FPM_RUNNER=\"$FPM_RUNNER\""          >> $INFERENCE_ENGINE_PC
 echo "INFERENCE_ENGINE_FPM_LD_FLAG=\"$FPM_LD_FLAG\""        >> $INFERENCE_ENGINE_PC
 echo "INFERENCE_ENGINE_FPM_FLAG=\"$FPM_FLAG\""              >> $INFERENCE_ENGINE_PC
 echo "Name: inference-engine"                               >> $INFERENCE_ENGINE_PC
@@ -105,9 +107,10 @@ cp src/run-fpm.sh-header build/run-fpm.sh
 RUN_FPM_SH="`realpath ./build/run-fpm.sh`"
 echo "`which fpm` \$fpm_arguments \\" >>  $RUN_FPM_SH
 echo "--profile release \\" >> $RUN_FPM_SH
-echo "--c-compiler \"`pkg-config inference-engine --variable=INFERENCE_ENGINE_FPM_CC`\" \\" >> $RUN_FPM_SH
-echo "--compiler \"`pkg-config inference-engine --variable=INFERENCE_ENGINE_FPM_FC`\" \\" >> $RUN_FPM_SH
-echo "--flag \"-cpp `pkg-config inference-engine --variable=INFERENCE_ENGINE_FPM_FLAG`\" \\"  >> $RUN_FPM_SH
+echo "--c-compiler \"`pkg-config inference-engine --variable=INFERENCE_ENGINE_FPM_CC`\" \\"     >> $RUN_FPM_SH
+echo "--compiler \"`pkg-config inference-engine --variable=INFERENCE_ENGINE_FPM_FC`\" \\"       >> $RUN_FPM_SH
+echo "--runner \"`pkg-config inference-engine --variable=INFERENCE_ENGINE_FPM_RUNNER`\" \\"     >> $RUN_FPM_SH
+echo "--flag \"-cpp `pkg-config inference-engine --variable=INFERENCE_ENGINE_FPM_FLAG`\" \\"    >> $RUN_FPM_SH
 echo "--link-flag \"`pkg-config inference-engine --variable=INFERENCE_ENGINE_FPM_LD_FLAG`\" \\" >> $RUN_FPM_SH
 echo "\$program_arguments" >> $RUN_FPM_SH
 chmod u+x $RUN_FPM_SH
