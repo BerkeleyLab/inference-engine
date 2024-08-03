@@ -1,0 +1,1 @@
+./build/run-fpm.sh run infer-aerosol -- --base aerosol --network "training_network.json"

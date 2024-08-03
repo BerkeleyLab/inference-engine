@@ -7,7 +7,7 @@
  ,
      "network configuration": {
          "skip connections" : false,
-         "nodes per layer" : [7,32,32,32,5],
-         "activation function" : "sigmoid"
+         "nodes per layer" : [80,256,384,256,31],
+         "activation function" : "gelu"
      }
  }
