@@ -16,6 +16,7 @@ module inference_engine_m_
   public :: difference_t
   public :: exchange_t
   public :: infer
+  public :: infer_na
 
   type inference_engine_t
     !! Encapsulate the minimal information needed to perform inference
@@ -27,6 +28,7 @@ module inference_engine_m_
     class(activation_strategy_t), allocatable :: activation_strategy_ ! Strategy Pattern facilitates elemental activation
   contains
     procedure :: infer
+    procedure :: infer_na
     procedure :: to_json
     procedure :: map_to_input_range
     procedure :: map_from_output_range
@@ -132,7 +134,15 @@ module inference_engine_m_
       class(inference_engine_t), intent(in) :: self
       type(tensor_t), intent(in) :: inputs
       type(tensor_t) outputs
+    end function infer
+
+    elemental module function infer_na(self, inputs) result(outputs)
+      implicit none
+      class(inference_engine_t), intent(in) :: self
+      type(tensor_t), intent(in) :: inputs
+      type(tensor_t) outputs
     end function
+    
 
     elemental module function num_outputs(self) result(output_count)
       implicit none

@@ -151,6 +151,60 @@ contains
 
   end procedure
 
+  module procedure input_2D_real
+
+    character(len=32) varid_string
+    integer ncid, varid
+
+    associate( nf_status => nf90_open(self%file_name_, nf90_nowrite, ncid) ) ! open file with read-only acces
+      call assert(nf_status == nf90_noerr, "nf90_open(self%file_name_, NF90_NOWRITE, ncid)", &
+        trim(nf90_strerror(nf_status)) // self%file_name_)
+    end associate
+
+    associate( nf_status => nf90_inq_varid(ncid, varname, varid)) ! get variable's ID
+      write(varid_string, *) varid
+      call assert(nf_status == nf90_noerr, "Net_CDF_file_m(input_2D_real): nf90_inq_varid " // trim(nf90_strerror(nf_status)), &
+        diagnostic_data = "varname '" // varname // "', varid " // trim(adjustl(varid_string)))
+    end associate
+
+    associate(array_shape => get_shape(ncid, varname))
+      call assert(size(array_shape)==rank(values), "netCDF_file_s(input_2D_real): size(array_shape)==rank(values)", &
+        intrinsic_array_t([size(array_shape),rank(values)]))
+      allocate(values(array_shape(1), array_shape(2) ))
+      associate( nf_status => nf90_get_var(ncid, varid, values)) ! read data
+        call assert(nf_status == nf90_noerr, "nf90_get_var(ncid, varid, array)", trim(nf90_strerror(nf_status)))
+      end associate
+    end associate
+
+  end procedure
+
+  module procedure input_2D_double
+
+    character(len=32) varid_string
+    integer ncid, varid
+
+    associate( nf_status => nf90_open(self%file_name_, nf90_nowrite, ncid) ) ! open file with read-only acces
+      call assert(nf_status == nf90_noerr, "nf90_open(self%file_name_, NF90_NOWRITE, ncid)", &
+        trim(nf90_strerror(nf_status)) // self%file_name_)
+    end associate
+
+    associate( nf_status => nf90_inq_varid(ncid, varname, varid)) ! get variable's ID
+      write(varid_string, *) varid
+      call assert(nf_status == nf90_noerr, "Net_CDF_file_m(input_2D_double): nf90_inq_varid " // trim(nf90_strerror(nf_status)), &
+        diagnostic_data = "varname '" // varname // "', varid " // trim(adjustl(varid_string)))
+    end associate
+
+    associate(array_shape => get_shape(ncid, varname))
+      call assert(size(array_shape)==rank(values), "netCDF_file_s(input_2D_double): size(array_shape)==rank(values)", &
+        intrinsic_array_t([size(array_shape),rank(values)]))
+      allocate(values(array_shape(1), array_shape(2) ))
+      associate( nf_status => nf90_get_var(ncid, varid, values)) ! read data
+        call assert(nf_status == nf90_noerr, "nf90_get_var(ncid, varid, array)", trim(nf90_strerror(nf_status)))
+      end associate
+    end associate
+
+  end procedure  
+  
   module procedure input_3D_real
 
     character(len=32) varid_string

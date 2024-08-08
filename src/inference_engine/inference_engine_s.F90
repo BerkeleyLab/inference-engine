@@ -89,6 +89,62 @@ contains
 
   end procedure
 
+  module procedure infer_na
+
+    real(rkind), allocatable :: a(:,:)
+    integer, parameter :: input_layer = 0
+    integer l
+
+    call assert_consistency(self)
+
+    associate(w => self%weights_, b => self%biases_, n => self%nodes_, output_layer => ubound(self%nodes_,1))
+
+      allocate(a(maxval(n), input_layer:output_layer))
+
+#ifndef _CRAYFTN
+!      associate(normalized_inputs => self%input_range_%map_to_training_range(inputs))
+      associate(normalized_inputs => inputs)        
+        a(1:n(input_layer),input_layer) = normalized_inputs%values()
+      end associate
+#else
+      block
+        type(tensor_t) normalized_inputs
+!        normalized_inputs = self%input_range_%map_to_training_range(inputs)
+        normalized_inputs = inputs        
+        a(1:n(input_layer),input_layer) = normalized_inputs%values()
+      end block
+#endif
+
+      feed_forward: &
+      do l = input_layer+1, output_layer
+      associate(z => matmul(w(1:n(l),1:n(l-1),l), a(1:n(l-1),l-1)) + b(1:n(l),l))
+          if (l .lt. output_layer) then
+             a(1:n(l),l) = self%activation_strategy_%activation(z)
+          else
+             a(1:n(l),l) = z(1:n(l))
+          end if
+        end associate
+      end do feed_forward
+
+#ifdef _CRAYFTN
+      block
+        type(tensor_t) :: normalized_outputs
+        normalized_outputs = tensor_t(a(1:n(output_layer), output_layer))
+#else
+      associate(normalized_outputs => tensor_t(a(1:n(output_layer), output_layer)))
+#endif
+!        outputs = self%output_range_%map_from_training_range(normalized_outputs)
+        outputs = normalized_outputs        
+#ifdef _CRAYFTN
+      end block
+#else
+      end associate
+#endif
+
+    end associate
+
+  end procedure
+
   pure subroutine inference_engine_consistency(self)
 
     type(inference_engine_t), intent(in) :: self
