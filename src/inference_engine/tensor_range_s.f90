@@ -30,8 +30,8 @@ contains
       if (lines(l)%get_json_key() == "inputs_range" .or. lines(l)%get_json_key() == "outputs_range") then
         tensor_range_key_found = .true.
         tensor_range%layer_  = lines(l+1)%get_json_value(key=string_t("layer"), mold=string_t(""))
-        tensor_range%minima_ = lines(l+2)%get_json_value(key=string_t("minima"), mold=[0.])
-        tensor_range%maxima_ = lines(l+3)%get_json_value(key=string_t("maxima"), mold=[0.])
+        tensor_range%minima_ = lines(l+2)%get_json_value(key=string_t("map_intercept"), mold=[0.])
+        tensor_range%maxima_ = tensor_range%minima_ + lines(l+3)%get_json_value(key=string_t("map_slope"), mold=[0.])
         return
       end if
     end do 
@@ -59,24 +59,24 @@ contains
   module procedure to_json
     integer, parameter :: characters_per_value=17
     character(len=*), parameter :: indent = repeat(" ",ncopies=4)
-    character(len=:), allocatable :: csv_format, minima_string, maxima_string
+    character(len=:), allocatable :: csv_format, map_intercept_string, map_slope_string
 
     call assert(allocated(self%layer_), "tensor_range_s(to_json): allocated layer_")
     call assert(allocated(self%minima_) .and. allocated(self%maxima_), "tensor_range_s(to_json): allocated minima_/maxima_")
 
     csv_format = separated_values(separator=",", mold=[real(rkind)::])
-    allocate(character(len=size(self%minima_)*(characters_per_value+1)-1)::minima_string)
-    allocate(character(len=size(self%maxima_)*(characters_per_value+1)-1)::maxima_string)
-    write(minima_string, fmt = csv_format) self%minima_
-    write(maxima_string, fmt = csv_format) self%maxima_
+    allocate(character(len=size(self%minima_)*(characters_per_value+1)-1)::map_intercept_string)
+    allocate(character(len=size(self%maxima_)*(characters_per_value+1)-1)::map_slope_string)
+    write(map_intercept_string, fmt = csv_format) self%minima_
+    write(map_slope_string, fmt = csv_format) self%maxima_ - self%minima_
     block 
       character(len=:), allocatable :: layer
       layer = trim(adjustl(self%layer_))
       lines = [ &
         string_t(indent // '"'//layer//'_range": {'), &
         string_t(indent // '  "layer": "' // layer // '",'), &
-        string_t(indent // '  "minima": [' // trim(adjustl(minima_string)) // '],'), & 
-        string_t(indent // '  "maxima": [' // trim(adjustl(maxima_string)) // ']'), &
+        string_t(indent // '  "map_intercept": [' // trim(adjustl(map_intercept_string)) // '],'), & 
+        string_t(indent // '  "map_slope": [' // trim(adjustl(map_slope_string)) // ']'), &
         string_t(indent // '}') &
       ]
     end block
