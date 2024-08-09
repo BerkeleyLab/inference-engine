@@ -1,5 +1,10 @@
 ! Copyright (c), The Regents of the University of California
 ! Terms of use are as specified in LICENSE.txt
+
+#if defined(_CRAYFTN) || defined(__flang__) || defined( __INTEL_COMPILER)
+# define LOCALITY_SPECIFIERS
+#endif
+
 submodule(trainable_engine_m) trainable_engine_s
   use assert_m, only : assert
   use intrinsic_array_m, only : intrinsic_array_t
@@ -123,8 +128,6 @@ contains
     if (.not. allocated(self%vdwc)) allocate(self%vdwc,  mold=self%w) 
     if (.not. allocated(self%sdwc)) allocate(self%sdwc,  mold=self%w) 
 
-    if (.not. allocated(self%z)) allocate(self%z,  mold=self%b) ! z-values: Sum z_j^l = w_jk^{l} a_k^{l-1} + b_j^l
-    if (.not. allocated(self%delta)) allocate(self%delta, mold=self%b)
     if (.not. allocated(self%dcdb)) allocate(self%dcdb,  mold=self%b) ! Gradient of cost function with respect with biases
     if (.not. allocated(self%vdb)) allocate(self%vdb,   mold=self%b) 
     if (.not. allocated(self%sdb)) allocate(self%sdb,   mold=self%b) 
@@ -133,7 +136,11 @@ contains
 
     associate(output_layer => ubound(self%n,1))
       
+#ifdef LOCALITY_SPECIFIERS
+      if (.not. allocated(self%z)) allocate(self%z,  mold=self%b) ! z-values: Sum z_j^l = w_jk^{l} a_k^{l-1} + b_j^l
+      if (.not. allocated(self%delta)) allocate(self%delta, mold=self%b)
       if (.not. allocated(self%a)) allocate(self%a(maxval(self%n), input_layer:output_layer)) ! Activations
+#endif
 
       associate( &
         a => self%a, dcdw => self%dcdw, vdw => self%vdw, sdw => self%sdw, vdwc => self%vdwc, sdwc => self%sdwc, &
@@ -148,7 +155,7 @@ contains
           iterate_across_batches: &
           do batch = 1, num_mini_batches
 
-            dcdw = 0.; dcdb = 0.
+            dcdw = 0._rkind; dcdb = 0._rkind
 
 #ifndef _CRAYFTN
             associate(input_output_pairs => mini_batches_arr(batch)%input_output_pairs())
@@ -169,8 +176,27 @@ contains
               real(rkind), allocatable :: pair_cost(:)
               if (present(cost)) allocate(pair_cost(mini_batch_size))
 
+#ifdef LOCALITY_SPECIFIERS
+              iterate_through_batch: &
+              do concurrent (pair = 1:mini_batch_size) local(a,z,delta) reduce(+: dcdb, dcdw)
+#else
+
+              reduce_gradients: &
+              block
+                real(rkind) reduce_dcdb(size(dcdb,1),size(dcdb,2),mini_batch_size)
+                real(rkind) reduce_dcdw(size(dcdw,1),size(dcdw,2),size(dcdw,3),mini_batch_size)
+                reduce_dcdb = 0._rkind
+                reduce_dcdw = 0._rkind
+              
               iterate_through_batch: &
               do concurrent (pair = 1:mini_batch_size)
+
+                iteration: &
+                block
+
+                real(rkind) a(maxval(self%n), input_layer:output_layer) ! Activations
+                real(rkind) z(size(b,1),size(b,2)), delta(size(b,1),size(b,2))
+#endif
 
                 a(1:self%num_inputs(), input_layer) = inputs(pair)%values()
 
@@ -200,14 +226,30 @@ contains
                   integer j
                   sum_gradients: &
                   do l = 1,output_layer
+#ifdef LOCALITY_SPECIFIERS
                     dcdb(1:n(l),l) = dcdb(1:n(l),l) + delta(1:n(l),l)
-                    do concurrent(j = 1:n(l))
+                    do concurrent(j = 1:n(l)) reduce(+: dcdw)
                       dcdw(j,1:n(l-1),l) = dcdw(j,1:n(l-1),l) + a(1:n(l-1),l-1)*delta(j,l)
                     end do
+#else
+                    reduce_dcdb(1:n(l),l,pair) = reduce_dcdb(1:n(l),l,pair) + delta(1:n(l),l)
+                    do j = 1,n(l)
+                      reduce_dcdw(j,1:n(l-1),l,pair) = reduce_dcdw(j,1:n(l-1),l,pair) + a(1:n(l-1),l-1)*delta(j,l)
+                    end do
+#endif
                   end do sum_gradients
                 end block
     
-              end do iterate_through_batch
+#ifdef LOCALITY_SPECIFIERS
+                end do iterate_through_batch
+#else
+                end block iteration
+                end do iterate_through_batch
+                dcdb = sum(reduce_dcdb,dim=3)
+                dcdw = sum(reduce_dcdw,dim=4)
+  
+                end block reduce_gradients
+#endif
 
               if (present(cost)) cost(batch) = sum(pair_cost)/(two*mini_batch_size)
             end block
