@@ -102,7 +102,7 @@ contains
 
             end do loop_over_output_neurons
 
-            inference_engine_ = inference_engine_t(metadata, weights, biases, nodes, input_range, output_range)
+            inference_engine_ = inference_engine_t(metadata, weights, biases, nodes, input_map, output_map)
           end block
         end associate
       end associate

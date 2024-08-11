@@ -27,7 +27,7 @@ contains
     tensor_map_key_found = .false.
 
     do l=1,size(lines)
-      if (lines(l)%get_json_key() == "inputs_range" .or. lines(l)%get_json_key() == "outputs_range") then
+      if (lines(l)%get_json_key() == "inputs_map" .or. lines(l)%get_json_key() == "outputs_map") then
         tensor_map_key_found = .true.
         tensor_map%layer_  = lines(l+1)%get_json_value(key=string_t("layer"), mold=string_t(""))
         tensor_map%minima_ = lines(l+2)%get_json_value(key=string_t("minima"), mold=[0.])
@@ -73,7 +73,7 @@ contains
       character(len=:), allocatable :: layer
       layer = trim(adjustl(self%layer_))
       lines = [ &
-        string_t(indent // '"'//layer//'_range": {'), &
+        string_t(indent // '"'//layer//'_map": {'), &
         string_t(indent // '  "layer": "' // layer // '",'), &
         string_t(indent // '  "minima": [' // trim(adjustl(minima_string)) // '],'), & 
         string_t(indent // '  "maxima": [' // trim(adjustl(maxima_string)) // ']'), &

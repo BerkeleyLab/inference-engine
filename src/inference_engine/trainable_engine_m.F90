@@ -20,7 +20,7 @@ module trainable_engine_m
   type trainable_engine_t
     !! Encapsulate the information needed to perform training
     private
-    type(tensor_map_t) input_range_, output_range_
+    type(tensor_map_t) input_map_, output_map_
     type(metadata_t) metadata_
     real(rkind), allocatable :: w(:,:,:) ! weights
     real(rkind), allocatable :: b(:,:) ! biases
@@ -49,11 +49,11 @@ module trainable_engine_m
   interface trainable_engine_t
 #ifdef __INTEL_COMPILER
      impure module function construct_trainable_engine_from_padded_arrays( &
-       nodes, weights, biases, differentiable_activation_strategy, metadata, input_range, output_range &
+       nodes, weights, biases, differentiable_activation_strategy, metadata, input_map, output_map &
      ) &
 #else
      impure module function construct_from_padded_arrays( &
-       nodes, weights, biases, differentiable_activation_strategy, metadata, input_range, output_range &
+       nodes, weights, biases, differentiable_activation_strategy, metadata, input_map, output_map &
      ) &
 #endif
       result(trainable_engine)
@@ -62,7 +62,7 @@ module trainable_engine_m
       real(rkind), intent(in)  :: weights(:,:,:), biases(:,:)
       class(differentiable_activation_strategy_t), intent(in) :: differentiable_activation_strategy
       type(string_t), intent(in) :: metadata(:)
-      type(tensor_map_t), intent(in), optional :: input_range, output_range
+      type(tensor_map_t), intent(in), optional :: input_map, output_map
       type(trainable_engine_t) trainable_engine
     end function
 
@@ -72,13 +72,13 @@ module trainable_engine_m
       type(trainable_engine_t) trainable_engine
     end function
 
-    module function perturbed_identity_network(training_configuration, perturbation_magnitude, metadata, input_range, output_range)&
+    module function perturbed_identity_network(training_configuration, perturbation_magnitude, metadata, input_map, output_map)&
       result(trainable_engine)
       implicit none
       type(training_configuration_t), intent(in) :: training_configuration
       type(string_t), intent(in) :: metadata(:)
       real(rkind), intent(in) :: perturbation_magnitude
-      type(tensor_map_t) input_range, output_range
+      type(tensor_map_t) input_map, output_map
       type(trainable_engine_t) trainable_engine
     end function
 

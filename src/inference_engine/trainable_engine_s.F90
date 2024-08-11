@@ -35,8 +35,8 @@ contains
     type(exchange_t) exchange
     exchange = inference_engine%to_exchange()
 #endif
-      trainable_engine%input_range_ = exchange%input_range_
-      trainable_engine%output_range_ = exchange%output_range_
+      trainable_engine%input_map_ = exchange%input_map_
+      trainable_engine%output_map_ = exchange%output_map_
       trainable_engine%metadata_ = exchange%metadata_
       trainable_engine%w = exchange%weights_
       trainable_engine%b = exchange%biases_
@@ -83,11 +83,11 @@ contains
       allocate(a(maxval(n), input_layer:output_layer)) ! Activations
 
 #ifndef _CRAYFTN
-      associate(normalized_inputs => self%input_range_%map_to_training_range(inputs))
+      associate(normalized_inputs => self%input_map_%map_to_training_range(inputs))
 #else
       block
         type(tensor_t) normalized_inputs
-        normalized_inputs = self%input_range_%map_to_training_range(inputs)
+        normalized_inputs = self%input_map_%map_to_training_range(inputs)
 #endif
         a(1:n(input_layer),input_layer) = normalized_inputs%values()
 #ifndef _CRAYFTN
@@ -104,7 +104,7 @@ contains
       end do feed_forward
  
       associate(normalized_outputs => tensor_t(a(1:n(output_layer), output_layer)))
-        outputs = self%output_range_%map_from_training_range(normalized_outputs)
+        outputs = self%output_map_%map_from_training_range(normalized_outputs)
       end associate
 
     end associate
@@ -271,19 +271,19 @@ contains
     block 
       integer i
 
-      if (present(input_range)) then
-         trainable_engine%input_range_ = input_range
+      if (present(input_map)) then
+         trainable_engine%input_map_ = input_map
       else
         associate(num_inputs => nodes(lbound(nodes,1)))
-          trainable_engine%input_range_ = tensor_map_t("inputs", minima=[(0., i=1,num_inputs)], maxima=[(1., i=1,num_inputs)])
+          trainable_engine%input_map_ = tensor_map_t("inputs", minima=[(0., i=1,num_inputs)], maxima=[(1., i=1,num_inputs)])
         end associate
       end if
 
-      if (present(output_range)) then
-         trainable_engine%output_range_ = output_range
+      if (present(output_map)) then
+         trainable_engine%output_map_ = output_map
       else
         associate(num_outputs => nodes(ubound(nodes,1)))
-          trainable_engine%output_range_ = tensor_map_t("outputs", minima=[(0., i=1,num_outputs)], maxima=[(1., i=1,num_outputs)])
+          trainable_engine%output_map_ = tensor_map_t("outputs", minima=[(0., i=1,num_outputs)], maxima=[(1., i=1,num_outputs)])
         end associate
       end if
     end block
@@ -292,7 +292,7 @@ contains
   end procedure
 
   module procedure to_inference_engine
-    inference_engine = inference_engine_t(self%metadata_%strings(), self%w, self%b, self%n, self%input_range_, self%output_range_)
+    inference_engine = inference_engine_t(self%metadata_%strings(), self%w, self%b, self%n, self%input_map_, self%output_map_)
   end procedure
 
   module procedure perturbed_identity_network
@@ -316,7 +316,7 @@ contains
         )
           trainable_engine = trainable_engine_t( &
             nodes = n, weights = w, biases = b, differentiable_activation_strategy = activation, metadata = metadata, &
-            input_range = input_range, output_range = output_range &
+            input_map = input_map, output_map = output_map &
           )
         end associate
       end associate
@@ -339,8 +339,8 @@ contains
       expected_outputs => input_output_pair%expected_outputs() &
     )
       associate( &
-         normalized_inputs => self%input_range_%map_to_training_range(inputs), &
-         normalized_outputs => self%output_range_%map_to_training_range(expected_outputs) &
+         normalized_inputs => self%input_map_%map_to_training_range(inputs), &
+         normalized_outputs => self%output_map_%map_to_training_range(expected_outputs) &
       )
         normalized_input_output_pair = input_output_pair_t(normalized_inputs, normalized_outputs)
       end associate
@@ -348,19 +348,19 @@ contains
   end procedure
 
   module procedure map_to_input_training_range
-    normalized_tensor = self%input_range_%map_to_training_range(tensor)
+    normalized_tensor = self%input_map_%map_to_training_range(tensor)
   end procedure
 
   module procedure map_from_input_training_range
-    unnormalized_tensor = self%input_range_%map_from_training_range(tensor)
+    unnormalized_tensor = self%input_map_%map_from_training_range(tensor)
   end procedure
   
   module procedure map_to_output_training_range
-    normalized_tensor = self%output_range_%map_to_training_range(tensor)
+    normalized_tensor = self%output_map_%map_to_training_range(tensor)
   end procedure
 
   module procedure map_from_output_training_range
-    unnormalized_tensor = self%output_range_%map_from_training_range(tensor)
+    unnormalized_tensor = self%output_map_%map_from_training_range(tensor)
   end procedure
   
 
