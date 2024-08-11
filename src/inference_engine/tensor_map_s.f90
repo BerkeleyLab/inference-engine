@@ -1,6 +1,6 @@
 ! Copyright (c), The Regents of the University of California
 ! Terms of use are as specified in LICENSE.txt
-submodule(tensor_range_m) tensor_range_s
+submodule(tensor_map_m) tensor_map_s
   use assert_m, only : assert
   use julienne_m, only : separated_values
   use kind_parameters_m, only : rkind
@@ -9,46 +9,46 @@ submodule(tensor_range_m) tensor_range_s
 contains
 
   module procedure from_components
-    call assert(size(minima)==size(maxima),"tensor_range_s(from_components): size(minima)==size(maxima)")
-    tensor_range%layer_ = layer
-    tensor_range%minima_ = minima
-    tensor_range%maxima_ = maxima 
+    call assert(size(minima)==size(maxima),"tensor_map_s(from_components): size(minima)==size(maxima)")
+    tensor_map%layer_ = layer
+    tensor_map%minima_ = minima
+    tensor_map%maxima_ = maxima 
     if (present(num_bins)) then
-      tensor_range%bin_widths_ = (maxima - minima)/real(num_bins,rkind)
+      tensor_map%bin_widths_ = (maxima - minima)/real(num_bins,rkind)
     else
-      tensor_range%bin_widths_ = maxima - minima
+      tensor_map%bin_widths_ = maxima - minima
     end if
   end procedure
 
   module procedure from_json
-    logical tensor_range_key_found
+    logical tensor_map_key_found
     integer l 
 
-    tensor_range_key_found = .false.
+    tensor_map_key_found = .false.
 
     do l=1,size(lines)
       if (lines(l)%get_json_key() == "inputs_range" .or. lines(l)%get_json_key() == "outputs_range") then
-        tensor_range_key_found = .true.
-        tensor_range%layer_  = lines(l+1)%get_json_value(key=string_t("layer"), mold=string_t(""))
-        tensor_range%minima_ = lines(l+2)%get_json_value(key=string_t("minima"), mold=[0.])
-        tensor_range%maxima_ = lines(l+3)%get_json_value(key=string_t("maxima"), mold=[0.])
+        tensor_map_key_found = .true.
+        tensor_map%layer_  = lines(l+1)%get_json_value(key=string_t("layer"), mold=string_t(""))
+        tensor_map%minima_ = lines(l+2)%get_json_value(key=string_t("minima"), mold=[0.])
+        tensor_map%maxima_ = lines(l+3)%get_json_value(key=string_t("maxima"), mold=[0.])
         return
       end if
     end do 
 
-    tensor_range%bin_widths_ = tensor_range%maxima_ - tensor_range%minima_
+    tensor_map%bin_widths_ = tensor_map%maxima_ - tensor_map%minima_
 
-    call assert(tensor_range_key_found, "tensor_range_s(from_json): 'tensor_range' key found")
+    call assert(tensor_map_key_found, "tensor_map_s(from_json): 'tensor_map' key found")
   end procedure
 
   module procedure equals
     real, parameter :: tolerance = 1.E-08
 
-    call assert(allocated(lhs%layer_) .and. allocated(rhs%layer_), "tensor_range_s(equals): allocated layer_ components")
-    call assert(allocated(lhs%minima_) .and. allocated(rhs%minima_), "tensor_range_s(equals): allocated minima_ components)")
-    call assert(allocated(lhs%maxima_) .and.  allocated(rhs%maxima_), "tensor_range_s(equals): allocated maxima_ components)")
-    call assert(size(lhs%minima_) == size(rhs%minima_), "tensor_range_s(equals): size(lhs%minima_) == size(rhs%minima_)")
-    call assert(size(lhs%maxima_) == size(rhs%maxima_), "tensor_range_s(equals): size(lhs%maxima_) == size(rhs%maxima_)")
+    call assert(allocated(lhs%layer_) .and. allocated(rhs%layer_), "tensor_map_s(equals): allocated layer_ components")
+    call assert(allocated(lhs%minima_) .and. allocated(rhs%minima_), "tensor_map_s(equals): allocated minima_ components)")
+    call assert(allocated(lhs%maxima_) .and.  allocated(rhs%maxima_), "tensor_map_s(equals): allocated maxima_ components)")
+    call assert(size(lhs%minima_) == size(rhs%minima_), "tensor_map_s(equals): size(lhs%minima_) == size(rhs%minima_)")
+    call assert(size(lhs%maxima_) == size(rhs%maxima_), "tensor_map_s(equals): size(lhs%maxima_) == size(rhs%maxima_)")
 
     lhs_equals_rhs = &
       lhs%layer_ == rhs%layer_ .and. &
@@ -61,8 +61,8 @@ contains
     character(len=*), parameter :: indent = repeat(" ",ncopies=4)
     character(len=:), allocatable :: csv_format, minima_string, maxima_string
 
-    call assert(allocated(self%layer_), "tensor_range_s(to_json): allocated layer_")
-    call assert(allocated(self%minima_) .and. allocated(self%maxima_), "tensor_range_s(to_json): allocated minima_/maxima_")
+    call assert(allocated(self%layer_), "tensor_map_s(to_json): allocated layer_")
+    call assert(allocated(self%minima_) .and. allocated(self%maxima_), "tensor_map_s(to_json): allocated minima_/maxima_")
 
     csv_format = separated_values(separator=",", mold=[real(rkind)::])
     allocate(character(len=size(self%minima_)*(characters_per_value+1)-1)::minima_string)
@@ -109,4 +109,4 @@ contains
     is_in_range = all(tensor%values() >= self%minima_) .and. all(tensor%values() <= self%maxima_)
   end procedure
 
-end submodule tensor_range_s
+end submodule tensor_map_s

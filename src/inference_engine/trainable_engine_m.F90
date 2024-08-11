@@ -8,7 +8,7 @@ module trainable_engine_m
   use kind_parameters_m, only : rkind
   use metadata_m, only : metadata_t
   use tensor_m, only :  tensor_t
-  use tensor_range_m, only :  tensor_range_t
+  use tensor_map_m, only :  tensor_map_t
   use mini_batch_m, only : mini_batch_t
   use training_configuration_m, only : training_configuration_t
   use input_output_pair_m, only : input_output_pair_t
@@ -20,7 +20,7 @@ module trainable_engine_m
   type trainable_engine_t
     !! Encapsulate the information needed to perform training
     private
-    type(tensor_range_t) input_range_, output_range_
+    type(tensor_map_t) input_range_, output_range_
     type(metadata_t) metadata_
     real(rkind), allocatable :: w(:,:,:) ! weights
     real(rkind), allocatable :: b(:,:) ! biases
@@ -62,7 +62,7 @@ module trainable_engine_m
       real(rkind), intent(in)  :: weights(:,:,:), biases(:,:)
       class(differentiable_activation_strategy_t), intent(in) :: differentiable_activation_strategy
       type(string_t), intent(in) :: metadata(:)
-      type(tensor_range_t), intent(in), optional :: input_range, output_range
+      type(tensor_map_t), intent(in), optional :: input_range, output_range
       type(trainable_engine_t) trainable_engine
     end function
 
@@ -78,7 +78,7 @@ module trainable_engine_m
       type(training_configuration_t), intent(in) :: training_configuration
       type(string_t), intent(in) :: metadata(:)
       real(rkind), intent(in) :: perturbation_magnitude
-      type(tensor_range_t) input_range, output_range
+      type(tensor_map_t) input_range, output_range
       type(trainable_engine_t) trainable_engine
     end function
 

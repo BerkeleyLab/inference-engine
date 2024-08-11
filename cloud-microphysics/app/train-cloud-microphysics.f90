@@ -13,7 +13,7 @@ program train_on_flat_distribution
   use julienne_m, only : string_t, file_t, command_line_t, bin_t
   use assert_m, only : assert, intrinsic_array_t
   use inference_engine_m, only : &
-    inference_engine_t, mini_batch_t, input_output_pair_t, tensor_t, trainable_engine_t, rkind, tensor_range_t, &
+    inference_engine_t, mini_batch_t, input_output_pair_t, tensor_t, trainable_engine_t, rkind, tensor_map_t, &
     training_configuration_t, shuffle, phase_space_bin_t
 
   !! Internal dependencies;
@@ -279,7 +279,7 @@ contains
           ), lon = 1, size(qv_in,1))], lat = 1, size(qv_in,2))], level = 1, size(qv_in,3))], time = start_step, end_step, stride)]
 
         print *,"Calculating output tensor component ranges."
-        associate(output_range => tensor_range_t( &
+        associate(output_range => tensor_map_t( &
           layer  = "outputs", &
           minima = [minval(dpt_dt), minval(dqv_dt), minval(dqc_dt), minval(dqr_dt), minval(dqs_dt)], &
           maxima = [maxval(dpt_dt), maxval(dqv_dt), maxval(dqc_dt), maxval(dqr_dt), maxval(dqs_dt)], &
@@ -301,7 +301,7 @@ contains
 
               print *,"Calculating input tensor component ranges."
               associate( &
-                input_range => tensor_range_t( &
+                input_range => tensor_map_t( &
                   layer  = "inputs", &
                   minima = [minval(pressure_in), minval(potential_temperature_in), minval(temperature_in), &
                     minval(qv_in), minval(qc_in), minval(qr_in), minval(qs_in)], &

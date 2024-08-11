@@ -167,7 +167,7 @@ contains
       else
         associate(num_inputs => nodes(lbound(nodes,1)))
           associate(default_minima => [(0., i=1,num_inputs)], default_maxima => [(1., i=1,num_inputs)])
-            inference_engine%input_range_ = tensor_range_t("inputs", default_minima, default_maxima)
+            inference_engine%input_range_ = tensor_map_t("inputs", default_minima, default_maxima)
           end associate
         end associate
       end if
@@ -177,7 +177,7 @@ contains
       else
         associate(num_outputs => nodes(ubound(nodes,1)))
           associate(default_minima => [(0., i=1,num_outputs)], default_maxima => [(1., i=1,num_outputs)])
-            inference_engine%output_range_ = tensor_range_t("outputs", default_minima, default_maxima)
+            inference_engine%output_range_ = tensor_map_t("outputs", default_minima, default_maxima)
           end associate
         end associate
       end if
@@ -193,15 +193,15 @@ contains
   module procedure from_json
 
     type(string_t), allocatable :: lines(:)
-    type(tensor_range_t) input_range, output_range
+    type(tensor_map_t) input_range, output_range
     type(layer_t) hidden_layers, output_layer
     character(len=:), allocatable :: justified_line
     integer l
 #ifdef _CRAYFTN
-    type(tensor_range_t) proto_range
+    type(tensor_map_t) proto_range
     type(metadata_t) proto_meta
     type(neuron_t) proto_neuron
-    proto_range = tensor_range_t("",[0.],[1.])
+    proto_range = tensor_map_t("",[0.],[1.])
     proto_meta = metadata_t(string_t(""),string_t(""),string_t(""),string_t(""),string_t(""))
     proto_neuron = neuron_t(weights=[0.], bias=0.)
 #endif
@@ -213,7 +213,7 @@ contains
     associate(num_lines => size(lines))
       
 #ifndef _CRAYFTN
-      associate(proto_range => tensor_range_t("",[0.],[1.]))
+      associate(proto_range => tensor_map_t("",[0.],[1.]))
 #endif
         associate(range_lines => size(proto_range%to_json()))
 
@@ -223,7 +223,7 @@ contains
             if (justified_line == '"inputs_range": {') exit 
           end do find_inputs_range
           call assert(justified_line =='"inputs_range": {', 'from_json: expecting "inputs_range": {', justified_line)
-          input_range = tensor_range_t(lines(l:l+range_lines-1))
+          input_range = tensor_map_t(lines(l:l+range_lines-1))
 
           find_outputs_range: &
           do l = 1, num_lines
@@ -231,7 +231,7 @@ contains
             if (justified_line == '"outputs_range": {') exit 
           end do find_outputs_range
           call assert(justified_line =='"outputs_range": {', 'from_json: expecting "outputs_range": {', justified_line)
-          output_range = tensor_range_t(lines(l:l+range_lines-1))
+          output_range = tensor_map_t(lines(l:l+range_lines-1))
 
         end associate
 #ifndef _CRAYFTN
@@ -433,10 +433,10 @@ contains
   module procedure to_json
 
 #ifdef _CRAYFTN
-    type(tensor_range_t) proto_range
+    type(tensor_map_t) proto_range
     type(metadata_t) proto_meta
     type(neuron_t) proto_neuron
-    proto_range = tensor_range_t("",[zero],[one])
+    proto_range = tensor_map_t("",[zero],[one])
     proto_meta = metadata_t(string_t(""),string_t(""),string_t(""),string_t(""),string_t(""))
     proto_neuron = neuron_t([zero],one)
 #endif
@@ -450,14 +450,14 @@ contains
       ,first_hidden => lbound(self%nodes_,1) + 1 &
       ,last_hidden => ubound(self%nodes_,1) - 1 &
 #ifndef _CRAYFTN
-      ,proto_range => tensor_range_t("",[zero],[one]) &
+      ,proto_range => tensor_map_t("",[zero],[one]) &
       ,proto_meta => metadata_t(string_t(""),string_t(""),string_t(""),string_t(""),string_t("")) &
       ,proto_neuron => neuron_t([zero],zero) &
 #endif
     )
       associate( &
         metadata_lines => size(proto_meta%to_json()), &
-        tensor_range_lines => size(proto_range%to_json()), &
+        tensor_map_lines => size(proto_range%to_json()), &
         neuron_lines => size(proto_neuron%to_json()) &
       )
         block
@@ -468,8 +468,8 @@ contains
           associate( json_lines => &
             brace + &                                                          ! { 
               metadata_lines + &                                               !   "metadata": ...
-              tensor_range_lines + &                                           !   "inputs_tensor_range": ...
-              tensor_range_lines + &                                           !   "outputs_tensor_range": ...
+              tensor_map_lines + &                                           !   "inputs_tensor_map": ...
+              tensor_map_lines + &                                           !   "outputs_tensor_map": ...
                 bracket_hidden_layers_array + &                                !   "hidden_layers": [
                   bracket_layer*num_hidden_layers + &                          !      [
                     neuron_lines*sum(self%nodes_(first_hidden:last_hidden))+ & !        neuron ...
@@ -485,10 +485,10 @@ contains
             associate(meta_start => brace + 1,  meta_end => brace + metadata_lines)
               lines(meta_start:meta_end) = self%metadata_%to_json()
               lines(meta_end) = lines(meta_end) // ","
-              associate(input_range_start => meta_end + 1,  input_range_end => meta_end + tensor_range_lines)
+              associate(input_range_start => meta_end + 1,  input_range_end => meta_end + tensor_map_lines)
                 lines(input_range_start:input_range_end) =  self%input_range_%to_json()
                 lines(input_range_end) = lines(input_range_end) // ","
-                associate(output_range_start => input_range_end + 1,  output_range_end => input_range_end + tensor_range_lines)
+                associate(output_range_start => input_range_end + 1,  output_range_end => input_range_end + tensor_map_lines)
                   lines(output_range_start:output_range_end) =  self%output_range_%to_json()
                   lines(output_range_end) = lines(output_range_end) // ","
                   lines(output_range_end + 1) = string_t('     "hidden_layers": [')

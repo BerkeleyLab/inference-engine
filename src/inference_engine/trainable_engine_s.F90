@@ -275,7 +275,7 @@ contains
          trainable_engine%input_range_ = input_range
       else
         associate(num_inputs => nodes(lbound(nodes,1)))
-          trainable_engine%input_range_ = tensor_range_t("inputs", minima=[(0., i=1,num_inputs)], maxima=[(1., i=1,num_inputs)])
+          trainable_engine%input_range_ = tensor_map_t("inputs", minima=[(0., i=1,num_inputs)], maxima=[(1., i=1,num_inputs)])
         end associate
       end if
 
@@ -283,7 +283,7 @@ contains
          trainable_engine%output_range_ = output_range
       else
         associate(num_outputs => nodes(ubound(nodes,1)))
-          trainable_engine%output_range_ = tensor_range_t("outputs", minima=[(0., i=1,num_outputs)], maxima=[(1., i=1,num_outputs)])
+          trainable_engine%output_range_ = tensor_map_t("outputs", minima=[(0., i=1,num_outputs)], maxima=[(1., i=1,num_outputs)])
         end associate
       end if
     end block
