@@ -22,7 +22,6 @@ module tensor_map_m
     procedure map_from_training_range
     procedure to_json
     procedure bin
-    procedure in_range
     generic :: operator(==) => equals
     procedure, private :: equals
   end type
@@ -80,13 +79,6 @@ module tensor_map_m
       type(tensor_t), intent(in) :: tensor
       integer, intent(in) :: num_bins
       type(phase_space_bin_t) phase_space_bin
-    end function
-
-    elemental module function in_range(self, tensor) result(is_in_range)
-      implicit none
-      class(tensor_map_t), intent(in) :: self
-      type(tensor_t), intent(in) :: tensor
-      logical is_in_range
     end function
 
   end interface

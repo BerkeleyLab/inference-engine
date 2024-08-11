@@ -105,8 +105,4 @@ contains
     end associate
   end procedure
 
-  module procedure in_range
-    is_in_range = all(tensor%values() >= self%minima_) .and. all(tensor%values() <= self%maxima_)
-  end procedure
-
 end submodule tensor_map_s
