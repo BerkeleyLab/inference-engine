@@ -14,9 +14,10 @@ program train_on_flat_distribution
   use assert_m, only : assert, intrinsic_array_t
   use inference_engine_m, only : &
     inference_engine_t, mini_batch_t, input_output_pair_t, tensor_t, trainable_engine_t, rkind, tensor_map_t, &
-    training_configuration_t, shuffle, phase_space_bin_t
+    training_configuration_t, shuffle
 
   !! Internal dependencies;
+  use phase_space_bin_m, only : phase_space_bin_t
   use NetCDF_file_m, only: NetCDF_file_t
   use ubounds_m, only : ubounds_t
   implicit none
@@ -279,12 +280,11 @@ contains
           ), lon = 1, size(qv_in,1))], lat = 1, size(qv_in,2))], level = 1, size(qv_in,3))], time = start_step, end_step, stride)]
 
         print *,"Calculating output tensor component ranges."
-        associate(output_range => tensor_map_t( &
-          layer  = "outputs", &
-          minima = [minval(dpt_dt), minval(dqv_dt), minval(dqc_dt), minval(dqr_dt), minval(dqs_dt)], &
-          maxima = [maxval(dpt_dt), maxval(dqv_dt), maxval(dqc_dt), maxval(dqr_dt), maxval(dqs_dt)], &
-          num_bins = num_bins &
-        ))
+        associate( &
+          output_minima => [minval(dpt_dt), minval(dqv_dt), minval(dqc_dt), minval(dqr_dt), minval(dqs_dt)], &
+          output_maxima => [maxval(dpt_dt), maxval(dqv_dt), maxval(dqc_dt), maxval(dqr_dt), maxval(dqs_dt)] &
+        )
+        associate( output_map => tensor_map_t(layer = "outputs", minima = output_minima, maxima = output_maxima))
           read_or_initialize_engine: &
           if (io_status==0) then
             print *,"Reading network from file " // network_file
@@ -301,29 +301,26 @@ contains
 
               print *,"Calculating input tensor component ranges."
               associate( &
-                input_range => tensor_map_t( &
+                input_map => tensor_map_t( &
                   layer  = "inputs", &
                   minima = [minval(pressure_in), minval(potential_temperature_in), minval(temperature_in), &
                     minval(qv_in), minval(qc_in), minval(qr_in), minval(qs_in)], &
                   maxima = [maxval(pressure_in), maxval(potential_temperature_in), maxval(temperature_in), &
-                    maxval(qv_in), maxval(qc_in), maxval(qr_in), maxval(qs_in)], &
-                  num_bins = num_bins &
-                ), &
-                date_string => string_t(date) &
-              )
+                    maxval(qv_in), maxval(qc_in), maxval(qr_in), maxval(qs_in)] &
+              ) ) 
                 associate(activation => training_configuration%differentiable_activation_strategy())
                   associate(residual_network => string_t(trim(merge("true ", "false", training_configuration%skip_connections())))) 
                     trainable_engine = trainable_engine_t( &
                       training_configuration,  &
                       perturbation_magnitude = 0.05, &
                       metadata = [ &
-                        string_t("Simple microphysics"), string_t("train-on-flat-dist"), date_string, activation%function_name(), &
+                        string_t("Simple microphysics"), string_t("train-on-flat-dist"), string_t(date), activation%function_name(), &
                         residual_network &
-                      ], input_range = input_range, output_range = output_range &
+                      ], input_map = input_map, output_map = output_map &
                     )
                   end associate
                 end associate
-              end associate ! input_range, date_string
+              end associate ! input_map, date_string
             end block initialize_network
           end if read_or_initialize_engine
 
@@ -336,7 +333,7 @@ contains
             occupied = .false.
             keepers = .false.
 
-            bin = [(output_range%bin(outputs(i), num_bins), i=1,size(outputs))]
+            bin = [(phase_space_bin_t(outputs(i), output_minima, output_maxima, num_bins), i=1,size(outputs))]
 
             do i = 1, size(outputs)
               if (occupied(bin(i)%loc(1),bin(i)%loc(2),bin(i)%loc(3),bin(i)%loc(4),bin(i)%loc(5))) cycle
@@ -347,7 +344,8 @@ contains
             print *, "Kept ", size(input_output_pairs), " out of ", size(outputs, kind=int64), " input/output pairs " // &
                      " in ", count(occupied)," out of ", size(occupied, kind=int64), " bins."
           end block
-        end associate ! output_range
+        end associate ! output_map
+        end associate 
 
         print *,"Normalizing the remaining input and output tensors"
         input_output_pairs = trainable_engine%map_to_training_ranges(input_output_pairs)
