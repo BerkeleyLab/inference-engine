@@ -11,7 +11,7 @@ module tensor_map_m
   type tensor_map_t
     private
     character(len=:), allocatable :: layer_
-    real, allocatable, dimension(:) :: intercept_, maxima_
+    real, allocatable, dimension(:) :: intercept_, slope_
   contains
     procedure map_to_training_range
     procedure map_from_training_range
