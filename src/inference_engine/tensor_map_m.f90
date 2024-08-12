@@ -11,7 +11,7 @@ module tensor_map_m
   type tensor_map_t
     private
     character(len=:), allocatable :: layer_
-    real, allocatable, dimension(:) :: minima_, maxima_
+    real, allocatable, dimension(:) :: intercept_, maxima_
   contains
     procedure map_to_training_range
     procedure map_from_training_range
@@ -23,7 +23,7 @@ module tensor_map_m
 
   interface tensor_map_t
 
-    pure module function from_components(layer, minima, maxima) result(tensor_map)
+    pure module function from_component_ranges(layer, minima, maxima) result(tensor_map)
       implicit none
       character(len=*), intent(in) :: layer
       real, dimension(:), intent(in) :: minima, maxima
