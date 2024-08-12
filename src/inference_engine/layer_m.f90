@@ -4,7 +4,7 @@ module layer_m
   use neuron_m, only : neuron_t
   use julienne_string_m, only : string_t
   use inference_engine_m_, only : inference_engine_t
-  use tensor_range_m, only :  tensor_range_t
+  use tensor_map_m, only :  tensor_map_t
   implicit none
 
   private
@@ -39,12 +39,12 @@ module layer_m
 
   interface
 
-    module function inference_engine(hidden_layers, metadata, output_layer, input_range, output_range) result(inference_engine_)
+    module function inference_engine(hidden_layers, metadata, output_layer, input_map, output_map) result(inference_engine_)
       implicit none
       class(layer_t), intent(in), target :: hidden_layers
       type(layer_t), intent(in), target :: output_layer
       type(string_t), intent(in) :: metadata(:)
-      type(tensor_range_t), intent(in) :: input_range, output_range
+      type(tensor_map_t), intent(in) :: input_map, output_map
       type(inference_engine_t) inference_engine_
     end function
 
