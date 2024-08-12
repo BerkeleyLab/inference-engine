@@ -7,21 +7,15 @@ module tensor_map_m
   
   private
   public :: tensor_map_t
-  public :: phase_space_bin_t
-
-  type phase_space_bin_t
-    integer, allocatable :: loc(:)
-  end type
 
   type tensor_map_t
     private
     character(len=:), allocatable :: layer_
-    real, allocatable, dimension(:) :: minima_, maxima_, bin_widths_
+    real, allocatable, dimension(:) :: minima_, maxima_
   contains
     procedure map_to_training_range
     procedure map_from_training_range
     procedure to_json
-    procedure bin
     generic :: operator(==) => equals
     procedure, private :: equals
   end type
@@ -29,11 +23,10 @@ module tensor_map_m
 
   interface tensor_map_t
 
-    pure module function from_components(layer, minima, maxima, num_bins) result(tensor_map)
+    pure module function from_components(layer, minima, maxima) result(tensor_map)
       implicit none
       character(len=*), intent(in) :: layer
       real, dimension(:), intent(in) :: minima, maxima
-      integer, intent(in), optional :: num_bins
       type(tensor_map_t) tensor_map
     end function
 
@@ -71,14 +64,6 @@ module tensor_map_m
       implicit none
       class(tensor_map_t), intent(in) :: lhs, rhs
       logical lhs_equals_rhs
-    end function
-
-    pure module function bin(self, tensor, num_bins) result(phase_space_bin)
-      implicit none
-      class(tensor_map_t), intent(in) :: self
-      type(tensor_t), intent(in) :: tensor
-      integer, intent(in) :: num_bins
-      type(phase_space_bin_t) phase_space_bin
     end function
 
   end interface

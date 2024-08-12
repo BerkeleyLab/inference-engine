@@ -13,11 +13,6 @@ contains
     tensor_map%layer_ = layer
     tensor_map%minima_ = minima
     tensor_map%maxima_ = maxima 
-    if (present(num_bins)) then
-      tensor_map%bin_widths_ = (maxima - minima)/real(num_bins,rkind)
-    else
-      tensor_map%bin_widths_ = maxima - minima
-    end if
   end procedure
 
   module procedure from_json
@@ -35,8 +30,6 @@ contains
         return
       end if
     end do 
-
-    tensor_map%bin_widths_ = tensor_map%maxima_ - tensor_map%minima_
 
     call assert(tensor_map_key_found, "tensor_map_s(from_json): 'tensor_map' key found")
   end procedure
@@ -95,13 +88,6 @@ contains
       associate(unnormalized_values => self%minima_ + tensor_values*(self%maxima_ - self%minima_))
         unnormalized_tensor = tensor_t(unnormalized_values)
       end associate
-    end associate
-  end procedure
-
-  module procedure bin
-    real(rkind), parameter :: half = 0.5_rkind
-    associate(tensor_values => min(tensor%values(), self%maxima_ - half*self%bin_widths_))
-      phase_space_bin%loc = (tensor_values - self%minima_)/self%bin_widths_ + 1
     end associate
   end procedure
 
