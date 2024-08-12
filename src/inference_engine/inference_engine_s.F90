@@ -223,10 +223,12 @@ contains
         block
           type(string_t), allocatable :: lines(:)
           integer layer, n, line
-          integer, parameter :: brace = 1, bracket_hidden_layers_array = 1, bracket_layer = 1, bracket_output_layer = 1
+          integer, parameter :: &
+            brace = 1, bracket_hidden_layers_array = 1, bracket_layer = 1, bracket_output_layer = 1, file_version_lines = 1
                
           associate( json_lines => &
             brace + &                                                          ! { 
+              file_version_lines + &                                           !   "file_version": ...
               metadata_lines + &                                               !   "metadata": ...
               tensor_map_lines + &                                             !   "inputs_tensor_map": ...
               tensor_map_lines + &                                             !   "outputs_tensor_map": ...
@@ -242,7 +244,9 @@ contains
           )
             allocate(lines(json_lines))
             lines(brace) = string_t('{')
-            associate(meta_start => brace + 1,  meta_end => brace + metadata_lines)
+            lines(brace+1:brace+file_version_lines) = string_t('    "file_version": 1,')
+            associate(meta_start => brace + file_version_lines + 1)
+              associate(meta_end => meta_start + metadata_lines - 1)
               lines(meta_start:meta_end) = self%metadata_%to_json()
               lines(meta_end) = lines(meta_end) // ","
               associate(input_map_start => meta_end + 1,  input_map_end => meta_end + tensor_map_lines)
@@ -254,6 +258,7 @@ contains
                   lines(output_map_end + 1) = string_t('     "hidden_layers": [')
                   line= output_map_end + 1
                 end associate
+              end associate
               end associate
             end associate
             do layer = first_hidden, last_hidden
