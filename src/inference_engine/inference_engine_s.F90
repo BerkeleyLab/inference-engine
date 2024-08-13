@@ -16,6 +16,7 @@ submodule(inference_engine_m_) inference_engine_s
     procedure difference_consistency
   end interface
 
+  character(len=*), parameter :: json_file_version = "0.13.0" ! Inference-Engine release capable of reading the current file format
   real, parameter :: zero = 0._rkind, one = 1._rkind
 
 contains
@@ -228,7 +229,7 @@ contains
                
           associate( json_lines => &
             brace + &                                                          ! { 
-              file_version_lines + &                                           !   "file_version": ...
+              file_version_lines + &                                           !   "acceptable_engine_tag": ...
               metadata_lines + &                                               !   "metadata": ...
               tensor_map_lines + &                                             !   "inputs_tensor_map": ...
               tensor_map_lines + &                                             !   "outputs_tensor_map": ...
@@ -244,7 +245,7 @@ contains
           )
             allocate(lines(json_lines))
             lines(brace) = string_t('{')
-            lines(brace+1:brace+file_version_lines) = string_t('    "file_version": 1,')
+            lines(brace+1:brace+file_version_lines)= string_t('    "acceptable_engine_tag": "')//json_file_version//'",'
             associate(meta_start => brace + file_version_lines + 1)
               associate(meta_end => meta_start + metadata_lines - 1)
               lines(meta_start:meta_end) = self%metadata_%to_json()
@@ -308,105 +309,88 @@ contains
 
   module procedure from_json
 
+    character(len=:), allocatable :: justified_line, file_version
+    integer l, map_lines, num_lines
+    integer num_map_lines, num_file_lines
     type(string_t), allocatable :: lines(:)
     type(tensor_map_t) input_map, output_map
     type(layer_t) hidden_layers, output_layer
-    character(len=:), allocatable :: justified_line
-    integer l
-#ifdef _CRAYFTN
     type(tensor_map_t) proto_map
     type(metadata_t) proto_meta
     type(neuron_t) proto_neuron
+
     proto_map = tensor_map_t("",[0.],[1.])
     proto_meta = metadata_t(string_t(""),string_t(""),string_t(""),string_t(""),string_t(""))
     proto_neuron = neuron_t(weights=[0.], bias=0.)
-#endif
 
     lines = file_%lines()
     call assert(adjustl(lines(1)%string())=="{", "inference_engine_s(from_json): expected outermost object '{'")
 
-    associate(num_lines => size(lines))
+    file_version = lines(2)%get_json_value("acceptable_engine_tag", mold="")
+    call assert(file_version==json_file_version, "inference_engine_s(from_json): file_version",file_version//"|"//json_file_version)
       
-#ifndef _CRAYFTN
-      associate(proto_map => tensor_map_t("",[0.],[1.]))
-#endif
-        associate(map_lines => size(proto_map%to_json()))
+    num_file_lines = size(lines)
+    num_map_lines = size(proto_map%to_json())
 
-          find_inputs_map: &
-          do l = 1, num_lines
-            justified_line = adjustl(lines(l)%string())
-            if (justified_line == '"inputs_map": {') exit
-          end do find_inputs_map
-          call assert(justified_line =='"inputs_map": {', 'from_json: expecting "inputs_map": {', justified_line)
-          input_map = tensor_map_t(lines(l:l+map_lines-1))
+    find_inputs_map: &
+    do l = 1, num_file_lines
+      justified_line = adjustl(lines(l)%string())
+      if (justified_line == '"inputs_map": {') exit
+    end do find_inputs_map
 
-          find_outputs_map: &
-          do l = 1, num_lines
-            justified_line = adjustl(lines(l)%string())
-            if (justified_line == '"outputs_map": {') exit
-          end do find_outputs_map
-          call assert(justified_line =='"outputs_map": {', 'from_json: expecting "outputs_map": {', justified_line)
-          output_map = tensor_map_t(lines(l:l+map_lines-1))
+    call assert(justified_line =='"inputs_map": {', 'from_json: expecting "inputs_map": {', justified_line)
+    input_map = tensor_map_t(lines(l:l+num_map_lines-1))
 
+    find_outputs_map: &
+    do l = 1, num_file_lines
+      justified_line = adjustl(lines(l)%string())
+      if (justified_line == '"outputs_map": {') exit
+    end do find_outputs_map
+
+    call assert(justified_line =='"outputs_map": {', 'from_json: expecting "outputs_map": {', justified_line)
+    output_map = tensor_map_t(lines(l:l+num_map_lines-1))
+
+    find_hidden_layers: &
+    do l = 1, num_file_lines
+      justified_line = adjustl(lines(l)%string())
+      if (justified_line == '"hidden_layers": [') exit
+    end do find_hidden_layers
+    call assert(justified_line=='"hidden_layers": [', 'from_json: expecting "hidden_layers": [', justified_line)
+
+    read_hidden_layers: &
+    block
+      integer, parameter :: bracket_lines_per_layer=2
+      character(len=:), allocatable :: output_layer_line
+
+      hidden_layers = layer_t(lines, start=l+1)
+
+      associate(num_neuron_lines => size(proto_neuron%to_json()))
+        associate( output_layer_line_number => l + 1 + num_neuron_lines*sum(hidden_layers%count_neurons()) &
+          + bracket_lines_per_layer*hidden_layers%count_layers() + 1)
+
+          output_layer_line = lines(output_layer_line_number)%string()
+          call assert(adjustl(output_layer_line)=='"output_layer": [', 'from_json: expecting "output_layer": [', &
+            lines(output_layer_line_number)%string())
+
+          output_layer = layer_t(lines, start=output_layer_line_number)
         end associate
-#ifndef _CRAYFTN
       end associate
-#endif
+    end block read_hidden_layers
 
-      find_hidden_layers: &
-      do l = 1, num_lines
-        justified_line = adjustl(lines(l)%string())
-        if (justified_line == '"hidden_layers": [') exit 
-      end do find_hidden_layers
-      call assert(justified_line=='"hidden_layers": [', 'from_json: expecting "hidden_layers": [', justified_line)
+    find_metadata: &
+    do l = 1, num_file_lines
+      justified_line = adjustl(lines(l)%string())
+      if (justified_line == '"metadata": {') exit
+    end do find_metadata
+    call assert(justified_line=='"metadata": {', 'from_json: expecting "metadata": {', justified_line)
 
-      read_hidden_layers: &
-      block 
-        integer, parameter :: bracket_lines_per_layer=2
-        character(len=:), allocatable :: output_layer_line
-               
-        hidden_layers = layer_t(lines, start=l+1)
-
-#ifndef _CRAYFTN
-        associate(proto_neuron => neuron_t(weights=[0.], bias=0.))
-#endif
-          associate(num_neuron_lines => size(proto_neuron%to_json()))
-            associate( output_layer_line_number => l + 1 + num_neuron_lines*sum(hidden_layers%count_neurons()) &
-              + bracket_lines_per_layer*hidden_layers%count_layers() + 1)
-
-              output_layer_line = lines(output_layer_line_number)%string()
-              call assert(adjustl(output_layer_line)=='"output_layer": [', 'from_json: expecting "output_layer": [', &
-                lines(output_layer_line_number)%string())
-
-              output_layer = layer_t(lines, start=output_layer_line_number)
-            end associate
-          end associate
-#ifndef _CRAYFTN
-        end associate
-#endif
-      end block read_hidden_layers
-    
-      find_metadata: &
-      do l = 1, num_lines
-        justified_line = adjustl(lines(l)%string())
-        if (justified_line == '"metadata": {') exit 
-      end do find_metadata
-      call assert(justified_line=='"metadata": {', 'from_json: expecting "metadata": {', justified_line)
-
-#ifndef _CRAYFTN
-      associate(proto_meta => metadata_t(string_t(""),string_t(""),string_t(""),string_t(""),string_t("")))
-#endif
-       associate(metadata => metadata_t(lines(l:l+size(proto_meta%to_json())-1)))
-         associate(metadata_strings => metadata%strings())
-           inference_engine = hidden_layers%inference_engine(metadata_strings, output_layer, input_map, output_map)
-           if (allocated(inference_engine%activation_strategy_)) deallocate(inference_engine%activation_strategy_)
-           allocate(inference_engine%activation_strategy_, source = activation_factory_method(metadata_strings(4)%string()))
-         end associate
-       end associate
-#ifndef _CRAYFTN
+    associate(metadata => metadata_t(lines(l:l+size(proto_meta%to_json())-1)))
+      associate(metadata_strings => metadata%strings())
+        inference_engine = hidden_layers%inference_engine(metadata_strings, output_layer, input_map, output_map)
+        if (allocated(inference_engine%activation_strategy_)) deallocate(inference_engine%activation_strategy_)
+        allocate(inference_engine%activation_strategy_, source = activation_factory_method(metadata_strings(4)%string()))
       end associate
-#endif
-    end associate ! associate(num_lines ... )
+    end associate
 
     call assert_consistency(inference_engine)
 
