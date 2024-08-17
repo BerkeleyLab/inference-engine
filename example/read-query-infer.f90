@@ -11,44 +11,46 @@ program read_query_infer
 
   type(command_line_t) command_line
 
+  set_file_name:&
   associate(file_name => string_t(command_line%flag_value("--input-file")))
 
     if (len(file_name%string())==0) then
       error stop new_line('a') // new_line('a') // &
-        'Usage: fpm run --example read-query -- --input-file "<file-name>"' 
+        'Usage: fpm run --example read-query-infer -- --input-file "<file-name>"' 
     end if
 
-    print *, "Reading an inference_engine_t object from the same JSON file '"//file_name%string()//"'."
+    print *, "Reading an neural network from the file '"//file_name%string()//"'."
+    construct_inference_engine: &
     associate(inference_engine => inference_engine_t(file_t(file_name)))
 
-      print *, "Querying the new inference_engine_t object for several properties:"
+      print *, "Querying the neural network for several properties:"
       associate(activation_name => inference_engine%activation_function_name())
         print *, "Activation function: ", activation_name%string()
       end associate
-      print *, "Number of outputs:", inference_engine%num_outputs()
-      print *, "Number of inputs:", inference_engine%num_inputs()
-      print *, "Nodes per layer:", inference_engine%nodes_per_layer()
-      print *, "Performing inference:"
 
-      block
-        integer, parameter :: tensor_size = 2, num_tests = 3, tensor_min = 1., tensor_max = 4.0
-        real harvest(tensor_size)
-        integer i
+      set_num_inputs: &
+      associate(num_inputs => inference_engine%num_inputs())
+        print *, "Number of inputs:", num_inputs
+        print *, "Number of outputs:", inference_engine%num_outputs()
+        print *, "Nodes per layer:", inference_engine%nodes_per_layer()
+        print *, "Performing inference:"
 
-        call random_init(repeatable=.false., image_distinct=.true.)
+        block
+          real random_inputs(num_inputs)
 
-        print *, "Inputs                 |       Outputs  "
+          call random_init(repeatable=.false., image_distinct=.true.)
+          call random_number(random_inputs)
 
-        do i = 1, num_tests
-          call random_number(harvest)
-          associate(inputs => tensor_t(tensor_min + (tensor_max-tensor_min)*harvest))
+          associate(inputs => tensor_t(random_inputs))
             associate(outputs => inference_engine%infer(inputs))
-              print '(2(2g12.5,a,2x))', inputs%values(), "|",  outputs%values()
+              print *, new_line(''), "Random Inputs: ", inputs%values()
+              print *, new_line(''), "--------------"
+              print *, new_line(''), "Outputs: ", outputs%values(), new_line('')
             end associate
           end associate
-        end do
 
-      end block
-    end associate ! associate(inference_engine => ...)
-  end associate ! associate(file_name => ...)
+          end block
+      end associate set_num_inputs
+    end associate construct_inference_engine
+  end associate set_file_name
 end program
