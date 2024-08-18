@@ -136,8 +136,8 @@ contains
     integer, intent(in) :: n
     integer i, mean_unit, standard_deviation_unit
   
-    open(newunit = mean_unit, file = mean_file)
-    open(newunit = standard_deviation_unit , file = standard_deviation_file)
+    open(newunit = mean_unit, file = mean_file, status="old")
+    open(newunit = standard_deviation_unit , file = standard_deviation_file, status="old")
 
     allocate(tensor_statistics%mean(n))
     allocate(tensor_statistics%standard_deviation(n))
