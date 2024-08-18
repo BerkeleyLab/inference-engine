@@ -20,16 +20,15 @@ program infer_aerosol
     real(rkind), allocatable, dimension(:) :: mean, standard_deviation
   end type
 
-  integer,          parameter :: num_inputs = 80, num_outputs = 31
   character(len=*), parameter :: usage_info = & 
-    new_line('a') // new_line('a') //    &
-    'Usage:  ./build/run-fpm.sh run infer-aerosol --  --file-path <string> \' // &
-    new_line('a') // new_line('a') //    &
-    'where angular brackets (<>) denote user-provided values and square brackets ([]), if any, denote optional arguments.'
+    new_line('') // &
+    'Usage:  ./build/run-fpm.sh run infer-aerosol --  --file-path <string>' // &
+    'where angular brackets (<>) denote user-provided input.' // &
+    new_line('')
 
   call read_stats_and_perform_inference( file_path( stop_code = usage_info ) )
 
-  print *,new_line('a') // "______infer-aerosol done _______"
+  print *,new_line('') // "______infer-aerosol done _______"
 
 contains
 
@@ -38,13 +37,14 @@ contains
     character(len=*), intent(in) :: stop_code
     type(command_line_t) command_line
 
-    path = command_line%flag_value("--file-path")
+    path = command_line%flag_value("--file-path") // "/"
     if (len(path)==0) error stop stop_code
 
   end function
 
   subroutine read_stats_and_perform_inference(path)
     character(len=*), intent(in) :: path
+    integer,          parameter :: num_inputs = 80, num_outputs = 31
     character(len=*), parameter :: network_file_name = "training_network.json"
     character(len=*), parameter :: inputs_tensor_file_name = "training_input.nc"
     real(rkind) cube_root
@@ -53,8 +53,8 @@ contains
     type(inference_engine_t) inference_engine
     integer i, j
 
-    input_stats  = read_tensor_statistics(path // "meanxp.txt", path // "stdxp.txt", num_inputs) ! for pre-processing normalization
-    output_stats = read_tensor_statistics(path // "meanyp.txt", path // "stdyp.txt", num_inputs) ! for post-processing normalization
+    input_stats  = read_tensor_statistics(path // "meanxp.txt", path // "stdxp.txt", num_inputs)  !for pre-processing normalization
+    output_stats = read_tensor_statistics(path // "meanyp.txt", path // "stdyp.txt", num_outputs) !for post-processing normalization
 
     associate(inputs_tensor_file => NetCDF_file_t(path // inputs_tensor_file_name))
       print *,"Reading network inputs from ", inputs_tensor_file_name
@@ -66,7 +66,7 @@ contains
     allocate(input_components(size(aerosol_data,2),size(aerosol_data,1)))
     allocate(output_components(size(aerosol_data,2),num_outputs))
 
-    !$omp parallel do shared(aerosol_data,input_components,input_stats%mean,input_stats%standard_deviation) private(i,j,cube_root)
+    !$omp parallel do shared(aerosol_data,input_components,input_stats) private(i,j,cube_root)
     pre_process: &
     do j = 1,size(aerosol_data,2)
       do i = 1,size(aerosol_data,1)
@@ -76,7 +76,7 @@ contains
     end do pre_process
     !$omp end parallel do   
       
-    print *, "Reading the neueral network from " // network_file_name
+    print *, "Reading the neural network from " // network_file_name
     inference_engine = inference_engine_t(file_t(path // network_file_name))
 
     time_inference: &
@@ -96,7 +96,7 @@ contains
       end do
       !$omp end parallel do         
 
-      print*, "Start inference."
+      print*, "Starting inference."
       call system_clock(t_start, clock_rate)      
 
       icc = size(input_components,1)
@@ -110,13 +110,13 @@ contains
       !$    end_time = omp_get_wtime()       
 
       call system_clock(t_finish)
-      print*, "Inference done."
+      print*, "Finished inference."
       print *,"System clock time: ", real(t_finish - t_start, real64)/real(clock_rate, real64)
       !$    print*,'OMP Total time = ',end_time - start_time
 
       allocate(output_slice(num_outputs))
 
-      !$omp parallel do shared(outputs,output_components,icc,output_stats%mean,output_stats%standard_deviation) private(output_slice,i,j)
+      !$omp parallel do shared(outputs,output_components,icc,output_stats) private(output_slice,i,j)
       post_process: &
       do i = 1,icc
          output_slice = outputs(i)%values()
