@@ -1,7 +1,7 @@
 ! Copyright (c), The Regents of the University of California
 ! Terms of use are as specified in LICENSE.txt
 
-#if defined(_CRAYFTN) || defined(__flang__) || defined( __INTEL_COMPILER)
+#if defined(_CRAYFTN) || defined( __INTEL_COMPILER)
 # define LOCALITY_SPECIFIERS
 #endif
 
