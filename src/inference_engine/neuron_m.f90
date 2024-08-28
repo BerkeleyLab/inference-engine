@@ -2,18 +2,18 @@
 ! Terms of use are as specified in LICENSE.txt
 module neuron_m
   use julienne_string_m, only : string_t
-  use kind_parameters_m, only : rkind
+  use kind_parameters_m, only : default_real
   implicit none
 
   private
   public :: neuron_t
 
-  type neuron_t
+  type neuron_t(k)
     !! linked list of neurons
-    private
-    real(rkind), allocatable :: weights_(:)
-    real(rkind) bias_
-    type(neuron_t), allocatable :: next
+    integer, kind :: k = default_real
+    real(k),        allocatable, private :: weights_(:)
+    real(k),                     private :: bias_
+    type(neuron_t(k)), allocatable, private :: next
   contains
     procedure :: to_json
     procedure :: weights
@@ -35,8 +35,8 @@ module neuron_m
 
     pure module function from_components(weights, bias) result(neuron)
       !! construct single neuron_t object from an array of weights and a bias
-      real(rkind), intent(in) :: weights(:)
-      real(rkind), intent(in) :: bias
+      real, intent(in) :: weights(:)
+      real, intent(in) :: bias
       type(neuron_t) neuron
     end function
 
@@ -53,13 +53,13 @@ module neuron_m
     module function weights(self) result(my_weights)
       implicit none
       class(neuron_t), intent(in) :: self
-      real(rkind), allocatable :: my_weights(:)
+      real, allocatable :: my_weights(:)
     end function
 
     module function bias(self) result(my_bias)
       implicit none
       class(neuron_t), intent(in) :: self
-      real(rkind) my_bias
+      real my_bias
     end function
 
     module function next_allocated(self) result(next_is_allocated)

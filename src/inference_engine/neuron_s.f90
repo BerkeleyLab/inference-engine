@@ -14,7 +14,7 @@ contains
 
     call assert(allocated(self%weights_), "neuron_s(to_json): allocated weights_")
 
-    csv_format = separated_values(separator=",", mold=[real(rkind)::])
+    csv_format = separated_values(separator=",", mold=[real::])
     allocate(character(len=size(self%weights_)*(characters_per_value+1)-1)::weights_string)
     allocate(character(len=characters_per_value)::bias_string)
     write(weights_string, fmt = csv_format) self%weights_
