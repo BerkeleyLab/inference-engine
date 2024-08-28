@@ -5,7 +5,7 @@ module inference_engine_m_
   use activation_strategy_m, only : activation_strategy_t
   use julienne_file_m, only : file_t
   use julienne_string_m, only : string_t
-  use kind_parameters_m, only : rkind
+  use kind_parameters_m, only : default_real
   use metadata_m, only : metadata_t
   use tensor_m, only : tensor_t
   use tensor_map_m, only : tensor_map_t
@@ -17,14 +17,14 @@ module inference_engine_m_
   public :: exchange_t
   public :: infer
 
-  type inference_engine_t
+  type inference_engine_t(k)
     !! Encapsulate the minimal information needed to perform inference
-    private
-    type(tensor_map_t) input_map_, output_map_
-    type(metadata_t) metadata_
-    real(rkind), allocatable :: weights_(:,:,:), biases_(:,:)
-    integer, allocatable :: nodes_(:)
-    class(activation_strategy_t), allocatable :: activation_strategy_ ! Strategy Pattern facilitates elemental activation
+    integer, kind :: k = default_real 
+    type(tensor_map_t(k)), private :: input_map_, output_map_
+    type(metadata_t), private :: metadata_
+    real(k), allocatable, private :: weights_(:,:,:), biases_(:,:)
+    integer, allocatable, private :: nodes_(:)
+    class(activation_strategy_t), allocatable, private :: activation_strategy_ ! Strategy Pattern facilitates elemental activation
   contains
     procedure :: infer
     procedure :: to_json
@@ -42,18 +42,19 @@ module inference_engine_m_
     procedure :: to_exchange
   end type
 
-  type exchange_t
-    type(tensor_map_t) input_map_, output_map_
+  type exchange_t(k)
+    integer, kind :: k = default_real
+    type(tensor_map_t(k)) input_map_, output_map_
     type(metadata_t) metadata_
-    real(rkind), allocatable :: weights_(:,:,:), biases_(:,:)
+    real(k), allocatable :: weights_(:,:,:), biases_(:,:)
     integer, allocatable :: nodes_(:)
     class(activation_strategy_t), allocatable :: activation_strategy_ ! Strategy Pattern facilitates elemental activation
   end type
 
-  type difference_t
-    private
-    real(rkind), allocatable :: weights_difference_(:,:,:), biases_difference_(:,:)
-    integer, allocatable :: nodes_difference_(:)
+  type difference_t(k)
+    integer, kind :: k = default_real
+    real(k), allocatable, private :: weights_difference_(:,:,:), biases_difference_(:,:)
+    integer, allocatable, private :: nodes_difference_(:)
   contains
     procedure :: norm
   end type
@@ -64,7 +65,7 @@ module inference_engine_m_
       result(inference_engine)
       implicit none
       type(string_t), intent(in) :: metadata(:)
-      real(rkind), intent(in) :: weights(:,:,:), biases(:,:)
+      real, intent(in) :: weights(:,:,:), biases(:,:)
       integer, intent(in) :: nodes(0:)
       type(tensor_map_t), intent(in), optional :: input_map, output_map
       type(inference_engine_t) inference_engine
@@ -111,7 +112,7 @@ module inference_engine_m_
     elemental module function norm(self) result(norm_of_self)
       implicit none
       class(difference_t), intent(in) :: self
-      real(rkind)  norm_of_self
+      real  norm_of_self
     end function
 
     elemental module function subtract(self, rhs) result(difference)

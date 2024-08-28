@@ -17,7 +17,6 @@ submodule(inference_engine_m_) inference_engine_s
   end interface
 
   character(len=*), parameter :: acceptable_engine_tag = "0.13.0" ! git tag capable of reading the current json file format
-  real, parameter :: zero = 0._rkind, one = 1._rkind
 
 contains
 
@@ -43,7 +42,7 @@ contains
 
   module procedure infer
 
-    real(rkind), allocatable :: a(:,:)
+    real, allocatable :: a(:,:)
     integer, parameter :: input_layer = 0
     integer l
 
@@ -197,9 +196,9 @@ contains
     type(tensor_map_t) proto_map
     type(metadata_t) proto_meta
     type(neuron_t) proto_neuron
-    proto_map = tensor_map_t("",[zero],[one])
+    proto_map = tensor_map_t("",[0.],[1.])
     proto_meta = metadata_t(string_t(""),string_t(""),string_t(""),string_t(""),string_t(""))
-    proto_neuron = neuron_t([zero],one)
+    proto_neuron = neuron_t([0.],1.)
 #endif
 
     call assert_consistency(self)
@@ -211,9 +210,9 @@ contains
       ,first_hidden => lbound(self%nodes_,1) + 1 &
       ,last_hidden => ubound(self%nodes_,1) - 1 &
 #ifndef _CRAYFTN
-      ,proto_map => tensor_map_t("",[zero],[one]) &
+      ,proto_map => tensor_map_t("",[0.],[1.]) &
       ,proto_meta => metadata_t(string_t(""),string_t(""),string_t(""),string_t(""),string_t("")) &
-      ,proto_neuron => neuron_t([zero],zero) &
+      ,proto_neuron => neuron_t([0.],0.) &
 #endif
     )
       associate( &
