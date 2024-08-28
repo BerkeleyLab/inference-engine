@@ -3,16 +3,16 @@
 module tensor_map_m
   use tensor_m, only : tensor_t
   use julienne_m, only : string_t
-  use kind_parameters_m, only : rkind
+  use kind_parameters_m, only : default_real
   implicit none
   
   private
   public :: tensor_map_t
 
-  type tensor_map_t
-    private
-    character(len=:), allocatable :: layer_
-    real(rkind), allocatable, dimension(:) :: intercept_, slope_
+  type tensor_map_t(k)
+    integer, kind :: k = default_real 
+    character(len=:),      allocatable, private :: layer_
+    real(k), dimension(:), allocatable, private :: intercept_, slope_
   contains
     procedure map_to_training_range
     procedure map_from_training_range
@@ -27,7 +27,7 @@ module tensor_map_m
     pure module function from_component_ranges(layer, minima, maxima) result(tensor_map)
       implicit none
       character(len=*), intent(in) :: layer
-      real(rkind), dimension(:), intent(in) :: minima, maxima
+      real, dimension(:), intent(in) :: minima, maxima
       type(tensor_map_t) tensor_map
     end function
 
