@@ -5,16 +5,17 @@ module layer_m
   use julienne_string_m, only : string_t
   use inference_engine_m_, only : inference_engine_t
   use tensor_map_m, only :  tensor_map_t
+  use kind_parameters_m, only : default_real
   implicit none
 
   private
   public :: layer_t
 
-  type layer_t
+  type layer_t(k)
     !! linked list of layers, each comprised of a linked list of neurons
-    private
-    type(neuron_t) neuron !! linked list of this layer's neurons 
-    type(layer_t), allocatable :: next !! next layer
+    integer, kind :: k = default_real
+    type(neuron_t(k)),             private :: neuron !! linked list of this layer's neurons 
+    type(layer_t(k)), allocatable, private :: next !! next layer
   contains
     procedure :: inference_engine
     procedure :: count_layers
