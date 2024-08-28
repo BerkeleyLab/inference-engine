@@ -3,7 +3,6 @@
 module activation_strategy_m
 
   ! External dependencies
-  use kind_parameters_m, only : rkind
   use julienne_string_m, only : string_t
   implicit none
 
@@ -14,17 +13,17 @@ module activation_strategy_m
 
   type, abstract :: activation_strategy_t
   contains
-     procedure(activation_i), nopass, deferred :: activation
+     procedure(activation_i), nopass, deferred :: default_real_activation
+     generic :: activation => default_real_activation
      procedure(function_name_i), deferred :: function_name
   end type
 
   abstract interface
 
     elemental function activation_i(x) result(y)
-      import rkind
       implicit none
-      real(rkind), intent(in) :: x
-      real(rkind) y
+      real, intent(in) :: x
+      real y
     end function
 
     elemental function function_name_i(self) result(string)

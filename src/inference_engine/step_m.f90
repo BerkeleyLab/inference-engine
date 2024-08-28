@@ -2,7 +2,6 @@
 ! Terms of use are as specified in LICENSE.txt
 module step_m
   use activation_strategy_m, only : activation_strategy_t
-  use kind_parameters_m, only : rkind
   use julienne_string_m, only : string_t
   implicit none
 
@@ -11,16 +10,16 @@ module step_m
 
   type, extends(activation_strategy_t) :: step_t
   contains
-     procedure, nopass :: activation
+     procedure, nopass :: default_real_activation
      procedure :: function_name
   end type
 
   interface
 
-    elemental module function activation(x) result(y)
+    elemental module function default_real_activation(x) result(y)
       implicit none
-      real(rkind), intent(in) :: x
-      real(rkind) y
+      real, intent(in) :: x
+      real y
     end function
 
     elemental module function function_name(self) result(string)

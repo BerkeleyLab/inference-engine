@@ -6,8 +6,8 @@ submodule(step_m) step_s
 
 contains
 
-    module procedure activation
-      y = merge(1._rkind, 0._rkind, x>0._rkind)
+    module procedure default_real_activation
+      y = merge(1., 0., x>0.)
     end procedure
 
     module procedure function_name

@@ -1,19 +1,16 @@
 ! Copyright (c), The Regents of the University of California
 ! Terms of use are as specified in LICENSE.txt
 submodule(relu_m) relu_s
-  use kind_parameters_m, only : rkind
   implicit none
-
-  real(rkind), parameter :: zero = 0._rkind, one = 1._rkind
 
 contains
 
-    module procedure activation
-      y = max(zero, x)
+    module procedure default_real_activation
+      y = max(0., x)
     end procedure
 
-    module procedure activation_derivative
-      y = merge(one, zero, x>zero)
+    module procedure default_real_activation_derivative
+      y = merge(1., 0., x>0.)
     end procedure
 
     module procedure function_name

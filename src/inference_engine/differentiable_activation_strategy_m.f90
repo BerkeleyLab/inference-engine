@@ -9,7 +9,8 @@ module differentiable_activation_strategy_m
 
   type, extends(activation_strategy_t), abstract :: differentiable_activation_strategy_t
   contains
-     procedure(activation_i), nopass, deferred :: activation_derivative
+     procedure(activation_i), nopass, deferred :: default_real_activation_derivative
+     generic :: activation_derivative => default_real_activation_derivative
   end type
 
 end module differentiable_activation_strategy_m

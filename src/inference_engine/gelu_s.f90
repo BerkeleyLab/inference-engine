@@ -1,21 +1,20 @@
 ! Copyright (c), The Regents of the University of California
 ! Terms of use are as specified in LICENSE.txt
 submodule(gelu_m) gelu_s
-  use kind_parameters_m, only : rkind
   implicit none
 
-  real(rkind), parameter :: pi = 3.141592653589793_rkind
-  real(rkind), parameter :: half = 0.5_rkind, one = 1._rkind, two=2._rkind
-  real(rkind), parameter :: sqrt_2_pi = sqrt(two*pi), sqrt_2 = sqrt(two)
+  real, parameter :: pi = 3.141592653589793
+  real, parameter :: half = 0.5, one = 1., two=2.
+  real, parameter :: sqrt_2_pi = sqrt(two*pi), sqrt_2 = sqrt(two)
 
 contains
 
-    module procedure activation
-      y = half*x*(one  + erf(x/sqrt_2))
+    module procedure default_real_activation
+      y = half*x*(1. + erf(x/sqrt_2))
     end procedure
 
-    module procedure activation_derivative
-      y = half*(one + erf(x/sqrt_2)) + x*exp(-x**2/two)/sqrt_2_pi
+    module procedure default_real_activation_derivative
+      y = half*(1. + erf(x/sqrt_2)) + x*exp(-x**2/two)/sqrt_2_pi
     end procedure
 
     module procedure function_name

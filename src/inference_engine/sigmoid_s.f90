@@ -5,11 +5,11 @@ submodule(sigmoid_m) sigmoid_s
 
 contains
 
-    module procedure activation
+    module procedure default_real_activation
       y =  1./(1.+exp(-x))
     end procedure
 
-    module procedure activation_derivative
+    module procedure default_real_activation_derivative
       y =  exp(-x)/(1.+exp(-x))**2
     end procedure
 
