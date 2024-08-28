@@ -12,7 +12,7 @@ module inference_engine_test_m
 #endif
 
   ! Internal dependencies
-  use inference_engine_m, only : inference_engine_t, tensor_t, difference_t
+  use inference_engine_m, only : inference_engine_t, tensor_t
 
   implicit none
 
@@ -163,25 +163,19 @@ contains
     logical test_passes
     type(inference_engine_t) inference_engine, from_json
     type(file_t) json_file
-    type(difference_t) difference
-    real, parameter :: tolerance = 1.0E-06
 
     inference_engine = distinct_parameters()
     json_file = inference_engine%to_json()
     from_json = inference_engine_t(json_file)
-    difference = inference_engine  - from_json
-    test_passes = difference%norm() < tolerance
+    test_passes = inference_engine == from_json 
   end function
 
   function varying_width_net_to_from_json() result(test_passes)
     logical test_passes
-    real, parameter :: tolerance = 1.0E-06
-    type(difference_t) difference
 
     associate(inference_engine => varying_width())
       associate(from_json => inference_engine_t( inference_engine%to_json() ))
-        difference = inference_engine  - from_json
-        test_passes = difference%norm() < tolerance
+        test_passes = inference_engine == from_json 
       end associate
     end associate
   end function

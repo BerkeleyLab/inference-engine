@@ -13,7 +13,6 @@ submodule(inference_engine_m_) inference_engine_s
 
   interface assert_consistency
     procedure inference_engine_consistency
-    procedure difference_consistency
   end interface
 
   character(len=*), parameter :: acceptable_engine_tag = "0.13.0" ! git tag capable of reading the current json file format
@@ -111,24 +110,6 @@ contains
       call assert(input_subscript == input_layer, "inference_engine_s(inference_engine_consistency): n base subsscript", &
         input_subscript)
     end associate
-
-  end subroutine
-
-  pure subroutine difference_consistency(self)
-
-    type(difference_t), intent(in) :: self
-
-    integer, parameter :: input_layer=0
-
-    associate( &
-      all_allocated=>[allocated(self%weights_difference_),allocated(self%biases_difference_),allocated(self%nodes_difference_)] &
-    )   
-      call assert(all(all_allocated),"inference_engine_s(difference_consistency): fully_allocated",intrinsic_array_t(all_allocated))
-    end associate
-
-    call assert(all(size(self%biases_difference_,1)==[size(self%weights_difference_,1), size(self%weights_difference_,2)]), &
-      "inference_engine_s(difference_consistency): conformable arrays" &
-    )
 
   end subroutine
 
@@ -424,32 +405,26 @@ contains
     
   end procedure
 
-  module procedure subtract
+  module procedure approximately_equal
 
-    call assert_consistency(self)
+    logical nodes_eq
+
+    nodes_eq = all(lhs%nodes_ == rhs%nodes_)
+
+    call assert_consistency(lhs)
     call assert_consistency(rhs)
-    call self%assert_conformable_with(rhs)
+    call lhs%assert_conformable_with(rhs)
 
     block
       integer l
+      logical layer_eq(ubound(lhs%nodes_,1))
+      real, parameter :: tolerance = 1.E-06
 
-      allocate(difference%weights_difference_, mold = self%weights_)
-      allocate(difference%biases_difference_, mold = self%biases_)
-      allocate(difference%nodes_difference_, mold = self%nodes_)
-
-      difference%weights_difference_ = 0.
-      difference%biases_difference_ = 0.
-      difference%nodes_difference_ = 0.
-
-      l = 0
-      difference%nodes_difference_(l)  = self%nodes_(l) - rhs%nodes_(l)
-     
-      associate(n => self%nodes_)
+      associate(n => lhs%nodes_)
 #ifndef __INTEL_COMPILER
         do concurrent(l = 1:ubound(n,1))
-          difference%weights_difference_(1:n(l),1:n(l-1),l) = self%weights_(1:n(l),1:n(l-1),l) - rhs%weights_(1:n(l),1:n(l-1),l)
-          difference%biases_difference_(1:n(l),l) = self%biases_(1:n(l),l) - rhs%biases_(1:n(l),l)
-          difference%nodes_difference_(l) = self%nodes_(l) - rhs%nodes_(l)
+            layer_eq(l) = all(abs(lhs%weights_(1:n(l),1:n(l-1),l) - rhs%weights_(1:n(l),1:n(l-1),l)) < tolerance) .and. &
+                          all(abs(lhs%biases_(1:n(l),l)           - rhs%biases_(1:n(l),l)) < tolerance)
         end do
 #else
         block
@@ -457,9 +432,8 @@ contains
           do l = 1, ubound(n,1)
             do j = 1, n(l)
               do k = 1, n(l-1)
-                difference%weights_difference_(j,k,l) = self%weights_(j,k,l) - rhs%weights_(j,k,l)
-                difference%biases_difference_(j,l) = self%biases_(j,l) - rhs%biases_(j,l)
-                difference%nodes_difference_(l) = self%nodes_(l) - rhs%nodes_(l)
+                layer_eq(l) = all(abs(lhs%weights_(j,k,l) - rhs%weights_(j,k,l)) < tolerance) .and. &
+                              all(abs(lhs%biases_(j,l)    - rhs%biases_(j,l)) < tolerance)
               end do
             end do
           end do
@@ -467,13 +441,9 @@ contains
 #endif
       end associate
 
+      lhs_eq_rhs = nodes_eq .and. all(layer_eq)
     end block
 
-    call assert_consistency(difference)
-  end procedure
-
-  module procedure norm 
-    norm_of_self = maxval([abs(self%weights_difference_), abs(self%biases_difference_), real(abs(self%nodes_difference_))])
   end procedure
 
   module procedure num_outputs
