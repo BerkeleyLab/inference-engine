@@ -11,7 +11,17 @@ contains
       y =  x*sigmoid%activation(x)
     end procedure
 
+    module procedure double_precision_activation
+      type(sigmoid_t) sigmoid
+      y =  x*sigmoid%activation(x)
+    end procedure
+
     module procedure default_real_activation_derivative
+      type(sigmoid_t) sigmoid
+      y =  sigmoid%activation(x) + x * sigmoid%activation_derivative(x)
+    end procedure
+
+    module procedure double_precision_activation_derivative
       type(sigmoid_t) sigmoid
       y =  sigmoid%activation(x) + x * sigmoid%activation_derivative(x)
     end procedure
