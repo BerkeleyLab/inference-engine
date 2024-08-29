@@ -9,8 +9,16 @@ contains
       y = max(0., x)
     end procedure
 
+    module procedure double_precision_activation
+      y = max(0.D0, x)
+    end procedure
+
     module procedure default_real_activation_derivative
       y = merge(1., 0., x>0.)
+    end procedure
+
+    module procedure double_precision_activation_derivative
+      y = merge(1.D0, 0.D0, x>0.D0)
     end procedure
 
     module procedure function_name
