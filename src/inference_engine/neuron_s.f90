@@ -82,6 +82,42 @@ contains
 
   end procedure
 
+  module procedure double_precision_from_json
+
+    character(len=:), allocatable :: line
+    integer i
+
+    call assert(adjustl(neuron_lines(start)%string())=='{', &
+      "neuron_s(double_precison_from_json): neuron object start",neuron_lines(start)%string())
+
+    line = neuron_lines(start+1)%string()
+    associate(colon => index(line, ":"))
+      call assert(adjustl(line(:colon-1))=='"weights"', "neuron_s(double_precision_from_json): neuron weights", line)
+      associate(opening_bracket => colon + index(line(colon+1:), "["))
+        associate(closing_bracket => opening_bracket + index(line(opening_bracket+1:), "]"))
+          associate(commas => count("," == [(line(i:i), i=opening_bracket+1,closing_bracket-1)]))
+            associate(num_inputs => commas + 1)
+              allocate(neuron%weights_(num_inputs))
+              read(line(opening_bracket+1:closing_bracket-1), fmt=*) neuron%weights_
+            end associate
+          end associate
+        end associate
+      end associate
+    end associate
+
+    line = neuron_lines(start+2)%string()
+    associate(colon => index(line, ":"))
+      call assert(adjustl(line(:colon-1))=='"bias"', "neuron_s(double_precision_from_json): neuron bias", line)
+      read(line(colon+1:), fmt=*) neuron%bias_
+    end associate
+
+    line = adjustl(neuron_lines(start+3)%string())
+    call assert(line(1:1)=='}', "neuron_s(double_precision_from_json): neuron object end", line)
+    line = adjustr(neuron_lines(start+3)%string())
+    if (line(len(line):len(line)) == ",") neuron%next = double_precision_from_json(neuron_lines, start+4)
+
+  end procedure
+
   module procedure default_real_from_components
     neuron%weights_ = weights
     neuron%bias_ = bias

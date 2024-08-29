@@ -3,6 +3,7 @@
 module neuron_m
   use julienne_string_m, only : string_t
   use kind_parameters_m, only : default_real, double_precision
+  use double_precision_string_m, only : double_precision_string_t
   implicit none
 
   private
@@ -37,6 +38,14 @@ module neuron_m
       type(string_t), intent(in) :: neuron_lines(:)
       integer, intent(in) :: start
       type(neuron_t) neuron
+    end function
+
+    pure recursive module function double_precision_from_json(neuron_lines, start) result(neuron)
+      !! construct linked list of neuron_t objects from an array of JSON-formatted text lines
+      implicit none
+      type(double_precision_string_t), intent(in) :: neuron_lines(:)
+      integer, intent(in) :: start
+      type(neuron_t(double_precision)) neuron
     end function
 
     pure module function default_real_from_components(weights, bias) result(neuron)
