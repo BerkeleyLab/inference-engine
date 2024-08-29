@@ -15,12 +15,18 @@ module neuron_m
     real(k),                     private :: bias_
     type(neuron_t(k)), allocatable, private :: next
   contains
-    procedure :: to_json
-    procedure :: weights
-    procedure :: bias
-    procedure :: next_allocated
-    procedure :: next_pointer
-    procedure :: num_inputs
+    generic :: to_json => default_real_to_json
+    procedure, private :: default_real_to_json
+    generic :: weights => default_real_weights
+    procedure, private :: default_real_weights
+    generic :: bias =>    default_real_bias
+    procedure, private :: default_real_bias
+    generic :: next_allocated => default_real_next_allocated
+    procedure, private ::        default_real_next_allocated
+    generic :: next_pointer => default_real_next_pointer
+    procedure, private ::      default_real_next_pointer
+    generic :: num_inputs => default_real_num_inputs
+    procedure, private ::    default_real_num_inputs
   end type
 
   interface neuron_t
@@ -44,37 +50,37 @@ module neuron_m
 
   interface
 
-    pure module function to_json(self) result(lines)
+    pure module function default_real_to_json(self) result(lines)
       implicit none
       class(neuron_t), intent(in) :: self
       type(string_t), allocatable :: lines(:)
     end function
 
-    module function weights(self) result(my_weights)
+    module function default_real_weights(self) result(my_weights)
       implicit none
       class(neuron_t), intent(in) :: self
       real, allocatable :: my_weights(:)
     end function
 
-    module function bias(self) result(my_bias)
+    module function default_real_bias(self) result(my_bias)
       implicit none
       class(neuron_t), intent(in) :: self
       real my_bias
     end function
 
-    module function next_allocated(self) result(next_is_allocated)
+    module function default_real_next_allocated(self) result(next_is_allocated)
       implicit none
       class(neuron_t), intent(in) :: self
       logical next_is_allocated
     end function
 
-    module function next_pointer(self) result(next_ptr)
+    module function default_real_next_pointer(self) result(next_ptr)
       implicit none
       class(neuron_t), intent(in), target :: self
       type(neuron_t), pointer :: next_ptr
     end function
 
-    pure module function num_inputs(self) result(size_weights)
+    pure module function default_real_num_inputs(self) result(size_weights)
       implicit none
       class(neuron_t), intent(in) :: self
       integer size_weights

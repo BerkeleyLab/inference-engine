@@ -7,7 +7,7 @@ submodule(neuron_m) neuron_s
 
 contains
 
-  module procedure to_json
+  module procedure default_real_to_json
     integer, parameter :: characters_per_value=17
     character(len=*), parameter :: indent = repeat(" ",ncopies=12)
     character(len=:), allocatable :: csv_format, weights_string, bias_string
@@ -67,19 +67,19 @@ contains
     neuron%bias_ = bias
   end procedure
 
-  module procedure weights
+  module procedure default_real_weights
     my_weights = self%weights_
   end procedure
 
-  module procedure bias
+  module procedure default_real_bias
     my_bias = self%bias_
   end procedure
 
-  module procedure next_allocated
+  module procedure default_real_next_allocated
     next_is_allocated = allocated(self%next)
   end procedure
 
-  module procedure next_pointer
+  module procedure default_real_next_pointer
     if (allocated(self%next)) then
       next_ptr => self%next
     else
@@ -87,7 +87,7 @@ contains
     end if
   end procedure
 
-  module procedure num_inputs
+  module procedure default_real_num_inputs
     size_weights = size(self%weights_)
   end procedure
 
