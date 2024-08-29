@@ -10,7 +10,7 @@ module step_m
 
   type, extends(activation_strategy_t) :: step_t
   contains
-     procedure, nopass :: default_real_activation
+     procedure, nopass :: default_real_activation, double_precision_activation
      procedure :: function_name
   end type
 
@@ -20,6 +20,12 @@ module step_m
       implicit none
       real, intent(in) :: x
       real y
+    end function
+
+    elemental module function double_precision_activation(x) result(y)
+      implicit none
+      double precision, intent(in) :: x
+      double precision y
     end function
 
     elemental module function function_name(self) result(string)

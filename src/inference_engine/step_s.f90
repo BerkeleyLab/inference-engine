@@ -10,6 +10,10 @@ contains
       y = merge(1., 0., x>0.)
     end procedure
 
+    module procedure double_precision_activation
+      y = merge(1.D0, 0.D0, x>0.D0)
+    end procedure
+
     module procedure function_name
       string = string_t("step")
     end procedure
