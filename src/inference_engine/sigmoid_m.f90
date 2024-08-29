@@ -10,8 +10,8 @@ module sigmoid_m
 
   type, extends(differentiable_activation_strategy_t) :: sigmoid_t
   contains
-     procedure, nopass :: default_real_activation
-     procedure, nopass :: default_real_activation_derivative
+     procedure, nopass :: default_real_activation,            double_precision_activation
+     procedure, nopass :: default_real_activation_derivative, double_precision_activation_derivative
      procedure :: function_name
   end type
 
@@ -23,10 +23,22 @@ module sigmoid_m
       real y
     end function
 
+    elemental module function double_precision_activation(x) result(y)
+      implicit none
+      double precision, intent(in) :: x
+      double precision y
+    end function
+
     elemental module function default_real_activation_derivative(x) result(y)
       implicit none
       real, intent(in) :: x
       real y
+    end function
+
+    elemental module function double_precision_activation_derivative(x) result(y)
+      implicit none
+      double precision, intent(in) :: x
+      double precision y
     end function
 
     elemental module function function_name(self) result(string)
