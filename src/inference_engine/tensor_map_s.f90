@@ -3,13 +3,20 @@
 submodule(tensor_map_m) tensor_map_s
   use assert_m, only : assert
   use julienne_m, only : separated_values
-  use kind_parameters_m, only : rkind
+  use kind_parameters_m, only : default_real
   implicit none
   
 contains
 
-  module procedure from_component_ranges
-    call assert(size(minima)==size(maxima),"tensor_map_s(from_components): size(minima)==size(maxima)")
+  module procedure construct_default_real
+    call assert(size(minima)==size(maxima),"tensor_map_s(construct_default_real): size(minima)==size(maxima)")
+    tensor_map%layer_ = layer
+    tensor_map%intercept_ = minima
+    tensor_map%slope_ = maxima - minima
+  end procedure
+
+  module procedure construct_double_precision
+    call assert(size(minima)==size(maxima),"tensor_map_s(construct_double_precision): size(minima)==size(maxima)")
     tensor_map%layer_ = layer
     tensor_map%intercept_ = minima
     tensor_map%slope_ = maxima - minima
@@ -34,7 +41,7 @@ contains
     call assert(tensor_map_key_found, "tensor_map_s(from_json): 'tensor_map' key found")
   end procedure
 
-  module procedure equals
+  module procedure default_real_equals
     real, parameter :: tolerance = 1.E-08
 
     call assert(allocated(lhs%layer_) .and. allocated(rhs%layer_), "tensor_map_s(equals): allocated layer_ components")
@@ -57,7 +64,7 @@ contains
     call assert(allocated(self%layer_), "tensor_map_s(to_json): allocated layer_")
     call assert(allocated(self%intercept_) .and. allocated(self%slope_), "tensor_map_s(to_json): allocated intercept_/slope_")
 
-    csv_format = separated_values(separator=",", mold=[real(rkind)::])
+    csv_format = separated_values(separator=",", mold=[real(default_real)::])
     allocate(character(len=size(self%intercept_)*(characters_per_value+1)-1)::intercept_string)
     allocate(character(len=size(self%slope_)*(characters_per_value+1)-1)::slope_string)
     write(intercept_string, fmt = csv_format) self%intercept_
@@ -75,7 +82,7 @@ contains
     end block
   end procedure
 
-  module procedure map_to_training_range
+  module procedure default_real_map_to_training_range
     associate(tensor_values => tensor%values())
       associate(normalized_values => (tensor_values - self%intercept_)/self%slope_)
         normalized_tensor = tensor_t(normalized_values)
@@ -83,7 +90,7 @@ contains
     end associate
   end procedure
 
-  module procedure map_from_training_range
+  module procedure default_real_map_from_training_range
     associate(tensor_values => tensor%values())
       associate(unnormalized_values => self%intercept_ + tensor_values*self%slope_)
         unnormalized_tensor = tensor_t(unnormalized_values)
