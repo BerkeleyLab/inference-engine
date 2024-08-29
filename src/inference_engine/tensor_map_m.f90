@@ -14,13 +14,14 @@ module tensor_map_m
     character(len=:),      allocatable, private :: layer_
     real(k), dimension(:), allocatable, private :: intercept_, slope_
   contains
-    generic :: map_to_training_range => default_real_map_to_training_range
-    procedure, private :: default_real_map_to_training_range
-    generic :: map_from_training_range => default_real_map_from_training_range
-    procedure, private :: default_real_map_from_training_range
-    procedure to_json
-    generic :: operator(==) => default_real_equals
-    procedure, private :: default_real_equals
+    generic :: map_to_training_range => default_real_map_to_training_range, double_precision_map_to_training_range
+    procedure, private ::               default_real_map_to_training_range, double_precision_map_to_training_range
+    generic :: map_from_training_range => default_real_map_from_training_range, double_precision_map_from_training_range
+    procedure, private ::                 default_real_map_from_training_range, double_precision_map_from_training_range
+    generic :: to_json => default_real_to_json, double_precision_to_json
+    procedure, private :: default_real_to_json, double_precision_to_json
+    generic :: operator(==) => default_real_equals, double_precision_equals
+    procedure, private ::      default_real_equals, double_precision_equals
   end type
 
 
@@ -57,6 +58,13 @@ module tensor_map_m
       type(tensor_t) normalized_tensor
     end function
 
+    elemental module function double_precision_map_to_training_range(self, tensor) result(normalized_tensor)
+      implicit none
+      class(tensor_map_t(double_precision)), intent(in) :: self
+      type(tensor_t(double_precision)), intent(in) :: tensor
+      type(tensor_t(double_precision)) normalized_tensor
+    end function
+
     elemental module function default_real_map_from_training_range(self, tensor) result(unnormalized_tensor)
       implicit none
       class(tensor_map_t), intent(in) :: self
@@ -64,15 +72,34 @@ module tensor_map_m
       type(tensor_t) unnormalized_tensor
     end function
 
-    pure module function to_json(self) result(lines)
+    elemental module function double_precision_map_from_training_range(self, tensor) result(unnormalized_tensor)
+      implicit none
+      class(tensor_map_t(double_precision)), intent(in) :: self
+      type(tensor_t(double_precision)), intent(in) :: tensor
+      type(tensor_t(double_precision)) unnormalized_tensor
+    end function
+
+    pure module function default_real_to_json(self) result(lines)
       implicit none
       class(tensor_map_t), intent(in) :: self
+      type(string_t), allocatable :: lines(:)
+    end function
+
+    pure module function double_precision_to_json(self) result(lines)
+      implicit none
+      class(tensor_map_t(double_precision)), intent(in) :: self
       type(string_t), allocatable :: lines(:)
     end function
 
     elemental module function default_real_equals(lhs, rhs) result(lhs_equals_rhs)
       implicit none
       class(tensor_map_t), intent(in) :: lhs, rhs
+      logical lhs_equals_rhs
+    end function
+
+    elemental module function double_precision_equals(lhs, rhs) result(lhs_equals_rhs)
+      implicit none
+      class(tensor_map_t(double_precision)), intent(in) :: lhs, rhs
       logical lhs_equals_rhs
     end function
 
