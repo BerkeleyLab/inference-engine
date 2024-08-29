@@ -7,7 +7,7 @@ submodule(layer_m) layer_s
 
 contains
 
-  module procedure construct_layer
+  module procedure default_real_construct_layer
 
     type(neuron_t), pointer ::  neuron 
     integer num_inputs, neurons_in_layer
@@ -34,11 +34,11 @@ contains
     line = trim(adjustl(layer_lines(start+4*neurons_in_layer+1)%string()))
     call assert(line(1:1)==']', "read_layer_list: hidden layer end")
 
-    if (line(len(line):len(line)) == ",") layer%next = construct_layer(layer_lines, start+4*neurons_in_layer+2)
+    if (line(len(line):len(line)) == ",") layer%next = default_real_construct_layer(layer_lines, start+4*neurons_in_layer+2)
 
   end procedure
 
-  module procedure inference_engine
+  module procedure default_real_inference_engine
 
     associate( &
       num_inputs => hidden_layers%count_inputs(), &
@@ -47,7 +47,7 @@ contains
       num_hidden_layers =>  hidden_layers%count_layers(), &
       num_output_layers => output_layer%count_layers() &
     )   
-      call assert(num_output_layers==1, "inference_engine_s(construct_from_json): 1 output layer", num_output_layers)
+      call assert(num_output_layers==1, "inference_engine_s(default_real_construct_from_json): 1 output layer", num_output_layers)
 
       associate(nodes => [num_inputs, neurons_per_hidden_layer, num_outputs])
         associate(n_max => maxval(nodes))
@@ -110,7 +110,7 @@ contains
     
   end procedure
 
-  module procedure count_layers
+  module procedure default_real_count_layers
 
     type(layer_t), pointer :: layer_ptr
 
@@ -124,7 +124,7 @@ contains
 
   end procedure
 
-  module procedure count_neurons
+  module procedure default_real_count_neurons
 
     type(layer_t), pointer :: layer_ptr
     type(neuron_t), pointer :: neuron_ptr
@@ -149,11 +149,11 @@ contains
  
   end procedure
 
-  module procedure count_inputs
+  module procedure default_real_count_inputs
     num_inputs = layer%neuron%num_inputs() ! assume fully connected input layer
   end procedure
 
-  module procedure neurons_per_layer
+  module procedure default_real_neurons_per_layer
 
     type(neuron_t), pointer ::  neuron 
 
@@ -167,11 +167,11 @@ contains
 
   end procedure
 
-  module procedure next_allocated
+  module procedure default_real_next_allocated
     next_is_allocated = allocated(self%next)
   end procedure
 
-  module procedure next_pointer
+  module procedure default_real_next_pointer
     if (allocated(self%next)) then
       next_ptr => self%next
     else
