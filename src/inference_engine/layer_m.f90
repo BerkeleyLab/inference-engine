@@ -5,7 +5,7 @@ module layer_m
   use julienne_string_m, only : string_t
   use inference_engine_m_, only : inference_engine_t
   use tensor_map_m, only :  tensor_map_t
-  use kind_parameters_m, only : default_real
+  use kind_parameters_m, only : default_real, double_precision
   implicit none
 
   private
@@ -19,18 +19,18 @@ module layer_m
   contains
     generic :: inference_engine => default_real_inference_engine 
     procedure, private ::          default_real_inference_engine
-    generic :: count_layers => default_real_count_layers 
-    procedure, private ::      default_real_count_layers
-    generic :: count_neurons => default_real_count_neurons 
-    procedure, private ::       default_real_count_neurons
-    generic :: count_inputs => default_real_count_inputs 
-    procedure, private ::      default_real_count_inputs
-    generic :: neurons_per_layer => default_real_neurons_per_layer 
-    procedure, private ::           default_real_neurons_per_layer
-    generic :: next_allocated => default_real_next_allocated 
-    procedure, private ::        default_real_next_allocated
-    generic :: next_pointer => default_real_next_pointer 
-    procedure, private ::      default_real_next_pointer
+    generic :: count_layers => default_real_count_layers, double_precision_count_layers
+    procedure, private ::      default_real_count_layers, double_precision_count_layers
+    generic :: count_neurons => default_real_count_neurons, double_precision_count_neurons
+    procedure, private ::       default_real_count_neurons, double_precision_count_neurons
+    generic :: count_inputs => default_real_count_inputs, double_precision_count_inputs
+    procedure, private ::      default_real_count_inputs, double_precision_count_inputs
+    generic :: neurons_per_layer => default_real_neurons_per_layer, double_precision_neurons_per_layer
+    procedure, private ::           default_real_neurons_per_layer, double_precision_neurons_per_layer
+    generic :: next_allocated => default_real_next_allocated, double_precision_next_allocated
+    procedure, private ::        default_real_next_allocated, double_precision_next_allocated
+    generic :: next_pointer => default_real_next_pointer, double_precision_next_pointer 
+    procedure, private ::      default_real_next_pointer, double_precision_next_pointer
   end type
 
   interface layer_t
@@ -62,9 +62,21 @@ module layer_m
       integer num_layers
     end function
 
+    module function double_precision_count_layers(layer) result(num_layers)
+      implicit none
+      class(layer_t(double_precision)), intent(in), target :: layer
+      integer num_layers
+    end function
+
     module function default_real_count_neurons(layer) result(neurons_per_layer_result)
       implicit none
       class(layer_t), intent(in), target :: layer
+      integer, allocatable :: neurons_per_layer_result(:)
+    end function
+
+    module function double_precision_count_neurons(layer) result(neurons_per_layer_result)
+      implicit none
+      class(layer_t(double_precision)), intent(in), target :: layer
       integer, allocatable :: neurons_per_layer_result(:)
     end function
 
@@ -74,9 +86,21 @@ module layer_m
       integer num_inputs
     end function
 
+    module function double_precision_count_inputs(layer) result(num_inputs)
+      implicit none
+      class(layer_t(double_precision)), intent(in) :: layer
+      integer num_inputs
+    end function
+
     module function default_real_neurons_per_layer(self) result(num_neurons)
       implicit none
       class(layer_t), intent(in), target :: self
+      integer num_neurons
+    end function
+
+    module function double_precision_neurons_per_layer(self) result(num_neurons)
+      implicit none
+      class(layer_t(double_precision)), intent(in), target :: self
       integer num_neurons
     end function
 
@@ -86,10 +110,22 @@ module layer_m
       logical next_is_allocated
     end function
 
+    module function double_precision_next_allocated(self) result(next_is_allocated)
+      implicit none
+      class(layer_t(double_precision)), intent(in) :: self
+      logical next_is_allocated
+    end function
+
     module function default_real_next_pointer(self) result(next_ptr)
       implicit none
       class(layer_t), intent(in), target :: self
       type(layer_t), pointer :: next_ptr
+    end function
+
+    module function double_precision_next_pointer(self) result(next_ptr)
+      implicit none
+      class(layer_t(double_precision)), intent(in), target :: self
+      type(layer_t(double_precision)), pointer :: next_ptr
     end function
 
   end interface
