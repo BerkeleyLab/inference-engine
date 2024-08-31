@@ -31,10 +31,11 @@ module trainable_engine_m
     real(k), allocatable, dimension(:,:,:) :: dcdw, vdw, sdw, vdwc, sdwc
     real(k), allocatable, dimension(:,:) :: z, delta, dcdb, vdb, sdb, vdbc, sdbc
   contains
-    generic :: train =>   default_precision_train
-    procedure, private :: default_precision_train
-    generic :: infer =>   default_precision_infer
-    procedure, private :: default_precision_infer
+    generic :: train =>   default_real_train
+    procedure, private :: default_real_train
+    generic :: predict => default_real_predict
+    generic :: infer =>   default_real_predict
+    procedure, private :: default_real_predict
     procedure :: assert_consistent
     procedure :: num_layers
     procedure :: num_inputs
@@ -94,7 +95,7 @@ module trainable_engine_m
       class(trainable_engine_t), intent(in) :: self
     end subroutine
 
-    pure module subroutine default_precision_train(self, mini_batches_arr, cost, adam, learning_rate)
+    pure module subroutine default_real_train(self, mini_batches_arr, cost, adam, learning_rate)
       implicit none
       class(trainable_engine_t), intent(inout) :: self
       type(mini_batch_t), intent(in) :: mini_batches_arr(:)
@@ -103,7 +104,7 @@ module trainable_engine_m
       real, intent(in) :: learning_rate
     end subroutine
 
-    elemental module function default_precision_infer(self, inputs) result(outputs)
+    elemental module function default_real_predict(self, inputs) result(outputs)
       implicit none
       class(trainable_engine_t), intent(in) :: self
       type(tensor_t), intent(in) :: inputs

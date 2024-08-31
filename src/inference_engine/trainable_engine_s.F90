@@ -70,7 +70,7 @@ contains
 
   end procedure
 
-  module procedure default_precision_infer
+  module procedure default_real_predict
 
     real, allocatable :: a(:,:)
     integer l
@@ -110,7 +110,7 @@ contains
 
   end procedure
 
-  module procedure default_precision_train
+  module procedure default_real_train
     integer l, batch, mini_batch_size, pair
     type(tensor_t), allocatable :: inputs(:), expected_outputs(:)
 
