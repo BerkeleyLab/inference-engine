@@ -2,6 +2,7 @@
 ! Terms of use are as specified in LICENSE.txt
 module input_output_pair_m
   use tensor_m, only : tensor_t
+  use kind_parameters_m, only : default_real
   implicit none
 
   private
@@ -9,17 +10,19 @@ module input_output_pair_m
   public :: shuffle
   public :: write_to_stdout
 
-  type input_output_pair_t
-    private
-    type(tensor_t) inputs_, expected_outputs_
+  type input_output_pair_t(k)
+    integer, kind :: k = default_real
+    type(tensor_t(k)), private :: inputs_, expected_outputs_
   contains
-    procedure :: inputs
-    procedure :: expected_outputs
+    generic :: inputs =>  default_real_inputs
+    procedure, private :: default_real_inputs
+    generic :: expected_outputs => default_real_expected_outputs
+    procedure, private ::          default_real_expected_outputs
   end type
 
   interface input_output_pair_t
 
-    elemental module function construct(inputs, expected_outputs) result(input_output_pair)
+    elemental module function default_real_construct(inputs, expected_outputs) result(input_output_pair)
       implicit none
       type(tensor_t), intent(in) :: inputs, expected_outputs
       type(input_output_pair_t) input_output_pair
@@ -29,24 +32,31 @@ module input_output_pair_m
 
   interface
 
-    elemental module function inputs(self) result(my_inputs)
+    elemental module function default_real_inputs(self) result(my_inputs)
       implicit none
       class(input_output_pair_t), intent(in) :: self
       type(tensor_t) :: my_inputs
     end function
 
-    elemental module function expected_outputs(self) result(my_expected_outputs)
+    elemental module function default_real_expected_outputs(self) result(my_expected_outputs)
       implicit none
       class(input_output_pair_t), intent(in) :: self
       type(tensor_t) :: my_expected_outputs
     end function
 
-    module subroutine shuffle(pairs)
+  end interface
+
+  interface shuffle
+    module subroutine default_real_shuffle(pairs)
       implicit none
       type(input_output_pair_t), intent(inout) :: pairs(:)
     end subroutine
 
-    module subroutine write_to_stdout(input_output_pairs)
+  end interface
+
+  interface write_to_stdout
+
+    module subroutine default_real_write_to_stdout(input_output_pairs)
       implicit none
       type(input_output_pair_t), intent(in) :: input_output_pairs(:)
     end subroutine

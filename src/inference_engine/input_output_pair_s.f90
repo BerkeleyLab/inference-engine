@@ -5,20 +5,20 @@ submodule(input_output_pair_m) input_output_pair_s
 
 contains
 
-  module procedure construct
+  module procedure default_real_construct
     input_output_pair%inputs_ = inputs
     input_output_pair%expected_outputs_ = expected_outputs
   end procedure
 
-  module procedure inputs
+  module procedure default_real_inputs
     my_inputs = self%inputs_
   end procedure
 
-  module procedure expected_outputs
+  module procedure default_real_expected_outputs
     my_expected_outputs = self%expected_outputs_
   end procedure
 
-  module procedure shuffle
+  module procedure default_real_shuffle
     type(input_output_pair_t) temp
     real harvest(2:size(pairs))
     integer i, j
@@ -35,7 +35,7 @@ contains
 
   end procedure
 
-  module procedure write_to_stdout
+  module procedure default_real_write_to_stdout
     integer i
     do i = 1, size(input_output_pairs)
       print *, input_output_pairs(i)%inputs_%values(), " | ", input_output_pairs(i)%expected_outputs_%values()
