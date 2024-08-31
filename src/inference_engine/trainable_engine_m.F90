@@ -36,16 +36,26 @@ module trainable_engine_m
     generic :: predict => default_real_predict
     generic :: infer =>   default_real_predict
     procedure, private :: default_real_predict
-    procedure :: assert_consistent
-    procedure :: num_layers
-    procedure :: num_inputs
-    procedure :: num_outputs
-    procedure :: to_inference_engine
-    procedure :: map_to_input_training_range
-    procedure :: map_from_input_training_range
-    procedure :: map_to_output_training_range
-    procedure :: map_from_output_training_range
-    procedure :: map_to_training_ranges
+    generic   :: assert_consistent => default_real_assert_consistent
+    procedure, private ::             default_real_assert_consistent
+    generic :: num_layers => default_real_num_layers
+    procedure, private ::    default_real_num_layers
+    generic :: num_inputs => default_real_num_inputs
+    procedure, private ::    default_real_num_inputs
+    generic :: num_outputs => default_real_num_outputs
+    procedure, private ::     default_real_num_outputs
+    generic :: to_inference_engine => default_real_to_inference_engine
+    procedure, private ::             default_real_to_inference_engine
+    generic :: map_to_input_training_range => default_real_map_to_input_training_range
+    procedure, private ::                     default_real_map_to_input_training_range
+    generic :: map_from_input_training_range => default_real_map_from_input_training_range
+    procedure, private ::                       default_real_map_from_input_training_range
+    generic :: map_to_output_training_range => default_real_map_to_output_training_range
+    procedure, private ::                      default_real_map_to_output_training_range
+    generic :: map_from_output_training_range => default_real_map_from_output_training_range
+    procedure, private ::                        default_real_map_from_output_training_range
+    generic :: map_to_training_ranges => default_real_map_to_training_ranges
+    procedure, private ::                default_real_map_to_training_ranges
   end type
 
   integer, parameter :: input_layer = 0
@@ -90,7 +100,7 @@ module trainable_engine_m
 
   interface
 
-    pure module subroutine assert_consistent(self)
+    pure module subroutine default_real_assert_consistent(self)
       implicit none
       class(trainable_engine_t), intent(in) :: self
     end subroutine
@@ -111,59 +121,59 @@ module trainable_engine_m
       type(tensor_t) outputs
     end function
     
-    elemental module function num_inputs(self) result(n_in)
+    elemental module function default_real_num_inputs(self) result(n_in)
       implicit none
       class(trainable_engine_t), intent(in) :: self
       integer n_in
     end function
 
-    elemental module function num_outputs(self) result(n_out)
+    elemental module function default_real_num_outputs(self) result(n_out)
       implicit none
       class(trainable_engine_t), intent(in) :: self
       integer n_out
     end function
 
-    elemental module function num_layers(self) result(n_layers)
+    elemental module function default_real_num_layers(self) result(n_layers)
       implicit none
       class(trainable_engine_t), intent(in) :: self
       integer n_layers
     end function
 
-    module function to_inference_engine(self) result(inference_engine)
+    module function default_real_to_inference_engine(self) result(inference_engine)
       implicit none
       class(trainable_engine_t), intent(in) :: self
       type(inference_engine_t) :: inference_engine
     end function
 
-    elemental module function map_to_input_training_range(self, tensor) result(normalized_tensor)
+    elemental module function default_real_map_to_input_training_range(self, tensor) result(normalized_tensor)
       implicit none
       class(trainable_engine_t), intent(in) :: self
       type(tensor_t), intent(in) :: tensor
       type(tensor_t) normalized_tensor
     end function
 
-    elemental module function map_from_input_training_range(self, tensor) result(unnormalized_tensor)
+    elemental module function default_real_map_from_input_training_range(self, tensor) result(unnormalized_tensor)
       implicit none
       class(trainable_engine_t), intent(in) :: self
       type(tensor_t), intent(in) :: tensor
       type(tensor_t) unnormalized_tensor
     end function
 
-    elemental module function map_to_output_training_range(self, tensor) result(normalized_tensor)
+    elemental module function default_real_map_to_output_training_range(self, tensor) result(normalized_tensor)
       implicit none
       class(trainable_engine_t), intent(in) :: self
       type(tensor_t), intent(in) :: tensor
       type(tensor_t) normalized_tensor
     end function
 
-    elemental module function map_from_output_training_range(self, tensor) result(unnormalized_tensor)
+    elemental module function default_real_map_from_output_training_range(self, tensor) result(unnormalized_tensor)
       implicit none
       class(trainable_engine_t), intent(in) :: self
       type(tensor_t), intent(in) :: tensor
       type(tensor_t) unnormalized_tensor
     end function
 
-    elemental module function map_to_training_ranges(self, input_output_pair) result(normalized_input_output_pair)
+    elemental module function default_real_map_to_training_ranges(self, input_output_pair) result(normalized_input_output_pair)
       implicit none
       class(trainable_engine_t), intent(in) :: self
       type(input_output_pair_t), intent(in) :: input_output_pair

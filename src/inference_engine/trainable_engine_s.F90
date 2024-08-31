@@ -13,15 +13,15 @@ submodule(trainable_engine_m) trainable_engine_s
 
 contains
 
-  module procedure num_inputs
+  module procedure default_real_num_inputs
     n_in = self%n(input_layer)
   end procedure
 
-  module procedure num_layers
+  module procedure default_real_num_layers
     n_layers = size(self%n,1)
   end procedure
 
-  module procedure num_outputs
+  module procedure default_real_num_outputs
     n_out = self%n(ubound(self%n,1))
   end procedure
 
@@ -53,7 +53,7 @@ contains
 
   end procedure
 
-  module procedure assert_consistent
+  module procedure default_real_assert_consistent
 
     associate( &
       fully_allocated=>[allocated(self%w),allocated(self%b),allocated(self%n),allocated(self%differentiable_activation_strategy_)] &
@@ -290,7 +290,7 @@ contains
     call trainable_engine%assert_consistent
   end procedure
 
-  module procedure to_inference_engine
+  module procedure default_real_to_inference_engine
     inference_engine = inference_engine_t(self%metadata_%strings(), self%w, self%b, self%n, self%input_map_, self%output_map_)
   end procedure
 
@@ -332,7 +332,7 @@ contains
 
   end procedure
 
-  module procedure map_to_training_ranges
+  module procedure default_real_map_to_training_ranges
     associate( &
       inputs => input_output_pair%inputs(), &
       expected_outputs => input_output_pair%expected_outputs() &
@@ -346,19 +346,19 @@ contains
     end associate
   end procedure
 
-  module procedure map_to_input_training_range
+  module procedure default_real_map_to_input_training_range
     normalized_tensor = self%input_map_%map_to_training_range(tensor)
   end procedure
 
-  module procedure map_from_input_training_range
+  module procedure default_real_map_from_input_training_range
     unnormalized_tensor = self%input_map_%map_from_training_range(tensor)
   end procedure
   
-  module procedure map_to_output_training_range
+  module procedure default_real_map_to_output_training_range
     normalized_tensor = self%output_map_%map_to_training_range(tensor)
   end procedure
 
-  module procedure map_from_output_training_range
+  module procedure default_real_map_from_output_training_range
     unnormalized_tensor = self%output_map_%map_from_training_range(tensor)
   end procedure
   
