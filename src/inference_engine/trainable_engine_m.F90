@@ -5,7 +5,7 @@ module trainable_engine_m
   use julienne_string_m, only : string_t
   use inference_engine_m_, only : inference_engine_t
   use differentiable_activation_strategy_m, only : differentiable_activation_strategy_t
-  use kind_parameters_m, only : rkind
+  use kind_parameters_m, only : default_real
   use metadata_m, only : metadata_t
   use tensor_m, only :  tensor_t
   use tensor_map_m, only :  tensor_map_t
@@ -17,22 +17,25 @@ module trainable_engine_m
   private
   public :: trainable_engine_t
 
-  type trainable_engine_t
+  type trainable_engine_t(k)
     !! Encapsulate the information needed to perform training
-    private
-    type(tensor_map_t) input_map_, output_map_
-    type(metadata_t) metadata_
-    real(rkind), allocatable :: w(:,:,:) ! weights
-    real(rkind), allocatable :: b(:,:) ! biases
-    integer, allocatable :: n(:) ! nodes per layer
+    integer, kind :: k = default_real
+    type(tensor_map_t(k)), private :: input_map_, output_map_ !! mappings to/from data ranges used during training
     class(differentiable_activation_strategy_t), allocatable :: differentiable_activation_strategy_ 
-    real(rkind), allocatable, dimension(:,:) :: a
-    real(rkind), allocatable, dimension(:,:,:) :: dcdw, vdw, sdw, vdwc, sdwc
-    real(rkind), allocatable, dimension(:,:) :: z, delta, dcdb, vdb, sdb, vdbc, sdbc
+    type(metadata_t) metadata_       !! metadata_ encapsulates strings for which default-kind suffices
+      !! stateless and thus not paremeterized; generic resolution supports different kinds
+    real(k), allocatable :: w(:,:,:) !! weights
+    real(k), allocatable :: b(:,:)   !! biases
+    integer, allocatable :: n(:)     !! nodes per layer
+    real(k), allocatable, dimension(:,:) :: a
+    real(k), allocatable, dimension(:,:,:) :: dcdw, vdw, sdw, vdwc, sdwc
+    real(k), allocatable, dimension(:,:) :: z, delta, dcdb, vdb, sdb, vdbc, sdbc
   contains
+    generic :: train =>   default_precision_train
+    procedure, private :: default_precision_train
+    generic :: infer =>   default_precision_infer
+    procedure, private :: default_precision_infer
     procedure :: assert_consistent
-    procedure :: train
-    procedure :: infer
     procedure :: num_layers
     procedure :: num_inputs
     procedure :: num_outputs
@@ -59,7 +62,7 @@ module trainable_engine_m
       result(trainable_engine)
       implicit none
       integer, intent(in) :: nodes(input_layer:)
-      real(rkind), intent(in)  :: weights(:,:,:), biases(:,:)
+      real, intent(in)  :: weights(:,:,:), biases(:,:)
       class(differentiable_activation_strategy_t), intent(in) :: differentiable_activation_strategy
       type(string_t), intent(in) :: metadata(:)
       type(tensor_map_t), intent(in), optional :: input_map, output_map
@@ -77,7 +80,7 @@ module trainable_engine_m
       implicit none
       type(training_configuration_t), intent(in) :: training_configuration
       type(string_t), intent(in) :: metadata(:)
-      real(rkind), intent(in) :: perturbation_magnitude
+      real, intent(in) :: perturbation_magnitude
       type(tensor_map_t) input_map, output_map
       type(trainable_engine_t) trainable_engine
     end function
@@ -91,16 +94,16 @@ module trainable_engine_m
       class(trainable_engine_t), intent(in) :: self
     end subroutine
 
-    pure module subroutine train(self, mini_batches_arr, cost, adam, learning_rate)
+    pure module subroutine default_precision_train(self, mini_batches_arr, cost, adam, learning_rate)
       implicit none
       class(trainable_engine_t), intent(inout) :: self
       type(mini_batch_t), intent(in) :: mini_batches_arr(:)
-      real(rkind), intent(out), allocatable, optional :: cost(:)
+      real, intent(out), allocatable, optional :: cost(:)
       logical, intent(in) :: adam
-      real(rkind), intent(in) :: learning_rate
+      real, intent(in) :: learning_rate
     end subroutine
 
-    elemental module function infer(self, inputs) result(outputs)
+    elemental module function default_precision_infer(self, inputs) result(outputs)
       implicit none
       class(trainable_engine_t), intent(in) :: self
       type(tensor_t), intent(in) :: inputs

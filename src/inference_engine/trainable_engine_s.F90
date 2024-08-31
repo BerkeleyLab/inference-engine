@@ -10,7 +10,6 @@ submodule(trainable_engine_m) trainable_engine_s
   implicit none
 
   integer, parameter :: input_layer = 0
-  real(rkind), parameter :: two = 2._rkind
 
 contains
 
@@ -71,9 +70,9 @@ contains
 
   end procedure
 
-  module procedure infer
+  module procedure default_precision_infer
 
-    real(rkind), allocatable :: a(:,:)
+    real, allocatable :: a(:,:)
     integer l
 
     call self%assert_consistent
@@ -111,7 +110,7 @@ contains
 
   end procedure
 
-  module procedure train
+  module procedure default_precision_train
     integer l, batch, mini_batch_size, pair
     type(tensor_t), allocatable :: inputs(:), expected_outputs(:)
 
@@ -166,7 +165,7 @@ contains
             end block
 #endif  
             block
-              real(rkind), allocatable :: pair_cost(:)
+              real, allocatable :: pair_cost(:)
               if (present(cost)) allocate(pair_cost(mini_batch_size))
 
               iterate_through_batch: &
@@ -209,15 +208,15 @@ contains
     
               end do iterate_through_batch
 
-              if (present(cost)) cost(batch) = sum(pair_cost)/(two*mini_batch_size)
+              if (present(cost)) cost(batch) = sum(pair_cost)/(2*mini_batch_size)
             end block
           
             if (adam) then
               block
                 ! Adam parameters  
-                real, parameter :: beta(*) = [.9_rkind, .999_rkind]
-                real, parameter :: obeta(*) = [1._rkind - beta(1), 1._rkind - beta(2)]
-                real, parameter :: epsilon = real(1.D-08,rkind)
+                real, parameter :: beta(*) = [.9, .999]
+                real, parameter :: obeta(*) = [1.- beta(1), 1.- beta(2)]
+                real, parameter :: epsilon = 1.E-08
 
                 associate(alpha => learning_rate)
                   adam_adjust_weights_and_biases: &
@@ -225,16 +224,16 @@ contains
                     dcdw(1:n(l),1:n(l-1),l) = dcdw(1:n(l),1:n(l-1),l)/(mini_batch_size)
                     vdw(1:n(l),1:n(l-1),l)  = beta(1)*vdw(1:n(l),1:n(l-1),l) + obeta(1)*dcdw(1:n(l),1:n(l-1),l)
                     sdw (1:n(l),1:n(l-1),l) = beta(2)*sdw(1:n(l),1:n(l-1),l) + obeta(2)*(dcdw(1:n(l),1:n(l-1),l)**2)
-                    vdwc(1:n(l),1:n(l-1),l) = vdw(1:n(l),1:n(l-1),l)/(1._rkind - beta(1)**num_mini_batches)
-                    sdwc(1:n(l),1:n(l-1),l) = sdw(1:n(l),1:n(l-1),l)/(1._rkind - beta(2)**num_mini_batches)
+                    vdwc(1:n(l),1:n(l-1),l) = vdw(1:n(l),1:n(l-1),l)/(1.- beta(1)**num_mini_batches)
+                    sdwc(1:n(l),1:n(l-1),l) = sdw(1:n(l),1:n(l-1),l)/(1.- beta(2)**num_mini_batches)
                     w(1:n(l),1:n(l-1),l) = w(1:n(l),1:n(l-1),l) &
                       - alpha*vdwc(1:n(l),1:n(l-1),l)/(sqrt(sdwc(1:n(l),1:n(l-1),l))+epsilon) ! Adjust weights
 
                     dcdb(1:n(l),l) = dcdb(1:n(l),l)/mini_batch_size
                     vdb(1:n(l),l) = beta(1)*vdb(1:n(l),l) + obeta(1)*dcdb(1:n(l),l)
                     sdb(1:n(l),l) = beta(2)*sdb(1:n(l),l) + obeta(2)*(dcdb(1:n(l),l)**2)
-                    vdbc(1:n(l),l) = vdb(1:n(l),l)/(1._rkind - beta(1)**num_mini_batches)
-                    sdbc(1:n(l),l) = sdb(1:n(l),l)/(1._rkind - beta(2)**num_mini_batches)
+                    vdbc(1:n(l),l) = vdb(1:n(l),l)/(1. - beta(1)**num_mini_batches)
+                    sdbc(1:n(l),l) = sdb(1:n(l),l)/(1. - beta(2)**num_mini_batches)
                     b(1:n(l),l) = b(1:n(l),l) - alpha*vdbc(1:n(l),l)/(sqrt(sdbc(1:n(l),l))+epsilon) ! Adjust weights
                   end do adam_adjust_weights_and_biases
                 end associate
