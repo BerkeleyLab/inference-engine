@@ -3,17 +3,17 @@ module training_configuration_m
   use julienne_file_m, only : file_t
   use hyperparameters_m, only : hyperparameters_t
   use network_configuration_m, only : network_configuration_t
-  use kind_parameters_m, only  : rkind
+  use kind_parameters_m, only  : default_real
   use differentiable_activation_strategy_m, only : differentiable_activation_strategy_t
   implicit none
 
   private
   public :: training_configuration_t
 
-  type, extends(file_t) :: training_configuration_t
-    private
-    type(hyperparameters_t) hyperparameters_
-    type(network_configuration_t) network_configuration_
+  type, extends(file_t) :: training_configuration_t(k)
+    integer, kind :: k = default_real
+    type(hyperparameters_t(k)),    private :: hyperparameters_
+    type(network_configuration_t), private :: network_configuration_
   contains
     procedure :: to_json
     procedure :: equals
@@ -72,7 +72,7 @@ module training_configuration_m
     elemental module function learning_rate(self) result(rate)
       implicit none
       class(training_configuration_t), intent(in) :: self
-      real(rkind) rate
+      real rate
     end function
  
     module function differentiable_activation_strategy(self) result(strategy)
