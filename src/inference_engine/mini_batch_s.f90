@@ -5,11 +5,11 @@ submodule(mini_batch_m) mini_batch_s
 
 contains
 
-    module procedure construct
+    module procedure default_real_construct
       mini_batch%input_output_pairs_ = input_output_pairs
     end procedure
 
-    module procedure input_output_pairs
+    module procedure default_real_input_output_pairs
       my_input_output_pairs = self%input_output_pairs_
     end procedure
 
