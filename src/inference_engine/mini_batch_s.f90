@@ -9,7 +9,15 @@ contains
       mini_batch%input_output_pairs_ = input_output_pairs
     end procedure
 
+    module procedure double_precision_construct
+      mini_batch%input_output_pairs_ = input_output_pairs
+    end procedure
+
     module procedure default_real_input_output_pairs
+      my_input_output_pairs = self%input_output_pairs_
+    end procedure
+
+    module procedure double_precision_input_output_pairs
       my_input_output_pairs = self%input_output_pairs_
     end procedure
 
