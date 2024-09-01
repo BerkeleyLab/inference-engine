@@ -7,7 +7,7 @@ submodule(training_configuration_m) training_configuration_s
 
 contains
 
-  module procedure from_components
+  module procedure default_real_from_components
 
     training_configuration%hyperparameters_ = hyperparameters
     training_configuration%network_configuration_ = network_configuration
@@ -20,7 +20,7 @@ contains
     ])
   end procedure
 
-  module procedure from_file
+  module procedure default_real_from_file
     integer, parameter :: hyperparameters_start=2, hyperparameters_end=6, separator_line=7   ! line numbers
     integer, parameter :: net_config_start=8, net_config_end=12                         ! line numbers
     integer, parameter :: file_start=hyperparameters_start-1, file_end=net_config_end+1 ! line numbers
@@ -48,37 +48,37 @@ contains
 
   end procedure
 
-  module procedure to_json
+  module procedure default_real_to_json
     json_lines = self%lines()
   end procedure
 
-  module procedure equals
+  module procedure default_real_equals
     lhs_eq_rhs = &
       lhs%hyperparameters_ == rhs%hyperparameters_ .and. &
       lhs%network_configuration_ == rhs%network_configuration_
   end procedure
 
-  module procedure mini_batches
+  module procedure default_real_mini_batches
     num_mini_batches = self%hyperparameters_%mini_batches()
   end procedure
 
-  module procedure optimizer_name
+  module procedure default_real_optimizer_name
     identifier = self%hyperparameters_%optimizer_name()
   end procedure
 
-  module procedure learning_rate
+  module procedure default_real_learning_rate
     rate = self%hyperparameters_%learning_rate()
   end procedure
 
-  module procedure nodes_per_layer
+  module procedure default_real_nodes_per_layer
     nodes = self%network_configuration_%nodes_per_layer()
   end procedure
 
-  module procedure skip_connections
+  module procedure default_real_skip_connections
     using_skip = self%network_configuration_%skip_connections()
   end procedure
 
-  module procedure differentiable_activation_strategy
+  module procedure default_real_differentiable_activation_strategy
 #if defined __INTEL_COMPILER || _CRAYFTN
     type(string_t) :: activation_name
     activation_name = self%network_configuration_%activation_name()
