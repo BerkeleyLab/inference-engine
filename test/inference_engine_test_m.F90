@@ -5,7 +5,6 @@ module inference_engine_test_m
 
   ! External dependencies
   use assert_m, only : assert
-  use kind_parameters_m, only : rkind
   use julienne_m, only : test_t, test_result_t, test_description_t, test_description_substring, string_t, file_t
 #ifdef __GFORTRAN__
   use julienne_m, only : test_function_i
@@ -77,7 +76,7 @@ contains
 
     inference_engine = inference_engine_t( &
       metadata = [string_t("XOR"), string_t("Damian Rouson"), string_t("2023-07-02"), string_t("step"), string_t("false")], &
-      weights = reshape([real(rkind):: [1,1,0, 0,1,1, 0,0,0], [1,0,0, -2,0,0, 1,0,0]], [max_n, max_n, layers-1]), &
+      weights = reshape([real:: [1,1,0, 0,1,1, 0,0,0], [1,0,0, -2,0,0, 1,0,0]], [max_n, max_n, layers-1]), &
       biases = reshape([[0.,-1.99,0.], [0., 0., 0.]], [max_n, layers-1]), &
       nodes = nodes_per_layer &
     )
@@ -90,7 +89,7 @@ contains
 
     inference_engine = inference_engine_t( &
       metadata = [string_t("XOR"), string_t("Damian Rouson"), string_t("2023-07-02"), string_t("step"), string_t("false")], &
-      weights = reshape([real(rkind):: [1,1,0, 0,1,1, 1,0,0, 1,0,0, 0,1,0, 0,0,1], [1,0,0, -2,0,0, 1,0,0]], &
+      weights = reshape([real:: [1,1,0, 0,1,1, 1,0,0, 1,0,0, 0,1,0, 0,0,1], [1,0,0, -2,0,0, 1,0,0]], &
         [max_n, max_n, layers-1]), &
       biases = reshape([[0.,-1.99,0.], [0., 0., 0.], [0., 0., 0.]], [max_n, layers-1]), &
       nodes = nodes_per_layer &
@@ -108,7 +107,7 @@ contains
     integer, parameter :: n(*) = [inputs, hidden(1), hidden(2), outputs] ! nodes per layer
     integer, parameter :: n_max = maxval(n), layers=size(n) ! max layer width, number of layers
     integer, parameter :: w_shape(*) = [n_max, n_max, layers-1], b_shape(*) = [n_max, n_max]
-    real(rkind), parameter :: & 
+    real, parameter :: & 
       w(*,*,*) = reshape( [1.,0.,0., 0.,1.,0., 0.,0.,0., 1.,0.,0., 0.,.5,.5, 0.,0.,0., 1.,0.,0., 0.,1.,0., 0.,1.,1.], w_shape), &
       b(*,*) = reshape( [0.,-1.,0., 0.,0.,0., 0.,1.,0.], b_shape)
 
@@ -130,7 +129,7 @@ contains
     integer, parameter :: n_max = maxval(n), layers=size(n)   ! max layer width, number of layers
     integer, parameter :: w_shape(*) = [n_max, n_max, layers-1], b_shape(*) = [n_max, n_max]
     integer i
-    real(rkind), allocatable :: w(:,:,:), b(:,:)
+    real, allocatable :: w(:,:,:), b(:,:)
 
     w = reshape( [(i, i=1,product(w_shape))], w_shape)
     b = reshape( [(maxval(w) + i, i=1,product(b_shape))], b_shape)
@@ -148,7 +147,7 @@ contains
     integer, parameter :: n_max = maxval(n), layers=size(n)   ! max layer width, number of layers
     integer, parameter :: w_shape(*) = [n_max, n_max, layers-1], b_shape(*) = [n_max, n_max]
     integer i
-    real(rkind), allocatable :: w(:,:,:), b(:,:)
+    real, allocatable :: w(:,:,:), b(:,:)
 
     w = reshape( [(i, i=1,product(w_shape))], w_shape)
     b = reshape( [(maxval(w) + i, i=1,product(b_shape))], b_shape)
@@ -184,7 +183,7 @@ contains
     logical test_passes
     type(inference_engine_t) inference_engine
     type(tensor_t) inputs, outputs
-    real(rkind), parameter :: tolerance = 1.E-08_rkind
+    real, parameter :: tolerance = 1.E-08
 
     inference_engine = decrement_split_combine_increment()
     inputs = tensor_t([1.1, 2.7])
@@ -200,7 +199,7 @@ contains
 
     block
       type(tensor_t), allocatable :: truth_table(:)
-      real(rkind), parameter :: tolerance = 1.E-08_rkind, false = 0._rkind, true = 1._rkind
+      real, parameter :: tolerance = 1.E-08, false = 0., true = 1.
       integer i
 
       associate(array_of_inputs => [tensor_t([true,true]), tensor_t([true,false]), tensor_t([false,true]), tensor_t([false,false])])
@@ -221,7 +220,7 @@ contains
 
     block
       type(tensor_t), allocatable :: truth_table(:)
-      real(rkind), parameter :: tolerance = 1.E-08_rkind, false = 0._rkind, true = 1._rkind
+      real, parameter :: tolerance = 1.E-08, false = 0., true = 1.
       integer i
 
       associate(array_of_inputs => [tensor_t([true,true]), tensor_t([true,false]), tensor_t([false,true]), tensor_t([false,false])])

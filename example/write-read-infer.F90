@@ -9,7 +9,6 @@ program write_read_infer
   !! function.
   use inference_engine_m, only : inference_engine_t, relu_t, tensor_t
   use julienne_m, only : string_t, command_line_t, file_t
-  use kind_parameters_m, only : rkind
   implicit none
 
   type(string_t) file_name
@@ -31,19 +30,19 @@ contains
     integer, parameter :: nodes_per_layer(*) = [2, 2, 2]
     integer, parameter :: max_n = maxval(nodes_per_layer), layers = size(nodes_per_layer)
 #ifdef _CRAYFTN
-    real(rkind), allocatable :: weights(:,:,:)
-    weights = reshape([real(rkind):: [1,0, 0,1], [1,0, 0,1]], [max_n, max_n, layers-1])
+    real, allocatable :: weights(:,:,:)
+    weights = reshape([real :: [1,0, 0,1], [1,0, 0,1]], [max_n, max_n, layers-1])
     inference_engine = inference_engine_t( &
       metadata = [string_t("Identity"), string_t("Damian Rouson"), string_t("2023-09-18"), string_t("relu"), string_t("false")], &
       weights = weights, &
-      biases = reshape([real(rkind):: [0,0], [0,0]], [max_n, layers-1]), &
+      biases = reshape([real:: [0,0], [0,0]], [max_n, layers-1]), &
       nodes = nodes_per_layer &
     )
 #else
     inference_engine = inference_engine_t( &
       metadata = [string_t("Identity"), string_t("Damian Rouson"), string_t("2023-09-18"), string_t("relu"), string_t("false")], &
-      weights = reshape([real(rkind):: [1,0, 0,1], [1,0, 0,1]], [max_n, max_n, layers-1]), &
-      biases = reshape([real(rkind):: [0,0], [0,0]], [max_n, layers-1]), &
+      weights = reshape([real :: [1,0, 0,1], [1,0, 0,1]], [max_n, max_n, layers-1]), &
+      biases = reshape([real :: [0,0], [0,0]], [max_n, layers-1]), &
       nodes = nodes_per_layer &
     )
 #endif

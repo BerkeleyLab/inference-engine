@@ -1,7 +1,6 @@
 ! Copyright (c), The Regents of the University of California
 ! Terms of use are as specified in LICENSE.txt
 submodule(step_m) step_s
-  use kind_parameters_m, only : rkind
   implicit none
 
 contains

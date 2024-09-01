@@ -13,7 +13,7 @@ program train_on_flat_distribution
   use julienne_m, only : string_t, file_t, command_line_t, bin_t
   use assert_m, only : assert, intrinsic_array_t
   use inference_engine_m, only : &
-    inference_engine_t, mini_batch_t, input_output_pair_t, tensor_t, trainable_engine_t, rkind, tensor_map_t, &
+    inference_engine_t, mini_batch_t, input_output_pair_t, tensor_t, trainable_engine_t, tensor_map_t, &
     training_configuration_t, shuffle
 
   !! Internal dependencies;
@@ -230,7 +230,7 @@ contains
       allocate(dqr_dt, mold = qr_out)
       allocate(dqs_dt, mold = qs_out)
 
-      associate(dt => real(time_out - time_in, rkind))
+      associate(dt => real(time_out - time_in))
         do concurrent(t = 1:t_end)
           dpt_dt(:,:,:,t) = (potential_temperature_out(:,:,:,t) - potential_temperature_in(:,:,:,t))/dt(t)
           dqv_dt(:,:,:,t) = (qv_out(:,:,:,t)- qv_in(:,:,:,t))/dt(t)
@@ -253,7 +253,7 @@ contains
         type(bin_t), allocatable :: bins(:)
         type(input_output_pair_t), allocatable :: input_output_pairs(:)
         type(tensor_t), allocatable, dimension(:) :: inputs, outputs
-        real(rkind), allocatable :: cost(:)
+        real, allocatable :: cost(:)
         integer i, lon, lat, level, time, network_unit, io_status, epoch
         integer(int64) start_training, finish_training
 
@@ -421,8 +421,8 @@ contains
   end subroutine read_train_write
 
   pure function normalize(x, x_min, x_max) result(x_normalized)
-    real(rkind), intent(in) :: x(:,:,:,:), x_min, x_max
-    real(rkind), allocatable :: x_normalized(:,:,:,:)
+    real, intent(in) :: x(:,:,:,:), x_min, x_max
+    real, allocatable :: x_normalized(:,:,:,:)
     call assert(x_min/=x_max, "train_cloud_microphysics(normaliz): x_min/=x_max")
     x_normalized = (x - x_min)/(x_max - x_min)
   end function

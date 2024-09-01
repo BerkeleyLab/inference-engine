@@ -7,7 +7,6 @@ module inference_engine_m
  use hyperparameters_m, only : hyperparameters_t
  use input_output_pair_m, only : input_output_pair_t, shuffle, write_to_stdout
  use inference_engine_m_, only : inference_engine_t, infer
- use kind_parameters_m, only : rkind
  use metadata_m, only : metadata_t
  use mini_batch_m, only : mini_batch_t
  use network_configuration_m, only : network_configuration_t

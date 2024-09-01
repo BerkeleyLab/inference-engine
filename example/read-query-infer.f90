@@ -6,7 +6,6 @@ program read_query_infer
   !! and use the network to perform inference.  
   use inference_engine_m, only : inference_engine_t, relu_t, tensor_t
   use julienne_m, only : string_t, command_line_t, file_t
-  use kind_parameters_m, only : rkind
   implicit none
 
   type(command_line_t) command_line
