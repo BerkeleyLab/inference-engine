@@ -9,7 +9,7 @@ module tensor_m
 
   type tensor_t(k)
     integer, kind :: k = default_real 
-    real, allocatable, private :: values_(:)
+    real(k), allocatable, private :: values_(:)
   contains
     generic   :: values => default_real_values, double_precision_values
     procedure, private ::  default_real_values, double_precision_values
