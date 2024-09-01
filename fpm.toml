@@ -8,4 +8,4 @@ maintainer = "rouson@lbl.gov"
 assert = {git = "https://github.com/sourceryinstitute/assert", tag = "1.7.0"}
 
 [dev-dependencies]
-julienne = {git = "https://github.com/berkeleylab/julienne", tag = "1.1.1"}
+julienne = {git = "https://github.com/berkeleylab/julienne", tag = "1.2.0"}
