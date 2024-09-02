@@ -41,6 +41,25 @@ contains
     call assert(tensor_map_key_found, "tensor_map_s(from_json): 'tensor_map' key found")
   end procedure
 
+  module procedure double_precision_from_json
+    logical tensor_map_key_found
+    integer l
+
+    tensor_map_key_found = .false.
+
+    do l=1,size(lines)
+      if (lines(l)%get_json_key() == "inputs_map" .or. lines(l)%get_json_key() == "outputs_map") then
+        tensor_map_key_found = .true.
+        tensor_map%layer_  = lines(l+1)%get_json_value(key=string_t("layer"), mold=string_t(""))
+        tensor_map%intercept_ = lines(l+2)%get_json_value(key=string_t("intercept"), mold=[0D0])
+        tensor_map%slope_ = lines(l+3)%get_json_value(key=string_t("slope"), mold=[0D0])
+        return
+      end if
+    end do
+
+    call assert(tensor_map_key_found, "tensor_map_s(from_json): 'tensor_map' key found")
+  end procedure
+
   module procedure default_real_equals
     real, parameter :: tolerance = 1.E-08
 

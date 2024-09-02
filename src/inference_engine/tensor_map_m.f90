@@ -4,6 +4,7 @@ module tensor_map_m
   use tensor_m, only : tensor_t
   use julienne_m, only : string_t
   use kind_parameters_m, only : default_real, double_precision
+  use double_precision_string_m, only : double_precision_string_t
   implicit none
   
   private
@@ -45,6 +46,12 @@ module tensor_map_m
       implicit none
       type(string_t), intent(in) :: lines(:)
       type(tensor_map_t) tensor_map
+    end function
+
+    module function double_precision_from_json(lines) result(tensor_map)
+      implicit none
+      type(double_precision_string_t), intent(in) :: lines(:)
+      type(tensor_map_t(double_precision)) tensor_map
     end function
 
   end interface
