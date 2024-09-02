@@ -112,7 +112,7 @@ contains
     integer, parameter :: n(*) = [inputs, hidden(1), hidden(2), outputs] ! nodes per layer
     integer, parameter :: n_max = maxval(n), layers=size(n) ! max layer width, number of layers
     integer, parameter :: w_shape(*) = [n_max, n_max, layers-1], b_shape(*) = [n_max, n_max]
-    real, parameter :: & 
+    real, parameter :: &
       w(*,*,*) = reshape( [1.,0.,0., 0.,1.,0., 0.,0.,0., 1.,0.,0., 0.,.5,.5, 0.,0.,0., 1.,0.,0., 0.,1.,0., 0.,1.,1.], w_shape), &
       b(*,*) = reshape( [0.,-1.,0., 0.,0.,0., 0.,1.,0.], b_shape)
 
@@ -134,11 +134,11 @@ contains
     integer, parameter :: n(*) = [inputs, hidden(1), hidden(2), outputs] ! nodes per layer
     integer, parameter :: n_max = maxval(n), layers=size(n) ! max layer width, number of layers
     integer, parameter :: w_shape(*) = [n_max, n_max, layers-1], b_shape(*) = [n_max, n_max]
-    double precision, parameter :: & 
+    double precision, parameter :: &
       w(*,*,*) = reshape( &
         [double precision :: 1.,0.,0., 0.,1.,0., 0.,0.,0., 1.,0.,0., 0.,.5,.5, 0.,0.,0., 1.,0.,0., 0.,1.,0., 0.,1.,1.], w_shape &
       ), b(*,*) = reshape( [double precision :: 0.,-1.,0., 0.,0.,0., 0.,1.,0.], b_shape)
-      
+
     inference_engine = inference_engine_t( &
       metadata = metadata_t( &
         string_t("Double-Precision"), string_t("Damian Rouson"), string_t("2024-09-02"), string_t("relu"), string_t("false") &
