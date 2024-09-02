@@ -1,5 +1,6 @@
 module metadata_m
   use julienne_string_m, only : string_t
+  use double_precision_string_m, only : double_precision_string_t
   implicit none
 
   private
@@ -20,6 +21,12 @@ module metadata_m
     pure module function from_json(lines) result(metadata)
       implicit none
       type(string_t), intent(in) :: lines(:)
+      type(metadata_t) metadata
+    end function
+
+    pure module function double_precision_from_json(lines) result(metadata)
+      implicit none
+      type(double_precision_string_t), intent(in) :: lines(:)
       type(metadata_t) metadata
     end function
 
