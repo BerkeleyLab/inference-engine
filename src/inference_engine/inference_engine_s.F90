@@ -19,15 +19,15 @@ submodule(inference_engine_m_) inference_engine_s
 
 contains
 
-  module procedure map_to_input_range
+  module procedure default_real_map_to_input_range
     normalized_tensor = self%input_map_%map_to_training_range(tensor)
   end procedure
 
-  module procedure map_from_output_range
+  module procedure default_real_map_from_output_range
     tensor = self%output_map_%map_from_training_range(normalized_tensor)
   end procedure
 
-  module procedure to_exchange
+  module procedure default_real_to_exchange
     exchange%input_map_ = self%input_map_
     exchange%output_map_ = self%output_map_
     associate(strings => self%metadata_%strings())
@@ -39,7 +39,7 @@ contains
     exchange%activation_strategy_ = self%activation_strategy_ 
   end procedure
 
-  module procedure infer
+  module procedure default_real_infer
 
     real, allocatable :: a(:,:)
     integer, parameter :: input_layer = 0
@@ -133,7 +133,7 @@ contains
     end select
   end function
 
-  module procedure construct_from_padded_arrays
+  module procedure default_real_construct_from_padded_arrays
 
     inference_engine%metadata_ = metadata_t(metadata(1),metadata(2),metadata(3),metadata(4),metadata(5))
     inference_engine%weights_ = weights
@@ -169,9 +169,9 @@ contains
 
     call assert_consistency(inference_engine)
 
-  end procedure construct_from_padded_arrays
+  end procedure default_real_construct_from_padded_arrays
 
-  module procedure to_json
+  module procedure default_real_to_json
 
 #ifdef _CRAYFTN
     type(tensor_map_t) proto_map
@@ -285,9 +285,9 @@ contains
         end block
       end associate
     end associate
-  end procedure to_json
+  end procedure default_real_to_json
 
-  module procedure from_json
+  module procedure default_real_from_json
 
     character(len=:), allocatable :: justified_line
     integer l, num_file_lines
@@ -386,9 +386,9 @@ contains
 
     call assert_consistency(inference_engine)
 
-  end procedure from_json
+  end procedure default_real_from_json
 
-  module procedure assert_conformable_with
+  module procedure default_real_assert_conformable_with
 
     call assert_consistency(self)
     call assert_consistency(inference_engine)
@@ -405,7 +405,7 @@ contains
     
   end procedure
 
-  module procedure approximately_equal
+  module procedure default_real_approximately_equal
 
     logical nodes_eq
 
@@ -446,12 +446,12 @@ contains
 
   end procedure
 
-  module procedure num_outputs
+  module procedure default_real_num_outputs
     call assert_consistency(self)
     output_count = self%nodes_(ubound(self%nodes_,1))
   end procedure
 
-  module procedure num_hidden_layers
+  module procedure default_real_num_hidden_layers
     integer, parameter :: input_layer = 1, output_layer = 1
     call assert_consistency(self)
     associate(num_layers => size(self%nodes_))
@@ -459,23 +459,23 @@ contains
     end associate
   end procedure
 
-  module procedure num_inputs
+  module procedure default_real_num_inputs
     call assert_consistency(self)
     input_count = self%nodes_(lbound(self%nodes_,1))
   end procedure
 
-  module procedure nodes_per_layer
+  module procedure default_real_nodes_per_layer
     call assert_consistency(self)
     node_count = self%nodes_
   end procedure
 
-  module procedure skip
+  module procedure default_real_skip
     associate(strings => self%metadata_%strings())
       use_skip_connections = merge(.true., .false.,  strings(5) == "true")
     end associate
   end procedure
 
-  module procedure activation_function_name
+  module procedure default_real_activation_function_name
     associate(strings => self%metadata_%strings())
       activation_name = strings(4)
     end associate
