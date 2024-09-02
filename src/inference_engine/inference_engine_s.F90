@@ -12,7 +12,8 @@ submodule(inference_engine_m_) inference_engine_s
   implicit none
 
   interface assert_consistency
-    procedure inference_engine_consistency
+    procedure default_real_consistency
+    procedure double_precision_consistency
   end interface
 
   character(len=*), parameter :: acceptable_engine_tag = "0.13.0" ! git tag capable of reading the current json file format
@@ -23,11 +24,31 @@ contains
     normalized_tensor = self%input_map_%map_to_training_range(tensor)
   end procedure
 
+  module procedure double_precision_map_to_input_range
+    normalized_tensor = self%input_map_%map_to_training_range(tensor)
+  end procedure
+
   module procedure default_real_map_from_output_range
     tensor = self%output_map_%map_from_training_range(normalized_tensor)
   end procedure
 
+  module procedure double_precision_map_from_output_range
+    tensor = self%output_map_%map_from_training_range(normalized_tensor)
+  end procedure
+
   module procedure default_real_to_exchange
+    exchange%input_map_ = self%input_map_
+    exchange%output_map_ = self%output_map_
+    associate(strings => self%metadata_%strings())
+      exchange%metadata_ = metadata_t(strings(1),strings(2),strings(3),strings(4),strings(5))
+    end associate
+    exchange%weights_ = self%weights_
+    exchange%biases_ = self%biases_
+    exchange%nodes_ = self%nodes_
+    exchange%activation_strategy_ = self%activation_strategy_ 
+  end procedure
+
+  module procedure double_precision_to_exchange
     exchange%input_map_ = self%input_map_
     exchange%output_map_ = self%output_map_
     associate(strings => self%metadata_%strings())
@@ -88,9 +109,83 @@ contains
 
   end procedure
 
-  pure subroutine inference_engine_consistency(self)
+  module procedure double_precision_infer
+
+    double precision, allocatable :: a(:,:)
+    integer, parameter :: input_layer = 0
+    integer l
+
+    call assert_consistency(self)
+
+    associate(w => self%weights_, b => self%biases_, n => self%nodes_, output_layer => ubound(self%nodes_,1))
+
+      allocate(a(maxval(n), input_layer:output_layer))
+
+#ifndef _CRAYFTN
+      associate(normalized_inputs => self%input_map_%map_to_training_range(inputs))
+        a(1:n(input_layer),input_layer) = normalized_inputs%values()
+      end associate
+#else
+      block
+        type(tensor_t) normalized_inputs
+        normalized_inputs = self%input_map_%map_to_training_range(inputs)
+        a(1:n(input_layer),input_layer) = normalized_inputs%values()
+      end block
+#endif
+
+      feed_forward: &
+      do l = input_layer+1, output_layer
+        associate(z => matmul(w(1:n(l),1:n(l-1),l), a(1:n(l-1),l-1)) + b(1:n(l),l))
+          a(1:n(l),l) = self%activation_strategy_%activation(z)
+        end associate
+      end do feed_forward
+
+#ifdef _CRAYFTN
+      block
+        type(tensor_t) :: normalized_outputs
+        normalized_outputs = tensor_t(a(1:n(output_layer), output_layer))
+#else
+      associate(normalized_outputs => tensor_t(a(1:n(output_layer), output_layer)))
+#endif
+        outputs = self%output_map_%map_from_training_range(normalized_outputs)
+#ifdef _CRAYFTN
+      end block
+#else
+      end associate
+#endif
+
+    end associate
+
+  end procedure
+
+  pure subroutine default_real_consistency(self)
 
     type(inference_engine_t), intent(in) :: self
+
+    integer, parameter :: input_layer=0
+
+    associate( &
+      all_allocated=>[allocated(self%weights_),allocated(self%biases_),allocated(self%nodes_),allocated(self%activation_strategy_)]&
+    )   
+      call assert(all(all_allocated),"inference_engine_s(inference_engine_consistency): fully_allocated", &
+        intrinsic_array_t(all_allocated))
+    end associate
+
+    associate(max_width=>maxval(self%nodes_), component_dims=>[size(self%biases_,1), size(self%weights_,1), size(self%weights_,2)])
+      call assert(all(component_dims == max_width), "inference_engine_s(inference_engine_consistency): conformable arrays", &
+        intrinsic_array_t([max_width,component_dims]))
+    end associate
+
+    associate(input_subscript => lbound(self%nodes_,1))
+      call assert(input_subscript == input_layer, "inference_engine_s(inference_engine_consistency): n base subsscript", &
+        input_subscript)
+    end associate
+
+  end subroutine
+
+  pure subroutine double_precision_consistency(self)
+
+    type(inference_engine_t(double_precision)), intent(in) :: self
 
     integer, parameter :: input_layer=0
 
@@ -287,6 +382,122 @@ contains
     end associate
   end procedure default_real_to_json
 
+  module procedure double_precision_to_json
+
+#ifdef _CRAYFTN
+    type(tensor_map_t) proto_map
+    type(metadata_t) proto_meta
+    type(neuron_t) proto_neuron
+    proto_map = tensor_map_t("",[0.],[1.])
+    proto_meta = metadata_t(string_t(""),string_t(""),string_t(""),string_t(""),string_t(""))
+    proto_neuron = neuron_t([0.],1.)
+#endif
+
+    call assert_consistency(self)
+
+    associate( &
+       num_hidden_layers => self%num_hidden_layers() &
+      ,num_outputs => self%num_outputs() &
+      ,num_inputs => self%num_inputs() &
+      ,first_hidden => lbound(self%nodes_,1) + 1 &
+      ,last_hidden => ubound(self%nodes_,1) - 1 &
+#ifndef _CRAYFTN
+      ,proto_map => tensor_map_t("",[0.],[1.]) &
+      ,proto_meta => metadata_t(string_t(""),string_t(""),string_t(""),string_t(""),string_t("")) &
+      ,proto_neuron => neuron_t([0.],0.) &
+#endif
+    )
+      associate( &
+        metadata_lines => size(proto_meta%to_json()), &
+        tensor_map_lines => size(proto_map%to_json()), &
+        neuron_lines => size(proto_neuron%to_json()) &
+      )
+        block
+          type(string_t), allocatable :: lines(:)
+          integer layer, n, line
+          integer, parameter :: &
+            brace = 1, bracket_hidden_layers_array = 1, bracket_layer = 1, bracket_output_layer = 1, file_version_lines = 1
+               
+          associate( json_lines => &
+            brace + &                                                          ! { 
+              file_version_lines + &                                           !   "acceptable_engine_tag": ...
+              metadata_lines + &                                               !   "metadata": ...
+              tensor_map_lines + &                                             !   "inputs_tensor_map": ...
+              tensor_map_lines + &                                             !   "outputs_tensor_map": ...
+                bracket_hidden_layers_array + &                                !   "hidden_layers": [
+                  bracket_layer*num_hidden_layers + &                          !      [
+                    neuron_lines*sum(self%nodes_(first_hidden:last_hidden))+ & !        neuron ...
+                  bracket_layer*num_hidden_layers + &                          !      ] ...
+                bracket_hidden_layers_array + &                                !   ],
+                bracket_output_layer + &                                       !   "output_layer": [
+                  neuron_lines*num_outputs + &                                 !        neurons
+                bracket_output_layer + &                                       !    ]
+            brace &                                                            ! }
+          )
+            allocate(lines(json_lines))
+            lines(brace) = string_t('{')
+            lines(brace+1:brace+file_version_lines)= string_t('    "acceptable_engine_tag": "')//acceptable_engine_tag//'",'
+            associate(meta_start => brace + file_version_lines + 1)
+              associate(meta_end => meta_start + metadata_lines - 1)
+              lines(meta_start:meta_end) = self%metadata_%to_json()
+              lines(meta_end) = lines(meta_end) // ","
+                associate(input_map_start => meta_end + 1,  input_map_end => meta_end + tensor_map_lines)
+                  lines(input_map_start:input_map_end) =  self%input_map_%to_json()
+                  lines(input_map_end) = lines(input_map_end) // ","
+                  associate(output_map_start => input_map_end + 1,  output_map_end => input_map_end + tensor_map_lines)
+                    lines(output_map_start:output_map_end) =  self%output_map_%to_json()
+                    lines(output_map_end) = lines(output_map_end) // ","
+                    lines(output_map_end + 1) = string_t('     "hidden_layers": [')
+                    line= output_map_end + 1
+                  end associate
+                end associate
+              end associate
+            end associate
+            do layer = first_hidden, last_hidden
+              line = line + 1
+              lines(line) = string_t('         [')
+              do n = 1, self%nodes_(layer)
+                associate( &
+                  neuron => neuron_t(weights=self%weights_(n,1:self%nodes_(layer-1),layer), bias=self%biases_(n,layer)), &
+                  neuron_start => line + 1, &
+                  neuron_end => line + neuron_lines &
+                )
+                  lines(neuron_start:neuron_end) = neuron%to_json()
+                  lines(neuron_end) = lines(neuron_end) // trim(merge(" ", ",", n==self%nodes_(layer)))
+                end associate
+                line = line + neuron_lines
+              end do
+              line = line + 1
+              lines(line) = string_t('         ]') // trim(merge(" ", ",", layer==last_hidden))
+            end do
+            line = line + 1
+            lines(line) = string_t('    ],')
+            line = line + 1
+            lines(line) = string_t('     "output_layer": [')
+            layer = last_hidden + 1
+            do n = 1, self%nodes_(layer)
+              associate( &
+                  neuron => neuron_t(weights=self%weights_(n,1:self%nodes_(layer-1),layer), bias=self%biases_(n,layer)), &
+                  neuron_start=>line+1, &
+                  neuron_end=>line+neuron_lines &
+              )
+                lines(neuron_start:neuron_end) = neuron%to_json()
+                lines(neuron_end) = lines(neuron_end) // trim(merge(" ", ",", n==self%nodes_(layer)))
+              end associate
+              line = line + neuron_lines
+            end do
+            line = line + 1
+            lines(line) = string_t('         ]')
+            line = line + 1
+            lines(line) = string_t('}')
+            call assert(line == json_lines, "inference_engine_t%to_json: all lines defined", intrinsic_array_t([json_lines, line]))
+          end associate
+          json_file = file_t(lines)
+        end block
+      end associate
+    end associate
+  end procedure double_precision_to_json
+
   module procedure default_real_from_json
 
     character(len=:), allocatable :: justified_line
@@ -405,6 +616,23 @@ contains
     
   end procedure
 
+  module procedure double_precision_assert_conformable_with
+
+    call assert_consistency(self)
+    call assert_consistency(inference_engine)
+
+    associate(equal_shapes => [ &
+      shape(self%weights_) == shape(inference_engine%weights_), &
+      shape(self%biases_) == shape(inference_engine%biases_), &
+      shape(self%nodes_) == shape(inference_engine%nodes_)  &
+     ])
+      call assert(all(equal_shapes), "assert_conformable_with: all(equal_shapes)", intrinsic_array_t(equal_shapes))
+    end associate
+
+    call assert(same_type_as(self%activation_strategy_, inference_engine%activation_strategy_), "assert_conformable_with: types)")
+    
+  end procedure
+
   module procedure default_real_approximately_equal
 
     logical nodes_eq
@@ -446,7 +674,53 @@ contains
 
   end procedure
 
+  module procedure double_precision_approximately_equal
+
+    logical nodes_eq
+
+    nodes_eq = all(lhs%nodes_ == rhs%nodes_)
+
+    call assert_consistency(lhs)
+    call assert_consistency(rhs)
+    call lhs%assert_conformable_with(rhs)
+
+    block
+      integer l
+      logical layer_eq(ubound(lhs%nodes_,1))
+      real, parameter :: tolerance = 1.D-12
+
+      associate(n => lhs%nodes_)
+#ifndef __INTEL_COMPILER
+        do concurrent(l = 1:ubound(n,1))
+            layer_eq(l) = all(abs(lhs%weights_(1:n(l),1:n(l-1),l) - rhs%weights_(1:n(l),1:n(l-1),l)) < tolerance) .and. &
+                          all(abs(lhs%biases_(1:n(l),l)           - rhs%biases_(1:n(l),l)) < tolerance)
+        end do
+#else
+        block
+          integer j, k
+          do l = 1, ubound(n,1)
+            do j = 1, n(l)
+              do k = 1, n(l-1)
+                layer_eq(l) = all(abs(lhs%weights_(j,k,l) - rhs%weights_(j,k,l)) < tolerance) .and. &
+                              all(abs(lhs%biases_(j,l)    - rhs%biases_(j,l)) < tolerance)
+              end do
+            end do
+          end do
+        end block
+#endif
+      end associate
+
+      lhs_eq_rhs = nodes_eq .and. all(layer_eq)
+    end block
+
+  end procedure
+
   module procedure default_real_num_outputs
+    call assert_consistency(self)
+    output_count = self%nodes_(ubound(self%nodes_,1))
+  end procedure
+
+  module procedure double_precision_num_outputs
     call assert_consistency(self)
     output_count = self%nodes_(ubound(self%nodes_,1))
   end procedure
@@ -459,12 +733,30 @@ contains
     end associate
   end procedure
 
+  module procedure double_precision_num_hidden_layers
+    integer, parameter :: input_layer = 1, output_layer = 1
+    call assert_consistency(self)
+    associate(num_layers => size(self%nodes_))
+      hidden_layer_count =  num_layers - (input_layer + output_layer)
+    end associate
+  end procedure
+
   module procedure default_real_num_inputs
     call assert_consistency(self)
     input_count = self%nodes_(lbound(self%nodes_,1))
   end procedure
 
+  module procedure double_precision_num_inputs
+    call assert_consistency(self)
+    input_count = self%nodes_(lbound(self%nodes_,1))
+  end procedure
+
   module procedure default_real_nodes_per_layer
+    call assert_consistency(self)
+    node_count = self%nodes_
+  end procedure
+
+  module procedure double_precision_nodes_per_layer
     call assert_consistency(self)
     node_count = self%nodes_
   end procedure
@@ -475,7 +767,19 @@ contains
     end associate
   end procedure
 
-  module procedure default_real_activation_function_name
+  module procedure double_precision_skip
+    associate(strings => self%metadata_%strings())
+      use_skip_connections = merge(.true., .false.,  strings(5) == "true")
+    end associate
+  end procedure
+
+  module procedure default_real_activation_name
+    associate(strings => self%metadata_%strings())
+      activation_name = strings(4)
+    end associate
+  end procedure
+
+  module procedure double_precision_activation_name
     associate(strings => self%metadata_%strings())
       activation_name = strings(4)
     end associate
