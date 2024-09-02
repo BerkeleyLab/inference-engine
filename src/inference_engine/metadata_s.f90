@@ -8,6 +8,10 @@ contains
     components = [self%modelName_, self%modelAuthor_, self%compilationDate_, self%activationFunction_, self%usingSkipConnections_]
   end procedure 
   
+  module procedure activation_name
+    function_name = self%activationFunction_
+  end procedure
+
   module procedure from_components
     metadata%modelName_ = modelName
     metadata%modelAuthor_ = modelAuthor

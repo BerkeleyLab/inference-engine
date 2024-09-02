@@ -63,7 +63,7 @@ module inference_engine_m_
 
   interface inference_engine_t
 
-    impure module function default_real_construct_from_padded_arrays(metadata, weights, biases, nodes, input_map, output_map) &
+    impure module function default_real_construct_from_components(metadata, weights, biases, nodes, input_map, output_map) &
       result(inference_engine)
       implicit none
       type(string_t), intent(in) :: metadata(:)
@@ -71,6 +71,16 @@ module inference_engine_m_
       integer, intent(in) :: nodes(0:)
       type(tensor_map_t), intent(in), optional :: input_map, output_map
       type(inference_engine_t) inference_engine
+    end function
+
+    impure module function double_precision_construct_from_components(metadata, weights, biases, nodes, input_map, output_map) &
+      result(inference_engine)
+      implicit none
+      type(metadata_t), intent(in) :: metadata
+      double precision, intent(in) :: weights(:,:,:), biases(:,:)
+      integer, intent(in) :: nodes(0:)
+      type(tensor_map_t(double_precision)), intent(in), optional :: input_map, output_map
+      type(inference_engine_t(double_precision)) inference_engine
     end function
 
     impure elemental module function default_real_from_json(file_) result(inference_engine)

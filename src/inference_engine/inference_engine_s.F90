@@ -228,7 +228,7 @@ contains
     end select
   end function
 
-  module procedure default_real_construct_from_padded_arrays
+  module procedure default_real_construct_from_components
 
     inference_engine%metadata_ = metadata_t(metadata(1),metadata(2),metadata(3),metadata(4),metadata(5))
     inference_engine%weights_ = weights
@@ -264,7 +264,47 @@ contains
 
     call assert_consistency(inference_engine)
 
-  end procedure default_real_construct_from_padded_arrays
+  end procedure default_real_construct_from_components
+
+  module procedure double_precision_construct_from_components
+
+    inference_engine%metadata_ = metadata
+    inference_engine%weights_ = weights
+    inference_engine%biases_ = biases
+    inference_engine%nodes_ = nodes
+
+    block
+      integer i
+
+      if (present(input_map)) then
+        inference_engine%input_map_ = input_map
+      else
+        associate(num_inputs => nodes(lbound(nodes,1)))
+          associate(default_intercept => [(0D0, i=1,num_inputs)], default_slope => [(1D0, i=1,num_inputs)])
+            inference_engine%input_map_ = tensor_map_t("inputs", default_intercept, default_slope)
+          end associate
+        end associate
+      end if
+
+      if (present(output_map)) then
+        inference_engine%output_map_ = output_map
+      else
+        associate(num_outputs => nodes(ubound(nodes,1)))
+          associate(default_intercept => [(0D0, i=1,num_outputs)], default_slope => [(1D0, i=1,num_outputs)])
+            inference_engine%output_map_ = tensor_map_t("outputs", default_intercept, default_slope)
+          end associate
+        end associate
+      end if
+    end block
+
+    if (allocated(inference_engine%activation_strategy_)) deallocate(inference_engine%activation_strategy_)
+    associate(function_name => metadata%activation_name())
+      allocate(inference_engine%activation_strategy_, source = activation_factory_method(function_name%string()))
+    end associate
+
+    call assert_consistency(inference_engine)
+
+  end procedure double_precision_construct_from_components
 
   module procedure default_real_to_json
 
@@ -388,9 +428,9 @@ contains
     type(tensor_map_t) proto_map
     type(metadata_t) proto_meta
     type(neuron_t) proto_neuron
-    proto_map = tensor_map_t("",[0.],[1.])
+    proto_map = tensor_map_t("",[0D0],[1D0])
     proto_meta = metadata_t(string_t(""),string_t(""),string_t(""),string_t(""),string_t(""))
-    proto_neuron = neuron_t([0.],1.)
+    proto_neuron = neuron_t([0D0],1D0)
 #endif
 
     call assert_consistency(self)
@@ -402,9 +442,9 @@ contains
       ,first_hidden => lbound(self%nodes_,1) + 1 &
       ,last_hidden => ubound(self%nodes_,1) - 1 &
 #ifndef _CRAYFTN
-      ,proto_map => tensor_map_t("",[0.],[1.]) &
+      ,proto_map => tensor_map_t("",[0D0],[0D0]) &
       ,proto_meta => metadata_t(string_t(""),string_t(""),string_t(""),string_t(""),string_t("")) &
-      ,proto_neuron => neuron_t([0.],0.) &
+      ,proto_neuron => neuron_t([0D0],0D0) &
 #endif
     )
       associate( &
@@ -590,7 +630,9 @@ contains
         associate(metadata_strings => metadata%strings())
           inference_engine = hidden_layers%inference_engine(metadata_strings, output_layer, input_map, output_map)
           if (allocated(inference_engine%activation_strategy_)) deallocate(inference_engine%activation_strategy_)
-          allocate(inference_engine%activation_strategy_, source = activation_factory_method(metadata_strings(4)%string()))
+          associate(function_name => metadata%activation_name())
+            allocate(inference_engine%activation_strategy_, source = activation_factory_method(function_name%string()))
+          end associate
         end associate
       end associate
     end associate read_metadata
