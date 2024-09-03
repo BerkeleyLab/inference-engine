@@ -13,7 +13,6 @@ module trainable_engine_test_m
 
   ! Internal dependencies
   use inference_engine_m, only : trainable_engine_t, tensor_t, sigmoid_t, input_output_pair_t, mini_batch_t, relu_t, shuffle
-  use kind_parameters_m, only : rkind
   implicit none
 
   private
@@ -45,7 +44,7 @@ module trainable_engine_test_m
     procedure, nopass :: results
   end type
 
-  real(rkind), parameter :: false = 0._rkind, true = 1._rkind
+  real, parameter :: false = 0., true = 1.
 
   abstract interface
 
@@ -179,7 +178,7 @@ contains
     integer, parameter :: inputs = 2, outputs = 1, hidden = 3 ! number of neurons in input, output, and hidden layers
     integer, parameter :: neurons(*) = [inputs, hidden, hidden, outputs] ! neurons per layer
     integer, parameter :: max_neurons = maxval(neurons), layers=size(neurons) ! max layer width, number of layers
-    real(rkind) w(max_neurons, max_neurons, layers-1), b(max_neurons, max_neurons)
+    real w(max_neurons, max_neurons, layers-1), b(max_neurons, max_neurons)
 
     w = 0.
     b = 0.
@@ -195,7 +194,7 @@ contains
     integer, parameter :: inputs = 2, outputs = 1, hidden = 3 ! number of neurons in input, output, and hidden layers
     integer, parameter :: neurons(*) = [inputs, hidden, hidden, outputs] ! neurons per layer
     integer, parameter :: max_neurons = maxval(neurons), layers=size(neurons) ! max layer width, number of layers
-    real(rkind) w(max_neurons, max_neurons, layers-1), b(max_neurons, max_neurons)
+    real w(max_neurons, max_neurons, layers-1), b(max_neurons, max_neurons)
 
     call random_number(b)
     call random_number(w)
@@ -214,8 +213,8 @@ contains
     type(tensor_t), allocatable, dimension(:,:) :: training_inputs, training_outputs
     type(tensor_t), allocatable, dimension(:) :: tmp, tmp2, test_inputs, expected_test_outputs, actual_outputs
     type(trainable_engine_t) trainable_engine
-    real(rkind), parameter :: tolerance = 1.E-02_rkind
-    real(rkind), allocatable :: harvest(:,:,:)
+    real, parameter :: tolerance = 1.E-02
+    real, allocatable :: harvest(:,:,:)
     integer, parameter :: num_inputs=2, mini_batch_size = 1, num_iterations=20000
     integer batch, iter, i
 
@@ -246,7 +245,7 @@ contains
     elemental function and(inputs_object) result(expected_outputs_object)
       type(tensor_t), intent(in) :: inputs_object 
       type(tensor_t) expected_outputs_object 
-      expected_outputs_object = tensor_t([merge(true, false, sum(inputs_object%values()) > 1.99_rkind)])
+      expected_outputs_object = tensor_t([merge(true, false, sum(inputs_object%values()) > 1.99)])
     end function
 
   end function
@@ -258,8 +257,8 @@ contains
     type(tensor_t), allocatable :: training_outputs(:,:), expected_test_outputs(:), tmp2(:)
     type(trainable_engine_t) trainable_engine
     type(tensor_t), allocatable :: actual_outputs(:)
-    real(rkind), parameter :: tolerance = 1.E-02_rkind
-    real(rkind), allocatable :: harvest(:,:,:)
+    real, parameter :: tolerance = 1.E-02
+    real, allocatable :: harvest(:,:,:)
     integer, parameter :: num_inputs=2, mini_batch_size = 1, num_iterations=30000
     integer batch, iter, i
 
@@ -301,8 +300,8 @@ contains
     type(tensor_t), allocatable :: training_inputs(:,:), test_inputs(:), actual_outputs(:)
     type(tensor_t), allocatable :: training_outputs(:,:), expected_test_outputs(:)
     type(trainable_engine_t) trainable_engine
-    real(rkind), parameter :: tolerance = 1.E-02_rkind
-    real(rkind), allocatable :: harvest(:,:,:)
+    real, parameter :: tolerance = 1.E-02
+    real, allocatable :: harvest(:,:,:)
     integer, parameter :: num_inputs=2, mini_batch_size = 1, num_iterations=50000
     integer batch, iter, i
 
@@ -346,8 +345,8 @@ contains
     type(tensor_t), allocatable, dimension(:,:) :: training_inputs, training_outputs 
     type(tensor_t), allocatable, dimension(:) :: actual_outputs, test_inputs, expected_test_outputs
     type(trainable_engine_t) trainable_engine
-    real(rkind), parameter :: tolerance = 1.E-02_rkind
-    real(rkind), allocatable :: harvest(:,:,:)
+    real, parameter :: tolerance = 1.E-02
+    real, allocatable :: harvest(:,:,:)
 #ifdef __flang__
       !! Reducing num_iterations yields a less robust test, but moving away from local minima by
       !! increasing num_iterations causes this test to crash when compiled with the flang or ifx compilers.
@@ -403,19 +402,19 @@ contains
 
   function perturbed_identity_network(perturbation_magnitude) result(trainable_engine)
     type(trainable_engine_t) trainable_engine
-    real(rkind), intent(in) :: perturbation_magnitude
+    real, intent(in) :: perturbation_magnitude
     integer, parameter :: nodes_per_layer(*) = [2, 2, 2, 2]
     integer, parameter :: max_n = maxval(nodes_per_layer), layers = size(nodes_per_layer)
 #ifndef _CRAYFTN
-    real(rkind), parameter :: identity(*,*,*) = &
-      reshape([real(rkind):: [1,0], [0,1] ,[1,0], [0,1], [1,0], [0,1]], [max_n, max_n, layers-1])
+    real, parameter :: identity(*,*,*) = &
+      reshape([real:: [1,0], [0,1] ,[1,0], [0,1], [1,0], [0,1]], [max_n, max_n, layers-1])
 #else
-    real(rkind), allocatable :: identity(:,:,:)
+    real, allocatable :: identity(:,:,:)
 #endif
-    real(rkind) harvest(size(identity,1), size(identity,2), size(identity,3))
+    real harvest(size(identity,1), size(identity,2), size(identity,3))
 
 #ifdef _CRAYFTN
-    identity = reshape([real(rkind):: [1,0], [0,1] ,[1,0], [0,1], [1,0], [0,1]], [max_n, max_n, layers-1])
+    identity = reshape([real:: [1,0], [0,1] ,[1,0], [0,1], [1,0], [0,1]], [max_n, max_n, layers-1])
 #endif
 
     call random_number(harvest)
@@ -424,7 +423,7 @@ contains
     trainable_engine = trainable_engine_t( &
       nodes = nodes_per_layer, &
       weights = identity + harvest , & 
-      biases = reshape([real(rkind):: [0,0], [0,0], [0,0]], [max_n, layers-1]), &
+      biases = reshape([real:: [0,0], [0,0], [0,0]], [max_n, layers-1]), &
       differentiable_activation_strategy = relu_t(), &
       metadata = [string_t("Identity"), string_t("Damian Rouson"), string_t("2023-09-18"), string_t("relu"), string_t("false")] &
     )
@@ -437,7 +436,7 @@ contains
     type(tensor_t), allocatable :: inputs(:)
     type(trainable_engine_t)  trainable_engine
     type(bin_t), allocatable :: bins(:)
-    real(rkind), allocatable :: cost(:)
+    real, allocatable :: cost(:)
     integer, parameter :: num_pairs = 100, num_epochs = 100, n_bins = 3
     integer i, bin, epoch
 
@@ -451,10 +450,10 @@ contains
 #ifdef _CRAYFTN
       allocate(inputs(num_pairs))
       do i = 1, num_pairs
-         inputs(i) = tensor_t(real([i,2*i], rkind)/num_pairs)
+         inputs(i) = tensor_t(real([i,2*i])/num_pairs)
       end do
 #else
-      inputs = [(tensor_t(real([i,2*i], rkind)/num_pairs), i = 1, num_pairs)]
+      inputs = [(tensor_t(real([i,2*i])/num_pairs), i = 1, num_pairs)]
 #endif
       associate(outputs => inputs)
         input_output_pairs = input_output_pair_t(inputs, outputs)
@@ -467,7 +466,7 @@ contains
       end do
 
       block
-        real(rkind), parameter :: tolerance = 1.E-06
+        real, parameter :: tolerance = 1.E-06
 #if defined _CRAYFTN || __GFORTRAN__
         type(tensor_t), allocatable :: network_outputs(:)
         network_outputs = trainable_engine%infer(inputs)
@@ -496,7 +495,7 @@ contains
     type(tensor_t), allocatable :: inputs(:)
     type(trainable_engine_t)  trainable_engine
     type(bin_t), allocatable :: bins(:)
-    real(rkind), allocatable :: cost(:)
+    real, allocatable :: cost(:)
     integer, parameter :: num_pairs = 6
     integer, parameter :: num_epochs = 180
     integer, parameter :: num_bins = 5 
@@ -512,10 +511,10 @@ contains
 #ifdef _CRAYFTN
       allocate(inputs(num_pairs))
       do i = 1, num_pairs
-        inputs(i) = tensor_t(real([i,2*i], rkind)/(2*num_pairs))
+        inputs(i) = tensor_t(real([i,2*i])/(2*num_pairs))
       end do
 #else
-      inputs = [(tensor_t(real([i,2*i], rkind)/(2*num_pairs)), i = 1, num_pairs)]
+      inputs = [(tensor_t(real([i,2*i])/(2*num_pairs)), i = 1, num_pairs)]
 #endif
       associate(outputs => inputs)
         input_output_pairs = input_output_pair_t(inputs, outputs)
@@ -529,7 +528,7 @@ contains
       end do
 
       block
-        real(rkind), parameter :: tolerance = 1.E-06
+        real, parameter :: tolerance = 1.E-06
 #if defined _CRAYFTN || __GFORTRAN__
         type(tensor_t), allocatable :: network_outputs(:)
         network_outputs = trainable_engine%infer(inputs)

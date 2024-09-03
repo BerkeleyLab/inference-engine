@@ -78,11 +78,11 @@ if [ $CI = true ]; then
   echo "PKG_CONFIG_PATH=$PKG_CONFIG_PATH"
   echo "---------------"
 else
-  PKG_CONFIG_PATH=`realpath "$PREFIX"/lib/pkgconfig`
-fi
-
-if [ ! -d $PKG_CONFIG_PATH ]; then
-  mkdir -p $PKG_CONFIG_PATH 
+  PKG_CONFIG_PATH="$PREFIX/lib/pkgconfig"
+  if [ ! -d "$PKG_CONFIG_PATH" ]; then
+    mkdir -p "$PKG_CONFIG_PATH"
+  fi
+  PKG_CONFIG_PATH=`realpath "$PKG_CONFIG_PATH"`
 fi
 
 INFERENCE_ENGINE_PC="$PKG_CONFIG_PATH/inference-engine.pc"

@@ -10,7 +10,6 @@ module asymmetric_engine_test_m
 
   ! Internal dependencies
   use inference_engine_m, only : inference_engine_t, tensor_t
-  use kind_parameters_m, only : rkind
 
   implicit none
 
@@ -63,7 +62,7 @@ contains
 
   function xor_and_2nd_input_network() result(inference_engine)
     type(inference_engine_t) inference_engine
-    real(rkind), allocatable :: biases(:,:),  weights(:,:,:)
+    real, allocatable :: biases(:,:),  weights(:,:,:)
     type(string_t), allocatable :: metadata(:)
     integer, parameter :: n(0:*) = [2,4,4,1]
     integer, parameter :: layers = size(n), n_max = maxval(n)
@@ -120,7 +119,7 @@ contains
     asymmetric = xor_and_2nd_input_network()
 
     block
-      real(rkind), parameter :: tolerance = 1.E-08_rkind, false = 0._rkind, true = 1._rkind
+      real, parameter :: tolerance = 1.E-08, false = 0., true = 1.
       type(tensor_t) true_true, true_false, false_true, false_false
 
       true_true = asymmetric%infer(tensor_t([true,true]))

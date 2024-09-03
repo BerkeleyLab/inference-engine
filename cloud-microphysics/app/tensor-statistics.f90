@@ -9,7 +9,7 @@ program tensor_statistics
   ! External dependencies:
   use julienne_m, only : command_line_t, file_t, string_t
   use assert_m, only : assert, intrinsic_array_t
-  use inference_engine_m, only : rkind, ubounds_t
+  use inference_engine_m, only : ubounds_t
   use ieee_arithmetic, only : ieee_is_nan
   use iso_fortran_env, only : int64, real64
     
@@ -195,7 +195,7 @@ contains
       allocate(dqr_dt, mold = qr_out)
       allocate(dqs_dt, mold = qs_out)
 
-      associate(dt => real(time_out - time_in, rkind))
+      associate(dt => real(time_out - time_in))
         do concurrent(t = 1:t_end)
           dpt_dt(:,:,:,t) = (potential_temperature_out(:,:,:,t) - potential_temperature_in(:,:,:,t))/dt(t)
           dqv_dt(:,:,:,t) = (qv_out(:,:,:,t)- qv_in(:,:,:,t))/dt(t)

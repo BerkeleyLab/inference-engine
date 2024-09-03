@@ -8,6 +8,10 @@ contains
     components = [self%modelName_, self%modelAuthor_, self%compilationDate_, self%activationFunction_, self%usingSkipConnections_]
   end procedure 
   
+  module procedure activation_name
+    function_name = self%activationFunction_
+  end procedure
+
   module procedure from_components
     metadata%modelName_ = modelName
     metadata%modelAuthor_ = modelAuthor
@@ -41,6 +45,34 @@ contains
     end do
 
     call assert(any(trim(adjustl(lines(size(lines))%string())) == ["},","} "]), "metadata_s(from_json): metadata object end found")
+  end procedure
+
+  module procedure double_precision_from_json
+    integer l
+
+    call assert(lines(1)%get_json_key() == "metadata", "metadata_s(double_precision_from_json): metadata found")
+
+    do l = 2, size(lines)-1
+      associate(key => lines(l)%get_json_key())
+        select case (key%string())
+          case("modelName")
+            metadata%modelName_ = lines(l)%get_json_value(key, mold=string_t(""))
+          case("modelAuthor")
+            metadata%modelAuthor_ = lines(l)%get_json_value(key, mold=string_t(""))
+          case("compilationDate")
+            metadata%compilationDate_ = lines(l)%get_json_value(key, mold=string_t(""))
+          case("activationFunction")
+            metadata%activationFunction_ = lines(l)%get_json_value(key, mold=string_t(""))
+          case("usingSkipConnections")
+            metadata%usingSkipConnections_ = lines(l)%get_json_value(key, mold=string_t(""))
+          case default
+            error stop "metadata_s(double_precision_from_json): missing key " // key%string()
+        end select
+      end associate
+    end do
+
+    call assert(any(trim(adjustl(lines(size(lines))%string())) == ["},","} "]), &
+      "metadata_s(double_precision_from_json): metadata object end found")
   end procedure
 
   module procedure to_json

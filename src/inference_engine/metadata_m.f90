@@ -1,5 +1,6 @@
 module metadata_m
   use julienne_string_m, only : string_t
+  use double_precision_string_m, only : double_precision_string_t
   implicit none
 
   private
@@ -9,10 +10,11 @@ module metadata_m
     private
     type(string_t) modelName_, modelAuthor_, compilationDate_, activationFunction_, usingSkipConnections_
   contains
+    generic :: operator(==) => equals
     procedure :: strings
     procedure :: to_json
-    procedure :: equals
-    generic :: operator(==) => equals
+    procedure :: activation_name
+    procedure, private :: equals
   end type
 
   interface metadata_t
@@ -20,6 +22,12 @@ module metadata_m
     pure module function from_json(lines) result(metadata)
       implicit none
       type(string_t), intent(in) :: lines(:)
+      type(metadata_t) metadata
+    end function
+
+    pure module function double_precision_from_json(lines) result(metadata)
+      implicit none
+      type(double_precision_string_t), intent(in) :: lines(:)
       type(metadata_t) metadata
     end function
 
@@ -38,6 +46,12 @@ module metadata_m
       implicit none
       class(metadata_t), intent(in) :: self
       type(string_t), allocatable :: components(:)
+    end function
+
+    pure module function activation_name(self) result(function_name)
+      implicit none
+      class(metadata_t), intent(in) :: self
+      type(string_t) function_name
     end function
 
     pure module function to_json(self) result(lines)
