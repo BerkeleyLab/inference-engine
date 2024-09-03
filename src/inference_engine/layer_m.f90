@@ -1,12 +1,13 @@
 ! Copyright (c), The Regents of the University of California
 ! Terms of use are as specified in LICENSE.txt
 module layer_m
-  use neuron_m, only : neuron_t
+  use double_precision_string_m, only : double_precision_string_t
+  use kind_parameters_m, only : default_real, double_precision
   use julienne_string_m, only : string_t
   use inference_engine_m_, only : inference_engine_t
-  use tensor_map_m, only :  tensor_map_t
-  use kind_parameters_m, only : default_real, double_precision
-  use double_precision_string_m, only : double_precision_string_t
+  use metadata_m, only : metadata_t
+  use neuron_m, only : neuron_t
+  use tensor_map_m, only : tensor_map_t
   implicit none
 
   private
@@ -18,8 +19,8 @@ module layer_m
     type(neuron_t(k)),             private :: neuron !! linked list of this layer's neurons 
     type(layer_t(k)), allocatable, private :: next !! next layer
   contains
-    generic :: inference_engine => default_real_inference_engine 
-    procedure, private ::          default_real_inference_engine
+    generic :: inference_engine => default_real_inference_engine, double_precision_inference_engine
+    procedure, private ::          default_real_inference_engine, double_precision_inference_engine
     generic :: count_layers => default_real_count_layers, double_precision_count_layers
     procedure, private ::      default_real_count_layers, double_precision_count_layers
     generic :: count_neurons => default_real_count_neurons, double_precision_count_neurons
@@ -63,6 +64,15 @@ module layer_m
       type(string_t), intent(in) :: metadata(:)
       type(tensor_map_t), intent(in) :: input_map, output_map
       type(inference_engine_t) inference_engine_
+    end function
+
+    module function double_precision_inference_engine(hidden_layers, metadata, output_layer, input_map, output_map) result(inference_engine_)
+      implicit none
+      class(layer_t(double_precision)), intent(in), target :: hidden_layers
+      type(layer_t(double_precision)), intent(in), target :: output_layer
+      type(metadata_t), intent(in) :: metadata
+      type(tensor_map_t(double_precision)), intent(in) :: input_map, output_map
+      type(inference_engine_t(double_precision)) inference_engine_
     end function
 
     module function default_real_count_layers(layer) result(num_layers)

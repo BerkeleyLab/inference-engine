@@ -2,13 +2,15 @@
 ! Terms of use are as specified in LICENSE.txt
 submodule(inference_engine_m_) inference_engine_s
   use assert_m, only : assert, intrinsic_array_t
+  use double_precision_string_m, only : double_precision_string_t
+  use gelu_m, only : gelu_t
+  use kind_parameters_m, only : double_precision
+  use layer_m, only : layer_t
+  use neuron_m, only : neuron_t
+  use relu_m, only : relu_t
   use step_m, only : step_t
   use swish_m, only : swish_t
   use sigmoid_m, only : sigmoid_t
-  use gelu_m, only : gelu_t
-  use relu_m, only : relu_t
-  use layer_m, only : layer_t
-  use neuron_m, only : neuron_t
   implicit none
 
   interface assert_consistency
@@ -547,7 +549,7 @@ contains
     type(layer_t) hidden_layers, output_layer
 
     lines = file_%lines()
-    call assert(adjustl(lines(1)%string())=="{", "inference_engine_s(from_json): expected outermost object '{'")
+    call assert(adjustl(lines(1)%string())=="{", "inference_engine_s(default_real_from_json): expected outermost object '{'")
  
     check_git_tag: &
     block 
@@ -556,7 +558,7 @@ contains
       tag = lines(2)%get_json_value("acceptable_engine_tag", mold="")
       call assert( &
         tag == acceptable_engine_tag &
-        ,"inference_engine_s(from_json): acceptable_engine_tag" &
+        ,"inference_engine_s(default_real_from_json): acceptable_engine_tag" &
         ,tag //"(expected " //acceptable_engine_tag // ")" &
       )
     end block check_git_tag
@@ -573,7 +575,7 @@ contains
            if (justified_line == '"inputs_map": {') exit
          end do find_inputs_map
 
-         call assert(justified_line =='"inputs_map": {', 'from_json: expecting "inputs_map": {', justified_line)
+         call assert(justified_line =='"inputs_map": {', 'default_real_from_json: expecting "inputs_map": {', justified_line)
          input_map = tensor_map_t(lines(l:l+num_map_lines-1))
 
          find_outputs_map: &
@@ -582,7 +584,7 @@ contains
            if (justified_line == '"outputs_map": {') exit
          end do find_outputs_map
 
-         call assert(justified_line =='"outputs_map": {', 'from_json: expecting "outputs_map": {', justified_line)
+         call assert(justified_line =='"outputs_map": {', 'default_real_from_json: expecting "outputs_map": {', justified_line)
          output_map = tensor_map_t(lines(l:l+num_map_lines-1))
 
       end associate
@@ -593,7 +595,7 @@ contains
       justified_line = adjustl(lines(l)%string())
       if (justified_line == '"hidden_layers": [') exit
     end do find_hidden_layers
-    call assert(justified_line=='"hidden_layers": [', 'from_json: expecting "hidden_layers": [', justified_line)
+    call assert(justified_line=='"hidden_layers": [', 'default_real_from_json: expecting "hidden_layers": [', justified_line)
 
     read_hidden_layers: &
     block
@@ -609,7 +611,7 @@ contains
 
           output_layer_line = lines(output_layer_line_number)%string()
 
-          call assert(adjustl(output_layer_line)=='"output_layer": [', 'from_json: expecting "output_layer": [', &
+          call assert(adjustl(output_layer_line)=='"output_layer": [', 'default_real_from_json: expecting "output_layer": [', &
             lines(output_layer_line_number)%string())
 
           output_layer = layer_t(lines, start=output_layer_line_number)
@@ -622,7 +624,7 @@ contains
       justified_line = adjustl(lines(l)%string())
       if (justified_line == '"metadata": {') exit
     end do find_metadata
-    call assert(justified_line=='"metadata": {', 'from_json: expecting "metadata": {', justified_line)
+    call assert(justified_line=='"metadata": {', 'default_real_from_json: expecting "metadata": {', justified_line)
 
     read_metadata: &
     associate(proto_meta => metadata_t(string_t(""),string_t(""),string_t(""),string_t(""),string_t("")))
@@ -640,6 +642,107 @@ contains
     call assert_consistency(inference_engine)
 
   end procedure default_real_from_json
+
+  module procedure double_precision_from_json
+
+    character(len=:), allocatable :: justified_line
+    integer l, num_file_lines
+    type(double_precision_string_t), allocatable :: lines(:)
+    type(tensor_map_t(double_precision)) input_map, output_map
+    type(layer_t(double_precision)) hidden_layers, output_layer
+
+    lines = file%double_precision_lines()
+    call assert(adjustl(lines(1)%string())=="{", "inference_engine_s(double_precision_from_json): expected outermost object '{'")
+
+    check_git_tag: &
+    block
+      character(len=:), allocatable :: tag
+
+      tag = lines(2)%get_json_value("acceptable_engine_tag", mold="")
+      call assert( &
+        tag == acceptable_engine_tag &
+        ,"inference_engine_s(double_precision_from_json): acceptable_engine_tag" &
+        ,tag //"(expected " //acceptable_engine_tag // ")" &
+      )
+    end block check_git_tag
+
+    num_file_lines = size(lines)
+
+    read_tensor_maps: &
+    associate(proto_map => tensor_map_t("",[0D0],[1D0]))
+      associate(num_map_lines => size(proto_map%to_json()))
+
+         find_inputs_map: &
+         do l = 1, num_file_lines
+           justified_line = adjustl(lines(l)%string())
+           if (justified_line == '"inputs_map": {') exit
+         end do find_inputs_map
+
+         call assert(justified_line =='"inputs_map": {', 'double_precision_from_json: expecting "inputs_map": {', justified_line)
+         input_map = tensor_map_t(lines(l:l+num_map_lines-1))
+
+         find_outputs_map: &
+         do l = 1, num_file_lines
+           justified_line = adjustl(lines(l)%string())
+           if (justified_line == '"outputs_map": {') exit
+         end do find_outputs_map
+
+         call assert(justified_line =='"outputs_map": {', 'double_precision_from_json: expecting "outputs_map": {', justified_line)
+         output_map = tensor_map_t(lines(l:l+num_map_lines-1))
+
+      end associate
+    end associate read_tensor_maps
+
+    find_hidden_layers: &
+    do l = 1, num_file_lines
+      justified_line = adjustl(lines(l)%string())
+      if (justified_line == '"hidden_layers": [') exit
+    end do find_hidden_layers
+    call assert(justified_line=='"hidden_layers": [', 'double_precision_from_json: expecting "hidden_layers": [', justified_line)
+
+    read_hidden_layers: &
+    block
+      integer, parameter :: bracket_lines_per_layer=2
+      character(len=:), allocatable :: output_layer_line
+
+      hidden_layers = layer_t(lines, start=l+1)
+
+      read_layers_of_neurons: &
+      associate(proto_neuron => neuron_t(weights=[0D0], bias=0D0))
+        associate(output_layer_line_number => l + 1 + size(proto_neuron%to_json())*sum(hidden_layers%count_neurons()) &
+          + bracket_lines_per_layer*hidden_layers%count_layers() + 1)
+
+          output_layer_line = lines(output_layer_line_number)%string()
+
+          call assert(adjustl(output_layer_line)=='"output_layer": [', 'double_precision_from_json: expecting "output_layer": [', &
+            lines(output_layer_line_number)%string())
+
+          output_layer = layer_t(lines, start=output_layer_line_number)
+        end associate
+      end associate read_layers_of_neurons
+    end block read_hidden_layers
+
+    find_metadata: &
+    do l = 1, num_file_lines
+      justified_line = adjustl(lines(l)%string())
+      if (justified_line == '"metadata": {') exit
+    end do find_metadata
+    call assert(justified_line=='"metadata": {', 'double_precision_from_json: expecting "metadata": {', justified_line)
+
+    read_metadata: &
+    associate(proto_meta => metadata_t(string_t(""),string_t(""),string_t(""),string_t(""),string_t("")))
+      associate(metadata => metadata_t(lines(l : l + size(proto_meta%to_json()) - 1)))
+        inference_engine = hidden_layers%inference_engine(metadata, output_layer, input_map, output_map)
+        if (allocated(inference_engine%activation_strategy_)) deallocate(inference_engine%activation_strategy_)
+        associate(function_name => metadata%activation_name())
+          allocate(inference_engine%activation_strategy_, source = activation_factory_method(function_name%string()))
+        end associate
+      end associate
+    end associate read_metadata
+
+    call assert_consistency(inference_engine)
+
+  end procedure double_precision_from_json
 
   module procedure default_real_assert_conformable_with
 

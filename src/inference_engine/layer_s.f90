@@ -138,7 +138,79 @@ contains
       end associate
     end associate
     
-  end procedure
+  end procedure default_real_inference_engine
+
+  module procedure double_precision_inference_engine
+
+    associate( &
+      num_inputs => hidden_layers%count_inputs(), &
+      num_outputs => output_layer%count_neurons(), &
+      neurons_per_hidden_layer => hidden_layers%count_neurons(), &
+      num_hidden_layers =>  hidden_layers%count_layers(), &
+      num_output_layers => output_layer%count_layers() &
+    )   
+      call assert(num_output_layers==1, "inference_engine_s(double_precision_inference_engine): 1 output layer", num_output_layers)
+
+      associate(nodes => [num_inputs, neurons_per_hidden_layer, num_outputs])
+        associate(n_max => maxval(nodes))
+          block
+            double precision, allocatable :: weights(:,:,:), biases(:,:)
+            type(layer_t(double_precision)), pointer :: layer_ptr
+            type(neuron_t(double_precision)), pointer :: neuron_ptr
+            integer j, l
+
+            allocate(weights(n_max, n_max, num_hidden_layers + num_output_layers))
+            allocate(biases(n_max, num_hidden_layers + num_output_layers))
+
+            layer_ptr => hidden_layers
+            l = 0 
+            loop_over_hidden_Layers: &
+            do  
+              l = l + 1
+              neuron_ptr => layer_ptr%neuron
+              j = 0
+              loop_over_hidden_neurons: &
+              do  
+                j = j + 1
+                associate(w => neuron_ptr%weights())
+                  weights(j,1:size(w,1),l) = w
+                end associate
+                biases(j,l) = neuron_ptr%bias()
+
+                if (.not. neuron_ptr%next_allocated()) exit
+                neuron_ptr => neuron_ptr%next_pointer()
+
+              end do loop_over_hidden_neurons
+
+              if (.not. allocated(layer_ptr%next)) exit
+              layer_ptr => layer_ptr%next_pointer()
+
+            end do loop_over_hidden_Layers
+
+            layer_ptr => output_layer
+            l = l + 1
+            neuron_ptr => layer_ptr%neuron
+            j = 0
+            loop_over_output_neurons: &
+            do  
+              j = j + 1
+              associate(w => neuron_ptr%weights())
+                weights(j,1:size(w,1),l) = w
+              end associate
+              biases(j,l) = neuron_ptr%bias()
+
+              if (.not. neuron_ptr%next_allocated()) exit
+              neuron_ptr => neuron_ptr%next_pointer()
+
+            end do loop_over_output_neurons
+
+            inference_engine_ = inference_engine_t(metadata, weights, biases, nodes, input_map, output_map)
+          end block
+        end associate
+      end associate
+    end associate
+    
+  end procedure double_precision_inference_engine
 
   module procedure default_real_count_layers
 

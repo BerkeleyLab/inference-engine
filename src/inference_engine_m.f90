@@ -4,6 +4,7 @@ module inference_engine_m
  !! Specify the user-facing modules, derived types, and type parameters
  use activation_strategy_m, only : activation_strategy_t
  use differentiable_activation_strategy_m, only : differentiable_activation_strategy_t
+ use double_precision_file_m, only : double_precision_file_t
  use double_precision_string_m, only : double_precision_string_t
  use gelu_m, only : gelu_t
  use hyperparameters_m, only : hyperparameters_t

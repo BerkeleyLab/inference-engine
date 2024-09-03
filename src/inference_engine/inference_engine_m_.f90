@@ -3,9 +3,9 @@
 module inference_engine_m_
   !! Define an abstraction that supports inference operationsn on a neural network
   use activation_strategy_m, only : activation_strategy_t
-  use julienne_file_m, only : file_t
-  use julienne_string_m, only : string_t
+  use double_precision_file_m, only : double_precision_file_t
   use kind_parameters_m, only : default_real, double_precision
+  use julienne_m, only : file_t, string_t
   use metadata_m, only : metadata_t
   use tensor_m, only : tensor_t
   use tensor_map_m, only : tensor_map_t
@@ -87,6 +87,12 @@ module inference_engine_m_
       implicit none
       type(file_t), intent(in) :: file_
       type(inference_engine_t) inference_engine
+    end function
+
+    impure elemental module function double_precision_from_json(file) result(inference_engine)
+      implicit none
+      type(double_precision_file_t), intent(in) :: file
+      type(inference_engine_t(double_precision)) inference_engine
     end function
 
   end interface
