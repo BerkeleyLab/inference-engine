@@ -27,6 +27,7 @@ jobs:
       if: contains(matrix.os, 'ubuntu')
       run: |
         fpm --version
+        flang-new --version
         export FPM_FC=$FC
         export FPM_CC=$CC
         fpm test --flag "-mmlir -allow-assumed-rank -O3"
