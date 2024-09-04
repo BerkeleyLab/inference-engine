@@ -8,7 +8,7 @@ module inference_engine_m_
   use kind_parameters_m, only : rkind
   use metadata_m, only : metadata_t
   use tensor_m, only : tensor_t
-  use tensor_range_m, only : tensor_range_t
+  use tensor_map_m, only : tensor_map_t
   implicit none
 
   private
@@ -20,7 +20,7 @@ module inference_engine_m_
   type inference_engine_t
     !! Encapsulate the minimal information needed to perform inference
     private
-    type(tensor_range_t) input_range_, output_range_
+    type(tensor_map_t) input_map_, output_map_
     type(metadata_t) metadata_
     real(rkind), allocatable :: weights_(:,:,:), biases_(:,:)
     integer, allocatable :: nodes_(:)
@@ -43,7 +43,7 @@ module inference_engine_m_
   end type
 
   type exchange_t
-    type(tensor_range_t) input_range_, output_range_
+    type(tensor_map_t) input_map_, output_map_
     type(metadata_t) metadata_
     real(rkind), allocatable :: weights_(:,:,:), biases_(:,:)
     integer, allocatable :: nodes_(:)
@@ -60,13 +60,13 @@ module inference_engine_m_
 
   interface inference_engine_t
 
-    impure module function construct_from_padded_arrays(metadata, weights, biases, nodes, input_range, output_range) &
+    impure module function construct_from_padded_arrays(metadata, weights, biases, nodes, input_map, output_map) &
       result(inference_engine)
       implicit none
       type(string_t), intent(in) :: metadata(:)
       real(rkind), intent(in) :: weights(:,:,:), biases(:,:)
       integer, intent(in) :: nodes(0:)
-      type(tensor_range_t), intent(in), optional :: input_range, output_range
+      type(tensor_map_t), intent(in), optional :: input_map, output_map
       type(inference_engine_t) inference_engine
     end function
 
