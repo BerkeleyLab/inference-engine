@@ -52,6 +52,12 @@ module inference_engine_m_
     procedure, private :: default_real_to_exchange,             double_precision_to_exchange
   end type
 
+  type, extends(inference_engine_t) :: unnormalized_engine_t
+  contains
+    generic :: infer =>   default_real_infer_unnormalized, double_precision_infer_unnormalized
+    procedure, private :: default_real_infer_unnormalized, double_precision_infer_unnormalized
+  end type
+
   type exchange_t(k)
     integer, kind :: k = default_real
     type(tensor_map_t(k)) input_map_, output_map_
@@ -186,6 +192,20 @@ module inference_engine_m_
       class(inference_engine_t), intent(in) :: self
       type(tensor_t), intent(in) :: inputs
       type(tensor_t) outputs
+    end function
+
+    elemental module function default_real_infer_unnormalized(self, inputs) result(outputs)
+      implicit none
+      class(unnormalized_engine_t), intent(in) :: self
+      type(tensor_t), intent(in) :: inputs
+      type(tensor_t) outputs
+    end function
+
+    elemental module function double_precision_infer_unnormalized(self, inputs) result(outputs)
+      implicit none
+      class(unnormalized_engine_t(double_precision)), intent(in) :: self
+      type(tensor_t(double_precision)), intent(in) :: inputs
+      type(tensor_t(double_precision)) outputs
     end function
 
     elemental module function double_precision_infer(self, inputs) result(outputs)

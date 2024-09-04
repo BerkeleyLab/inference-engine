@@ -62,6 +62,68 @@ contains
     exchange%activation_strategy_ = self%activation_strategy_ 
   end procedure
 
+  module procedure default_real_infer_unnormalized
+
+    real, allocatable :: a(:,:)
+    integer, parameter :: input_layer = 0 
+    integer l
+
+    call assert_consistency(self)
+
+    associate(w => self%weights_, b => self%biases_, n => self%nodes_, output_layer => ubound(self%nodes_,1))
+
+      allocate(a(maxval(n), input_layer:output_layer))
+
+      a(1:n(input_layer),input_layer) = inputs%values()
+
+      feed_forward: &
+      do l = input_layer+1, output_layer
+      associate(z => matmul(w(1:n(l),1:n(l-1),l), a(1:n(l-1),l-1)) + b(1:n(l),l))
+          if (l .lt. output_layer) then
+             a(1:n(l),l) = self%activation_strategy_%activation(z)
+          else
+             a(1:n(l),l) = z(1:n(l))
+          end if
+        end associate
+      end do feed_forward
+
+      outputs = tensor_t(a(1:n(output_layer), output_layer))
+
+    end associate
+
+  end procedure
+
+  module procedure double_precision_infer_unnormalized
+
+    double precision, allocatable :: a(:,:)
+    integer, parameter :: input_layer = 0 
+    integer l
+
+    call assert_consistency(self)
+
+    associate(w => self%weights_, b => self%biases_, n => self%nodes_, output_layer => ubound(self%nodes_,1))
+
+      allocate(a(maxval(n), input_layer:output_layer))
+
+      a(1:n(input_layer),input_layer) = inputs%values()
+
+      feed_forward: &
+      do l = input_layer+1, output_layer
+      associate(z => matmul(w(1:n(l),1:n(l-1),l), a(1:n(l-1),l-1)) + b(1:n(l),l))
+          if (l .lt. output_layer) then
+             a(1:n(l),l) = self%activation_strategy_%activation(z)
+          else
+             a(1:n(l),l) = z(1:n(l))
+          end if
+        end associate
+      end do feed_forward
+
+      outputs = tensor_t(a(1:n(output_layer), output_layer))
+
+    end associate
+
+  end procedure
+
   module procedure default_real_infer
 
     real, allocatable :: a(:,:)
@@ -160,7 +222,7 @@ contains
 
   pure subroutine default_real_consistency(self)
 
-    type(inference_engine_t), intent(in) :: self
+    class(inference_engine_t), intent(in) :: self
 
     integer, parameter :: input_layer=0
 
@@ -185,7 +247,7 @@ contains
 
   pure subroutine double_precision_consistency(self)
 
-    type(inference_engine_t(double_precision)), intent(in) :: self
+    class(inference_engine_t(double_precision)), intent(in) :: self
 
     integer, parameter :: input_layer=0
 
