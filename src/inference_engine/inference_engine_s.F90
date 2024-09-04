@@ -93,18 +93,16 @@ contains
         end associate
       end do feed_forward
 
-#ifdef _CRAYFTN
+#ifndef _CRAYFTN
+      associate(normalized_outputs => tensor_t(a(1:n(output_layer), output_layer)))
+        outputs = self%output_map_%map_from_training_range(normalized_outputs)
+      end associate
+#else
       block
         type(tensor_t) :: normalized_outputs
         normalized_outputs = tensor_t(a(1:n(output_layer), output_layer))
-#else
-      associate(normalized_outputs => tensor_t(a(1:n(output_layer), output_layer)))
-#endif
         outputs = self%output_map_%map_from_training_range(normalized_outputs)
-#ifdef _CRAYFTN
       end block
-#else
-      end associate
 #endif
 
     end associate
