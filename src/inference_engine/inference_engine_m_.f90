@@ -13,6 +13,7 @@ module inference_engine_m_
 
   private
   public :: inference_engine_t
+  public :: unmapped_engine_t
   public :: exchange_t
 
   type inference_engine_t(k)
