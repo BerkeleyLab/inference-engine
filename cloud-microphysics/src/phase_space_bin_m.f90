@@ -20,6 +20,10 @@ module phase_space_bin_m
     end function
 
   end interface
+end module phase_space_bin_m
+
+submodule (phase_space_bin_m) phase_space_bin_s
+  implicit none
 
 contains
 
@@ -35,4 +39,4 @@ contains
 
   end procedure
 
-end module phase_space_bin_m
+end submodule
