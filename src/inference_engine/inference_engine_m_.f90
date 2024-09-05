@@ -52,10 +52,10 @@ module inference_engine_m_
     procedure, private :: default_real_to_exchange,             double_precision_to_exchange
   end type
 
-  type, extends(inference_engine_t) :: unnormalized_engine_t
+  type, extends(inference_engine_t) :: unmapped_engine_t
   contains
-    generic :: infer =>   default_real_infer_unnormalized, double_precision_infer_unnormalized
-    procedure, private :: default_real_infer_unnormalized, double_precision_infer_unnormalized
+    generic :: infer =>   default_real_infer_unmapped, double_precision_infer_unmapped
+    procedure, private :: default_real_infer_unmapped, double_precision_infer_unmapped
   end type
 
   type exchange_t(k)
@@ -136,7 +136,7 @@ module inference_engine_m_
     end function
 
     elemental module function default_real_map_from_output_range(self, normalized_tensor) result(tensor)
-      !! The result contains the output tensor values unnormalized via the inverse of the mapping used in training
+      !! The result contains the output tensor values unmapped via the inverse of the mapping used in training
       implicit none
       class(inference_engine_t), intent(in) :: self
       type(tensor_t), intent(in) :: normalized_tensor
@@ -144,7 +144,7 @@ module inference_engine_m_
     end function
 
     elemental module function double_precision_map_from_output_range(self, normalized_tensor) result(tensor)
-      !! The result contains the output tensor values unnormalized via the inverse of the mapping used in training
+      !! The result contains the output tensor values unmapped via the inverse of the mapping used in training
       implicit none
       class(inference_engine_t(double_precision)), intent(in) :: self
       type(tensor_t(double_precision)), intent(in) :: normalized_tensor
@@ -194,16 +194,16 @@ module inference_engine_m_
       type(tensor_t) outputs
     end function
 
-    elemental module function default_real_infer_unnormalized(self, inputs) result(outputs)
+    elemental module function default_real_infer_unmapped(self, inputs) result(outputs)
       implicit none
-      class(unnormalized_engine_t), intent(in) :: self
+      class(unmapped_engine_t), intent(in) :: self
       type(tensor_t), intent(in) :: inputs
       type(tensor_t) outputs
     end function
 
-    elemental module function double_precision_infer_unnormalized(self, inputs) result(outputs)
+    elemental module function double_precision_infer_unmapped(self, inputs) result(outputs)
       implicit none
-      class(unnormalized_engine_t(double_precision)), intent(in) :: self
+      class(unmapped_engine_t(double_precision)), intent(in) :: self
       type(tensor_t(double_precision)), intent(in) :: inputs
       type(tensor_t(double_precision)) outputs
     end function

@@ -62,7 +62,7 @@ contains
     exchange%activation_strategy_ = self%activation_strategy_ 
   end procedure
 
-  module procedure default_real_infer_unnormalized
+  module procedure default_real_infer_unmapped
 
     real, allocatable :: a(:,:)
     integer, parameter :: input_layer = 0 
@@ -93,7 +93,7 @@ contains
 
   end procedure
 
-  module procedure double_precision_infer_unnormalized
+  module procedure double_precision_infer_unmapped
 
     double precision, allocatable :: a(:,:)
     integer, parameter :: input_layer = 0 
