@@ -66,9 +66,10 @@ FPM_LD_FLAG=" -L$NETCDF_LIB_PATH -L$HDF5_LIB_PATH -L$NETCDFF_LIB_PATH"
 FPM_FC=${FC:-"gfortran-14"}
 FPM_CC=${CC:-"gcc-14"}
 
-if [ $FPM_FC = "gfortran-14" ]; then
+FPM_FC_NAME_ONLY=${FPM_FC##*/}
+if [ $FPM_FC_NAME_ONLY} = "gfortran-14" ]; then
     FPM_FLAG="-fcoarray=single -O3 -fallow-argument-mismatch -ffree-line-length-none -L$NETCDF_LIB_PATH -L$HDF5_LIB_PATH"
-elif [ $FPM_FC = "flang-new" ]; then
+elif [ $FPM_FC_NAME_ONLY = "flang-new" ]; then
     FPM_FLAG="-mmlir -allow-assumed-rank -O3 -L$NETCDF_LIB_PATH -L$HDF5_LIB_PATH"
 else
     FPM_FLAG=""
