@@ -71,7 +71,7 @@ fpm test --compiler ifx --profile releae --flag "-fopenmp-target-do-concurrent -
 ### LLVM (`flang-new`)
 Building with `flang-new` requires passing flags to enable the compiler's experimental support for assumed-rank entities:
 ```
-fpm test --compiler flang-new --flag "-mmlir -allow-assumed-rank -O3"
+fpm test --compiler flang-new --flag "-mmlir -allow-assumed-rank -Ofast"
 ```
 A script that might help with building `flang-new` from source is in the [handy-dandy] repository.
 
