@@ -5,6 +5,6 @@ maintainer = "(Please see inference-engine/fpm.toml.)"
 
 [dependencies]
 assert = {git = "https://github.com/sourceryinstitute/assert", tag = "1.7.0"}
-julienne = {git = "https://github.com/berkeleylab/julienne", tag = "1.1.1"}
+julienne = {git = "https://github.com/berkeleylab/julienne", tag = "1.2.2"}
 inference-engine = {path = "../"}
 netcdf-interfaces = {git = "https://github.com/LKedward/netcdf-interfaces.git", rev = "d2bbb71ac52b4e346b62572b1ca1620134481096"}
