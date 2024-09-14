@@ -1,9 +1,12 @@
 ! Copyright (c), The Regents of the University of California
 ! Terms of use are as specified in LICENSE.txt
 
-#if defined(_CRAYFTN) || (defined(__INTEL_COMPILER) && __INTEL_COMPILER >= 202400)
-# define LOCALITY_SPECIFIERS
+#if defined(__INTEL_COMPILER) && (__INTEL_COMPILER >= 202400)
+# define F2023_REDUCE_LOCALITY
 #endif
+
+! TODO: #define F2018_LOCALITY_SPECIFIERS for the Cray, LLVM flang, and
+!       older Intel ifx compilers and add the corresponding code.
 
 submodule(trainable_engine_m) trainable_engine_s
   use assert_m, only : assert
@@ -136,7 +139,7 @@ contains
 
     associate(output_layer => ubound(self%n,1))
       
-#ifdef LOCALITY_SPECIFIERS
+#ifdef F2023_REDUCE_LOCALITY
       if (.not. allocated(self%z)) allocate(self%z,  mold=self%b) ! z-values: Sum z_j^l = w_jk^{l} a_k^{l-1} + b_j^l
       if (.not. allocated(self%delta)) allocate(self%delta, mold=self%b)
       if (.not. allocated(self%a)) allocate(self%a(maxval(self%n), input_layer:output_layer)) ! Activations
@@ -176,7 +179,7 @@ contains
               real(rkind), allocatable :: pair_cost(:)
               if (present(cost)) allocate(pair_cost(mini_batch_size))
 
-#ifdef LOCALITY_SPECIFIERS
+#ifdef F2023_REDUCE_LOCALITY
               iterate_through_batch: &
               do concurrent (pair = 1:mini_batch_size) local(a,z,delta) reduce(+: dcdb, dcdw)
 #else
@@ -226,7 +229,7 @@ contains
                   integer j
                   sum_gradients: &
                   do l = 1,output_layer
-#ifdef LOCALITY_SPECIFIERS
+#ifdef F2023_REDUCE_LOCALITY
                     dcdb(1:n(l),l) = dcdb(1:n(l),l) + delta(1:n(l),l)
                     do concurrent(j = 1:n(l)) reduce(+: dcdw)
                       dcdw(j,1:n(l-1),l) = dcdw(j,1:n(l-1),l) + a(1:n(l-1),l-1)*delta(j,l)
@@ -240,7 +243,7 @@ contains
                   end do sum_gradients
                 end block
     
-#ifdef LOCALITY_SPECIFIERS
+#ifdef F2023_REDUCE_LOCALITY
                 end do iterate_through_batch
 #else
                 end block iteration
