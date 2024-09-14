@@ -52,6 +52,27 @@ Build and Test
 --------------
 With the [Fortran Package Manager] (`fpm`) and a recent version of a Fortran compiler installed, enter one of the commmands below to build the Inference-Engine library and run the test suite:
 
+### LLVM (`flang-new`)
+Building with `flang-new` requires passing flags to enable the compiler's experimental support for assumed-rank entities:
+```
+fpm test --compiler flang-new --flag "-mmlir -allow-assumed-rank -O3"
+```
+A script that might help with building `flang-new` from source is in the [handy-dandy] repository.
+
+#### _Experimental:_ Automatic parallelization of `do concurrent` on CPUs
+With the `amd_trunk_dev` branch of the AMD ROCm LLVM fork, this capability currently works for inference, e.g.
+```
+fpm run \
+  --example concurrent-inferences \
+  --compiler flang-new \
+  --flag "-mmlir -allow-assumed-rank -O3 -fopenmp -fdo-concurrent-parallel=host" \
+  -- --network model.json
+
+```
+where `model.json` must be a neural network in the JSON format used by Inference-Engine and [nexport].
+
+Automatic parallelization for training is under development.
+
 ### GNU (`gfortran`) 13 or higher required
 ```
 fpm test --profile release
@@ -67,14 +88,6 @@ This capability is under development with the goal to facilitate automatic GPU o
 ```
 fpm test --compiler ifx --profile releae --flag "-fopenmp-target-do-concurrent -qopenmp -fopenmp-targets=spir64 -O3"
 ```
-
-### LLVM (`flang-new`)
-Building with `flang-new` requires passing flags to enable the compiler's experimental support for assumed-rank entities:
-```
-fpm test --compiler flang-new --flag "-mmlir -allow-assumed-rank -O3"
-```
-A script that might help with building `flang-new` from source is in the [handy-dandy] repository.
-
 
 ### NAG (`nagfor`)
 ```
