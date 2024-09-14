@@ -89,7 +89,6 @@ This capability is under development with the goal to facilitate automatic GPU o
 fpm test --compiler ifx --profile releae --flag "-fopenmp-target-do-concurrent -qopenmp -fopenmp-targets=spir64 -O3"
 ```
 
-
 ### NAG (`nagfor`)
 ```
 fpm test --compiler nagfor --flag -fpp --profile release
