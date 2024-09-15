@@ -13,8 +13,8 @@ module NetCDF_file_m
     private
     character(len=:), allocatable :: file_name_
   contains
-    procedure :: input_2D_integer, input_1D_double, input_4D_real, input_3D_real, input_real_scalar
-    generic :: input => input_2D_integer, input_1D_double, input_4D_real, input_3D_real, input_real_scalar
+    generic :: input =>   input_2D_integer, input_1D_double, input_4D_real, input_3D_real, input_real_scalar, input_2D_double
+    procedure, private :: input_2D_integer, input_1D_double, input_4D_real, input_3D_real, input_real_scalar, input_2D_double
   end type
 
   interface NetCDF_file_t
@@ -48,6 +48,13 @@ module NetCDF_file_m
       class(NetCDF_file_t), intent(in) :: self
       character(len=*), intent(in) :: varname
       double precision, intent(out), allocatable :: values(:)
+    end subroutine
+
+    module subroutine input_2D_double(self, varname, values)
+      implicit none
+      class(NetCDF_file_t), intent(in) :: self
+      character(len=*), intent(in) :: varname
+      double precision, intent(out), allocatable :: values(:,:)
     end subroutine
 
     module subroutine input_4D_real(self, varname, values)

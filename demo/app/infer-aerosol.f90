@@ -7,9 +7,8 @@ program infer_aerosol
   use iso_fortran_env, only : int64, real64
 
   ! External dependencies:
-  use inference_engine_m, only : inference_engine_t, tensor_t, infer
-  use julienne_m, only : string_t, file_t, command_line_t
-  use kind_parameters_m, only : rkind
+  use inference_engine_m, only : inference_engine_t, tensor_t, double_precision, double_precision_file_t
+  use julienne_m, only : string_t, command_line_t
   use omp_lib
 
   ! Internal dependencies:
@@ -17,7 +16,7 @@ program infer_aerosol
   implicit none
 
   type tensor_statistics_t
-    real(rkind), allocatable, dimension(:) :: mean, standard_deviation
+    double precision, allocatable, dimension(:) :: mean, standard_deviation
   end type
 
   character(len=*), parameter :: usage_info = & 
@@ -47,10 +46,10 @@ contains
     integer,          parameter :: num_inputs = 80, num_outputs = 31
     character(len=*), parameter :: network_file_name = "training_network.json"
     character(len=*), parameter :: inputs_tensor_file_name = "training_input.nc"
-    real(rkind) cube_root
-    real(rkind), allocatable, dimension(:,:) :: aerosol_data, input_components, output_components
-    type(tensor_statistics_t) :: input_stats, output_stats
-    type(inference_engine_t) inference_engine
+    double precision cube_root
+    double precision, allocatable, dimension(:,:) :: aerosol_data, input_components, output_components
+    type(tensor_statistics_t) input_stats, output_stats
+    type(inference_engine_t(double_precision)) inference_engine
     integer i, j
 
     input_stats  = read_tensor_statistics(path // "meanxp.txt", path // "stdxp.txt", num_inputs)  !for pre-processing normalization
@@ -77,14 +76,14 @@ contains
     !$omp end parallel do   
       
     print *, "Reading the neural network from " // network_file_name
-    inference_engine = inference_engine_t(file_t(path // network_file_name))
+    inference_engine = inference_engine_t(double_precision_file_t(path // network_file_name))
 
     time_inference: &
     block
       integer(int64) t_start, t_finish, clock_rate
-      type(tensor_t), allocatable :: inputs(:), outputs(:)
+      type(tensor_t(double_precision)), allocatable :: inputs(:), outputs(:)
       double precision start_time,end_time
-      real(rkind), allocatable :: output_slice(:)
+      real, allocatable :: output_slice(:)
       integer i, icc
 
       allocate(inputs(size(input_components,1)))
@@ -104,7 +103,7 @@ contains
       !$ start_time = omp_get_wtime()
       !$omp parallel do shared(inputs,outputs,icc)
       do i = 1,icc
-         outputs(i) = inference_engine%infer_na(inputs(i))
+         outputs(i) = inference_engine%infer(inputs(i))
       end do
       !$omp end parallel do   
       !$    end_time = omp_get_wtime()       
