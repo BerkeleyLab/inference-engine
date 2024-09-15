@@ -36,9 +36,9 @@ contains
     character(len=*), intent(in) :: stop_code
     type(command_line_t) command_line
 
-    path = command_line%flag_value("--file-path") // "/"
+    path = command_line%flag_value("--file-path") 
     if (len(path)==0) error stop stop_code
-
+    path = path // "/"
   end function
 
   subroutine read_stats_and_perform_inference(path)
