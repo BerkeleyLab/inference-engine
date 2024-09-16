@@ -44,8 +44,8 @@ contains
   subroutine read_stats_and_perform_inference(path)
     character(len=*), intent(in) :: path
     integer,          parameter :: num_inputs = 80, num_outputs = 31
-    character(len=*), parameter :: network_file_name = "training_network.json"
-    character(len=*), parameter :: inputs_tensor_file_name = "training_input.nc"
+    character(len=*), parameter :: network_file_name = "model.json"
+    character(len=*), parameter :: inputs_tensor_file_name = "aerosol_input.nc"
     double precision cube_root
     double precision, allocatable, dimension(:,:) :: aerosol_data, input_components, output_components
     type(tensor_statistics_t) input_stats, output_stats
