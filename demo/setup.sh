@@ -39,40 +39,54 @@ done
 
 set -u # error on use of undefined variable
 
-if ! command -v brew > /dev/null ; then
-  if ! command -v curl > /dev/null ; then
-    echo "Please install curl and then rerun ./setup.sh"
-    exit 1
-  fi
-  /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
-  if [ $(uname) = "Linux" ]; then
-    if [ -z "$PATH" ]; then
-      PATH=/home/linuxbrew/.linuxbrew/bin/
-    else
-      PATH=/home/linuxbrew/.linuxbrew/bin/:"$PATH"
+FPM_FC=${FPM_FC:-"flang-new"}
+FPM_CC=${FPM_CC:-"clang"}
+
+if [ $(uname) = "Darwin" ]; then
+  if command -v brew ; then
+    brew install netcdf netcdf-fortran pkg-config coreutils # coreutils supports `realpath` below
+    NETCDF_LIB_PATH="`brew --prefix netcdf`/lib"
+    HDF5_LIB_PATH="`brew --prefix hdf5`/lib"
+    NETCDFF_LIB_PATH="`brew --prefix netcdf-fortran`/lib"
+    fpm_cc_version=$($FPM_CC --version)
+    if [[ $fpm_cc_version = Apple* ]]; then
+      echo "$FPM_CC appears to be an Apple compiler.  Please set FPM_CC to the location of LLVM clang."
+      exit 1
     fi
+  else
+    cat <<'EOF'
+
+      Command 'brew' not found. On macOS, this script uses Homebrew (https://brew.sh) to 
+      install the prerequisite packages netcdf, netcdf-fortran, pkg-config, and coreutils.
+      Please install Homebrew and restart this script."
+EOF
   fi
+elif [ $(uname) = "Linux" ]; then
+  echo 
+  # TODO: Unless NETCDF_LIB_PATH, HDF5_LIB_PATH, and NETCDFF_LIB_PATH are set, build
+  # NetCDF, NetCDF-Fortran and HDF5 set the aforementioned environment variables.
 fi
 
-brew install netcdf netcdf-fortran pkg-config coreutils # coreutils supports `realpath` below
+[ -z ${HDF5_LIB_PATH:-}    ] && printf "Please set HDF5_LIB_PATH to the HDF5 library path and restart this script.\n\n"; exit 1
+[ -z ${NETCDF_LIB_PATH:-}  ] && printf "Please set NETCDF_LIB_PATH to the NetCDF library path and restart this script.\n\n"; exit 1
+[ -z ${NETCDFF_LIB_PATH:-} ] && printf "Please set NETCDFF_LIB_PATH to the NetCDF-Fortran library path and restart this script.\n\n"; exit 1
+
+FPM_LD_FLAG=" -L$NETCDF_LIB_PATH -L$HDF5_LIB_PATH -L$NETCDFF_LIB_PATH"
 
 PREFIX=`realpath $PREFIX`
 
-NETCDF_LIB_PATH="`brew --prefix netcdf`/lib"
-HDF5_LIB_PATH="`brew --prefix hdf5`/lib"
-NETCDFF_LIB_PATH="`brew --prefix netcdf-fortran`/lib"
-
-FPM_LD_FLAG=" -L$NETCDF_LIB_PATH -L$HDF5_LIB_PATH -L$NETCDFF_LIB_PATH"
-FPM_FC=${FC:-"gfortran-14"}
-FPM_CC=${CC:-"gcc-14"}
-
-FPM_FC_NAME_ONLY=${FPM_FC##*/}
-if [ $FPM_FC_NAME_ONLY} = "gfortran-14" ]; then
-    FPM_FLAG="-fcoarray=single -O3 -fallow-argument-mismatch -ffree-line-length-none -L$NETCDF_LIB_PATH -L$HDF5_LIB_PATH"
-elif [ $FPM_FC_NAME_ONLY = "flang-new" ]; then
-    FPM_FLAG="-mmlir -allow-assumed-rank -O3 -L$NETCDF_LIB_PATH -L$HDF5_LIB_PATH"
+fpm_fc_version=$($FPM_FC --version)
+if [[ $fpm_fc_version = flang* ]]; then
+  FPM_FC_FLAG="-mmlir -allow-assumed-rank -O3 -L$NETCDF_LIB_PATH -L$HDF5_LIB_PATH"
+  FPM_LD_FLAG=""
+elif [[ $fpm_fc_version = GNU* ]]; then
+  echo
+  echo "$FPM_FC appears to be gfortran, which is currently unsupported due to compiler bugs for parameterized derived types."
+  echo
+  exit 1
+  FPM_FC_FLAG="-fcoarray=single -O3 -fallow-argument-mismatch -ffree-line-length-none -L$NETCDF_LIB_PATH -L$HDF5_LIB_PATH"
 else
-    FPM_FLAG=""
+  FPM_FC_FLAG=""
 fi
 
 mkdir -p build
@@ -100,10 +114,10 @@ echo "INFERENCE_ENGINE_FPM_FLAG=\"$FPM_FLAG\""              >> $INFERENCE_ENGINE
 echo "Name: inference-engine"                               >> $INFERENCE_ENGINE_PC
 echo "Description: Inference Engine"                        >> $INFERENCE_ENGINE_PC
 echo "URL: https://github.com/berkeleylab/inference-engine" >> $INFERENCE_ENGINE_PC
-echo "Version: 0.1.2"                                       >> $INFERENCE_ENGINE_PC
+echo "Version: 0.13.0"                                      >> $INFERENCE_ENGINE_PC
 if [ $CI = true ]; then
   echo "---------------"
-  echo "cat $INFERENCE_ENGINE_PC"
+  echo "cat \$INFERENCE_ENGINE_PC"
   cat $INFERENCE_ENGINE_PC
   echo "---------------"
 fi
@@ -126,16 +140,13 @@ if [ $CI = true ]; then
   echo "---------------"
 fi
 
-echo "$RUN_FPM_SH test"
-$RUN_FPM_SH test
+$RUN_FPM_SH build
 
 echo ""
-echo "____________________ cloud-microphysics has been set up! _______________________"
+echo "____________________ The inference-engine demo apps build succeeded! _______________________"
 echo ""
-echo "Usage:"
+echo "Run the following command to see a list of available apps:"
 echo ""
-echo "./build/run-fpm.sh run train-cloud-microphysics -- \ "
-echo "  --base <string> --epochs <integer> \ "
-echo "  [--start <integer>] [--end <integer>] [--stride <integer>] [--bins <integer]"
+echo "./build/run-fpm.sh run"
 echo ""
-echo "where angular brackets denote user-provided values and square brackets denote optional arguments"
+echo "Append a space followe by an app's name to see basic app usage information."
