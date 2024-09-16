@@ -1,4 +1,4 @@
-#!/bin/sh
+#!/bin/bash
 
 set -e # exit on error
 
@@ -67,9 +67,18 @@ elif [ $(uname) = "Linux" ]; then
   # NetCDF, NetCDF-Fortran and HDF5 set the aforementioned environment variables.
 fi
 
-[ -z ${HDF5_LIB_PATH:-}    ] && printf "Please set HDF5_LIB_PATH to the HDF5 library path and restart this script.\n\n"; exit 1
-[ -z ${NETCDF_LIB_PATH:-}  ] && printf "Please set NETCDF_LIB_PATH to the NetCDF library path and restart this script.\n\n"; exit 1
-[ -z ${NETCDFF_LIB_PATH:-} ] && printf "Please set NETCDFF_LIB_PATH to the NetCDF-Fortran library path and restart this script.\n\n"; exit 1
+if [[ -z ${HDF5_LIB_PATH:-}    ]]; then 
+  printf "Please set HDF5_LIB_PATH to the HDF5 library path and restart this script.\n\n"
+  exit 1
+fi
+if [ -z ${NETCDF_LIB_PATH:-}  ]; then
+  printf "Please set NETCDF_LIB_PATH to the NetCDF library path and restart this script.\n\n"
+   exit 1
+fi
+if [ -z ${NETCDFF_LIB_PATH:-} ]; then
+  printf "Please set NETCDFF_LIB_PATH to the NetCDF-Fortran library path and restart this script.\n\n"
+   exit 1
+fi
 
 FPM_LD_FLAG=" -L$NETCDF_LIB_PATH -L$HDF5_LIB_PATH -L$NETCDFF_LIB_PATH"
 
@@ -77,16 +86,15 @@ PREFIX=`realpath $PREFIX`
 
 fpm_fc_version=$($FPM_FC --version)
 if [[ $fpm_fc_version = flang* ]]; then
-  FPM_FC_FLAG="-mmlir -allow-assumed-rank -O3 -L$NETCDF_LIB_PATH -L$HDF5_LIB_PATH"
-  FPM_LD_FLAG=""
+  FPM_FLAG="-mmlir -allow-assumed-rank -O3 -L$NETCDF_LIB_PATH -L$HDF5_LIB_PATH"
 elif [[ $fpm_fc_version = GNU* ]]; then
   echo
   echo "$FPM_FC appears to be gfortran, which is currently unsupported due to compiler bugs for parameterized derived types."
   echo
   exit 1
-  FPM_FC_FLAG="-fcoarray=single -O3 -fallow-argument-mismatch -ffree-line-length-none -L$NETCDF_LIB_PATH -L$HDF5_LIB_PATH"
+  FPM_FLAG="-fcoarray=single -O3 -fallow-argument-mismatch -ffree-line-length-none -L$NETCDF_LIB_PATH -L$HDF5_LIB_PATH"
 else
-  FPM_FC_FLAG=""
+  FPM_FLAG=""
 fi
 
 mkdir -p build
