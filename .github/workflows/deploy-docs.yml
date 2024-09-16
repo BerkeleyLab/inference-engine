@@ -26,7 +26,7 @@ jobs:
         ford ford.md
         cp ./README.md ./doc/html
     - name: Upload Documentation
-      uses: actions/upload-artifact@v2
+      uses: actions/upload-artifact@v4
       with:
         name: documentation
         path: doc/html
