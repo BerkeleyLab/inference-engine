@@ -31,13 +31,16 @@ Overview
 --------
 
 Inference-Engine supports research in the training and deployment of neural-network surrogates for physics-based models in computational science.
-Inference-Engine also provides a platform for exploring the utility of language-based parallel programming in the context of deep learning.
-This repository's [demo] subdirectory demonstrate Inference-Engine's utility for
+Inference-Engine also provides a platform for exploring language-based parallel programming in the context of deep learning.
+This repository's [demo] subdirectory demonstrates
 1. Training a cloud microphysics model for the Intermediate Complexity Atmospheric Research ([ICAR]) package,
 2. Performing inference using a pretrained model for aerosol dynamics in the Energy Exascale Earth System ([E3SM]) package, and
-3. Calculating ICAR cloud microphysics tensor component histograms that have provide useful insights for training data reduction.
-To support the high-performance computing (HPC) needs of such applications, Inference-Engine leverages native parallelism in Fortran 2023.
-Toward this end, most procedures in Inference-Engine are `pure`, which facilitates their invocation inside Fortran's `do concurrent` construct, which several compilers can automatically parallelize on processors and accelerators, including graphics processing units (GPUs).
+3. Calculating ICAR cloud microphysics tensor component statics that provide useful insights for training-data reduction.
+Inference-Engine leverages loop-level parallelism via the Fortran 2023 `do concurrent` construct, which several compilers automatically parallelize on processors or accelerators, including Graphics Processing Units (GPUs).
+Toward this end, most procedures in Inference-Engine are `pure`, which facilitates invocing Inference-Engine procedures inside Fortran's `do concurrent` construct
+Several compilers can automatically parallelize `do concurrent` on processors and accelerators, including graphics processing units (GPUs).
+
+Additionally, ongoing research investigates leveraging Fortran's native Single-Program, Multiple-Data (SPMD) parallel programming modle in the form of a Partitioned Global Address Space (PGAS) often termed "Coarray Fortran."
 
 Inference-Engine can import and export neural networks to and from a JSON file format that the comanion package [nexport] can generate from PyTorch models. 
 
