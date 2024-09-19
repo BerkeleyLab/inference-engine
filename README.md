@@ -54,7 +54,7 @@ Please submit a pull request or an issue to add or request other optimizers, net
 Getting Started
 ---------------
 
-### Examples, demonstration applications, and documentation
+### Examples and demonstration applications
 The [example](./example) subdirectory contains demonstrations of several relatively simple use cases.
 We recommend reviewing the examples to see how to handle basic tasks such as configuring a network training run or reading a neural network and using it to perform inference.
 
