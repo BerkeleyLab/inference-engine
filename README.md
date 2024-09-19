@@ -27,23 +27,28 @@ Inference-Engine supports research in the training and deployment of neural-netw
 Inference-Engine also provides a platform for exploring and advancing the native parallel programming features of Fortran 2023 in the context of deep learning.
 The language features of interest facilitate loop-level parallelism via the `do concurrent` construct and Single-Program, Multiple Data (SMPD) parallelism via "multi-image" (e.g., multithreaded or multiprocess) execution.
 Toward these ends,
+
 * Most Inference-Engine procedures are `pure` and thus satisfy a language requirement for invocation inside `do concurrent`,
 * The network training procedure uses `do concurrent` to expose automatic parallelization opportunities to compilers, and
 * Exploiting multi-image execution to speedup training is under investigation.
+
 To broaden support for the native parallel features, Inference-Engine's contributors also write compiler tests, bug reports, and patches; develop a parallel runtime library ([Caffeine]); participate in the language standardization process; and provide example inference and training code for exercising and evaluating compilers' automatic parallelization capabilities on processors and accelerators, including Graphics Processing Units (GPUs).
 
-The available optimizers for training neural networks are
- - Stochastic gradient descent and
- - Adam (recommended).
-The supported network types include
- - Feed-forward networks and
- - Residual networks (for inference only).
-The supported activation functions include
- - Sigmoid,
- - RELU,
- - GELU,
- - Swish, and
- - Step (for inference only).
+Available optimizers:
+* Stochastic gradient descent and
+* Adam (recommended).
+
+Supported network types:
+* Feed-forward networks and
+* Residual networks (for inference only).
+
+Supported activation functions:
+* Sigmoid,
+* RELU,
+* GELU,
+* Swish, and
+* Step (for inference only).
+
 Please submit a pull request or an issue to add or request other optimizers, network types, or activation functions.
 
 Getting Started
