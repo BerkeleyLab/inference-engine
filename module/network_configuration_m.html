@@ -127,10 +127,10 @@
         <div class="list-group list-group-flush">
             <a class="list-group-item" href="../module/network_configuration_m.html#interface-network_configuration_t">network_configuration_t</a>
             <a class="list-group-item" href="../module/network_configuration_m.html#interface-activation_name">activation_name</a>
-            <a class="list-group-item" href="../module/network_configuration_m.html#interface-equals~2">equals</a>
-            <a class="list-group-item" href="../module/network_configuration_m.html#interface-nodes_per_layer">nodes_per_layer</a>
-            <a class="list-group-item" href="../module/network_configuration_m.html#interface-skip_connections">skip_connections</a>
-            <a class="list-group-item" href="../module/network_configuration_m.html#interface-to_json~3">to_json</a>
+            <a class="list-group-item" href="../module/network_configuration_m.html#interface-equals~4">equals</a>
+            <a class="list-group-item" href="../module/network_configuration_m.html#interface-nodes_per_layer~2">nodes_per_layer</a>
+            <a class="list-group-item" href="../module/network_configuration_m.html#interface-skip_connections~2">skip_connections</a>
+            <a class="list-group-item" href="../module/network_configuration_m.html#interface-to_json~4">to_json</a>
         </div>
       </div>
     </div>
@@ -811,7 +811,7 @@ large graphs.</div>
           <li class="list-group-item">
                 <h3>
     private pure module function from_components(skip_connections, nodes_per_layer, activation_name) result(network_configuration)  
-    <a href="../proc/from_components~4.html"><button type="button" class="btn btn-info depwarn">Implementation &rarr;</button></a>
+    <a href="../proc/from_components~2.html"><button type="button" class="btn btn-info depwarn">Implementation &rarr;</button></a>
 
     </h3>
   
@@ -829,7 +829,7 @@ large graphs.</div>
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-skip_connections~2"></span>
+              <span class="anchor" id="variable-skip_connections~3"></span>
               logical,
             </td>
 <td>intent(in)</td>
@@ -844,7 +844,7 @@ large graphs.</div>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-nodes_per_layer~2"></span>
+              <span class="anchor" id="variable-nodes_per_layer~4"></span>
               integer,
             </td>
 <td>intent(in)</td>
@@ -885,7 +885,7 @@ large graphs.</div>
           <li class="list-group-item">
                 <h3>
     private pure module function from_json(lines) result(network_configuration)  
-    <a href="../proc/from_json~5.html"><button type="button" class="btn btn-info depwarn">Implementation &rarr;</button></a>
+    <a href="../proc/from_json~2.html"><button type="button" class="btn btn-info depwarn">Implementation &rarr;</button></a>
 
     </h3>
   
@@ -957,7 +957,7 @@ large graphs.</div>
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-self~25"></span>
+              <span class="anchor" id="variable-self~26"></span>
               class(<a href='../type/network_configuration_t.html'>network_configuration_t</a>),
             </td>
 <td>intent(in)</td>
@@ -985,7 +985,7 @@ large graphs.</div>
 
               <div class="card">
     <div class="card-header bg-light codesum">
-      <span class="anchor" id="interface-equals~2"></span>
+      <span class="anchor" id="interface-equals~4"></span>
       <h3>        interface
       </h3>
     </div>
@@ -993,7 +993,7 @@ large graphs.</div>
         <li class="list-group-item">
               <h3>
     private elemental module function equals(lhs, rhs) result(lhs_equals_rhs)  
-    <a href="../proc/equals~5.html"><button type="button" class="btn btn-info depwarn">Implementation &rarr;</button></a>
+    <a href="../proc/equals~2.html"><button type="button" class="btn btn-info depwarn">Implementation &rarr;</button></a>
 
     </h3>
   
@@ -1011,7 +1011,7 @@ large graphs.</div>
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-lhs~2"></span>
+              <span class="anchor" id="variable-lhs~5"></span>
               class(<a href='../type/network_configuration_t.html'>network_configuration_t</a>),
             </td>
 <td>intent(in)</td>
@@ -1026,7 +1026,7 @@ large graphs.</div>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-rhs~2"></span>
+              <span class="anchor" id="variable-rhs~5"></span>
               class(<a href='../type/network_configuration_t.html'>network_configuration_t</a>),
             </td>
 <td>intent(in)</td>
@@ -1054,7 +1054,7 @@ large graphs.</div>
 
               <div class="card">
     <div class="card-header bg-light codesum">
-      <span class="anchor" id="interface-nodes_per_layer"></span>
+      <span class="anchor" id="interface-nodes_per_layer~2"></span>
       <h3>        interface
       </h3>
     </div>
@@ -1063,60 +1063,6 @@ large graphs.</div>
               <h3>
     private pure module function nodes_per_layer(self) result(nodes)  
     <a href="../proc/nodes_per_layer~3.html"><button type="button" class="btn btn-info depwarn">Implementation &rarr;</button></a>
-
-    </h3>
-  
-
-  <h4>Arguments</h4>
-      <table class="table table-striped varlist">
-    <thead>
-      <tr>
-        <th scope="col">Type</th>
-<th scope="col">Intent</th><th scope="col">Optional</th>        <th scope="col">Attributes</th>
-        <th scope="col"></th>
-        <th scope="col">Name</th>
-        <th scope="col"></th>
-    </thead>
-    <tbody>
-        <tr>
-            <td>
-              <span class="anchor" id="variable-self~26"></span>
-              class(<a href='../type/network_configuration_t.html'>network_configuration_t</a>),
-            </td>
-<td>intent(in)</td>
-              <td></td>            <td>
-              
-            </td>
-            <td>::</td>
-            <td><strong>self</strong></td>
-            <td>
-                
-            </td>
-        </tr>
-    </tbody>
-  </table>
-
-    <h4>
-    Return Value
-    <small>integer, allocatable, (:)</small>
-    </h4>
-    
-
-        </li>
-    </ul>
-  </div>
-
-              <div class="card">
-    <div class="card-header bg-light codesum">
-      <span class="anchor" id="interface-skip_connections"></span>
-      <h3>        interface
-      </h3>
-    </div>
-    <ul class="list-group">
-        <li class="list-group-item">
-              <h3>
-    private elemental module function skip_connections(self) result(using_skip)  
-    <a href="../proc/skip_connections~2.html"><button type="button" class="btn btn-info depwarn">Implementation &rarr;</button></a>
 
     </h3>
   
@@ -1152,7 +1098,7 @@ large graphs.</div>
 
     <h4>
     Return Value
-    <small>logical</small>
+    <small>integer, allocatable, (:)</small>
     </h4>
     
 
@@ -1162,15 +1108,15 @@ large graphs.</div>
 
               <div class="card">
     <div class="card-header bg-light codesum">
-      <span class="anchor" id="interface-to_json~3"></span>
+      <span class="anchor" id="interface-skip_connections~2"></span>
       <h3>        interface
       </h3>
     </div>
     <ul class="list-group">
         <li class="list-group-item">
               <h3>
-    private pure module function to_json(self) result(lines)  
-    <a href="../proc/to_json~6.html"><button type="button" class="btn btn-info depwarn">Implementation &rarr;</button></a>
+    private elemental module function skip_connections(self) result(using_skip)  
+    <a href="../proc/skip_connections~2.html"><button type="button" class="btn btn-info depwarn">Implementation &rarr;</button></a>
 
     </h3>
   
@@ -1188,7 +1134,61 @@ large graphs.</div>
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-self~24"></span>
+              <span class="anchor" id="variable-self~28"></span>
+              class(<a href='../type/network_configuration_t.html'>network_configuration_t</a>),
+            </td>
+<td>intent(in)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>self</strong></td>
+            <td>
+                
+            </td>
+        </tr>
+    </tbody>
+  </table>
+
+    <h4>
+    Return Value
+    <small>logical</small>
+    </h4>
+    
+
+        </li>
+    </ul>
+  </div>
+
+              <div class="card">
+    <div class="card-header bg-light codesum">
+      <span class="anchor" id="interface-to_json~4"></span>
+      <h3>        interface
+      </h3>
+    </div>
+    <ul class="list-group">
+        <li class="list-group-item">
+              <h3>
+    private pure module function to_json(self) result(lines)  
+    <a href="../proc/to_json~3.html"><button type="button" class="btn btn-info depwarn">Implementation &rarr;</button></a>
+
+    </h3>
+  
+
+  <h4>Arguments</h4>
+      <table class="table table-striped varlist">
+    <thead>
+      <tr>
+        <th scope="col">Type</th>
+<th scope="col">Intent</th><th scope="col">Optional</th>        <th scope="col">Attributes</th>
+        <th scope="col"></th>
+        <th scope="col">Name</th>
+        <th scope="col"></th>
+    </thead>
+    <tbody>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-self~25"></span>
               class(<a href='../type/network_configuration_t.html'>network_configuration_t</a>),
             </td>
 <td>intent(in)</td>
@@ -1338,27 +1338,27 @@ large graphs.</div>
               </tr>
               <tr>
                 <td>  procedure, public ::
-  <strong><a href='../type/network_configuration_t.html#boundprocedure-equals~2'>equals</a></strong></td>
+  <strong><a href='../type/network_configuration_t.html#boundprocedure-equals~5'>equals</a></strong></td>
                 <td></td>
               </tr>
               <tr>
                 <td>  procedure, public ::
-  <strong><a href='../type/network_configuration_t.html#boundprocedure-nodes_per_layer'>nodes_per_layer</a></strong></td>
+  <strong><a href='../type/network_configuration_t.html#boundprocedure-nodes_per_layer~3'>nodes_per_layer</a></strong></td>
                 <td></td>
               </tr>
               <tr>
                 <td>  generic, public ::
-  <strong><a href='../type/network_configuration_t.html#boundprocedure-operator%28%3D%3D%29~2'>operator(==)</a></strong> => <a href='/home/runner/work/inference-engine/inference-engine/doc/html/type/network_configuration_t.html#boundprocedure-equals~2'>equals</a></td>
+  <strong><a href='../type/network_configuration_t.html#boundprocedure-operator%28%3D%3D%29~5'>operator(==)</a></strong> => <a href='/home/runner/work/inference-engine/inference-engine/doc/html/type/network_configuration_t.html#boundprocedure-equals~5'>equals</a></td>
                 <td></td>
               </tr>
               <tr>
                 <td>  procedure, public ::
-  <strong><a href='../type/network_configuration_t.html#boundprocedure-skip_connections'>skip_connections</a></strong></td>
+  <strong><a href='../type/network_configuration_t.html#boundprocedure-skip_connections~2'>skip_connections</a></strong></td>
                 <td></td>
               </tr>
               <tr>
                 <td>  procedure, public ::
-  <strong><a href='../type/network_configuration_t.html#boundprocedure-to_json~3'>to_json</a></strong></td>
+  <strong><a href='../type/network_configuration_t.html#boundprocedure-to_json~4'>to_json</a></strong></td>
                 <td></td>
               </tr>
           </tbody>
@@ -1391,7 +1391,7 @@ large graphs.</div>
             <p class="text-end">
               Documentation generated by
               <a href="https://github.com/Fortran-FOSS-Programmers/ford">FORD</a>
- on 2024-09-20 03:37              </p>
+ on 2024-09-20 04:53              </p>
           </div>
         </div>
         <br>
