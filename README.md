@@ -9,13 +9,6 @@
                                                              __/ |             
                                                             |___/              
 ```
-
-![GitHub manifest version](https://img.shields.io/github/manifest-json/v/BerkeleyLab/inference-engine)
-![GitHub branch checks state](https://img.shields.io/github/checks-status/BerkeleyLab/inference-engine/main)
-[![GitHub issues](https://img.shields.io/github/issues/BerkeleyLab/inference-engine)](https://github.com/BerkeleyLab/inference-engine/issues)
-[![GitHub license](https://img.shields.io/github/license/BerkeleyLab/inference-engine)](https://github.com/BerkeleyLab/inference-engine)
-![GitHub watchers](https://img.shields.io/github/watchers/BerkeleyLab/inference-engine?style=social)
-
 Inference-Engine
 ================
 
@@ -55,10 +48,10 @@ Getting Started
 ---------------
 
 ### Examples and demonstration applications
-The [example](./example) subdirectory contains demonstrations of several relatively simple use cases.
+The [example] subdirectory contains demonstrations of several relatively simple use cases.
 We recommend reviewing the examples to see how to handle basic tasks such as configuring a network training run or reading a neural network and using it to perform inference.
 
-The [demo](./demo) subdirectory contains demonstration applications that depend on Inference-Engine but build separately due to requiring additional prerequisites such as NetCDF and HDF5.
+The [demo] subdirectory contains demonstration applications that depend on Inference-Engine but build separately due to requiring additional prerequisites such as NetCDF and HDF5.
 The demonstration applications
  - Train a cloud microphysics model surrogate for the Intermediate Complexity Atmospheric Research ([ICAR]) package,
  - Perform inference using a pretrained model for aerosol dynamics in the Energy Exascale Earth System ([E3SM]) package, and
@@ -68,7 +61,7 @@ The demonstration applications
 Because this repository supports programming language research, the code exercises new language features in novel ways.
 We recommend using any compiler's latest release or even building open-source compilers from source.
 The [handy-dandy] repository contains scripts capturing steps for building the [llvm-project] compiler.
-The remainder of this section contains commands for building Inference-Engine with a recent Fortran compiler and the Fortran Package Manager ([`fpm`]) in your PATH.
+The remainder of this section contains commands for building Inference-Engine with a recent Fortran compiler and the Fortran Package Manager ([`fpm`]) in your `PATH`.
 
 #### GNU (`gfortran`) 13 or higher required
 ```
@@ -85,7 +78,6 @@ Building with `flang-new` requires passing flags to enable the compiler's experi
 ```
 fpm test --compiler flang-new --flag "-mmlir -allow-assumed-rank -O3"
 ```
-We recommend building `flang-new` from source.
 
 ##### _Experimental:_ Automatic parallelization of `do concurrent` on CPUs
 With the `amd_trunk_dev` branch of the [ROCm fork] fork of LLVM, automatic parallelization currently works for inference, e.g.
@@ -128,7 +120,7 @@ fpm test --compiler crayftn.sh
 
 ### Configuring a training run
 Inference-Engine imports hyperparameters and network configurations to and from JSON files.
-To see the expected file format, run [example/print-training-configuration.F90] as follows:
+To see the expected file format, run the [print-training-configuration] example as follows:
 ```
 % fpm run --example print-training-configuration --compiler gfortran
 ```
@@ -154,11 +146,10 @@ Files with added or removed white space or reordered whole objects ("hyperparame
 A future release will leverage the [rojff] JSON interface to allow for more flexible file formatting.
 
 ### Training a neural network
-Executing the command below will first build the named example program will train a neural network to learn the saturated mixing ratio function that is one component of the ICAR SB04 cloud microphysics model:
+Running the following command will train a neural network to learn the saturated mixing ratio function that is one component of the ICAR SB04 cloud microphysics model (see the [saturated_mixing_ratio_m] module for an implementation of the involved function):
 ```
  fpm run --example learn-saturated-mixing-ratio --compiler gfortran --profile release -- --output-file sat-mix-rat.json
 ```
-The latter command first builds and runs the named example program.
 The following is representative output after 3000 epochs:
 ```
  Initializing a new network
@@ -167,9 +158,9 @@ The following is representative output after 3000 epochs:
          2000    0.61259E-04     9.8345      2,4,72,2,1
          3000    0.45270E-04     14.864      2,4,72,2,1
 ```
-The above example program will halt execution either after a threshold cost function of `1.E-08`, which requires many million of epochs, or if the program detects a file named `stop` in the source tree root directory.
-Before halting, the program will print a table of saturated mixing ratio values across a range of input pressures and temperatures wherein both inputs have been mapped to the unit interval [0,1].
-The program also writes the resulting neural network to the named file `sat-mix-rat.json`.
+The example program halts execution after reaching a cost-function threshold (which requires millions of epochws) or a maximum number of iterations or if the program detects a file named `stop` in the source-tree root directory.
+Before halting, the program will print a table of expected and predicted saturated mixing ratio values across a range of input pressures and temperatures, wherein two the inputs have each been mapped to the unit interval [0,1].
+The program also writes the neural network initial condition to `initial-network.json` and the final (trained) network to the file specified in the above command: `sat-mix-rat.json`.
 
 ### Performing inference
 Users with a PyTorch model may use [nexport] to export the model to JSON files that Inference-Engine can read.
@@ -180,19 +171,23 @@ Documentation
 Please see our [GitHub Pages site] for HTML documentation generated by [`ford`] or generate documentaiton locally by installing `ford` and executing `ford ford.md`.
 
 
+[Caffeine]: https://go.lbl.gov/caffeine
 [E3SM]: https://e3sm.org
+[example]: example
+[demo]: demo
 [example/print-training-configuration.F90]: example/print-training-configuration.F90
 [example/concurrent-inferences]: example/concurrent-inferences
 [`ford`]: https://github.com/Fortran-FOSS-Programmers/ford
 [`fpm`]: https://github.com/fortran-lang/fpm
 [GitHub Pages site]: https://berkeleylab.github.io/inference-engine/ 
 [handy-dandy]: https://github.com/rouson/handy-dandy/blob/main/src
-[ICAR]: https://github.com/NCAR/icar
+[ICAR]: https://github.com/BerkeleyLab/icar/tree/neural-net
 [JSON]: https://www.json.org/json-en.html
 [nexport]: https://go.lbl.gov/nexport
 [ROCm fork]: https://github.com/ROCm/llvm-project
 [rojff]: https://gitlab.com/everythingfunctional/rojff
-[Overview]: #overview)
+[saturated_mixing_ratio_m]: example/supporting-files/saturated_mixing_ratio_m.f90
+[Overview]: #overview
 [Getting Started]: #getting-started
 [Documentation]: #documentation
 [Building and testing]: #building-and-testing
