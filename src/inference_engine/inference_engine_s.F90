@@ -703,6 +703,10 @@ contains
 
   end procedure default_real_from_json
 
+  module procedure double_precision_unmapped_from_json
+    unmapped_engine%inference_engine_t = double_precision_from_json(file)
+  end procedure
+
   module procedure double_precision_from_json
 
     character(len=:), allocatable :: justified_line

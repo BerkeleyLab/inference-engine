@@ -104,6 +104,17 @@ module inference_engine_m_
 
   end interface
 
+  interface unmapped_engine_t
+
+    impure elemental module function double_precision_unmapped_from_json(file) result(unmapped_engine)
+      implicit none
+      type(double_precision_file_t), intent(in) :: file
+      type(unmapped_engine_t(double_precision)) unmapped_engine
+    end function
+
+  end interface
+
+
   interface
 
     elemental module function default_real_approximately_equal(lhs, rhs) result(lhs_eq_rhs)
