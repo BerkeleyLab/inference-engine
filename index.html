@@ -95,11 +95,6 @@ https://github.com/berkeleylab/inference-engine" role="button">GitHub</a>
                                                             |___/              
 </code></pre></div>
 
-<p><img alt="GitHub manifest version" src="https://img.shields.io/github/manifest-json/v/BerkeleyLab/inference-engine">
-<img alt="GitHub branch checks state" src="https://img.shields.io/github/checks-status/BerkeleyLab/inference-engine/main">
-<a href="https://github.com/BerkeleyLab/inference-engine/issues"><img alt="GitHub issues" src="https://img.shields.io/github/issues/BerkeleyLab/inference-engine"></a>
-<a href="https://github.com/BerkeleyLab/inference-engine"><img alt="GitHub license" src="https://img.shields.io/github/license/BerkeleyLab/inference-engine"></a>
-<img alt="GitHub watchers" src="https://img.shields.io/github/watchers/BerkeleyLab/inference-engine?style=social"></p>
 <h1 id="inference-engine">Inference-Engine</h1>
 <p><a href="#overview">Overview</a> | <a href="#getting-started">Getting Started</a> | <a href="#documentation">Documentation</a></p>
 <h2 id="overview">Overview</h2>
@@ -112,7 +107,7 @@ Toward these ends,</p>
 <li>The network training procedure uses <code>do concurrent</code> to expose automatic parallelization opportunities to compilers, and</li>
 <li>Exploiting multi-image execution to speedup training is under investigation.</li>
 </ul>
-<p>To broaden support for the native parallel features, Inference-Engine's contributors also write compiler tests, bug reports, and patches; develop a parallel runtime library ([Caffeine]); participate in the language standardization process; and provide example inference and training code for exercising and evaluating compilers' automatic parallelization capabilities on processors and accelerators, including Graphics Processing Units (GPUs).</p>
+<p>To broaden support for the native parallel features, Inference-Engine's contributors also write compiler tests, bug reports, and patches; develop a parallel runtime library (<a href="https://go.lbl.gov/caffeine">Caffeine</a>); participate in the language standardization process; and provide example inference and training code for exercising and evaluating compilers' automatic parallelization capabilities on processors and accelerators, including Graphics Processing Units (GPUs).</p>
 <p>Available optimizers:
 * Stochastic gradient descent and
 * Adam (recommended).</p>
@@ -128,18 +123,18 @@ Toward these ends,</p>
 <p>Please submit a pull request or an issue to add or request other optimizers, network types, or activation functions.</p>
 <h2 id="getting-started">Getting Started</h2>
 <h3 id="examples-and-demonstration-applications">Examples and demonstration applications</h3>
-<p>The <a href="./example">example</a> subdirectory contains demonstrations of several relatively simple use cases.
+<p>The <a href="example">example</a> subdirectory contains demonstrations of several relatively simple use cases.
 We recommend reviewing the examples to see how to handle basic tasks such as configuring a network training run or reading a neural network and using it to perform inference.</p>
-<p>The <a href="./demo">demo</a> subdirectory contains demonstration applications that depend on Inference-Engine but build separately due to requiring additional prerequisites such as NetCDF and HDF5.
+<p>The <a href="demo">demo</a> subdirectory contains demonstration applications that depend on Inference-Engine but build separately due to requiring additional prerequisites such as NetCDF and HDF5.
 The demonstration applications
- - Train a cloud microphysics model surrogate for the Intermediate Complexity Atmospheric Research (<a href="https://github.com/NCAR/icar">ICAR</a>) package,
+ - Train a cloud microphysics model surrogate for the Intermediate Complexity Atmospheric Research (<a href="https://github.com/BerkeleyLab/icar/tree/neural-net">ICAR</a>) package,
  - Perform inference using a pretrained model for aerosol dynamics in the Energy Exascale Earth System (<a href="https://e3sm.org">E3SM</a>) package, and
  - Calculate ICAR cloud microphysics tensor component statistics that provide useful insights for training-data reduction.</p>
 <h3 id="building-and-testing">Building and Testing</h3>
 <p>Because this repository supports programming language research, the code exercises new language features in novel ways.
 We recommend using any compiler's latest release or even building open-source compilers from source.
 The <a href="https://github.com/rouson/handy-dandy/blob/main/src">handy-dandy</a> repository contains scripts capturing steps for building the [llvm-project] compiler.
-The remainder of this section contains commands for building Inference-Engine with a recent Fortran compiler and the Fortran Package Manager ([<code>fpm</code>]) in your PATH.</p>
+The remainder of this section contains commands for building Inference-Engine with a recent Fortran compiler and the Fortran Package Manager ([<code>fpm</code>]) in your <code>PATH</code>.</p>
 <h4 id="gnu-gfortran-13-or-higher-required">GNU (<code>gfortran</code>) 13 or higher required</h4>
 <div class="codehilite"><pre><span></span><code>fpm test --compiler gfortran --profile release
 </code></pre></div>
@@ -153,7 +148,6 @@ The remainder of this section contains commands for building Inference-Engine wi
 <div class="codehilite"><pre><span></span><code>fpm test --compiler flang-new --flag &quot;-mmlir -allow-assumed-rank -O3&quot;
 </code></pre></div>
 
-<p>We recommend building <code>flang-new</code> from source.</p>
 <h5 id="experimental-automatic-parallelization-of-do-concurrent-on-cpus"><em>Experimental:</em> Automatic parallelization of <code>do concurrent</code> on CPUs</h5>
 <p>With the <code>amd_trunk_dev</code> branch of the <a href="https://github.com/ROCm/llvm-project">ROCm fork</a> fork of LLVM, automatic parallelization currently works for inference, e.g.</p>
 <div class="codehilite"><pre><span></span><code>fpm run \
@@ -190,7 +184,7 @@ ftn<span class="w"> </span><span class="s2">&quot;</span><span class="nv">$@</sp
 
 <h3 id="configuring-a-training-run">Configuring a training run</h3>
 <p>Inference-Engine imports hyperparameters and network configurations to and from JSON files.
-To see the expected file format, run <a href="example/print-training-configuration.F90">example/print-training-configuration.F90</a> as follows:</p>
+To see the expected file format, run the [print-training-configuration] example as follows:</p>
 <div class="codehilite"><pre><span></span><code><span class="c">% fpm run --example print-training-configuration --compiler gfortran</span>
 </code></pre></div>
 
@@ -215,12 +209,11 @@ To see the expected file format, run <a href="example/print-training-configurati
 Files with added or removed white space or reordered whole objects ("hyperparameters" or "network configuration") should work.
 A future release will leverage the <a href="https://gitlab.com/everythingfunctional/rojff">rojff</a> JSON interface to allow for more flexible file formatting.</p>
 <h3 id="training-a-neural-network">Training a neural network</h3>
-<p>Executing the command below will first build the named example program will train a neural network to learn the saturated mixing ratio function that is one component of the ICAR SB04 cloud microphysics model:</p>
+<p>Running the following command will train a neural network to learn the saturated mixing ratio function that is one component of the ICAR SB04 cloud microphysics model (see the <a href="example/supporting-files/saturated_mixing_ratio_m.f90">saturated_mixing_ratio_m</a> module for an implementation of the involved function):</p>
 <div class="codehilite"><pre><span></span><code> fpm run --example learn-saturated-mixing-ratio --compiler gfortran --profile release -- --output-file sat-mix-rat.json
 </code></pre></div>
 
-<p>The latter command first builds and runs the named example program.
-The following is representative output after 3000 epochs:</p>
+<p>The following is representative output after 3000 epochs:</p>
 <div class="codehilite"><pre><span></span><code> Initializing a new network
          Epoch | Cost Function| System_Clock | Nodes per Layer
          1000    0.79896E-04     4.8890      2,4,72,2,1
@@ -228,9 +221,9 @@ The following is representative output after 3000 epochs:</p>
          3000    0.45270E-04     14.864      2,4,72,2,1
 </code></pre></div>
 
-<p>The above example program will halt execution either after a threshold cost function of <code>1.E-08</code>, which requires many million of epochs, or if the program detects a file named <code>stop</code> in the source tree root directory.
-Before halting, the program will print a table of saturated mixing ratio values across a range of input pressures and temperatures wherein both inputs have been mapped to the unit interval [0,1].
-The program also writes the resulting neural network to the named file <code>sat-mix-rat.json</code>.</p>
+<p>The example program halts execution after reaching a cost-function threshold (which requires millions of epochws) or a maximum number of iterations or if the program detects a file named <code>stop</code> in the source-tree root directory.
+Before halting, the program will print a table of expected and predicted saturated mixing ratio values across a range of input pressures and temperatures, wherein two the inputs have each been mapped to the unit interval [0,1].
+The program also writes the neural network initial condition to <code>initial-network.json</code> and the final (trained) network to the file specified in the above command: <code>sat-mix-rat.json</code>.</p>
 <h3 id="performing-inference">Performing inference</h3>
 <p>Users with a PyTorch model may use <a href="https://go.lbl.gov/nexport">nexport</a> to export the model to JSON files that Inference-Engine can read.
 Examples of performing inference using a neural-network JSON file are in <a href="example/concurrent-inferences">example/concurrent-inferences</a>.</p>
@@ -317,7 +310,7 @@ Examples of performing inference using a neural-network JSON file are in <a href
             <p class="text-end">
               Documentation generated by
               <a href="https://github.com/Fortran-FOSS-Programmers/ford">FORD</a>
- on 2024-09-19 23:56              </p>
+ on 2024-09-20 03:37              </p>
           </div>
         </div>
         <br>
