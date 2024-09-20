@@ -69,7 +69,7 @@ contains
     pre_process: &
     do j = 1,size(aerosol_data,2)
       do i = 1,size(aerosol_data,1)
-        cube_root = (abs(aerosol_data(i,j))**(1.d0/3.d0))*sign(1.0,aerosol_data(i,j))
+        cube_root = (abs(aerosol_data(i,j))**(1.d0/3.d0))*sign(1.d0,aerosol_data(i,j))
         input_components(j,i) = (cube_root - input_stats%mean(i))/input_stats%standard_deviation(i)
       end do
     end do pre_process
