@@ -1,3 +1,5 @@
+! Copyright (c), The Regents of the University of California
+! Terms of use are as specified in LICENSE.txt
 module double_precision_file_m
   use julienne_m, only : file_t, string_t
   use double_precision_string_m, only : double_precision_string_t

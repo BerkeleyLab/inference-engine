@@ -1,3 +1,5 @@
+! Copyright (c), The Regents of the University of California
+! Terms of use are as specified in LICENSE.txt
 module training_configuration_m
   use julienne_string_m, only : string_t
   use julienne_file_m, only : file_t

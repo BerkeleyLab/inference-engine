@@ -1,3 +1,5 @@
+! Copyright (c), The Regents of the University of California
+! Terms of use are as specified in LICENSE.txt
 submodule(double_precision_file_m) double_precision_file_s
   implicit none
 

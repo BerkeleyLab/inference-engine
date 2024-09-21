@@ -1,3 +1,5 @@
+! Copyright (c), The Regents of the University of California
+! Terms of use are as specified in LICENSE.txt
 submodule(training_configuration_m) training_configuration_s
   use assert_m, only : assert
   use inference_engine_m, only : gelu_t, relu_t, sigmoid_t, swish_t

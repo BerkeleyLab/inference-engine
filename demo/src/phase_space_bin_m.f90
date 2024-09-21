@@ -1,3 +1,5 @@
+! Copyright (c), The Regents of the University of California
+! Terms of use are as specified in LICENSE.txt
 module phase_space_bin_m
   use tensor_map_m, only : tensor_map_t
   use tensor_m, only : tensor_t

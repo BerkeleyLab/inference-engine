@@ -1,3 +1,5 @@
+! Copyright (c), The Regents of the University of California
+! Terms of use are as specified in LICENSE.txt
 submodule(hyperparameters_m) hyperparameters_s
   use assert_m, only : assert
   implicit none

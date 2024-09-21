@@ -1,3 +1,5 @@
+! Copyright (c), The Regents of the University of California
+! Terms of use are as specified in LICENSE.txt
 module hyperparameters_m
   use julienne_string_m, only : string_t
   use kind_parameters_m, only : default_real, double_precision
