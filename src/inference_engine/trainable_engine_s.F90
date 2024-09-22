@@ -8,7 +8,7 @@
 #endif
 
 #ifndef F2018_LOCALITY
-#if defined(_CRAYFTN) || defined(__flang__)
+#if defined(_CRAYFTN)
 # define F2018_LOCALITY 1
 #endif
 #endif
