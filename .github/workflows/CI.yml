@@ -32,3 +32,15 @@ jobs:
         export FPM_FC=$FC
         export FPM_CC=$CC
         fpm test --flag "-mmlir -allow-assumed-rank -O3"
+
+    - name: Build and Test Demo Subdirectory with LLVM Flang
+      if: contains(matrix.os, 'ubuntu')
+      run: |
+        fpm --version
+        $FC --version
+        $CC --version
+        export FPM_FC=$FC
+        export FPM_CC=$CC
+        cd demo
+        ./setup.sh
+        ./build/run-fpm.sh test
