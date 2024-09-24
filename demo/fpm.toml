@@ -1,4 +1,4 @@
-name       = "Inference-Engine Demonstration Applications"
+name       = "Inference-Engine-Demonstration-Applications"
 license    = "(Please see inference-engine/LICENSE.txt.)"
 author     = "(Please see inference-engine/fpm.toml.)"
 maintainer = "(Please see inference-engine/fpm.toml.)"
