@@ -9,58 +9,78 @@
                                                              __/ |             
                                                             |___/              
 ```
-
-![GitHub manifest version](https://img.shields.io/github/manifest-json/v/BerkeleyLab/inference-engine)
-![GitHub branch checks state](https://img.shields.io/github/checks-status/BerkeleyLab/inference-engine/main)
-[![GitHub issues](https://img.shields.io/github/issues/BerkeleyLab/inference-engine)](https://github.com/BerkeleyLab/inference-engine/issues)
-[![GitHub license](https://img.shields.io/github/license/BerkeleyLab/inference-engine)](https://github.com/BerkeleyLab/inference-engine)
-![GitHub watchers](https://img.shields.io/github/watchers/BerkeleyLab/inference-engine?style=social)
-
 Inference-Engine
 ================
 
-Table of contents
------------------
-
-- [Overview](#overview)
-- [Downloading, Building and testing](#downloading-building-and-testing)
-- [Examples](#examples)
-- [Documentation](#documentation)
+[Overview](#overview) | [Getting Started](#getting-started) | [Documentation](#documentation)
 
 Overview
 --------
+Inference-Engine supports research in the training and deployment of neural-network surrogate models for computational science.
+Inference-Engine also provides a platform for exploring and advancing the native parallel programming features of Fortran 2023 in the context of deep learning.
+The language features of interest facilitate loop-level parallelism via the `do concurrent` construct and Single-Program, Multiple Data (SMPD) parallelism via "multi-image" (e.g., multithreaded or multiprocess) execution.
+Toward these ends,
 
-Inference-Engine supports research in concurrent, large-batch inference and training of deep, feed-forward neural networks. Inference-Engine targets high-performance computing (HPC) applications with performance-critical inference and training needs.  The initial target application is _in situ_ training of a cloud microphysics model proxy for the Intermediate Complexity Atmospheric Research ([ICAR]) model.  Such a proxy must support concurrent inference at every grid point at every time step of an ICAR run.  For validation purposes, Inference-Engine also supports the export and import of neural networks to and from Python by the companion package [nexport]. 
+* Most Inference-Engine procedures are `pure` and thus satisfy a language requirement for invocation inside `do concurrent`,
+* The network training procedure uses `do concurrent` to expose automatic parallelization opportunities to compilers, and
+* Exploiting multi-image execution to speedup training is under investigation.
 
-The features of Inference-Engine that make it suitable for use in HPC applications include
+To broaden support for the native parallel features, Inference-Engine's contributors also write compiler tests, bug reports, and patches; develop a parallel runtime library ([Caffeine]); participate in the language standardization process; and provide example inference and training code for exercising and evaluating compilers' automatic parallelization capabilities on processors and accelerators, including Graphics Processing Units (GPUs).
 
-1. Implementation in Fortran 2018.
-2. Exposing concurrency via 
-  - `Elemental`, implicitly `pure` inference procedures,
-  - An `elemental` and implicitly `pure` activation strategy, and
-  - A `pure` training subroutine,
-2. Gathering network weights and biases into contiguous arrays for efficient memory access patterns, and
-3. User-controlled mini-batch size facilitating `in situ` training at application runtime.
-  
-Making Inference-Engine's `infer` functions and `train` subroutines `pure` facilitates invoking those procedures inside Fortran `do concurrent` constructs, which some compilers can offload automatically to graphics processing units (GPUs).  The use of contiguous arrays facilitates spatial locality in memory access patterns.  User control of mini-batch size facilitates in-situ training at application runtime.
+Available optimizers:
+* Stochastic gradient descent and
+* Adam (recommended).
 
-The available optimizers for training neural networks are
-1. Stochastic gradient descent
-2. Adam (recommended)
+Supported network types:
+* Feed-forward networks and
+* Residual networks (for inference only).
 
-Build and Test
---------------
-With the [Fortran Package Manager] (`fpm`) and a recent version of a Fortran compiler installed, enter one of the commmands below to build the Inference-Engine library and run the test suite:
+Supported activation functions:
+* Sigmoid,
+* RELU,
+* GELU,
+* Swish, and
+* Step (for inference only).
 
-### LLVM (`flang-new`)
+Please submit a pull request or an issue to add or request other optimizers, network types, or activation functions.
+
+Getting Started
+---------------
+
+### Examples and demonstration applications
+The [example] subdirectory contains demonstrations of several relatively simple use cases.
+We recommend reviewing the examples to see how to handle basic tasks such as configuring a network training run or reading a neural network and using it to perform inference.
+
+The [demo] subdirectory contains demonstration applications that depend on Inference-Engine but build separately due to requiring additional prerequisites such as NetCDF and HDF5.
+The demonstration applications
+ - Train a cloud microphysics model surrogate for the Intermediate Complexity Atmospheric Research ([ICAR]) package,
+ - Perform inference using a pretrained model for aerosol dynamics in the Energy Exascale Earth System ([E3SM]) package, and
+ - Calculate ICAR cloud microphysics tensor component statistics that provide useful insights for training-data reduction.
+
+### Building and Testing
+Because this repository supports programming language research, the code exercises new language features in novel ways.
+We recommend using any compiler's latest release or even building open-source compilers from source.
+The [handy-dandy] repository contains scripts capturing steps for building the [LLVM] compiler suite.
+The remainder of this section contains commands for building Inference-Engine with a recent Fortran compiler and the Fortran Package Manager ([`fpm`]) in your `PATH`.
+
+#### GNU (`gfortran`) 13 or higher required
+```
+fpm test --compiler gfortran --profile release
+```
+
+#### NAG (`nagfor`)
+```
+fpm test --compiler nagfor --flag -fpp --profile release
+```
+
+#### LLVM (`flang-new`)
 Building with `flang-new` requires passing flags to enable the compiler's experimental support for assumed-rank entities:
 ```
 fpm test --compiler flang-new --flag "-mmlir -allow-assumed-rank -O3"
 ```
-A script that might help with building `flang-new` from source is in the [handy-dandy] repository.
 
-#### _Experimental:_ Automatic parallelization of `do concurrent` on CPUs
-With the `amd_trunk_dev` branch of the AMD ROCm LLVM fork, this capability currently works for inference, e.g.
+##### _Experimental:_ Automatic parallelization of `do concurrent` on CPUs
+With the `amd_trunk_dev` branch of the [ROCm fork] fork of LLVM, automatic parallelization currently works for inference, e.g.
 ```
 fpm run \
   --example concurrent-inferences \
@@ -69,32 +89,21 @@ fpm run \
   -- --network model.json
 
 ```
-where `model.json` must be a neural network in the JSON format used by Inference-Engine and [nexport].
-
+where `model.json` must be a neural network in the [JSON] format used by Inference-Engine and the companion [nexport] package.
 Automatic parallelization for training is under development.
 
-### GNU (`gfortran`) 13 or higher required
-```
-fpm test --profile release
-```
-
-### Intel (`ifx`)
+#### Intel (`ifx`)
 ```
 fpm test --compiler ifx --profile release --flag -O3
 ```
 
-#### _Experimental:_ Automatic offloading of `do concurrent` to GPUs
+##### _Experimental:_ Automatic offloading of `do concurrent` to GPUs
 This capability is under development with the goal to facilitate automatic GPU offloading via the following command:
 ```
 fpm test --compiler ifx --profile releae --flag "-fopenmp-target-do-concurrent -qopenmp -fopenmp-targets=spir64 -O3"
 ```
 
-### NAG (`nagfor`)
-```
-fpm test --compiler nagfor --flag -fpp --profile release
-```
-
-### HPE (`crayftn.sh`) -- under development
+#### HPE (`crayftn.sh`) -- under development
 Support for the Cray Compiler Environment (CCE) Fortran compiler is under development.
 Building with the CCE `ftn` compiler wrapper requires an additional trivial wrapper
 shell script. For example, create a file `crayftn.sh` with the following contents and
@@ -109,15 +118,14 @@ Then execute
 fpm test --compiler crayftn.sh
 ```
 
-Examples
---------
-The [example](./example) subdirectory contains demonstrations of several intended use cases.
-
-Configuring a Training Run
---------------------------
-To see the format for a [JSON] configuration file that defines the hyperparameters and a new network configuration for a training run, execute the provided training-configuration output example program:
+### Configuring a training run
+Inference-Engine imports hyperparameters and network configurations to and from JSON files.
+To see the expected file format, run the [print-training-configuration] example as follows:
 ```
-% ./build/run-fpm.sh run --example print-training-configuration
+% fpm run --example print-training-configuration --compiler gfortran
+```
+which should produce output like the following:
+```
 Project is up to date
  {
      "hyperparameters": {
@@ -133,19 +141,54 @@ Project is up to date
      }
  }
 ```
-As of this writing, the JSON file format is fragile.  Because an Intel `ifx` compiler bug prevents using our preferred JSON interface, [rojff], Inference-Engine currently uses a very restricted JSON subset written and read by the [sourcery] utility's `string_t` type-bound procedures.  For this to work, it is important to keep input files as close as possible to the exact form shown above.  In particular, do not split, combine or reorder lines. Adding or removing whitespace should be ok.
+Inference-Engine's JSON file format is fragile: splitting or combining lines breaks the file reader.
+Files with added or removed white space or reordered whole objects ("hyperparameters" or "network configuration") should work.
+A future release will leverage the [rojff] JSON interface to allow for more flexible file formatting.
+
+### Training a neural network
+Running the following command will train a neural network to learn the saturated mixing ratio function that is one component of the ICAR SB04 cloud microphysics model (see the [saturated_mixing_ratio_m] module for an implementation of the involved function):
+```
+ fpm run --example learn-saturated-mixing-ratio --compiler gfortran --profile release -- --output-file sat-mix-rat.json
+```
+The following is representative output after 3000 epochs:
+```
+ Initializing a new network
+         Epoch | Cost Function| System_Clock | Nodes per Layer
+         1000    0.79896E-04     4.8890      2,4,72,2,1
+         2000    0.61259E-04     9.8345      2,4,72,2,1
+         3000    0.45270E-04     14.864      2,4,72,2,1
+```
+The example program halts execution after reaching a cost-function threshold (which requires millions of epochws) or a maximum number of iterations or if the program detects a file named `stop` in the source-tree root directory.
+Before halting, the program will print a table of expected and predicted saturated mixing ratio values across a range of input pressures and temperatures, wherein two the inputs have each been mapped to the unit interval [0,1].
+The program also writes the neural network initial condition to `initial-network.json` and the final (trained) network to the file specified in the above command: `sat-mix-rat.json`.
+
+### Performing inference
+Users with a PyTorch model may use [nexport] to export the model to JSON files that Inference-Engine can read.
+Examples of performing inference using a neural-network JSON file are in [example/concurrent-inferences].
 
 Documentation
 -------------
-Please see the Inference-Engine GitHub Pages [site] for HTML documentation generated by [`ford`].
+Please see our [GitHub Pages site] for HTML documentation generated by [`ford`] or generate documentaiton locally by installing `ford` and executing `ford ford.md`.
 
-[site]: https://berkeleylab.github.io/inference-engine/ 
+
+[Building and testing]: #building-and-testing
+[Caffeine]: https://go.lbl.gov/caffeine
+[E3SM]: https://e3sm.org
+[example]: example
+[demo]: demo
+[Documentation]: #documentation
+[example/print-training-configuration.F90]: example/print-training-configuration.F90
+[example/concurrent-inferences]: example/concurrent-inferences.f90
 [`ford`]: https://github.com/Fortran-FOSS-Programmers/ford
-[nexport]: https://go.lbl.gov/nexport
-[ICAR]: https://github.com/NCAR/icar
+[`fpm`]: https://github.com/fortran-lang/fpm
+[Getting Started]: #getting-started
+[GitHub Pages site]: https://berkeleylab.github.io/inference-engine/ 
+[handy-dandy]: https://github.com/rouson/handy-dandy/blob/main/src
+[ICAR]: https://github.com/BerkeleyLab/icar/tree/neural-net
 [JSON]: https://www.json.org/json-en.html
-[sourcery]: https://github.com/sourceryinstitute/sourcery
+[LLVM]: https://github.com/llvm/llvm-project
+[nexport]: https://go.lbl.gov/nexport
+[Overview]: #overview
+[ROCm fork]: https://github.com/ROCm/llvm-project
 [rojff]: https://gitlab.com/everythingfunctional/rojff
-[install `fpm`]: https://fpm.fortran-lang.org/install/index.html#install
-[Fortran Package Manager]: https://github.com/fortran-lang/fpm
-[handy-dandy]: https://github.com/rouson/handy-dandy/blob/main/src/fresh-llvm-build.sh
+[saturated_mixing_ratio_m]: example/supporting-modules/saturated_mixing_ratio_m.f90
