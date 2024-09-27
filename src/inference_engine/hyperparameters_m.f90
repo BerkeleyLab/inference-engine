@@ -11,7 +11,7 @@ module hyperparameters_m
   type hyperparameters_t(k)
     integer, kind :: k = default_real
     integer, private:: mini_batches_ = 10
-    real(k), private :: learning_rate_ = 1.5_k
+    real(k), private :: learning_rate_ = real(1.5,k)
     character(len=:), allocatable :: optimizer_
   contains
     generic :: to_json => default_real_to_json, double_precision_to_json
