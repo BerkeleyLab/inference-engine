@@ -78,9 +78,8 @@ program train_and_write
 #else
         associate(network_outputs => trainable_engine%infer(inputs))
 #endif
-          print *," Outputs                          |&
-                   Desired outputs                    |&
-                   Errors"
+          print "(a,62x,a,53x,a)", " Output", "| Desired outputs", "| Errors"
+
           do p = 1, num_pairs
             print *,network_outputs(p)%values(),"|", inputs(p)%values(), "|",  network_outputs(p)%values() - inputs(p)%values()
           end do
@@ -106,15 +105,24 @@ contains
     call json_file%write_lines(file_name)
   end subroutine
 
+  pure function e(m,n) result(e_mn)
+    integer, intent(in) :: m, n
+    real e_mn
+    e_mn = real(merge(1,0,m==n))
+  end function
+
   function perturbed_identity_network(perturbation_magnitude) result(trainable_engine)
     type(trainable_engine_t) trainable_engine
     real, intent(in) :: perturbation_magnitude
-    integer, parameter :: nodes_per_layer(*) = [2, 2, 2, 2]
+    integer, parameter :: nodes_per_layer(*) = [4, 4, 4, 4]
     integer, parameter :: max_n = maxval(nodes_per_layer), layers = size(nodes_per_layer)
-    integer i
-    real, parameter :: identity(*,*,*) = &
-      reshape(real([( [1,0], [0,1], i=1,layers-1 )]), [max_n, max_n, layers-1])
-    real w_harvest(size(identity,1), size(identity,2), size(identity,3)), b_harvest(size(identity,1), size(identity,3))
+    integer i, j, l
+    real, allocatable :: identity(:,:,:), w_harvest(:,:,:), b_harvest(:,:)
+
+    identity =reshape([( [( [(e(i,j),j=1,max_n)], i=1,max_n )], l=1,layers-1 )], [max_n, max_n, layers-1])
+
+    allocate(w_harvest(max_n, max_n, layers-1))
+    allocate(b_harvest(max_n,layers-1))
 
     call random_number(w_harvest)
     call random_number(b_harvest)
@@ -128,6 +136,7 @@ contains
       )
 
     end associate
+
   end function
 
 end program

@@ -1,12 +1,17 @@
 ! Copyright (c), The Regents of the University of California
 ! Terms of use are as specified in LICENSE.txt
 
+#ifndef F2023_LOCALITY
 #if defined(__INTEL_COMPILER) && (__INTEL_COMPILER >= 202400)
-# define F2023_REDUCE_LOCALITY
+# define F2023_LOCALITY 1
+#endif
 #endif
 
-! TODO: #define F2018_LOCALITY_SPECIFIERS for the Cray, LLVM flang, and
-!       older Intel ifx compilers and add the corresponding code.
+#ifndef F2018_LOCALITY
+#if defined(_CRAYFTN)
+# define F2018_LOCALITY 1
+#endif
+#endif
 
 submodule(trainable_engine_m) trainable_engine_s
   use assert_m, only : assert
@@ -139,7 +144,7 @@ contains
 
     associate(output_layer => ubound(self%n,1))
       
-#ifdef F2023_REDUCE_LOCALITY
+#if F2023_LOCALITY || F2018_LOCALITY
       if (.not. allocated(self%z)) allocate(self%z,  mold=self%b) ! z-values: Sum z_j^l = w_jk^{l} a_k^{l-1} + b_j^l
       if (.not. allocated(self%delta)) allocate(self%delta, mold=self%b)
       if (.not. allocated(self%a)) allocate(self%a(maxval(self%n), input_layer:output_layer)) ! Activations
@@ -179,9 +184,22 @@ contains
               real(rkind), allocatable :: pair_cost(:)
               if (present(cost)) allocate(pair_cost(mini_batch_size))
 
-#ifdef F2023_REDUCE_LOCALITY
+#if F2023_LOCALITY
               iterate_through_batch: &
               do concurrent (pair = 1:mini_batch_size) local(a,z,delta) reduce(+: dcdb, dcdw)
+
+#elif F2018_LOCALITY
+
+              reduce_gradients: &
+              block
+                real(rkind) reduce_dcdb(size(dcdb,1),size(dcdb,2),mini_batch_size)
+                real(rkind) reduce_dcdw(size(dcdw,1),size(dcdw,2),size(dcdw,3),mini_batch_size)
+                reduce_dcdb = 0._rkind
+                reduce_dcdw = 0._rkind
+              
+              iterate_through_batch: &
+              do concurrent (pair = 1:mini_batch_size) local(a,z,delta)
+
 #else
 
               reduce_gradients: &
@@ -229,7 +247,7 @@ contains
                   integer j
                   sum_gradients: &
                   do l = 1,output_layer
-#ifdef F2023_REDUCE_LOCALITY
+#if F2023_LOCALITY
                     dcdb(1:n(l),l) = dcdb(1:n(l),l) + delta(1:n(l),l)
                     do concurrent(j = 1:n(l)) reduce(+: dcdw)
                       dcdw(j,1:n(l-1),l) = dcdw(j,1:n(l-1),l) + a(1:n(l-1),l-1)*delta(j,l)
@@ -243,8 +261,15 @@ contains
                   end do sum_gradients
                 end block
     
-#ifdef F2023_REDUCE_LOCALITY
+#if F2023_LOCALITY
                 end do iterate_through_batch
+#elif F2018_LOCALITY
+
+                end do iterate_through_batch
+                dcdb = sum(reduce_dcdb,dim=3)
+                dcdw = sum(reduce_dcdw,dim=4)
+  
+                end block reduce_gradients
 #else
                 end block iteration
                 end do iterate_through_batch
