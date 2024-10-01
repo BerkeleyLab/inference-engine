@@ -1,17 +1,7 @@
 ! Copyright (c), The Regents of the University of California
 ! Terms of use are as specified in LICENSE.txt
 
-#ifndef F2023_LOCALITY
-#if defined(__INTEL_COMPILER) && (__INTEL_COMPILER >= 202400)
-# define F2023_LOCALITY 1
-#endif
-#endif
-
-#ifndef F2018_LOCALITY
-#if defined(_CRAYFTN)
-# define F2018_LOCALITY 1
-#endif
-#endif
+#include "language-support.F90"
 
 submodule(trainable_engine_m) trainable_engine_s
   use assert_m, only : assert
@@ -196,7 +186,7 @@ contains
                 real(rkind) reduce_dcdw(size(dcdw,1),size(dcdw,2),size(dcdw,3),mini_batch_size)
                 reduce_dcdb = 0._rkind
                 reduce_dcdw = 0._rkind
-              
+
               iterate_through_batch: &
               do concurrent (pair = 1:mini_batch_size) local(a,z,delta)
 
@@ -268,7 +258,7 @@ contains
                 end do iterate_through_batch
                 dcdb = sum(reduce_dcdb,dim=3)
                 dcdw = sum(reduce_dcdw,dim=4)
-  
+
                 end block reduce_gradients
 #else
                 end block iteration
