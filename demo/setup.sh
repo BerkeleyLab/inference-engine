@@ -62,22 +62,18 @@ if [ $(uname) = "Darwin" ]; then
 EOF
   fi
 elif [ $(uname) = "Linux" ]; then
-  echo 
-  # TODO: Unless NETCDF_LIB_PATH, HDF5_LIB_PATH, and NETCDFF_LIB_PATH are set, build
-  # NetCDF, NetCDF-Fortran and HDF5 set the aforementioned environment variables.
-fi
-
-if [[ -z ${HDF5_LIB_PATH:-}    ]]; then 
-  printf "Please set HDF5_LIB_PATH to the HDF5 library path and restart this script.\n\n"
-  exit 1
-fi
-if [ -z ${NETCDF_LIB_PATH:-}  ]; then
-  printf "Please set NETCDF_LIB_PATH to the NetCDF library path and restart this script.\n\n"
-   exit 1
-fi
-if [ -z ${NETCDFF_LIB_PATH:-} ]; then
-  printf "Please set NETCDFF_LIB_PATH to the NetCDF-Fortran library path and restart this script.\n\n"
-   exit 1
+  if [[ -z ${HDF5_LIB_PATH:-}    ]]; then 
+    printf "Please set HDF5_LIB_PATH to the HDF5 library path and restart this script.\n\n"
+    exit 1
+  fi
+  if [[ -z ${NETCDF_LIB_PATH:-}  ]]; then
+    printf "Please set NETCDF_LIB_PATH to the NetCDF library path and restart this script.\n\n"
+     exit 1
+  fi
+  if [[ -z ${NETCDFF_LIB_PATH:-} ]]; then
+    printf "Please set NETCDFF_LIB_PATH to the NetCDF-Fortran library path and restart this script.\n\n"
+     exit 1
+  fi
 fi
 
 FPM_LD_FLAG=" -L$NETCDF_LIB_PATH -L$HDF5_LIB_PATH -L$NETCDFF_LIB_PATH"
@@ -93,6 +89,8 @@ elif [[ $fpm_fc_version = GNU* ]]; then
   echo
   exit 1
   FPM_FLAG="-fcoarray=single -O3 -fallow-argument-mismatch -ffree-line-length-none -L$NETCDF_LIB_PATH -L$HDF5_LIB_PATH"
+  FPM_RUNNER="cafrun -n 1"
+  FPM_CC="mpicc"
 else
   FPM_FLAG=""
 fi
@@ -114,15 +112,21 @@ else
   PKG_CONFIG_PATH=`realpath "$PKG_CONFIG_PATH"`
 fi
 
+INFERENCE_ENGINE_VERSION=$(grep version ../fpm.toml | grep -o '".*"' - | sed 's/"//g')
+
 INFERENCE_ENGINE_PC="$PKG_CONFIG_PATH/inference-engine.pc"
 echo "INFERENCE_ENGINE_FPM_CC=\"$FPM_CC\""                  >  $INFERENCE_ENGINE_PC
 echo "INFERENCE_ENGINE_FPM_FC=\"$FPM_FC\""                  >> $INFERENCE_ENGINE_PC
+if [[ ! -z ${FPM_RUNNER:-} ]];  then
+  echo "INFERENCE_ENGINE_FPM_RUNNER=\"$FPM_RUNNER\""          >> $INFERENCE_ENGINE_PC
+fi
 echo "INFERENCE_ENGINE_FPM_LD_FLAG=\"$FPM_LD_FLAG\""        >> $INFERENCE_ENGINE_PC
 echo "INFERENCE_ENGINE_FPM_FLAG=\"$FPM_FLAG\""              >> $INFERENCE_ENGINE_PC
 echo "Name: inference-engine"                               >> $INFERENCE_ENGINE_PC
 echo "Description: Inference Engine"                        >> $INFERENCE_ENGINE_PC
 echo "URL: https://github.com/berkeleylab/inference-engine" >> $INFERENCE_ENGINE_PC
-echo "Version: 0.13.0"                                      >> $INFERENCE_ENGINE_PC
+echo "Version: $INFERENCE_ENGINE_VERSION"                   >> $INFERENCE_ENGINE_PC
+
 if [ $CI = true ]; then
   echo "---------------"
   echo "cat \$INFERENCE_ENGINE_PC"
@@ -135,9 +139,12 @@ cp src/run-fpm.sh-header build/run-fpm.sh
 RUN_FPM_SH="`realpath ./build/run-fpm.sh`"
 echo "`which fpm` \$fpm_arguments \\" >>  $RUN_FPM_SH
 echo "--profile release \\" >> $RUN_FPM_SH
-echo "--c-compiler \"`pkg-config inference-engine --variable=INFERENCE_ENGINE_FPM_CC`\" \\" >> $RUN_FPM_SH
-echo "--compiler \"`pkg-config inference-engine --variable=INFERENCE_ENGINE_FPM_FC`\" \\" >> $RUN_FPM_SH
-echo "--flag \"-cpp `pkg-config inference-engine --variable=INFERENCE_ENGINE_FPM_FLAG`\" \\"  >> $RUN_FPM_SH
+echo "--c-compiler \"`pkg-config inference-engine --variable=INFERENCE_ENGINE_FPM_CC`\" \\"     >> $RUN_FPM_SH
+echo "--compiler \"`pkg-config inference-engine --variable=INFERENCE_ENGINE_FPM_FC`\" \\"       >> $RUN_FPM_SH
+if [[ ! -z ${FPM_RUNNER:-} ]];  then
+  echo "--runner \"`pkg-config inference-engine --variable=INFERENCE_ENGINE_FPM_RUNNER`\" \\"     >> $RUN_FPM_SH
+fi
+echo "--flag \"-cpp `pkg-config inference-engine --variable=INFERENCE_ENGINE_FPM_FLAG`\" \\"    >> $RUN_FPM_SH
 echo "--link-flag \"`pkg-config inference-engine --variable=INFERENCE_ENGINE_FPM_LD_FLAG`\" \\" >> $RUN_FPM_SH
 echo "\$program_arguments" >> $RUN_FPM_SH
 chmod u+x $RUN_FPM_SH

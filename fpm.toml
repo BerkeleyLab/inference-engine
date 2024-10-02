@@ -1,5 +1,5 @@
 name = "inference-engine"
-version = "0.13.0"
+version = "0.13.1"
 license = "see LICENSE.txt"
 author = "Damian Rouson, Tan Nguyen, Jordan Welsman, David Torres, Brad Richardson, Katherine Rasmussen, Federica Villani, Dan Bonachea"
 maintainer = "rouson@lbl.gov"
@@ -8,4 +8,4 @@ maintainer = "rouson@lbl.gov"
 assert = {git = "https://github.com/sourceryinstitute/assert", tag = "1.7.0"}
 
 [dev-dependencies]
-julienne = {git = "https://github.com/berkeleylab/julienne", tag = "1.2.2"}
+julienne = {git = "https://github.com/berkeleylab/julienne", tag = "1.3.1"}
