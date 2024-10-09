@@ -12,7 +12,7 @@ module tensor_m
     real(k), allocatable, private :: values_(:)
   contains
     generic   :: values => default_real_values, double_precision_values
-    procedure, private ::  default_real_values, double_precision_values
+    procedure, private, non_overridable ::  default_real_values, double_precision_values
     generic :: num_components => default_real_num_components, double_precision_num_components
     procedure, private ::        default_real_num_components, double_precision_num_components
   end type

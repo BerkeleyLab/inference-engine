@@ -39,7 +39,7 @@ module inference_engine_m_
     generic :: activation_function_name => default_real_activation_name,         double_precision_activation_name
     generic :: to_exchange              => default_real_to_exchange,             double_precision_to_exchange
     procedure, private :: default_real_approximately_equal,     double_precision_approximately_equal
-    procedure, private :: default_real_infer,                   double_precision_infer
+    procedure, private, non_overridable :: default_real_infer,                   double_precision_infer
     procedure, private :: default_real_to_json,                 double_precision_to_json
     procedure, private :: default_real_map_to_input_range,      double_precision_map_to_input_range
     procedure, private :: default_real_map_from_output_range,   double_precision_map_from_output_range
