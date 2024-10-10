@@ -2,11 +2,8 @@
 ! Terms of use are as specified in LICENSE.txt
 submodule(histogram_m) histogram_s
   use assert_m, only : assert, intrinsic_array_t
-  use kind_parameters_m, only : rkind
   use julienne_m, only : string_t, operator(.cat.)
   implicit none
-
-  real(rkind), parameter :: zero = 0._rkind, one = 1._rkind, two=2._rkind, half = one/two
 
 contains
 
@@ -96,9 +93,8 @@ contains
   end procedure
 
   pure function normalize(x, x_min, x_max) result(x_normalized)
-    implicit none
-    real(rkind), intent(in) :: x(:,:,:,:), x_min, x_max
-    real(rkind), allocatable :: x_normalized(:,:,:,:)
+    real, intent(in) :: x(:,:,:,:), x_min, x_max
+    real, allocatable :: x_normalized(:,:,:,:)
     call assert(x_min/=x_max, "histogram_m(normalize): x_min/=x_max", intrinsic_array_t([x_min, x_max]))
     x_normalized = (x - x_min)/(x_max - x_min)
   end function
@@ -108,7 +104,7 @@ contains
     integer i, j, k, n
     integer, allocatable :: bin_count(:)
     integer, parameter :: performance_threshold = 80
-    real, parameter :: capture_maxval = 1.0001_rkind ! ensure maxval(v_max) falls within the highest bin
+    real, parameter :: capture_maxval = 1.0001 ! ensure maxval(v_max) falls within the highest bin
     real, allocatable :: v_mapped(:,:,:,:)
 
     histogram%variable_name_ = variable_name
@@ -125,11 +121,11 @@ contains
       else
         v_mapped = normalize(v, v_min, v_max)
       end if
-      associate(v_mapped_min => merge(v_min, zero, raw), v_mapped_max => capture_maxval*merge(v_max, one, raw))
+      associate(v_mapped_min => merge(v_min, 0., raw), v_mapped_max => capture_maxval*merge(v_max, 1., raw))
         associate(dv => (v_mapped_max - v_mapped_min)/real(num_bins))
           associate(v_bin_min => [(v_mapped_min + (i-1)*dv, i=1,num_bins)])
             associate(v_bin_max => [v_bin_min(2:), v_mapped_max])
-              histogram%bin_value_ = half*[v_bin_min + v_bin_max] ! switching to average yields problems likely related to roundoff
+              histogram%bin_value_ = 0.5*[v_bin_min + v_bin_max] ! switching to average yields problems likely related to roundoff
               if (num_bins < performance_threshold) then
                 do concurrent(i = 1:num_bins)
                   bin_count(i) = count(v_mapped >= v_bin_min(i) .and. v_mapped < v_bin_max(i))
@@ -147,7 +143,7 @@ contains
                     end do
                   end do
                 end do
-                histogram%bin_frequency_ = real(bin_count,rkind) / real(cardinality,rkind)
+                histogram%bin_frequency_ = real(bin_count) / real(cardinality)
               end if
             end associate
           end associate

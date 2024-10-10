@@ -1,5 +1,8 @@
+! Copyright (c), The Regents of the University of California
+! Terms of use are as specified in LICENSE.txt
 module network_configuration_m
   use julienne_string_m, only : string_t
+  use double_precision_string_m, only : double_precision_string_t
   implicit none
 
   private
@@ -24,6 +27,12 @@ module network_configuration_m
     pure module function from_json(lines) result(network_configuration)
       implicit none
       type(string_t), intent(in) :: lines(:)
+      type(network_configuration_t) network_configuration
+    end function
+
+    pure module function from_double_precision_string_json(lines) result(network_configuration)
+      implicit none
+      type(double_precision_string_t), intent(in) :: lines(:)
       type(network_configuration_t) network_configuration
     end function
 

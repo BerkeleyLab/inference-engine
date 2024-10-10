@@ -2,7 +2,6 @@
 ! Terms of use are as specified in LICENSE.txt
 module relu_m
   use differentiable_activation_strategy_m, only : differentiable_activation_strategy_t
-  use kind_parameters_m, only : rkind
   use julienne_string_m, only : string_t
   implicit none
 
@@ -11,23 +10,35 @@ module relu_m
 
   type, extends(differentiable_activation_strategy_t) :: relu_t
   contains
-     procedure, nopass :: activation
-     procedure, nopass :: activation_derivative
+     procedure, nopass :: default_real_activation,            double_precision_activation
+     procedure, nopass :: default_real_activation_derivative, double_precision_activation_derivative
      procedure :: function_name
   end type
 
   interface
 
-    elemental module function activation(x) result(y)
+    elemental module function default_real_activation(x) result(y)
       implicit none
-      real(rkind), intent(in) :: x
-      real(rkind) y
+      real, intent(in) :: x
+      real y
     end function
 
-    elemental module function activation_derivative(x) result(y)
+    elemental module function double_precision_activation(x) result(y)
       implicit none
-      real(rkind), intent(in) :: x
-      real(rkind) y
+      double precision, intent(in) :: x
+      double precision y
+    end function
+
+    elemental module function default_real_activation_derivative(x) result(y)
+      implicit none
+      real, intent(in) :: x
+      real y
+    end function
+
+    elemental module function double_precision_activation_derivative(x) result(y)
+      implicit none
+      double precision, intent(in) :: x
+      double precision y
     end function
 
     elemental module function function_name(self) result(string)

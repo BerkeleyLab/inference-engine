@@ -12,3 +12,9 @@
 # define F2018_LOCALITY 1
 #endif
 #endif
+
+#ifndef MULTI_IMAGE_SUPPORT
+#if defined(_CRAYFTN) || defined(__GFORTRAN__) || defined(__INTEL_COMPILER) || defined(NAGFOR)
+# define MULTI_IMAGE_SUPPORT 1
+#endif
+#endif

@@ -13,7 +13,7 @@ program train_on_flat_distribution
   use julienne_m, only : string_t, file_t, command_line_t, bin_t
   use assert_m, only : assert, intrinsic_array_t
   use inference_engine_m, only : &
-    inference_engine_t, mini_batch_t, input_output_pair_t, tensor_t, trainable_engine_t, rkind, tensor_map_t, &
+    inference_engine_t, mini_batch_t, input_output_pair_t, tensor_t, trainable_engine_t, tensor_map_t, &
     training_configuration_t, shuffle
 
   !! Internal dependencies:
@@ -52,11 +52,15 @@ program train_on_flat_distribution
     command_line_arguments => get_command_line_arguments(), &
     training_configuration =>  training_configuration_t(file_t(string_t("training_configuration.json"))) &
   )
+#if defined(MULTI_IMAGE_SUPPORT)
     if (this_image()==1) then
+#endif
       call read_train_write(training_configuration, command_line_arguments, create_or_append_to("cost.plt"))
+#if defined(MULTI_IMAGE_SUPPORT)
     else
       call read_train_write(training_configuration, command_line_arguments)
     end if
+#endif
   end associate
 
   call system_clock(t_finish)
@@ -193,7 +197,7 @@ contains
     integer t, b, t_end
     logical stop_requested
 
-    associate( net_file => args%base_name // "_network.json")
+    associate( network_file => args%base_name // "_network.json")
       associate(network_input => args%base_name // "_input.nc")
         print *,"Reading network inputs from " // network_input
         associate(network_input_file => netCDF_file_t(network_input))
@@ -249,7 +253,7 @@ contains
       allocate(dqr_dt, mold = qr_out)
       allocate(dqs_dt, mold = qs_out)
 
-      associate(dt => real(time_out - time_in, rkind))
+      associate(dt => real(time_out - time_in))
         do concurrent(t = 1:t_end)
           dpt_dt(:,:,:,t) = (potential_temperature_out(:,:,:,t) - potential_temperature_in(:,:,:,t))/dt(t)
           dqv_dt(:,:,:,t) = (qv_out(:,:,:,t)- qv_in(:,:,:,t))/dt(t)
@@ -272,11 +276,11 @@ contains
         type(bin_t), allocatable :: bins(:)
         type(input_output_pair_t), allocatable :: input_output_pairs(:)
         type(tensor_t), allocatable, dimension(:) :: inputs, outputs
-        real(rkind), allocatable :: cost(:)
-        integer i, batch, lon, lat, level, time, net_unit, io_status, epoch, end_step
+        real, allocatable :: cost(:)
+        integer i, lon, lat, level, time, network_unit, io_status, epoch, end_step
         integer(int64) start_training, finish_training
 
-        open(newunit=net_unit, file=net_file, form='formatted', status='old', iostat=io_status, action='read')
+        open(newunit=network_unit, file=network_file, form='formatted', status='old', iostat=io_status, action='read')
 
         if (allocated(args%end_step)) then
           end_step = args%end_step
@@ -354,13 +358,13 @@ contains
             print *, "Conditionally sampling for a flat distribution of output values"
             block
               integer i
-              logical occupied(num_bins, num_bins, num_bins, num_bins, num_bins)
+              logical occupied(args%num_bins, args%num_bins, args%num_bins, args%num_bins, args%num_bins)
               logical keepers(size(outputs))
               type(phase_space_bin_t), allocatable :: bin(:)
               occupied = .false.
               keepers = .false.
 
-              bin = [(phase_space_bin_t(outputs(i), output_minima, output_maxima, num_bins), i=1,size(outputs))]
+              bin = [(phase_space_bin_t(outputs(i), output_minima, output_maxima, args%num_bins), i=1,size(outputs))]
 
               do i = 1, size(outputs)
                 if (occupied(bin(i)%loc(1),bin(i)%loc(2),bin(i)%loc(3),bin(i)%loc(4),bin(i)%loc(5))) cycle
@@ -381,8 +385,7 @@ contains
           num_pairs => size(input_output_pairs), &
           n_bins => training_configuration%mini_batches(), &
           adam => merge(.true., .false., training_configuration%optimizer_name() == "adam"), &
-          learning_rate => training_configuration%learning_rate(), &
-          me => this_image() &
+          learning_rate => training_configuration%learning_rate() &
         )
           bins = [(bin_t(num_items=num_pairs, num_bins=n_bins, bin_number=b), b = 1, n_bins)]
 
@@ -394,10 +397,19 @@ contains
           train_write_and_maybe_exit: &
           block
             integer first_epoch
+            integer me
 
+
+#if defined(MULTI_IMAGE_SUPPORT)
+          me = this_image()
+#else
+          me = 1
+#endif
             if (me==1) first_epoch = plot_file%previous_epoch + 1
-            call co_broadcast(first_epoch, source_image=1)
 
+#if defined(MULTI_IMAGE_SUPPORT)
+            call co_broadcast(first_epoch, source_image=1)
+#endif
             associate(last_epoch => first_epoch + args%num_epochs - 1)
               epochs: &
               do epoch = first_epoch, last_epoch
@@ -416,13 +428,17 @@ contains
                       print *, epoch, average_cost
                       write(plot_file%plot_unit,*) epoch, average_cost
 
-                      open(newunit=net_unit, file=net_file, form='formatted', status='unknown', iostat=io_status, action='write')
-                      associate(inference_engine => trainable_engine%to_inference_engine())
-                        associate(json_file => inference_engine%to_json())
-                          call json_file%write_lines(string_t(net_file))
+                      block 
+                        integer net_unit
+
+                        open(newunit=net_unit, file=network_file, form='formatted', status='unknown', iostat=io_status, action='write')
+                        associate(inference_engine => trainable_engine%to_inference_engine())
+                          associate(json_file => inference_engine%to_json())
+                            call json_file%write_lines(string_t(network_file))
+                          end associate
                         end associate
-                      end associate
-                      close(net_unit)
+                        close(net_unit)
+                      end block
 
                     end if image_1_maybe_writes
 
@@ -457,15 +473,15 @@ contains
           args%num_epochs,"epochs"
 
       end block train_network
-    end associate ! net_file
+    end associate ! network_file
 
     close(plot_file%plot_unit)
 
   end subroutine read_train_write
 
   pure function normalize(x, x_min, x_max) result(x_normalized)
-    real(rkind), intent(in) :: x(:,:,:,:), x_min, x_max
-    real(rkind), allocatable :: x_normalized(:,:,:,:)
+    real, intent(in) :: x(:,:,:,:), x_min, x_max
+    real, allocatable :: x_normalized(:,:,:,:)
     call assert(x_min/=x_max, "train_cloud_microphysics(normaliz): x_min/=x_max")
     x_normalized = (x - x_min)/(x_max - x_min)
   end function

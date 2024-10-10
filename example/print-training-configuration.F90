@@ -1,3 +1,5 @@
+! Copyright (c), The Regents of the University of California
+! Terms of use are as specified in LICENSE.txt
 program print_training_configuration
   !! Demonstrate how to construct and print a training_configuration_t object
   use inference_engine_m, only : training_configuration_t, hyperparameters_t, network_configuration_t

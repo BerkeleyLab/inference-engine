@@ -13,19 +13,18 @@ submodule(trainable_engine_m) trainable_engine_s
   implicit none
 
   integer, parameter :: input_layer = 0
-  real(rkind), parameter :: two = 2._rkind
 
 contains
 
-  module procedure num_inputs
+  module procedure default_real_num_inputs
     n_in = self%n(input_layer)
   end procedure
 
-  module procedure num_layers
+  module procedure default_real_num_layers
     n_layers = size(self%n,1)
   end procedure
 
-  module procedure num_outputs
+  module procedure default_real_num_outputs
     n_out = self%n(ubound(self%n,1))
   end procedure
 
@@ -57,7 +56,7 @@ contains
 
   end procedure
 
-  module procedure assert_consistent
+  module procedure default_real_assert_consistent
 
     associate( &
       fully_allocated=>[allocated(self%w),allocated(self%b),allocated(self%n),allocated(self%differentiable_activation_strategy_)] &
@@ -74,9 +73,9 @@ contains
 
   end procedure
 
-  module procedure infer
+  module procedure default_real_predict
 
-    real(rkind), allocatable :: a(:,:)
+    real, allocatable :: a(:,:)
     integer l
 
     call self%assert_consistent
@@ -114,7 +113,7 @@ contains
 
   end procedure
 
-  module procedure train
+  module procedure default_real_train
     integer l, batch, mini_batch_size, pair
     type(tensor_t), allocatable :: inputs(:), expected_outputs(:)
 
@@ -144,7 +143,7 @@ contains
         a => self%a, dcdw => self%dcdw, vdw => self%vdw, sdw => self%sdw, vdwc => self%vdwc, sdwc => self%sdwc, &
         z => self%z, delta => self%delta, dcdb => self%dcdb, vdb => self%vdb, sdb => self%sdb, vdbc => self%vdbc, sdbc=> self%sdbc &
       )
-        vdw = 0.d0; sdw = 1.d0; vdb = 0.d0; sdb = 1.d0
+        vdw = 0.; sdw = 1.; vdb = 0.; sdb = 1.
 
         associate(w => self%w, b => self%b, n => self%n, num_mini_batches => size(mini_batches_arr))
 
@@ -153,7 +152,7 @@ contains
           iterate_across_batches: &
           do batch = 1, num_mini_batches
 
-            dcdw = 0._rkind; dcdb = 0._rkind
+            dcdw = 0.; dcdb = 0.
 
 #ifndef _CRAYFTN
             associate(input_output_pairs => mini_batches_arr(batch)%input_output_pairs())
@@ -171,7 +170,7 @@ contains
             end block
 #endif  
             block
-              real(rkind), allocatable :: pair_cost(:)
+              real, allocatable :: pair_cost(:)
               if (present(cost)) allocate(pair_cost(mini_batch_size))
 
 #if F2023_LOCALITY
@@ -182,10 +181,10 @@ contains
 
               reduce_gradients: &
               block
-                real(rkind) reduce_dcdb(size(dcdb,1),size(dcdb,2),mini_batch_size)
-                real(rkind) reduce_dcdw(size(dcdw,1),size(dcdw,2),size(dcdw,3),mini_batch_size)
-                reduce_dcdb = 0._rkind
-                reduce_dcdw = 0._rkind
+                real reduce_dcdb(size(dcdb,1),size(dcdb,2),mini_batch_size)
+                real reduce_dcdw(size(dcdw,1),size(dcdw,2),size(dcdw,3),mini_batch_size)
+                reduce_dcdb = 0.
+                reduce_dcdw = 0.
 
               iterate_through_batch: &
               do concurrent (pair = 1:mini_batch_size) local(a,z,delta)
@@ -194,10 +193,10 @@ contains
 
               reduce_gradients: &
               block
-                real(rkind) reduce_dcdb(size(dcdb,1),size(dcdb,2),mini_batch_size)
-                real(rkind) reduce_dcdw(size(dcdw,1),size(dcdw,2),size(dcdw,3),mini_batch_size)
-                reduce_dcdb = 0._rkind
-                reduce_dcdw = 0._rkind
+                real reduce_dcdb(size(dcdb,1),size(dcdb,2),mini_batch_size)
+                real reduce_dcdw(size(dcdw,1),size(dcdw,2),size(dcdw,3),mini_batch_size)
+                reduce_dcdb = 0.
+                reduce_dcdw = 0.
               
               iterate_through_batch: &
               do concurrent (pair = 1:mini_batch_size)
@@ -205,8 +204,8 @@ contains
                 iteration: &
                 block
 
-                real(rkind) a(maxval(self%n), input_layer:output_layer) ! Activations
-                real(rkind) z(size(b,1),size(b,2)), delta(size(b,1),size(b,2))
+                real a(maxval(self%n), input_layer:output_layer) ! Activations
+                real z(size(b,1),size(b,2)), delta(size(b,1),size(b,2))
 #endif
 
                 a(1:self%num_inputs(), input_layer) = inputs(pair)%values()
@@ -269,15 +268,15 @@ contains
                 end block reduce_gradients
 #endif
 
-              if (present(cost)) cost(batch) = sum(pair_cost)/(two*mini_batch_size)
+              if (present(cost)) cost(batch) = sum(pair_cost)/(2*mini_batch_size)
             end block
           
             if (adam) then
               block
                 ! Adam parameters  
-                real, parameter :: beta(*) = [.9_rkind, .999_rkind]
-                real, parameter :: obeta(*) = [1._rkind - beta(1), 1._rkind - beta(2)]
-                real, parameter :: epsilon = real(1.D-08,rkind)
+                real, parameter :: beta(*) = [.9, .999]
+                real, parameter :: obeta(*) = [1.- beta(1), 1.- beta(2)]
+                real, parameter :: epsilon = 1.E-08
 
                 associate(alpha => learning_rate)
                   adam_adjust_weights_and_biases: &
@@ -285,16 +284,16 @@ contains
                     dcdw(1:n(l),1:n(l-1),l) = dcdw(1:n(l),1:n(l-1),l)/(mini_batch_size)
                     vdw(1:n(l),1:n(l-1),l)  = beta(1)*vdw(1:n(l),1:n(l-1),l) + obeta(1)*dcdw(1:n(l),1:n(l-1),l)
                     sdw (1:n(l),1:n(l-1),l) = beta(2)*sdw(1:n(l),1:n(l-1),l) + obeta(2)*(dcdw(1:n(l),1:n(l-1),l)**2)
-                    vdwc(1:n(l),1:n(l-1),l) = vdw(1:n(l),1:n(l-1),l)/(1._rkind - beta(1)**num_mini_batches)
-                    sdwc(1:n(l),1:n(l-1),l) = sdw(1:n(l),1:n(l-1),l)/(1._rkind - beta(2)**num_mini_batches)
+                    vdwc(1:n(l),1:n(l-1),l) = vdw(1:n(l),1:n(l-1),l)/(1.- beta(1)**num_mini_batches)
+                    sdwc(1:n(l),1:n(l-1),l) = sdw(1:n(l),1:n(l-1),l)/(1.- beta(2)**num_mini_batches)
                     w(1:n(l),1:n(l-1),l) = w(1:n(l),1:n(l-1),l) &
                       - alpha*vdwc(1:n(l),1:n(l-1),l)/(sqrt(sdwc(1:n(l),1:n(l-1),l))+epsilon) ! Adjust weights
 
                     dcdb(1:n(l),l) = dcdb(1:n(l),l)/mini_batch_size
                     vdb(1:n(l),l) = beta(1)*vdb(1:n(l),l) + obeta(1)*dcdb(1:n(l),l)
                     sdb(1:n(l),l) = beta(2)*sdb(1:n(l),l) + obeta(2)*(dcdb(1:n(l),l)**2)
-                    vdbc(1:n(l),l) = vdb(1:n(l),l)/(1._rkind - beta(1)**num_mini_batches)
-                    sdbc(1:n(l),l) = sdb(1:n(l),l)/(1._rkind - beta(2)**num_mini_batches)
+                    vdbc(1:n(l),l) = vdb(1:n(l),l)/(1. - beta(1)**num_mini_batches)
+                    sdbc(1:n(l),l) = sdb(1:n(l),l)/(1. - beta(2)**num_mini_batches)
                     b(1:n(l),l) = b(1:n(l),l) - alpha*vdbc(1:n(l),l)/(sqrt(sdbc(1:n(l),l))+epsilon) ! Adjust weights
                   end do adam_adjust_weights_and_biases
                 end associate
@@ -351,7 +350,7 @@ contains
     call trainable_engine%assert_consistent
   end procedure
 
-  module procedure to_inference_engine
+  module procedure default_real_to_inference_engine
     inference_engine = inference_engine_t(self%metadata_%strings(), self%w, self%b, self%n, self%input_map_, self%output_map_)
   end procedure
 
@@ -393,7 +392,7 @@ contains
 
   end procedure
 
-  module procedure map_to_training_ranges
+  module procedure default_real_map_to_training_ranges
     associate( &
       inputs => input_output_pair%inputs(), &
       expected_outputs => input_output_pair%expected_outputs() &
@@ -407,19 +406,19 @@ contains
     end associate
   end procedure
 
-  module procedure map_to_input_training_range
+  module procedure default_real_map_to_input_training_range
     normalized_tensor = self%input_map_%map_to_training_range(tensor)
   end procedure
 
-  module procedure map_from_input_training_range
+  module procedure default_real_map_from_input_training_range
     unnormalized_tensor = self%input_map_%map_from_training_range(tensor)
   end procedure
   
-  module procedure map_to_output_training_range
+  module procedure default_real_map_to_output_training_range
     normalized_tensor = self%output_map_%map_to_training_range(tensor)
   end procedure
 
-  module procedure map_from_output_training_range
+  module procedure default_real_map_from_output_training_range
     unnormalized_tensor = self%output_map_%map_from_training_range(tensor)
   end procedure
   
