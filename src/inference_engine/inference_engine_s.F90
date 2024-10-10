@@ -323,6 +323,7 @@ contains
 
     if (allocated(inference_engine%activation_strategy_)) deallocate(inference_engine%activation_strategy_)
     allocate(inference_engine%activation_strategy_, source = activation_factory_method(metadata(4)%string()))
+    inference_engine%activation_ = activation_t(metadata(4)%string())
 
     call assert_consistency(inference_engine)
 

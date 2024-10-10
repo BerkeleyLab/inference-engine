@@ -6,6 +6,27 @@ submodule(activation_m) activation_s
 
 contains
 
+    module procedure construct_from_component
+      activation%selection_ = selection
+    end procedure
+
+    module procedure construct_from_name
+      select case(name)
+        case("gelu")
+          activation%selection_ = gelu
+        case("relu")
+          activation%selection_ = relu
+        case("sigmoid")
+          activation%selection_ = sigmoid
+        case("step")
+          activation%selection_ = step
+        case("swish")
+          activation%selection_ = swish
+        case default
+          error stop "activation_s(construct_from_name): unknown name"
+      end select
+    end procedure
+
     module procedure default_real_evaluate
       select case(self%selection_)
         case(gelu)

@@ -24,12 +24,18 @@ module activation_m
 
   interface activation_t
 
-    elemental module function construct(selection) result(activation)
+    elemental module function construct_from_component(selection) result(activation)
       implicit none
       integer(c_int), intent(in) :: selection
       type(activation_t) activation
     end function
     
+    elemental module function construct_from_name(name) result(activation)
+      implicit none
+      character(len=*), intent(in) :: name
+      type(activation_t) activation
+    end function
+
   end interface
 
   interface
