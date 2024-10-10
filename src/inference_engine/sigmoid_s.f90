@@ -10,7 +10,7 @@ contains
     end procedure
 
     module procedure double_precision_activation
-      y =  1./(1.+exp(-x))
+      y =  1.D0/(1.D0+exp(-x))
     end procedure
 
     module procedure default_real_activation_derivative
@@ -18,7 +18,7 @@ contains
     end procedure
 
     module procedure double_precision_activation_derivative
-      y =  exp(-x)/(1.+exp(-x))**2
+      y =  exp(-x)/(1.D0+exp(-x))**2
     end procedure
 
     module procedure function_name

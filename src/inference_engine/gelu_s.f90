@@ -7,9 +7,9 @@ submodule(gelu_m) gelu_s
   real, parameter :: half = 0.5, two = 2.D0
   real, parameter :: sqrt_2_pi = sqrt(2*pi), sqrt_2 = sqrt(2.)
 
-  real, parameter :: pi_dp = 3.141592653589793D0
-  real, parameter :: half_dp = 0.5D0, two_dp = 2.D0
-  real, parameter :: sqrt_2_pi_dp = sqrt(two_dp*pi_dp), sqrt_2_dp = sqrt(2.D0)
+  double precision, parameter :: pi_dp = 3.141592653589793D0
+  double precision, parameter :: half_dp = 0.5D0, two_dp = 2.D0
+  double precision, parameter :: sqrt_2_pi_dp = sqrt(two_dp*pi_dp), sqrt_2_dp = sqrt(2.D0)
 
 contains
 
