@@ -16,9 +16,9 @@ module tensor_map_m
     real(k), dimension(:), allocatable, private :: intercept_, slope_
   contains
     generic :: map_to_training_range => default_real_map_to_training_range, double_precision_map_to_training_range
-    procedure, private ::               default_real_map_to_training_range, double_precision_map_to_training_range
+    procedure, private, non_overridable ::               default_real_map_to_training_range, double_precision_map_to_training_range
     generic :: map_from_training_range => default_real_map_from_training_range, double_precision_map_from_training_range
-    procedure, private ::                 default_real_map_from_training_range, double_precision_map_from_training_range
+    procedure, private, non_overridable ::                 default_real_map_from_training_range, double_precision_map_from_training_range
     generic :: to_json => default_real_to_json, double_precision_to_json
     procedure, private :: default_real_to_json, double_precision_to_json
     generic :: operator(==) => default_real_equals, double_precision_equals
