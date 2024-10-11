@@ -3,7 +3,6 @@
 module inference_engine_m_
   !! Define an abstraction that supports inference operationsn on a neural network
   use activation_m, only : activation_t
-  use activation_strategy_m, only : activation_strategy_t
   use double_precision_file_m, only : double_precision_file_t
   use kind_parameters_m, only : default_real, double_precision
   use julienne_m, only : file_t, string_t
@@ -25,7 +24,6 @@ module inference_engine_m_
     real(k), allocatable, private :: weights_(:,:,:), biases_(:,:)
     integer, allocatable, private :: nodes_(:)
     type(activation_t), private :: activation_
-    class(activation_strategy_t), allocatable, private :: activation_strategy_ ! Strategy Pattern facilitates elemental activation
   contains
     generic :: operator(==)             => default_real_approximately_equal,     double_precision_approximately_equal
     generic :: infer                    => default_real_infer,                   double_precision_infer
@@ -67,7 +65,7 @@ module inference_engine_m_
     type(metadata_t) metadata_
     real(k), allocatable :: weights_(:,:,:), biases_(:,:)
     integer, allocatable :: nodes_(:)
-    class(activation_strategy_t), allocatable :: activation_strategy_ ! Strategy Pattern facilitates elemental activation
+    type(activation_t) activation_
   end type
 
   interface inference_engine_t

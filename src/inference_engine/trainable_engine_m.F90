@@ -2,9 +2,9 @@
 ! Terms of use are as specified in LICENSE.txt
 module trainable_engine_m
   !! Define an abstraction that supports training a neural network
+  use activation_m, only : activation_t
   use julienne_string_m, only : string_t
   use inference_engine_m_, only : inference_engine_t
-  use differentiable_activation_strategy_m, only : differentiable_activation_strategy_t
   use kind_parameters_m, only : default_real
   use metadata_m, only : metadata_t
   use tensor_m, only :  tensor_t
@@ -21,9 +21,8 @@ module trainable_engine_m
     !! Encapsulate the information needed to perform training
     integer, kind :: k = default_real
     type(tensor_map_t(k)), private :: input_map_, output_map_ !! mappings to/from data ranges used during training
-    class(differentiable_activation_strategy_t), allocatable :: differentiable_activation_strategy_ 
+    type(activation_t), private :: activation_
     type(metadata_t) metadata_       !! metadata_ encapsulates strings for which default-kind suffices
-      !! stateless and thus not paremeterized; generic resolution supports different kinds
     real(k), allocatable :: w(:,:,:) !! weights
     real(k), allocatable :: b(:,:)   !! biases
     integer, allocatable :: n(:)     !! nodes per layer
@@ -62,19 +61,14 @@ module trainable_engine_m
 
   interface trainable_engine_t
 #ifdef __INTEL_COMPILER
-     impure module function construct_trainable_engine_from_padded_arrays( &
-       nodes, weights, biases, differentiable_activation_strategy, metadata, input_map, output_map &
-     ) &
+     impure module function construct_trainable_engine_from_padded_arrays(nodes, weights, biases, metadata, input_map, output_map) &
 #else
-     impure module function construct_from_padded_arrays( &
-       nodes, weights, biases, differentiable_activation_strategy, metadata, input_map, output_map &
-     ) &
+     impure module function construct_from_padded_arrays( nodes, weights, biases, metadata, input_map, output_map) &
 #endif
       result(trainable_engine)
       implicit none
       integer, intent(in) :: nodes(input_layer:)
       real, intent(in)  :: weights(:,:,:), biases(:,:)
-      class(differentiable_activation_strategy_t), intent(in) :: differentiable_activation_strategy
       type(string_t), intent(in) :: metadata(:)
       type(tensor_map_t), intent(in), optional :: input_map, output_map
       type(trainable_engine_t) trainable_engine

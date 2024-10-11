@@ -10,6 +10,10 @@ contains
       activation%selection_ = selection
     end procedure
 
+    module procedure equals
+      self_eq_rhs = self%selection_ == rhs%selection_
+    end procedure
+
     module procedure construct_from_name
       select case(name)
         case("gelu")

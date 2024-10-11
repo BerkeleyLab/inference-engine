@@ -144,8 +144,7 @@ contains
     associate(w => identity + perturbation_magnitude*(w_harvest-0.5)/0.5, b => perturbation_magnitude*(b_harvest-0.5)/0.5)
 
       trainable_engine = trainable_engine_t( &
-        nodes = n, weights = w, biases = b, differentiable_activation_strategy = relu_t(), &
-        metadata = &
+        nodes = n, weights = w, biases = b, metadata = &
           [string_t("Perturbed Identity"), string_t("Damian Rouson"), string_t("2023-09-23"), string_t("relu"), string_t("false")] &
       )
 

@@ -15,11 +15,13 @@ module activation_m
     private
     integer(c_int) selection_ = sigmoid
   contains
+    procedure, non_overridable :: function_name
+    generic :: operator(==) => equals
+    procedure, private      :: equals
     generic :: evaluate        => default_real_evaluate     , double_precision_evaluate
     procedure, non_overridable :: default_real_evaluate     , double_precision_evaluate
     generic :: differentiate   => default_real_differentiate, double_precision_differentiate
     procedure, non_overridable :: default_real_differentiate, double_precision_differentiate
-    procedure, non_overridable :: function_name
   end type
 
   interface activation_t
@@ -39,6 +41,13 @@ module activation_m
   end interface
 
   interface
+
+    elemental module function equals(self, rhs) result(self_eq_rhs)
+      implicit none
+      class(activation_t), intent(in) :: self
+      type(activation_t), intent(in) :: rhs
+      logical self_eq_rhs
+    end function
 
     elemental module function default_real_evaluate(self, x) result(y)
       implicit none

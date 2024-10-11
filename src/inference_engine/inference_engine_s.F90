@@ -47,7 +47,7 @@ contains
     exchange%weights_ = self%weights_
     exchange%biases_ = self%biases_
     exchange%nodes_ = self%nodes_
-    exchange%activation_strategy_ = self%activation_strategy_ 
+    exchange%activation_ = self%activation_
   end procedure
 
   module procedure double_precision_to_exchange
@@ -59,7 +59,7 @@ contains
     exchange%weights_ = self%weights_
     exchange%biases_ = self%biases_
     exchange%nodes_ = self%nodes_
-    exchange%activation_strategy_ = self%activation_strategy_ 
+    exchange%activation_ = self%activation_
   end procedure
 
   module procedure default_real_infer_unmapped
@@ -80,7 +80,7 @@ contains
       do l = input_layer+1, output_layer
       associate(z => matmul(w(1:n(l),1:n(l-1),l), a(1:n(l-1),l-1)) + b(1:n(l),l))
           if (l .lt. output_layer) then
-             a(1:n(l),l) = self%activation_strategy_%activation(z)
+             a(1:n(l),l) = self%activation_%evaluate(z)
           else
              a(1:n(l),l) = z(1:n(l))
           end if
@@ -111,7 +111,7 @@ contains
       do l = input_layer+1, output_layer
       associate(z => matmul(w(1:n(l),1:n(l-1),l), a(1:n(l-1),l-1)) + b(1:n(l),l))
           if (l .lt. output_layer) then
-             a(1:n(l),l) = self%activation_strategy_%activation(z)
+             a(1:n(l),l) = self%activation_%evaluate(z)
           else
              a(1:n(l),l) = z(1:n(l))
           end if
@@ -151,7 +151,7 @@ contains
       feed_forward: &
       do l = input_layer+1, output_layer
         associate(z => matmul(w(1:n(l),1:n(l-1),l), a(1:n(l-1),l-1)) + b(1:n(l),l))
-          a(1:n(l),l) = self%activation_strategy_%activation(z)
+          a(1:n(l),l) = self%activation_%evaluate(z)
         end associate
       end do feed_forward
 
@@ -198,7 +198,7 @@ contains
       feed_forward: &
       do l = input_layer+1, output_layer
         associate(z => matmul(w(1:n(l),1:n(l-1),l), a(1:n(l-1),l-1)) + b(1:n(l),l))
-          a(1:n(l),l) = self%activation_strategy_%activation(z)
+          a(1:n(l),l) = self%activation_%evaluate(z)
         end associate
       end do feed_forward
 
@@ -227,7 +227,7 @@ contains
     integer, parameter :: input_layer=0
 
     associate( &
-      all_allocated=>[allocated(self%weights_),allocated(self%biases_),allocated(self%nodes_),allocated(self%activation_strategy_)]&
+      all_allocated=>[allocated(self%weights_),allocated(self%biases_),allocated(self%nodes_)]&
     )   
       call assert(all(all_allocated),"inference_engine_s(inference_engine_consistency): fully_allocated", &
         intrinsic_array_t(all_allocated))
@@ -252,7 +252,7 @@ contains
     integer, parameter :: input_layer=0
 
     associate( &
-      all_allocated=>[allocated(self%weights_),allocated(self%biases_),allocated(self%nodes_),allocated(self%activation_strategy_)]&
+      all_allocated=>[allocated(self%weights_),allocated(self%biases_),allocated(self%nodes_)]&
     )   
       call assert(all(all_allocated),"inference_engine_s(inference_engine_consistency): fully_allocated", &
         intrinsic_array_t(all_allocated))
@@ -269,26 +269,6 @@ contains
     end associate
 
   end subroutine
-
-  impure function activation_factory_method(activation_name) result(activation)
-    character(len=*), intent(in) :: activation_name
-    class(activation_strategy_t), allocatable :: activation
-
-    select case(activation_name)
-      case("swish")
-        activation = swish_t()
-      case("sigmoid")
-        activation = sigmoid_t()
-      case("step")
-        activation = step_t()
-      case("gelu")
-        activation = gelu_t()
-      case("relu")
-        activation = relu_t()
-      case default
-        error stop "inference_engine_s(activation_factory_method): unrecognized activation strategy '"//activation_name//"'"
-    end select
-  end function
 
   module procedure default_real_construct_from_components
 
@@ -321,8 +301,6 @@ contains
       end if
     end block
 
-    if (allocated(inference_engine%activation_strategy_)) deallocate(inference_engine%activation_strategy_)
-    allocate(inference_engine%activation_strategy_, source = activation_factory_method(metadata(4)%string()))
     inference_engine%activation_ = activation_t(metadata(4)%string())
 
     call assert_consistency(inference_engine)
@@ -360,9 +338,8 @@ contains
       end if
     end block
 
-    if (allocated(inference_engine%activation_strategy_)) deallocate(inference_engine%activation_strategy_)
     associate(function_name => metadata%activation_name())
-      allocate(inference_engine%activation_strategy_, source = activation_factory_method(function_name%string()))
+      inference_engine%activation_ = activation_t(function_name%string())
     end associate
 
     call assert_consistency(inference_engine)
@@ -692,9 +669,8 @@ contains
       associate(metadata => metadata_t(lines(l : l + size(proto_meta%to_json()) - 1)))
         associate(metadata_strings => metadata%strings())
           inference_engine = hidden_layers%inference_engine(metadata_strings, output_layer, input_map, output_map)
-          if (allocated(inference_engine%activation_strategy_)) deallocate(inference_engine%activation_strategy_)
           associate(function_name => metadata%activation_name())
-            allocate(inference_engine%activation_strategy_, source = activation_factory_method(function_name%string()))
+            inference_engine%activation_ = activation_t(function_name%string())
           end associate
         end associate
       end associate
@@ -798,9 +774,8 @@ contains
     associate(proto_meta => metadata_t(string_t(""),string_t(""),string_t(""),string_t(""),string_t("")))
       associate(metadata => metadata_t(lines(l : l + size(proto_meta%to_json()) - 1)))
         inference_engine = hidden_layers%inference_engine(metadata, output_layer, input_map, output_map)
-        if (allocated(inference_engine%activation_strategy_)) deallocate(inference_engine%activation_strategy_)
         associate(function_name => metadata%activation_name())
-          allocate(inference_engine%activation_strategy_, source = activation_factory_method(function_name%string()))
+          inference_engine%activation_ = activation_t(function_name%string())
         end associate
       end associate
     end associate read_metadata
@@ -822,7 +797,7 @@ contains
       call assert(all(equal_shapes), "assert_conformable_with: all(equal_shapes)", intrinsic_array_t(equal_shapes))
     end associate
 
-    call assert(same_type_as(self%activation_strategy_, inference_engine%activation_strategy_), "assert_conformable_with: types)")
+    call assert(self%activation_ == inference_engine%activation_, "assert_conformable_with: activation_")
     
   end procedure
 
@@ -839,7 +814,7 @@ contains
       call assert(all(equal_shapes), "assert_conformable_with: all(equal_shapes)", intrinsic_array_t(equal_shapes))
     end associate
 
-    call assert(same_type_as(self%activation_strategy_, inference_engine%activation_strategy_), "assert_conformable_with: types)")
+    call assert(self%activation_ == inference_engine%activation_, "assert_conformable_with: activation_")
     
   end procedure
 
