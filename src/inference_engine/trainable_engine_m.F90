@@ -61,9 +61,9 @@ module trainable_engine_m
 
   interface trainable_engine_t
 #ifdef __INTEL_COMPILER
-     impure module function construct_trainable_engine_from_padded_arrays(nodes, weights, biases, metadata, input_map, output_map) &
+     module function construct_trainable_engine_from_padded_arrays(nodes, weights, biases, metadata, input_map, output_map) &
 #else
-     impure module function construct_from_padded_arrays( nodes, weights, biases, metadata, input_map, output_map) &
+     module function construct_from_padded_arrays( nodes, weights, biases, metadata, input_map, output_map) &
 #endif
       result(trainable_engine)
       implicit none
@@ -74,7 +74,7 @@ module trainable_engine_m
       type(trainable_engine_t) trainable_engine
     end function
 
-    impure module function construct_from_inference_engine(inference_engine) result(trainable_engine)
+    module function construct_from_inference_engine(inference_engine) result(trainable_engine)
       implicit none
       type(inference_engine_t), intent(in) :: inference_engine
       type(trainable_engine_t) trainable_engine

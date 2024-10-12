@@ -70,7 +70,7 @@ module inference_engine_m_
 
   interface inference_engine_t
 
-    impure module function default_real_construct_from_components(metadata, weights, biases, nodes, input_map, output_map) &
+    module function default_real_construct_from_components(metadata, weights, biases, nodes, input_map, output_map) &
       result(inference_engine)
       implicit none
       type(string_t), intent(in) :: metadata(:)
@@ -80,7 +80,7 @@ module inference_engine_m_
       type(inference_engine_t) inference_engine
     end function
 
-    impure module function double_precision_construct_from_components(metadata, weights, biases, nodes, input_map, output_map) &
+    module function double_precision_construct_from_components(metadata, weights, biases, nodes, input_map, output_map) &
       result(inference_engine)
       implicit none
       type(metadata_t), intent(in) :: metadata
@@ -163,13 +163,13 @@ module inference_engine_m_
       type(tensor_t(double_precision)) tensor
     end function
 
-    impure module function default_real_to_exchange(self) result(exchange)
+    module function default_real_to_exchange(self) result(exchange)
       implicit none
       class(inference_engine_t), intent(in) :: self
       type(exchange_t) exchange
     end function
 
-    impure module function double_precision_to_exchange(self) result(exchange)
+    module function double_precision_to_exchange(self) result(exchange)
       implicit none
       class(inference_engine_t(double_precision)), intent(in) :: self
       type(exchange_t(double_precision)) exchange
