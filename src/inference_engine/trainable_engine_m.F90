@@ -30,8 +30,8 @@ module trainable_engine_m
     real(k), allocatable, dimension(:,:,:) :: dcdw, vdw, sdw, vdwc, sdwc
     real(k), allocatable, dimension(:,:) :: z, delta, dcdb, vdb, sdb, vdbc, sdbc
   contains
-    generic :: train =>   default_real_train
-    procedure, private :: default_real_train
+    generic :: train                    => default_real_train
+    procedure, private, non_overridable :: default_real_train
     generic :: predict => default_real_predict
     generic :: infer =>   default_real_predict
     procedure, private :: default_real_predict
@@ -40,8 +40,8 @@ module trainable_engine_m
     generic :: num_layers => default_real_num_layers
     procedure, private ::    default_real_num_layers
     generic :: num_inputs => default_real_num_inputs
-    procedure, private ::    default_real_num_inputs
-    generic :: num_outputs => default_real_num_outputs
+    procedure, private, non_overridable :: default_real_num_inputs
+    generic :: num_outputs              => default_real_num_outputs
     procedure, private ::     default_real_num_outputs
     generic :: to_inference_engine => default_real_to_inference_engine
     procedure, private ::             default_real_to_inference_engine

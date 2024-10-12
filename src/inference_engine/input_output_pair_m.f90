@@ -14,10 +14,10 @@ module input_output_pair_m
     integer, kind :: k = default_real
     type(tensor_t(k)), private :: inputs_, expected_outputs_
   contains
-    generic :: inputs =>  default_real_inputs, double_precision_inputs
-    procedure, private :: default_real_inputs, double_precision_inputs
-    generic :: expected_outputs => default_real_expected_outputs, double_precision_expected_outputs
-    procedure, private ::          default_real_expected_outputs, double_precision_expected_outputs
+    generic :: inputs                   => default_real_inputs, double_precision_inputs
+    procedure, private, non_overridable :: default_real_inputs, double_precision_inputs
+    generic :: expected_outputs         => default_real_expected_outputs, double_precision_expected_outputs
+    procedure, private, non_overridable :: default_real_expected_outputs, double_precision_expected_outputs
   end type
 
   interface input_output_pair_t
