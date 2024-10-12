@@ -3,14 +3,9 @@
 submodule(inference_engine_m_) inference_engine_s
   use assert_m, only : assert, intrinsic_array_t
   use double_precision_string_m, only : double_precision_string_t
-  use gelu_m, only : gelu_t
   use kind_parameters_m, only : double_precision
   use layer_m, only : layer_t
   use neuron_m, only : neuron_t
-  use relu_m, only : relu_t
-  use step_m, only : step_t
-  use swish_m, only : swish_t
-  use sigmoid_m, only : sigmoid_t
   implicit none
 
   interface assert_consistency

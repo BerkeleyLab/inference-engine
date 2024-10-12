@@ -123,4 +123,5 @@ contains
           error stop "activation_s(function_name): unknown activation"
       end select
     end procedure
+
 end submodule activation_s

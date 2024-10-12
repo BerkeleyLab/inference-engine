@@ -9,7 +9,7 @@ program train_and_write
   !! The initial condition corresponds to the desired network with all weights and biases perturbed by a random variable
   !! that is uniformly distributed on the range [0,0.1].
   use inference_engine_m, only : &
-    inference_engine_t, trainable_engine_t, mini_batch_t, tensor_t, input_output_pair_t, shuffle, relu_t
+    inference_engine_t, trainable_engine_t, mini_batch_t, tensor_t, input_output_pair_t, shuffle
   use julienne_m, only : string_t, file_t, command_line_t, bin_t
   use assert_m, only : assert, intrinsic_array_t
   implicit none

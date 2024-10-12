@@ -1,12 +1,12 @@
 ! Copyright (c), The Regents of the University of California
 ! Terms of use are as specified in LICENSE.txt
 module training_configuration_m
+  use activation_m, only : activation_t
   use julienne_string_m, only : string_t
   use julienne_file_m, only : file_t
   use hyperparameters_m, only : hyperparameters_t
   use network_configuration_m, only : network_configuration_t
   use kind_parameters_m, only  : default_real, double_precision
-  use differentiable_activation_strategy_m, only : differentiable_activation_strategy_t
   use double_precision_file_m, only : double_precision_file_t
   implicit none
 
@@ -28,10 +28,8 @@ module training_configuration_m
     procedure, private ::        default_real_optimizer_name, double_precision_optimizer_name
     generic :: learning_rate => default_real_learning_rate, double_precision_learning_rate
     procedure, private ::       default_real_learning_rate, double_precision_learning_rate
-    generic :: differentiable_activation_strategy => &
-      default_real_differentiable_activation_strategy, double_precision_differentiable_activation_strategy
-    procedure, private :: &
-      default_real_differentiable_activation_strategy, double_precision_differentiable_activation_strategy
+    generic :: differentiable_activation => default_real_differentiable_activation, double_precision_differentiable_activation
+    procedure, private ::                   default_real_differentiable_activation, double_precision_differentiable_activation
     generic :: nodes_per_layer => default_real_nodes_per_layer, double_precision_nodes_per_layer
     procedure, private ::         default_real_nodes_per_layer, double_precision_nodes_per_layer
     generic :: skip_connections => default_real_skip_connections, double_precision_skip_connections
@@ -130,16 +128,16 @@ module training_configuration_m
       double precision rate
     end function
 
-    module function default_real_differentiable_activation_strategy(self) result(strategy)
+    module function default_real_differentiable_activation(self) result(activation)
       implicit none
       class(training_configuration_t), intent(in) :: self
-      class(differentiable_activation_strategy_t), allocatable :: strategy
+      type(activation_t) activation
     end function
 
-    module function double_precision_differentiable_activation_strategy(self) result(strategy)
+    module function double_precision_differentiable_activation(self) result(activation)
       implicit none
       class(training_configuration_t(double_precision)), intent(in) :: self
-      class(differentiable_activation_strategy_t), allocatable :: strategy
+      type(activation_t) activation
     end function
  
     pure module function default_real_nodes_per_layer(self) result(nodes)

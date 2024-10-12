@@ -12,7 +12,7 @@ module trainable_engine_test_m
 #endif
 
   ! Internal dependencies
-  use inference_engine_m, only : trainable_engine_t, tensor_t, sigmoid_t, input_output_pair_t, mini_batch_t, relu_t, shuffle
+  use inference_engine_m, only : trainable_engine_t, tensor_t, input_output_pair_t, mini_batch_t, shuffle
   implicit none
 
   private
