@@ -1,4 +1,5 @@
 submodule(activation_m) activation_s
+  use assert_m, only : assert
   implicit none
 
   real            , parameter :: pi    = 3.141592653589793
@@ -12,6 +13,15 @@ contains
 
     module procedure equals
       self_eq_rhs = self%selection_ == rhs%selection_
+    end procedure
+
+    module procedure function_name
+
+      call assert( lbound(activation_name,1) <= self%selection_ .and. self%selection_ <= ubound(activation_name,1), &
+        "activation_s(function_name): bounds")
+
+      string = string_t(trim(activation_name(self%selection_)))
+
     end procedure
 
     module procedure construct_from_name
@@ -104,23 +114,6 @@ contains
           end associate
         case default
           error stop "activation_s(double_precision_differentiate): unknown activation"
-      end select
-    end procedure
-
-    module procedure function_name
-      select case(self%selection_)
-        case(gelu)
-          string = "gelu"
-        case(relu) 
-          string = "relu"
-        case(sigmoid)
-          string = "sigmoid"
-        case(step)
-          string = "step"
-        case(swish)
-          string = "swish"
-        case default
-          error stop "activation_s(function_name): unknown activation"
       end select
     end procedure
 

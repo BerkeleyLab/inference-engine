@@ -8,9 +8,11 @@ module activation_m
   public :: gelu, relu, sigmoid, step, swish
 
   enum, bind(C)
-    enumerator :: gelu, relu, sigmoid, step, swish
+    enumerator :: gelu=1, relu, sigmoid, step, swish
   end enum
-  
+
+  character(len=*), parameter :: activation_name(*) =  [character(len("sigmoid")) :: "gelu", "relu", "sigmoid", "step", "swish"]
+
   type activation_t
     private
     integer(c_int) selection_ = sigmoid
