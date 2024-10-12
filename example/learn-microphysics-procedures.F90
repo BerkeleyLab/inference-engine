@@ -4,7 +4,7 @@ program learn_microphysics_procedures
   !! Train a neural network proxies for procedures in the Thompson microphysics model
   !! in of ICAR (https://github.com/BerkeleyLab/icar).
   use inference_engine_m, only : &
-    inference_engine_t, trainable_engine_t, mini_batch_t, tensor_t, input_output_pair_t, shuffle, sigmoid_t 
+    inference_engine_t, trainable_engine_t, mini_batch_t, tensor_t, input_output_pair_t, shuffle
   use julienne_m, only : string_t, file_t, command_line_t, bin_t, csv
   use assert_m, only : assert, intrinsic_array_t
   use thompson_tensors_m, only : y, T, p
@@ -190,8 +190,7 @@ contains
       associate(w => identity + perturbation_magnitude*(w_harvest-0.5)/0.5, b => perturbation_magnitude*(b_harvest-0.5)/0.5)
 
         trainable_engine = trainable_engine_t( &
-          nodes = n, weights = w, biases = b, differentiable_activation_strategy = sigmoid_t(), &
-          metadata = &
+          nodes = n, weights = w, biases = b, metadata = &
             [string_t("Thompson microphysics procedures"), string_t("Damian Rouson"), string_t("2023-09-23"), string_t("sigmoid"), &
              string_t("false")] &
         )

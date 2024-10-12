@@ -12,7 +12,7 @@ module trainable_engine_test_m
 #endif
 
   ! Internal dependencies
-  use inference_engine_m, only : trainable_engine_t, tensor_t, sigmoid_t, input_output_pair_t, mini_batch_t, relu_t, shuffle
+  use inference_engine_m, only : trainable_engine_t, tensor_t, input_output_pair_t, mini_batch_t, shuffle
   implicit none
 
   private
@@ -184,7 +184,7 @@ contains
     b = 0.
 
     trainable_engine = trainable_engine_t( &
-      nodes = neurons, weights = w, biases = b, differentiable_activation_strategy = sigmoid_t(), metadata = &
+      nodes = neurons, weights = w, biases = b, metadata = &
       [string_t("2-hide|3-wide"), string_t("Damian Rouson"), string_t("2023-06-30"), string_t("sigmoid"), string_t("false")] &
     )   
   end function
@@ -202,7 +202,7 @@ contains
     w = 2*w
 
     trainable_engine = trainable_engine_t( &
-      nodes = neurons, weights = w, biases = b, differentiable_activation_strategy = sigmoid_t(), metadata = &
+      nodes = neurons, weights = w, biases = b, metadata = &
       [string_t("2-hide|3-wide"), string_t("Damian Rouson"), string_t("2023-06-30"), string_t("sigmoid"), string_t("false")] &
     )   
   end function
@@ -424,7 +424,6 @@ contains
       nodes = nodes_per_layer, &
       weights = identity + harvest , & 
       biases = reshape([real:: [0,0], [0,0], [0,0]], [max_n, layers-1]), &
-      differentiable_activation_strategy = relu_t(), &
       metadata = [string_t("Identity"), string_t("Damian Rouson"), string_t("2023-09-18"), string_t("relu"), string_t("false")] &
     )
   end function

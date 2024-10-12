@@ -2,8 +2,8 @@
 ! Terms of use are as specified in LICENSE.txt
 submodule(training_configuration_m) training_configuration_s
   use assert_m, only : assert
-  use inference_engine_m, only : gelu_t, relu_t, sigmoid_t, swish_t
   use double_precision_string_m, only : double_precision_string_t
+  use activation_m, only : activation_t, gelu, relu, sigmoid, swish
   implicit none
 
   character(len=*), parameter :: header="{", footer="}", separator = ","
@@ -181,7 +181,7 @@ contains
     using_skip = self%network_configuration_%skip_connections()
   end procedure
 
-  module procedure default_real_differentiable_activation_strategy
+  module procedure default_real_differentiable_activation
 #if defined __INTEL_COMPILER || _CRAYFTN
     type(string_t) :: activation_name
     activation_name = self%network_configuration_%activation_name()
@@ -190,15 +190,15 @@ contains
 #endif
       select case(activation_name%string())
         case ("gelu")
-          strategy = gelu_t()
+          activation = activation_t(gelu)
         case ("relu")
-          strategy = relu_t()
+          activation = activation_t(relu)
         case ("sigmoid")
-          strategy = sigmoid_t()
+          activation = activation_t(sigmoid)
         case ("swish")
-          strategy = swish_t()
+          activation = activation_t(swish)
         case default
-          error stop 'activation_strategy_factory_s(factory): unrecognized activation name "' // activation_name%string() // '"' 
+          error stop 'activation_factory_s(factory): unrecognized activation name "' // activation_name%string() // '"' 
       end select
 #if defined __INTEL_COMPILER || _CRAYFTN
 #else
@@ -206,7 +206,7 @@ contains
 #endif
   end procedure
 
-  module procedure double_precision_differentiable_activation_strategy
+  module procedure double_precision_differentiable_activation
 #if defined __INTEL_COMPILER || _CRAYFTN
     type(string_t) :: activation_name
     activation_name = self%network_configuration_%activation_name()
@@ -215,15 +215,15 @@ contains
 #endif
       select case(activation_name%string())
         case ("gelu")
-          strategy = gelu_t()
+          activation = activation_t(gelu)
         case ("relu")
-          strategy = relu_t()
+          activation = activation_t(relu)
         case ("sigmoid")
-          strategy = sigmoid_t()
+          activation = activation_t(sigmoid)
         case ("swish")
-          strategy = swish_t()
+          activation = activation_t(swish)
         case default
-          error stop 'activation_strategy_factory_s(factory): unrecognized activation name "' // activation_name%string() // '"' 
+          error stop 'activation_factory_s(factory): unrecognized activation name "' // activation_name%string() // '"' 
       end select
 #if defined __INTEL_COMPILER || _CRAYFTN
 #else

@@ -4,7 +4,7 @@ program read_query_infer
   !! This program demonstrates how to read a neural network from a JSON file,
   !! query the network object for some of its properties, print those properties,
   !! and use the network to perform inference.  
-  use inference_engine_m, only : inference_engine_t, relu_t, tensor_t
+  use inference_engine_m, only : inference_engine_t, tensor_t
   use julienne_m, only : string_t, command_line_t, file_t
   implicit none
 

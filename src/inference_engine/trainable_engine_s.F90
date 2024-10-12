@@ -43,13 +43,7 @@ contains
       trainable_engine%w = exchange%weights_
       trainable_engine%b = exchange%biases_
       trainable_engine%n = exchange%nodes_
-      select type(activation => exchange%activation_strategy_)
-        class is(differentiable_activation_strategy_t)
-           trainable_engine%differentiable_activation_strategy_ = activation
-        class default
-           error stop &
-           "trainable_engine_s(from_inference_engine): activation strategy must be a differentiable_activation_stragegy_t"
-      end select
+      trainable_engine%activation_ = exchange%activation_
 #ifndef _CRAYFTN
     end associate
 #endif
@@ -59,7 +53,7 @@ contains
   module procedure default_real_assert_consistent
 
     associate( &
-      fully_allocated=>[allocated(self%w),allocated(self%b),allocated(self%n),allocated(self%differentiable_activation_strategy_)] &
+      fully_allocated=>[allocated(self%w),allocated(self%b),allocated(self%n)] &
     )
       call assert(all(fully_allocated),"trainable_engine_s(assert_consistent): fully_allocated",intrinsic_array_t(fully_allocated))
     end associate
@@ -100,9 +94,9 @@ contains
 
       feed_forward: &
       do l = 1,output_layer
-        a(1:n(l),l) = self%differentiable_activation_strategy_%activation( &
-          matmul(w(1:n(l),1:n(l-1),l), a(1:n(l-1),l-1)) + b(1:n(l),l) &
-        )
+        associate(z=>matmul(w(1:n(l),1:n(l-1),l), a(1:n(l-1),l-1)) + b(1:n(l),l))
+          a(1:n(l),l) = self%activation_%evaluate(z)
+        end associate
       end do feed_forward
  
       associate(normalized_outputs => tensor_t(a(1:n(output_layer), output_layer)))
@@ -213,22 +207,21 @@ contains
                 feed_forward: &
                 do l = 1,output_layer
                   z(1:n(l),l) = matmul(w(1:n(l),1:n(l-1),l), a(1:n(l-1),l-1)) + b(1:n(l),l)
-                  a(1:n(l),l) = self%differentiable_activation_strategy_%activation(z(1:n(l),l))
+                  a(1:n(l),l) = self%activation_%evaluate(z(1:n(l),l))
                 end do feed_forward
 
                 associate(y => expected_outputs(pair)%values())
                   if (present(cost)) pair_cost(pair) = sum((y(1:n(output_layer))-a(1:n(output_layer),output_layer))**2)
               
-                  delta(1:n(output_layer),output_layer) = &
-                    (a(1:n(output_layer),output_layer) - y(1:n(output_layer))) &
-                    * self%differentiable_activation_strategy_%activation_derivative(z(1:n(output_layer),output_layer))
+                  delta(1:n(output_layer),output_layer) = (a(1:n(output_layer),output_layer) - y(1:n(output_layer))) &
+                                                         * self%activation_%differentiate(z(1:n(output_layer),output_layer))
                 end associate
                 
                 associate(n_hidden => self%num_layers()-2)
                   back_propagate_error: &
                   do l = n_hidden,1,-1
                     delta(1:n(l),l) = matmul(transpose(w(1:n(l+1),1:n(l),l+1)), delta(1:n(l+1),l+1)) &
-                      * self%differentiable_activation_strategy_%activation_derivative(z(1:n(l),l))
+                                     * self%activation_%differentiate(z(1:n(l),l))
                   end do back_propagate_error
                 end associate
 
@@ -325,7 +318,7 @@ contains
     trainable_engine%n = nodes
     trainable_engine%w = weights
     trainable_engine%b = biases
-    trainable_engine%differentiable_activation_strategy_ = differentiable_activation_strategy
+    trainable_engine%activation_ = activation_t(metadata(4)%string())
 
     block 
       integer i
@@ -370,12 +363,10 @@ contains
 
         associate( &
           w => identity + perturbation_magnitude*(w_harvest-0.5)/0.5, &
-          b => perturbation_magnitude*(b_harvest-0.5)/0.5, &
-          activation => training_configuration%differentiable_activation_strategy() &
+          b => perturbation_magnitude*(b_harvest-0.5)/0.5 &
         )
           trainable_engine = trainable_engine_t( &
-            nodes = n, weights = w, biases = b, differentiable_activation_strategy = activation, metadata = metadata, &
-            input_map = input_map, output_map = output_map &
+            nodes = n, weights = w, biases = b, metadata = metadata, input_map = input_map, output_map = output_map &
           )
         end associate
       end associate

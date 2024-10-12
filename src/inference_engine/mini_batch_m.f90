@@ -13,7 +13,7 @@ module mini_batch_m
     type(input_output_pair_t(k)), private, allocatable :: input_output_pairs_(:)
   contains
     generic :: input_output_pairs => default_real_input_output_pairs, double_precision_input_output_pairs
-    procedure ::                     default_real_input_output_pairs, double_precision_input_output_pairs
+    procedure, non_overridable    :: default_real_input_output_pairs, double_precision_input_output_pairs
   end type
 
   interface mini_batch_t

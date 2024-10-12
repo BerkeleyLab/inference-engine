@@ -2,7 +2,7 @@
 ! Terms of use are as specified in LICENSE.txt
 module inference_engine_m_
   !! Define an abstraction that supports inference operationsn on a neural network
-  use activation_strategy_m, only : activation_strategy_t
+  use activation_m, only : activation_t
   use double_precision_file_m, only : double_precision_file_t
   use kind_parameters_m, only : default_real, double_precision
   use julienne_m, only : file_t, string_t
@@ -23,7 +23,7 @@ module inference_engine_m_
     type(metadata_t), private :: metadata_
     real(k), allocatable, private :: weights_(:,:,:), biases_(:,:)
     integer, allocatable, private :: nodes_(:)
-    class(activation_strategy_t), allocatable, private :: activation_strategy_ ! Strategy Pattern facilitates elemental activation
+    type(activation_t), private :: activation_
   contains
     generic :: operator(==)             => default_real_approximately_equal,     double_precision_approximately_equal
     generic :: infer                    => default_real_infer,                   double_precision_infer
@@ -39,7 +39,7 @@ module inference_engine_m_
     generic :: activation_function_name => default_real_activation_name,         double_precision_activation_name
     generic :: to_exchange              => default_real_to_exchange,             double_precision_to_exchange
     procedure, private :: default_real_approximately_equal,     double_precision_approximately_equal
-    procedure, private :: default_real_infer,                   double_precision_infer
+    procedure, private, non_overridable :: default_real_infer,                   double_precision_infer
     procedure, private :: default_real_to_json,                 double_precision_to_json
     procedure, private :: default_real_map_to_input_range,      double_precision_map_to_input_range
     procedure, private :: default_real_map_from_output_range,   double_precision_map_from_output_range
@@ -65,12 +65,12 @@ module inference_engine_m_
     type(metadata_t) metadata_
     real(k), allocatable :: weights_(:,:,:), biases_(:,:)
     integer, allocatable :: nodes_(:)
-    class(activation_strategy_t), allocatable :: activation_strategy_ ! Strategy Pattern facilitates elemental activation
+    type(activation_t) activation_
   end type
 
   interface inference_engine_t
 
-    impure module function default_real_construct_from_components(metadata, weights, biases, nodes, input_map, output_map) &
+    module function default_real_construct_from_components(metadata, weights, biases, nodes, input_map, output_map) &
       result(inference_engine)
       implicit none
       type(string_t), intent(in) :: metadata(:)
@@ -80,7 +80,7 @@ module inference_engine_m_
       type(inference_engine_t) inference_engine
     end function
 
-    impure module function double_precision_construct_from_components(metadata, weights, biases, nodes, input_map, output_map) &
+    module function double_precision_construct_from_components(metadata, weights, biases, nodes, input_map, output_map) &
       result(inference_engine)
       implicit none
       type(metadata_t), intent(in) :: metadata
@@ -163,13 +163,13 @@ module inference_engine_m_
       type(tensor_t(double_precision)) tensor
     end function
 
-    impure module function default_real_to_exchange(self) result(exchange)
+    module function default_real_to_exchange(self) result(exchange)
       implicit none
       class(inference_engine_t), intent(in) :: self
       type(exchange_t) exchange
     end function
 
-    impure module function double_precision_to_exchange(self) result(exchange)
+    module function double_precision_to_exchange(self) result(exchange)
       implicit none
       class(inference_engine_t(double_precision)), intent(in) :: self
       type(exchange_t(double_precision)) exchange
