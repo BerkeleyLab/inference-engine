@@ -7,6 +7,7 @@ module inference_engine_m_
   use kind_parameters_m, only : default_real, double_precision
   use julienne_m, only : file_t, string_t
   use metadata_m, only : metadata_t
+  use mini_batch_m, only : mini_batch_t
   use tensor_m, only : tensor_t
   use tensor_map_m, only : tensor_map_t
   implicit none
@@ -15,6 +16,7 @@ module inference_engine_m_
   public :: inference_engine_t
   public :: unmapped_engine_t
   public :: exchange_t
+  public :: workspace_t
 
   type inference_engine_t(k)
     !! Encapsulate the minimal information needed to perform inference
@@ -38,19 +40,33 @@ module inference_engine_m_
     generic :: skip                     => default_real_skip,                    double_precision_skip
     generic :: activation_function_name => default_real_activation_name,         double_precision_activation_name
     generic :: to_exchange              => default_real_to_exchange,             double_precision_to_exchange
-    procedure, private :: default_real_approximately_equal,     double_precision_approximately_equal
+    generic :: learn                    => default_real_learn
+    procedure, private, non_overridable :: default_real_approximately_equal,     double_precision_approximately_equal
     procedure, private, non_overridable :: default_real_infer,                   double_precision_infer
-    procedure, private :: default_real_to_json,                 double_precision_to_json
-    procedure, private :: default_real_map_to_input_range,      double_precision_map_to_input_range
-    procedure, private :: default_real_map_from_output_range,   double_precision_map_from_output_range
-    procedure, private :: default_real_num_hidden_layers,       double_precision_num_hidden_layers
-    procedure, private :: default_real_num_inputs,              double_precision_num_inputs
-    procedure, private :: default_real_num_outputs,             double_precision_num_outputs
-    procedure, private :: default_real_nodes_per_layer,         double_precision_nodes_per_layer
-    procedure, private :: default_real_assert_conformable_with, double_precision_assert_conformable_with
-    procedure, private :: default_real_skip,                    double_precision_skip
-    procedure, private :: default_real_activation_name,         double_precision_activation_name
-    procedure, private :: default_real_to_exchange,             double_precision_to_exchange
+    procedure, private, non_overridable :: default_real_learn
+    procedure, private, non_overridable :: default_real_to_json,                 double_precision_to_json
+    procedure, private, non_overridable :: default_real_map_to_input_range,      double_precision_map_to_input_range
+    procedure, private, non_overridable :: default_real_map_from_output_range,   double_precision_map_from_output_range
+    procedure, private, non_overridable :: default_real_num_hidden_layers,       double_precision_num_hidden_layers
+    procedure, private, non_overridable :: default_real_num_inputs,              double_precision_num_inputs
+    procedure, private, non_overridable :: default_real_num_outputs,             double_precision_num_outputs
+    procedure, private, non_overridable :: default_real_nodes_per_layer,         double_precision_nodes_per_layer
+    procedure, private, non_overridable :: default_real_assert_conformable_with, double_precision_assert_conformable_with
+    procedure, private, non_overridable :: default_real_skip,                    double_precision_skip
+    procedure, private, non_overridable :: default_real_activation_name,         double_precision_activation_name
+    procedure, private, non_overridable :: default_real_to_exchange,             double_precision_to_exchange
+  end type
+
+  type workspace_t(k)
+    integer, kind :: k = default_real
+    real(k), allocatable, dimension(:,:) :: a
+    real(k), allocatable, dimension(:,:,:) :: dcdw, vdw, sdw, vdwc, sdwc
+    real(k), allocatable, dimension(:,:) :: z, delta, dcdb, vdb, sdb, vdbc, sdbc
+  contains
+    generic :: fully_allocated          => default_real_allocated
+    generic :: allocate_if_necessary    => default_real_allocate
+    procedure, non_overridable, private :: default_real_allocated
+    procedure, non_overridable, private :: default_real_allocate
   end type
 
   type, extends(inference_engine_t) :: unmapped_engine_t
@@ -115,7 +131,34 @@ module inference_engine_m_
   end interface
 
 
+  interface workspace_t
+
+    pure module function default_real_workspace(inference_engine) result(workspace)
+      implicit none
+      type(inference_engine_t), intent(in) :: inference_engine
+      type(workspace_t) workspace
+    end function
+
+  end interface
+
   interface
+
+    module subroutine default_real_allocate(self, inference_engine)
+      implicit none
+      class(workspace_t), intent(inout) :: self
+      type(inference_engine_t), intent(in) :: inference_engine
+    end subroutine
+
+    pure module function default_real_allocated(self) result(all_allocated)
+      implicit none
+      class(workspace_t), intent(in) :: self
+      logical all_allocated
+    end function
+
+  end interface
+
+
+  interface ! inference_engine_t type-bound procedures
 
     elemental module function default_real_approximately_equal(lhs, rhs) result(lhs_eq_rhs)
       !! The result is true if lhs and rhs are the same to within a tolerance
@@ -298,6 +341,16 @@ module inference_engine_m_
       class(inference_engine_t(double_precision)), intent(in) :: self
       logical use_skip_connections
     end function
+
+    pure module subroutine default_real_learn(self, mini_batches_arr, cost, adam, learning_rate, workspace)
+      implicit none
+      class(inference_engine_t), intent(inout) :: self
+      type(mini_batch_t), intent(in) :: mini_batches_arr(:)
+      real, intent(out), allocatable, optional :: cost(:)
+      logical, intent(in) :: adam
+      real, intent(in) :: learning_rate
+      type(workspace_t), intent(inout) :: workspace
+    end subroutine
 
   end interface
 

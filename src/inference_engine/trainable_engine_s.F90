@@ -412,6 +412,5 @@ contains
   module procedure default_real_map_from_output_training_range
     unnormalized_tensor = self%output_map_%map_from_training_range(tensor)
   end procedure
-  
 
 end submodule trainable_engine_s
