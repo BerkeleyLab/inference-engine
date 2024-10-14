@@ -34,9 +34,9 @@ program train_saturated_mixture_ratio
     type(bin_t), allocatable :: bins(:)
     real, allocatable :: cost(:), random_numbers(:)
     integer io_status, network_unit, plot_unit
-    integer, parameter :: io_success=0, diagnostics_print_interval = 100, network_save_interval = 1000
+    integer, parameter :: io_success=0, diagnostics_print_interval = 1000, network_save_interval = 10000
     integer, parameter :: nodes_per_layer(*) = [2, 4, 72, 2, 1]
-    real, parameter :: cost_tolerance = 1.E-06
+    real, parameter :: cost_tolerance = 1.E-08
 
     call random_init(image_distinct=.true., repeatable=.true.)
     open(newunit=network_unit, file=network_file%string(), form='formatted', status='old', iostat=io_status, action='read')

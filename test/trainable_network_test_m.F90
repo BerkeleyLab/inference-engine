@@ -1,6 +1,6 @@
 ! Copyright (c), The Regents of the University of California
 ! Terms of use are as specified in LICENSE.txt
-module trainable_engine_test_m
+module trainable_network_test_m
   !! Define inference tests and procedures required for reporting results
 
   ! External dependencies
@@ -12,11 +12,11 @@ module trainable_engine_test_m
 #endif
 
   ! Internal dependencies
-  use inference_engine_m, only : trainable_engine_t, tensor_t, input_output_pair_t, mini_batch_t, shuffle
+  use inference_engine_m, only : trainable_network_t, inference_engine_t, tensor_t, input_output_pair_t, mini_batch_t, shuffle
   implicit none
 
   private
-  public :: trainable_engine_test_t
+  public :: trainable_network_test_t
 
   type, extends(vector_function_strategy_t) :: and_gate_test_function_t
   contains
@@ -38,7 +38,7 @@ module trainable_engine_test_m
     procedure, nopass :: vector_function => xor_gate_with_random_weights
   end type
     
-  type, extends(test_t) :: trainable_engine_test_t
+  type, extends(test_t) :: trainable_network_test_t
   contains
     procedure, nopass :: subject
     procedure, nopass :: results
@@ -60,7 +60,7 @@ contains
 
   pure function subject() result(specimen)
     character(len=:), allocatable :: specimen
-    specimen = "A trainable_engine_t" 
+    specimen = "A trainable_network_t object"
   end function
 
   function results() result(test_results)
@@ -163,7 +163,7 @@ contains
     integer i
 
     call assert( size(test_inputs) == size(actual_outputs), &
-      "trainable_engine_test_m(print_truth_table): size(test_inputs) == size(actual_outputs)")
+      "trainable_network_test_m(print_truth_table): size(test_inputs) == size(actual_outputs)")
 
     print *,"_______" // gate_name // "_______"
 
@@ -173,8 +173,8 @@ contains
     end do
   end subroutine
 
-  function two_zeroed_hidden_layers() result(trainable_engine)
-    type(trainable_engine_t) trainable_engine
+  function two_zeroed_hidden_layers() result(trainable_network)
+    type(trainable_network_t) trainable_network
     integer, parameter :: inputs = 2, outputs = 1, hidden = 3 ! number of neurons in input, output, and hidden layers
     integer, parameter :: neurons(*) = [inputs, hidden, hidden, outputs] ! neurons per layer
     integer, parameter :: max_neurons = maxval(neurons), layers=size(neurons) ! max layer width, number of layers
@@ -183,14 +183,14 @@ contains
     w = 0.
     b = 0.
 
-    trainable_engine = trainable_engine_t( &
-      nodes = neurons, weights = w, biases = b, metadata = &
-      [string_t("2-hide|3-wide"), string_t("Damian Rouson"), string_t("2023-06-30"), string_t("sigmoid"), string_t("false")] &
-    )   
+    trainable_network = trainable_network_t( inference_engine_t( &
+      nodes = neurons, weights = w, biases = b &
+     ,metadata = [string_t("2-hide|3-wide"), string_t("Rouson"), string_t("2023-06-30"), string_t("sigmoid"), string_t("false")] &
+    ))
   end function
 
-  function two_random_hidden_layers() result(trainable_engine)
-    type(trainable_engine_t) trainable_engine
+  function two_random_hidden_layers() result(trainable_network)
+    type(trainable_network_t) trainable_network
     integer, parameter :: inputs = 2, outputs = 1, hidden = 3 ! number of neurons in input, output, and hidden layers
     integer, parameter :: neurons(*) = [inputs, hidden, hidden, outputs] ! neurons per layer
     integer, parameter :: max_neurons = maxval(neurons), layers=size(neurons) ! max layer width, number of layers
@@ -201,10 +201,10 @@ contains
     b = 2*b
     w = 2*w
 
-    trainable_engine = trainable_engine_t( &
-      nodes = neurons, weights = w, biases = b, metadata = &
-      [string_t("2-hide|3-wide"), string_t("Damian Rouson"), string_t("2023-06-30"), string_t("sigmoid"), string_t("false")] &
-    )   
+    trainable_network = trainable_network_t( inference_engine_t( &
+      nodes = neurons, weights = w, biases = b &
+      ,metadata = [string_t("2-hide|3-wide"), string_t("Rouson"), string_t("2023-06-30"), string_t("sigmoid"), string_t("false")] &
+    ))
   end function
 
   function and_gate_with_skewed_training_data() result(test_passes)
@@ -212,7 +212,7 @@ contains
     type(mini_batch_t), allocatable :: mini_batches(:)
     type(tensor_t), allocatable, dimension(:,:) :: training_inputs, training_outputs
     type(tensor_t), allocatable, dimension(:) :: tmp, tmp2, test_inputs, expected_test_outputs, actual_outputs
-    type(trainable_engine_t) trainable_engine
+    type(trainable_network_t) trainable_network
     real, parameter :: tolerance = 1.E-02
     real, allocatable :: harvest(:,:,:)
     integer, parameter :: num_inputs=2, mini_batch_size = 1, num_iterations=20000
@@ -231,13 +231,13 @@ contains
     training_outputs = reshape(tmp2, [mini_batch_size, num_iterations])
 
     mini_batches = [(mini_batch_t(input_output_pair_t(training_inputs(:,iter), training_outputs(:,iter))), iter=1, num_iterations)]        
-    trainable_engine = two_zeroed_hidden_layers()
+    trainable_network = two_zeroed_hidden_layers()
 
-    call trainable_engine%train(mini_batches, adam=.false., learning_rate=1.5)
+    call trainable_network%train(mini_batches, adam=.false., learning_rate=1.5)
 
     test_inputs = [tensor_t([true,true]), tensor_t([false,true]), tensor_t([true,false]), tensor_t([false,false])]
     expected_test_outputs = [(and(test_inputs(i)), i=1, size(test_inputs))]
-    actual_outputs = trainable_engine%infer(test_inputs)
+    actual_outputs = trainable_network%infer(test_inputs)
     test_passes = [(abs(actual_outputs(i)%values() - expected_test_outputs(i)%values()) < tolerance, i=1, size(actual_outputs))]
 
   contains
@@ -255,7 +255,7 @@ contains
     type(mini_batch_t), allocatable :: mini_batches(:)
     type(tensor_t), allocatable :: training_inputs(:,:), tmp(:), test_inputs(:)
     type(tensor_t), allocatable :: training_outputs(:,:), expected_test_outputs(:), tmp2(:)
-    type(trainable_engine_t) trainable_engine
+    type(trainable_network_t) trainable_network
     type(tensor_t), allocatable :: actual_outputs(:)
     real, parameter :: tolerance = 1.E-02
     real, allocatable :: harvest(:,:,:)
@@ -275,13 +275,13 @@ contains
     training_outputs = reshape(tmp2, [mini_batch_size, num_iterations])
 
     mini_batches = [(mini_batch_t(input_output_pair_t(training_inputs(:,iter), training_outputs(:,iter))), iter=1, num_iterations)]        
-    trainable_engine = two_zeroed_hidden_layers()
+    trainable_network = two_zeroed_hidden_layers()
 
-    call trainable_engine%train(mini_batches, adam=.false., learning_rate=1.5)
+    call trainable_network%train(mini_batches, adam=.false., learning_rate=1.5)
 
     test_inputs = [tensor_t([true,true]), tensor_t([false,true]), tensor_t([true,false]), tensor_t([false,false])]
     expected_test_outputs = [(not_and(test_inputs(i)), i=1, size(test_inputs))]
-    actual_outputs = trainable_engine%infer(test_inputs)
+    actual_outputs = trainable_network%infer(test_inputs)
     test_passes = [(abs(actual_outputs(i)%values() - expected_test_outputs(i)%values()) < tolerance, i=1, size(actual_outputs))]
 
   contains
@@ -299,7 +299,7 @@ contains
     type(mini_batch_t), allocatable :: mini_batches(:)
     type(tensor_t), allocatable :: training_inputs(:,:), test_inputs(:), actual_outputs(:)
     type(tensor_t), allocatable :: training_outputs(:,:), expected_test_outputs(:)
-    type(trainable_engine_t) trainable_engine
+    type(trainable_network_t) trainable_network
     real, parameter :: tolerance = 1.E-02
     real, allocatable :: harvest(:,:,:)
     integer, parameter :: num_inputs=2, mini_batch_size = 1, num_iterations=50000
@@ -320,13 +320,13 @@ contains
       mini_batches(iter) = mini_batch_t(input_output_pair_t(training_inputs(:,iter), training_outputs(:,iter)))
     end do
 
-    trainable_engine = two_random_hidden_layers()
+    trainable_network = two_random_hidden_layers()
 
-    call trainable_engine%train(mini_batches, adam=.false., learning_rate=1.5)
+    call trainable_network%train(mini_batches, adam=.false., learning_rate=1.5)
 
     test_inputs = [tensor_t([true,true]), tensor_t([false,true]), tensor_t([true,false]), tensor_t([false,false])]
     expected_test_outputs = [(or(test_inputs(i)), i=1, size(test_inputs))]
-    actual_outputs = trainable_engine%infer(test_inputs)
+    actual_outputs = trainable_network%infer(test_inputs)
     test_passes = [(abs(actual_outputs(i)%values() - expected_test_outputs(i)%values()) < tolerance, i=1, size(actual_outputs))]
 
   contains
@@ -344,7 +344,7 @@ contains
     type(mini_batch_t), allocatable :: mini_batches(:)
     type(tensor_t), allocatable, dimension(:,:) :: training_inputs, training_outputs 
     type(tensor_t), allocatable, dimension(:) :: actual_outputs, test_inputs, expected_test_outputs
-    type(trainable_engine_t) trainable_engine
+    type(trainable_network_t) trainable_network
     real, parameter :: tolerance = 1.E-02
     real, allocatable :: harvest(:,:,:)
 #ifdef __flang__
@@ -375,16 +375,16 @@ contains
       mini_batches(iter) = mini_batch_t(input_output_pair_t(training_inputs(:,iter), training_outputs(:,iter)))
     end do
 
-    trainable_engine = two_random_hidden_layers()
+    trainable_network = two_random_hidden_layers()
 
-    call trainable_engine%train(mini_batches, adam=.true., learning_rate=1.5)
+    call trainable_network%train(mini_batches, adam=.true., learning_rate=1.5)
 
     test_inputs = [tensor_t([true,true]), tensor_t([false,true]), tensor_t([true,false]), tensor_t([false,false])]
     block
       integer i
 
       expected_test_outputs = [(local_xor(test_inputs(i)), i=1, size(test_inputs))]
-      actual_outputs = trainable_engine%infer(test_inputs)
+      actual_outputs = trainable_network%infer(test_inputs)
       test_passes = [(abs(actual_outputs(i)%values() - expected_test_outputs(i)%values()) < tolerance, i=1, size(actual_outputs))]
     end block
 
@@ -400,8 +400,8 @@ contains
 
   end function
 
-  function perturbed_identity_network(perturbation_magnitude) result(trainable_engine)
-    type(trainable_engine_t) trainable_engine
+  function perturbed_identity_network(perturbation_magnitude) result(trainable_network)
+    type(trainable_network_t) trainable_network
     real, intent(in) :: perturbation_magnitude
     integer, parameter :: nodes_per_layer(*) = [2, 2, 2, 2]
     integer, parameter :: max_n = maxval(nodes_per_layer), layers = size(nodes_per_layer)
@@ -420,12 +420,12 @@ contains
     call random_number(harvest)
     harvest = perturbation_magnitude*harvest
 
-    trainable_engine = trainable_engine_t( &
+    trainable_network = trainable_network_t( inference_engine_t( &
       nodes = nodes_per_layer, &
       weights = identity + harvest , & 
       biases = reshape([real:: [0,0], [0,0], [0,0]], [max_n, layers-1]), &
       metadata = [string_t("Identity"), string_t("Damian Rouson"), string_t("2023-09-18"), string_t("relu"), string_t("false")] &
-    )
+    ))
   end function
 
   function preserves_identity_mapping() result(test_passes)
@@ -433,17 +433,17 @@ contains
     type(mini_batch_t), allocatable :: mini_batches(:)
     type(input_output_pair_t), allocatable :: input_output_pairs(:)
     type(tensor_t), allocatable :: inputs(:)
-    type(trainable_engine_t)  trainable_engine
+    type(trainable_network_t)  trainable_network
     type(bin_t), allocatable :: bins(:)
     real, allocatable :: cost(:)
     integer, parameter :: num_pairs = 100, num_epochs = 100, n_bins = 3
     integer i, bin, epoch
 
-    trainable_engine = perturbed_identity_network(perturbation_magnitude=0.)
+    trainable_network = perturbed_identity_network(perturbation_magnitude=0.)
 
-    associate(num_inputs => trainable_engine%num_inputs(), num_outputs => trainable_engine%num_outputs())
+    associate(num_inputs => trainable_network%num_inputs(), num_outputs => trainable_network%num_outputs())
 
-      call assert(num_inputs == num_outputs,"trainable_engine_test_m(identity_mapping): # inputs == # outputs", &
+      call assert(num_inputs == num_outputs,"trainable_network_test_m(identity_mapping): # inputs == # outputs", &
         intrinsic_array_t([num_inputs, num_outputs]) &
       )
 #ifdef _CRAYFTN
@@ -461,16 +461,16 @@ contains
 
       do epoch = 1,num_epochs
         mini_batches = [(mini_batch_t(input_output_pairs(bins(bin)%first():bins(bin)%last())), bin = 1, size(bins))]
-        call trainable_engine%train(mini_batches, cost, adam=.false., learning_rate=1.5)
+        call trainable_network%train(mini_batches, cost, adam=.false., learning_rate=1.5)
       end do
 
       block
         real, parameter :: tolerance = 1.E-06
 #if defined _CRAYFTN || __GFORTRAN__
         type(tensor_t), allocatable :: network_outputs(:)
-        network_outputs = trainable_engine%infer(inputs)
+        network_outputs = trainable_network%infer(inputs)
 #else
-        associate(network_outputs => trainable_engine%infer(inputs))
+        associate(network_outputs => trainable_network%infer(inputs))
 #endif
           test_passes = maxval(abs([(network_outputs(i)%values() - inputs(i)%values(), i=1,num_pairs)])) < tolerance
 #if defined _CRAYFTN || __GFORTRAN__
@@ -492,7 +492,7 @@ contains
     type(mini_batch_t), allocatable :: mini_batches(:)
     type(input_output_pair_t), allocatable :: input_output_pairs(:)
     type(tensor_t), allocatable :: inputs(:)
-    type(trainable_engine_t)  trainable_engine
+    type(trainable_network_t)  trainable_network
     type(bin_t), allocatable :: bins(:)
     real, allocatable :: cost(:)
     integer, parameter :: num_pairs = 6
@@ -500,11 +500,11 @@ contains
     integer, parameter :: num_bins = 5 
     integer i, bin, epoch
 
-    trainable_engine = perturbed_identity_network(perturbation_magnitude=0.1)
+    trainable_network = perturbed_identity_network(perturbation_magnitude=0.1)
 
-    associate(num_inputs => trainable_engine%num_inputs(), num_outputs => trainable_engine%num_outputs())
+    associate(num_inputs => trainable_network%num_inputs(), num_outputs => trainable_network%num_outputs())
 
-      call assert(num_inputs == num_outputs,"trainable_engine_test_m(identity_mapping): # inputs == # outputs", &
+      call assert(num_inputs == num_outputs,"trainable_network_test_m(identity_mapping): # inputs == # outputs", &
         intrinsic_array_t([num_inputs, num_outputs]) &
       )
 #ifdef _CRAYFTN
@@ -523,16 +523,16 @@ contains
       do epoch = 1,num_epochs
         call shuffle(input_output_pairs)
         mini_batches = [(mini_batch_t(input_output_pairs(bins(bin)%first():bins(bin)%last())), bin = 1, size(bins))]
-        call trainable_engine%train(mini_batches, cost, adam=.true., learning_rate=1.5)
+        call trainable_network%train(mini_batches, cost, adam=.true., learning_rate=1.5)
       end do
 
       block
         real, parameter :: tolerance = 1.E-06
 #if defined _CRAYFTN || __GFORTRAN__
         type(tensor_t), allocatable :: network_outputs(:)
-        network_outputs = trainable_engine%infer(inputs)
+        network_outputs = trainable_network%infer(inputs)
 #else
-        associate(network_outputs => trainable_engine%infer(inputs))
+        associate(network_outputs => trainable_network%infer(inputs))
 #endif
           test_passes = maxval(abs([(network_outputs(i)%values() - inputs(i)%values(), i=1,num_pairs)])) < tolerance
 #if defined _CRAYFTN || __GFORTRAN__
@@ -545,4 +545,4 @@ contains
 
   end function
 
-end module trainable_engine_test_m
+end module trainable_network_test_m

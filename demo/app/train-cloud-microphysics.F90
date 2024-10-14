@@ -13,7 +13,7 @@ program train_on_flat_distribution
   use julienne_m, only : string_t, file_t, command_line_t, bin_t
   use assert_m, only : assert, intrinsic_array_t
   use inference_engine_m, only : &
-    inference_engine_t, mini_batch_t, input_output_pair_t, tensor_t, trainable_engine_t, tensor_map_t, &
+    inference_engine_t, mini_batch_t, input_output_pair_t, tensor_t, trainable_network_t, tensor_map_t, &
     training_configuration_t, shuffle
 
   !! Internal dependencies:
@@ -271,7 +271,7 @@ contains
 
       train_network: &
       block
-        type(trainable_engine_t) trainable_engine
+        type(trainable_network_t) trainable_network
         type(mini_batch_t), allocatable :: mini_batches(:)
         type(bin_t), allocatable :: bins(:)
         type(input_output_pair_t), allocatable :: input_output_pairs(:)
@@ -319,7 +319,7 @@ contains
             read_or_initialize_engine: &
             if (io_status==0) then
               print *,"Reading network from file " // network_file
-              trainable_engine = trainable_engine_t(inference_engine_t(file_t(string_t(network_file))))
+              trainable_network = trainable_network_t(inference_engine_t(file_t(string_t(network_file))))
               close(network_unit)
             else
               close(network_unit)
@@ -339,9 +339,9 @@ contains
                     maxima = [maxval(pressure_in), maxval(potential_temperature_in), maxval(temperature_in), &
                       maxval(qv_in), maxval(qc_in), maxval(qr_in), maxval(qs_in)] &
                 ) )
-                  associate(activation => training_configuration%differentiable_activation_strategy())
+                  associate(activation => training_configuration%differentiable_activation())
                     associate(residual_network=> string_t(trim(merge("true ", "false", training_configuration%skip_connections()))))
-                      trainable_engine = trainable_engine_t( &
+                      trainable_network = trainable_network_t( &
                         training_configuration,  &
                         perturbation_magnitude = 0.05, &
                         metadata = [ &
@@ -379,7 +379,7 @@ contains
         end associate output_extrema
 
         print *,"Normalizing the remaining input and output tensors"
-        input_output_pairs = trainable_engine%map_to_training_ranges(input_output_pairs)
+        input_output_pairs = trainable_network%map_to_training_ranges(input_output_pairs)
 
         associate( &
           num_pairs => size(input_output_pairs), &
@@ -417,7 +417,7 @@ contains
                 if (size(bins)>1) call shuffle(input_output_pairs) ! set up for stochastic gradient descent
                 mini_batches = [(mini_batch_t(input_output_pairs(bins(b)%first():bins(b)%last())), b = 1, size(bins))]
 
-                call trainable_engine%train(mini_batches, cost, adam, learning_rate)
+                call trainable_network%train(mini_batches, cost, adam, learning_rate)
 
                 associate(average_cost => sum(cost)/size(cost))
                   associate(converged => average_cost <= args%cost_tolerance)
@@ -432,10 +432,8 @@ contains
                         integer net_unit
 
                         open(newunit=net_unit, file=network_file, form='formatted', status='unknown', iostat=io_status, action='write')
-                        associate(inference_engine => trainable_engine%to_inference_engine())
-                          associate(json_file => inference_engine%to_json())
-                            call json_file%write_lines(string_t(network_file))
-                          end associate
+                        associate(json_file => trainable_network%to_json())
+                          call json_file%write_lines(string_t(network_file))
                         end associate
                         close(net_unit)
                       end block

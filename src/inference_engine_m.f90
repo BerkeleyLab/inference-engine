@@ -14,7 +14,6 @@ module inference_engine_m
  use tensor_m, only : tensor_t
  use tensor_map_m, only : tensor_map_t
  use trainable_network_m, only : trainable_network_t
- use trainable_engine_m, only : trainable_engine_t
  use training_configuration_m, only : training_configuration_t
  use ubounds_m, only : ubounds_t
  implicit none
