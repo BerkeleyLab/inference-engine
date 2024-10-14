@@ -8,11 +8,6 @@ submodule(inference_engine_m_) inference_engine_s
   use neuron_m, only : neuron_t
   implicit none
 
-  interface assert_consistency
-    procedure default_real_consistency
-    procedure double_precision_consistency
-  end interface
-
   character(len=*), parameter :: acceptable_engine_tag = "0.13.0" ! git tag capable of reading the current json file format
   integer, parameter :: input_layer = 0 
 
@@ -58,72 +53,12 @@ contains
     exchange%activation_ = self%activation_
   end procedure
 
-  module procedure default_real_infer_unmapped
-
-    real, allocatable :: a(:,:)
-    integer l
-
-    call assert_consistency(self)
-
-    associate(w => self%weights_, b => self%biases_, n => self%nodes_, output_layer => ubound(self%nodes_,1))
-
-      allocate(a(maxval(n), input_layer:output_layer))
-
-      a(1:n(input_layer),input_layer) = inputs%values()
-
-      feed_forward: &
-      do l = input_layer+1, output_layer
-      associate(z => matmul(w(1:n(l),1:n(l-1),l), a(1:n(l-1),l-1)) + b(1:n(l),l))
-          if (l .lt. output_layer) then
-             a(1:n(l),l) = self%activation_%evaluate(z)
-          else
-             a(1:n(l),l) = z(1:n(l))
-          end if
-        end associate
-      end do feed_forward
-
-      outputs = tensor_t(a(1:n(output_layer), output_layer))
-
-    end associate
-
-  end procedure
-
-  module procedure double_precision_infer_unmapped
-
-    double precision, allocatable :: a(:,:)
-    integer l
-
-    call assert_consistency(self)
-
-    associate(w => self%weights_, b => self%biases_, n => self%nodes_, output_layer => ubound(self%nodes_,1))
-
-      allocate(a(maxval(n), input_layer:output_layer))
-
-      a(1:n(input_layer),input_layer) = inputs%values()
-
-      feed_forward: &
-      do l = input_layer+1, output_layer
-      associate(z => matmul(w(1:n(l),1:n(l-1),l), a(1:n(l-1),l-1)) + b(1:n(l),l))
-          if (l .lt. output_layer) then
-             a(1:n(l),l) = self%activation_%evaluate(z)
-          else
-             a(1:n(l),l) = z(1:n(l))
-          end if
-        end associate
-      end do feed_forward
-
-      outputs = tensor_t(a(1:n(output_layer), output_layer))
-
-    end associate
-
-  end procedure
-
   module procedure default_real_infer
 
     real, allocatable :: a(:,:)
     integer l
 
-    call assert_consistency(self)
+    call self%assert_consistency()
 
     associate(w => self%weights_, b => self%biases_, n => self%nodes_, output_layer => ubound(self%nodes_,1))
 
@@ -169,7 +104,7 @@ contains
     double precision, allocatable :: a(:,:)
     integer l
 
-    call assert_consistency(self)
+    call self%assert_consistency()
 
     associate(w => self%weights_, b => self%biases_, n => self%nodes_, output_layer => ubound(self%nodes_,1))
 
@@ -212,52 +147,47 @@ contains
 
   end procedure
 
-  pure subroutine default_real_consistency(self)
-
-    class(inference_engine_t), intent(in) :: self
+  module procedure default_real_consistency
 
     associate( &
       all_allocated=>[allocated(self%weights_),allocated(self%biases_),allocated(self%nodes_)]&
     )   
-      call assert(all(all_allocated),"inference_engine_s(inference_engine_consistency): fully_allocated", &
+      call assert(all(all_allocated),"inference_engine_s(default_real_consistency): fully_allocated", &
         intrinsic_array_t(all_allocated))
     end associate
 
     associate(max_width=>maxval(self%nodes_), component_dims=>[size(self%biases_,1), size(self%weights_,1), size(self%weights_,2)])
-      call assert(all(component_dims == max_width), "inference_engine_s(inference_engine_consistency): conformable arrays", &
+      call assert(all(component_dims == max_width), "inference_engine_s(default_real_consistency): conformable arrays", &
         intrinsic_array_t([max_width,component_dims]))
     end associate
 
     associate(input_subscript => lbound(self%nodes_,1))
-      call assert(input_subscript == input_layer, "inference_engine_s(inference_engine_consistency): n base subsscript", &
+      call assert(input_subscript == input_layer, "inference_engine_s(default_real_consistency): n base subsscript", &
         input_subscript)
     end associate
 
-  end subroutine
+  end procedure
 
-  pure subroutine double_precision_consistency(self)
-
-    class(inference_engine_t(double_precision)), intent(in) :: self
-
+  module procedure double_precision_consistency
 
     associate( &
       all_allocated=>[allocated(self%weights_),allocated(self%biases_),allocated(self%nodes_)]&
     )   
-      call assert(all(all_allocated),"inference_engine_s(inference_engine_consistency): fully_allocated", &
+      call assert(all(all_allocated),"inference_engine_s(default_real_consistency): fully_allocated", &
         intrinsic_array_t(all_allocated))
     end associate
 
     associate(max_width=>maxval(self%nodes_), component_dims=>[size(self%biases_,1), size(self%weights_,1), size(self%weights_,2)])
-      call assert(all(component_dims == max_width), "inference_engine_s(inference_engine_consistency): conformable arrays", &
+      call assert(all(component_dims == max_width), "inference_engine_s(default_real_consistency): conformable arrays", &
         intrinsic_array_t([max_width,component_dims]))
     end associate
 
     associate(input_subscript => lbound(self%nodes_,1))
-      call assert(input_subscript == input_layer, "inference_engine_s(inference_engine_consistency): n base subsscript", &
+      call assert(input_subscript == input_layer, "inference_engine_s(default_real_consistency): n base subsscript", &
         input_subscript)
     end associate
 
-  end subroutine
+  end procedure
 
   module procedure default_real_construct_from_components
 
@@ -292,7 +222,7 @@ contains
 
     inference_engine%activation_ = activation_t(metadata(4)%string())
 
-    call assert_consistency(inference_engine)
+    call inference_engine%assert_consistency()
 
   end procedure default_real_construct_from_components
 
@@ -331,7 +261,7 @@ contains
       inference_engine%activation_ = activation_t(function_name%string())
     end associate
 
-    call assert_consistency(inference_engine)
+    call inference_engine%assert_consistency()
 
   end procedure double_precision_construct_from_components
 
@@ -346,7 +276,7 @@ contains
     proto_neuron = neuron_t([0.],1.)
 #endif
 
-    call assert_consistency(self)
+    call self%assert_consistency()
 
     associate( &
        num_hidden_layers => self%num_hidden_layers() &
@@ -462,7 +392,7 @@ contains
     proto_neuron = neuron_t([0D0],1D0)
 #endif
 
-    call assert_consistency(self)
+    call self%assert_consistency()
 
     associate( &
        num_hidden_layers => self%num_hidden_layers() &
@@ -665,13 +595,9 @@ contains
       end associate
     end associate read_metadata
 
-    call assert_consistency(inference_engine)
+    call inference_engine%assert_consistency()
 
   end procedure default_real_from_json
-
-  module procedure double_precision_unmapped_from_json
-    unmapped_engine%inference_engine_t = double_precision_from_json(file)
-  end procedure
 
   module procedure double_precision_from_json
 
@@ -769,14 +695,13 @@ contains
       end associate
     end associate read_metadata
 
-    call assert_consistency(inference_engine)
+    call inference_engine%assert_consistency()
 
   end procedure double_precision_from_json
 
   module procedure default_real_assert_conformable_with
 
-    call assert_consistency(self)
-    call assert_consistency(inference_engine)
+    call self%assert_consistency()
 
     associate(equal_shapes => [ &
       shape(self%weights_) == shape(inference_engine%weights_), &
@@ -792,8 +717,7 @@ contains
 
   module procedure double_precision_assert_conformable_with
 
-    call assert_consistency(self)
-    call assert_consistency(inference_engine)
+    call self%assert_consistency()
 
     associate(equal_shapes => [ &
       shape(self%weights_) == shape(inference_engine%weights_), &
@@ -813,8 +737,8 @@ contains
 
     nodes_eq = all(lhs%nodes_ == rhs%nodes_)
 
-    call assert_consistency(lhs)
-    call assert_consistency(rhs)
+    call lhs%assert_consistency()
+    call rhs%assert_consistency()
     call lhs%assert_conformable_with(rhs)
 
     block
@@ -854,8 +778,8 @@ contains
 
     nodes_eq = all(lhs%nodes_ == rhs%nodes_)
 
-    call assert_consistency(lhs)
-    call assert_consistency(rhs)
+    call lhs%assert_consistency()
+    call rhs%assert_consistency()
     call lhs%assert_conformable_with(rhs)
 
     block
@@ -890,18 +814,18 @@ contains
   end procedure
 
   module procedure default_real_num_outputs
-    call assert_consistency(self)
+    call self%assert_consistency()
     output_count = self%nodes_(ubound(self%nodes_,1))
   end procedure
 
   module procedure double_precision_num_outputs
-    call assert_consistency(self)
+    call self%assert_consistency()
     output_count = self%nodes_(ubound(self%nodes_,1))
   end procedure
 
   module procedure default_real_num_hidden_layers
     integer, parameter :: num_non_hidden_layers = 2
-    call assert_consistency(self)
+    call self%assert_consistency()
     associate(num_layers => size(self%nodes_))
       hidden_layer_count =  num_layers - num_non_hidden_layers
     end associate
@@ -909,29 +833,29 @@ contains
 
   module procedure double_precision_num_hidden_layers
     integer, parameter :: num_non_hidden_layers = 2
-    call assert_consistency(self)
+    call self%assert_consistency()
     associate(num_layers => size(self%nodes_))
       hidden_layer_count =  num_layers - num_non_hidden_layers
     end associate
   end procedure
 
   module procedure default_real_num_inputs
-    call assert_consistency(self)
+    call self%assert_consistency()
     input_count = self%nodes_(lbound(self%nodes_,1))
   end procedure
 
   module procedure double_precision_num_inputs
-    call assert_consistency(self)
+    call self%assert_consistency()
     input_count = self%nodes_(lbound(self%nodes_,1))
   end procedure
 
   module procedure default_real_nodes_per_layer
-    call assert_consistency(self)
+    call self%assert_consistency()
     node_count = self%nodes_
   end procedure
 
   module procedure double_precision_nodes_per_layer
-    call assert_consistency(self)
+    call self%assert_consistency()
     node_count = self%nodes_
   end procedure
 
@@ -963,7 +887,7 @@ contains
     integer l, batch, mini_batch_size, pair
     type(tensor_t), allocatable :: inputs(:), expected_outputs(:)
 
-    call assert_consistency(self)
+    call self%assert_consistency()
     call assert(workspace%fully_allocated(), "inference_engine_s(default_real_learn): workspace%fully_allocated()")
 
     associate(output_layer => ubound(self%nodes_,1))

@@ -14,7 +14,7 @@ module inference_engine_m_
 
   private
   public :: inference_engine_t
-  public :: unmapped_engine_t
+  public :: unmapped_network_t
   public :: exchange_t
   public :: workspace_t
 
@@ -41,6 +41,8 @@ module inference_engine_m_
     generic :: activation_function_name => default_real_activation_name,         double_precision_activation_name
     generic :: to_exchange              => default_real_to_exchange,             double_precision_to_exchange
     generic :: learn                    => default_real_learn
+    generic :: assert_consistency       => default_real_consistency,             double_precision_consistency
+    procedure, private, non_overridable :: default_real_consistency,             double_precision_consistency
     procedure, private, non_overridable :: default_real_approximately_equal,     double_precision_approximately_equal
     procedure, private, non_overridable :: default_real_infer,                   double_precision_infer
     procedure, private, non_overridable :: default_real_learn
@@ -69,11 +71,31 @@ module inference_engine_m_
     procedure, non_overridable, private :: default_real_allocate
   end type
 
-  type, extends(inference_engine_t) :: unmapped_engine_t
-  contains
-    generic :: infer =>   default_real_infer_unmapped, double_precision_infer_unmapped
-    procedure, private :: default_real_infer_unmapped, double_precision_infer_unmapped
-  end type
+  interface workspace_t
+
+    pure module function default_real_workspace(inference_engine) result(workspace)
+      implicit none
+      type(inference_engine_t), intent(in) :: inference_engine
+      type(workspace_t) workspace
+    end function
+
+  end interface
+
+  interface
+
+    module subroutine default_real_allocate(self, inference_engine)
+      implicit none
+      class(workspace_t), intent(inout) :: self
+      type(inference_engine_t), intent(in) :: inference_engine
+    end subroutine
+
+    pure module function default_real_allocated(self) result(all_allocated)
+      implicit none
+      class(workspace_t), intent(in) :: self
+      logical all_allocated
+    end function
+
+  end interface
 
   type exchange_t(k)
     integer, kind :: k = default_real
@@ -83,6 +105,22 @@ module inference_engine_m_
     integer, allocatable :: nodes_(:)
     type(activation_t) activation_
   end type
+
+  interface
+
+    module function default_real_to_exchange(self) result(exchange)
+      implicit none
+      class(inference_engine_t), intent(in) :: self
+      type(exchange_t) exchange
+    end function
+
+    module function double_precision_to_exchange(self) result(exchange)
+      implicit none
+      class(inference_engine_t(double_precision)), intent(in) :: self
+      type(exchange_t(double_precision)) exchange
+    end function
+
+  end interface
 
   interface inference_engine_t
 
@@ -120,42 +158,7 @@ module inference_engine_m_
 
   end interface
 
-  interface unmapped_engine_t
 
-    impure elemental module function double_precision_unmapped_from_json(file) result(unmapped_engine)
-      implicit none
-      type(double_precision_file_t), intent(in) :: file
-      type(unmapped_engine_t(double_precision)) unmapped_engine
-    end function
-
-  end interface
-
-
-  interface workspace_t
-
-    pure module function default_real_workspace(inference_engine) result(workspace)
-      implicit none
-      type(inference_engine_t), intent(in) :: inference_engine
-      type(workspace_t) workspace
-    end function
-
-  end interface
-
-  interface
-
-    module subroutine default_real_allocate(self, inference_engine)
-      implicit none
-      class(workspace_t), intent(inout) :: self
-      type(inference_engine_t), intent(in) :: inference_engine
-    end subroutine
-
-    pure module function default_real_allocated(self) result(all_allocated)
-      implicit none
-      class(workspace_t), intent(in) :: self
-      logical all_allocated
-    end function
-
-  end interface
 
 
   interface ! inference_engine_t type-bound procedures
@@ -206,18 +209,6 @@ module inference_engine_m_
       type(tensor_t(double_precision)) tensor
     end function
 
-    module function default_real_to_exchange(self) result(exchange)
-      implicit none
-      class(inference_engine_t), intent(in) :: self
-      type(exchange_t) exchange
-    end function
-
-    module function double_precision_to_exchange(self) result(exchange)
-      implicit none
-      class(inference_engine_t(double_precision)), intent(in) :: self
-      type(exchange_t(double_precision)) exchange
-    end function
-
     impure elemental module function default_real_to_json(self) result(json_file)
       implicit none
       class(inference_engine_t), intent(in) :: self
@@ -247,20 +238,6 @@ module inference_engine_m_
       class(inference_engine_t), intent(in) :: self
       type(tensor_t), intent(in) :: inputs
       type(tensor_t) outputs
-    end function
-
-    elemental module function default_real_infer_unmapped(self, inputs) result(outputs)
-      implicit none
-      class(unmapped_engine_t), intent(in) :: self
-      type(tensor_t), intent(in) :: inputs
-      type(tensor_t) outputs
-    end function
-
-    elemental module function double_precision_infer_unmapped(self, inputs) result(outputs)
-      implicit none
-      class(unmapped_engine_t(double_precision)), intent(in) :: self
-      type(tensor_t(double_precision)), intent(in) :: inputs
-      type(tensor_t(double_precision)) outputs
     end function
 
     elemental module function double_precision_infer(self, inputs) result(outputs)
@@ -351,6 +328,53 @@ module inference_engine_m_
       real, intent(in) :: learning_rate
       type(workspace_t), intent(inout) :: workspace
     end subroutine
+
+    pure module subroutine default_real_consistency(self)
+      implicit none
+      class(inference_engine_t), intent(in) :: self
+    end subroutine
+
+    pure module subroutine double_precision_consistency(self)
+      implicit none
+      class(inference_engine_t(double_precision)), intent(in) :: self
+    end subroutine
+
+  end interface
+
+  type unmapped_network_t(k)
+    integer, kind :: k = default_real
+    private
+    type(inference_engine_t(k)) inference_engine_
+  contains
+    generic :: infer                    => default_real_infer_unmapped, double_precision_infer_unmapped
+    procedure, private, non_overridable :: default_real_infer_unmapped, double_precision_infer_unmapped
+  end type
+
+  interface unmapped_network_t
+
+    impure elemental module function double_precision_unmapped_from_json(file) result(unmapped_network)
+      implicit none
+      type(double_precision_file_t), intent(in) :: file
+      type(unmapped_network_t(double_precision)) unmapped_network
+    end function
+
+  end interface
+
+  interface
+
+    elemental module function default_real_infer_unmapped(self, inputs) result(outputs)
+      implicit none
+      class(unmapped_network_t), intent(in) :: self
+      type(tensor_t), intent(in) :: inputs
+      type(tensor_t) outputs
+    end function
+
+    elemental module function double_precision_infer_unmapped(self, inputs) result(outputs)
+      implicit none
+      class(unmapped_network_t(double_precision)), intent(in) :: self
+      type(tensor_t(double_precision)), intent(in) :: inputs
+      type(tensor_t(double_precision)) outputs
+    end function
 
   end interface
 

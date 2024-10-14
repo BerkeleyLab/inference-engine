@@ -6,7 +6,7 @@ module inference_engine_m
  use double_precision_string_m, only : double_precision_string_t
  use hyperparameters_m, only : hyperparameters_t
  use input_output_pair_m, only : input_output_pair_t, shuffle, write_to_stdout
- use inference_engine_m_, only : inference_engine_t, unmapped_engine_t
+ use inference_engine_m_, only : inference_engine_t, unmapped_network_t
  use kind_parameters_m, only : default_real, double_precision
  use metadata_m, only : metadata_t
  use mini_batch_m, only : mini_batch_t
