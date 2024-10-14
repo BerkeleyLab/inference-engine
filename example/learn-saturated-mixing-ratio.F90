@@ -3,7 +3,7 @@
 program train_saturated_mixture_ratio
   !! This program trains a neural network to learn the saturated mixing ratio function of ICAR.
   use inference_engine_m, only : &
-    inference_engine_t, trainable_engine_t, mini_batch_t, tensor_t, input_output_pair_t, shuffle
+    inference_engine_t, trainable_network_t, mini_batch_t, tensor_t, input_output_pair_t, shuffle
   use julienne_m, only : string_t, file_t, command_line_t, bin_t, csv
   use assert_m, only : assert, intrinsic_array_t
   use saturated_mixing_ratio_m, only : y, T, p
@@ -30,29 +30,29 @@ program train_saturated_mixture_ratio
     type(mini_batch_t), allocatable :: mini_batches(:)
     type(input_output_pair_t), allocatable :: input_output_pairs(:)
     type(tensor_t), allocatable :: inputs(:), desired_outputs(:)
-    type(trainable_engine_t)  trainable_engine
+    type(trainable_network_t)  trainable_network
     type(bin_t), allocatable :: bins(:)
     real, allocatable :: cost(:), random_numbers(:)
     integer io_status, network_unit, plot_unit
-    integer, parameter :: io_success=0, diagnostics_print_interval = 1000, network_save_interval = 10000
+    integer, parameter :: io_success=0, diagnostics_print_interval = 100, network_save_interval = 1000
     integer, parameter :: nodes_per_layer(*) = [2, 4, 72, 2, 1]
-    real, parameter :: cost_tolerance = 1.E-08
+    real, parameter :: cost_tolerance = 1.E-06
 
     call random_init(image_distinct=.true., repeatable=.true.)
     open(newunit=network_unit, file=network_file%string(), form='formatted', status='old', iostat=io_status, action='read')
 
     if (io_status == io_success) then
       print *,"Reading network from file " // network_file%string()
-      trainable_engine = trainable_engine_t(inference_engine_t(file_t(network_file)))
+      trainable_network = trainable_network_t(inference_engine_t(file_t(network_file)))
       close(network_unit)
     else
       close(network_unit)
       print *,"Initializing a new network"
-      trainable_engine = perturbed_identity_network(perturbation_magnitude=0.05, n = nodes_per_layer)
+      trainable_network = perturbed_identity_network(perturbation_magnitude=0.05, n = nodes_per_layer)
     end if
-    call output(trainable_engine%to_inference_engine(), string_t("initial-network.json"))
+    call output(trainable_network, string_t("initial-network.json"))
 
-    associate(num_inputs => trainable_engine%num_inputs(), num_outputs => trainable_engine%num_outputs())
+    associate(num_inputs => trainable_network%num_inputs(), num_outputs => trainable_network%num_outputs())
 
       block
         integer i, j
@@ -84,7 +84,7 @@ program train_saturated_mixture_ratio
           call random_number(random_numbers)
           call shuffle(input_output_pairs)
           mini_batches = [(mini_batch_t(input_output_pairs(bins(b)%first():bins(b)%last())), b = 1, size(bins))]
-          call trainable_engine%train(mini_batches, cost, adam=.true., learning_rate=1.5)
+          call trainable_network%train(mini_batches, cost, adam=.true., learning_rate=1.5)
           call system_clock(counter_end, clock_rate)
 
           associate( &
@@ -95,7 +95,7 @@ program train_saturated_mixture_ratio
             write_and_exit_if_converged: &
             if (cost_avg < cost_tolerance) then
               call print_diagnostics(plot_unit, e, cost_avg, cumulative_clock_time, nodes_per_layer)
-              call output(trainable_engine%to_inference_engine(), network_file)
+              call output(trainable_network, network_file)
               exit
             end if write_and_exit_if_converged
 
@@ -104,13 +104,13 @@ program train_saturated_mixture_ratio
             write_and_exit_if_stop_file_exists: &
             if (io_status==0) then
               call print_diagnostics(plot_unit, e, cost_avg, cumulative_clock_time, nodes_per_layer)
-              call output(trainable_engine%to_inference_engine(), network_file)
+              call output(trainable_network, network_file)
               exit
             end if write_and_exit_if_stop_file_exists
 
             if (mod(e,diagnostics_print_interval)==0 .or. loop_ending) &
               call print_diagnostics(plot_unit, e, cost_avg, cumulative_clock_time, nodes_per_layer)
-            if (mod(e,network_save_interval)==0 .or. loop_ending) call output(trainable_engine%to_inference_engine(), network_file)
+            if (mod(e,network_save_interval)==0 .or. loop_ending) call output(trainable_network, network_file)
           end associate
         end do
 
@@ -121,9 +121,9 @@ program train_saturated_mixture_ratio
           integer p
 #if defined _CRAYFTN || __GFORTRAN__
           type(tensor_t), allocatable :: network_outputs(:)
-          network_outputs = trainable_engine%infer(inputs)
+          network_outputs = trainable_network%infer(inputs)
 #else
-          associate(network_outputs => trainable_engine%infer(inputs))
+          associate(network_outputs => trainable_network%infer(inputs))
 #endif
             print *,"Inputs (normalized)          | Outputs      | Desired outputs"
             do p = 1, num_pairs
@@ -139,7 +139,7 @@ program train_saturated_mixture_ratio
 
    end associate
 
-   call output(trainable_engine%to_inference_engine(), network_file)
+   call output(trainable_network, network_file)
 
   end block
 
@@ -156,7 +156,7 @@ contains
   end subroutine
 
   subroutine output(inference_engine, file_name)
-    type(inference_engine_t), intent(in) :: inference_engine
+    class(inference_engine_t), intent(in) :: inference_engine
     type(string_t), intent(in) :: file_name
     type(file_t) json_file
     json_file = inference_engine%to_json()
@@ -170,8 +170,8 @@ contains
     unit_vector = real([(merge(1,0,j==k),k=1,n)])
   end function
 
-  function perturbed_identity_network(perturbation_magnitude, n) result(trainable_engine)
-    type(trainable_engine_t) trainable_engine
+  function perturbed_identity_network(perturbation_magnitude, n) result(trainable_network)
+    type(trainable_network_t) trainable_network
     real, intent(in) :: perturbation_magnitude
     integer, intent(in)  :: n(:)
     integer k, l
@@ -187,12 +187,9 @@ contains
       call random_number(b_harvest)
 
       associate(w => identity + perturbation_magnitude*(w_harvest-0.5)/0.5, b => perturbation_magnitude*(b_harvest-0.5)/0.5)
-
-        trainable_engine = trainable_engine_t( &
-          nodes = n, weights = w, biases = b, metadata = &
-            [string_t("Saturated Mixing Ratio"), string_t("Damian Rouson"), string_t("2023-09-23"), string_t("relu"), &
-             string_t("false")] &
-        )
+        trainable_network = trainable_network_t( inference_engine_t(nodes=n, weights=w, biases=b, &
+          metadata=[string_t("Saturated Mixing Ratio"),string_t("Rouson"),string_t("20241013"),string_t("relu"),string_t("false")] &
+        ))
       end associate
     end associate
   end function
