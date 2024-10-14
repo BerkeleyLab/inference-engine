@@ -11,7 +11,7 @@ module tensor_test_m
 #endif
 
   ! Internal dependencies
-  use inference_engine_m, only : tensor_t
+  use fiats_m, only : tensor_t
 
   implicit none
 

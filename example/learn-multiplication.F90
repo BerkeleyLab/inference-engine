@@ -2,7 +2,7 @@
 ! Terms of use are as specified in LICENSE.txt
 module multiply_inputs
   !! Define a function that produces the desired network output for a given network input
-  use inference_engine_m, only : tensor_t
+  use fiats_m, only : tensor_t
   use assert_m, only : assert
   implicit none
 
@@ -20,8 +20,7 @@ end module
 
 program learn_multiplication
   !! This trains a neural network to learn the following six polynomial functions of its eight inputs.
-  use inference_engine_m, only : &
-    inference_engine_t, trainable_network_t, mini_batch_t, tensor_t, input_output_pair_t, shuffle
+  use fiats_m, only : neural_network_t, trainable_network_t, mini_batch_t, tensor_t, input_output_pair_t, shuffle
   use julienne_m, only : string_t, file_t, command_line_t, bin_t
   use assert_m, only : assert, intrinsic_array_t
   use multiply_inputs, only : y
@@ -107,11 +106,11 @@ program learn_multiplication
 
 contains
 
-  subroutine output(inference_engine, file_name)
-    class(inference_engine_t), intent(in) :: inference_engine
+  subroutine output(neural_network, file_name)
+    class(neural_network_t), intent(in) :: neural_network
     type(string_t), intent(in) :: file_name
     type(file_t) json_file
-    json_file = inference_engine%to_json()
+    json_file = neural_network%to_json()
     call json_file%write_lines(file_name)
   end subroutine
 
@@ -140,7 +139,7 @@ contains
 
     associate(w => identity + perturbation_magnitude*(w_harvest-0.5)/0.5, b => perturbation_magnitude*(b_harvest-0.5)/0.5)
 
-      trainable_network = trainable_network_t( inference_engine_t( &
+      trainable_network = trainable_network_t( neural_network_t( &
         nodes = n, weights = w, biases = b, metadata = &
           [string_t("Perturbed Identity"), string_t("Damian Rouson"), string_t("2023-09-23"), string_t("relu"), string_t("false")] &
       ))

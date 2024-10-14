@@ -1,7 +1,7 @@
 ! Copyright (c), The Regents of the University of California
 ! Terms of use are as specified in LICENSE.txt
-module inference_engine_m_
-  !! Define an abstraction that supports inference operationsn on a neural network
+module neural_network_m
+  !! Define an abstraction that supports inference operations on a neural network
   use activation_m, only : activation_t
   use double_precision_file_m, only : double_precision_file_t
   use kind_parameters_m, only : default_real, double_precision
@@ -13,13 +13,13 @@ module inference_engine_m_
   implicit none
 
   private
-  public :: inference_engine_t
+  public :: neural_network_t
   public :: unmapped_network_t
   public :: exchange_t
   public :: workspace_t
 
-  type inference_engine_t(k)
-    !! Encapsulate the minimal information needed to perform inference
+  type neural_network_t(k)
+    !! Encapsulate the information needed to perform inference
     integer, kind :: k = default_real 
     type(tensor_map_t(k)), private :: input_map_, output_map_
     type(metadata_t), private :: metadata_
@@ -73,9 +73,9 @@ module inference_engine_m_
 
   interface workspace_t
 
-    pure module function default_real_workspace(inference_engine) result(workspace)
+    pure module function default_real_workspace(neural_network) result(workspace)
       implicit none
-      type(inference_engine_t), intent(in) :: inference_engine
+      type(neural_network_t), intent(in) :: neural_network
       type(workspace_t) workspace
     end function
 
@@ -83,10 +83,10 @@ module inference_engine_m_
 
   interface
 
-    module subroutine default_real_allocate(self, inference_engine)
+    module subroutine default_real_allocate(self, neural_network)
       implicit none
       class(workspace_t), intent(inout) :: self
-      type(inference_engine_t), intent(in) :: inference_engine
+      type(neural_network_t), intent(in) :: neural_network
     end subroutine
 
     pure module function default_real_allocated(self) result(all_allocated)
@@ -110,50 +110,50 @@ module inference_engine_m_
 
     module function default_real_to_exchange(self) result(exchange)
       implicit none
-      class(inference_engine_t), intent(in) :: self
+      class(neural_network_t), intent(in) :: self
       type(exchange_t) exchange
     end function
 
     module function double_precision_to_exchange(self) result(exchange)
       implicit none
-      class(inference_engine_t(double_precision)), intent(in) :: self
+      class(neural_network_t(double_precision)), intent(in) :: self
       type(exchange_t(double_precision)) exchange
     end function
 
   end interface
 
-  interface inference_engine_t
+  interface neural_network_t
 
     module function default_real_construct_from_components(metadata, weights, biases, nodes, input_map, output_map) &
-      result(inference_engine)
+      result(neural_network)
       implicit none
       type(string_t), intent(in) :: metadata(:)
       real, intent(in) :: weights(:,:,:), biases(:,:)
       integer, intent(in) :: nodes(0:)
       type(tensor_map_t), intent(in), optional :: input_map, output_map
-      type(inference_engine_t) inference_engine
+      type(neural_network_t) neural_network
     end function
 
     module function double_precision_construct_from_components(metadata, weights, biases, nodes, input_map, output_map) &
-      result(inference_engine)
+      result(neural_network)
       implicit none
       type(metadata_t), intent(in) :: metadata
       double precision, intent(in) :: weights(:,:,:), biases(:,:)
       integer, intent(in) :: nodes(0:)
       type(tensor_map_t(double_precision)), intent(in), optional :: input_map, output_map
-      type(inference_engine_t(double_precision)) inference_engine
+      type(neural_network_t(double_precision)) neural_network
     end function
 
-    impure elemental module function default_real_from_json(file_) result(inference_engine)
+    impure elemental module function default_real_from_json(file_) result(neural_network)
       implicit none
       type(file_t), intent(in) :: file_
-      type(inference_engine_t) inference_engine
+      type(neural_network_t) neural_network
     end function
 
-    impure elemental module function double_precision_from_json(file) result(inference_engine)
+    impure elemental module function double_precision_from_json(file) result(neural_network)
       implicit none
       type(double_precision_file_t), intent(in) :: file
-      type(inference_engine_t(double_precision)) inference_engine
+      type(neural_network_t(double_precision)) neural_network
     end function
 
   end interface
@@ -161,26 +161,26 @@ module inference_engine_m_
 
 
 
-  interface ! inference_engine_t type-bound procedures
+  interface ! neural_network_t type-bound procedures
 
     elemental module function default_real_approximately_equal(lhs, rhs) result(lhs_eq_rhs)
       !! The result is true if lhs and rhs are the same to within a tolerance
       implicit none
-      class(inference_engine_t), intent(in) :: lhs, rhs
+      class(neural_network_t), intent(in) :: lhs, rhs
       logical lhs_eq_rhs
     end function
 
     elemental module function double_precision_approximately_equal(lhs, rhs) result(lhs_eq_rhs)
       !! The result is true if lhs and rhs are the same to within a tolerance
       implicit none
-      class(inference_engine_t(double_precision)), intent(in) :: lhs, rhs
+      class(neural_network_t(double_precision)), intent(in) :: lhs, rhs
       logical lhs_eq_rhs
     end function
 
     elemental module function default_real_map_to_input_range(self, tensor) result(normalized_tensor)
       !! The result contains the input tensor values normalized to fall on the range used during training
       implicit none
-      class(inference_engine_t), intent(in) :: self
+      class(neural_network_t), intent(in) :: self
       type(tensor_t), intent(in) :: tensor
       type(tensor_t) normalized_tensor
     end function
@@ -188,7 +188,7 @@ module inference_engine_m_
     elemental module function double_precision_map_to_input_range(self, tensor) result(normalized_tensor)
       !! The result contains the input tensor values normalized to fall on the range used during training
       implicit none
-      class(inference_engine_t(double_precision)), intent(in) :: self
+      class(neural_network_t(double_precision)), intent(in) :: self
       type(tensor_t(double_precision)), intent(in) :: tensor
       type(tensor_t(double_precision)) normalized_tensor
     end function
@@ -196,7 +196,7 @@ module inference_engine_m_
     elemental module function default_real_map_from_output_range(self, normalized_tensor) result(tensor)
       !! The result contains the output tensor values unmapped via the inverse of the mapping used in training
       implicit none
-      class(inference_engine_t), intent(in) :: self
+      class(neural_network_t), intent(in) :: self
       type(tensor_t), intent(in) :: normalized_tensor
       type(tensor_t) tensor
     end function
@@ -204,124 +204,124 @@ module inference_engine_m_
     elemental module function double_precision_map_from_output_range(self, normalized_tensor) result(tensor)
       !! The result contains the output tensor values unmapped via the inverse of the mapping used in training
       implicit none
-      class(inference_engine_t(double_precision)), intent(in) :: self
+      class(neural_network_t(double_precision)), intent(in) :: self
       type(tensor_t(double_precision)), intent(in) :: normalized_tensor
       type(tensor_t(double_precision)) tensor
     end function
 
     impure elemental module function default_real_to_json(self) result(json_file)
       implicit none
-      class(inference_engine_t), intent(in) :: self
+      class(neural_network_t), intent(in) :: self
       type(file_t) json_file
     end function
 
     impure elemental module function double_precision_to_json(self) result(json_file)
       implicit none
-      class(inference_engine_t(double_precision)), intent(in) :: self
+      class(neural_network_t(double_precision)), intent(in) :: self
       type(file_t) json_file
     end function
 
-    elemental module subroutine default_real_assert_conformable_with(self, inference_engine)
+    elemental module subroutine default_real_assert_conformable_with(self, neural_network)
       implicit none
-      class(inference_engine_t), intent(in) :: self
-      type(inference_engine_t), intent(in) :: inference_engine
+      class(neural_network_t), intent(in) :: self
+      type(neural_network_t), intent(in) :: neural_network
     end subroutine
 
-    elemental module subroutine double_precision_assert_conformable_with(self, inference_engine)
+    elemental module subroutine double_precision_assert_conformable_with(self, neural_network)
       implicit none
-      class(inference_engine_t(double_precision)), intent(in) :: self
-      type(inference_engine_t(double_precision)), intent(in) :: inference_engine
+      class(neural_network_t(double_precision)), intent(in) :: self
+      type(neural_network_t(double_precision)), intent(in) :: neural_network
     end subroutine
 
     elemental module function default_real_infer(self, inputs) result(outputs)
       implicit none
-      class(inference_engine_t), intent(in) :: self
+      class(neural_network_t), intent(in) :: self
       type(tensor_t), intent(in) :: inputs
       type(tensor_t) outputs
     end function
 
     elemental module function double_precision_infer(self, inputs) result(outputs)
       implicit none
-      class(inference_engine_t(double_precision)), intent(in) :: self
+      class(neural_network_t(double_precision)), intent(in) :: self
       type(tensor_t(double_precision)), intent(in) :: inputs
       type(tensor_t(double_precision)) outputs
     end function
 
     elemental module function default_real_num_outputs(self) result(output_count)
       implicit none
-      class(inference_engine_t), intent(in) :: self
+      class(neural_network_t), intent(in) :: self
       integer output_count
     end function
 
     elemental module function double_precision_num_outputs(self) result(output_count)
       implicit none
-      class(inference_engine_t(double_precision)), intent(in) :: self
+      class(neural_network_t(double_precision)), intent(in) :: self
       integer output_count
     end function
 
     elemental module function default_real_num_hidden_layers(self) result(hidden_layer_count)
       implicit none
-      class(inference_engine_t), intent(in) :: self
+      class(neural_network_t), intent(in) :: self
       integer hidden_layer_count
     end function
 
     elemental module function double_precision_num_hidden_layers(self) result(hidden_layer_count)
       implicit none
-      class(inference_engine_t(double_precision)), intent(in) :: self
+      class(neural_network_t(double_precision)), intent(in) :: self
       integer hidden_layer_count
     end function
 
     elemental module function default_real_num_inputs(self) result(input_count)
       implicit none
-      class(inference_engine_t), intent(in) :: self
+      class(neural_network_t), intent(in) :: self
       integer input_count
     end function
 
     elemental module function double_precision_num_inputs(self) result(input_count)
       implicit none
-      class(inference_engine_t(double_precision)), intent(in) :: self
+      class(neural_network_t(double_precision)), intent(in) :: self
       integer input_count
     end function
 
     pure module function default_real_nodes_per_layer(self) result(node_count)
       implicit none
-      class(inference_engine_t), intent(in) :: self
+      class(neural_network_t), intent(in) :: self
       integer, allocatable :: node_count(:)
     end function
 
     pure module function double_precision_nodes_per_layer(self) result(node_count)
       implicit none
-      class(inference_engine_t(double_precision)), intent(in) :: self
+      class(neural_network_t(double_precision)), intent(in) :: self
       integer, allocatable :: node_count(:)
     end function
 
     elemental module function default_real_activation_name(self) result(activation_name)
       implicit none
-      class(inference_engine_t), intent(in) :: self
+      class(neural_network_t), intent(in) :: self
       type(string_t) activation_name
     end function
 
     elemental module function double_precision_activation_name(self) result(activation_name)
       implicit none
-      class(inference_engine_t(double_precision)), intent(in) :: self
+      class(neural_network_t(double_precision)), intent(in) :: self
       type(string_t) activation_name
     end function
 
     pure module function default_real_skip(self) result(use_skip_connections)
       implicit none
-      class(inference_engine_t), intent(in) :: self
+      class(neural_network_t), intent(in) :: self
       logical use_skip_connections
     end function
 
     pure module function double_precision_skip(self) result(use_skip_connections)
       implicit none
-      class(inference_engine_t(double_precision)), intent(in) :: self
+      class(neural_network_t(double_precision)), intent(in) :: self
       logical use_skip_connections
     end function
 
     pure module subroutine default_real_learn(self, mini_batches_arr, cost, adam, learning_rate, workspace)
       implicit none
-      class(inference_engine_t), intent(inout) :: self
+      class(neural_network_t), intent(inout) :: self
       type(mini_batch_t), intent(in) :: mini_batches_arr(:)
       real, intent(out), allocatable, optional :: cost(:)
       logical, intent(in) :: adam
@@ -331,12 +331,12 @@ module inference_engine_m_
 
     pure module subroutine default_real_consistency(self)
       implicit none
-      class(inference_engine_t), intent(in) :: self
+      class(neural_network_t), intent(in) :: self
     end subroutine
 
     pure module subroutine double_precision_consistency(self)
       implicit none
-      class(inference_engine_t(double_precision)), intent(in) :: self
+      class(neural_network_t(double_precision)), intent(in) :: self
     end subroutine
 
   end interface
@@ -344,7 +344,7 @@ module inference_engine_m_
   type unmapped_network_t(k)
     integer, kind :: k = default_real
     private
-    type(inference_engine_t(k)) inference_engine_
+    type(neural_network_t(k)) neural_network_
   contains
     generic :: infer                    => default_real_infer_unmapped, double_precision_infer_unmapped
     procedure, private, non_overridable :: default_real_infer_unmapped, double_precision_infer_unmapped
@@ -378,4 +378,4 @@ module inference_engine_m_
 
   end interface
 
-end module inference_engine_m_
+end module neural_network_m

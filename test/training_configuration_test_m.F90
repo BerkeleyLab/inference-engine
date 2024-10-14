@@ -4,7 +4,7 @@ module training_configuration_test_m
   !! Test training_configuration_t object I/O and construction
 
   ! External dependencies
-  use inference_engine_m, only : training_configuration_t, hyperparameters_t, network_configuration_t
+  use fiats_m, only : training_configuration_t, hyperparameters_t, network_configuration_t
   use julienne_m, only : test_t, test_result_t, test_description_t, test_description_substring, string_t, file_t
 #ifdef __GFORTRAN__
   use julienne_m, only : test_function_i

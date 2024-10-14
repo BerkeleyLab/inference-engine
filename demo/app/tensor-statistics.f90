@@ -9,7 +9,7 @@ program tensor_statistics
   ! External dependencies:
   use julienne_m, only : command_line_t, file_t, string_t
   use assert_m, only : assert, intrinsic_array_t
-  use inference_engine_m, only : ubounds_t
+  use fiats_m, only : ubounds_t
   use ieee_arithmetic, only : ieee_is_nan
   use iso_fortran_env, only : int64, real64
     

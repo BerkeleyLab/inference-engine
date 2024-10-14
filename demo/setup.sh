@@ -4,7 +4,7 @@ set -e # exit on error
 
 usage()
 {
-  echo "Inference Engine Setup Script"
+  echo "Fiats Demonstration Applications Setup Script"
   echo ""
   echo "USAGE:"
   echo "./setup.sh [--help|-h] | [-p|--prefix=PREFIX]"
@@ -112,25 +112,25 @@ else
   PKG_CONFIG_PATH=`realpath "$PKG_CONFIG_PATH"`
 fi
 
-INFERENCE_ENGINE_VERSION=$(grep version ../fpm.toml | grep -o '".*"' - | sed 's/"//g')
+FIATS_VERSION=$(grep version ../fpm.toml | grep -o '".*"' - | sed 's/"//g')
 
-INFERENCE_ENGINE_PC="$PKG_CONFIG_PATH/inference-engine.pc"
-echo "INFERENCE_ENGINE_FPM_CC=\"$FPM_CC\""                  >  $INFERENCE_ENGINE_PC
-echo "INFERENCE_ENGINE_FPM_FC=\"$FPM_FC\""                  >> $INFERENCE_ENGINE_PC
+FIATS_PC="$PKG_CONFIG_PATH/fiats.pc"
+echo "FIATS_FPM_CC=\"$FPM_CC\""                   >  $FIATS_PC
+echo "FIATS_FPM_FC=\"$FPM_FC\""                   >> $FIATS_PC
 if [[ ! -z ${FPM_RUNNER:-} ]];  then
-  echo "INFERENCE_ENGINE_FPM_RUNNER=\"$FPM_RUNNER\""          >> $INFERENCE_ENGINE_PC
+  echo "FIATS_FPM_RUNNER=\"$FPM_RUNNER\""         >> $FIATS_PC
 fi
-echo "INFERENCE_ENGINE_FPM_LD_FLAG=\"$FPM_LD_FLAG\""        >> $INFERENCE_ENGINE_PC
-echo "INFERENCE_ENGINE_FPM_FLAG=\"$FPM_FLAG\""              >> $INFERENCE_ENGINE_PC
-echo "Name: inference-engine"                               >> $INFERENCE_ENGINE_PC
-echo "Description: Inference Engine"                        >> $INFERENCE_ENGINE_PC
-echo "URL: https://github.com/berkeleylab/inference-engine" >> $INFERENCE_ENGINE_PC
-echo "Version: $INFERENCE_ENGINE_VERSION"                   >> $INFERENCE_ENGINE_PC
+echo "FIATS_FPM_LD_FLAG=\"$FPM_LD_FLAG\""         >> $FIATS_PC
+echo "FIATS_FPM_FLAG=\"$FPM_FLAG\""               >> $FIATS_PC
+echo "Name: fiats"                                >> $FIATS_PC
+echo "Description: Fiats"                         >> $FIATS_PC
+echo "URL: https://github.com/berkeleylab/fiats " >> $FIATS_PC
+echo "Version: $FIATS_VERSION"                    >> $FIATS_PC
 
 if [ $CI = true ]; then
   echo "---------------"
-  echo "cat \$INFERENCE_ENGINE_PC"
-  cat $INFERENCE_ENGINE_PC
+  echo "cat \$FIATS_PC"
+  cat $FIATS_PC
   echo "---------------"
 fi
 
@@ -139,14 +139,14 @@ cp src/run-fpm.sh-header build/run-fpm.sh
 RUN_FPM_SH="`realpath ./build/run-fpm.sh`"
 echo "`which fpm` \$fpm_arguments \\" >>  $RUN_FPM_SH
 echo "--profile release \\" >> $RUN_FPM_SH
-echo "--c-compiler \"`pkg-config inference-engine --variable=INFERENCE_ENGINE_FPM_CC`\" \\"     >> $RUN_FPM_SH
-echo "--compiler \"`pkg-config inference-engine --variable=INFERENCE_ENGINE_FPM_FC`\" \\"       >> $RUN_FPM_SH
+echo "--c-compiler \"`pkg-config fiats --variable=FIATS_FPM_CC`\" \\"     >> $RUN_FPM_SH
+echo "--compiler \"`pkg-config fiats --variable=FIATS_FPM_FC`\" \\"       >> $RUN_FPM_SH
 if [[ ! -z ${FPM_RUNNER:-} ]];  then
-  echo "--runner \"`pkg-config inference-engine --variable=INFERENCE_ENGINE_FPM_RUNNER`\" \\"     >> $RUN_FPM_SH
+  echo "--runner \"`pkg-config fiats --variable=FIATS_FPM_RUNNER`\" \\"   >> $RUN_FPM_SH
 fi
-echo "--flag \"-cpp `pkg-config inference-engine --variable=INFERENCE_ENGINE_FPM_FLAG`\" \\"    >> $RUN_FPM_SH
-echo "--link-flag \"`pkg-config inference-engine --variable=INFERENCE_ENGINE_FPM_LD_FLAG`\" \\" >> $RUN_FPM_SH
-echo "\$program_arguments" >> $RUN_FPM_SH
+echo "--flag \"-cpp `pkg-config fiats --variable=FIATS_FPM_FLAG`\" \\"    >> $RUN_FPM_SH
+echo "--link-flag \"`pkg-config fiats --variable=FIATS_FPM_LD_FLAG`\" \\" >> $RUN_FPM_SH
+echo "\$program_arguments"                                                           >> $RUN_FPM_SH
 chmod u+x $RUN_FPM_SH
 if [ $CI = true ]; then
   echo "---------------"
@@ -158,10 +158,10 @@ fi
 $RUN_FPM_SH build
 
 echo ""
-echo "____________________ The inference-engine demo apps build succeeded! _______________________"
+echo "____________________ The fiats demo apps build succeeded! _______________________"
 echo ""
 echo "Run the following command to see a list of available apps:"
 echo ""
 echo "./build/run-fpm.sh run"
 echo ""
-echo "Append a space followe by an app's name to see basic app usage information."
+echo "Append a space followed by an app's name to see basic app usage information."

@@ -7,7 +7,7 @@ program infer_aerosol
   use iso_fortran_env, only : int64, real64
 
   ! External dependencies:
-  use inference_engine_m, only : unmapped_network_t, tensor_t, double_precision, double_precision_file_t
+  use fiats_m, only : unmapped_network_t, tensor_t, double_precision, double_precision_file_t
   use julienne_m, only : string_t, command_line_t
   use omp_lib
 
@@ -49,7 +49,7 @@ contains
     double precision cube_root
     double precision, allocatable, dimension(:,:) :: aerosol_data, input_components, output_components
     type(tensor_statistics_t) input_stats, output_stats
-    type(unmapped_network_t(double_precision)) inference_engine
+    type(unmapped_network_t(double_precision)) neural_network
     integer i, j
 
     input_stats  = read_tensor_statistics(path // "meanxp.txt", path // "stdxp.txt", num_inputs)  !for pre-processing normalization
@@ -76,7 +76,7 @@ contains
     !$omp end parallel do   
       
     print *, "Reading the neural network from " // network_file_name
-    inference_engine = unmapped_network_t(double_precision_file_t(path // network_file_name))
+    neural_network = unmapped_network_t(double_precision_file_t(path // network_file_name))
 
     time_inference: &
     block
@@ -103,7 +103,7 @@ contains
       !$ start_time = omp_get_wtime()
       !$omp parallel do shared(inputs,outputs,icc)
       do i = 1,icc
-         outputs(i) = inference_engine%infer(inputs(i))
+         outputs(i) = neural_network%infer(inputs(i))
       end do
       !$omp end parallel do   
       !$    end_time = omp_get_wtime()       

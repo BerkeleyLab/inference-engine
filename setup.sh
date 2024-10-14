@@ -4,13 +4,13 @@ set -e # exit on error
 
 usage()
 {
-  echo "Inference Engine Setup Script"
+  echo "Fiats Setup Script"
   echo ""
   echo "USAGE:"
   echo "./setup.sh [--help|-h]"
   echo ""
   echo " --help             Display this help text"
-  echo " --prefix=PREFIX    Install any binaries needed to build inference-engine in 'PREFIX/bin'"
+  echo " --prefix=PREFIX    Install any binaries needed to build fiats in 'PREFIX/bin'"
   echo "                    Default prefix='\$HOME/.local/bin'"
   echo ""
 }
@@ -48,10 +48,10 @@ install_fpm_from_source()
     echo "Please install curl and then rerun ./setup.sh"
     exit 1
   fi
-  mkdir temp-dir-to-build-fpm-for-inference-engine-installation
-  curl -L -o temp-dir-to-build-fpm-for-inference-engine-installation/fpm.F90 https://github.com/fortran-lang/fpm/releases/download/current/fpm.F90
-  gfortran -o $PREFIX/bin/fpm -Jtemp-dir-to-build-fpm-for-inference-engine-installation temp-dir-to-build-fpm-for-inference-engine-installation/fpm.F90
-  rm -rf temp-dir-to-build-fpm-for-inference-engine-installation
+  mkdir temp-dir-to-build-fpm-for-fiats-installation
+  curl -L -o temp-dir-to-build-fpm-for-fiats-installation/fpm.F90 https://github.com/fortran-lang/fpm/releases/download/current/fpm.F90
+  gfortran -o $PREFIX/bin/fpm -Jtemp-dir-to-build-fpm-for-fiats-installation temp-dir-to-build-fpm-for-fiats-installation/fpm.F90
+  rm -rf temp-dir-to-build-fpm-for-fiats-installation
   if command -v fpm > /dev/null ; then
     echo "fpm installed"
   else
@@ -80,7 +80,7 @@ FPM_CC=${CC:-"gcc-14"}
 fpm test --profile release --flag "-fopenmp"
 
 echo ""
-echo "____________________ Inference-Engine has been set up! _______________________"
+echo "____________________ Fiats has been set up! _______________________"
 echo ""
 echo "Enter the command below to the see names of example use cases that you can run:"
 echo ""

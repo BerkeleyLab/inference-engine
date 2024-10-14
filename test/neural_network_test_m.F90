@@ -1,6 +1,6 @@
 ! Copyright (c), The Regents of the University of California
 ! Terms of use are as specified in LICENSE.txt
-module inference_engine_test_m
+module neural_network_test_m
   !! Define inference tests and procedures required for reporting results
 
   ! External dependencies
@@ -12,14 +12,14 @@ module inference_engine_test_m
 #endif
 
   ! Internal dependencies
-  use inference_engine_m, only : inference_engine_t, tensor_t, metadata_t
+  use fiats_m, only : neural_network_t, tensor_t, metadata_t
 
   implicit none
 
   private
-  public :: inference_engine_test_t
+  public :: neural_network_test_t
 
-  type, extends(test_t) :: inference_engine_test_t
+  type, extends(test_t) :: neural_network_test_t
   contains
     procedure, nopass :: subject
     procedure, nopass :: results
@@ -29,7 +29,7 @@ contains
 
   pure function subject() result(specimen)
     character(len=:), allocatable :: specimen
-    specimen = "An inference_engine_t that encodes an XOR gate" 
+    specimen = "An neural_network_t that encodes an XOR gate" 
   end function
 
   function results() result(test_results)
@@ -74,12 +74,12 @@ contains
     test_results = test_descriptions%run()
   end function
 
-  function single_hidden_layer_xor_network() result(inference_engine)
-    type(inference_engine_t) inference_engine
+  function single_hidden_layer_xor_network() result(neural_network)
+    type(neural_network_t) neural_network
     integer, parameter :: nodes_per_layer(*) = [2, 3, 1]
     integer, parameter :: max_n = maxval(nodes_per_layer), layers = size(nodes_per_layer)
 
-    inference_engine = inference_engine_t( &
+    neural_network = neural_network_t( &
       metadata = [string_t("XOR"), string_t("Damian Rouson"), string_t("2023-07-02"), string_t("step"), string_t("false")], &
       weights = reshape([real:: [1,1,0, 0,1,1, 0,0,0], [1,0,0, -2,0,0, 1,0,0]], [max_n, max_n, layers-1]), &
       biases = reshape([[0.,-1.99,0.], [0., 0., 0.]], [max_n, layers-1]), &
@@ -87,12 +87,12 @@ contains
     )
   end function
 
-  function multi_layer_xor_network() result(inference_engine)
-    type(inference_engine_t) inference_engine
+  function multi_layer_xor_network() result(neural_network)
+    type(neural_network_t) neural_network
     integer, parameter :: nodes_per_layer(*) = [2, 3, 3, 1]
     integer, parameter :: max_n = maxval(nodes_per_layer), layers = size(nodes_per_layer)
 
-    inference_engine = inference_engine_t( &
+    neural_network = neural_network_t( &
       metadata = [string_t("XOR"), string_t("Damian Rouson"), string_t("2023-07-02"), string_t("step"), string_t("false")], &
       weights = reshape([real:: [1,1,0, 0,1,1, 1,0,0, 1,0,0, 0,1,0, 0,0,1], [1,0,0, -2,0,0, 1,0,0]], &
         [max_n, max_n, layers-1]), &
@@ -101,13 +101,13 @@ contains
     )
   end function
 
-  function decrement_split_combine_increment() result(inference_engine)
+  function decrement_split_combine_increment() result(neural_network)
     !! Define a network that produces outputs identical to the 2 inputs for any input greater than or equal to 1
     !! based on the following algorithm:
     !! 1. A 1st hidden layer that forwards input 1 unmolested and decrements input 2 by 1,
     !! 2. A 2nd hidden layer that forwards input 1 unmolested and splits input 2 into two halves,
     !! 3. An output layer that recombines those two halves and increments the result by 1.
-    type(inference_engine_t) inference_engine
+    type(neural_network_t) neural_network
     integer, parameter :: inputs = 2, hidden(*) = [2,3], outputs = 2 ! number of neurons in input, output, and hidden layers
     integer, parameter :: n(*) = [inputs, hidden(1), hidden(2), outputs] ! nodes per layer
     integer, parameter :: n_max = maxval(n), layers=size(n) ! max layer width, number of layers
@@ -116,7 +116,7 @@ contains
       w(*,*,*) = reshape( [1.,0.,0., 0.,1.,0., 0.,0.,0., 1.,0.,0., 0.,.5,.5, 0.,0.,0., 1.,0.,0., 0.,1.,0., 0.,1.,1.], w_shape), &
       b(*,*) = reshape( [0.,-1.,0., 0.,0.,0., 0.,1.,0.], b_shape)
 
-    inference_engine = inference_engine_t( &
+    neural_network = neural_network_t( &
       metadata = [ &
         string_t("Decrement/Split/Combine/Increment => Identity") &
        ,string_t("Damian Rouson") &
@@ -127,9 +127,9 @@ contains
     )
   end function
 
-  function double_precision_network() result(inference_engine)
+  function double_precision_network() result(neural_network)
     !! The result is a double-precision version of the this network defined in the decrement_split_combine_increment function
-    type(inference_engine_t(double_precision)) inference_engine
+    type(neural_network_t(double_precision)) neural_network
     integer, parameter :: inputs = 2, hidden(*) = [2,3], outputs = 2 ! number of neurons in input, output, and hidden layers
     integer, parameter :: n(*) = [inputs, hidden(1), hidden(2), outputs] ! nodes per layer
     integer, parameter :: n_max = maxval(n), layers=size(n) ! max layer width, number of layers
@@ -139,15 +139,15 @@ contains
         [double precision :: 1.,0.,0., 0.,1.,0., 0.,0.,0., 1.,0.,0., 0.,.5,.5, 0.,0.,0., 1.,0.,0., 0.,1.,0., 0.,1.,1.], w_shape &
       ), b(*,*) = reshape( [double precision :: 0.,-1.,0., 0.,0.,0., 0.,1.,0.], b_shape)
 
-    inference_engine = inference_engine_t( &
+    neural_network = neural_network_t( &
       metadata = metadata_t( &
         string_t("Double-Precision"), string_t("Damian Rouson"), string_t("2024-09-02"), string_t("relu"), string_t("false") &
      ), weights = w, biases = b, nodes = n &
     )
   end function
 
-  function varying_width() result(inference_engine)
-    type(inference_engine_t) inference_engine
+  function varying_width() result(neural_network)
+    type(neural_network_t) neural_network
     integer, parameter :: inputs = 2, hidden(*) = [2,3], outputs = 2 ! number of neurons in input, output, and hidden layers
     integer, parameter :: n(*) = [inputs, hidden(1), hidden(2), outputs] ! nodes per layer
     integer, parameter :: n_max = maxval(n), layers=size(n)   ! max layer width, number of layers
@@ -158,14 +158,14 @@ contains
     w = reshape( [(i, i=1,product(w_shape))], w_shape)
     b = reshape( [(maxval(w) + i, i=1,product(b_shape))], b_shape)
 
-    inference_engine = inference_engine_t( &
+    neural_network = neural_network_t( &
       metadata = [string_t("random"), string_t("Damian Rouson"), string_t("2024-07-03"), string_t("sigmoid"), string_t("false")], &
       weights = w, biases = b, nodes = n &
     )
   end function
 
-  function distinct_parameters() result(inference_engine)
-    type(inference_engine_t) inference_engine
+  function distinct_parameters() result(neural_network)
+    type(neural_network_t) neural_network
     integer, parameter :: inputs = 2, hidden = 3, outputs = 1 ! number of neurons in input, output, and hidden layers
     integer, parameter :: n(*) = [inputs, hidden, hidden, outputs]    ! nodes per layer
     integer, parameter :: n_max = maxval(n), layers=size(n)   ! max layer width, number of layers
@@ -176,7 +176,7 @@ contains
     w = reshape( [(i, i=1,product(w_shape))], w_shape)
     b = reshape( [(maxval(w) + i, i=1,product(b_shape))], b_shape)
 
-    inference_engine = inference_engine_t( &
+    neural_network = neural_network_t( &
       metadata = [string_t("random"), string_t("Damian Rouson"), string_t("2023-07-15"), string_t("sigmoid"), string_t("false")], &
       weights = w, biases = b, nodes = n &
     )   
@@ -184,54 +184,54 @@ contains
 
   function multi_hidden_layer_net_to_from_json() result(test_passes)
     logical test_passes
-    type(inference_engine_t) inference_engine, from_json
+    type(neural_network_t) neural_network, from_json
     type(file_t) json_file
 
-    inference_engine = distinct_parameters()
-    json_file = inference_engine%to_json()
-    from_json = inference_engine_t(json_file)
-    test_passes = inference_engine == from_json 
+    neural_network = distinct_parameters()
+    json_file = neural_network%to_json()
+    from_json = neural_network_t(json_file)
+    test_passes = neural_network == from_json 
   end function
 
   function varying_width_net_to_from_json() result(test_passes)
     logical test_passes
 
-    associate(inference_engine => varying_width())
-      associate(from_json => inference_engine_t( inference_engine%to_json() ))
-        test_passes = inference_engine == from_json 
+    associate(neural_network => varying_width())
+      associate(from_json => neural_network_t( neural_network%to_json() ))
+        test_passes = neural_network == from_json 
       end associate
     end associate
   end function
 
   function infer_with_varying_width_net() result(test_passes)
     logical test_passes
-    type(inference_engine_t) inference_engine
+    type(neural_network_t) neural_network
     type(tensor_t) inputs, outputs
     real, parameter :: tolerance = 1.E-08
 
-    inference_engine = decrement_split_combine_increment()
+    neural_network = decrement_split_combine_increment()
     inputs = tensor_t([1.1, 2.7])
-    outputs = inference_engine%infer(inputs)
+    outputs = neural_network%infer(inputs)
     test_passes = all(abs(inputs%values() - outputs%values()) < tolerance)
   end function
 
   function double_precision_inference() result(test_passes)
     logical test_passes
-    type(inference_engine_t(double_precision)) inference_engine
+    type(neural_network_t(double_precision)) neural_network
     type(tensor_t(double_precision)) inputs, outputs
     real, parameter :: tolerance = 1.D-08
 
-    inference_engine = double_precision_network()
+    neural_network = double_precision_network()
     inputs = tensor_t([1.1D0, 2.7D0])
-    outputs = inference_engine%infer(inputs)
+    outputs = neural_network%infer(inputs)
     test_passes = all(abs(inputs%values() - outputs%values()) < tolerance)
   end function
 
   function elemental_infer_with_1_hidden_layer_xor_net() result(test_passes)
     logical test_passes
-    type(inference_engine_t) inference_engine
+    type(neural_network_t) neural_network
 
-    inference_engine = single_hidden_layer_xor_network()
+    neural_network = single_hidden_layer_xor_network()
 
     block
       type(tensor_t), allocatable :: truth_table(:)
@@ -239,7 +239,7 @@ contains
       integer i
 
       associate(array_of_inputs => [tensor_t([true,true]), tensor_t([true,false]), tensor_t([false,true]), tensor_t([false,false])])
-        truth_table = inference_engine%infer(array_of_inputs)
+        truth_table = neural_network%infer(array_of_inputs)
       end associate
       test_passes = all( &
         abs(truth_table(1)%values() - false) < tolerance .and. abs(truth_table(2)%values() - true) < tolerance .and. &
@@ -250,9 +250,9 @@ contains
 
   function elemental_infer_with_2_hidden_layer_xor_net() result(test_passes)
     logical test_passes
-    type(inference_engine_t) inference_engine
+    type(neural_network_t) neural_network
 
-    inference_engine = multi_layer_xor_network()
+    neural_network = multi_layer_xor_network()
 
     block
       type(tensor_t), allocatable :: truth_table(:)
@@ -260,7 +260,7 @@ contains
       integer i
 
       associate(array_of_inputs => [tensor_t([true,true]), tensor_t([true,false]), tensor_t([false,true]), tensor_t([false,false])])
-        truth_table = inference_engine%infer(array_of_inputs)
+        truth_table = neural_network%infer(array_of_inputs)
       end associate
       test_passes = all( &
         abs(truth_table(1)%values() - false) < tolerance .and. abs(truth_table(2)%values() - true) < tolerance .and. &
@@ -269,4 +269,4 @@ contains
     end block
   end function
 
-end module inference_engine_test_m
+end module neural_network_test_m

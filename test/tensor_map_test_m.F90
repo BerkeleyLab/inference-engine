@@ -6,7 +6,7 @@ module tensor_map_test_m
   ! External dependencies
   use assert_m, only : assert
   use julienne_m, only : string_t, test_t, test_result_t, test_description_t, test_description_substring, file_t
-  use inference_engine_m, only : tensor_map_t, tensor_t
+  use fiats_m, only : tensor_map_t, tensor_t
 #ifdef __GFORTRAN__
   use julienne_m, only : test_function_i
 #endif

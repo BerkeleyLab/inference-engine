@@ -3,7 +3,7 @@
 program concurrent_inferences
   !! This program demonstrates how to read a neural network from a JSON file
   !! and use the network to perform concurrent inferences.
-  use inference_engine_m, only : inference_engine_t, tensor_t, double_precision, double_precision_string_t, double_precision_file_t
+  use fiats_m, only : neural_network_t, tensor_t, double_precision, double_precision_string_t, double_precision_file_t
   use julienne_m, only : string_t, command_line_t, file_t
   use assert_m, only : assert
   use iso_fortran_env, only : int64, real64
@@ -27,17 +27,17 @@ program concurrent_inferences
     block
       integer(int64) t_start, t_finish, clock_rate
 
-      type(inference_engine_t) inference_engine
+      type(neural_network_t) neural_network
       type(tensor_t), allocatable :: inputs(:,:,:), outputs(:,:,:)
       real, allocatable :: input_components(:,:,:,:)
 
-      print *, "Constructing a new inference_engine_t object from the file " // network_file_name%string()
-      inference_engine = inference_engine_t(file_t(network_file_name))
+      print *, "Constructing a new neural_network_t object from the file " // network_file_name%string()
+      neural_network = neural_network_t(file_t(network_file_name))
 
       print *,"Defining an array of tensor_t input objects with random normalized components"
       allocate(outputs(lat,lon,lev))
       allocate( inputs(lat,lon,lev))
-      allocate(input_components(lat,lon,lev,inference_engine%num_inputs()))
+      allocate(input_components(lat,lon,lev,neural_network%num_inputs()))
       call random_number(input_components)
 
       do concurrent(i=1:lat, j=1:lon, k=1:lev)
@@ -47,7 +47,7 @@ program concurrent_inferences
       print *,"Performing concurrent inference"
       call system_clock(t_start, clock_rate)
       do concurrent(i=1:lat, j=1:lon, k=1:lev)
-        outputs(i,j,k) = inference_engine%infer(inputs(i,j,k))
+        outputs(i,j,k) = neural_network%infer(inputs(i,j,k))
       end do
       call system_clock(t_finish)
       print *,"Concurrent inference time: ", real(t_finish - t_start, real64)/real(clock_rate, real64)
@@ -57,7 +57,7 @@ program concurrent_inferences
       do k=1,lev
         do j=1,lon
           do i=1,lat
-            outputs(i,j,k) = inference_engine%infer(inputs(i,j,k))
+            outputs(i,j,k) = neural_network%infer(inputs(i,j,k))
           end do
         end do
       end do
@@ -66,7 +66,7 @@ program concurrent_inferences
 
       print *,"Performing elemental inferences"
       call system_clock(t_start, clock_rate)
-      outputs = inference_engine%infer(inputs)  ! implicit (re)allocation of outputs array only if shape(inputs) /= shape(outputs)
+      outputs = neural_network%infer(inputs)  ! implicit (re)allocation of outputs array only if shape(inputs) /= shape(outputs)
       call system_clock(t_finish)
       print *,"Elemental inference time: ", real(t_finish - t_start, real64)/real(clock_rate, real64)
 
@@ -76,17 +76,17 @@ program concurrent_inferences
     block
       integer(int64) t_start, t_finish, clock_rate
 
-      type(inference_engine_t(double_precision)) inference_engine
+      type(neural_network_t(double_precision)) neural_network
       type(tensor_t(double_precision)), allocatable :: inputs(:,:,:), outputs(:,:,:)
       double precision, allocatable :: input_components(:,:,:,:)
 
-      print *, "Constructing a new inference_engine_t object from the file " // network_file_name%string()
-      inference_engine = inference_engine_t(double_precision_file_t(network_file_name))
+      print *, "Constructing a new neural_network_t object from the file " // network_file_name%string()
+      neural_network = neural_network_t(double_precision_file_t(network_file_name))
 
       print *,"Defining an array of tensor_t input objects with random normalized components"
       allocate(outputs(lat,lon,lev))
       allocate( inputs(lat,lon,lev))
-      allocate(input_components(lat,lon,lev,inference_engine%num_inputs()))
+      allocate(input_components(lat,lon,lev,neural_network%num_inputs()))
       call random_number(input_components)
 
       do concurrent(i=1:lat, j=1:lon, k=1:lev)
@@ -96,7 +96,7 @@ program concurrent_inferences
       print *,"Performing double-precision concurrent inference"
       call system_clock(t_start, clock_rate)
       do concurrent(i=1:lat, j=1:lon, k=1:lev)
-        outputs(i,j,k) = inference_engine%infer(inputs(i,j,k))           
+        outputs(i,j,k) = neural_network%infer(inputs(i,j,k))           
       end do
       call system_clock(t_finish)
       print *,"Double-precision concurrent inference time: ", real(t_finish - t_start, real64)/real(clock_rate, real64)
