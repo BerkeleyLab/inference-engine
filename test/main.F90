@@ -3,7 +3,7 @@
 program main
   use inference_engine_test_m, only : inference_engine_test_t
   use asymmetric_engine_test_m, only : asymmetric_engine_test_t
-  use trainable_engine_test_m, only : trainable_engine_test_t
+  use trainable_network_test_m, only : trainable_network_test_t
   use metadata_test_m, only : metadata_test_t
   use hyperparameters_test_m, only : hyperparameters_test_t
   use network_configuration_test_m, only : network_configuration_test_t
@@ -15,7 +15,7 @@ program main
 
   type(inference_engine_test_t) inference_engine_test
   type(asymmetric_engine_test_t) asymmetric_engine_test
-  type(trainable_engine_test_t) trainable_engine_test
+  type(trainable_network_test_t) trainable_network_test
   type(hyperparameters_test_t) hyperparameters_test
   type(metadata_test_t) metadata_test
   type(network_configuration_test_t) network_configuration_test
@@ -49,7 +49,7 @@ program main
   call tensor_test%report(passes, tests)
   call asymmetric_engine_test%report(passes, tests)
   call inference_engine_test%report(passes, tests)
-  call trainable_engine_test%report(passes, tests)
+  call trainable_network_test%report(passes, tests)
   call cpu_time(t_finish)
 
   print *

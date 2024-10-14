@@ -8,12 +8,8 @@ submodule(inference_engine_m_) inference_engine_s
   use neuron_m, only : neuron_t
   implicit none
 
-  interface assert_consistency
-    procedure default_real_consistency
-    procedure double_precision_consistency
-  end interface
-
   character(len=*), parameter :: acceptable_engine_tag = "0.13.0" ! git tag capable of reading the current json file format
+  integer, parameter :: input_layer = 0 
 
 contains
 
@@ -57,75 +53,12 @@ contains
     exchange%activation_ = self%activation_
   end procedure
 
-  module procedure default_real_infer_unmapped
-
-    real, allocatable :: a(:,:)
-    integer, parameter :: input_layer = 0 
-    integer l
-
-    call assert_consistency(self)
-
-    associate(w => self%weights_, b => self%biases_, n => self%nodes_, output_layer => ubound(self%nodes_,1))
-
-      allocate(a(maxval(n), input_layer:output_layer))
-
-      a(1:n(input_layer),input_layer) = inputs%values()
-
-      feed_forward: &
-      do l = input_layer+1, output_layer
-      associate(z => matmul(w(1:n(l),1:n(l-1),l), a(1:n(l-1),l-1)) + b(1:n(l),l))
-          if (l .lt. output_layer) then
-             a(1:n(l),l) = self%activation_%evaluate(z)
-          else
-             a(1:n(l),l) = z(1:n(l))
-          end if
-        end associate
-      end do feed_forward
-
-      outputs = tensor_t(a(1:n(output_layer), output_layer))
-
-    end associate
-
-  end procedure
-
-  module procedure double_precision_infer_unmapped
-
-    double precision, allocatable :: a(:,:)
-    integer, parameter :: input_layer = 0 
-    integer l
-
-    call assert_consistency(self)
-
-    associate(w => self%weights_, b => self%biases_, n => self%nodes_, output_layer => ubound(self%nodes_,1))
-
-      allocate(a(maxval(n), input_layer:output_layer))
-
-      a(1:n(input_layer),input_layer) = inputs%values()
-
-      feed_forward: &
-      do l = input_layer+1, output_layer
-      associate(z => matmul(w(1:n(l),1:n(l-1),l), a(1:n(l-1),l-1)) + b(1:n(l),l))
-          if (l .lt. output_layer) then
-             a(1:n(l),l) = self%activation_%evaluate(z)
-          else
-             a(1:n(l),l) = z(1:n(l))
-          end if
-        end associate
-      end do feed_forward
-
-      outputs = tensor_t(a(1:n(output_layer), output_layer))
-
-    end associate
-
-  end procedure
-
   module procedure default_real_infer
 
     real, allocatable :: a(:,:)
-    integer, parameter :: input_layer = 0
     integer l
 
-    call assert_consistency(self)
+    call self%assert_consistency()
 
     associate(w => self%weights_, b => self%biases_, n => self%nodes_, output_layer => ubound(self%nodes_,1))
 
@@ -169,10 +102,9 @@ contains
   module procedure double_precision_infer
 
     double precision, allocatable :: a(:,:)
-    integer, parameter :: input_layer = 0
     integer l
 
-    call assert_consistency(self)
+    call self%assert_consistency()
 
     associate(w => self%weights_, b => self%biases_, n => self%nodes_, output_layer => ubound(self%nodes_,1))
 
@@ -215,55 +147,47 @@ contains
 
   end procedure
 
-  pure subroutine default_real_consistency(self)
-
-    class(inference_engine_t), intent(in) :: self
-
-    integer, parameter :: input_layer=0
+  module procedure default_real_consistency
 
     associate( &
       all_allocated=>[allocated(self%weights_),allocated(self%biases_),allocated(self%nodes_)]&
     )   
-      call assert(all(all_allocated),"inference_engine_s(inference_engine_consistency): fully_allocated", &
+      call assert(all(all_allocated),"inference_engine_s(default_real_consistency): fully_allocated", &
         intrinsic_array_t(all_allocated))
     end associate
 
     associate(max_width=>maxval(self%nodes_), component_dims=>[size(self%biases_,1), size(self%weights_,1), size(self%weights_,2)])
-      call assert(all(component_dims == max_width), "inference_engine_s(inference_engine_consistency): conformable arrays", &
+      call assert(all(component_dims == max_width), "inference_engine_s(default_real_consistency): conformable arrays", &
         intrinsic_array_t([max_width,component_dims]))
     end associate
 
     associate(input_subscript => lbound(self%nodes_,1))
-      call assert(input_subscript == input_layer, "inference_engine_s(inference_engine_consistency): n base subsscript", &
+      call assert(input_subscript == input_layer, "inference_engine_s(default_real_consistency): n base subsscript", &
         input_subscript)
     end associate
 
-  end subroutine
+  end procedure
 
-  pure subroutine double_precision_consistency(self)
-
-    class(inference_engine_t(double_precision)), intent(in) :: self
-
-    integer, parameter :: input_layer=0
+  module procedure double_precision_consistency
 
     associate( &
       all_allocated=>[allocated(self%weights_),allocated(self%biases_),allocated(self%nodes_)]&
     )   
-      call assert(all(all_allocated),"inference_engine_s(inference_engine_consistency): fully_allocated", &
+      call assert(all(all_allocated),"inference_engine_s(default_real_consistency): fully_allocated", &
         intrinsic_array_t(all_allocated))
     end associate
 
     associate(max_width=>maxval(self%nodes_), component_dims=>[size(self%biases_,1), size(self%weights_,1), size(self%weights_,2)])
-      call assert(all(component_dims == max_width), "inference_engine_s(inference_engine_consistency): conformable arrays", &
+      call assert(all(component_dims == max_width), "inference_engine_s(default_real_consistency): conformable arrays", &
         intrinsic_array_t([max_width,component_dims]))
     end associate
 
     associate(input_subscript => lbound(self%nodes_,1))
-      call assert(input_subscript == input_layer, "inference_engine_s(inference_engine_consistency): n base subsscript", &
+      call assert(input_subscript == input_layer, "inference_engine_s(default_real_consistency): n base subsscript", &
         input_subscript)
     end associate
 
-  end subroutine
+  end procedure
 
   module procedure default_real_construct_from_components
 
@@ -298,7 +222,7 @@ contains
 
     inference_engine%activation_ = activation_t(metadata(4)%string())
 
-    call assert_consistency(inference_engine)
+    call inference_engine%assert_consistency()
 
   end procedure default_real_construct_from_components
 
@@ -337,7 +261,7 @@ contains
       inference_engine%activation_ = activation_t(function_name%string())
     end associate
 
-    call assert_consistency(inference_engine)
+    call inference_engine%assert_consistency()
 
   end procedure double_precision_construct_from_components
 
@@ -352,7 +276,7 @@ contains
     proto_neuron = neuron_t([0.],1.)
 #endif
 
-    call assert_consistency(self)
+    call self%assert_consistency()
 
     associate( &
        num_hidden_layers => self%num_hidden_layers() &
@@ -468,7 +392,7 @@ contains
     proto_neuron = neuron_t([0D0],1D0)
 #endif
 
-    call assert_consistency(self)
+    call self%assert_consistency()
 
     associate( &
        num_hidden_layers => self%num_hidden_layers() &
@@ -671,13 +595,9 @@ contains
       end associate
     end associate read_metadata
 
-    call assert_consistency(inference_engine)
+    call inference_engine%assert_consistency()
 
   end procedure default_real_from_json
-
-  module procedure double_precision_unmapped_from_json
-    unmapped_engine%inference_engine_t = double_precision_from_json(file)
-  end procedure
 
   module procedure double_precision_from_json
 
@@ -775,14 +695,13 @@ contains
       end associate
     end associate read_metadata
 
-    call assert_consistency(inference_engine)
+    call inference_engine%assert_consistency()
 
   end procedure double_precision_from_json
 
   module procedure default_real_assert_conformable_with
 
-    call assert_consistency(self)
-    call assert_consistency(inference_engine)
+    call self%assert_consistency()
 
     associate(equal_shapes => [ &
       shape(self%weights_) == shape(inference_engine%weights_), &
@@ -798,8 +717,7 @@ contains
 
   module procedure double_precision_assert_conformable_with
 
-    call assert_consistency(self)
-    call assert_consistency(inference_engine)
+    call self%assert_consistency()
 
     associate(equal_shapes => [ &
       shape(self%weights_) == shape(inference_engine%weights_), &
@@ -819,8 +737,8 @@ contains
 
     nodes_eq = all(lhs%nodes_ == rhs%nodes_)
 
-    call assert_consistency(lhs)
-    call assert_consistency(rhs)
+    call lhs%assert_consistency()
+    call rhs%assert_consistency()
     call lhs%assert_conformable_with(rhs)
 
     block
@@ -860,8 +778,8 @@ contains
 
     nodes_eq = all(lhs%nodes_ == rhs%nodes_)
 
-    call assert_consistency(lhs)
-    call assert_consistency(rhs)
+    call lhs%assert_consistency()
+    call rhs%assert_consistency()
     call lhs%assert_conformable_with(rhs)
 
     block
@@ -896,48 +814,48 @@ contains
   end procedure
 
   module procedure default_real_num_outputs
-    call assert_consistency(self)
+    call self%assert_consistency()
     output_count = self%nodes_(ubound(self%nodes_,1))
   end procedure
 
   module procedure double_precision_num_outputs
-    call assert_consistency(self)
+    call self%assert_consistency()
     output_count = self%nodes_(ubound(self%nodes_,1))
   end procedure
 
   module procedure default_real_num_hidden_layers
-    integer, parameter :: input_layer = 1, output_layer = 1
-    call assert_consistency(self)
+    integer, parameter :: num_non_hidden_layers = 2
+    call self%assert_consistency()
     associate(num_layers => size(self%nodes_))
-      hidden_layer_count =  num_layers - (input_layer + output_layer)
+      hidden_layer_count =  num_layers - num_non_hidden_layers
     end associate
   end procedure
 
   module procedure double_precision_num_hidden_layers
-    integer, parameter :: input_layer = 1, output_layer = 1
-    call assert_consistency(self)
+    integer, parameter :: num_non_hidden_layers = 2
+    call self%assert_consistency()
     associate(num_layers => size(self%nodes_))
-      hidden_layer_count =  num_layers - (input_layer + output_layer)
+      hidden_layer_count =  num_layers - num_non_hidden_layers
     end associate
   end procedure
 
   module procedure default_real_num_inputs
-    call assert_consistency(self)
+    call self%assert_consistency()
     input_count = self%nodes_(lbound(self%nodes_,1))
   end procedure
 
   module procedure double_precision_num_inputs
-    call assert_consistency(self)
+    call self%assert_consistency()
     input_count = self%nodes_(lbound(self%nodes_,1))
   end procedure
 
   module procedure default_real_nodes_per_layer
-    call assert_consistency(self)
+    call self%assert_consistency()
     node_count = self%nodes_
   end procedure
 
   module procedure double_precision_nodes_per_layer
-    call assert_consistency(self)
+    call self%assert_consistency()
     node_count = self%nodes_
   end procedure
 
@@ -964,5 +882,194 @@ contains
       activation_name = strings(4)
     end associate
   end procedure
+
+  module procedure default_real_learn
+    integer l, batch, mini_batch_size, pair
+    type(tensor_t), allocatable :: inputs(:), expected_outputs(:)
+
+    call self%assert_consistency()
+    call assert(workspace%fully_allocated(), "inference_engine_s(default_real_learn): workspace%fully_allocated()")
+
+    associate(output_layer => ubound(self%nodes_,1))
+
+      associate( &
+        dcdw => workspace%dcdw, vdw => workspace%vdw, sdw   => workspace%sdw  , vdwc => workspace%vdwc, sdwc => workspace%sdwc &
+       ,dcdb => workspace%dcdb, vdb => workspace%vdb, sdb   => workspace%sdb  , vdbc => workspace%vdbc, sdbc => workspace%sdbc &
+       ,a    => workspace%a   , z   => workspace%z  , delta => workspace%delta &
+      )
+        vdw = 0.; sdw = 1.; vdb = 0.; sdb = 1.
+
+        associate(w => self%weights_, b => self%biases_, n => self%nodes_, num_mini_batches => size(mini_batches_arr))
+
+          if (present(cost)) allocate(cost(num_mini_batches))
+        
+          iterate_across_batches: &
+          do batch = 1, num_mini_batches
+
+            dcdw = 0.; dcdb = 0.
+
+#ifndef _CRAYFTN
+            associate(input_output_pairs => mini_batches_arr(batch)%input_output_pairs())
+#else
+            block
+              type(input_output_pair_t), allocatable :: input_output_pairs(:)
+              input_output_pairs = mini_batches_arr(batch)%input_output_pairs()
+#endif  
+              inputs = input_output_pairs%inputs()
+              expected_outputs = input_output_pairs%expected_outputs()
+              mini_batch_size = size(input_output_pairs)
+#ifndef _CRAYFTN
+            end associate
+#else
+            end block
+#endif  
+            sum_cost: &
+            block
+              real, allocatable :: pair_cost(:)
+              if (present(cost)) allocate(pair_cost(mini_batch_size))
+
+#if F2023_LOCALITY
+              iterate_through_batch: &
+              do concurrent (pair = 1:mini_batch_size) local(a,z,delta) reduce(+: dcdb, dcdw)
+
+#elif F2018_LOCALITY
+
+              reduce_gradients: &
+              block
+                real reduce_dcdb(size(dcdb,1),size(dcdb,2),mini_batch_size)
+                real reduce_dcdw(size(dcdw,1),size(dcdw,2),size(dcdw,3),mini_batch_size)
+                reduce_dcdb = 0.
+                reduce_dcdw = 0.
+
+                iterate_through_batch: &
+                do concurrent (pair = 1:mini_batch_size) local(a,z,delta)
+
+#else
+
+              reduce_gradients: &
+              block
+                real reduce_dcdb(size(dcdb,1),size(dcdb,2),mini_batch_size)
+                real reduce_dcdw(size(dcdw,1),size(dcdw,2),size(dcdw,3),mini_batch_size)
+                reduce_dcdb = 0.
+                reduce_dcdw = 0.
+              
+                iterate_through_batch: &
+                do concurrent (pair = 1:mini_batch_size)
+
+                  iteration: &
+                  block
+
+                    real a(maxval(self%nodes_), input_layer:output_layer) ! Activations
+                    real z(size(b,1),size(b,2)), delta(size(b,1),size(b,2))
+#endif
+
+                    a(1:self%num_inputs(), input_layer) = inputs(pair)%values()
+
+                    feed_forward: &
+                    do l = 1,output_layer
+                      z(1:n(l),l) = matmul(w(1:n(l),1:n(l-1),l), a(1:n(l-1),l-1)) + b(1:n(l),l) ! z_j^l =  sum_k(w_jk^{l} a_k^{l-1}) + b_j^l
+                      a(1:n(l),l) = self%activation_%evaluate(z(1:n(l),l))
+                    end do feed_forward
+
+                    associate(y => expected_outputs(pair)%values())
+                      if (present(cost)) pair_cost(pair) = sum((y(1:n(output_layer))-a(1:n(output_layer),output_layer))**2)
+              
+                      delta(1:n(output_layer),output_layer) = (a(1:n(output_layer),output_layer) - y(1:n(output_layer))) &
+                                                             * self%activation_%differentiate(z(1:n(output_layer),output_layer))
+                    end associate
+                
+                    associate(n_hidden => self%num_hidden_layers())
+                      back_propagate_error: &
+                      do l = n_hidden,1,-1
+                        delta(1:n(l),l) = matmul(transpose(w(1:n(l+1),1:n(l),l+1)), delta(1:n(l+1),l+1)) &
+                                         * self%activation_%differentiate(z(1:n(l),l))
+                      end do back_propagate_error
+                    end associate
+
+                    
+
+                    block
+                      integer j
+                      sum_gradients: &
+                      do l = 1,output_layer
+#if F2023_LOCALITY
+                        dcdb(1:n(l),l) = dcdb(1:n(l),l) + delta(1:n(l),l)
+                        do concurrent(j = 1:n(l)) reduce(+: dcdw)
+                          dcdw(j,1:n(l-1),l) = dcdw(j,1:n(l-1),l) + a(1:n(l-1),l-1)*delta(j,l)
+                        end do
+#else
+                        reduce_dcdb(1:n(l),l,pair) = reduce_dcdb(1:n(l),l,pair) + delta(1:n(l),l)
+                        do j = 1,n(l)
+                          reduce_dcdw(j,1:n(l-1),l,pair) = reduce_dcdw(j,1:n(l-1),l,pair) + a(1:n(l-1),l-1)*delta(j,l)
+                        end do
+#endif
+                      end do sum_gradients
+                    end block
+    
+#if F2023_LOCALITY
+              end do iterate_through_batch
+#elif F2018_LOCALITY
+
+                end do iterate_through_batch
+                dcdb = sum(reduce_dcdb,dim=3)
+                dcdw = sum(reduce_dcdw,dim=4)
+
+              end block reduce_gradients
+#else
+                  end block iteration
+                end do iterate_through_batch
+                dcdb = sum(reduce_dcdb,dim=3)
+                dcdw = sum(reduce_dcdw,dim=4)
+  
+              end block reduce_gradients
+#endif
+
+              if (present(cost)) cost(batch) = sum(pair_cost)/(2*mini_batch_size)
+            end block sum_cost
+          
+            if (adam) then
+              adam: &
+              block
+                ! Adam parameters  
+                real, parameter :: beta(*) = [.9, .999]
+                real, parameter :: obeta(*) = [1.- beta(1), 1.- beta(2)]
+                real, parameter :: epsilon = 1.E-08
+
+                associate(alpha => learning_rate)
+                  adam_adjust_weights_and_biases: &
+                  do concurrent(l = 1:output_layer)
+                    dcdw(1:n(l),1:n(l-1),l) = dcdw(1:n(l),1:n(l-1),l)/(mini_batch_size)
+                    vdw(1:n(l),1:n(l-1),l)  = beta(1)*vdw(1:n(l),1:n(l-1),l) + obeta(1)*dcdw(1:n(l),1:n(l-1),l)
+                    sdw (1:n(l),1:n(l-1),l) = beta(2)*sdw(1:n(l),1:n(l-1),l) + obeta(2)*(dcdw(1:n(l),1:n(l-1),l)**2)
+                    vdwc(1:n(l),1:n(l-1),l) = vdw(1:n(l),1:n(l-1),l)/(1.- beta(1)**num_mini_batches)
+                    sdwc(1:n(l),1:n(l-1),l) = sdw(1:n(l),1:n(l-1),l)/(1.- beta(2)**num_mini_batches)
+                    w(1:n(l),1:n(l-1),l) = w(1:n(l),1:n(l-1),l) &
+                      - alpha*vdwc(1:n(l),1:n(l-1),l)/(sqrt(sdwc(1:n(l),1:n(l-1),l))+epsilon) ! Adjust weights
+
+                    dcdb(1:n(l),l) = dcdb(1:n(l),l)/mini_batch_size
+                    vdb(1:n(l),l) = beta(1)*vdb(1:n(l),l) + obeta(1)*dcdb(1:n(l),l)
+                    sdb(1:n(l),l) = beta(2)*sdb(1:n(l),l) + obeta(2)*(dcdb(1:n(l),l)**2)
+                    vdbc(1:n(l),l) = vdb(1:n(l),l)/(1. - beta(1)**num_mini_batches)
+                    sdbc(1:n(l),l) = sdb(1:n(l),l)/(1. - beta(2)**num_mini_batches)
+                    b(1:n(l),l) = b(1:n(l),l) - alpha*vdbc(1:n(l),l)/(sqrt(sdbc(1:n(l),l))+epsilon) ! Adjust weights
+                  end do adam_adjust_weights_and_biases
+                end associate
+              end block adam
+            else
+              associate(eta => learning_rate)
+                adjust_weights_and_biases: &
+                do concurrent(l = 1:output_layer)
+                  dcdb(1:n(l),l) = dcdb(1:n(l),l)/mini_batch_size
+                  b(1:n(l),l) = b(1:n(l),l) - eta*dcdb(1:n(l),l) ! Adjust biases
+                  dcdw(1:n(l),1:n(l-1),l) = dcdw(1:n(l),1:n(l-1),l)/mini_batch_size
+                  w(1:n(l),1:n(l-1),l) = w(1:n(l),1:n(l-1),l) - eta*dcdw(1:n(l),1:n(l-1),l) ! Adjust weights
+                end do adjust_weights_and_biases
+              end associate
+            end if
+          end do iterate_across_batches
+        end associate
+      end associate
+    end associate
+  end procedure default_real_learn
 
 end submodule inference_engine_s
