@@ -15,7 +15,7 @@ module activation_m
 
   type activation_t
     private
-    integer(c_int) selection_ = sigmoid
+    integer(c_int) :: selection_ = sigmoid
   contains
     procedure, non_overridable :: function_name
     generic :: operator(==) => equals
