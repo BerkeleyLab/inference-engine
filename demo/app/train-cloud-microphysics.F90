@@ -428,15 +428,9 @@ contains
                       print *, epoch, average_cost
                       write(plot_file%plot_unit,*) epoch, average_cost
 
-                      block 
-                        integer net_unit
-
-                        open(newunit=net_unit, file=network_file, form='formatted', status='unknown', iostat=io_status, action='write')
-                        associate(json_file => trainable_network%to_json())
-                          call json_file%write_lines(string_t(network_file))
-                        end associate
-                        close(net_unit)
-                      end block
+                      associate(json_file => trainable_network%to_json())
+                        call json_file%write_lines(string_t(network_file))
+                      end associate
 
                     end if image_1_maybe_writes
 
