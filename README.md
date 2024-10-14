@@ -1,31 +1,28 @@
-
 ```ascii
-  _        __                                                     _            
- (_)      / _|                                                   (_)           
-  _ _ __ | |_ ___ _ __ ___ _ __   ___ ___         ___ _ __   __ _ _ _ __   ___ 
- | | '_ \|  _/ _ \ '__/ _ \ '_ \ / __/ _ \  __   / _ \ '_ \ / _` | | '_ \ / _ \
- | | | | | ||  __/ | |  __/ | | | (_|  __/ |__| |  __/ | | | (_| | | | | |  __/
- |_|_| |_|_| \___|_|  \___|_| |_|\___\___|       \___|_| |_|\__, |_|_| |_|\___|
-                                                             __/ |             
-                                                            |___/              
+___________.__        __          
+\_   _____/|__|____ _/  |_  ______
+ |    __)  |  \__  \\   __\/  ___/
+ |     \   |  |/ __ \|  |  \___ \ 
+ \___  /   |__(____  /__| /____  >
+     \/            \/          \/ 
 ```
-Inference-Engine
-================
+Fiats: Functional inference and training for surrogates
+=======================================================
 
 [Overview](#overview) | [Getting Started](#getting-started) | [Documentation](#documentation)
 
 Overview
 --------
-Inference-Engine supports research in the training and deployment of neural-network surrogate models for computational science.
-Inference-Engine also provides a platform for exploring and advancing the native parallel programming features of Fortran 2023 in the context of deep learning.
-The language features of interest facilitate loop-level parallelism via the `do concurrent` construct and Single-Program, Multiple Data (SMPD) parallelism via "multi-image" (e.g., multithreaded or multiprocess) execution.
-Toward these ends,
+Fiats supports research on the training and deployment of neural-network surrogate models for computational science.
+Fiats also provides a platform for exploring and advancing the native parallel programming features of Fortran 2023 in the context of deep learning.
+Toward these ends, the design of Fiats centers around functional programming patterns that facilitate concurrent execution:
+The language features of interest facilitate loop-level parallelism via the `do concurrent` construct and Single-Program, Multiple Data (SMPD) parallelism via "multi-image" (e.g., multithreaded or multiprocess) execution:
 
-* Most Inference-Engine procedures are `pure` and thus satisfy a language requirement for invocation inside `do concurrent`,
+* Most Fiats procedures are `pure` and thus satisfy a language requirement for invocation inside `do concurrent`,
 * The network training procedure uses `do concurrent` to expose automatic parallelization opportunities to compilers, and
 * Exploiting multi-image execution to speedup training is under investigation.
 
-To broaden support for the native parallel features, Inference-Engine's contributors also write compiler tests, bug reports, and patches; develop a parallel runtime library ([Caffeine]); participate in the language standardization process; and provide example inference and training code for exercising and evaluating compilers' automatic parallelization capabilities on processors and accelerators, including Graphics Processing Units (GPUs).
+To broaden support for the native parallel features, the Fiats contributors also write compiler tests, bug reports, and patches; develop a parallel runtime library ([Caffeine]); participate in the language standardization process; and provide example inference and training code for exercising and evaluating compilers' automatic parallelization capabilities on processors and accelerators, including Graphics Processing Units (GPUs).
 
 Available optimizers:
 * Stochastic gradient descent and
@@ -51,7 +48,7 @@ Getting Started
 The [example] subdirectory contains demonstrations of several relatively simple use cases.
 We recommend reviewing the examples to see how to handle basic tasks such as configuring a network training run or reading a neural network and using it to perform inference.
 
-The [demo] subdirectory contains demonstration applications that depend on Inference-Engine but build separately due to requiring additional prerequisites such as NetCDF and HDF5.
+The [demo] subdirectory contains demonstration applications that depend on Fiats but build separately due to requiring additional prerequisites such as NetCDF and HDF5.
 The demonstration applications
  - Train a cloud microphysics model surrogate for the Intermediate Complexity Atmospheric Research ([ICAR]) package,
  - Perform inference using a pretrained model for aerosol dynamics in the Energy Exascale Earth System ([E3SM]) package, and
@@ -61,20 +58,18 @@ The demonstration applications
 Because this repository supports programming language research, the code exercises new language features in novel ways.
 We recommend using any compiler's latest release or even building open-source compilers from source.
 The [handy-dandy] repository contains scripts capturing steps for building the [LLVM] compiler suite.
-The remainder of this section contains commands for building Inference-Engine with a recent Fortran compiler and the Fortran Package Manager ([`fpm`]) in your `PATH`.
+The remainder of this section contains commands for building Fiats with a recent Fortran compiler and the Fortran Package Manager ([`fpm`]) in your `PATH`.
 
-#### GNU (`gfortran`) 13 or higher required
-```
-fpm test --compiler gfortran --profile release
-```
 
-#### NAG (`nagfor`)
+
+#### LLVM (`flang-new`): supported
+With LLVM `flang` 20 installed and in your `PATH`, build and test Fiats with the installed `flang-new` symlink:
 ```
-fpm test --compiler nagfor --flag -fpp --profile release
+fpm test --compiler flang-new --flag "-O3"
 ```
 
-#### LLVM (`flang-new`)
-Building with `flang-new` requires passing flags to enable the compiler's experimental support for assumed-rank entities:
+With LLVM flang 19, enable the compiler's experimental support for assumed-rank entities:
+
 ```
 fpm test --compiler flang-new --flag "-mmlir -allow-assumed-rank -O3"
 ```
@@ -89,8 +84,19 @@ fpm run \
   -- --network model.json
 
 ```
-where `model.json` must be a neural network in the [JSON] format used by Inference-Engine and the companion [nexport] package.
+where `model.json` must be a neural network in the [JSON] format used by Fiats and the companion [nexport] package.
 Automatic parallelization for training is under development.
+
+#### NAG (`nagfor`):
+```
+fpm test --compiler nagfor --flag -fpp --profile release
+```
+
+#### GNU (`gfortran`): 
+
+```
+fpm test --compiler gfortran --profile release
+```
 
 #### Intel (`ifx`)
 ```
@@ -119,7 +125,7 @@ fpm test --compiler crayftn.sh
 ```
 
 ### Configuring a training run
-Inference-Engine imports hyperparameters and network configurations to and from JSON files.
+Fiats imports hyperparameters and network configurations to and from JSON files.
 To see the expected file format, run the [print-training-configuration] example as follows:
 ```
 % fpm run --example print-training-configuration --compiler gfortran
@@ -141,7 +147,7 @@ Project is up to date
      }
  }
 ```
-Inference-Engine's JSON file format is fragile: splitting or combining lines breaks the file reader.
+The Fiats JSON file format is fragile: splitting or combining lines breaks the file reader.
 Files with added or removed white space or reordered whole objects ("hyperparameters" or "network configuration") should work.
 A future release will leverage the [rojff] JSON interface to allow for more flexible file formatting.
 
@@ -163,7 +169,7 @@ Before halting, the program will print a table of expected and predicted saturat
 The program also writes the neural network initial condition to `initial-network.json` and the final (trained) network to the file specified in the above command: `sat-mix-rat.json`.
 
 ### Performing inference
-Users with a PyTorch model may use [nexport] to export the model to JSON files that Inference-Engine can read.
+Users with a PyTorch model may use [nexport] to export the model to JSON files that Fiats can read.
 Examples of performing inference using a neural-network JSON file are in [example/concurrent-inferences].
 
 Documentation
@@ -182,7 +188,7 @@ Please see our [GitHub Pages site] for HTML documentation generated by [`ford`] 
 [`ford`]: https://github.com/Fortran-FOSS-Programmers/ford
 [`fpm`]: https://github.com/fortran-lang/fpm
 [Getting Started]: #getting-started
-[GitHub Pages site]: https://berkeleylab.github.io/inference-engine/ 
+[GitHub Pages site]: https://berkeleylab.github.io/fiats/ 
 [handy-dandy]: https://github.com/rouson/handy-dandy/blob/main/src
 [ICAR]: https://github.com/BerkeleyLab/icar/tree/neural-net
 [JSON]: https://www.json.org/json-en.html
