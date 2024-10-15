@@ -3,39 +3,38 @@ inference engine
 ```mermaid
 classDiagram
 
-class activation_strategy_t
+class neural_network_t
+class trainable_network_t
+class tensor_map_t
+class activation_t
+class metadata_t
+class mini_batch_t
+class tensor_t
 
-activation_strategy_t <|-- differentiable_activation_strategy_t
+neural_network_t <|-- trainable_network_t
+neural_network_t o-- metadata_t
+neural_network_t o-- tensor_map_t
+neural_network_t o-- activation_t
 
-class expected_outputs_t
 
-class inference_engine_t
+class neuron_t
+class layer_t
+class hyperparameters_t
+class network_configuration_t
+class file_t
+class double_precision_file_t
 
-inference_engine_t o-- string_t
-
-input_output_pair_t o-- inputs_t
-input_output_pair_t o-- expected_outputs_t
+mini_batch_t o--"1..*" input_output_pair_t
+input_output_pair_t o-- "2" tensor_t
+file_t <|-- double_precision_file_t
 
 layer_t o-- neuron_t
 layer_t o--"0..*" layer_t
-
-mini_batch_t o--"0..*" input_output_pair_t
-
-class netCDF_file_t
-
 neuron_t o--"0..*" neuron_t
 
-class outputs_t
-
-
-differentiable_activation_strategy_t <|--sigmoid_t
-<<abstract>> differentiable_activation_strategy_t
-activation_strategy_t <|-- step_t
-
-differentiable_activation_strategy_t <|-- swish_t
-
-class trainable_engine_t{
-    -metadata_:string
+class trainable_network_t{
+    -neural_network_t : neural_network_t
+    -metadata_t : metadata
     -w : real
     -b : real
     -n : integer
@@ -45,8 +44,4 @@ class trainable_engine_t{
     +infer()
     +num_layers()
     +num_inputs()
-    +to_inference_engine()
-    differentiable_activation_strategy_t()
-
 }
-trainable_engine_t o--"0..*" string_t
