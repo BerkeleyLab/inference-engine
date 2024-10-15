@@ -29,30 +29,6 @@ contains
     tensor = self%output_map_%map_from_training_range(normalized_tensor)
   end procedure
 
-  module procedure default_real_to_exchange
-    exchange%input_map_ = self%input_map_
-    exchange%output_map_ = self%output_map_
-    associate(strings => self%metadata_%strings())
-      exchange%metadata_ = metadata_t(strings(1),strings(2),strings(3),strings(4),strings(5))
-    end associate
-    exchange%weights_ = self%weights_
-    exchange%biases_ = self%biases_
-    exchange%nodes_ = self%nodes_
-    exchange%activation_ = self%activation_
-  end procedure
-
-  module procedure double_precision_to_exchange
-    exchange%input_map_ = self%input_map_
-    exchange%output_map_ = self%output_map_
-    associate(strings => self%metadata_%strings())
-      exchange%metadata_ = metadata_t(strings(1),strings(2),strings(3),strings(4),strings(5))
-    end associate
-    exchange%weights_ = self%weights_
-    exchange%biases_ = self%biases_
-    exchange%nodes_ = self%nodes_
-    exchange%activation_ = self%activation_
-  end procedure
-
   module procedure default_real_infer
 
     real, allocatable :: a(:,:)

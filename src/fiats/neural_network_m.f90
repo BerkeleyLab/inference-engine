@@ -15,7 +15,6 @@ module neural_network_m
   private
   public :: neural_network_t
   public :: unmapped_network_t
-  public :: exchange_t
   public :: workspace_t
 
   type neural_network_t(k)
@@ -39,7 +38,6 @@ module neural_network_m
     generic :: assert_conformable_with  => default_real_assert_conformable_with, double_precision_assert_conformable_with
     generic :: skip                     => default_real_skip,                    double_precision_skip
     generic :: activation_function_name => default_real_activation_name,         double_precision_activation_name
-    generic :: to_exchange              => default_real_to_exchange,             double_precision_to_exchange
     generic :: learn                    => default_real_learn
     generic :: assert_consistency       => default_real_consistency,             double_precision_consistency
     procedure, private, non_overridable :: default_real_consistency,             double_precision_consistency
@@ -56,7 +54,6 @@ module neural_network_m
     procedure, private, non_overridable :: default_real_assert_conformable_with, double_precision_assert_conformable_with
     procedure, private, non_overridable :: default_real_skip,                    double_precision_skip
     procedure, private, non_overridable :: default_real_activation_name,         double_precision_activation_name
-    procedure, private, non_overridable :: default_real_to_exchange,             double_precision_to_exchange
   end type
 
   type workspace_t(k)
@@ -93,31 +90,6 @@ module neural_network_m
       implicit none
       class(workspace_t), intent(in) :: self
       logical all_allocated
-    end function
-
-  end interface
-
-  type exchange_t(k)
-    integer, kind :: k = default_real
-    type(tensor_map_t(k)) input_map_, output_map_
-    type(metadata_t) metadata_
-    real(k), allocatable :: weights_(:,:,:), biases_(:,:)
-    integer, allocatable :: nodes_(:)
-    type(activation_t) activation_
-  end type
-
-  interface
-
-    module function default_real_to_exchange(self) result(exchange)
-      implicit none
-      class(neural_network_t), intent(in) :: self
-      type(exchange_t) exchange
-    end function
-
-    module function double_precision_to_exchange(self) result(exchange)
-      implicit none
-      class(neural_network_t(double_precision)), intent(in) :: self
-      type(exchange_t(double_precision)) exchange
     end function
 
   end interface
