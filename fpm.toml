@@ -1,5 +1,5 @@
 name = "fiats"
-version = "0.13.1"
+version = "0.15.0"
 license = "see LICENSE.txt"
 author = "Damian Rouson, Tan Nguyen, Jordan Welsman, David Torres, Brad Richardson, Katherine Rasmussen, Federica Villani, Dan Bonachea"
 maintainer = "rouson@lbl.gov"

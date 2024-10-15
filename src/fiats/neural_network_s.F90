@@ -8,7 +8,7 @@ submodule(neural_network_m) neural_network_s
   use neuron_m, only : neuron_t
   implicit none
 
-  character(len=*), parameter :: acceptable_engine_tag = "0.13.0" ! git tag capable of reading the current json file format
+  character(len=*), parameter :: minimum_acceptable_tag = "0.15.0" ! git tag capable of reading the current json file format
   integer, parameter :: input_layer = 0 
 
 contains
@@ -303,7 +303,7 @@ contains
                
           associate( json_lines => &
             brace + &                                                          ! { 
-              file_version_lines + &                                           !   "acceptable_engine_tag": ...
+              file_version_lines + &                                           !   "minimum_acceptable_tag": ...
               metadata_lines + &                                               !   "metadata": ...
               tensor_map_lines + &                                             !   "inputs_tensor_map": ...
               tensor_map_lines + &                                             !   "outputs_tensor_map": ...
@@ -319,7 +319,7 @@ contains
           )
             allocate(lines(json_lines))
             lines(brace) = string_t('{')
-            lines(brace+1:brace+file_version_lines)= string_t('    "acceptable_engine_tag": "')//acceptable_engine_tag//'",'
+            lines(brace+1:brace+file_version_lines)= string_t('    "minimum_acceptable_tag": "')//minimum_acceptable_tag//'",'
             associate(meta_start => brace + file_version_lines + 1)
               associate(meta_end => meta_start + metadata_lines - 1)
               lines(meta_start:meta_end) = self%metadata_%to_json()
@@ -419,7 +419,7 @@ contains
                
           associate( json_lines => &
             brace + &                                                          ! { 
-              file_version_lines + &                                           !   "acceptable_engine_tag": ...
+              file_version_lines + &                                           !   "minimum_acceptable_tag": ...
               metadata_lines + &                                               !   "metadata": ...
               tensor_map_lines + &                                             !   "inputs_tensor_map": ...
               tensor_map_lines + &                                             !   "outputs_tensor_map": ...
@@ -435,7 +435,7 @@ contains
           )
             allocate(lines(json_lines))
             lines(brace) = string_t('{')
-            lines(brace+1:brace+file_version_lines)= string_t('    "acceptable_engine_tag": "')//acceptable_engine_tag//'",'
+            lines(brace+1:brace+file_version_lines)= string_t('    "minimum_acceptable_tag": "')//minimum_acceptable_tag//'",'
             associate(meta_start => brace + file_version_lines + 1)
               associate(meta_end => meta_start + metadata_lines - 1)
               lines(meta_start:meta_end) = self%metadata_%to_json()
@@ -512,11 +512,11 @@ contains
     block 
       character(len=:), allocatable :: tag
 
-      tag = lines(2)%get_json_value("acceptable_engine_tag", mold="")
+      tag = lines(2)%get_json_value("minimum_acceptable_tag", mold="")
       call assert( &
-        tag == acceptable_engine_tag &
-        ,"neural_network_s(default_real_from_json): acceptable_engine_tag" &
-        ,tag //"(expected " //acceptable_engine_tag // ")" &
+        tag == minimum_acceptable_tag &
+        ,"neural_network_s(default_real_from_json): minimum_acceptable_tag" &
+        ,tag //"(expected " //minimum_acceptable_tag // ")" &
       )
     end block check_git_tag
       
@@ -614,11 +614,11 @@ contains
     block
       character(len=:), allocatable :: tag
 
-      tag = lines(2)%get_json_value("acceptable_engine_tag", mold="")
+      tag = lines(2)%get_json_value("minimum_acceptable_tag", mold="")
       call assert( &
-        tag == acceptable_engine_tag &
-        ,"neural_network_s(double_precision_from_json): acceptable_engine_tag" &
-        ,tag //"(expected " //acceptable_engine_tag // ")" &
+        tag == minimum_acceptable_tag &
+        ,"neural_network_s(double_precision_from_json): minimum_acceptable_tag" &
+        ,tag //"(expected " //minimum_acceptable_tag // ")" &
       )
     end block check_git_tag
 
