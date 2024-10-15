@@ -8,6 +8,7 @@ ___________.__        __
 ```
 Fiats: Functional inference and training for surrogates
 =======================================================
+Alternatively, _Fortran inference and training for science_.
 
 [Overview](#overview) | [Getting Started](#getting-started) | [Documentation](#documentation)
 
@@ -15,11 +16,11 @@ Overview
 --------
 Fiats supports research on the training and deployment of neural-network surrogate models for computational science.
 Fiats also provides a platform for exploring and advancing the native parallel programming features of Fortran 2023 in the context of deep learning.
-Toward these ends, the design of Fiats centers around functional programming patterns that facilitate concurrent execution:
-The language features of interest facilitate loop-level parallelism via the `do concurrent` construct and Single-Program, Multiple Data (SMPD) parallelism via "multi-image" (e.g., multithreaded or multiprocess) execution:
+The design of Fiats centers around functional programming patterns that facilitate concurrency, including loop-level parallelism via the `do concurrent` construct and Single-Program, Multiple Data (SMPD) parallelism via "multi-image" (e.g., multithreaded or multiprocess) execution.
+Towards these ends,
 
 * Most Fiats procedures are `pure` and thus satisfy a language requirement for invocation inside `do concurrent`,
-* The network training procedure uses `do concurrent` to expose automatic parallelization opportunities to compilers, and
+* The network training procedure use `do concurrent` to expose automatic parallelization opportunities to compilers, and
 * Exploiting multi-image execution to speedup training is under investigation.
 
 To broaden support for the native parallel features, the Fiats contributors also write compiler tests, bug reports, and patches; develop a parallel runtime library ([Caffeine]); participate in the language standardization process; and provide example inference and training code for exercising and evaluating compilers' automatic parallelization capabilities on processors and accelerators, including Graphics Processing Units (GPUs).
@@ -48,7 +49,7 @@ Getting Started
 The [example] subdirectory contains demonstrations of several relatively simple use cases.
 We recommend reviewing the examples to see how to handle basic tasks such as configuring a network training run or reading a neural network and using it to perform inference.
 
-The [demo] subdirectory contains demonstration applications that depend on Fiats but build separately due to requiring additional prerequisites such as NetCDF and HDF5.
+The [demo] subdirectory contains demonstration applications that depend on Fiats but build separately due to requiring additional prerequisites such as [NetCDF] and [HDF5].
 The demonstration applications
  - Train a cloud microphysics model surrogate for the Intermediate Complexity Atmospheric Research ([ICAR]) package,
  - Perform inference using a pretrained model for aerosol dynamics in the Energy Exascale Earth System ([E3SM]) package, and
@@ -58,11 +59,9 @@ The demonstration applications
 Because this repository supports programming language research, the code exercises new language features in novel ways.
 We recommend using any compiler's latest release or even building open-source compilers from source.
 The [handy-dandy] repository contains scripts capturing steps for building the [LLVM] compiler suite.
-The remainder of this section contains commands for building Fiats with a recent Fortran compiler and the Fortran Package Manager ([`fpm`]) in your `PATH`.
+The remainder of this section contains commands for building Fiats with a recent Fortran compiler and the Fortran Package Manager ([`fpm`]).
 
-
-
-#### LLVM (`flang-new`): supported
+#### LLVM (`flang-new`)
 With LLVM `flang` 20 installed in your `PATH`, build and test Fiats with the installed `flang-new` symlink in order for `fpm` to correctly identify the compiler:
 ```
 fpm test --compiler flang-new --flag "-O3"
@@ -87,12 +86,12 @@ where `model.json` must be a neural network in the [JSON] format used by Fiats a
 
 Automatic parallelization for training neural networks is under development.
 
-#### NAG (`nagfor`):
+#### NAG (`nagfor`)
 ```
 fpm test --compiler nagfor --flag -fpp --profile release
 ```
 
-#### GNU (`gfortran`): 
+#### GNU (`gfortran`)
 Compiler bugs related to parameterized derived types currently prevent `gfortran` from building Fiats versions 0.15.0 or later.
 Test and build earlier versions of Fiats build with the following command:
 ```
@@ -112,7 +111,7 @@ This capability is under development with the goal to facilitate automatic GPU o
 fpm test --compiler ifx --profile release --flag "-fopenmp-target-do-concurrent -qopenmp -fopenmp-targets=spir64 -O3"
 ```
 
-#### HPE (`crayftn.sh`) -- under development
+#### HPE (`crayftn.sh`)
 Support for the Cray Compiler Environment (CCE) Fortran compiler is under development.
 Building with the CCE `ftn` compiler wrapper requires an additional trivial wrapper
 shell script. For example, create a file `crayftn.sh` with the following contents and
@@ -193,8 +192,10 @@ Please see our [GitHub Pages site] for HTML documentation generated by [`ford`] 
 [Getting Started]: #getting-started
 [GitHub Pages site]: https://berkeleylab.github.io/fiats/ 
 [handy-dandy]: https://github.com/rouson/handy-dandy/blob/main/src
+[HDF5]: https://www.hdfgroup.org/solutions/hdf5/
 [ICAR]: https://github.com/BerkeleyLab/icar/tree/neural-net
 [JSON]: https://www.json.org/json-en.html
+[NetCDF]: https://www.unidata.ucar.edu/software/netcdf/
 [LLVM]: https://github.com/llvm/llvm-project
 [nexport]: https://go.lbl.gov/nexport
 [Overview]: #overview
