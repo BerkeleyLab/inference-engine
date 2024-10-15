@@ -1,7 +1,7 @@
 ! Copyright (c), The Regents of the University of California
 ! Terms of use are as specified in LICENSE.txt
-module asymmetric_engine_test_m
-  !! Define asymmetric tests and procedures required for reporting results
+module asymmetric_network_test_m
+  !! Define tests in which the desired output depends asymmetrically on the inputs 
 
   ! External dependencies
   use assert_m, only : assert
@@ -14,9 +14,9 @@ module asymmetric_engine_test_m
   implicit none
 
   private
-  public :: asymmetric_engine_test_t
+  public :: asymmetric_network_test_t
 
-  type, extends(test_t) :: asymmetric_engine_test_t
+  type, extends(test_t) :: asymmetric_network_test_t
   contains
     procedure, nopass :: subject
     procedure, nopass :: results
@@ -144,4 +144,4 @@ contains
 
   end function
 
-end module asymmetric_engine_test_m
+end module asymmetric_network_test_m

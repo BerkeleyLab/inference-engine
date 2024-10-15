@@ -2,7 +2,7 @@
 ! Terms of use are as specified in LICENSE.txt
 program main
   use neural_network_test_m, only : neural_network_test_t
-  use asymmetric_engine_test_m, only : asymmetric_engine_test_t
+  use asymmetric_network_test_m, only : asymmetric_network_test_t
   use trainable_network_test_m, only : trainable_network_test_t
   use metadata_test_m, only : metadata_test_t
   use hyperparameters_test_m, only : hyperparameters_test_t
@@ -14,7 +14,7 @@ program main
   implicit none
 
   type(neural_network_test_t) neural_network_test
-  type(asymmetric_engine_test_t) asymmetric_engine_test
+  type(asymmetric_network_test_t) asymmetric_network_test
   type(trainable_network_test_t) trainable_network_test
   type(hyperparameters_test_t) hyperparameters_test
   type(metadata_test_t) metadata_test
@@ -47,7 +47,7 @@ program main
   call training_configuration_test%report(passes, tests)
   call tensor_map_test%report(passes, tests)
   call tensor_test%report(passes, tests)
-  call asymmetric_engine_test%report(passes, tests)
+  call asymmetric_network_test%report(passes, tests)
   call neural_network_test%report(passes, tests)
   call trainable_network_test%report(passes, tests)
   call cpu_time(t_finish)
