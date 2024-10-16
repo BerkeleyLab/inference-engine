@@ -4,7 +4,7 @@ module metadata_test_m
   !! Test metadata_t object I/O and construction
 
   ! External dependencies
-  use inference_engine_m, only : metadata_t
+  use fiats_m, only : metadata_t
   use julienne_m, only : test_t, test_result_t, test_description_t, test_description_substring, string_t
 #ifdef __GFORTRAN__
   use julienne_m, only : test_function_i

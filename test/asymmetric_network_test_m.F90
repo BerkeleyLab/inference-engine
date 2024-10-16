@@ -1,7 +1,7 @@
 ! Copyright (c), The Regents of the University of California
 ! Terms of use are as specified in LICENSE.txt
-module asymmetric_engine_test_m
-  !! Define asymmetric tests and procedures required for reporting results
+module asymmetric_network_test_m
+  !! Define tests in which the desired output depends asymmetrically on the inputs 
 
   ! External dependencies
   use assert_m, only : assert
@@ -9,14 +9,14 @@ module asymmetric_engine_test_m
     test_t, test_result_t, vector_test_description_t, test_description_substring, string_t, vector_function_strategy_t
 
   ! Internal dependencies
-  use inference_engine_m, only : inference_engine_t, tensor_t
+  use fiats_m, only : neural_network_t, tensor_t
 
   implicit none
 
   private
-  public :: asymmetric_engine_test_t
+  public :: asymmetric_network_test_t
 
-  type, extends(test_t) :: asymmetric_engine_test_t
+  type, extends(test_t) :: asymmetric_network_test_t
   contains
     procedure, nopass :: subject
     procedure, nopass :: results
@@ -31,7 +31,7 @@ contains
 
   pure function subject() result(specimen)
     character(len=:), allocatable :: specimen
-    specimen = "An inference_engine_t object encoding an asymmetric XOR-AND-the-2nd-input network"
+    specimen = "An neural_network_t object encoding an asymmetric XOR-AND-the-2nd-input network"
   end function
 
   function results() result(test_results)
@@ -60,8 +60,8 @@ contains
     end associate
   end function
 
-  function xor_and_2nd_input_network() result(inference_engine)
-    type(inference_engine_t) inference_engine
+  function xor_and_2nd_input_network() result(neural_network)
+    type(neural_network_t) neural_network
     real, allocatable :: biases(:,:),  weights(:,:,:)
     type(string_t), allocatable :: metadata(:)
     integer, parameter :: n(0:*) = [2,4,4,1]
@@ -107,14 +107,14 @@ contains
       biases(1:n(l),l) = [-1]
     call assert(j == n(l), "l=3; j=1: j == n(l)")
 
-    inference_engine = inference_engine_t(metadata, weights, biases, nodes = n)
+    neural_network = neural_network_t(metadata, weights, biases, nodes = n)
 
   end function
 
   function xor_and_2nd_input_truth_table() result(test_passes)
     logical, allocatable :: test_passes(:)
 
-    type(inference_engine_t) asymmetric
+    type(neural_network_t) asymmetric
 
     asymmetric = xor_and_2nd_input_network()
 
@@ -144,4 +144,4 @@ contains
 
   end function
 
-end module asymmetric_engine_test_m
+end module asymmetric_network_test_m

@@ -1,6 +1,6 @@
 ! Copyright (c), The Regents of the University of California
 ! Terms of use are as specified in LICENSE.txt
-submodule(inference_engine_m_) inference_engine_s
+submodule(neural_network_m) neural_network_s
   use assert_m, only : assert, intrinsic_array_t
   use double_precision_string_m, only : double_precision_string_t
   use kind_parameters_m, only : double_precision
@@ -8,7 +8,7 @@ submodule(inference_engine_m_) inference_engine_s
   use neuron_m, only : neuron_t
   implicit none
 
-  character(len=*), parameter :: acceptable_engine_tag = "0.13.0" ! git tag capable of reading the current json file format
+  character(len=*), parameter :: minimum_acceptable_tag = "0.15.0" ! git tag capable of reading the current json file format
   integer, parameter :: input_layer = 0 
 
 contains
@@ -27,30 +27,6 @@ contains
 
   module procedure double_precision_map_from_output_range
     tensor = self%output_map_%map_from_training_range(normalized_tensor)
-  end procedure
-
-  module procedure default_real_to_exchange
-    exchange%input_map_ = self%input_map_
-    exchange%output_map_ = self%output_map_
-    associate(strings => self%metadata_%strings())
-      exchange%metadata_ = metadata_t(strings(1),strings(2),strings(3),strings(4),strings(5))
-    end associate
-    exchange%weights_ = self%weights_
-    exchange%biases_ = self%biases_
-    exchange%nodes_ = self%nodes_
-    exchange%activation_ = self%activation_
-  end procedure
-
-  module procedure double_precision_to_exchange
-    exchange%input_map_ = self%input_map_
-    exchange%output_map_ = self%output_map_
-    associate(strings => self%metadata_%strings())
-      exchange%metadata_ = metadata_t(strings(1),strings(2),strings(3),strings(4),strings(5))
-    end associate
-    exchange%weights_ = self%weights_
-    exchange%biases_ = self%biases_
-    exchange%nodes_ = self%nodes_
-    exchange%activation_ = self%activation_
   end procedure
 
   module procedure default_real_infer
@@ -152,17 +128,17 @@ contains
     associate( &
       all_allocated=>[allocated(self%weights_),allocated(self%biases_),allocated(self%nodes_)]&
     )   
-      call assert(all(all_allocated),"inference_engine_s(default_real_consistency): fully_allocated", &
+      call assert(all(all_allocated),"neural_network_s(default_real_consistency): fully_allocated", &
         intrinsic_array_t(all_allocated))
     end associate
 
     associate(max_width=>maxval(self%nodes_), component_dims=>[size(self%biases_,1), size(self%weights_,1), size(self%weights_,2)])
-      call assert(all(component_dims == max_width), "inference_engine_s(default_real_consistency): conformable arrays", &
+      call assert(all(component_dims == max_width), "neural_network_s(default_real_consistency): conformable arrays", &
         intrinsic_array_t([max_width,component_dims]))
     end associate
 
     associate(input_subscript => lbound(self%nodes_,1))
-      call assert(input_subscript == input_layer, "inference_engine_s(default_real_consistency): n base subsscript", &
+      call assert(input_subscript == input_layer, "neural_network_s(default_real_consistency): n base subsscript", &
         input_subscript)
     end associate
 
@@ -173,17 +149,17 @@ contains
     associate( &
       all_allocated=>[allocated(self%weights_),allocated(self%biases_),allocated(self%nodes_)]&
     )   
-      call assert(all(all_allocated),"inference_engine_s(default_real_consistency): fully_allocated", &
+      call assert(all(all_allocated),"neural_network_s(default_real_consistency): fully_allocated", &
         intrinsic_array_t(all_allocated))
     end associate
 
     associate(max_width=>maxval(self%nodes_), component_dims=>[size(self%biases_,1), size(self%weights_,1), size(self%weights_,2)])
-      call assert(all(component_dims == max_width), "inference_engine_s(default_real_consistency): conformable arrays", &
+      call assert(all(component_dims == max_width), "neural_network_s(default_real_consistency): conformable arrays", &
         intrinsic_array_t([max_width,component_dims]))
     end associate
 
     associate(input_subscript => lbound(self%nodes_,1))
-      call assert(input_subscript == input_layer, "inference_engine_s(default_real_consistency): n base subsscript", &
+      call assert(input_subscript == input_layer, "neural_network_s(default_real_consistency): n base subsscript", &
         input_subscript)
     end associate
 
@@ -191,77 +167,77 @@ contains
 
   module procedure default_real_construct_from_components
 
-    inference_engine%metadata_ = metadata_t(metadata(1),metadata(2),metadata(3),metadata(4),metadata(5))
-    inference_engine%weights_ = weights
-    inference_engine%biases_ = biases
-    inference_engine%nodes_ = nodes
+    neural_network%metadata_ = metadata_t(metadata(1),metadata(2),metadata(3),metadata(4),metadata(5))
+    neural_network%weights_ = weights
+    neural_network%biases_ = biases
+    neural_network%nodes_ = nodes
 
     block
       integer i
 
       if (present(input_map)) then
-        inference_engine%input_map_ = input_map
+        neural_network%input_map_ = input_map
       else
         associate(num_inputs => nodes(lbound(nodes,1)))
           associate(default_minima => [(0., i=1,num_inputs)], default_maxima => [(1., i=1,num_inputs)])
-            inference_engine%input_map_ = tensor_map_t("inputs", default_minima, default_maxima)
+            neural_network%input_map_ = tensor_map_t("inputs", default_minima, default_maxima)
           end associate
         end associate
       end if
 
       if (present(output_map)) then
-        inference_engine%output_map_ = output_map
+        neural_network%output_map_ = output_map
       else
         associate(num_outputs => nodes(ubound(nodes,1)))
           associate(default_minima => [(0., i=1,num_outputs)], default_maxima => [(1., i=1,num_outputs)])
-            inference_engine%output_map_ = tensor_map_t("outputs", default_minima, default_maxima)
+            neural_network%output_map_ = tensor_map_t("outputs", default_minima, default_maxima)
           end associate
         end associate
       end if
     end block
 
-    inference_engine%activation_ = activation_t(metadata(4)%string())
+    neural_network%activation_ = activation_t(metadata(4)%string())
 
-    call inference_engine%assert_consistency()
+    call neural_network%assert_consistency()
 
   end procedure default_real_construct_from_components
 
   module procedure double_precision_construct_from_components
 
-    inference_engine%metadata_ = metadata
-    inference_engine%weights_ = weights
-    inference_engine%biases_ = biases
-    inference_engine%nodes_ = nodes
+    neural_network%metadata_ = metadata
+    neural_network%weights_ = weights
+    neural_network%biases_ = biases
+    neural_network%nodes_ = nodes
 
     block
       integer i
 
       if (present(input_map)) then
-        inference_engine%input_map_ = input_map
+        neural_network%input_map_ = input_map
       else
         associate(num_inputs => nodes(lbound(nodes,1)))
           associate(default_intercept => [(0D0, i=1,num_inputs)], default_slope => [(1D0, i=1,num_inputs)])
-            inference_engine%input_map_ = tensor_map_t("inputs", default_intercept, default_slope)
+            neural_network%input_map_ = tensor_map_t("inputs", default_intercept, default_slope)
           end associate
         end associate
       end if
 
       if (present(output_map)) then
-        inference_engine%output_map_ = output_map
+        neural_network%output_map_ = output_map
       else
         associate(num_outputs => nodes(ubound(nodes,1)))
           associate(default_intercept => [(0D0, i=1,num_outputs)], default_slope => [(1D0, i=1,num_outputs)])
-            inference_engine%output_map_ = tensor_map_t("outputs", default_intercept, default_slope)
+            neural_network%output_map_ = tensor_map_t("outputs", default_intercept, default_slope)
           end associate
         end associate
       end if
     end block
 
     associate(function_name => metadata%activation_name())
-      inference_engine%activation_ = activation_t(function_name%string())
+      neural_network%activation_ = activation_t(function_name%string())
     end associate
 
-    call inference_engine%assert_consistency()
+    call neural_network%assert_consistency()
 
   end procedure double_precision_construct_from_components
 
@@ -303,7 +279,7 @@ contains
                
           associate( json_lines => &
             brace + &                                                          ! { 
-              file_version_lines + &                                           !   "acceptable_engine_tag": ...
+              file_version_lines + &                                           !   "minimum_acceptable_tag": ...
               metadata_lines + &                                               !   "metadata": ...
               tensor_map_lines + &                                             !   "inputs_tensor_map": ...
               tensor_map_lines + &                                             !   "outputs_tensor_map": ...
@@ -319,7 +295,7 @@ contains
           )
             allocate(lines(json_lines))
             lines(brace) = string_t('{')
-            lines(brace+1:brace+file_version_lines)= string_t('    "acceptable_engine_tag": "')//acceptable_engine_tag//'",'
+            lines(brace+1:brace+file_version_lines)= string_t('    "minimum_acceptable_tag": "')//minimum_acceptable_tag//'",'
             associate(meta_start => brace + file_version_lines + 1)
               associate(meta_end => meta_start + metadata_lines - 1)
               lines(meta_start:meta_end) = self%metadata_%to_json()
@@ -373,7 +349,7 @@ contains
             lines(line) = string_t('         ]')
             line = line + 1
             lines(line) = string_t('}')
-            call assert(line == json_lines, "inference_engine_t%to_json: all lines defined", intrinsic_array_t([json_lines, line]))
+            call assert(line == json_lines, "neural_network_t%to_json: all lines defined", intrinsic_array_t([json_lines, line]))
           end associate
           json_file = file_t(lines)
         end block
@@ -419,7 +395,7 @@ contains
                
           associate( json_lines => &
             brace + &                                                          ! { 
-              file_version_lines + &                                           !   "acceptable_engine_tag": ...
+              file_version_lines + &                                           !   "minimum_acceptable_tag": ...
               metadata_lines + &                                               !   "metadata": ...
               tensor_map_lines + &                                             !   "inputs_tensor_map": ...
               tensor_map_lines + &                                             !   "outputs_tensor_map": ...
@@ -435,7 +411,7 @@ contains
           )
             allocate(lines(json_lines))
             lines(brace) = string_t('{')
-            lines(brace+1:brace+file_version_lines)= string_t('    "acceptable_engine_tag": "')//acceptable_engine_tag//'",'
+            lines(brace+1:brace+file_version_lines)= string_t('    "minimum_acceptable_tag": "')//minimum_acceptable_tag//'",'
             associate(meta_start => brace + file_version_lines + 1)
               associate(meta_end => meta_start + metadata_lines - 1)
               lines(meta_start:meta_end) = self%metadata_%to_json()
@@ -489,7 +465,7 @@ contains
             lines(line) = string_t('         ]')
             line = line + 1
             lines(line) = string_t('}')
-            call assert(line == json_lines, "inference_engine_t%to_json: all lines defined", intrinsic_array_t([json_lines, line]))
+            call assert(line == json_lines, "neural_network_t%to_json: all lines defined", intrinsic_array_t([json_lines, line]))
           end associate
           json_file = file_t(lines)
         end block
@@ -506,17 +482,17 @@ contains
     type(layer_t) hidden_layers, output_layer
 
     lines = file_%lines()
-    call assert(adjustl(lines(1)%string())=="{", "inference_engine_s(default_real_from_json): expected outermost object '{'")
+    call assert(adjustl(lines(1)%string())=="{", "neural_network_s(default_real_from_json): expected outermost object '{'")
  
     check_git_tag: &
     block 
       character(len=:), allocatable :: tag
 
-      tag = lines(2)%get_json_value("acceptable_engine_tag", mold="")
+      tag = lines(2)%get_json_value("minimum_acceptable_tag", mold="")
       call assert( &
-        tag == acceptable_engine_tag &
-        ,"inference_engine_s(default_real_from_json): acceptable_engine_tag" &
-        ,tag //"(expected " //acceptable_engine_tag // ")" &
+        tag == minimum_acceptable_tag &
+        ,"neural_network_s(default_real_from_json): minimum_acceptable_tag" &
+        ,tag //"(expected " //minimum_acceptable_tag // ")" &
       )
     end block check_git_tag
       
@@ -587,15 +563,15 @@ contains
     associate(proto_meta => metadata_t(string_t(""),string_t(""),string_t(""),string_t(""),string_t("")))
       associate(metadata => metadata_t(lines(l : l + size(proto_meta%to_json()) - 1)))
         associate(metadata_strings => metadata%strings())
-          inference_engine = hidden_layers%inference_engine(metadata_strings, output_layer, input_map, output_map)
+          neural_network = hidden_layers%neural_network(metadata_strings, output_layer, input_map, output_map)
           associate(function_name => metadata%activation_name())
-            inference_engine%activation_ = activation_t(function_name%string())
+            neural_network%activation_ = activation_t(function_name%string())
           end associate
         end associate
       end associate
     end associate read_metadata
 
-    call inference_engine%assert_consistency()
+    call neural_network%assert_consistency()
 
   end procedure default_real_from_json
 
@@ -608,17 +584,17 @@ contains
     type(layer_t(double_precision)) hidden_layers, output_layer
 
     lines = file%double_precision_lines()
-    call assert(adjustl(lines(1)%string())=="{", "inference_engine_s(double_precision_from_json): expected outermost object '{'")
+    call assert(adjustl(lines(1)%string())=="{", "neural_network_s(double_precision_from_json): expected outermost object '{'")
 
     check_git_tag: &
     block
       character(len=:), allocatable :: tag
 
-      tag = lines(2)%get_json_value("acceptable_engine_tag", mold="")
+      tag = lines(2)%get_json_value("minimum_acceptable_tag", mold="")
       call assert( &
-        tag == acceptable_engine_tag &
-        ,"inference_engine_s(double_precision_from_json): acceptable_engine_tag" &
-        ,tag //"(expected " //acceptable_engine_tag // ")" &
+        tag == minimum_acceptable_tag &
+        ,"neural_network_s(double_precision_from_json): minimum_acceptable_tag" &
+        ,tag //"(expected " //minimum_acceptable_tag // ")" &
       )
     end block check_git_tag
 
@@ -688,14 +664,14 @@ contains
     read_metadata: &
     associate(proto_meta => metadata_t(string_t(""),string_t(""),string_t(""),string_t(""),string_t("")))
       associate(metadata => metadata_t(lines(l : l + size(proto_meta%to_json()) - 1)))
-        inference_engine = hidden_layers%inference_engine(metadata, output_layer, input_map, output_map)
+        neural_network = hidden_layers%neural_network(metadata, output_layer, input_map, output_map)
         associate(function_name => metadata%activation_name())
-          inference_engine%activation_ = activation_t(function_name%string())
+          neural_network%activation_ = activation_t(function_name%string())
         end associate
       end associate
     end associate read_metadata
 
-    call inference_engine%assert_consistency()
+    call neural_network%assert_consistency()
 
   end procedure double_precision_from_json
 
@@ -704,14 +680,14 @@ contains
     call self%assert_consistency()
 
     associate(equal_shapes => [ &
-      shape(self%weights_) == shape(inference_engine%weights_), &
-      shape(self%biases_) == shape(inference_engine%biases_), &
-      shape(self%nodes_) == shape(inference_engine%nodes_)  &
+      shape(self%weights_) == shape(neural_network%weights_), &
+      shape(self%biases_) == shape(neural_network%biases_), &
+      shape(self%nodes_) == shape(neural_network%nodes_)  &
      ])
       call assert(all(equal_shapes), "assert_conformable_with: all(equal_shapes)", intrinsic_array_t(equal_shapes))
     end associate
 
-    call assert(self%activation_ == inference_engine%activation_, "assert_conformable_with: activation_")
+    call assert(self%activation_ == neural_network%activation_, "assert_conformable_with: activation_")
     
   end procedure
 
@@ -720,14 +696,14 @@ contains
     call self%assert_consistency()
 
     associate(equal_shapes => [ &
-      shape(self%weights_) == shape(inference_engine%weights_), &
-      shape(self%biases_) == shape(inference_engine%biases_), &
-      shape(self%nodes_) == shape(inference_engine%nodes_)  &
+      shape(self%weights_) == shape(neural_network%weights_), &
+      shape(self%biases_) == shape(neural_network%biases_), &
+      shape(self%nodes_) == shape(neural_network%nodes_)  &
      ])
       call assert(all(equal_shapes), "assert_conformable_with: all(equal_shapes)", intrinsic_array_t(equal_shapes))
     end associate
 
-    call assert(self%activation_ == inference_engine%activation_, "assert_conformable_with: activation_")
+    call assert(self%activation_ == neural_network%activation_, "assert_conformable_with: activation_")
     
   end procedure
 
@@ -888,7 +864,7 @@ contains
     type(tensor_t), allocatable :: inputs(:), expected_outputs(:)
 
     call self%assert_consistency()
-    call assert(workspace%fully_allocated(), "inference_engine_s(default_real_learn): workspace%fully_allocated()")
+    call assert(workspace%fully_allocated(), "neural_network_s(default_real_learn): workspace%fully_allocated()")
 
     associate(output_layer => ubound(self%nodes_,1))
 
@@ -1072,4 +1048,4 @@ contains
     end associate
   end procedure default_real_learn
 
-end submodule inference_engine_s
+end submodule neural_network_s

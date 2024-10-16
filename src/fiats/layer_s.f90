@@ -68,7 +68,7 @@ contains
 
   end procedure
 
-  module procedure default_real_inference_engine
+  module procedure default_real_neural_network
 
     associate( &
       num_inputs => hidden_layers%count_inputs(), &
@@ -77,7 +77,7 @@ contains
       num_hidden_layers =>  hidden_layers%count_layers(), &
       num_output_layers => output_layer%count_layers() &
     )   
-      call assert(num_output_layers==1, "inference_engine_s(default_real_inference_engine): 1 output layer", num_output_layers)
+      call assert(num_output_layers==1, "neural_network_s(default_real_neural_network): 1 output layer", num_output_layers)
 
       associate(nodes => [num_inputs, neurons_per_hidden_layer, num_outputs])
         associate(n_max => maxval(nodes))
@@ -132,15 +132,15 @@ contains
 
             end do loop_over_output_neurons
 
-            inference_engine_ = inference_engine_t(metadata, weights, biases, nodes, input_map, output_map)
+            neural_network_ = neural_network_t(metadata, weights, biases, nodes, input_map, output_map)
           end block
         end associate
       end associate
     end associate
     
-  end procedure default_real_inference_engine
+  end procedure default_real_neural_network
 
-  module procedure double_precision_inference_engine
+  module procedure double_precision_neural_network
 
     associate( &
       num_inputs => hidden_layers%count_inputs(), &
@@ -149,7 +149,7 @@ contains
       num_hidden_layers =>  hidden_layers%count_layers(), &
       num_output_layers => output_layer%count_layers() &
     )   
-      call assert(num_output_layers==1, "inference_engine_s(double_precision_inference_engine): 1 output layer", num_output_layers)
+      call assert(num_output_layers==1, "neural_network_s(double_precision_neural_network): 1 output layer", num_output_layers)
 
       associate(nodes => [num_inputs, neurons_per_hidden_layer, num_outputs])
         associate(n_max => maxval(nodes))
@@ -204,13 +204,13 @@ contains
 
             end do loop_over_output_neurons
 
-            inference_engine_ = inference_engine_t(metadata, weights, biases, nodes, input_map, output_map)
+            neural_network_ = neural_network_t(metadata, weights, biases, nodes, input_map, output_map)
           end block
         end associate
       end associate
     end associate
     
-  end procedure double_precision_inference_engine
+  end procedure double_precision_neural_network
 
   module procedure default_real_count_layers
 

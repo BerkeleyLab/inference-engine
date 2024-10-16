@@ -20,10 +20,10 @@ module activation_m
     procedure, non_overridable :: function_name
     generic :: operator(==) => equals
     procedure, private      :: equals
-    generic :: evaluate        => default_real_evaluate     , double_precision_evaluate
-    procedure, non_overridable :: default_real_evaluate     , double_precision_evaluate
-    generic :: differentiate   => default_real_differentiate, double_precision_differentiate
-    procedure, non_overridable :: default_real_differentiate, double_precision_differentiate
+    generic :: evaluate                 => default_real_evaluate     , double_precision_evaluate
+    procedure, non_overridable, private :: default_real_evaluate     , double_precision_evaluate
+    generic :: differentiate            => default_real_differentiate, double_precision_differentiate
+    procedure, non_overridable, private :: default_real_differentiate, double_precision_differentiate
   end type
 
   interface activation_t

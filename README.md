@@ -1,31 +1,29 @@
-
 ```ascii
-  _        __                                                     _            
- (_)      / _|                                                   (_)           
-  _ _ __ | |_ ___ _ __ ___ _ __   ___ ___         ___ _ __   __ _ _ _ __   ___ 
- | | '_ \|  _/ _ \ '__/ _ \ '_ \ / __/ _ \  __   / _ \ '_ \ / _` | | '_ \ / _ \
- | | | | | ||  __/ | |  __/ | | | (_|  __/ |__| |  __/ | | | (_| | | | | |  __/
- |_|_| |_|_| \___|_|  \___|_| |_|\___\___|       \___|_| |_|\__, |_|_| |_|\___|
-                                                             __/ |             
-                                                            |___/              
+___________.__        __          
+\_   _____/|__|____ _/  |_  ______
+ |    __)  |  \__  \\   __\/  ___/
+ |     \   |  |/ __ \|  |  \___ \ 
+ \___  /   |__(____  /__| /____  >
+     \/            \/          \/ 
 ```
-Inference-Engine
-================
+Fiats: Functional inference and training for surrogates
+=======================================================
+Alternatively, _Fortran inference and training for science_.
 
 [Overview](#overview) | [Getting Started](#getting-started) | [Documentation](#documentation)
 
 Overview
 --------
-Inference-Engine supports research in the training and deployment of neural-network surrogate models for computational science.
-Inference-Engine also provides a platform for exploring and advancing the native parallel programming features of Fortran 2023 in the context of deep learning.
-The language features of interest facilitate loop-level parallelism via the `do concurrent` construct and Single-Program, Multiple Data (SMPD) parallelism via "multi-image" (e.g., multithreaded or multiprocess) execution.
-Toward these ends,
+Fiats supports research on the training and deployment of neural-network surrogate models for computational science.
+Fiats also provides a platform for exploring and advancing the native parallel programming features of Fortran 2023 in the context of deep learning.
+The design of Fiats centers around functional programming patterns that facilitate concurrency, including loop-level parallelism via the `do concurrent` construct and Single-Program, Multiple Data (SMPD) parallelism via "multi-image" (e.g., multithreaded or multiprocess) execution.
+Towards these ends,
 
-* Most Inference-Engine procedures are `pure` and thus satisfy a language requirement for invocation inside `do concurrent`,
-* The network training procedure uses `do concurrent` to expose automatic parallelization opportunities to compilers, and
+* Most Fiats procedures are `pure` and thus satisfy a language requirement for invocation inside `do concurrent`,
+* The network training procedure use `do concurrent` to expose automatic parallelization opportunities to compilers, and
 * Exploiting multi-image execution to speedup training is under investigation.
 
-To broaden support for the native parallel features, Inference-Engine's contributors also write compiler tests, bug reports, and patches; develop a parallel runtime library ([Caffeine]); participate in the language standardization process; and provide example inference and training code for exercising and evaluating compilers' automatic parallelization capabilities on processors and accelerators, including Graphics Processing Units (GPUs).
+To broaden support for the native parallel features, the Fiats contributors also write compiler tests, bug reports, and patches; develop a parallel runtime library ([Caffeine]); participate in the language standardization process; and provide example inference and training code for exercising and evaluating compilers' automatic parallelization capabilities on processors and accelerators, including Graphics Processing Units (GPUs).
 
 Available optimizers:
 * Stochastic gradient descent and
@@ -51,7 +49,7 @@ Getting Started
 The [example] subdirectory contains demonstrations of several relatively simple use cases.
 We recommend reviewing the examples to see how to handle basic tasks such as configuring a network training run or reading a neural network and using it to perform inference.
 
-The [demo] subdirectory contains demonstration applications that depend on Inference-Engine but build separately due to requiring additional prerequisites such as NetCDF and HDF5.
+The [demo] subdirectory contains demonstration applications that depend on Fiats but build separately due to requiring additional prerequisites such as [NetCDF] and [HDF5].
 The demonstration applications
  - Train a cloud microphysics model surrogate for the Intermediate Complexity Atmospheric Research ([ICAR]) package,
  - Perform inference using a pretrained model for aerosol dynamics in the Energy Exascale Earth System ([E3SM]) package, and
@@ -61,26 +59,21 @@ The demonstration applications
 Because this repository supports programming language research, the code exercises new language features in novel ways.
 We recommend using any compiler's latest release or even building open-source compilers from source.
 The [handy-dandy] repository contains scripts capturing steps for building the [LLVM] compiler suite.
-The remainder of this section contains commands for building Inference-Engine with a recent Fortran compiler and the Fortran Package Manager ([`fpm`]) in your `PATH`.
-
-#### GNU (`gfortran`) 13 or higher required
-```
-fpm test --compiler gfortran --profile release
-```
-
-#### NAG (`nagfor`)
-```
-fpm test --compiler nagfor --flag -fpp --profile release
-```
+The remainder of this section contains commands for building Fiats with a recent Fortran compiler and the Fortran Package Manager ([`fpm`]).
 
 #### LLVM (`flang-new`)
-Building with `flang-new` requires passing flags to enable the compiler's experimental support for assumed-rank entities:
+With LLVM `flang` 20 installed in your `PATH`, build and test Fiats with the installed `flang-new` symlink in order for `fpm` to correctly identify the compiler:
+```
+fpm test --compiler flang-new --flag "-O3"
+```
+With LLVM `flang` 19, enable the compiler's experimental support for assumed-rank entities:
+
 ```
 fpm test --compiler flang-new --flag "-mmlir -allow-assumed-rank -O3"
 ```
 
 ##### _Experimental:_ Automatic parallelization of `do concurrent` on CPUs
-With the `amd_trunk_dev` branch of the [ROCm fork] fork of LLVM, automatic parallelization currently works for inference, e.g.
+With the `amd_trunk_dev` branch of the [ROCm fork] fork of LLVM, automatically parallelize inference calculations inside `do concurrent` constructs:
 ```
 fpm run \
   --example concurrent-inferences \
@@ -89,10 +82,25 @@ fpm run \
   -- --network model.json
 
 ```
-where `model.json` must be a neural network in the [JSON] format used by Inference-Engine and the companion [nexport] package.
-Automatic parallelization for training is under development.
+where `model.json` must be a neural network in the [JSON] format used by Fiats and the companion [nexport] package.
+
+Automatic parallelization for training neural networks is under development.
+
+#### NAG (`nagfor`)
+```
+fpm test --compiler nagfor --flag -fpp --profile release
+```
+
+#### GNU (`gfortran`)
+Compiler bugs related to parameterized derived types currently prevent `gfortran` from building Fiats versions 0.15.0 or later.
+Test and build earlier versions of Fiats build with the following command:
+```
+fpm test --compiler gfortran --profile release
+```
 
 #### Intel (`ifx`)
+Compiler bugs related to parameterized derived types currently prevent `gfortran` from building Fiats versions 0.15.0 or later.
+Test and build earlier versions of Fiats build with the following command:
 ```
 fpm test --compiler ifx --profile release --flag -O3
 ```
@@ -100,10 +108,10 @@ fpm test --compiler ifx --profile release --flag -O3
 ##### _Experimental:_ Automatic offloading of `do concurrent` to GPUs
 This capability is under development with the goal to facilitate automatic GPU offloading via the following command:
 ```
-fpm test --compiler ifx --profile releae --flag "-fopenmp-target-do-concurrent -qopenmp -fopenmp-targets=spir64 -O3"
+fpm test --compiler ifx --profile release --flag "-fopenmp-target-do-concurrent -qopenmp -fopenmp-targets=spir64 -O3"
 ```
 
-#### HPE (`crayftn.sh`) -- under development
+#### HPE (`crayftn.sh`)
 Support for the Cray Compiler Environment (CCE) Fortran compiler is under development.
 Building with the CCE `ftn` compiler wrapper requires an additional trivial wrapper
 shell script. For example, create a file `crayftn.sh` with the following contents and
@@ -119,7 +127,7 @@ fpm test --compiler crayftn.sh
 ```
 
 ### Configuring a training run
-Inference-Engine imports hyperparameters and network configurations to and from JSON files.
+Fiats imports hyperparameters and network configurations to and from JSON files.
 To see the expected file format, run the [print-training-configuration] example as follows:
 ```
 % fpm run --example print-training-configuration --compiler gfortran
@@ -141,7 +149,7 @@ Project is up to date
      }
  }
 ```
-Inference-Engine's JSON file format is fragile: splitting or combining lines breaks the file reader.
+The Fiats JSON file format is fragile: splitting or combining lines breaks the file reader.
 Files with added or removed white space or reordered whole objects ("hyperparameters" or "network configuration") should work.
 A future release will leverage the [rojff] JSON interface to allow for more flexible file formatting.
 
@@ -158,35 +166,42 @@ The following is representative output after 3000 epochs:
          2000    0.61259E-04     9.8345      2,4,72,2,1
          3000    0.45270E-04     14.864      2,4,72,2,1
 ```
-The example program halts execution after reaching a cost-function threshold (which requires millions of epochws) or a maximum number of iterations or if the program detects a file named `stop` in the source-tree root directory.
+The example program halts execution after reaching a cost-function threshold (which requires millions of epochs) or a maximum number of iterations or if the program detects a file named `stop` in the source-tree root directory.
 Before halting, the program will print a table of expected and predicted saturated mixing ratio values across a range of input pressures and temperatures, wherein two the inputs have each been mapped to the unit interval [0,1].
 The program also writes the neural network initial condition to `initial-network.json` and the final (trained) network to the file specified in the above command: `sat-mix-rat.json`.
 
 ### Performing inference
-Users with a PyTorch model may use [nexport] to export the model to JSON files that Inference-Engine can read.
+Users with a PyTorch model may use [nexport] to export the model to JSON files that Fiats can read.
 Examples of performing inference using a neural-network JSON file are in [example/concurrent-inferences].
 
 Documentation
 -------------
-Please see our [GitHub Pages site] for HTML documentation generated by [`ford`] or generate documentaiton locally by installing `ford` and executing `ford ford.md`.
+### HTML
+Please see our [GitHub Pages site] for Hypertext Markup Languge (HTML) documentation generated by [`ford`] or generate documentation locally by installing `ford` and executing `ford ford.md`.
 
+### UML
+Please see the `doc/uml` subdirectory for Unified Modeling Language (UML) diagrams such as a comprehensive Fiats [class diagram] with human-readable [Mermaid] source that renders graphically when opened by browsing to the document on GitHub.
 
 [Building and testing]: #building-and-testing
 [Caffeine]: https://go.lbl.gov/caffeine
+[class diagram]: ./doc/uml/class-diagram.md
+[Documentation]: #documentation
+[demo]: demo
 [E3SM]: https://e3sm.org
 [example]: example
-[demo]: demo
-[Documentation]: #documentation
 [example/print-training-configuration.F90]: example/print-training-configuration.F90
 [example/concurrent-inferences]: example/concurrent-inferences.f90
 [`ford`]: https://github.com/Fortran-FOSS-Programmers/ford
 [`fpm`]: https://github.com/fortran-lang/fpm
 [Getting Started]: #getting-started
-[GitHub Pages site]: https://berkeleylab.github.io/inference-engine/ 
+[GitHub Pages site]: https://berkeleylab.github.io/fiats/ 
 [handy-dandy]: https://github.com/rouson/handy-dandy/blob/main/src
+[HDF5]: https://www.hdfgroup.org/solutions/hdf5/
 [ICAR]: https://github.com/BerkeleyLab/icar/tree/neural-net
 [JSON]: https://www.json.org/json-en.html
 [LLVM]: https://github.com/llvm/llvm-project
+[Mermaid]: https://mermaid.js.org
+[NetCDF]: https://www.unidata.ucar.edu/software/netcdf/
 [nexport]: https://go.lbl.gov/nexport
 [Overview]: #overview
 [ROCm fork]: https://github.com/ROCm/llvm-project

@@ -1,10 +1,10 @@
-name       = "Inference-Engine-Demonstration-Applications"
-license    = "(Please see inference-engine/LICENSE.txt.)"
-author     = "(Please see inference-engine/fpm.toml.)"
-maintainer = "(Please see inference-engine/fpm.toml.)"
+name       = "Fiats-Demonstration-Applications"
+license    = "(Please see fiats/LICENSE.txt.)"
+author     = "(Please see fiats/fpm.toml.)"
+maintainer = "(Please see fiats/fpm.toml.)"
 
 [dependencies]
 assert = {git = "https://github.com/sourceryinstitute/assert", tag = "1.7.0"}
 julienne = {git = "https://github.com/berkeleylab/julienne", tag = "1.2.2"}
-inference-engine = {path = "../"}
+fiats = {path = "../"}
 netcdf-interfaces = {git = "https://github.com/LKedward/netcdf-interfaces.git", rev = "d2bbb71ac52b4e346b62572b1ca1620134481096"}

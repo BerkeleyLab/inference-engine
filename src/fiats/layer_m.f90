@@ -4,7 +4,7 @@ module layer_m
   use double_precision_string_m, only : double_precision_string_t
   use kind_parameters_m, only : default_real, double_precision
   use julienne_string_m, only : string_t
-  use inference_engine_m_, only : inference_engine_t
+  use neural_network_m, only : neural_network_t
   use metadata_m, only : metadata_t
   use neuron_m, only : neuron_t
   use tensor_map_m, only : tensor_map_t
@@ -19,20 +19,20 @@ module layer_m
     type(neuron_t(k)),             private :: neuron !! linked list of this layer's neurons 
     type(layer_t(k)), allocatable, private :: next !! next layer
   contains
-    generic :: inference_engine => default_real_inference_engine, double_precision_inference_engine
-    procedure, private ::          default_real_inference_engine, double_precision_inference_engine
-    generic :: count_layers => default_real_count_layers, double_precision_count_layers
-    procedure, private ::      default_real_count_layers, double_precision_count_layers
-    generic :: count_neurons => default_real_count_neurons, double_precision_count_neurons
-    procedure, private ::       default_real_count_neurons, double_precision_count_neurons
-    generic :: count_inputs => default_real_count_inputs, double_precision_count_inputs
-    procedure, private ::      default_real_count_inputs, double_precision_count_inputs
+    generic :: neural_network    => default_real_neural_network   , double_precision_neural_network
+    procedure, private           :: default_real_neural_network   , double_precision_neural_network
+    generic :: count_layers      => default_real_count_layers     , double_precision_count_layers
+    procedure, private           :: default_real_count_layers     , double_precision_count_layers
+    generic :: count_neurons     => default_real_count_neurons    , double_precision_count_neurons
+    procedure, private           :: default_real_count_neurons    , double_precision_count_neurons
+    generic :: count_inputs      => default_real_count_inputs     , double_precision_count_inputs
+    procedure, private           :: default_real_count_inputs     , double_precision_count_inputs
     generic :: neurons_per_layer => default_real_neurons_per_layer, double_precision_neurons_per_layer
-    procedure, private ::           default_real_neurons_per_layer, double_precision_neurons_per_layer
-    generic :: next_allocated => default_real_next_allocated, double_precision_next_allocated
-    procedure, private ::        default_real_next_allocated, double_precision_next_allocated
-    generic :: next_pointer => default_real_next_pointer, double_precision_next_pointer 
-    procedure, private ::      default_real_next_pointer, double_precision_next_pointer
+    procedure, private           :: default_real_neurons_per_layer, double_precision_neurons_per_layer
+    generic :: next_allocated    => default_real_next_allocated   , double_precision_next_allocated
+    procedure, private           :: default_real_next_allocated   , double_precision_next_allocated
+    generic :: next_pointer      => default_real_next_pointer     , double_precision_next_pointer 
+    procedure, private           :: default_real_next_pointer     , double_precision_next_pointer
   end type
 
   interface layer_t
@@ -57,22 +57,22 @@ module layer_m
 
   interface
 
-    module function default_real_inference_engine(hidden_layers, metadata, output_layer, input_map, output_map) result(inference_engine_)
+    module function default_real_neural_network(hidden_layers, metadata, output_layer, input_map, output_map) result(neural_network_)
       implicit none
       class(layer_t), intent(in), target :: hidden_layers
       type(layer_t), intent(in), target :: output_layer
       type(string_t), intent(in) :: metadata(:)
       type(tensor_map_t), intent(in) :: input_map, output_map
-      type(inference_engine_t) inference_engine_
+      type(neural_network_t) neural_network_
     end function
 
-    module function double_precision_inference_engine(hidden_layers, metadata, output_layer, input_map, output_map) result(inference_engine_)
+    module function double_precision_neural_network(hidden_layers, metadata, output_layer, input_map, output_map) result(neural_network_)
       implicit none
       class(layer_t(double_precision)), intent(in), target :: hidden_layers
       type(layer_t(double_precision)), intent(in), target :: output_layer
       type(metadata_t), intent(in) :: metadata
       type(tensor_map_t(double_precision)), intent(in) :: input_map, output_map
-      type(inference_engine_t(double_precision)) inference_engine_
+      type(neural_network_t(double_precision)) neural_network_
     end function
 
     module function default_real_count_layers(layer) result(num_layers)

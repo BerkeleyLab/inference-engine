@@ -12,7 +12,7 @@ module trainable_network_test_m
 #endif
 
   ! Internal dependencies
-  use inference_engine_m, only : trainable_network_t, inference_engine_t, tensor_t, input_output_pair_t, mini_batch_t, shuffle
+  use fiats_m, only : trainable_network_t, neural_network_t, tensor_t, input_output_pair_t, mini_batch_t, shuffle
   implicit none
 
   private
@@ -183,7 +183,7 @@ contains
     w = 0.
     b = 0.
 
-    trainable_network = trainable_network_t( inference_engine_t( &
+    trainable_network = trainable_network_t( neural_network_t( &
       nodes = neurons, weights = w, biases = b &
      ,metadata = [string_t("2-hide|3-wide"), string_t("Rouson"), string_t("2023-06-30"), string_t("sigmoid"), string_t("false")] &
     ))
@@ -201,7 +201,7 @@ contains
     b = 2*b
     w = 2*w
 
-    trainable_network = trainable_network_t( inference_engine_t( &
+    trainable_network = trainable_network_t( neural_network_t( &
       nodes = neurons, weights = w, biases = b &
       ,metadata = [string_t("2-hide|3-wide"), string_t("Rouson"), string_t("2023-06-30"), string_t("sigmoid"), string_t("false")] &
     ))
@@ -420,7 +420,7 @@ contains
     call random_number(harvest)
     harvest = perturbation_magnitude*harvest
 
-    trainable_network = trainable_network_t( inference_engine_t( &
+    trainable_network = trainable_network_t( neural_network_t( &
       nodes = nodes_per_layer, &
       weights = identity + harvest , & 
       biases = reshape([real:: [0,0], [0,0], [0,0]], [max_n, layers-1]), &

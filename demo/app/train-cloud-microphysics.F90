@@ -12,10 +12,10 @@ program train_on_flat_distribution
   !! External dependencies:
   use julienne_m, only : string_t, file_t, command_line_t, bin_t
   use assert_m, only : assert, intrinsic_array_t
-  use inference_engine_m, only : &
-    inference_engine_t, mini_batch_t, input_output_pair_t, tensor_t, trainable_network_t, tensor_map_t, &
-    training_configuration_t, shuffle
-
+  use fiats_m, only : &
+    neural_network_t, mini_batch_t, input_output_pair_t, tensor_t, trainable_network_t, tensor_map_t, training_configuration_t, &
+    shuffle
+    
   !! Internal dependencies:
   use phase_space_bin_m, only : phase_space_bin_t
   use NetCDF_file_m, only: NetCDF_file_t
@@ -319,7 +319,7 @@ contains
             read_or_initialize_engine: &
             if (io_status==0) then
               print *,"Reading network from file " // network_file
-              trainable_network = trainable_network_t(inference_engine_t(file_t(string_t(network_file))))
+              trainable_network = trainable_network_t(neural_network_t(file_t(string_t(network_file))))
               close(network_unit)
             else
               close(network_unit)

@@ -1,4 +1,4 @@
-submodule(inference_engine_m_) workspace_s
+submodule(neural_network_m) workspace_s
   use assert_m, only : assert
   implicit none
 
@@ -8,26 +8,26 @@ contains
 
   module procedure default_real_workspace
 
-    allocate(workspace%dcdw, mold=inference_engine%weights_) ! Gradient of cost function with respect to weights
-    allocate(workspace%vdw , mold=inference_engine%weights_)
-    allocate(workspace%sdw , mold=inference_engine%weights_)
-    allocate(workspace%vdwc, mold=inference_engine%weights_)
-    allocate(workspace%sdwc, mold=inference_engine%weights_)
+    allocate(workspace%dcdw, mold=neural_network%weights_) ! Gradient of cost function with respect to weights
+    allocate(workspace%vdw , mold=neural_network%weights_)
+    allocate(workspace%sdw , mold=neural_network%weights_)
+    allocate(workspace%vdwc, mold=neural_network%weights_)
+    allocate(workspace%sdwc, mold=neural_network%weights_)
 
-    allocate(workspace%dcdb, mold=inference_engine%biases_ ) ! Gradient of cost function with respect with biases
-    allocate(workspace%vdb , mold=inference_engine%biases_ )
-    allocate(workspace%sdb , mold=inference_engine%biases_ )
-    allocate(workspace%vdbc, mold=inference_engine%biases_ )
-    allocate(workspace%sdbc, mold=inference_engine%biases_ )
+    allocate(workspace%dcdb, mold=neural_network%biases_ ) ! Gradient of cost function with respect with biases
+    allocate(workspace%vdb , mold=neural_network%biases_ )
+    allocate(workspace%sdb , mold=neural_network%biases_ )
+    allocate(workspace%vdbc, mold=neural_network%biases_ )
+    allocate(workspace%sdbc, mold=neural_network%biases_ )
 
     ! TODO: #if ! (F2023_LOCALITY || F2018_LOCALITY)
     !          then don't allocate a, z, and delta
 
-    allocate(workspace%z    , mold=inference_engine%biases_)
-    allocate(workspace%delta, mold=inference_engine%biases_)
+    allocate(workspace%z    , mold=neural_network%biases_)
+    allocate(workspace%delta, mold=neural_network%biases_)
 
-    associate(output_layer => ubound(inference_engine%nodes_,1))
-      allocate(workspace%a(maxval(inference_engine%nodes_), input_layer:output_layer)) ! Activations
+    associate(output_layer => ubound(neural_network%nodes_,1))
+      allocate(workspace%a(maxval(neural_network%nodes_), input_layer:output_layer)) ! Activations
     end associate
 
     call assert(workspace%fully_allocated(), "workspace_s(defalt_real_workspace): workspace allocated")
@@ -49,26 +49,26 @@ contains
 
   module procedure default_real_allocate
 
-    call allocate_if_necessary(self%dcdw,  mold=inference_engine%weights_) ! Gradient of cost function with respect to weights
-    call allocate_if_necessary(self%vdw ,  mold=inference_engine%weights_) 
-    call allocate_if_necessary(self%sdw ,  mold=inference_engine%weights_) 
-    call allocate_if_necessary(self%vdwc,  mold=inference_engine%weights_) 
-    call allocate_if_necessary(self%sdwc,  mold=inference_engine%weights_) 
+    call allocate_if_necessary(self%dcdw,  mold=neural_network%weights_) ! Gradient of cost function with respect to weights
+    call allocate_if_necessary(self%vdw ,  mold=neural_network%weights_) 
+    call allocate_if_necessary(self%sdw ,  mold=neural_network%weights_) 
+    call allocate_if_necessary(self%vdwc,  mold=neural_network%weights_) 
+    call allocate_if_necessary(self%sdwc,  mold=neural_network%weights_) 
 
-    call allocate_if_necessary(self%dcdb , mold=inference_engine%biases_) ! Gradient of cost function with respect with biases
-    call allocate_if_necessary(self%vdb  , mold=inference_engine%biases_) 
-    call allocate_if_necessary(self%sdb  , mold=inference_engine%biases_) 
-    call allocate_if_necessary(self%vdbc , mold=inference_engine%biases_) 
-    call allocate_if_necessary(self%sdbc , mold=inference_engine%biases_) 
+    call allocate_if_necessary(self%dcdb , mold=neural_network%biases_) ! Gradient of cost function with respect with biases
+    call allocate_if_necessary(self%vdb  , mold=neural_network%biases_) 
+    call allocate_if_necessary(self%sdb  , mold=neural_network%biases_) 
+    call allocate_if_necessary(self%vdbc , mold=neural_network%biases_) 
+    call allocate_if_necessary(self%sdbc , mold=neural_network%biases_) 
 
     ! TODO: #if ! (F2023_LOCALITY || F2018_LOCALITY)
     !          then don't allocate a, z, and delta
 
-    call allocate_if_necessary(self%z    , mold=inference_engine%biases_) 
-    call allocate_if_necessary(self%delta, mold=inference_engine%biases_) 
+    call allocate_if_necessary(self%z    , mold=neural_network%biases_) 
+    call allocate_if_necessary(self%delta, mold=neural_network%biases_) 
 
-    associate(output_layer => ubound(inference_engine%nodes_,1))
-      allocate(self%a(maxval(inference_engine%nodes_), input_layer:output_layer)) ! Activations
+    associate(output_layer => ubound(neural_network%nodes_,1))
+      allocate(self%a(maxval(neural_network%nodes_), input_layer:output_layer)) ! Activations
     end associate
 
   contains

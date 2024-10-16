@@ -8,8 +8,8 @@ program train_and_write
   !! the desired network therefore contains weights corresponding to identity matrices and biases that vanish everywhere.
   !! The initial condition corresponds to the desired network with all weights and biases perturbed by a random variable
   !! that is uniformly distributed on the range [0,0.1].
-  use inference_engine_m, only : &
-    inference_engine_t, trainable_network_t, mini_batch_t, tensor_t, input_output_pair_t, shuffle
+  use fiats_m, only : &
+    neural_network_t, trainable_network_t, mini_batch_t, tensor_t, input_output_pair_t, shuffle
   use julienne_m, only : string_t, file_t, command_line_t, bin_t
   use assert_m, only : assert, intrinsic_array_t
   implicit none
@@ -98,11 +98,11 @@ program train_and_write
 
 contains
 
-  subroutine output(inference_engine, file_name)
-    class(inference_engine_t), intent(in) :: inference_engine
+  subroutine output(neural_network, file_name)
+    class(neural_network_t), intent(in) :: neural_network
     type(string_t), intent(in) :: file_name
     type(file_t) json_file
-    json_file = inference_engine%to_json()
+    json_file = neural_network%to_json()
     call json_file%write_lines(file_name)
   end subroutine
 
@@ -130,7 +130,7 @@ contains
 
     associate(w => identity + perturbation_magnitude*(w_harvest-0.5)/0.5, b => perturbation_magnitude*(b_harvest-0.5)/0.5)
 
-      trainable_network = trainable_network_t( inference_engine_t( &
+      trainable_network = trainable_network_t( neural_network_t( &
         nodes = nodes_per_layer, weights = w, biases = b, metadata = &
           [string_t("Perturbed Identity"), string_t("Damian Rouson"), string_t("2024-10-13"), string_t("relu"), string_t("false")] &
       ))

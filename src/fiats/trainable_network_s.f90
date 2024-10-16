@@ -4,8 +4,8 @@ submodule(trainable_network_m) trainable_network_s
 contains
 
   module procedure default_real_network
-    trainable_network%inference_engine_t = inference_engine
-    trainable_network%workspace_ = workspace_t(inference_engine)
+    trainable_network%neural_network_t = neural_network
+    trainable_network%workspace_ = workspace_t(neural_network)
   end procedure
 
   module procedure default_real_train
@@ -42,7 +42,7 @@ contains
           b => perturbation_magnitude*(b_harvest-0.5)/0.5 &
         )
           trainable_network = trainable_network_t( &
-            inference_engine_t(nodes=n, weights=w, biases=b, metadata=metadata, input_map=input_map, output_map=output_map) &
+            neural_network_t(nodes=n, weights=w, biases=b, metadata=metadata, input_map=input_map, output_map=output_map) &
           )
         end associate
       end associate

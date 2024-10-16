@@ -1,5 +1,5 @@
 module trainable_network_m
-  use inference_engine_m_, only : inference_engine_t, workspace_t
+  use neural_network_m, only : neural_network_t, workspace_t
   use input_output_pair_m, only : input_output_pair_t
   use julienne_m, only : string_t
   use kind_parameters_m, only : default_real
@@ -11,7 +11,7 @@ module trainable_network_m
   private
   public :: trainable_network_t 
 
-  type, extends(inference_engine_t) ::  trainable_network_t(k)
+  type, extends(neural_network_t) ::  trainable_network_t(k)
     integer, kind :: k = default_real 
     private
     type(workspace_t), private :: workspace_
@@ -24,9 +24,9 @@ module trainable_network_m
 
   interface trainable_network_t 
 
-    pure module function default_real_network(inference_engine) result(trainable_network)
+    pure module function default_real_network(neural_network) result(trainable_network)
       implicit none
-      type(inference_engine_t), intent(in) :: inference_engine
+      type(neural_network_t), intent(in) :: neural_network
       type(trainable_network_t) trainable_network
     end function 
 
