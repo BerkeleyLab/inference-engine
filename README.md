@@ -61,7 +61,8 @@ We recommend using any compiler's latest release or even building open-source co
 The [handy-dandy] repository contains scripts capturing steps for building the [LLVM] compiler suite.
 The remainder of this section contains commands for building Fiats with a recent Fortran compiler and the Fortran Package Manager ([`fpm`]).
 
-#### LLVM (`flang-new`)
+#### Supported Compilers
+##### LLVM (`flang-new`)
 With LLVM `flang` 20 installed in your `PATH`, build and test Fiats with the installed `flang-new` symlink in order for `fpm` to correctly identify the compiler:
 ```
 fpm test --compiler flang-new --flag "-O3"
@@ -72,7 +73,7 @@ With LLVM `flang` 19, enable the compiler's experimental support for assumed-ran
 fpm test --compiler flang-new --flag "-mmlir -allow-assumed-rank -O3"
 ```
 
-##### _Experimental:_ Automatic parallelization of `do concurrent` on CPUs
+###### _Experimental:_ Automatic parallelization of `do concurrent` on CPUs
 With the `amd_trunk_dev` branch of the [ROCm fork] fork of LLVM, automatically parallelize inference calculations inside `do concurrent` constructs:
 ```
 fpm run \
@@ -86,19 +87,24 @@ where `model.json` must be a neural network in the [JSON] format used by Fiats a
 
 Automatic parallelization for training neural networks is under development.
 
-#### NAG (`nagfor`)
+#### Partially Supported Compilers
+
+Fiats release 0.14.0 and earlier support the use of the NAG, GNU, and Intel Fortran compilers.
+We are corresponding with these compilers' developers about addressing the compiler issues preventing building newer Fiats releases.
+
+##### NAG (`nagfor`)
 ```
 fpm test --compiler nagfor --flag -fpp --profile release
 ```
 
-#### GNU (`gfortran`)
+##### GNU (`gfortran`)
 Compiler bugs related to parameterized derived types currently prevent `gfortran` from building Fiats versions 0.15.0 or later.
 Test and build earlier versions of Fiats build with the following command:
 ```
 fpm test --compiler gfortran --profile release
 ```
 
-#### Intel (`ifx`)
+##### Intel (`ifx`)
 Compiler bugs related to parameterized derived types currently prevent `gfortran` from building Fiats versions 0.15.0 or later.
 Test and build earlier versions of Fiats build with the following command:
 ```
@@ -111,11 +117,12 @@ This capability is under development with the goal to facilitate automatic GPU o
 fpm test --compiler ifx --profile release --flag "-fopenmp-target-do-concurrent -qopenmp -fopenmp-targets=spir64 -O3"
 ```
 
-#### HPE (`crayftn.sh`)
-Support for the Cray Compiler Environment (CCE) Fortran compiler is under development.
-Building with the CCE `ftn` compiler wrapper requires an additional trivial wrapper
-shell script. For example, create a file `crayftn.sh` with the following contents and
-place this file's location in your `PATH`:
+#### Under Development
+We are corresponding with the developers of the compiler(s) below developers about addressing the compiler issues preventing building newer Fiats releases.
+
+#### HPE Cray Compiler Environment (CCE) (`crayftn.sh`)
+Building with the CCE `ftn` compiler wrapper requires an additional trivial wrapper.
+For example, create a file `crayftn.sh` with the following contents and place this file's location in your `PATH`:
 ```
 #!/bin/bash
 
