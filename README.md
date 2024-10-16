@@ -118,7 +118,7 @@ fpm test --compiler ifx --profile release --flag "-fopenmp-target-do-concurrent 
 ```
 
 #### Under Development
-We are corresponding with the developers of the compiler(s) below developers about addressing the compiler issues preventing building newer Fiats releases.
+We are corresponding with the developers of the compiler(s) below about addressing the compiler issues preventing building Fiats.
 
 #### HPE Cray Compiler Environment (CCE) (`crayftn.sh`)
 Building with the CCE `ftn` compiler wrapper requires an additional trivial wrapper.
