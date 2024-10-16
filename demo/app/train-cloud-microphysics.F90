@@ -1,6 +1,6 @@
 ! Copyright (c), The Regents of the University of California
 ! Terms of use are as specified in LICENSE.txt
-program train_on_flat_distribution
+program train_cloud_microphysics
   !! Train a neural network to represent the simplest cloud microphysics model from
   !! the Intermediate Complexity Atmospheric Research Model (ICAR) at
   !! https://github.com/BerkeleyLab/icar.
@@ -471,11 +471,4 @@ contains
 
   end subroutine read_train_write
 
-  pure function normalize(x, x_min, x_max) result(x_normalized)
-    real, intent(in) :: x(:,:,:,:), x_min, x_max
-    real, allocatable :: x_normalized(:,:,:,:)
-    call assert(x_min/=x_max, "train_cloud_microphysics(normaliz): x_min/=x_max")
-    x_normalized = (x - x_min)/(x_max - x_min)
-  end function
-
-end program train_on_flat_distribution
+end program train_cloud_microphysics
