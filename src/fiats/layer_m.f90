@@ -19,20 +19,20 @@ module layer_m
     type(neuron_t(k)),             private :: neuron !! linked list of this layer's neurons 
     type(layer_t(k)), allocatable, private :: next !! next layer
   contains
-    generic :: neural_network => default_real_neural_network, double_precision_neural_network
-    procedure, private ::          default_real_neural_network, double_precision_neural_network
-    generic :: count_layers => default_real_count_layers, double_precision_count_layers
-    procedure, private ::      default_real_count_layers, double_precision_count_layers
-    generic :: count_neurons => default_real_count_neurons, double_precision_count_neurons
-    procedure, private ::       default_real_count_neurons, double_precision_count_neurons
-    generic :: count_inputs => default_real_count_inputs, double_precision_count_inputs
-    procedure, private ::      default_real_count_inputs, double_precision_count_inputs
+    generic :: neural_network    => default_real_neural_network   , double_precision_neural_network
+    procedure, private           :: default_real_neural_network   , double_precision_neural_network
+    generic :: count_layers      => default_real_count_layers     , double_precision_count_layers
+    procedure, private           :: default_real_count_layers     , double_precision_count_layers
+    generic :: count_neurons     => default_real_count_neurons    , double_precision_count_neurons
+    procedure, private           :: default_real_count_neurons    , double_precision_count_neurons
+    generic :: count_inputs      => default_real_count_inputs     , double_precision_count_inputs
+    procedure, private           :: default_real_count_inputs     , double_precision_count_inputs
     generic :: neurons_per_layer => default_real_neurons_per_layer, double_precision_neurons_per_layer
-    procedure, private ::           default_real_neurons_per_layer, double_precision_neurons_per_layer
-    generic :: next_allocated => default_real_next_allocated, double_precision_next_allocated
-    procedure, private ::        default_real_next_allocated, double_precision_next_allocated
-    generic :: next_pointer => default_real_next_pointer, double_precision_next_pointer 
-    procedure, private ::      default_real_next_pointer, double_precision_next_pointer
+    procedure, private           :: default_real_neurons_per_layer, double_precision_neurons_per_layer
+    generic :: next_allocated    => default_real_next_allocated   , double_precision_next_allocated
+    procedure, private           :: default_real_next_allocated   , double_precision_next_allocated
+    generic :: next_pointer      => default_real_next_pointer     , double_precision_next_pointer 
+    procedure, private           :: default_real_next_pointer     , double_precision_next_pointer
   end type
 
   interface layer_t

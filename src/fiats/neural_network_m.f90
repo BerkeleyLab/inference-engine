@@ -130,9 +130,6 @@ module neural_network_m
 
   end interface
 
-
-
-
   interface ! neural_network_t type-bound procedures
 
     elemental module function default_real_approximately_equal(lhs, rhs) result(lhs_eq_rhs)
