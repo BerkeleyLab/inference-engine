@@ -1,5 +1,5 @@
 #!/bin/sh
-#-- DO NOT EDIT -- created by inference-engine/setup.sh
+#-- DO NOT EDIT -- created by fiats/demo/setup.sh
 export PKG_CONFIG_PATH
 
 fpm_arguments=""

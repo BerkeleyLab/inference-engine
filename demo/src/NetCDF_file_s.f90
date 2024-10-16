@@ -1,8 +1,5 @@
 ! Copyright (c), The Regents of the University of California
 ! Terms of use are as specified in LICENSE.txt
-#ifndef __INTEL_FORTRAN
-!! Due to a suspected bug in the Intel ifx compiler, the above C preprocessor macro
-!! effectively eliminates this file's source code when building with an Intel compiler.
 submodule(netCDF_file_m) netCDF_file_s
   use netcdf, only : &
      nf90_create, nf90_def_dim, nf90_def_var, nf90_enddef, nf90_put_var, nf90_inquire_dimension, & ! functions
@@ -227,4 +224,3 @@ contains
   end procedure
 
 end submodule netCDF_file_s
-#endif // __INTEL_FORTRAN
