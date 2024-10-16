@@ -74,7 +74,7 @@ fpm test --compiler flang-new --flag "-mmlir -allow-assumed-rank -O3"
 ```
 
 ###### _Experimental:_ Automatic parallelization of `do concurrent` on CPUs
-With the `amd_trunk_dev` branch of the [ROCm fork] fork of LLVM, automatically parallelize inference calculations inside `do concurrent` constructs:
+With the `amd-trunk-dev` branch of the [ROCm fork] of LLVM, automatically parallelize inference calculations inside `do concurrent` constructs:
 ```
 fpm run \
   --example concurrent-inferences \
