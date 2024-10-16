@@ -181,4 +181,54 @@ contains
     using_skip = self%network_configuration_%skip_connections()
   end procedure
 
+  module procedure default_real_differentiable_activation
+#if defined __INTEL_COMPILER || _CRAYFTN
+    type(string_t) :: activation_name
+    activation_name = self%network_configuration_%activation_name()
+#else
+    associate(activation_name => self%network_configuration_%activation_name())
+#endif
+      select case(activation_name%string())
+        case ("gelu")
+          activation = activation_t(gelu)
+        case ("relu")
+          activation = activation_t(relu)
+        case ("sigmoid")
+          activation = activation_t(sigmoid)
+        case ("swish")
+          activation = activation_t(swish)
+        case default
+          error stop 'activation_factory_s(factory): unrecognized activation name "' // activation_name%string() // '"' 
+      end select
+#if defined __INTEL_COMPILER || _CRAYFTN
+#else
+    end associate
+#endif
+  end procedure
+
+  module procedure double_precision_differentiable_activation
+#if defined __INTEL_COMPILER || _CRAYFTN
+    type(string_t) :: activation_name
+    activation_name = self%network_configuration_%activation_name()
+#else
+    associate(activation_name => self%network_configuration_%activation_name())
+#endif
+      select case(activation_name%string())
+        case ("gelu")
+          activation = activation_t(gelu)
+        case ("relu")
+          activation = activation_t(relu)
+        case ("sigmoid")
+          activation = activation_t(sigmoid)
+        case ("swish")
+          activation = activation_t(swish)
+        case default
+          error stop 'activation_factory_s(factory): unrecognized activation name "' // activation_name%string() // '"' 
+      end select
+#if defined __INTEL_COMPILER || _CRAYFTN
+#else
+    end associate
+#endif
+  end procedure
+
 end submodule training_configuration_s
