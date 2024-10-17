@@ -1,25 +1,27 @@
 ! Copyright (c), The Regents of the University of California
 ! Terms of use are as specified in LICENSE.txt
 program main
-  use inference_engine_test_m, only : inference_engine_test_t
-  use asymmetric_engine_test_m, only : asymmetric_engine_test_t
-  use trainable_engine_test_m, only : trainable_engine_test_t
+  use neural_network_test_m, only : neural_network_test_t
+  use asymmetric_network_test_m, only : asymmetric_network_test_t
+  use trainable_network_test_m, only : trainable_network_test_t
   use metadata_test_m, only : metadata_test_t
   use hyperparameters_test_m, only : hyperparameters_test_t
   use network_configuration_test_m, only : network_configuration_test_t
   use training_configuration_test_m, only : training_configuration_test_t
   use tensor_map_test_m, only : tensor_map_test_t
+  use tensor_test_m, only : tensor_test_t
   use julienne_m, only : command_line_t
   implicit none
 
-  type(inference_engine_test_t) inference_engine_test
-  type(asymmetric_engine_test_t) asymmetric_engine_test
-  type(trainable_engine_test_t) trainable_engine_test
+  type(neural_network_test_t) neural_network_test
+  type(asymmetric_network_test_t) asymmetric_network_test
+  type(trainable_network_test_t) trainable_network_test
   type(hyperparameters_test_t) hyperparameters_test
   type(metadata_test_t) metadata_test
   type(network_configuration_test_t) network_configuration_test
   type(training_configuration_test_t) training_configuration_test
   type(tensor_map_test_t) tensor_map_test
+  type(tensor_test_t) tensor_test
   real t_start, t_finish
 
   integer :: passes=0, tests=0
@@ -44,9 +46,10 @@ program main
   call metadata_test%report(passes, tests)
   call training_configuration_test%report(passes, tests)
   call tensor_map_test%report(passes, tests)
-  call asymmetric_engine_test%report(passes, tests)
-  call inference_engine_test%report(passes, tests)
-  call trainable_engine_test%report(passes, tests)
+  call tensor_test%report(passes, tests)
+  call asymmetric_network_test%report(passes, tests)
+  call neural_network_test%report(passes, tests)
+  call trainable_network_test%report(passes, tests)
   call cpu_time(t_finish)
 
   print *

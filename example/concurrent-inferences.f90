@@ -3,7 +3,7 @@
 program concurrent_inferences
   !! This program demonstrates how to read a neural network from a JSON file
   !! and use the network to perform concurrent inferences.
-  use inference_engine_m, only : inference_engine_t, tensor_t, infer
+  use fiats_m, only : neural_network_t, tensor_t, double_precision, double_precision_string_t, double_precision_file_t
   use julienne_m, only : string_t, command_line_t, file_t
   use assert_m, only : assert
   use iso_fortran_env, only : int64, real64
@@ -19,65 +19,90 @@ program concurrent_inferences
       'Usage: fpm run --example concurrent-inferences --profile release --flag "-fopenmp" -- --network "<file-name>"'
   end if
 
-  block 
-    type(inference_engine_t) inference_engine
-    type(tensor_t), allocatable :: inputs(:,:,:), outputs(:,:,:)
-    real, allocatable :: input_components(:,:,:,:)
+  block
     integer, parameter :: lat=263, lon=317, lev=15 ! latitudes, longitudes, levels (elevations)
     integer i, j, k
 
-    print *, "Constructing a new inference_engine_t object from the file " // network_file_name%string()
-    inference_engine = inference_engine_t(file_t(network_file_name))
-
-    print *,"Defining an array of tensor_t input objects with random normalized components"
-    allocate(inputs(lat,lon,lev))
-    allocate(input_components(lat,lon,lev,inference_engine%num_inputs()))
-    call random_number(input_components)
-
-    do concurrent(i=1:lat, j=1:lon, k=1:lev)
-      inputs(i,j,k) = tensor_t(input_components(i,j,k,:))
-    end do
-
-    block 
+    single_precision_inference: &
+    block
       integer(int64) t_start, t_finish, clock_rate
 
-      print *,"Performing elemental inferences"
-      call system_clock(t_start, clock_rate)
-      outputs = inference_engine%infer(inputs)  ! implicit allocation of outputs array
-      call system_clock(t_finish)
-      print *,"Elemental inference time: ", real(t_finish - t_start, real64)/real(clock_rate, real64)
+      type(neural_network_t) neural_network
+      type(tensor_t), allocatable :: inputs(:,:,:), outputs(:,:,:)
+      real, allocatable :: input_components(:,:,:,:)
 
-      call assert(all(shape(outputs) == shape(inputs)), "all(shape(outputs) == shape(inputs))")
+      print *, "Constructing a new neural_network_t object from the file " // network_file_name%string()
+      neural_network = neural_network_t(file_t(network_file_name))
+
+      print *,"Defining an array of tensor_t input objects with random normalized components"
+      allocate(outputs(lat,lon,lev))
+      allocate( inputs(lat,lon,lev))
+      allocate(input_components(lat,lon,lev,neural_network%num_inputs()))
+      call random_number(input_components)
+
+      do concurrent(i=1:lat, j=1:lon, k=1:lev)
+        inputs(i,j,k) = tensor_t(input_components(i,j,k,:))
+      end do
+
+      print *,"Performing concurrent inference"
+      call system_clock(t_start, clock_rate)
+      do concurrent(i=1:lat, j=1:lon, k=1:lev)
+        outputs(i,j,k) = neural_network%infer(inputs(i,j,k))
+      end do
+      call system_clock(t_finish)
+      print *,"Concurrent inference time: ", real(t_finish - t_start, real64)/real(clock_rate, real64)
 
       print *,"Performing loop-based inference"
       call system_clock(t_start)
       do k=1,lev
         do j=1,lon
           do i=1,lat
-            outputs(i,j,k) = inference_engine%infer(inputs(i,j,k))
+            outputs(i,j,k) = neural_network%infer(inputs(i,j,k))
           end do
         end do
       end do
       call system_clock(t_finish)
       print *,"Looping inference time: ", real(t_finish - t_start, real64)/real(clock_rate, real64)
 
-      print *,"Performing concurrent inference"
-      call system_clock(t_start)
+      print *,"Performing elemental inferences"
+      call system_clock(t_start, clock_rate)
+      outputs = neural_network%infer(inputs)  ! implicit (re)allocation of outputs array only if shape(inputs) /= shape(outputs)
+      call system_clock(t_finish)
+      print *,"Elemental inference time: ", real(t_finish - t_start, real64)/real(clock_rate, real64)
+
+    end block single_precision_inference
+
+    double_precision_inference: &
+    block
+      integer(int64) t_start, t_finish, clock_rate
+
+      type(neural_network_t(double_precision)) neural_network
+      type(tensor_t(double_precision)), allocatable :: inputs(:,:,:), outputs(:,:,:)
+      double precision, allocatable :: input_components(:,:,:,:)
+
+      print *, "Constructing a new neural_network_t object from the file " // network_file_name%string()
+      neural_network = neural_network_t(double_precision_file_t(network_file_name))
+
+      print *,"Defining an array of tensor_t input objects with random normalized components"
+      allocate(outputs(lat,lon,lev))
+      allocate( inputs(lat,lon,lev))
+      allocate(input_components(lat,lon,lev,neural_network%num_inputs()))
+      call random_number(input_components)
+
       do concurrent(i=1:lat, j=1:lon, k=1:lev)
-        outputs(i,j,k) = inference_engine%infer(inputs(i,j,k))           
+        inputs(i,j,k) = tensor_t(input_components(i,j,k,:))
+      end do
+
+      print *,"Performing double-precision concurrent inference"
+      call system_clock(t_start, clock_rate)
+      do concurrent(i=1:lat, j=1:lon, k=1:lev)
+        outputs(i,j,k) = neural_network%infer(inputs(i,j,k))           
       end do
       call system_clock(t_finish)
-      print *,"Concurrent inference time: ", real(t_finish - t_start, real64)/real(clock_rate, real64)
+      print *,"Double-precision concurrent inference time: ", real(t_finish - t_start, real64)/real(clock_rate, real64)
 
-      print *,"Performing concurrent inference with a non-type-bound inference procedure"
-      call system_clock(t_start)
-      do concurrent(i=1:lat, j=1:lon, k=1:lev)
-        outputs(i,j,k) = infer(inference_engine, inputs(i,j,k))           
-      end do
-      call system_clock(t_finish)
-      print *,"Concurrent inference time with non-type-bound procedure: ", real(t_finish - t_start, real64)/real(clock_rate, real64)
+    end block double_precision_inference
 
-    end block
   end block
 
 end program

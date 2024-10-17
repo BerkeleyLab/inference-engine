@@ -27,7 +27,7 @@ module saturated_mixing_ratio_m
   !! The saturated_mixing_ratio function in this module resulted from refactoring the sat_mr function
   !! in the Intermediate Complexity Atmospheric Research (ICAR) model file src/physics/mp_simple.f90.
   !! ICAR is distributed under the above MIT license.  See https://github.com/ncar/icar.
-  use inference_engine_m, only : tensor_t
+  use fiats_m, only : tensor_t
   use assert_m, only : assert
   implicit none
  

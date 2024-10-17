@@ -2,7 +2,7 @@
 ! Terms of use are as specified in LICENSE.txt
 module power_series
   !! Define a function that produces the desired network output for a given network input
-  use inference_engine_m, only : tensor_t
+  use fiats_m, only : tensor_t
   use assert_m, only : assert
   implicit none
 
@@ -20,8 +20,7 @@ end module
 
 program learn_power_series
   !! This trains a neural network to learn the following six polynomial functions of its eight inputs.
-  use inference_engine_m, only : &
-    inference_engine_t, trainable_engine_t, mini_batch_t, tensor_t, input_output_pair_t, shuffle, relu_t
+  use fiats_m, only : neural_network_t, trainable_network_t, mini_batch_t, tensor_t, input_output_pair_t, shuffle
   use julienne_m, only : string_t, file_t, command_line_t, bin_t
   use assert_m, only : assert, intrinsic_array_t
   use power_series, only : y
@@ -43,15 +42,15 @@ program learn_power_series
     type(mini_batch_t), allocatable :: mini_batches(:)
     type(input_output_pair_t), allocatable :: input_output_pairs(:)
     type(tensor_t), allocatable :: inputs(:), desired_outputs(:)
-    type(trainable_engine_t)  trainable_engine
+    type(trainable_network_t)  trainable_network
     type(bin_t), allocatable :: bins(:)
     real, allocatable :: cost(:), random_numbers(:)
 
     call random_init(image_distinct=.true., repeatable=.true.)
-    trainable_engine = perturbed_identity_network(perturbation_magnitude=0.05)
-    call output(trainable_engine%to_inference_engine(), string_t("initial-network.json"))
+    trainable_network = perturbed_identity_network(perturbation_magnitude=0.05)
+    call output(trainable_network, string_t("initial-network.json"))
 
-    associate(num_inputs => trainable_engine%num_inputs(), num_outputs => trainable_engine%num_outputs())
+    associate(num_inputs => trainable_network%num_inputs(), num_outputs => trainable_network%num_outputs())
 
       block
         integer i, j
@@ -78,19 +77,18 @@ program learn_power_series
           call random_number(random_numbers)
           call shuffle(input_output_pairs)
           mini_batches = [(mini_batch_t(input_output_pairs(bins(b)%first():bins(b)%last())), b = 1, size(bins))]
-          call trainable_engine%train(mini_batches, cost, adam=.true., learning_rate=1.5)
+          call trainable_network%train(mini_batches, cost, adam=.true., learning_rate=1.5)
           print *,sum(cost)/size(cost)
         end do
       end block
 
       block
-        real, parameter :: tolerance = 1.E-06
         integer p
 #if defined _CRAYFTN || __GFORTRAN__
         type(tensor_t), allocatable :: network_outputs(:)
-        network_outputs = trainable_engine%infer(inputs)
+        network_outputs = trainable_network%infer(inputs)
 #else
-        associate(network_outputs => trainable_engine%infer(inputs))
+        associate(network_outputs => trainable_network%infer(inputs))
 #endif
           print "(a,69x,a)","  Outputs", "| Desired outputs"
           do p = 1, num_pairs
@@ -104,17 +102,17 @@ program learn_power_series
 
    end associate
 
-   call output(trainable_engine%to_inference_engine(), final_network_file)
+   call output(trainable_network, final_network_file)
 
   end block
 
 contains
 
-  subroutine output(inference_engine, file_name)
-    type(inference_engine_t), intent(in) :: inference_engine
+  subroutine output(neural_network, file_name)
+    class(neural_network_t), intent(in) :: neural_network
     type(string_t), intent(in) :: file_name
     type(file_t) json_file
-    json_file = inference_engine%to_json()
+    json_file = neural_network%to_json()
     call json_file%write_lines(file_name)
   end subroutine
 
@@ -125,8 +123,8 @@ contains
     unit_vector = real([(merge(1,0,j==k),k=1,n)])
   end function
 
-  function perturbed_identity_network(perturbation_magnitude) result(trainable_engine)
-    type(trainable_engine_t) trainable_engine
+  function perturbed_identity_network(perturbation_magnitude) result(trainable_network)
+    type(trainable_network_t) trainable_network
     real, intent(in) :: perturbation_magnitude
     integer, parameter :: n(*) = [8, 196, 196, 196, 196, 6]
     integer, parameter :: n_max = maxval(n), layers = size(n)
@@ -143,11 +141,10 @@ contains
 
     associate(w => identity + perturbation_magnitude*(w_harvest-0.5)/0.5, b => perturbation_magnitude*(b_harvest-0.5)/0.5)
 
-      trainable_engine = trainable_engine_t( &
-        nodes = n, weights = w, biases = b, differentiable_activation_strategy = relu_t(), &
-        metadata = &
+      trainable_network = trainable_network_t( neural_network_t( &
+        nodes = n, weights = w, biases = b, metadata = &
           [string_t("Perturbed Identity"), string_t("Damian Rouson"), string_t("2023-09-23"), string_t("relu"), string_t("false")] &
-      )
+      ))
 
     end associate
   end function

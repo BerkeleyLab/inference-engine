@@ -1,5 +1,6 @@
+! Copyright (c), The Regents of the University of California
+! Terms of use are as specified in LICENSE.txt
 module phase_space_bin_m
-  use kind_parameters_m, only : rkind
   use tensor_map_m, only : tensor_map_t
   use tensor_m, only : tensor_t
   implicit none
@@ -15,20 +16,24 @@ module phase_space_bin_m
     pure module function bin(tensor, minima, maxima, num_bins) result(phase_space_bin)
       implicit none
       type(tensor_t), intent(in) :: tensor
-      real(rkind), intent(in) :: minima(:), maxima(:)
+      real, intent(in) :: minima(:), maxima(:)
       integer, intent(in) :: num_bins
       type(phase_space_bin_t) phase_space_bin
     end function
 
   end interface
+end module phase_space_bin_m
+
+submodule (phase_space_bin_m) phase_space_bin_s
+  implicit none
 
 contains
 
   module procedure bin
 
-    real(rkind), parameter :: half = 0.5_rkind
+    real, parameter :: half = 0.5
 
-    associate(bin_widths => (maxima - minima)/real(num_bins,rkind))
+    associate(bin_widths => (maxima - minima)/real(num_bins))
       associate(tensor_values => min(tensor%values(), maxima - half*bin_widths))
         phase_space_bin%loc = (tensor_values - minima)/bin_widths + 1
       end associate
@@ -36,4 +41,4 @@ contains
 
   end procedure
 
-end module phase_space_bin_m
+end submodule
