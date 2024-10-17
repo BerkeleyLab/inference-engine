@@ -1,0 +1,614 @@
+<!-- -*- mode: jinja2 -*- -->
+
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+      <meta name="description" content="Functional inference and training of surrogate models for computational science.">
+    <meta name="author" content="Berkeley Lab" >
+    <link rel="icon" href="../favicon.png">
+
+    <title>default_real_neural_network &ndash; Fiats</title>
+
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet"
+          integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
+    <link href="../css/pygments.css" rel="stylesheet">
+    <link href="../css/font-awesome.min.css" rel="stylesheet">
+    <link href="../css/local.css" rel="stylesheet">
+      <link  href="../tipuesearch/tipuesearch.css" rel="stylesheet">
+
+    <script src="https://code.jquery.com/jquery-3.7.1.min.js" integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
+    <script src="../js/svg-pan-zoom.min.js"></script>
+  </head>
+
+  <body>
+
+    <!-- Fixed navbar -->
+    <div class="container-fluid mb-sm-4 mb-xl-2">
+      <nav class="navbar navbar-expand-lg navbar-dark bg-dark fixed-top">
+        <div class="container">
+          <a class="navbar-brand" href="../index.html">Fiats </a>
+          <button type="button" class="navbar-toggler" data-bs-toggle="collapse" data-bs-target="#navbar"
+                  aria-expanded="false" aria-controls="navbar" aria-label="Toggle navigation">
+                  <span class="navbar-toggler-icon">
+          </button>
+
+          <div id="navbar" class="navbar-collapse collapse">
+            <ul class="navbar-nav">
+                  <li class="nav-item">
+                    <a class="nav-link" href="../lists/files.html">Source Files</a>
+                  </li>
+                <li class="nav-item">
+                  <a class="nav-link" href="../lists/modules.html">Modules</a>
+                </li>
+                <li class="nav-item">
+                  <a class="nav-link" href="../lists/procedures.html">Procedures</a>
+                </li>
+                <li class="nav-item">
+                  <a class="nav-link" href="../lists/types.html">Derived Types</a>
+                </li>
+                <li class="nav-item">
+                  <a class="nav-link" href="../lists/programs.html">Programs</a>
+                </li>
+            </ul>
+              <div class="d-flex align-items-end flex-grow-1">
+                <form action="../search.html" role="search" class="ms-auto">
+                  <input type="text" class="form-control" aria-label="Search" placeholder="Search" name="q" id="tipue_search_input" autocomplete="off" required>
+                </form>
+              </div>
+          </div><!--/.nav-collapse -->
+        </div>
+      </nav>
+    </div>
+
+    <div class="container">
+  <div class="row">
+    <h1>default_real_neural_network
+      <small>Module Procedure</small>
+      
+    </h1>
+      <div class="container p-2 mb-4 bg-light border rounded-3">
+    <div class="row align-items-center justify-content-between" id="info-bar">
+      <div class="col">
+        <ul class="list-inline" style="margin-bottom:0px;display:inline">
+
+            <li class="list-inline-item" id="statements"><i class="fa fa-list-ol"></i>
+              <a data-bs-toggle="tooltip" data-bs-placement="bottom" data-bs-html="true"
+                 title=" 0.5% of total for procedures.">49 statements</a>
+            </li>
+
+            <li class="list-inline-item" id="source-file">
+              <i class="fa fa-code"></i>
+              <a href="../src/layer_s.f90"> Source File</a>
+            </li>
+        </ul>
+      </div>
+      <div class="col">
+        <nav aria-label="breadcrumb">
+          <ol class="breadcrumb justify-content-end mb-0">
+                <li class="breadcrumb-item"><a href='../sourcefile/layer_s.f90.html'>layer_s.f90</a></li>
+                <li class="breadcrumb-item"><a href='../module/layer_s.html'>layer_s</a></li>
+            <li class="breadcrumb-item active" aria-current="page">default_real_neural_network</li>
+          </ol>
+        </nav>
+      </div>
+    </div>
+  </div>
+  <script>
+    $(function () {
+    $('[data-bs-toggle="tooltip"]').tooltip()
+    })
+  </script>
+
+  </div>
+  
+  <div class="row">
+    <div class="col-md-3 hidden-xs hidden-sm visible-md visible-lg">
+      <div id="sidebar">
+      <h3>Contents</h3>
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+
+
+  </div>
+
+    </div>
+    
+    <div class="col-md-9" id='text'>
+    <h2>module procedure default_real_neural_network <small>module function default_real_neural_network(hidden_layers, metadata, output_layer, input_map, output_map) result(neural_network_)</small>  
+    <a href="../interface/default_real_neural_network.html"><button type="button" class="btn btn-info depwarn">Interface &rarr;</button></a>
+</h2>
+    
+
+
+
+    <h3>Arguments</h3>
+        <table class="table table-striped varlist">
+    <thead>
+      <tr>
+        <th scope="col">Type</th>
+<th scope="col">Intent</th><th scope="col">Optional</th>        <th scope="col">Attributes</th>
+        <th scope="col"></th>
+        <th scope="col">Name</th>
+        <th scope="col"></th>
+    </thead>
+    <tbody>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-hidden_layers~5"></span>
+              class(<a href='../type/layer_t.html'>layer_t</a>),
+            </td>
+<td>intent(in),</td>
+              <td></td>            <td>
+              target
+            </td>
+            <td>::</td>
+            <td><strong>hidden_layers</strong></td>
+            <td>
+                
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-metadata~2"></span>
+              type(string_t),
+            </td>
+<td>intent(in)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>metadata</strong>(:)</td>
+            <td>
+                
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-output_layer~5"></span>
+              type(<a href='../type/layer_t.html'>layer_t</a>),
+            </td>
+<td>intent(in),</td>
+              <td></td>            <td>
+              target
+            </td>
+            <td>::</td>
+            <td><strong>output_layer</strong></td>
+            <td>
+                
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-input_map~4"></span>
+              type(<a href='../type/tensor_map_t.html'>tensor_map_t</a>),
+            </td>
+<td>intent(in)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>input_map</strong></td>
+            <td>
+                
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-output_map~4"></span>
+              type(<a href='../type/tensor_map_t.html'>tensor_map_t</a>),
+            </td>
+<td>intent(in)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>output_map</strong></td>
+            <td>
+                
+            </td>
+        </tr>
+    </tbody>
+  </table>
+
+      <h3>Return Value
+        <small>
+          <span class="anchor" id="variable-neural_network_"></span>
+          type(<a href='../type/neural_network_t.html'>neural_network_t</a>)
+        </small>
+      </h3>
+      
+    <br>
+    <div class="card">
+      <div class="card-header">
+  <h3 class="card-title">Calls</h3>
+      </div>
+      <div class="card-body">
+  <div class="depgraph"><?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN"
+ "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
+<!-- Generated by graphviz version 12.1.2 (20240928.0832)
+ -->
+<!-- Title: proc~~default_real_neural_network~~CallsGraph Pages: 1 -->
+<svg id="procdefault_real_neural_networkCallsGraph" width="608pt" height="399pt"
+ viewBox="0.00 0.00 608.06 399.27" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+<g id="proc~~default_real_neural_network~~CallsGraph" class="graph" transform="scale(1 1) rotate(0) translate(4 395.27)">
+<title>proc~~default_real_neural_network~~CallsGraph</title>
+<polygon fill="white" stroke="none" points="-4,4 -4,-395.27 604.06,-395.27 604.06,4 -4,4"/>
+<!-- proc~default_real_neural_network -->
+<g id="proc~~default_real_neural_network~~CallsGraph_node1" class="node">
+<title>proc~default_real_neural_network</title>
+<polygon fill="none" stroke="black" points="162.27,-223.27 0,-223.27 0,-199 162.27,-199 162.27,-223.27"/>
+<text text-anchor="middle" x="81.13" y="-207.53" font-family="Helvetica,sans-Serif" font-size="10.50">default_real_neural_network</text>
+</g>
+<!-- assert -->
+<g id="proc~~default_real_neural_network~~CallsGraph_node2" class="node">
+<title>assert</title>
+<polygon fill="#777777" stroke="#777777" points="292.9,-391.27 238.9,-391.27 238.9,-367 292.9,-367 292.9,-391.27"/>
+<text text-anchor="middle" x="265.9" y="-375.53" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">assert</text>
+</g>
+<!-- proc~default_real_neural_network&#45;&gt;assert -->
+<g id="proc~~default_real_neural_network~~CallsGraph_edge1" class="edge">
+<title>proc~default_real_neural_network&#45;&gt;assert</title>
+<path fill="none" stroke="#ff0000" d="M88.46,-223.44C103.55,-251.57 144.45,-321.02 198.27,-358.13 206.98,-364.14 217.48,-368.49 227.55,-371.62"/>
+<polygon fill="#ff0000" stroke="#ff0000" points="226.58,-374.98 237.15,-374.25 228.43,-368.23 226.58,-374.98"/>
+</g>
+<!-- bias -->
+<g id="proc~~default_real_neural_network~~CallsGraph_node3" class="node">
+<title>bias</title>
+<polygon fill="#777777" stroke="#777777" points="292.9,-349.27 238.9,-349.27 238.9,-325 292.9,-325 292.9,-349.27"/>
+<text text-anchor="middle" x="265.9" y="-333.53" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">bias</text>
+</g>
+<!-- proc~default_real_neural_network&#45;&gt;bias -->
+<g id="proc~~default_real_neural_network~~CallsGraph_edge2" class="edge">
+<title>proc~default_real_neural_network&#45;&gt;bias</title>
+<path fill="none" stroke="#ff0000" d="M92.68,-223.7C111.64,-245.54 153.69,-290.6 198.27,-316.13 207.29,-321.3 217.75,-325.37 227.66,-328.48"/>
+<polygon fill="#ff0000" stroke="#ff0000" points="226.49,-331.79 237.06,-331.19 228.42,-325.06 226.49,-331.79"/>
+</g>
+<!-- biases -->
+<g id="proc~~default_real_neural_network~~CallsGraph_node4" class="node">
+<title>biases</title>
+<polygon fill="#777777" stroke="#777777" points="292.9,-307.27 238.9,-307.27 238.9,-283 292.9,-283 292.9,-307.27"/>
+<text text-anchor="middle" x="265.9" y="-291.53" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">biases</text>
+</g>
+<!-- proc~default_real_neural_network&#45;&gt;biases -->
+<g id="proc~~default_real_neural_network~~CallsGraph_edge3" class="edge">
+<title>proc~default_real_neural_network&#45;&gt;biases</title>
+<path fill="none" stroke="#ff0000" d="M102.52,-223.75C125.25,-237.46 163.43,-259.36 198.27,-274.13 207.58,-278.08 217.89,-281.69 227.57,-284.75"/>
+<polygon fill="#ff0000" stroke="#ff0000" points="226.5,-288.09 237.09,-287.65 228.54,-281.39 226.5,-288.09"/>
+</g>
+<!-- next_allocated -->
+<g id="proc~~default_real_neural_network~~CallsGraph_node5" class="node">
+<title>next_allocated</title>
+<polygon fill="#777777" stroke="#777777" points="310.29,-265.27 221.52,-265.27 221.52,-241 310.29,-241 310.29,-265.27"/>
+<text text-anchor="middle" x="265.9" y="-249.53" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">next_allocated</text>
+</g>
+<!-- proc~default_real_neural_network&#45;&gt;next_allocated -->
+<g id="proc~~default_real_neural_network~~CallsGraph_edge4" class="edge">
+<title>proc~default_real_neural_network&#45;&gt;next_allocated</title>
+<path fill="none" stroke="#ff0000" d="M136.97,-223.74C160.1,-229.05 186.98,-235.23 210.11,-240.54"/>
+<polygon fill="#ff0000" stroke="#ff0000" points="209.12,-243.91 219.65,-242.74 210.69,-237.09 209.12,-243.91"/>
+</g>
+<!-- next_pointer -->
+<g id="proc~~default_real_neural_network~~CallsGraph_node6" class="node">
+<title>next_pointer</title>
+<polygon fill="#777777" stroke="#777777" points="304.66,-223.27 227.14,-223.27 227.14,-199 304.66,-199 304.66,-223.27"/>
+<text text-anchor="middle" x="265.9" y="-207.53" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">next_pointer</text>
+</g>
+<!-- proc~default_real_neural_network&#45;&gt;next_pointer -->
+<g id="proc~~default_real_neural_network~~CallsGraph_edge5" class="edge">
+<title>proc~default_real_neural_network&#45;&gt;next_pointer</title>
+<path fill="none" stroke="#ff0000" d="M162.57,-211.13C180.6,-211.13 199.21,-211.13 215.54,-211.13"/>
+<polygon fill="#ff0000" stroke="#ff0000" points="215.46,-214.64 225.46,-211.14 215.46,-207.64 215.46,-214.64"/>
+</g>
+<!-- none~count_inputs -->
+<g id="proc~~default_real_neural_network~~CallsGraph_node7" class="node">
+<title>none~count_inputs</title>
+<g id="a_proc~~default_real_neural_network~~CallsGraph_node7"><a xlink:href="../type/layer_t.html#boundprocedure-count_inputs" xlink:title="layer_t%count_inputs">
+<polygon fill="#a7506f" stroke="#a7506f" points="328.29,-181.27 203.52,-181.27 203.52,-157 328.29,-157 328.29,-181.27"/>
+<text text-anchor="middle" x="265.9" y="-165.53" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">layer_t%count_inputs</text>
+</a>
+</g>
+</g>
+<!-- proc~default_real_neural_network&#45;&gt;none~count_inputs -->
+<g id="proc~~default_real_neural_network~~CallsGraph_edge6" class="edge">
+<title>proc~default_real_neural_network&#45;&gt;none~count_inputs</title>
+<path fill="none" stroke="#ff0000" d="M136.97,-198.53C156.49,-194.05 178.67,-188.95 199.02,-184.28"/>
+<polygon fill="#ff0000" stroke="#ff0000" points="199.67,-187.72 208.63,-182.07 198.1,-180.9 199.67,-187.72"/>
+</g>
+<!-- none~count_layers -->
+<g id="proc~~default_real_neural_network~~CallsGraph_node8" class="node">
+<title>none~count_layers</title>
+<g id="a_proc~~default_real_neural_network~~CallsGraph_node8"><a xlink:href="../type/layer_t.html#boundprocedure-count_layers" xlink:title="layer_t%count_layers">
+<polygon fill="#a7506f" stroke="#a7506f" points="328.29,-139.27 203.52,-139.27 203.52,-115 328.29,-115 328.29,-139.27"/>
+<text text-anchor="middle" x="265.9" y="-123.53" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">layer_t%count_layers</text>
+</a>
+</g>
+</g>
+<!-- proc~default_real_neural_network&#45;&gt;none~count_layers -->
+<g id="proc~~default_real_neural_network~~CallsGraph_edge7" class="edge">
+<title>proc~default_real_neural_network&#45;&gt;none~count_layers</title>
+<path fill="none" stroke="#ff0000" d="M102.52,-198.52C125.25,-184.81 163.43,-162.91 198.27,-148.13 202.07,-146.52 206.03,-144.97 210.05,-143.49"/>
+<polygon fill="#ff0000" stroke="#ff0000" points="211.04,-146.85 219.31,-140.24 208.72,-140.25 211.04,-146.85"/>
+</g>
+<!-- none~count_neurons -->
+<g id="proc~~default_real_neural_network~~CallsGraph_node9" class="node">
+<title>none~count_neurons</title>
+<g id="a_proc~~default_real_neural_network~~CallsGraph_node9"><a xlink:href="../type/layer_t.html#boundprocedure-count_neurons" xlink:title="layer_t%count_neurons">
+<polygon fill="#a7506f" stroke="#a7506f" points="333.54,-87.27 198.27,-87.27 198.27,-63 333.54,-63 333.54,-87.27"/>
+<text text-anchor="middle" x="265.9" y="-71.54" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">layer_t%count_neurons</text>
+</a>
+</g>
+</g>
+<!-- proc~default_real_neural_network&#45;&gt;none~count_neurons -->
+<g id="proc~~default_real_neural_network~~CallsGraph_edge8" class="edge">
+<title>proc~default_real_neural_network&#45;&gt;none~count_neurons</title>
+<path fill="none" stroke="#ff0000" d="M93.35,-198.82C113.01,-177.76 155.67,-134.36 198.27,-106.14 205.82,-101.13 214.31,-96.52 222.64,-92.46"/>
+<polygon fill="#ff0000" stroke="#ff0000" points="224.05,-95.66 231.64,-88.28 221.1,-89.32 224.05,-95.66"/>
+</g>
+<!-- weights -->
+<g id="proc~~default_real_neural_network~~CallsGraph_node10" class="node">
+<title>weights</title>
+<polygon fill="#777777" stroke="#777777" points="292.9,-45.27 238.9,-45.27 238.9,-21 292.9,-21 292.9,-45.27"/>
+<text text-anchor="middle" x="265.9" y="-29.53" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">weights</text>
+</g>
+<!-- proc~default_real_neural_network&#45;&gt;weights -->
+<g id="proc~~default_real_neural_network~~CallsGraph_edge9" class="edge">
+<title>proc~default_real_neural_network&#45;&gt;weights</title>
+<path fill="none" stroke="#ff0000" d="M87.8,-198.87C102.04,-169.41 142.24,-94.1 198.27,-54.13 206.88,-47.99 217.35,-43.6 227.42,-40.48"/>
+<polygon fill="#ff0000" stroke="#ff0000" points="228.31,-43.86 237.04,-37.86 226.47,-37.11 228.31,-43.86"/>
+</g>
+<!-- interface~default_real_count_inputs -->
+<g id="proc~~default_real_neural_network~~CallsGraph_node11" class="node">
+<title>interface~default_real_count_inputs</title>
+<g id="a_proc~~default_real_neural_network~~CallsGraph_node11"><a xlink:href="../interface/default_real_count_inputs.html" xlink:title="layer_t%default_real_count_inputs">
+<polygon fill="#a7506f" stroke="#a7506f" points="581.31,-234.27 388.29,-234.27 388.29,-210 581.31,-210 581.31,-234.27"/>
+<text text-anchor="middle" x="484.8" y="-218.53" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">layer_t%default_real_count_inputs</text>
+</a>
+</g>
+</g>
+<!-- none~count_inputs&#45;&gt;interface~default_real_count_inputs -->
+<g id="proc~~default_real_neural_network~~CallsGraph_edge10" class="edge">
+<title>none~count_inputs&#45;&gt;interface~default_real_count_inputs</title>
+<path fill="none" stroke="#00a9ff" stroke-dasharray="5,2" d="M306.78,-181.69C334.21,-190.31 366.28,-200.33 369.54,-201.13 378.31,-203.3 387.51,-205.35 396.72,-207.26"/>
+<polygon fill="#00a9ff" stroke="#00a9ff" points="395.95,-210.67 406.44,-209.22 397.33,-203.81 395.95,-210.67"/>
+</g>
+<!-- interface~double_precision_count_inputs -->
+<g id="proc~~default_real_neural_network~~CallsGraph_node14" class="node">
+<title>interface~double_precision_count_inputs</title>
+<g id="a_proc~~default_real_neural_network~~CallsGraph_node14"><a xlink:href="../interface/double_precision_count_inputs.html" xlink:title="layer_t%double_precision_count_inputs">
+<polygon fill="#a7506f" stroke="#a7506f" points="594.81,-192.27 374.79,-192.27 374.79,-168 594.81,-168 594.81,-192.27"/>
+<text text-anchor="middle" x="484.8" y="-176.53" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">layer_t%double_precision_count_inputs</text>
+</a>
+</g>
+</g>
+<!-- none~count_inputs&#45;&gt;interface~double_precision_count_inputs -->
+<g id="proc~~default_real_neural_network~~CallsGraph_edge11" class="edge">
+<title>none~count_inputs&#45;&gt;interface~double_precision_count_inputs</title>
+<path fill="none" stroke="#00a9ff" stroke-dasharray="5,2" d="M328.77,-172.27C339.68,-172.83 351.37,-173.42 363.25,-174.02"/>
+<polygon fill="#00a9ff" stroke="#00a9ff" points="363.01,-177.51 373.18,-174.52 363.37,-170.52 363.01,-177.51"/>
+</g>
+<!-- interface~default_real_count_layers -->
+<g id="proc~~default_real_neural_network~~CallsGraph_node12" class="node">
+<title>interface~default_real_count_layers</title>
+<g id="a_proc~~default_real_neural_network~~CallsGraph_node12"><a xlink:href="../interface/default_real_count_layers.html" xlink:title="layer_t%default_real_count_layers">
+<polygon fill="#a7506f" stroke="#a7506f" points="581.31,-150.27 388.29,-150.27 388.29,-126 581.31,-126 581.31,-150.27"/>
+<text text-anchor="middle" x="484.8" y="-134.53" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">layer_t%default_real_count_layers</text>
+</a>
+</g>
+</g>
+<!-- none~count_layers&#45;&gt;interface~default_real_count_layers -->
+<g id="proc~~default_real_neural_network~~CallsGraph_edge12" class="edge">
+<title>none~count_layers&#45;&gt;interface~default_real_count_layers</title>
+<path fill="none" stroke="#0000ff" stroke-dasharray="5,2" d="M328.77,-130.27C343.72,-131.03 360.14,-131.86 376.52,-132.69"/>
+<polygon fill="#0000ff" stroke="#0000ff" points="376.16,-136.18 386.32,-133.19 376.51,-129.19 376.16,-136.18"/>
+</g>
+<!-- interface~double_precision_count_layers -->
+<g id="proc~~default_real_neural_network~~CallsGraph_node15" class="node">
+<title>interface~double_precision_count_layers</title>
+<g id="a_proc~~default_real_neural_network~~CallsGraph_node15"><a xlink:href="../interface/double_precision_count_layers.html" xlink:title="layer_t%double_precision_count_layers">
+<polygon fill="#a7506f" stroke="#a7506f" points="594.81,-108.27 374.79,-108.27 374.79,-84 594.81,-84 594.81,-108.27"/>
+<text text-anchor="middle" x="484.8" y="-92.54" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">layer_t%double_precision_count_layers</text>
+</a>
+</g>
+</g>
+<!-- none~count_layers&#45;&gt;interface~double_precision_count_layers -->
+<g id="proc~~default_real_neural_network~~CallsGraph_edge13" class="edge">
+<title>none~count_layers&#45;&gt;interface~double_precision_count_layers</title>
+<path fill="none" stroke="#0000ff" stroke-dasharray="5,2" d="M328.77,-118.29C346.06,-115.82 365.31,-113.07 384.19,-110.37"/>
+<polygon fill="#0000ff" stroke="#0000ff" points="384.66,-113.84 394.07,-108.96 383.67,-106.91 384.66,-113.84"/>
+</g>
+<!-- interface~default_real_count_neurons -->
+<g id="proc~~default_real_neural_network~~CallsGraph_node13" class="node">
+<title>interface~default_real_count_neurons</title>
+<g id="a_proc~~default_real_neural_network~~CallsGraph_node13"><a xlink:href="../interface/default_real_count_neurons.html" xlink:title="layer_t%default_real_count_neurons">
+<polygon fill="#a7506f" stroke="#a7506f" points="586.56,-66.27 383.04,-66.27 383.04,-42 586.56,-42 586.56,-66.27"/>
+<text text-anchor="middle" x="484.8" y="-50.53" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">layer_t%default_real_count_neurons</text>
+</a>
+</g>
+</g>
+<!-- none~count_neurons&#45;&gt;interface~default_real_count_neurons -->
+<g id="proc~~default_real_neural_network~~CallsGraph_edge14" class="edge">
+<title>none~count_neurons&#45;&gt;interface~default_real_count_neurons</title>
+<path fill="none" stroke="#aa00ff" stroke-dasharray="5,2" d="M333.75,-68.66C345.78,-67.5 358.62,-66.25 371.54,-65"/>
+<polygon fill="#aa00ff" stroke="#aa00ff" points="371.76,-68.5 381.38,-64.05 371.08,-61.53 371.76,-68.5"/>
+</g>
+<!-- interface~double_precision_count_neurons -->
+<g id="proc~~default_real_neural_network~~CallsGraph_node16" class="node">
+<title>interface~double_precision_count_neurons</title>
+<g id="a_proc~~default_real_neural_network~~CallsGraph_node16"><a xlink:href="../interface/double_precision_count_neurons.html" xlink:title="layer_t%double_precision_count_neurons">
+<polygon fill="#a7506f" stroke="#a7506f" points="600.06,-24.27 369.54,-24.27 369.54,0 600.06,0 600.06,-24.27"/>
+<text text-anchor="middle" x="484.8" y="-8.53" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">layer_t%double_precision_count_neurons</text>
+</a>
+</g>
+</g>
+<!-- none~count_neurons&#45;&gt;interface~double_precision_count_neurons -->
+<g id="proc~~default_real_neural_network~~CallsGraph_edge15" class="edge">
+<title>none~count_neurons&#45;&gt;interface~double_precision_count_neurons</title>
+<path fill="none" stroke="#aa00ff" stroke-dasharray="5,2" d="M311.5,-62.6C318.97,-60.07 326.55,-57.23 333.54,-54.13 350.48,-46.64 352.17,-39.57 369.54,-33.13 374.9,-31.15 380.47,-29.35 386.14,-27.71"/>
+<polygon fill="#aa00ff" stroke="#aa00ff" points="386.93,-31.12 395.69,-25.15 385.12,-24.36 386.93,-31.12"/>
+</g>
+</g>
+</svg>
+</div>          <div>
+            <a type="button" class="graph-help" data-bs-toggle="modal" href="#CallsGraph-help-text">Help</a>
+          </div>
+          <div class="modal fade" id="CallsGraph-help-text" tabindex="-1" role="dialog">
+            <div class="modal-dialog modal-lg" role="document">
+              <div class="modal-content">
+                <div class="modal-header">
+                  <h4 class="modal-title" id="-graph-help-label">Graph Key</h4>
+                  <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+<p>Nodes of different colours represent the following: </p>
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN"
+ "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
+<!-- Generated by graphviz version 12.1.2 (20240928.0832)
+ -->
+<!-- Title: Graph Key Pages: 1 -->
+<svg width="641pt" height="28pt"
+ viewBox="0.00 0.00 641.00 28.20" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+<g id="graph0" class="graph" transform="scale(0.873868 0.873868) rotate(0) translate(4 28.27)">
+<title>Graph Key</title>
+<polygon fill="white" stroke="none" points="-4,4 -4,-28.27 729.52,-28.27 729.52,4 -4,4"/>
+<!-- Subroutine -->
+<g id="node1" class="node">
+<title>Subroutine</title>
+<polygon fill="#d9534f" stroke="#d9534f" points="69.27,-24.27 0,-24.27 0,0 69.27,0 69.27,-24.27"/>
+<text text-anchor="middle" x="34.63" y="-8.53" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">Subroutine</text>
+</g>
+<!-- Function -->
+<g id="node2" class="node">
+<title>Function</title>
+<polygon fill="#d94e8f" stroke="#d94e8f" points="143.89,-24.27 87.38,-24.27 87.38,0 143.89,0 143.89,-24.27"/>
+<text text-anchor="middle" x="115.63" y="-8.53" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">Function</text>
+</g>
+<!-- Interface -->
+<g id="node3" class="node">
+<title>Interface</title>
+<polygon fill="#a7506f" stroke="#a7506f" points="221.39,-24.27 161.88,-24.27 161.88,0 221.39,0 221.39,-24.27"/>
+<text text-anchor="middle" x="191.63" y="-8.53" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">Interface</text>
+</g>
+<!-- Type Bound Procedure -->
+<g id="node4" class="node">
+<title>Type Bound Procedure</title>
+<polygon fill="#a7506f" stroke="#a7506f" points="368.27,-24.27 239,-24.27 239,0 368.27,0 368.27,-24.27"/>
+<text text-anchor="middle" x="303.63" y="-8.53" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">Type Bound Procedure</text>
+</g>
+<!-- Unknown Procedure Type -->
+<g id="node5" class="node">
+<title>Unknown Procedure Type</title>
+<polygon fill="#777777" stroke="#777777" points="529.39,-24.27 385.88,-24.27 385.88,0 529.39,0 529.39,-24.27"/>
+<text text-anchor="middle" x="457.63" y="-8.53" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">Unknown Procedure Type</text>
+</g>
+<!-- Program -->
+<g id="node6" class="node">
+<title>Program</title>
+<polygon fill="#f0ad4e" stroke="#f0ad4e" points="603.89,-24.27 547.38,-24.27 547.38,0 603.89,0 603.89,-24.27"/>
+<text text-anchor="middle" x="575.63" y="-8.53" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">Program</text>
+</g>
+<!-- This Page&#39;s Entity -->
+<g id="node7" class="node">
+<title>This Page&#39;s Entity</title>
+<polygon fill="none" stroke="black" points="725.52,-24.27 621.75,-24.27 621.75,0 725.52,0 725.52,-24.27"/>
+<text text-anchor="middle" x="673.63" y="-8.53" font-family="Helvetica,sans-Serif" font-size="10.50">This Page&#39;s Entity</text>
+</g>
+</g>
+</svg>
+
+<p>Solid arrows point from a procedure to one which it calls. Dashed 
+arrows point from an interface to procedures which implement that interface.
+This could include the module procedures in a generic interface or the
+implementation in a submodule of an interface in a parent module.
+</p>
+ Where possible, edges connecting nodes are
+given different colours to make them easier to distinguish in
+large graphs.</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <br>
+
+
+    
+    
+
+    
+    
+
+
+
+    
+    
+    </div>
+  </div>
+
+      <hr>
+    </div> <!-- /container -->
+    <footer>
+      <div class="container">
+        <div class="row justify-content-between">
+          <div class="col">
+            <p>
+              Fiats
+ was developed by Berkeley Lab<br>              &copy; 2024 
+</p>
+          </div>
+          <div class="col">
+            <p class="text-end">
+              Documentation generated by
+              <a href="https://github.com/Fortran-FOSS-Programmers/ford">FORD</a>
+ on 2024-10-17 00:07              </p>
+          </div>
+        </div>
+        <br>
+      </div> <!-- /container -->
+    </footer>
+
+    <!-- Bootstrap core JavaScript -->
+    <!-- Placed at the end of the document so the pages load faster -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"
+            integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p" crossorigin="anonymous"></script>    
+
+    <!-- MathJax JavaScript
+             ================================================== -->
+             <!-- Placed at the end of the document so the pages load faster -->
+        <script type="text/x-mathjax-config">
+          MathJax.Hub.Config({
+          TeX: { extensions: ['AMSmath.js','AMSsymbols.js','noErrors.js','noUndefined.js'], equationNumbers: { autoNumber: 'AMS' } },
+          jax: ['input/TeX','input/MathML','output/HTML-CSS'],
+          extensions: ['tex2jax.js','mml2jax.js','MathMenu.js','MathZoom.js']
+          });
+        </script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+
+          <script src="../tipuesearch/tipuesearch_content.js"></script>
+          <script src="../tipuesearch/tipuesearch_set.js"></script>
+          <script src="../tipuesearch/tipuesearch.js"></script>
+
+  </body>
+</html>

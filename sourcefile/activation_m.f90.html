@@ -1,0 +1,756 @@
+<!-- -*- mode: jinja2 -*- -->
+
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+      <meta name="description" content="Functional inference and training of surrogate models for computational science.">
+    <meta name="author" content="Berkeley Lab" >
+    <link rel="icon" href="../favicon.png">
+
+    <title>activation_m.f90 &ndash; Fiats</title>
+
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet"
+          integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
+    <link href="../css/pygments.css" rel="stylesheet">
+    <link href="../css/font-awesome.min.css" rel="stylesheet">
+    <link href="../css/local.css" rel="stylesheet">
+      <link  href="../tipuesearch/tipuesearch.css" rel="stylesheet">
+
+    <script src="https://code.jquery.com/jquery-3.7.1.min.js" integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
+    <script src="../js/svg-pan-zoom.min.js"></script>
+  </head>
+
+  <body>
+
+    <!-- Fixed navbar -->
+    <div class="container-fluid mb-sm-4 mb-xl-2">
+      <nav class="navbar navbar-expand-lg navbar-dark bg-dark fixed-top">
+        <div class="container">
+          <a class="navbar-brand" href="../index.html">Fiats </a>
+          <button type="button" class="navbar-toggler" data-bs-toggle="collapse" data-bs-target="#navbar"
+                  aria-expanded="false" aria-controls="navbar" aria-label="Toggle navigation">
+                  <span class="navbar-toggler-icon">
+          </button>
+
+          <div id="navbar" class="navbar-collapse collapse">
+            <ul class="navbar-nav">
+                  <li class="nav-item">
+                    <a class="nav-link" href="../lists/files.html">Source Files</a>
+                  </li>
+                <li class="nav-item">
+                  <a class="nav-link" href="../lists/modules.html">Modules</a>
+                </li>
+                <li class="nav-item">
+                  <a class="nav-link" href="../lists/procedures.html">Procedures</a>
+                </li>
+                <li class="nav-item">
+                  <a class="nav-link" href="../lists/types.html">Derived Types</a>
+                </li>
+                <li class="nav-item">
+                  <a class="nav-link" href="../lists/programs.html">Programs</a>
+                </li>
+            </ul>
+              <div class="d-flex align-items-end flex-grow-1">
+                <form action="../search.html" role="search" class="ms-auto">
+                  <input type="text" class="form-control" aria-label="Search" placeholder="Search" name="q" id="tipue_search_input" autocomplete="off" required>
+                </form>
+              </div>
+          </div><!--/.nav-collapse -->
+        </div>
+      </nav>
+    </div>
+
+    <div class="container">
+  <div class="row">
+    <h1>activation_m.f90
+      <small>Source File</small>
+      
+    </h1>
+      <div class="container p-2 mb-4 bg-light border rounded-3">
+    <div class="row align-items-center justify-content-between" id="info-bar">
+      <div class="col">
+        <ul class="list-inline" style="margin-bottom:0px;display:inline">
+
+            <li class="list-inline-item" id="statements"><i class="fa fa-list-ol"></i>
+              <a data-bs-toggle="tooltip" data-bs-placement="bottom" data-bs-html="true"
+                 title=" 1.8% of total for source files.">73 statements</a>
+            </li>
+
+            <li class="list-inline-item" id="source-file">
+              <i class="fa fa-code"></i>
+              <a href="../src/activation_m.f90"> Source File</a>
+            </li>
+        </ul>
+      </div>
+      <div class="col">
+        <nav aria-label="breadcrumb">
+          <ol class="breadcrumb justify-content-end mb-0">
+            <li class="breadcrumb-item active" aria-current="page">activation_m.f90</li>
+          </ol>
+        </nav>
+      </div>
+    </div>
+  </div>
+  <script>
+    $(function () {
+    $('[data-bs-toggle="tooltip"]').tooltip()
+    })
+  </script>
+
+  </div>
+  <div class="row">
+    <div class="col-md-3 hidden-xs hidden-sm visible-md visible-lg">
+        <div id="sidebar">
+      <h3>Contents</h3>
+  
+  
+  
+  
+  
+      <div class="card mb-4">
+      <a data-bs-toggle="collapse" href="#mods-0"
+         aria-expanded="false" aria-controls="mods-0">
+         <h4 class="card-header bg-primary text-white">Modules</h4>
+      </a>
+      <div id="mods-0" class="collapse">
+        <div class="list-group list-group-flush">
+            <a class="list-group-item" href="../module/activation_m.html">activation_m</a>
+        </div>
+      </div>
+    </div>
+
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+    <div class="card card-primary">
+      <div class="card-header text-left"><h3 class="card-title">Source Code</h3></div>
+      <div class="list-group">
+        <a class="list-group-item" href="../sourcefile/activation_m.f90.html#src">activation_m.f90</a>
+      </div>
+    </div>
+
+
+  </div>
+
+    </div>
+    <div class="col-md-9" id='text'>
+      
+      <br>
+        <div class="card">
+          <div class="card-header">
+            <h3 class="card-title">Files dependent on this one</h3>
+          </div>
+          <div class="card-body">
+            <div class="depgraph"><?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN"
+ "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
+<!-- Generated by graphviz version 12.1.2 (20240928.0832)
+ -->
+<!-- Title: sourcefile~~activation_m.f90~~AfferentGraph Pages: 1 -->
+<svg id="sourcefileactivation_mf90AfferentGraph" width="641pt" height="257pt"
+ viewBox="0.00 0.00 641.00 257.33" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+<g id="sourcefile~~activation_m.f90~~AfferentGraph" class="graph" transform="scale(0.574054 0.574054) rotate(0) translate(4 444.27)">
+<title>sourcefile~~activation_m.f90~~AfferentGraph</title>
+<polygon fill="white" stroke="none" points="-4,4 -4,-444.27 1112.62,-444.27 1112.62,4 -4,4"/>
+<!-- sourcefile~activation_m.f90 -->
+<g id="sourcefile~~activation_m.f90~~AfferentGraph_node1" class="node">
+<title>sourcefile~activation_m.f90</title>
+<polygon fill="none" stroke="black" points="100.02,-251.27 0,-251.27 0,-227 100.02,-227 100.02,-251.27"/>
+<text text-anchor="middle" x="50.01" y="-235.53" font-family="Helvetica,sans-Serif" font-size="10.50">activation_m.f90</text>
+</g>
+<!-- sourcefile~activation_s.f90 -->
+<g id="sourcefile~~activation_m.f90~~AfferentGraph_node2" class="node">
+<title>sourcefile~activation_s.f90</title>
+<g id="a_sourcefile~~activation_m.f90~~AfferentGraph_node2"><a xlink:href="../sourcefile/activation_s.f90.html" xlink:title="activation_s.f90">
+<polygon fill="#f0ad4e" stroke="#f0ad4e" points="266.04,-314.27 171.27,-314.27 171.27,-290 266.04,-290 266.04,-314.27"/>
+<text text-anchor="middle" x="218.66" y="-298.53" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">activation_s.f90</text>
+</a>
+</g>
+</g>
+<!-- sourcefile~activation_s.f90&#45;&gt;sourcefile~activation_m.f90 -->
+<g id="sourcefile~~activation_m.f90~~AfferentGraph_edge1" class="edge">
+<title>sourcefile~activation_s.f90&#45;&gt;sourcefile~activation_m.f90</title>
+<path fill="none" stroke="#ff0000" stroke-dasharray="5,2" d="M170.95,-291.89C159.39,-288.88 147.13,-285.26 136.02,-281.13 118.09,-274.48 98.92,-265.22 83.34,-257.08"/>
+<polygon fill="#ff0000" stroke="#ff0000" points="84.99,-253.99 74.51,-252.38 81.7,-260.17 84.99,-253.99"/>
+</g>
+<!-- sourcefile~neural_network_m.f90 -->
+<g id="sourcefile~~activation_m.f90~~AfferentGraph_node3" class="node">
+<title>sourcefile~neural_network_m.f90</title>
+<g id="a_sourcefile~~activation_m.f90~~AfferentGraph_node3"><a xlink:href="../sourcefile/neural_network_m.f90.html" xlink:title="neural_network_m.f90">
+<polygon fill="#f0ad4e" stroke="#f0ad4e" points="283.67,-272.27 153.64,-272.27 153.64,-248 283.67,-248 283.67,-272.27"/>
+<text text-anchor="middle" x="218.66" y="-256.53" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">neural_network_m.f90</text>
+</a>
+</g>
+</g>
+<!-- sourcefile~neural_network_m.f90&#45;&gt;sourcefile~activation_m.f90 -->
+<g id="sourcefile~~activation_m.f90~~AfferentGraph_edge2" class="edge">
+<title>sourcefile~neural_network_m.f90&#45;&gt;sourcefile~activation_m.f90</title>
+<path fill="none" stroke="#ff0000" stroke-dasharray="5,2" d="M153.23,-252.02C139.49,-250.28 125.03,-248.46 111.44,-246.75"/>
+<polygon fill="#ff0000" stroke="#ff0000" points="112.14,-243.31 101.78,-245.53 111.26,-250.26 112.14,-243.31"/>
+</g>
+<!-- sourcefile~training_configuration_m.f90 -->
+<g id="sourcefile~~activation_m.f90~~AfferentGraph_node4" class="node">
+<title>sourcefile~training_configuration_m.f90</title>
+<g id="a_sourcefile~~activation_m.f90~~AfferentGraph_node4"><a xlink:href="../sourcefile/training_configuration_m.f90.html" xlink:title="training_configuration_m.f90">
+<polygon fill="#f0ad4e" stroke="#f0ad4e" points="301.29,-230.27 136.02,-230.27 136.02,-206 301.29,-206 301.29,-230.27"/>
+<text text-anchor="middle" x="218.66" y="-214.53" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">training_configuration_m.f90</text>
+</a>
+</g>
+</g>
+<!-- sourcefile~training_configuration_m.f90&#45;&gt;sourcefile~activation_m.f90 -->
+<g id="sourcefile~~activation_m.f90~~AfferentGraph_edge3" class="edge">
+<title>sourcefile~training_configuration_m.f90&#45;&gt;sourcefile~activation_m.f90</title>
+<path fill="none" stroke="#ff0000" stroke-dasharray="5,2" d="M135.8,-228.45C127.61,-229.48 119.41,-230.52 111.5,-231.51"/>
+<polygon fill="#ff0000" stroke="#ff0000" points="111.15,-228.03 101.67,-232.75 112.03,-234.97 111.15,-228.03"/>
+</g>
+<!-- sourcefile~training_configuration_s.f90 -->
+<g id="sourcefile~~activation_m.f90~~AfferentGraph_node5" class="node">
+<title>sourcefile~training_configuration_s.f90</title>
+<g id="a_sourcefile~~activation_m.f90~~AfferentGraph_node5"><a xlink:href="../sourcefile/training_configuration_s.f90.html" xlink:title="training_configuration_s.F90">
+<polygon fill="#f0ad4e" stroke="#f0ad4e" points="499.56,-190.27 337.29,-190.27 337.29,-166 499.56,-166 499.56,-190.27"/>
+<text text-anchor="middle" x="418.43" y="-174.53" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">training_configuration_s.F90</text>
+</a>
+</g>
+</g>
+<!-- sourcefile~training_configuration_s.f90&#45;&gt;sourcefile~activation_m.f90 -->
+<g id="sourcefile~~activation_m.f90~~AfferentGraph_edge4" class="edge">
+<title>sourcefile~training_configuration_s.f90&#45;&gt;sourcefile~activation_m.f90</title>
+<path fill="none" stroke="#ff0000" stroke-dasharray="5,2" d="M336.92,-175.32C279.89,-175.31 202.09,-179.33 136.02,-197.13 116.59,-202.37 96.34,-212.18 80.47,-221"/>
+<polygon fill="#ff0000" stroke="#ff0000" points="78.97,-217.83 72.05,-225.85 82.46,-223.9 78.97,-217.83"/>
+</g>
+<!-- sourcefile~training_configuration_s.f90&#45;&gt;sourcefile~training_configuration_m.f90 -->
+<g id="sourcefile~~activation_m.f90~~AfferentGraph_edge13" class="edge">
+<title>sourcefile~training_configuration_s.f90&#45;&gt;sourcefile~training_configuration_m.f90</title>
+<path fill="none" stroke="#00ffff" stroke-dasharray="5,2" d="M355.12,-190.74C335.44,-194.72 313.51,-199.15 293.13,-203.27"/>
+<polygon fill="#00ffff" stroke="#00ffff" points="292.58,-199.82 283.47,-205.23 293.96,-206.68 292.58,-199.82"/>
+</g>
+<!-- sourcefile~fiats_m.f90 -->
+<g id="sourcefile~~activation_m.f90~~AfferentGraph_node6" class="node">
+<title>sourcefile~fiats_m.f90</title>
+<g id="a_sourcefile~~activation_m.f90~~AfferentGraph_node6"><a xlink:href="../sourcefile/fiats_m.f90.html" xlink:title="fiats_m.f90">
+<polygon fill="#f0ad4e" stroke="#f0ad4e" points="639.71,-230.27 569.69,-230.27 569.69,-206 639.71,-206 639.71,-230.27"/>
+<text text-anchor="middle" x="604.7" y="-214.53" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">fiats_m.f90</text>
+</a>
+</g>
+</g>
+<!-- sourcefile~fiats_m.f90&#45;&gt;sourcefile~neural_network_m.f90 -->
+<g id="sourcefile~~activation_m.f90~~AfferentGraph_edge5" class="edge">
+<title>sourcefile~fiats_m.f90&#45;&gt;sourcefile~neural_network_m.f90</title>
+<path fill="none" stroke="#7fff00" stroke-dasharray="5,2" d="M417.43,-218.13C391.38,-219.5 328.95,-233.43 281.13,-244.88"/>
+<polygon fill="#7fff00" stroke="#7fff00" points="280.32,-241.48 271.42,-247.22 281.96,-248.28 280.32,-241.48"/>
+</g>
+<!-- sourcefile~fiats_m.f90&#45;&gt;sourcefile~training_configuration_m.f90 -->
+<g id="sourcefile~~activation_m.f90~~AfferentGraph_edge11" class="edge">
+<title>sourcefile~fiats_m.f90&#45;&gt;sourcefile~training_configuration_m.f90</title>
+<path fill="none" stroke="#00ffff" stroke-dasharray="5,2" d="M569.37,-217.06C532.34,-216.16 471.66,-215.4 419.43,-218.13"/>
+<path fill="none" stroke="#00ffff" stroke-dasharray="5,2" d="M417.43,-218.13C383.38,-219.92 345.99,-220.32 312.98,-220.14"/>
+<polygon fill="#00ffff" stroke="#00ffff" points="313.03,-216.64 303.01,-220.07 312.98,-223.64 313.03,-216.64"/>
+</g>
+<!-- sourcefile~trainable_network_m.f90 -->
+<g id="sourcefile~~activation_m.f90~~AfferentGraph_node9" class="node">
+<title>sourcefile~trainable_network_m.f90</title>
+<g id="a_sourcefile~~activation_m.f90~~AfferentGraph_node9"><a xlink:href="../sourcefile/trainable_network_m.f90.html" xlink:title="trainable_network_m.f90">
+<polygon fill="#f0ad4e" stroke="#f0ad4e" points="490.19,-270.27 346.67,-270.27 346.67,-246 490.19,-246 490.19,-270.27"/>
+<text text-anchor="middle" x="418.43" y="-254.53" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">trainable_network_m.f90</text>
+</a>
+</g>
+</g>
+<!-- sourcefile~fiats_m.f90&#45;&gt;sourcefile~trainable_network_m.f90 -->
+<g id="sourcefile~~activation_m.f90~~AfferentGraph_edge27" class="edge">
+<title>sourcefile~fiats_m.f90&#45;&gt;sourcefile~trainable_network_m.f90</title>
+<path fill="none" stroke="#00ffff" stroke-dasharray="5,2" d="M569.47,-225.56C546.78,-230.49 516.22,-237.12 488.59,-243.12"/>
+<polygon fill="#00ffff" stroke="#00ffff" points="487.88,-239.69 478.85,-245.23 489.37,-246.53 487.88,-239.69"/>
+</g>
+<!-- sourcefile~layer_m.f90 -->
+<g id="sourcefile~~activation_m.f90~~AfferentGraph_node7" class="node">
+<title>sourcefile~layer_m.f90</title>
+<g id="a_sourcefile~~activation_m.f90~~AfferentGraph_node7"><a xlink:href="../sourcefile/layer_m.f90.html" xlink:title="layer_m.f90">
+<polygon fill="#f0ad4e" stroke="#f0ad4e" points="455.69,-434.27 381.17,-434.27 381.17,-410 455.69,-410 455.69,-434.27"/>
+<text text-anchor="middle" x="418.43" y="-418.53" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">layer_m.f90</text>
+</a>
+</g>
+</g>
+<!-- sourcefile~layer_m.f90&#45;&gt;sourcefile~neural_network_m.f90 -->
+<g id="sourcefile~~activation_m.f90~~AfferentGraph_edge6" class="edge">
+<title>sourcefile~layer_m.f90&#45;&gt;sourcefile~neural_network_m.f90</title>
+<path fill="none" stroke="#7fff00" stroke-dasharray="5,2" d="M380.88,-420.3C365.67,-417.74 348.88,-412.32 337.29,-401.13 297.23,-362.46 341.44,-319.72 301.29,-281.13 299.04,-278.98 296.6,-277.03 294.02,-275.28"/>
+<polygon fill="#7fff00" stroke="#7fff00" points="295.89,-272.31 285.45,-270.48 292.47,-278.42 295.89,-272.31"/>
+</g>
+<!-- sourcefile~neural_network_s.f90 -->
+<g id="sourcefile~~activation_m.f90~~AfferentGraph_node8" class="node">
+<title>sourcefile~neural_network_s.f90</title>
+<g id="a_sourcefile~~activation_m.f90~~AfferentGraph_node8"><a xlink:href="../sourcefile/neural_network_s.f90.html" xlink:title="neural_network_s.F90">
+<polygon fill="#f0ad4e" stroke="#f0ad4e" points="668.21,-372.27 541.19,-372.27 541.19,-348 668.21,-348 668.21,-372.27"/>
+<text text-anchor="middle" x="604.7" y="-356.53" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">neural_network_s.F90</text>
+</a>
+</g>
+</g>
+<!-- sourcefile~neural_network_s.f90&#45;&gt;sourcefile~neural_network_m.f90 -->
+<g id="sourcefile~~activation_m.f90~~AfferentGraph_edge7" class="edge">
+<title>sourcefile~neural_network_s.f90&#45;&gt;sourcefile~neural_network_m.f90</title>
+<path fill="none" stroke="#7fff00" stroke-dasharray="5,2" d="M540.75,-355.85C473.35,-350.41 371.49,-339.45 337.29,-321.13 316.21,-309.84 321.74,-293.53 301.29,-281.13 298.97,-279.73 296.55,-278.41 294.07,-277.19"/>
+<polygon fill="#7fff00" stroke="#7fff00" points="295.51,-274 284.94,-273.22 292.72,-280.42 295.51,-274"/>
+</g>
+<!-- sourcefile~neural_network_s.f90&#45;&gt;sourcefile~layer_m.f90 -->
+<g id="sourcefile~~activation_m.f90~~AfferentGraph_edge26" class="edge">
+<title>sourcefile~neural_network_s.f90&#45;&gt;sourcefile~layer_m.f90</title>
+<path fill="none" stroke="#ffff00" stroke-dasharray="5,2" d="M574.41,-372.74C553.73,-381.38 525.23,-392.75 499.56,-401.13 489.11,-404.55 477.75,-407.8 466.97,-410.67"/>
+<polygon fill="#ffff00" stroke="#ffff00" points="466.25,-407.24 457.46,-413.15 468.02,-414.02 466.25,-407.24"/>
+</g>
+<!-- sourcefile~trainable_network_m.f90&#45;&gt;sourcefile~neural_network_m.f90 -->
+<g id="sourcefile~~activation_m.f90~~AfferentGraph_edge8" class="edge">
+<title>sourcefile~trainable_network_m.f90&#45;&gt;sourcefile~neural_network_m.f90</title>
+<path fill="none" stroke="#7fff00" stroke-dasharray="5,2" d="M346.3,-258.85C329.75,-259.02 312.06,-259.2 295.32,-259.37"/>
+<polygon fill="#7fff00" stroke="#7fff00" points="295.38,-255.87 285.42,-259.47 295.45,-262.87 295.38,-255.87"/>
+</g>
+<!-- sourcefile~trainable_network_m.f90&#45;&gt;sourcefile~training_configuration_m.f90 -->
+<g id="sourcefile~~activation_m.f90~~AfferentGraph_edge12" class="edge">
+<title>sourcefile~trainable_network_m.f90&#45;&gt;sourcefile~training_configuration_m.f90</title>
+<path fill="none" stroke="#00ffff" stroke-dasharray="5,2" d="M355.12,-245.53C335.44,-241.55 313.51,-237.12 293.13,-233"/>
+<polygon fill="#00ffff" stroke="#00ffff" points="293.96,-229.59 283.47,-231.04 292.58,-236.45 293.96,-229.59"/>
+</g>
+<!-- sourcefile~unmapped_network_s.f90 -->
+<g id="sourcefile~~activation_m.f90~~AfferentGraph_node10" class="node">
+<title>sourcefile~unmapped_network_s.f90</title>
+<g id="a_sourcefile~~activation_m.f90~~AfferentGraph_node10"><a xlink:href="../sourcefile/unmapped_network_s.f90.html" xlink:title="unmapped_network_s.f90">
+<polygon fill="#f0ad4e" stroke="#f0ad4e" points="492.44,-392.27 344.42,-392.27 344.42,-368 492.44,-368 492.44,-392.27"/>
+<text text-anchor="middle" x="418.43" y="-376.53" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">unmapped_network_s.f90</text>
+</a>
+</g>
+</g>
+<!-- sourcefile~unmapped_network_s.f90&#45;&gt;sourcefile~neural_network_m.f90 -->
+<g id="sourcefile~~activation_m.f90~~AfferentGraph_edge9" class="edge">
+<title>sourcefile~unmapped_network_s.f90&#45;&gt;sourcefile~neural_network_m.f90</title>
+<path fill="none" stroke="#7fff00" stroke-dasharray="5,2" d="M359.69,-367.67C351.59,-364.21 343.82,-359.78 337.29,-354.13 309.93,-330.47 329.37,-303.94 301.29,-281.13 298.92,-279.21 296.4,-277.46 293.76,-275.87"/>
+<polygon fill="#7fff00" stroke="#7fff00" points="295.63,-272.89 285.13,-271.46 292.44,-279.13 295.63,-272.89"/>
+</g>
+<!-- sourcefile~workspace_s.f90 -->
+<g id="sourcefile~~activation_m.f90~~AfferentGraph_node11" class="node">
+<title>sourcefile~workspace_s.f90</title>
+<g id="a_sourcefile~~activation_m.f90~~AfferentGraph_node11"><a xlink:href="../sourcefile/workspace_s.f90.html" xlink:title="workspace_s.f90">
+<polygon fill="#f0ad4e" stroke="#f0ad4e" points="468.06,-312.27 368.79,-312.27 368.79,-288 468.06,-288 468.06,-312.27"/>
+<text text-anchor="middle" x="418.43" y="-296.53" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">workspace_s.f90</text>
+</a>
+</g>
+</g>
+<!-- sourcefile~workspace_s.f90&#45;&gt;sourcefile~neural_network_m.f90 -->
+<g id="sourcefile~~activation_m.f90~~AfferentGraph_edge10" class="edge">
+<title>sourcefile~workspace_s.f90&#45;&gt;sourcefile~neural_network_m.f90</title>
+<path fill="none" stroke="#7fff00" stroke-dasharray="5,2" d="M368.54,-290.25C345.72,-285.63 318.08,-280.04 292.84,-274.94"/>
+<polygon fill="#7fff00" stroke="#7fff00" points="293.8,-271.56 283.3,-273.01 292.41,-278.42 293.8,-271.56"/>
+</g>
+<!-- sourcefile~concurrent&#45;inferences.f90 -->
+<g id="sourcefile~~activation_m.f90~~AfferentGraph_node12" class="node">
+<title>sourcefile~concurrent&#45;inferences.f90</title>
+<g id="a_sourcefile~~activation_m.f90~~AfferentGraph_node12"><a xlink:href="../sourcefile/concurrent-inferences.f90.html" xlink:title="concurrent&#45;inferences.f90">
+<polygon fill="#f0ad4e" stroke="#f0ad4e" points="873.6,-440.27 724.83,-440.27 724.83,-416 873.6,-416 873.6,-440.27"/>
+<text text-anchor="middle" x="799.22" y="-424.53" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">concurrent&#45;inferences.f90</text>
+</a>
+</g>
+</g>
+<!-- sourcefile~concurrent&#45;inferences.f90&#45;&gt;sourcefile~fiats_m.f90 -->
+<g id="sourcefile~~activation_m.f90~~AfferentGraph_edge14" class="edge">
+<title>sourcefile~concurrent&#45;inferences.f90&#45;&gt;sourcefile~fiats_m.f90</title>
+<path fill="none" stroke="#ff0000" stroke-dasharray="5,2" d="M724.63,-417.93C719.17,-415.08 714.13,-411.53 709.83,-407.13 656.44,-352.54 725.4,-295.45 673.83,-239.13 667.72,-232.46 659.54,-227.88 650.97,-224.75"/>
+<polygon fill="#ff0000" stroke="#ff0000" points="652.07,-221.43 641.49,-221.94 650.08,-228.14 652.07,-221.43"/>
+</g>
+<!-- sourcefile~layer_s.f90 -->
+<g id="sourcefile~~activation_m.f90~~AfferentGraph_node13" class="node">
+<title>sourcefile~layer_s.f90</title>
+<g id="a_sourcefile~~activation_m.f90~~AfferentGraph_node13"><a xlink:href="../sourcefile/layer_s.f90.html" xlink:title="layer_s.f90">
+<polygon fill="#f0ad4e" stroke="#f0ad4e" points="639.33,-434.27 570.06,-434.27 570.06,-410 639.33,-410 639.33,-434.27"/>
+<text text-anchor="middle" x="604.7" y="-418.53" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">layer_s.f90</text>
+</a>
+</g>
+</g>
+<!-- sourcefile~layer_s.f90&#45;&gt;sourcefile~layer_m.f90 -->
+<g id="sourcefile~~activation_m.f90~~AfferentGraph_edge25" class="edge">
+<title>sourcefile~layer_s.f90&#45;&gt;sourcefile~layer_m.f90</title>
+<path fill="none" stroke="#ffff00" stroke-dasharray="5,2" d="M569.9,-422.13C541.21,-422.13 499.71,-422.13 467.55,-422.13"/>
+<polygon fill="#ffff00" stroke="#ffff00" points="467.68,-418.64 457.68,-422.14 467.68,-425.64 467.68,-418.64"/>
+</g>
+<!-- sourcefile~learn&#45;addition.f90 -->
+<g id="sourcefile~~activation_m.f90~~AfferentGraph_node14" class="node">
+<title>sourcefile~learn&#45;addition.f90</title>
+<g id="a_sourcefile~~activation_m.f90~~AfferentGraph_node14"><a xlink:href="../sourcefile/learn-addition.f90.html" xlink:title="learn&#45;addition.F90">
+<polygon fill="#f0ad4e" stroke="#f0ad4e" points="853.73,-398.27 744.71,-398.27 744.71,-374 853.73,-374 853.73,-398.27"/>
+<text text-anchor="middle" x="799.22" y="-382.53" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">learn&#45;addition.F90</text>
+</a>
+</g>
+</g>
+<!-- sourcefile~learn&#45;addition.f90&#45;&gt;sourcefile~fiats_m.f90 -->
+<g id="sourcefile~~activation_m.f90~~AfferentGraph_edge15" class="edge">
+<title>sourcefile~learn&#45;addition.f90&#45;&gt;sourcefile~fiats_m.f90</title>
+<path fill="none" stroke="#ff0000" stroke-dasharray="5,2" d="M744.64,-382.72C731.91,-379.57 719.29,-374.18 709.83,-365.13 667.73,-324.89 714.58,-280.74 673.83,-239.13 667.56,-232.73 659.38,-228.27 650.88,-225.16"/>
+<polygon fill="#ff0000" stroke="#ff0000" points="652.09,-221.87 641.51,-222.35 650.08,-228.58 652.09,-221.87"/>
+</g>
+<!-- sourcefile~learn&#45;exponentiation.f90 -->
+<g id="sourcefile~~activation_m.f90~~AfferentGraph_node15" class="node">
+<title>sourcefile~learn&#45;exponentiation.f90</title>
+<g id="a_sourcefile~~activation_m.f90~~AfferentGraph_node15"><a xlink:href="../sourcefile/learn-exponentiation.f90.html" xlink:title="learn&#45;exponentiation.F90">
+<polygon fill="#f0ad4e" stroke="#f0ad4e" points="871.73,-356.27 726.71,-356.27 726.71,-332 871.73,-332 871.73,-356.27"/>
+<text text-anchor="middle" x="799.22" y="-340.53" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">learn&#45;exponentiation.F90</text>
+</a>
+</g>
+</g>
+<!-- sourcefile~learn&#45;exponentiation.f90&#45;&gt;sourcefile~fiats_m.f90 -->
+<g id="sourcefile~~activation_m.f90~~AfferentGraph_edge16" class="edge">
+<title>sourcefile~learn&#45;exponentiation.f90&#45;&gt;sourcefile~fiats_m.f90</title>
+<path fill="none" stroke="#ff0000" stroke-dasharray="5,2" d="M726.37,-333.39C720.41,-330.67 714.78,-327.3 709.83,-323.13 678.75,-296.98 704.03,-266.3 673.83,-239.13 667.37,-233.32 659.32,-229.12 651.05,-226.08"/>
+<polygon fill="#ff0000" stroke="#ff0000" points="652.19,-222.77 641.6,-223.16 650.13,-229.46 652.19,-222.77"/>
+</g>
+<!-- sourcefile~learn&#45;multiplication.f90 -->
+<g id="sourcefile~~activation_m.f90~~AfferentGraph_node16" class="node">
+<title>sourcefile~learn&#45;multiplication.f90</title>
+<g id="a_sourcefile~~activation_m.f90~~AfferentGraph_node16"><a xlink:href="../sourcefile/learn-multiplication.f90.html" xlink:title="learn&#45;multiplication.F90">
+<polygon fill="#f0ad4e" stroke="#f0ad4e" points="868.35,-314.27 730.08,-314.27 730.08,-290 868.35,-290 868.35,-314.27"/>
+<text text-anchor="middle" x="799.22" y="-298.53" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">learn&#45;multiplication.F90</text>
+</a>
+</g>
+</g>
+<!-- sourcefile~learn&#45;multiplication.f90&#45;&gt;sourcefile~fiats_m.f90 -->
+<g id="sourcefile~~activation_m.f90~~AfferentGraph_edge17" class="edge">
+<title>sourcefile~learn&#45;multiplication.f90&#45;&gt;sourcefile~fiats_m.f90</title>
+<path fill="none" stroke="#ff0000" stroke-dasharray="5,2" d="M729.87,-290.55C722.85,-288.01 716.02,-284.91 709.83,-281.13 688.84,-268.33 694.39,-252.62 673.83,-239.13 666.86,-234.56 658.83,-230.94 650.8,-228.09"/>
+<polygon fill="#ff0000" stroke="#ff0000" points="651.96,-224.78 641.37,-225.11 649.85,-231.46 651.96,-224.78"/>
+</g>
+<!-- sourcefile~learn&#45;power&#45;series.f90 -->
+<g id="sourcefile~~activation_m.f90~~AfferentGraph_node17" class="node">
+<title>sourcefile~learn&#45;power&#45;series.f90</title>
+<g id="a_sourcefile~~activation_m.f90~~AfferentGraph_node17"><a xlink:href="../sourcefile/learn-power-series.f90.html" xlink:title="learn&#45;power&#45;series.F90">
+<polygon fill="#f0ad4e" stroke="#f0ad4e" points="865.73,-272.27 732.71,-272.27 732.71,-248 865.73,-248 865.73,-272.27"/>
+<text text-anchor="middle" x="799.22" y="-256.53" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">learn&#45;power&#45;series.F90</text>
+</a>
+</g>
+</g>
+<!-- sourcefile~learn&#45;power&#45;series.f90&#45;&gt;sourcefile~fiats_m.f90 -->
+<g id="sourcefile~~activation_m.f90~~AfferentGraph_edge18" class="edge">
+<title>sourcefile~learn&#45;power&#45;series.f90&#45;&gt;sourcefile~fiats_m.f90</title>
+<path fill="none" stroke="#ff0000" stroke-dasharray="5,2" d="M740.45,-247.53C711.86,-241.3 677.85,-233.88 651.15,-228.05"/>
+<polygon fill="#ff0000" stroke="#ff0000" points="652.18,-224.69 641.67,-225.98 650.69,-231.53 652.18,-224.69"/>
+</g>
+<!-- sourcefile~learn&#45;saturated&#45;mixing&#45;ratio.f90 -->
+<g id="sourcefile~~activation_m.f90~~AfferentGraph_node18" class="node">
+<title>sourcefile~learn&#45;saturated&#45;mixing&#45;ratio.f90</title>
+<g id="a_sourcefile~~activation_m.f90~~AfferentGraph_node18"><a xlink:href="../sourcefile/learn-saturated-mixing-ratio.f90.html" xlink:title="learn&#45;saturated&#45;mixing&#45;ratio.F90">
+<polygon fill="#f0ad4e" stroke="#f0ad4e" points="1108.62,-168.27 924.6,-168.27 924.6,-144 1108.62,-144 1108.62,-168.27"/>
+<text text-anchor="middle" x="1016.61" y="-152.53" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">learn&#45;saturated&#45;mixing&#45;ratio.F90</text>
+</a>
+</g>
+</g>
+<!-- sourcefile~learn&#45;saturated&#45;mixing&#45;ratio.f90&#45;&gt;sourcefile~fiats_m.f90 -->
+<g id="sourcefile~~activation_m.f90~~AfferentGraph_edge19" class="edge">
+<title>sourcefile~learn&#45;saturated&#45;mixing&#45;ratio.f90&#45;&gt;sourcefile~fiats_m.f90</title>
+<path fill="none" stroke="#ff0000" stroke-dasharray="5,2" d="M989.49,-143.68C935.19,-119.64 807.07,-72.62 709.83,-113.13 669.63,-129.88 636.98,-170.54 619.53,-196.06"/>
+<polygon fill="#ff0000" stroke="#ff0000" points="616.62,-194.11 614.03,-204.39 622.46,-197.97 616.62,-194.11"/>
+</g>
+<!-- sourcefile~saturated_mixing_ratio_m.f90 -->
+<g id="sourcefile~~activation_m.f90~~AfferentGraph_node21" class="node">
+<title>sourcefile~saturated_mixing_ratio_m.f90</title>
+<g id="a_sourcefile~~activation_m.f90~~AfferentGraph_node21"><a xlink:href="../sourcefile/saturated_mixing_ratio_m.f90.html" xlink:title="saturated_mixing_ratio_m.f90">
+<polygon fill="#f0ad4e" stroke="#f0ad4e" points="884.1,-230.27 714.33,-230.27 714.33,-206 884.1,-206 884.1,-230.27"/>
+<text text-anchor="middle" x="799.22" y="-214.53" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">saturated_mixing_ratio_m.f90</text>
+</a>
+</g>
+</g>
+<!-- sourcefile~learn&#45;saturated&#45;mixing&#45;ratio.f90&#45;&gt;sourcefile~saturated_mixing_ratio_m.f90 -->
+<g id="sourcefile~~activation_m.f90~~AfferentGraph_edge29" class="edge">
+<title>sourcefile~learn&#45;saturated&#45;mixing&#45;ratio.f90&#45;&gt;sourcefile~saturated_mixing_ratio_m.f90</title>
+<path fill="none" stroke="#2700ff" stroke-dasharray="5,2" d="M979.16,-168.75C953.9,-177.28 919.39,-188.52 888.6,-197.13 881.64,-199.08 874.34,-201 867.05,-202.85"/>
+<polygon fill="#2700ff" stroke="#2700ff" points="866.36,-199.41 857.49,-205.22 868.04,-206.21 866.36,-199.41"/>
+</g>
+<!-- sourcefile~print&#45;training&#45;configuration.f90 -->
+<g id="sourcefile~~activation_m.f90~~AfferentGraph_node19" class="node">
+<title>sourcefile~print&#45;training&#45;configuration.f90</title>
+<g id="a_sourcefile~~activation_m.f90~~AfferentGraph_node19"><a xlink:href="../sourcefile/print-training-configuration.f90.html" xlink:title="print&#45;training&#45;configuration.F90">
+<polygon fill="#f0ad4e" stroke="#f0ad4e" points="888.6,-188.27 709.83,-188.27 709.83,-164 888.6,-164 888.6,-188.27"/>
+<text text-anchor="middle" x="799.22" y="-172.53" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">print&#45;training&#45;configuration.F90</text>
+</a>
+</g>
+</g>
+<!-- sourcefile~print&#45;training&#45;configuration.f90&#45;&gt;sourcefile~fiats_m.f90 -->
+<g id="sourcefile~~activation_m.f90~~AfferentGraph_edge20" class="edge">
+<title>sourcefile~print&#45;training&#45;configuration.f90&#45;&gt;sourcefile~fiats_m.f90</title>
+<path fill="none" stroke="#ff0000" stroke-dasharray="5,2" d="M740.45,-188.74C711.86,-194.97 677.85,-202.39 651.15,-208.22"/>
+<polygon fill="#ff0000" stroke="#ff0000" points="650.69,-204.74 641.67,-210.29 652.18,-211.58 650.69,-204.74"/>
+</g>
+<!-- sourcefile~read&#45;query&#45;infer.f90 -->
+<g id="sourcefile~~activation_m.f90~~AfferentGraph_node20" class="node">
+<title>sourcefile~read&#45;query&#45;infer.f90</title>
+<g id="a_sourcefile~~activation_m.f90~~AfferentGraph_node20"><a xlink:href="../sourcefile/read-query-infer.f90.html" xlink:title="read&#45;query&#45;infer.f90">
+<polygon fill="#f0ad4e" stroke="#f0ad4e" points="857.85,-146.27 740.58,-146.27 740.58,-122 857.85,-122 857.85,-146.27"/>
+<text text-anchor="middle" x="799.22" y="-130.53" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">read&#45;query&#45;infer.f90</text>
+</a>
+</g>
+</g>
+<!-- sourcefile~read&#45;query&#45;infer.f90&#45;&gt;sourcefile~fiats_m.f90 -->
+<g id="sourcefile~~activation_m.f90~~AfferentGraph_edge21" class="edge">
+<title>sourcefile~read&#45;query&#45;infer.f90&#45;&gt;sourcefile~fiats_m.f90</title>
+<path fill="none" stroke="#ff0000" stroke-dasharray="5,2" d="M740.34,-145.15C730,-147.88 719.46,-151.19 709.83,-155.13 681.6,-166.7 652.09,-185.25 631.72,-199.24"/>
+<polygon fill="#ff0000" stroke="#ff0000" points="629.93,-196.22 623.75,-204.82 633.95,-201.96 629.93,-196.22"/>
+</g>
+<!-- sourcefile~saturated_mixing_ratio_m.f90&#45;&gt;sourcefile~fiats_m.f90 -->
+<g id="sourcefile~~activation_m.f90~~AfferentGraph_edge22" class="edge">
+<title>sourcefile~saturated_mixing_ratio_m.f90&#45;&gt;sourcefile~fiats_m.f90</title>
+<path fill="none" stroke="#ff0000" stroke-dasharray="5,2" d="M714.05,-218.13C692.54,-218.13 670.2,-218.13 651.44,-218.13"/>
+<polygon fill="#ff0000" stroke="#ff0000" points="651.48,-214.64 641.48,-218.14 651.48,-221.64 651.48,-214.64"/>
+</g>
+<!-- sourcefile~train&#45;and&#45;write.f90 -->
+<g id="sourcefile~~activation_m.f90~~AfferentGraph_node22" class="node">
+<title>sourcefile~train&#45;and&#45;write.f90</title>
+<g id="a_sourcefile~~activation_m.f90~~AfferentGraph_node22"><a xlink:href="../sourcefile/train-and-write.f90.html" xlink:title="train&#45;and&#45;write.F90">
+<polygon fill="#f0ad4e" stroke="#f0ad4e" points="855.6,-66.27 742.83,-66.27 742.83,-42 855.6,-42 855.6,-66.27"/>
+<text text-anchor="middle" x="799.22" y="-50.53" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">train&#45;and&#45;write.F90</text>
+</a>
+</g>
+</g>
+<!-- sourcefile~train&#45;and&#45;write.f90&#45;&gt;sourcefile~fiats_m.f90 -->
+<g id="sourcefile~~activation_m.f90~~AfferentGraph_edge23" class="edge">
+<title>sourcefile~train&#45;and&#45;write.f90&#45;&gt;sourcefile~fiats_m.f90</title>
+<path fill="none" stroke="#ff0000" stroke-dasharray="5,2" d="M742.48,-64.66C731.06,-68.39 719.56,-73.4 709.83,-80.13 666.08,-110.4 633,-164.9 616.78,-195.58"/>
+<polygon fill="#ff0000" stroke="#ff0000" points="613.72,-193.87 612.27,-204.36 619.95,-197.07 613.72,-193.87"/>
+</g>
+<!-- sourcefile~trainable_network_s.f90 -->
+<g id="sourcefile~~activation_m.f90~~AfferentGraph_node23" class="node">
+<title>sourcefile~trainable_network_s.f90</title>
+<g id="a_sourcefile~~activation_m.f90~~AfferentGraph_node23"><a xlink:href="../sourcefile/trainable_network_s.f90.html" xlink:title="trainable_network_s.f90">
+<polygon fill="#f0ad4e" stroke="#f0ad4e" points="673.83,-272.27 535.56,-272.27 535.56,-248 673.83,-248 673.83,-272.27"/>
+<text text-anchor="middle" x="604.7" y="-256.53" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">trainable_network_s.f90</text>
+</a>
+</g>
+</g>
+<!-- sourcefile~trainable_network_s.f90&#45;&gt;sourcefile~trainable_network_m.f90 -->
+<g id="sourcefile~~activation_m.f90~~AfferentGraph_edge28" class="edge">
+<title>sourcefile~trainable_network_s.f90&#45;&gt;sourcefile~trainable_network_m.f90</title>
+<path fill="none" stroke="#00ffff" stroke-dasharray="5,2" d="M535.08,-259.39C524.3,-259.27 513.05,-259.15 501.99,-259.03"/>
+<polygon fill="#00ffff" stroke="#00ffff" points="502.11,-255.53 492.07,-258.92 502.04,-262.53 502.11,-255.53"/>
+</g>
+<!-- sourcefile~write&#45;read&#45;infer.f90 -->
+<g id="sourcefile~~activation_m.f90~~AfferentGraph_node24" class="node">
+<title>sourcefile~write&#45;read&#45;infer.f90</title>
+<g id="a_sourcefile~~activation_m.f90~~AfferentGraph_node24"><a xlink:href="../sourcefile/write-read-infer.f90.html" xlink:title="write&#45;read&#45;infer.F90">
+<polygon fill="#f0ad4e" stroke="#f0ad4e" points="856.73,-24.27 741.71,-24.27 741.71,0 856.73,0 856.73,-24.27"/>
+<text text-anchor="middle" x="799.22" y="-8.53" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">write&#45;read&#45;infer.F90</text>
+</a>
+</g>
+</g>
+<!-- sourcefile~write&#45;read&#45;infer.f90&#45;&gt;sourcefile~fiats_m.f90 -->
+<g id="sourcefile~~activation_m.f90~~AfferentGraph_edge24" class="edge">
+<title>sourcefile~write&#45;read&#45;infer.f90&#45;&gt;sourcefile~fiats_m.f90</title>
+<path fill="none" stroke="#ff0000" stroke-dasharray="5,2" d="M741.39,-18.37C730.16,-21.52 719.03,-26.21 709.83,-33.13 654.34,-74.94 624.11,-155.48 612.02,-195.05"/>
+<polygon fill="#ff0000" stroke="#ff0000" points="608.72,-193.89 609.27,-204.47 615.43,-195.86 608.72,-193.89"/>
+</g>
+</g>
+</svg>
+</div>                <script>
+                  var pansourcefileactivation_mf90AfferentGraph = svgPanZoom('#sourcefileactivation_mf90AfferentGraph',
+                    {zoomEnabled: true, controlIconsEnabled: true, fit: true, center: true,}
+                  );
+                </script>          <div>
+            <a type="button" class="graph-help" data-bs-toggle="modal" href="#AfferentGraph-help-text">Help</a>
+          </div>
+          <div class="modal fade" id="AfferentGraph-help-text" tabindex="-1" role="dialog">
+            <div class="modal-dialog modal-lg" role="document">
+              <div class="modal-content">
+                <div class="modal-header">
+                  <h4 class="modal-title" id="-graph-help-label">Graph Key</h4>
+                  <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+<p>Nodes of different colours represent the following: </p>
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN"
+ "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
+<!-- Generated by graphviz version 12.1.2 (20240928.0832)
+ -->
+<!-- Title: Graph Key Pages: 1 -->
+<svg width="200pt" height="32pt"
+ viewBox="0.00 0.00 199.52 32.27" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+<g id="graph0" class="graph" transform="scale(1 1) rotate(0) translate(4 28.27)">
+<title>Graph Key</title>
+<polygon fill="white" stroke="none" points="-4,4 -4,-28.27 195.52,-28.27 195.52,4 -4,4"/>
+<!-- Source File -->
+<g id="node1" class="node">
+<title>Source File</title>
+<polygon fill="#f0ad4e" stroke="#f0ad4e" points="69.27,-24.27 0,-24.27 0,0 69.27,0 69.27,-24.27"/>
+<text text-anchor="middle" x="34.63" y="-8.53" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">Source File</text>
+</g>
+<!-- This Page&#39;s Entity -->
+<g id="node2" class="node">
+<title>This Page&#39;s Entity</title>
+<polygon fill="none" stroke="black" points="191.52,-24.27 87.75,-24.27 87.75,0 191.52,0 191.52,-24.27"/>
+<text text-anchor="middle" x="139.63" y="-8.53" font-family="Helvetica,sans-Serif" font-size="10.50">This Page&#39;s Entity</text>
+</g>
+</g>
+</svg>
+
+<p>Solid arrows point from a file to a file which it depends on. A file
+is dependent upon another if the latter must be compiled before the former
+can be.
+</p>
+ Where possible, edges connecting nodes are
+given different colours to make them easier to distinguish in
+large graphs.</div>
+            </div>
+          </div>
+        </div>
+          </div>
+        </div>
+<br>
+      <section>
+        <h2><span class="anchor" id="src"></span>Source Code</h2>
+        <div class="hl codehilite"><pre><span></span><a id="ln-1" name="ln-1" href="#ln-1"></a><span class="k">module </span><span class="n">activation_m</span>
+<a id="ln-2" name="ln-2" href="#ln-2"></a><span class="w">  </span><span class="k">use </span><span class="nb">iso_c_binding</span><span class="p">,</span><span class="w"> </span><span class="k">only</span><span class="w"> </span><span class="p">:</span><span class="w">  </span><span class="kt">c_int</span>
+<a id="ln-3" name="ln-3" href="#ln-3"></a><span class="kt">  </span><span class="k">use </span><span class="n">julienne_m</span><span class="p">,</span><span class="w"> </span><span class="k">only</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="n">string_t</span>
+<a id="ln-4" name="ln-4" href="#ln-4"></a><span class="w">  </span><span class="k">implicit none</span>
+<a id="ln-5" name="ln-5" href="#ln-5"></a>
+<a id="ln-6" name="ln-6" href="#ln-6"></a><span class="k">  private</span>
+<a id="ln-7" name="ln-7" href="#ln-7"></a><span class="k">  public</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">activation_t</span>
+<a id="ln-8" name="ln-8" href="#ln-8"></a><span class="w">  </span><span class="k">public</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">gelu</span><span class="p">,</span><span class="w"> </span><span class="n">relu</span><span class="p">,</span><span class="w"> </span><span class="n">sigmoid</span><span class="p">,</span><span class="w"> </span><span class="n">step</span><span class="p">,</span><span class="w"> </span><span class="n">swish</span>
+<a id="ln-9" name="ln-9" href="#ln-9"></a>
+<a id="ln-10" name="ln-10" href="#ln-10"></a><span class="w">  </span><span class="k">enum</span><span class="p">,</span><span class="w"> </span><span class="k">bind</span><span class="p">(</span><span class="n">C</span><span class="p">)</span>
+<a id="ln-11" name="ln-11" href="#ln-11"></a><span class="w">    </span><span class="k">enumerator</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">gelu</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="n">relu</span><span class="p">,</span><span class="w"> </span><span class="n">sigmoid</span><span class="p">,</span><span class="w"> </span><span class="n">step</span><span class="p">,</span><span class="w"> </span><span class="n">swish</span>
+<a id="ln-12" name="ln-12" href="#ln-12"></a><span class="w">  </span><span class="k">end enum</span>
+<a id="ln-13" name="ln-13" href="#ln-13"></a>
+<a id="ln-14" name="ln-14" href="#ln-14"></a><span class="k">  </span><span class="kt">character</span><span class="p">(</span><span class="nb">len</span><span class="o">=*</span><span class="p">),</span><span class="w"> </span><span class="k">parameter</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">activation_name</span><span class="p">(</span><span class="o">*</span><span class="p">)</span><span class="w"> </span><span class="o">=</span><span class="w">  </span><span class="p">[</span><span class="kt">character</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="s2">&quot;sigmoid&quot;</span><span class="p">))</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="s2">&quot;gelu&quot;</span><span class="p">,</span><span class="w"> </span><span class="s2">&quot;relu&quot;</span><span class="p">,</span><span class="w"> </span><span class="s2">&quot;sigmoid&quot;</span><span class="p">,</span><span class="w"> </span><span class="s2">&quot;step&quot;</span><span class="p">,</span><span class="w"> </span><span class="s2">&quot;swish&quot;</span><span class="p">]</span>
+<a id="ln-15" name="ln-15" href="#ln-15"></a>
+<a id="ln-16" name="ln-16" href="#ln-16"></a><span class="w">  </span><span class="k">type </span><span class="n">activation_t</span>
+<a id="ln-17" name="ln-17" href="#ln-17"></a><span class="w">    </span><span class="k">private</span>
+<a id="ln-18" name="ln-18" href="#ln-18"></a><span class="k">    </span><span class="kt">integer</span><span class="p">(</span><span class="kt">c_int</span><span class="p">)</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">selection_</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">sigmoid</span>
+<a id="ln-19" name="ln-19" href="#ln-19"></a><span class="w">  </span><span class="k">contains</span>
+<a id="ln-20" name="ln-20" href="#ln-20"></a><span class="k">    procedure</span><span class="p">,</span><span class="w"> </span><span class="k">non_overridable</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">function_name</span>
+<a id="ln-21" name="ln-21" href="#ln-21"></a><span class="w">    </span><span class="k">generic</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">operator</span><span class="p">(</span><span class="o">==</span><span class="p">)</span><span class="w"> </span><span class="o">=&gt;</span><span class="w"> </span><span class="n">equals</span>
+<a id="ln-22" name="ln-22" href="#ln-22"></a><span class="w">    </span><span class="k">procedure</span><span class="p">,</span><span class="w"> </span><span class="k">private</span><span class="w">      </span><span class="kd">::</span><span class="w"> </span><span class="n">equals</span>
+<a id="ln-23" name="ln-23" href="#ln-23"></a><span class="w">    </span><span class="k">generic</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">evaluate</span><span class="w">                 </span><span class="o">=&gt;</span><span class="w"> </span><span class="n">default_real_evaluate</span><span class="w">     </span><span class="p">,</span><span class="w"> </span><span class="n">double_precision_evaluate</span>
+<a id="ln-24" name="ln-24" href="#ln-24"></a><span class="w">    </span><span class="k">procedure</span><span class="p">,</span><span class="w"> </span><span class="k">non_overridable</span><span class="p">,</span><span class="w"> </span><span class="k">private</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">default_real_evaluate</span><span class="w">     </span><span class="p">,</span><span class="w"> </span><span class="n">double_precision_evaluate</span>
+<a id="ln-25" name="ln-25" href="#ln-25"></a><span class="w">    </span><span class="k">generic</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">differentiate</span><span class="w">            </span><span class="o">=&gt;</span><span class="w"> </span><span class="n">default_real_differentiate</span><span class="p">,</span><span class="w"> </span><span class="n">double_precision_differentiate</span>
+<a id="ln-26" name="ln-26" href="#ln-26"></a><span class="w">    </span><span class="k">procedure</span><span class="p">,</span><span class="w"> </span><span class="k">non_overridable</span><span class="p">,</span><span class="w"> </span><span class="k">private</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">default_real_differentiate</span><span class="p">,</span><span class="w"> </span><span class="n">double_precision_differentiate</span>
+<a id="ln-27" name="ln-27" href="#ln-27"></a><span class="w">  </span><span class="k">end type</span>
+<a id="ln-28" name="ln-28" href="#ln-28"></a>
+<a id="ln-29" name="ln-29" href="#ln-29"></a><span class="k">  interface </span><span class="n">activation_t</span>
+<a id="ln-30" name="ln-30" href="#ln-30"></a>
+<a id="ln-31" name="ln-31" href="#ln-31"></a><span class="w">    </span><span class="k">elemental module function </span><span class="n">construct_from_component</span><span class="p">(</span><span class="n">selection</span><span class="p">)</span><span class="w"> </span><span class="k">result</span><span class="p">(</span><span class="n">activation</span><span class="p">)</span>
+<a id="ln-32" name="ln-32" href="#ln-32"></a><span class="w">      </span><span class="k">implicit none</span>
+<a id="ln-33" name="ln-33" href="#ln-33"></a><span class="k">      </span><span class="kt">integer</span><span class="p">(</span><span class="kt">c_int</span><span class="p">),</span><span class="w"> </span><span class="k">intent</span><span class="p">(</span><span class="n">in</span><span class="p">)</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">selection</span>
+<a id="ln-34" name="ln-34" href="#ln-34"></a><span class="w">      </span><span class="k">type</span><span class="p">(</span><span class="n">activation_t</span><span class="p">)</span><span class="w"> </span><span class="n">activation</span>
+<a id="ln-35" name="ln-35" href="#ln-35"></a><span class="w">    </span><span class="k">end function</span>
+<a id="ln-36" name="ln-36" href="#ln-36"></a><span class="k">    </span>
+<a id="ln-37" name="ln-37" href="#ln-37"></a><span class="k">    elemental module function </span><span class="n">construct_from_name</span><span class="p">(</span><span class="n">name</span><span class="p">)</span><span class="w"> </span><span class="k">result</span><span class="p">(</span><span class="n">activation</span><span class="p">)</span>
+<a id="ln-38" name="ln-38" href="#ln-38"></a><span class="w">      </span><span class="k">implicit none</span>
+<a id="ln-39" name="ln-39" href="#ln-39"></a><span class="k">      </span><span class="kt">character</span><span class="p">(</span><span class="nb">len</span><span class="o">=*</span><span class="p">),</span><span class="w"> </span><span class="k">intent</span><span class="p">(</span><span class="n">in</span><span class="p">)</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">name</span>
+<a id="ln-40" name="ln-40" href="#ln-40"></a><span class="w">      </span><span class="k">type</span><span class="p">(</span><span class="n">activation_t</span><span class="p">)</span><span class="w"> </span><span class="n">activation</span>
+<a id="ln-41" name="ln-41" href="#ln-41"></a><span class="w">    </span><span class="k">end function</span>
+<a id="ln-42" name="ln-42" href="#ln-42"></a>
+<a id="ln-43" name="ln-43" href="#ln-43"></a><span class="k">  end interface</span>
+<a id="ln-44" name="ln-44" href="#ln-44"></a>
+<a id="ln-45" name="ln-45" href="#ln-45"></a><span class="k">  interface</span>
+<a id="ln-46" name="ln-46" href="#ln-46"></a>
+<a id="ln-47" name="ln-47" href="#ln-47"></a><span class="k">    elemental module function </span><span class="n">equals</span><span class="p">(</span><span class="n">self</span><span class="p">,</span><span class="w"> </span><span class="n">rhs</span><span class="p">)</span><span class="w"> </span><span class="k">result</span><span class="p">(</span><span class="n">self_eq_rhs</span><span class="p">)</span>
+<a id="ln-48" name="ln-48" href="#ln-48"></a><span class="w">      </span><span class="k">implicit none</span>
+<a id="ln-49" name="ln-49" href="#ln-49"></a><span class="k">      class</span><span class="p">(</span><span class="n">activation_t</span><span class="p">),</span><span class="w"> </span><span class="k">intent</span><span class="p">(</span><span class="n">in</span><span class="p">)</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">self</span>
+<a id="ln-50" name="ln-50" href="#ln-50"></a><span class="w">      </span><span class="k">type</span><span class="p">(</span><span class="n">activation_t</span><span class="p">),</span><span class="w"> </span><span class="k">intent</span><span class="p">(</span><span class="n">in</span><span class="p">)</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">rhs</span>
+<a id="ln-51" name="ln-51" href="#ln-51"></a><span class="w">      </span><span class="kt">logical </span><span class="n">self_eq_rhs</span>
+<a id="ln-52" name="ln-52" href="#ln-52"></a><span class="w">    </span><span class="k">end function</span>
+<a id="ln-53" name="ln-53" href="#ln-53"></a>
+<a id="ln-54" name="ln-54" href="#ln-54"></a><span class="k">    elemental module function </span><span class="n">default_real_evaluate</span><span class="p">(</span><span class="n">self</span><span class="p">,</span><span class="w"> </span><span class="n">x</span><span class="p">)</span><span class="w"> </span><span class="k">result</span><span class="p">(</span><span class="n">y</span><span class="p">)</span>
+<a id="ln-55" name="ln-55" href="#ln-55"></a><span class="w">      </span><span class="k">implicit none</span>
+<a id="ln-56" name="ln-56" href="#ln-56"></a><span class="k">      class</span><span class="p">(</span><span class="n">activation_t</span><span class="p">),</span><span class="w"> </span><span class="k">intent</span><span class="p">(</span><span class="n">in</span><span class="p">)</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">self</span>
+<a id="ln-57" name="ln-57" href="#ln-57"></a><span class="w">      </span><span class="kt">real</span><span class="p">,</span><span class="w"> </span><span class="k">intent</span><span class="p">(</span><span class="n">in</span><span class="p">)</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">x</span><span class="w"> </span>
+<a id="ln-58" name="ln-58" href="#ln-58"></a><span class="w">      </span><span class="kt">real </span><span class="n">y</span><span class="w"> </span>
+<a id="ln-59" name="ln-59" href="#ln-59"></a><span class="w">    </span><span class="k">end function</span>
+<a id="ln-60" name="ln-60" href="#ln-60"></a>
+<a id="ln-61" name="ln-61" href="#ln-61"></a><span class="k">    elemental module function </span><span class="n">double_precision_evaluate</span><span class="p">(</span><span class="n">self</span><span class="p">,</span><span class="w"> </span><span class="n">x</span><span class="p">)</span><span class="w"> </span><span class="k">result</span><span class="p">(</span><span class="n">y</span><span class="p">)</span>
+<a id="ln-62" name="ln-62" href="#ln-62"></a><span class="w">      </span><span class="k">implicit none</span>
+<a id="ln-63" name="ln-63" href="#ln-63"></a><span class="k">      class</span><span class="p">(</span><span class="n">activation_t</span><span class="p">),</span><span class="w"> </span><span class="k">intent</span><span class="p">(</span><span class="n">in</span><span class="p">)</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">self</span>
+<a id="ln-64" name="ln-64" href="#ln-64"></a><span class="w">      </span><span class="kt">double precision</span><span class="p">,</span><span class="w"> </span><span class="k">intent</span><span class="p">(</span><span class="n">in</span><span class="p">)</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">x</span><span class="w"> </span>
+<a id="ln-65" name="ln-65" href="#ln-65"></a><span class="w">      </span><span class="kt">double precision </span><span class="n">y</span><span class="w"> </span>
+<a id="ln-66" name="ln-66" href="#ln-66"></a><span class="w">    </span><span class="k">end function </span>
+<a id="ln-67" name="ln-67" href="#ln-67"></a>
+<a id="ln-68" name="ln-68" href="#ln-68"></a><span class="k">    elemental module function </span><span class="n">default_real_differentiate</span><span class="p">(</span><span class="n">self</span><span class="p">,</span><span class="w"> </span><span class="n">x</span><span class="p">)</span><span class="w"> </span><span class="k">result</span><span class="p">(</span><span class="n">dy_dx</span><span class="p">)</span>
+<a id="ln-69" name="ln-69" href="#ln-69"></a><span class="w">      </span><span class="k">implicit none</span>
+<a id="ln-70" name="ln-70" href="#ln-70"></a><span class="k">      class</span><span class="p">(</span><span class="n">activation_t</span><span class="p">),</span><span class="w"> </span><span class="k">intent</span><span class="p">(</span><span class="n">in</span><span class="p">)</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">self</span>
+<a id="ln-71" name="ln-71" href="#ln-71"></a><span class="w">      </span><span class="kt">real</span><span class="p">,</span><span class="w"> </span><span class="k">intent</span><span class="p">(</span><span class="n">in</span><span class="p">)</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">x</span><span class="w"> </span>
+<a id="ln-72" name="ln-72" href="#ln-72"></a><span class="w">      </span><span class="kt">real </span><span class="n">dy_dx</span><span class="w"> </span>
+<a id="ln-73" name="ln-73" href="#ln-73"></a><span class="w">    </span><span class="k">end function</span>
+<a id="ln-74" name="ln-74" href="#ln-74"></a>
+<a id="ln-75" name="ln-75" href="#ln-75"></a><span class="k">    elemental module function </span><span class="n">double_precision_differentiate</span><span class="p">(</span><span class="n">self</span><span class="p">,</span><span class="w"> </span><span class="n">x</span><span class="p">)</span><span class="w"> </span><span class="k">result</span><span class="p">(</span><span class="n">dy_dx</span><span class="p">)</span>
+<a id="ln-76" name="ln-76" href="#ln-76"></a><span class="w">      </span><span class="k">implicit none</span>
+<a id="ln-77" name="ln-77" href="#ln-77"></a><span class="k">      class</span><span class="p">(</span><span class="n">activation_t</span><span class="p">),</span><span class="w"> </span><span class="k">intent</span><span class="p">(</span><span class="n">in</span><span class="p">)</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">self</span>
+<a id="ln-78" name="ln-78" href="#ln-78"></a><span class="w">      </span><span class="kt">double precision</span><span class="p">,</span><span class="w"> </span><span class="k">intent</span><span class="p">(</span><span class="n">in</span><span class="p">)</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">x</span><span class="w"> </span>
+<a id="ln-79" name="ln-79" href="#ln-79"></a><span class="w">      </span><span class="kt">double precision </span><span class="n">dy_dx</span><span class="w"> </span>
+<a id="ln-80" name="ln-80" href="#ln-80"></a><span class="w">    </span><span class="k">end function</span>
+<a id="ln-81" name="ln-81" href="#ln-81"></a>
+<a id="ln-82" name="ln-82" href="#ln-82"></a><span class="k">    elemental module function </span><span class="n">function_name</span><span class="p">(</span><span class="n">self</span><span class="p">)</span><span class="w"> </span><span class="k">result</span><span class="p">(</span><span class="n">string</span><span class="p">)</span>
+<a id="ln-83" name="ln-83" href="#ln-83"></a><span class="w">      </span><span class="k">implicit none</span>
+<a id="ln-84" name="ln-84" href="#ln-84"></a><span class="k">      class</span><span class="p">(</span><span class="n">activation_t</span><span class="p">),</span><span class="w"> </span><span class="k">intent</span><span class="p">(</span><span class="n">in</span><span class="p">)</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">self</span>
+<a id="ln-85" name="ln-85" href="#ln-85"></a><span class="w">      </span><span class="k">type</span><span class="p">(</span><span class="n">string_t</span><span class="p">)</span><span class="w"> </span><span class="n">string</span>
+<a id="ln-86" name="ln-86" href="#ln-86"></a><span class="w">    </span><span class="k">end function</span>
+<a id="ln-87" name="ln-87" href="#ln-87"></a>
+<a id="ln-88" name="ln-88" href="#ln-88"></a><span class="k">  end interface</span>
+<a id="ln-89" name="ln-89" href="#ln-89"></a>
+<a id="ln-90" name="ln-90" href="#ln-90"></a><span class="k">end module </span><span class="n">activation_m</span>
+</pre></div>
+
+      </section>
+    </div>
+  </div>
+
+      <hr>
+    </div> <!-- /container -->
+    <footer>
+      <div class="container">
+        <div class="row justify-content-between">
+          <div class="col">
+            <p>
+              Fiats
+ was developed by Berkeley Lab<br>              &copy; 2024 
+</p>
+          </div>
+          <div class="col">
+            <p class="text-end">
+              Documentation generated by
+              <a href="https://github.com/Fortran-FOSS-Programmers/ford">FORD</a>
+ on 2024-10-17 00:07              </p>
+          </div>
+        </div>
+        <br>
+      </div> <!-- /container -->
+    </footer>
+
+    <!-- Bootstrap core JavaScript -->
+    <!-- Placed at the end of the document so the pages load faster -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"
+            integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p" crossorigin="anonymous"></script>    
+
+    <!-- MathJax JavaScript
+             ================================================== -->
+             <!-- Placed at the end of the document so the pages load faster -->
+        <script type="text/x-mathjax-config">
+          MathJax.Hub.Config({
+          TeX: { extensions: ['AMSmath.js','AMSsymbols.js','noErrors.js','noUndefined.js'], equationNumbers: { autoNumber: 'AMS' } },
+          jax: ['input/TeX','input/MathML','output/HTML-CSS'],
+          extensions: ['tex2jax.js','mml2jax.js','MathMenu.js','MathZoom.js']
+          });
+        </script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+
+          <script src="../tipuesearch/tipuesearch_content.js"></script>
+          <script src="../tipuesearch/tipuesearch_set.js"></script>
+          <script src="../tipuesearch/tipuesearch.js"></script>
+
+  </body>
+</html>

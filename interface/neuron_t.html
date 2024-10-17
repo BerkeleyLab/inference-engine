@@ -6,11 +6,11 @@
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-      <meta name="description" content="A deep learning library targeting high-performance computing (HPC) applications with performance-critical inference and training needs.">
+      <meta name="description" content="Functional inference and training of surrogate models for computational science.">
     <meta name="author" content="Berkeley Lab" >
     <link rel="icon" href="../favicon.png">
 
-    <title>neuron_t &ndash; Inference-Engine</title>
+    <title>neuron_t &ndash; Fiats</title>
 
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet"
           integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
@@ -29,7 +29,7 @@
     <div class="container-fluid mb-sm-4 mb-xl-2">
       <nav class="navbar navbar-expand-lg navbar-dark bg-dark fixed-top">
         <div class="container">
-          <a class="navbar-brand" href="../index.html">Inference-Engine </a>
+          <a class="navbar-brand" href="../index.html">Fiats </a>
           <button type="button" class="navbar-toggler" data-bs-toggle="collapse" data-bs-target="#navbar"
                   aria-expanded="false" aria-controls="navbar" aria-label="Toggle navigation">
                   <span class="navbar-toggler-icon">
@@ -45,9 +45,6 @@
                 </li>
                 <li class="nav-item">
                   <a class="nav-link" href="../lists/procedures.html">Procedures</a>
-                </li>
-                <li class="nav-item">
-                  <a class="nav-link" href="../lists/absint.html">Abstract Interfaces</a>
                 </li>
                 <li class="nav-item">
                   <a class="nav-link" href="../lists/types.html">Derived Types</a>
@@ -79,7 +76,7 @@
 
             <li class="list-inline-item" id="statements"><i class="fa fa-list-ol"></i>
               <a data-bs-toggle="tooltip" data-bs-placement="bottom" data-bs-html="true"
-                 title="<p> 0.3% of total for procedures.</p>Including implementation: 13 statements,  0.3% of total for procedures.">13 statements</a>
+                 title="<p> 0.3% of total for procedures.</p>Including implementation: 24 statements,  0.3% of total for procedures.">24 statements</a>
             </li>
 
             <li class="list-inline-item" id="source-file">
@@ -129,8 +126,10 @@
       </a>
       <div id="funcs-0" class="collapse">
         <div class="list-group list-group-flush">
-            <a class="list-group-item" href="../interface/neuron_t.html#proc-from_components~5">from_components</a>
-            <a class="list-group-item" href="../interface/neuron_t.html#proc-from_json~6">from_json</a>
+            <a class="list-group-item" href="../interface/neuron_t.html#proc-default_real_from_components~3">default_real_from_components</a>
+            <a class="list-group-item" href="../interface/neuron_t.html#proc-double_precision_from_components~3">double_precision_from_components</a>
+            <a class="list-group-item" href="../interface/neuron_t.html#proc-double_precision_from_json~2">double_precision_from_json</a>
+            <a class="list-group-item" href="../interface/neuron_t.html#proc-from_json~2">from_json</a>
         </div>
       </div>
     </div>
@@ -155,8 +154,8 @@
 
         <h2>Functions</h2>
             <div class="card">
-    <div class="card-header codesum"><span class="anchor" id="proc-from_components~5"></span> <h3>private pure module function from_components(weights, bias) result(neuron)  
-    <a href="../proc/from_components~3.html"><button type="button" class="btn btn-info depwarn">Implementation &rarr;</button></a>
+    <div class="card-header codesum"><span class="anchor" id="proc-default_real_from_components~3"></span> <h3>private pure module function default_real_from_components(weights, bias) result(neuron)  
+    <a href="../proc/default_real_from_components~3.html"><button type="button" class="btn btn-info depwarn">Implementation &rarr;</button></a>
 </h3></div>
     <div class="card-body">
         <p>construct single neuron_t object from an array of weights and a bias</p>
@@ -174,8 +173,8 @@
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-weights~3"></span>
-              real(kind=rkind),
+              <span class="anchor" id="variable-weights~2"></span>
+              real,
             </td>
 <td>intent(in)</td>
               <td></td>            <td>
@@ -190,7 +189,7 @@
         <tr>
             <td>
               <span class="anchor" id="variable-bias~2"></span>
-              real(kind=rkind),
+              real,
             </td>
 <td>intent(in)</td>
               <td></td>            <td>
@@ -215,8 +214,128 @@
   </div>
 
             <div class="card">
-    <div class="card-header codesum"><span class="anchor" id="proc-from_json~6"></span> <h3>private pure recursive module function from_json(neuron_lines, start) result(neuron)  
-    <a href="../proc/from_json~5.html"><button type="button" class="btn btn-info depwarn">Implementation &rarr;</button></a>
+    <div class="card-header codesum"><span class="anchor" id="proc-double_precision_from_components~3"></span> <h3>private pure module function double_precision_from_components(weights, bias) result(neuron)  
+    <a href="../proc/double_precision_from_components~3.html"><button type="button" class="btn btn-info depwarn">Implementation &rarr;</button></a>
+</h3></div>
+    <div class="card-body">
+        <p>construct single neuron_t object from an array of weights and a bias</p>
+
+  <h4>Arguments</h4>
+      <table class="table table-striped varlist">
+    <thead>
+      <tr>
+        <th scope="col">Type</th>
+<th scope="col">Intent</th><th scope="col">Optional</th>        <th scope="col">Attributes</th>
+        <th scope="col"></th>
+        <th scope="col">Name</th>
+        <th scope="col"></th>
+    </thead>
+    <tbody>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-weights~3"></span>
+              double precision,
+            </td>
+<td>intent(in)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>weights</strong>(:)</td>
+            <td>
+                
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-bias~3"></span>
+              double precision,
+            </td>
+<td>intent(in)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>bias</strong></td>
+            <td>
+                
+            </td>
+        </tr>
+    </tbody>
+  </table>
+
+    <h4>
+    Return Value
+    <small>type(<a href='../type/neuron_t.html'>neuron_t</a>(double_precision))</small>
+    </h4>
+    
+
+    </div>
+  </div>
+
+            <div class="card">
+    <div class="card-header codesum"><span class="anchor" id="proc-double_precision_from_json~2"></span> <h3>private pure recursive module function double_precision_from_json(neuron_lines, start) result(neuron)  
+    <a href="../proc/double_precision_from_json~5.html"><button type="button" class="btn btn-info depwarn">Implementation &rarr;</button></a>
+</h3></div>
+    <div class="card-body">
+        <p>construct linked list of neuron_t objects from an array of JSON-formatted text lines</p>
+
+  <h4>Arguments</h4>
+      <table class="table table-striped varlist">
+    <thead>
+      <tr>
+        <th scope="col">Type</th>
+<th scope="col">Intent</th><th scope="col">Optional</th>        <th scope="col">Attributes</th>
+        <th scope="col"></th>
+        <th scope="col">Name</th>
+        <th scope="col"></th>
+    </thead>
+    <tbody>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-neuron_lines~2"></span>
+              type(<a href='../type/double_precision_string_t.html'>double_precision_string_t</a>),
+            </td>
+<td>intent(in)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>neuron_lines</strong>(:)</td>
+            <td>
+                
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-start~4"></span>
+              integer,
+            </td>
+<td>intent(in)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>start</strong></td>
+            <td>
+                
+            </td>
+        </tr>
+    </tbody>
+  </table>
+
+    <h4>
+    Return Value
+    <small>type(<a href='../type/neuron_t.html'>neuron_t</a>(double_precision))</small>
+    </h4>
+    
+
+    </div>
+  </div>
+
+            <div class="card">
+    <div class="card-header codesum"><span class="anchor" id="proc-from_json~2"></span> <h3>private pure recursive module function from_json(neuron_lines, start) result(neuron)  
+    <a href="../proc/from_json~4.html"><button type="button" class="btn btn-info depwarn">Implementation &rarr;</button></a>
 </h3></div>
     <div class="card-body">
         <p>construct linked list of neuron_t objects from an array of JSON-formatted text lines</p>
@@ -249,7 +368,7 @@
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-start"></span>
+              <span class="anchor" id="variable-start~3"></span>
               integer,
             </td>
 <td>intent(in)</td>
@@ -285,7 +404,7 @@
         <div class="row justify-content-between">
           <div class="col">
             <p>
-              Inference-Engine
+              Fiats
  was developed by Berkeley Lab<br>              &copy; 2024 
 </p>
           </div>
@@ -293,7 +412,7 @@
             <p class="text-end">
               Documentation generated by
               <a href="https://github.com/Fortran-FOSS-Programmers/ford">FORD</a>
- on 2024-10-01 22:45              </p>
+ on 2024-10-17 00:07              </p>
           </div>
         </div>
         <br>

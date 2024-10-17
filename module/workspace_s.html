@@ -1,0 +1,797 @@
+<!-- -*- mode: jinja2 -*- -->
+
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+      <meta name="description" content="Functional inference and training of surrogate models for computational science.">
+    <meta name="author" content="Berkeley Lab" >
+    <link rel="icon" href="../favicon.png">
+
+    <title>workspace_s &ndash; Fiats</title>
+
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet"
+          integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
+    <link href="../css/pygments.css" rel="stylesheet">
+    <link href="../css/font-awesome.min.css" rel="stylesheet">
+    <link href="../css/local.css" rel="stylesheet">
+      <link  href="../tipuesearch/tipuesearch.css" rel="stylesheet">
+
+    <script src="https://code.jquery.com/jquery-3.7.1.min.js" integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
+    <script src="../js/svg-pan-zoom.min.js"></script>
+  </head>
+
+  <body>
+
+    <!-- Fixed navbar -->
+    <div class="container-fluid mb-sm-4 mb-xl-2">
+      <nav class="navbar navbar-expand-lg navbar-dark bg-dark fixed-top">
+        <div class="container">
+          <a class="navbar-brand" href="../index.html">Fiats </a>
+          <button type="button" class="navbar-toggler" data-bs-toggle="collapse" data-bs-target="#navbar"
+                  aria-expanded="false" aria-controls="navbar" aria-label="Toggle navigation">
+                  <span class="navbar-toggler-icon">
+          </button>
+
+          <div id="navbar" class="navbar-collapse collapse">
+            <ul class="navbar-nav">
+                  <li class="nav-item">
+                    <a class="nav-link" href="../lists/files.html">Source Files</a>
+                  </li>
+                <li class="nav-item">
+                  <a class="nav-link" href="../lists/modules.html">Modules</a>
+                </li>
+                <li class="nav-item">
+                  <a class="nav-link" href="../lists/procedures.html">Procedures</a>
+                </li>
+                <li class="nav-item">
+                  <a class="nav-link" href="../lists/types.html">Derived Types</a>
+                </li>
+                <li class="nav-item">
+                  <a class="nav-link" href="../lists/programs.html">Programs</a>
+                </li>
+            </ul>
+              <div class="d-flex align-items-end flex-grow-1">
+                <form action="../search.html" role="search" class="ms-auto">
+                  <input type="text" class="form-control" aria-label="Search" placeholder="Search" name="q" id="tipue_search_input" autocomplete="off" required>
+                </form>
+              </div>
+          </div><!--/.nav-collapse -->
+        </div>
+      </nav>
+    </div>
+
+    <div class="container">
+  <div class="row">
+    <h1>workspace_s
+      <small>Submodule</small>
+      
+    </h1>
+      <div class="container p-2 mb-4 bg-light border rounded-3">
+    <div class="row align-items-center justify-content-between" id="info-bar">
+      <div class="col">
+        <ul class="list-inline" style="margin-bottom:0px;display:inline">
+
+            <li class="list-inline-item" id="statements"><i class="fa fa-list-ol"></i>
+              <a data-bs-toggle="tooltip" data-bs-placement="bottom" data-bs-html="true"
+                 title=" 2.5% of total for modules and submodules.">81 statements</a>
+            </li>
+
+            <li class="list-inline-item" id="source-file">
+              <i class="fa fa-code"></i>
+              <a href="../src/workspace_s.f90"> Source File</a>
+            </li>
+        </ul>
+      </div>
+      <div class="col">
+        <nav aria-label="breadcrumb">
+          <ol class="breadcrumb justify-content-end mb-0">
+                <li class="breadcrumb-item"><a href='../sourcefile/workspace_s.f90.html'>workspace_s.f90</a></li>
+            <li class="breadcrumb-item active" aria-current="page">workspace_s</li>
+          </ol>
+        </nav>
+      </div>
+    </div>
+  </div>
+  <script>
+    $(function () {
+    $('[data-bs-toggle="tooltip"]').tooltip()
+    })
+  </script>
+
+  </div>
+
+  <div class="row">
+    <div class="col-md-3">
+        <div id="sidebar">
+      <h3>Contents</h3>
+  
+      <div class="card mb-4">
+      <a data-bs-toggle="collapse" href="#vars-0"
+         aria-expanded="false" aria-controls="vars-0">
+         <h4 class="card-header bg-primary text-white">Variables</h4>
+      </a>
+      <div id="vars-0" class="collapse">
+        <div class="list-group list-group-flush">
+            <a class="list-group-item" href="../module/workspace_s.html#variable-input_layer~3">input_layer</a>
+        </div>
+      </div>
+    </div>
+
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+      <div class="card mb-4">
+      <a data-bs-toggle="collapse" href="#modprocs-0"
+         aria-expanded="false" aria-controls="modprocs-0">
+         <h4 class="card-header bg-primary text-white">Module Procedures</h4>
+      </a>
+      <div id="modprocs-0" class="collapse">
+        <div class="list-group list-group-flush">
+            <a class="list-group-item" href="../module/workspace_s.html#proc-default_real_allocate">default_real_allocate</a>
+            <a class="list-group-item" href="../module/workspace_s.html#proc-default_real_allocated">default_real_allocated</a>
+            <a class="list-group-item" href="../module/workspace_s.html#proc-default_real_workspace">default_real_workspace</a>
+        </div>
+      </div>
+    </div>
+
+  
+  
+  
+  
+
+
+  </div>
+
+    </div>
+
+    <div class="col-md-9" id='text'>
+      
+<br>          <div class="card mb-4">
+      <h3 class="card-header card-title bg-light">Uses</h3>
+      <div class="card-body">
+        <ul class="list-group list-group-flush">
+            <li class="list-group-item">
+              <ul class="list-inline">
+                  <li class="list-inline-item">assert_m</li>
+              </ul>
+            </li>
+            <li class="list-group-item">
+              <ul class="list-inline">
+                <li><h5>Ancestors:</h5></li>
+                  <li class="list-inline-item"><a href='neural_network_m.html'>neural_network_m</a></li>
+              </ul>
+            </li>
+            <li class="list-group-item">
+              <div class="depgraph"><?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN"
+ "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
+<!-- Generated by graphviz version 12.1.2 (20240928.0832)
+ -->
+<!-- Title: module~~workspace_s~~UsesGraph Pages: 1 -->
+<svg id="moduleworkspace_sUsesGraph" width="641pt" height="310pt"
+ viewBox="0.00 0.00 641.00 309.99" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+<g id="module~~workspace_s~~UsesGraph" class="graph" transform="scale(0.749164 0.749164) rotate(0) translate(4 409.78)">
+<title>module~~workspace_s~~UsesGraph</title>
+<polygon fill="white" stroke="none" points="-4,4 -4,-409.78 851.62,-409.78 851.62,4 -4,4"/>
+<!-- module~workspace_s -->
+<g id="module~~workspace_s~~UsesGraph_node1" class="node">
+<title>module~workspace_s</title>
+<polygon fill="none" stroke="black" points="847.62,-236.94 768.6,-236.94 768.6,-212.67 847.62,-212.67 847.62,-236.94"/>
+<text text-anchor="middle" x="808.11" y="-221.2" font-family="Helvetica,sans-Serif" font-size="10.50">workspace_s</text>
+</g>
+<!-- assert_m -->
+<g id="module~~workspace_s~~UsesGraph_node2" class="node">
+<title>assert_m</title>
+<polygon fill="#337ab7" stroke="#337ab7" points="707.47,-257.94 647.95,-257.94 647.95,-233.67 707.47,-233.67 707.47,-257.94"/>
+<text text-anchor="middle" x="677.71" y="-242.2" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">assert_m</text>
+</g>
+<!-- module~workspace_s&#45;&gt;assert_m -->
+<g id="module~~workspace_s~~UsesGraph_edge1" class="edge">
+<title>module~workspace_s&#45;&gt;assert_m</title>
+<path fill="none" stroke="#ff0000" stroke-dasharray="5,2" d="M768.24,-231.16C752.56,-233.72 734.48,-236.68 718.69,-239.26"/>
+<polygon fill="#ff0000" stroke="#ff0000" points="718.46,-235.75 709.16,-240.82 719.59,-242.66 718.46,-235.75"/>
+</g>
+<!-- module~neural_network_m -->
+<g id="module~~workspace_s~~UsesGraph_node3" class="node">
+<title>module~neural_network_m</title>
+<g id="a_module~~workspace_s~~UsesGraph_node3"><a xlink:href="../module/neural_network_m.html" xlink:title="neural_network_m">
+<polygon fill="#337ab7" stroke="#337ab7" points="732.6,-215.94 622.83,-215.94 622.83,-191.67 732.6,-191.67 732.6,-215.94"/>
+<text text-anchor="middle" x="677.71" y="-200.2" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">neural_network_m</text>
+</a>
+</g>
+</g>
+<!-- module~workspace_s&#45;&gt;module~neural_network_m -->
+<g id="module~~workspace_s~~UsesGraph_edge2" class="edge">
+<title>module~workspace_s&#45;&gt;module~neural_network_m</title>
+<path fill="none" stroke="#ff0000" d="M768.24,-218.44C760.63,-217.2 752.45,-215.86 744.24,-214.52"/>
+<polygon fill="#ff0000" stroke="#ff0000" points="745.01,-211.1 734.58,-212.94 743.88,-218.01 745.01,-211.1"/>
+</g>
+<!-- julienne_m -->
+<g id="module~~workspace_s~~UsesGraph_node4" class="node">
+<title>julienne_m</title>
+<polygon fill="#337ab7" stroke="#337ab7" points="223.29,-220.94 153.27,-220.94 153.27,-196.67 223.29,-196.67 223.29,-220.94"/>
+<text text-anchor="middle" x="188.28" y="-205.2" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">julienne_m</text>
+</g>
+<!-- module~neural_network_m&#45;&gt;julienne_m -->
+<g id="module~~workspace_s~~UsesGraph_edge3" class="edge">
+<title>module~neural_network_m&#45;&gt;julienne_m</title>
+<path fill="none" stroke="#00ffff" stroke-dasharray="5,2" d="M637.55,-216.4C632.39,-218.81 627.33,-221.61 622.83,-224.8 602.78,-239.02 608.05,-254.38 586.83,-266.8 518.38,-306.89 490.75,-293.98 411.81,-301.8 344.35,-308.48 319.95,-332.06 259.29,-301.8 230.21,-287.29 210.03,-254.31 199.05,-231.79"/>
+<polygon fill="#00ffff" stroke="#00ffff" points="202.27,-230.41 194.91,-222.78 195.91,-233.33 202.27,-230.41"/>
+</g>
+<!-- module~activation_m -->
+<g id="module~~workspace_s~~UsesGraph_node5" class="node">
+<title>module~activation_m</title>
+<g id="a_module~~workspace_s~~UsesGraph_node5"><a xlink:href="../module/activation_m.html" xlink:title="activation_m">
+<polygon fill="#337ab7" stroke="#337ab7" points="557.2,-372.94 477.43,-372.94 477.43,-348.67 557.2,-348.67 557.2,-372.94"/>
+<text text-anchor="middle" x="517.32" y="-357.2" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">activation_m</text>
+</a>
+</g>
+</g>
+<!-- module~neural_network_m&#45;&gt;module~activation_m -->
+<g id="module~~workspace_s~~UsesGraph_edge4" class="edge">
+<title>module~neural_network_m&#45;&gt;module~activation_m</title>
+<path fill="none" stroke="#00ffff" stroke-dasharray="5,2" d="M633.57,-216.39C629.61,-218.74 625.94,-221.52 622.83,-224.8 587.48,-262.17 622.35,-297.59 586.83,-334.8 581.52,-340.36 574.89,-344.75 567.87,-348.21"/>
+<polygon fill="#00ffff" stroke="#00ffff" points="566.65,-344.92 558.8,-352.04 569.38,-351.37 566.65,-344.92"/>
+</g>
+<!-- module~double_precision_file_m -->
+<g id="module~~workspace_s~~UsesGraph_node6" class="node">
+<title>module~double_precision_file_m</title>
+<g id="a_module~~workspace_s~~UsesGraph_node6"><a xlink:href="../module/double_precision_file_m.html" xlink:title="double_precision_file_m">
+<polygon fill="#337ab7" stroke="#337ab7" points="586.83,-215.94 447.81,-215.94 447.81,-191.67 586.83,-191.67 586.83,-215.94"/>
+<text text-anchor="middle" x="517.32" y="-200.2" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">double_precision_file_m</text>
+</a>
+</g>
+</g>
+<!-- module~neural_network_m&#45;&gt;module~double_precision_file_m -->
+<g id="module~~workspace_s~~UsesGraph_edge5" class="edge">
+<title>module~neural_network_m&#45;&gt;module~double_precision_file_m</title>
+<path fill="none" stroke="#00ffff" stroke-dasharray="5,2" d="M622.65,-203.8C614.91,-203.8 606.82,-203.8 598.71,-203.8"/>
+<polygon fill="#00ffff" stroke="#00ffff" points="598.78,-200.3 588.78,-203.8 598.78,-207.3 598.78,-200.3"/>
+</g>
+<!-- module~kind_parameters_m -->
+<g id="module~~workspace_s~~UsesGraph_node7" class="node">
+<title>module~kind_parameters_m</title>
+<g id="a_module~~workspace_s~~UsesGraph_node7"><a xlink:href="../module/kind_parameters_m.html" xlink:title="kind_parameters_m">
+<polygon fill="#337ab7" stroke="#337ab7" points="117.27,-76.94 0,-76.94 0,-52.67 117.27,-52.67 117.27,-76.94"/>
+<text text-anchor="middle" x="58.63" y="-61.2" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">kind_parameters_m</text>
+</a>
+</g>
+</g>
+<!-- module~neural_network_m&#45;&gt;module~kind_parameters_m -->
+<g id="module~~workspace_s~~UsesGraph_edge6" class="edge">
+<title>module~neural_network_m&#45;&gt;module~kind_parameters_m</title>
+<path fill="none" stroke="#00ffff" stroke-dasharray="5,2" d="M516.32,-121.8C498.82,-116.66 206.9,-155.53 189.28,-150.8"/>
+<path fill="none" stroke="#00ffff" stroke-dasharray="5,2" d="M187.28,-150.8C145.02,-138.28 104.23,-106.2 80.56,-84.96"/>
+<polygon fill="#00ffff" stroke="#00ffff" points="83.2,-82.63 73.47,-78.43 78.46,-87.78 83.2,-82.63"/>
+</g>
+<!-- module~metadata_m -->
+<g id="module~~workspace_s~~UsesGraph_node8" class="node">
+<title>module~metadata_m</title>
+<g id="a_module~~workspace_s~~UsesGraph_node8"><a xlink:href="../module/metadata_m.html" xlink:title="metadata_m">
+<polygon fill="#337ab7" stroke="#337ab7" points="556.83,-257.94 477.81,-257.94 477.81,-233.67 556.83,-233.67 556.83,-257.94"/>
+<text text-anchor="middle" x="517.32" y="-242.2" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">metadata_m</text>
+</a>
+</g>
+</g>
+<!-- module~neural_network_m&#45;&gt;module~metadata_m -->
+<g id="module~~workspace_s~~UsesGraph_edge7" class="edge">
+<title>module~neural_network_m&#45;&gt;module~metadata_m</title>
+<path fill="none" stroke="#00ffff" stroke-dasharray="5,2" d="M629.19,-216.4C610,-221.49 587.83,-227.37 568.38,-232.53"/>
+<polygon fill="#00ffff" stroke="#00ffff" points="567.52,-229.13 558.75,-235.08 569.32,-235.9 567.52,-229.13"/>
+</g>
+<!-- module~mini_batch_m -->
+<g id="module~~workspace_s~~UsesGraph_node9" class="node">
+<title>module~mini_batch_m</title>
+<g id="a_module~~workspace_s~~UsesGraph_node9"><a xlink:href="../module/mini_batch_m.html" xlink:title="mini_batch_m">
+<polygon fill="#337ab7" stroke="#337ab7" points="560.2,-56.94 474.43,-56.94 474.43,-32.67 560.2,-32.67 560.2,-56.94"/>
+<text text-anchor="middle" x="517.32" y="-41.2" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">mini_batch_m</text>
+</a>
+</g>
+</g>
+<!-- module~neural_network_m&#45;&gt;module~mini_batch_m -->
+<g id="module~~workspace_s~~UsesGraph_edge8" class="edge">
+<title>module~neural_network_m&#45;&gt;module~mini_batch_m</title>
+<path fill="none" stroke="#00ffff" stroke-dasharray="5,2" d="M665.65,-191.4C648.96,-172.83 616.18,-136.89 586.83,-107.8 571.86,-92.96 554.36,-76.89 540.79,-64.7"/>
+<polygon fill="#00ffff" stroke="#00ffff" points="543.43,-62.36 533.64,-58.3 538.76,-67.57 543.43,-62.36"/>
+</g>
+<!-- module~tensor_m -->
+<g id="module~~workspace_s~~UsesGraph_node10" class="node">
+<title>module~tensor_m</title>
+<g id="a_module~~workspace_s~~UsesGraph_node10"><a xlink:href="../module/tensor_m.html" xlink:title="tensor_m">
+<polygon fill="#337ab7" stroke="#337ab7" points="218.79,-76.94 157.77,-76.94 157.77,-52.67 218.79,-52.67 218.79,-76.94"/>
+<text text-anchor="middle" x="188.28" y="-61.2" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">tensor_m</text>
+</a>
+</g>
+</g>
+<!-- module~neural_network_m&#45;&gt;module~tensor_m -->
+<g id="module~~workspace_s~~UsesGraph_edge9" class="edge">
+<title>module~neural_network_m&#45;&gt;module~tensor_m</title>
+<path fill="none" stroke="#00ffff" stroke-dasharray="5,2" d="M662.11,-191.18C645.09,-177.05 615.61,-154.38 586.83,-140.8 558.25,-127.31 548.64,-130.7 518.32,-121.8"/>
+<path fill="none" stroke="#00ffff" stroke-dasharray="5,2" d="M516.32,-121.8C438.05,-98.81 416.17,-102.56 336.55,-84.8"/>
+<path fill="none" stroke="#00ffff" stroke-dasharray="5,2" d="M334.55,-84.8C299.83,-77.06 259.72,-71.81 230.46,-68.64"/>
+<polygon fill="#00ffff" stroke="#00ffff" points="230.84,-65.16 220.53,-67.6 230.12,-72.12 230.84,-65.16"/>
+</g>
+<!-- module~tensor_map_m -->
+<g id="module~~workspace_s~~UsesGraph_node11" class="node">
+<title>module~tensor_map_m</title>
+<g id="a_module~~workspace_s~~UsesGraph_node11"><a xlink:href="../module/tensor_map_m.html" xlink:title="tensor_map_m">
+<polygon fill="#337ab7" stroke="#337ab7" points="562.45,-173.94 472.18,-173.94 472.18,-149.67 562.45,-149.67 562.45,-173.94"/>
+<text text-anchor="middle" x="517.32" y="-158.2" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">tensor_map_m</text>
+</a>
+</g>
+</g>
+<!-- module~neural_network_m&#45;&gt;module~tensor_map_m -->
+<g id="module~~workspace_s~~UsesGraph_edge10" class="edge">
+<title>module~neural_network_m&#45;&gt;module~tensor_map_m</title>
+<path fill="none" stroke="#00ffff" stroke-dasharray="5,2" d="M629.19,-191.2C611.76,-186.58 591.88,-181.3 573.81,-176.51"/>
+<polygon fill="#00ffff" stroke="#00ffff" points="574.85,-173.17 564.29,-173.99 573.06,-179.94 574.85,-173.17"/>
+</g>
+<!-- module~activation_m&#45;&gt;julienne_m -->
+<g id="module~~workspace_s~~UsesGraph_edge12" class="edge">
+<title>module~activation_m&#45;&gt;julienne_m</title>
+<path fill="none" stroke="#ffbf00" stroke-dasharray="5,2" d="M488.74,-373.42C438.38,-394.38 330.2,-429.6 259.29,-381.8 209.22,-348.05 194.95,-271.74 190.89,-232.74"/>
+<polygon fill="#ffbf00" stroke="#ffbf00" points="194.37,-232.43 190.01,-222.78 187.4,-233.04 194.37,-232.43"/>
+</g>
+<!-- iso_c_binding -->
+<g id="module~~workspace_s~~UsesGraph_node12" class="node">
+<title>iso_c_binding</title>
+<g id="a_module~~workspace_s~~UsesGraph_node12"><a xlink:href="http://fortranwiki.org/fortran/show/iso_c_binding" xlink:title="iso_c_binding">
+<polygon fill="#337ab7" stroke="#337ab7" points="376.93,-372.94 294.16,-372.94 294.16,-348.67 376.93,-348.67 376.93,-372.94"/>
+<text text-anchor="middle" x="335.55" y="-357.2" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">iso_c_binding</text>
+</a>
+</g>
+</g>
+<!-- module~activation_m&#45;&gt;iso_c_binding -->
+<g id="module~~workspace_s~~UsesGraph_edge11" class="edge">
+<title>module~activation_m&#45;&gt;iso_c_binding</title>
+<path fill="none" stroke="#ffbf00" stroke-dasharray="5,2" d="M477.31,-360.8C451.36,-360.8 416.96,-360.8 388.66,-360.8"/>
+<polygon fill="#ffbf00" stroke="#ffbf00" points="388.87,-357.3 378.87,-360.8 388.87,-364.3 388.87,-357.3"/>
+</g>
+<!-- module~double_precision_file_m&#45;&gt;julienne_m -->
+<g id="module~~workspace_s~~UsesGraph_edge13" class="edge">
+<title>module~double_precision_file_m&#45;&gt;julienne_m</title>
+<path fill="none" stroke="#7fff00" stroke-dasharray="5,2" d="M447.36,-204.85C383.46,-205.83 290.21,-207.26 235.04,-208.1"/>
+<polygon fill="#7fff00" stroke="#7fff00" points="235,-204.6 225.05,-208.25 235.1,-211.6 235,-204.6"/>
+</g>
+<!-- module~double_precision_string_m -->
+<g id="module~~workspace_s~~UsesGraph_node14" class="node">
+<title>module~double_precision_string_m</title>
+<g id="a_module~~workspace_s~~UsesGraph_node14"><a xlink:href="../module/double_precision_string_m.html" xlink:title="double_precision_string_m">
+<polygon fill="#337ab7" stroke="#337ab7" points="411.81,-250.94 259.29,-250.94 259.29,-226.67 411.81,-226.67 411.81,-250.94"/>
+<text text-anchor="middle" x="335.55" y="-235.2" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">double_precision_string_m</text>
+</a>
+</g>
+</g>
+<!-- module~double_precision_file_m&#45;&gt;module~double_precision_string_m -->
+<g id="module~~workspace_s~~UsesGraph_edge14" class="edge">
+<title>module~double_precision_file_m&#45;&gt;module~double_precision_string_m</title>
+<path fill="none" stroke="#7fff00" stroke-dasharray="5,2" d="M451.67,-216.39C438.85,-218.88 425.29,-221.52 412.15,-224.08"/>
+<polygon fill="#7fff00" stroke="#7fff00" points="411.86,-220.57 402.71,-225.92 413.2,-227.44 411.86,-220.57"/>
+</g>
+<!-- julienne_string_m -->
+<g id="module~~workspace_s~~UsesGraph_node13" class="node">
+<title>julienne_string_m</title>
+<polygon fill="#337ab7" stroke="#337ab7" points="388.18,-292.94 282.91,-292.94 282.91,-268.67 388.18,-268.67 388.18,-292.94"/>
+<text text-anchor="middle" x="335.55" y="-277.2" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">julienne_string_m</text>
+</g>
+<!-- module~metadata_m&#45;&gt;julienne_string_m -->
+<g id="module~~workspace_s~~UsesGraph_edge15" class="edge">
+<title>module~metadata_m&#45;&gt;julienne_string_m</title>
+<path fill="none" stroke="#00ffff" stroke-dasharray="5,2" d="M477.31,-253.39C454.64,-257.81 425.54,-263.47 399.68,-268.51"/>
+<polygon fill="#00ffff" stroke="#00ffff" points="399.08,-265.06 389.93,-270.41 400.42,-271.93 399.08,-265.06"/>
+</g>
+<!-- module~metadata_m&#45;&gt;module~double_precision_string_m -->
+<g id="module~~workspace_s~~UsesGraph_edge16" class="edge">
+<title>module~metadata_m&#45;&gt;module~double_precision_string_m</title>
+<path fill="none" stroke="#00ffff" stroke-dasharray="5,2" d="M477.31,-244.28C461.42,-243.66 442.36,-242.92 423.47,-242.18"/>
+<polygon fill="#00ffff" stroke="#00ffff" points="423.72,-238.69 413.59,-241.8 423.45,-245.69 423.72,-238.69"/>
+</g>
+<!-- module~mini_batch_m&#45;&gt;module~kind_parameters_m -->
+<g id="module~~workspace_s~~UsesGraph_edge18" class="edge">
+<title>module~mini_batch_m&#45;&gt;module~kind_parameters_m</title>
+<path fill="none" stroke="#003fff" stroke-dasharray="5,2" d="M474.14,-32.34C411.75,-15.56 291.24,10.53 189.28,-4.8"/>
+<path fill="none" stroke="#003fff" stroke-dasharray="5,2" d="M187.28,-4.8C150,-10.18 111.44,-30.75 86.6,-46.32"/>
+<polygon fill="#003fff" stroke="#003fff" points="84.92,-43.23 78.42,-51.6 88.72,-49.12 84.92,-43.23"/>
+</g>
+<!-- module~input_output_pair_m -->
+<g id="module~~workspace_s~~UsesGraph_node15" class="node">
+<title>module~input_output_pair_m</title>
+<g id="a_module~~workspace_s~~UsesGraph_node15"><a xlink:href="../module/input_output_pair_m.html" xlink:title="input_output_pair_m">
+<polygon fill="#337ab7" stroke="#337ab7" points="395.68,-56.94 275.41,-56.94 275.41,-32.67 395.68,-32.67 395.68,-56.94"/>
+<text text-anchor="middle" x="335.55" y="-41.2" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">input_output_pair_m</text>
+</a>
+</g>
+</g>
+<!-- module~mini_batch_m&#45;&gt;module~input_output_pair_m -->
+<g id="module~~workspace_s~~UsesGraph_edge17" class="edge">
+<title>module~mini_batch_m&#45;&gt;module~input_output_pair_m</title>
+<path fill="none" stroke="#003fff" stroke-dasharray="5,2" d="M474.17,-44.8C454.29,-44.8 430.01,-44.8 407.41,-44.8"/>
+<polygon fill="#003fff" stroke="#003fff" points="407.64,-41.3 397.64,-44.8 407.64,-48.3 407.64,-41.3"/>
+</g>
+<!-- module~tensor_m&#45;&gt;module~kind_parameters_m -->
+<g id="module~~workspace_s~~UsesGraph_edge19" class="edge">
+<title>module~tensor_m&#45;&gt;module~kind_parameters_m</title>
+<path fill="none" stroke="#7f00ff" stroke-dasharray="5,2" d="M157.35,-64.8C148.73,-64.8 138.95,-64.8 128.99,-64.8"/>
+<polygon fill="#7f00ff" stroke="#7f00ff" points="129.23,-61.3 119.23,-64.8 129.23,-68.3 129.23,-61.3"/>
+</g>
+<!-- module~tensor_map_m&#45;&gt;julienne_m -->
+<g id="module~~workspace_s~~UsesGraph_edge20" class="edge">
+<title>module~tensor_map_m&#45;&gt;julienne_m</title>
+<path fill="none" stroke="#ff00bf" stroke-dasharray="5,2" d="M334.55,-160.8C295.53,-163.2 253.35,-178.71 224.55,-191.46"/>
+<polygon fill="#ff00bf" stroke="#ff00bf" points="223.23,-188.22 215.58,-195.55 226.13,-194.59 223.23,-188.22"/>
+</g>
+<!-- module~tensor_map_m&#45;&gt;module~kind_parameters_m -->
+<g id="module~~workspace_s~~UsesGraph_edge22" class="edge">
+<title>module~tensor_map_m&#45;&gt;module~kind_parameters_m</title>
+<path fill="none" stroke="#ff00bf" stroke-dasharray="5,2" d="M471.95,-159.9C435.53,-158.74 382.65,-157.97 336.55,-160.8"/>
+<path fill="none" stroke="#ff00bf" stroke-dasharray="5,2" d="M334.55,-160.8C269.95,-164.77 251.78,-167.58 189.28,-150.8"/>
+</g>
+<!-- module~tensor_map_m&#45;&gt;module~tensor_m -->
+<g id="module~~workspace_s~~UsesGraph_edge23" class="edge">
+<title>module~tensor_map_m&#45;&gt;module~tensor_m</title>
+<path fill="none" stroke="#ff00bf" stroke-dasharray="5,2" d="M481.99,-149.29C471.01,-145.15 458.84,-140.42 447.81,-135.8 397.63,-114.8 389.64,-96.64 336.55,-84.8"/>
+</g>
+<!-- module~tensor_map_m&#45;&gt;module~double_precision_string_m -->
+<g id="module~~workspace_s~~UsesGraph_edge21" class="edge">
+<title>module~tensor_map_m&#45;&gt;module~double_precision_string_m</title>
+<path fill="none" stroke="#ff00bf" stroke-dasharray="5,2" d="M471.71,-174.28C463.67,-176.86 455.43,-179.74 447.81,-182.8 420.39,-193.81 390.54,-209.02 368.67,-220.81"/>
+<polygon fill="#ff00bf" stroke="#ff00bf" points="367.06,-217.71 359.95,-225.57 370.41,-223.85 367.06,-217.71"/>
+</g>
+<!-- module~double_precision_string_m&#45;&gt;julienne_m -->
+<g id="module~~workspace_s~~UsesGraph_edge24" class="edge">
+<title>module~double_precision_string_m&#45;&gt;julienne_m</title>
+<path fill="none" stroke="#00ffff" stroke-dasharray="5,2" d="M273.78,-226.25C260.69,-223.55 247.06,-220.73 234.67,-218.17"/>
+<polygon fill="#00ffff" stroke="#00ffff" points="235.68,-214.81 225.18,-216.21 234.26,-221.66 235.68,-214.81"/>
+</g>
+<!-- module~input_output_pair_m&#45;&gt;module~kind_parameters_m -->
+<g id="module~~workspace_s~~UsesGraph_edge25" class="edge">
+<title>module~input_output_pair_m&#45;&gt;module~kind_parameters_m</title>
+<path fill="none" stroke="#7f00ff" stroke-dasharray="5,2" d="M295.14,-32.17C255.83,-19.87 199.82,-3.22 189.28,-4.8"/>
+</g>
+<!-- module~input_output_pair_m&#45;&gt;module~tensor_m -->
+<g id="module~~workspace_s~~UsesGraph_edge26" class="edge">
+<title>module~input_output_pair_m&#45;&gt;module~tensor_m</title>
+<path fill="none" stroke="#7f00ff" stroke-dasharray="5,2" d="M275.04,-52.99C259.98,-55.07 244.15,-57.25 230.24,-59.16"/>
+<polygon fill="#7f00ff" stroke="#7f00ff" points="229.99,-55.66 220.56,-60.49 230.95,-62.6 229.99,-55.66"/>
+</g>
+</g>
+</svg>
+</div>                <script>
+                  var panmoduleworkspace_sUsesGraph = svgPanZoom('#moduleworkspace_sUsesGraph',
+                    {zoomEnabled: true, controlIconsEnabled: true, fit: true, center: true,}
+                  );
+                </script>          <div>
+            <a type="button" class="graph-help" data-bs-toggle="modal" href="#UsesGraph-help-text">Help</a>
+          </div>
+          <div class="modal fade" id="UsesGraph-help-text" tabindex="-1" role="dialog">
+            <div class="modal-dialog modal-lg" role="document">
+              <div class="modal-content">
+                <div class="modal-header">
+                  <h4 class="modal-title" id="-graph-help-label">Graph Key</h4>
+                  <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+<p>Nodes of different colours represent the following: </p>
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN"
+ "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
+<!-- Generated by graphviz version 12.1.2 (20240928.0832)
+ -->
+<!-- Title: Graph Key Pages: 1 -->
+<svg width="511pt" height="32pt"
+ viewBox="0.00 0.00 510.88 32.27" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+<g id="graph0" class="graph" transform="scale(1 1) rotate(0) translate(4 28.27)">
+<title>Graph Key</title>
+<polygon fill="white" stroke="none" points="-4,4 -4,-28.27 506.88,-28.27 506.88,4 -4,4"/>
+<!-- Module -->
+<g id="node1" class="node">
+<title>Module</title>
+<polygon fill="#337ab7" stroke="#337ab7" points="54,-24.27 0,-24.27 0,0 54,0 54,-24.27"/>
+<text text-anchor="middle" x="27" y="-8.53" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">Module</text>
+</g>
+<!-- Submodule -->
+<g id="node2" class="node">
+<title>Submodule</title>
+<polygon fill="#5bc0de" stroke="#5bc0de" points="144.13,-24.27 71.87,-24.27 71.87,0 144.13,0 144.13,-24.27"/>
+<text text-anchor="middle" x="108" y="-8.53" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">Submodule</text>
+</g>
+<!-- Subroutine -->
+<g id="node3" class="node">
+<title>Subroutine</title>
+<polygon fill="#d9534f" stroke="#d9534f" points="231.63,-24.27 162.37,-24.27 162.37,0 231.63,0 231.63,-24.27"/>
+<text text-anchor="middle" x="197" y="-8.53" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">Subroutine</text>
+</g>
+<!-- Function -->
+<g id="node4" class="node">
+<title>Function</title>
+<polygon fill="#d94e8f" stroke="#d94e8f" points="306.26,-24.27 249.74,-24.27 249.74,0 306.26,0 306.26,-24.27"/>
+<text text-anchor="middle" x="278" y="-8.53" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">Function</text>
+</g>
+<!-- Program -->
+<g id="node5" class="node">
+<title>Program</title>
+<polygon fill="#f0ad4e" stroke="#f0ad4e" points="381.26,-24.27 324.74,-24.27 324.74,0 381.26,0 381.26,-24.27"/>
+<text text-anchor="middle" x="353" y="-8.53" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">Program</text>
+</g>
+<!-- This Page&#39;s Entity -->
+<g id="node6" class="node">
+<title>This Page&#39;s Entity</title>
+<polygon fill="none" stroke="black" points="502.88,-24.27 399.12,-24.27 399.12,0 502.88,0 502.88,-24.27"/>
+<text text-anchor="middle" x="451" y="-8.53" font-family="Helvetica,sans-Serif" font-size="10.50">This Page&#39;s Entity</text>
+</g>
+</g>
+</svg>
+
+<p>Solid arrows point from a submodule to the (sub)module which it is
+descended from. Dashed arrows point from a module or program unit to 
+modules which it uses.
+</p>
+ Where possible, edges connecting nodes are
+given different colours to make them easier to distinguish in
+large graphs.</div>
+            </div>
+          </div>
+        </div>
+            </li>
+        </ul>
+      </div>
+    </div>
+
+      
+      <br>
+
+
+        <section>
+          <h2>Variables</h2>
+            <table class="table table-striped varlist">
+    <thead>
+      <tr>
+        <th scope="col">Type</th>
+<th scope="col">Visibility</th>        <th scope="col">Attributes</th>
+        <th scope="col"></th>
+        <th scope="col">Name</th>
+<th></th><th scope="col">Initial</th>        <th scope="col"></th>
+    </thead>
+    <tbody>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-input_layer~3"></span>
+              integer,
+            </td>
+              <td>private,</td>
+            <td>
+parameter               
+            </td>
+            <td>::</td>
+            <td><strong>input_layer</strong></td>
+<td> =</td>
+                <td>0</td>
+            <td>
+                
+            </td>
+        </tr>
+    </tbody>
+  </table>
+
+        </section>
+        <br>
+
+
+
+
+
+
+
+
+
+        <section>
+          <h2>Module Procedures</h2>
+              <div class="card">
+    <div class="card-header codesum"><span class="anchor" id="proc-default_real_allocate"></span> <h3>module procedure /home/runner/work/inference-engine/inference-engine/doc/html/module/workspace_s.html <a href='../proc/default_real_allocate.html'>default_real_allocate</a> <small>module subroutine default_real_allocate(self, neural_network)</small>  
+    <a href="../interface/default_real_allocate.html"><button type="button" class="btn btn-info depwarn">Interface &rarr;</button></a>
+</h3></div>
+    <div class="card-body">
+          
+  
+
+  <h4>Arguments</h4>
+      <table class="table table-striped varlist">
+    <thead>
+      <tr>
+        <th scope="col">Type</th>
+<th scope="col">Intent</th><th scope="col">Optional</th>        <th scope="col">Attributes</th>
+        <th scope="col"></th>
+        <th scope="col">Name</th>
+        <th scope="col"></th>
+    </thead>
+    <tbody>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-self~64"></span>
+              class(<a href='../type/workspace_t.html'>workspace_t</a>),
+            </td>
+<td>intent(inout)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>self</strong></td>
+            <td>
+
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-neural_network~11"></span>
+              type(<a href='../type/neural_network_t.html'>neural_network_t</a>),
+            </td>
+<td>intent(in)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>neural_network</strong></td>
+            <td>
+
+            </td>
+        </tr>
+    </tbody>
+  </table>
+
+
+    </div>
+  </div>
+
+              <div class="card">
+    <div class="card-header codesum"><span class="anchor" id="proc-default_real_allocated"></span> <h3>module procedure /home/runner/work/inference-engine/inference-engine/doc/html/module/workspace_s.html <a href='../proc/default_real_allocated.html'>default_real_allocated</a> <small>pure module function default_real_allocated(self) result(all_allocated)</small>  
+    <a href="../interface/default_real_allocated.html"><button type="button" class="btn btn-info depwarn">Interface &rarr;</button></a>
+</h3></div>
+    <div class="card-body">
+          
+  
+
+  <h4>Arguments</h4>
+      <table class="table table-striped varlist">
+    <thead>
+      <tr>
+        <th scope="col">Type</th>
+<th scope="col">Intent</th><th scope="col">Optional</th>        <th scope="col">Attributes</th>
+        <th scope="col"></th>
+        <th scope="col">Name</th>
+        <th scope="col"></th>
+    </thead>
+    <tbody>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-self~65"></span>
+              class(<a href='../type/workspace_t.html'>workspace_t</a>),
+            </td>
+<td>intent(in)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>self</strong></td>
+            <td>
+
+            </td>
+        </tr>
+    </tbody>
+  </table>
+
+    <h4>
+    Return Value
+    <small>logical</small>
+    </h4>
+    
+
+    </div>
+  </div>
+
+              <div class="card">
+    <div class="card-header codesum"><span class="anchor" id="proc-default_real_workspace"></span> <h3>module procedure /home/runner/work/inference-engine/inference-engine/doc/html/module/workspace_s.html <a href='../proc/default_real_workspace.html'>default_real_workspace</a> <small>pure module function default_real_workspace(neural_network) result(workspace)</small>  
+</h3></div>
+    <div class="card-body">
+          
+  
+
+  <h4>Arguments</h4>
+      <table class="table table-striped varlist">
+    <thead>
+      <tr>
+        <th scope="col">Type</th>
+<th scope="col">Intent</th><th scope="col">Optional</th>        <th scope="col">Attributes</th>
+        <th scope="col"></th>
+        <th scope="col">Name</th>
+        <th scope="col"></th>
+    </thead>
+    <tbody>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-neural_network~10"></span>
+              type(<a href='../type/neural_network_t.html'>neural_network_t</a>),
+            </td>
+<td>intent(in)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>neural_network</strong></td>
+            <td>
+
+            </td>
+        </tr>
+    </tbody>
+  </table>
+
+    <h4>
+    Return Value
+    <small>type(<a href='../type/workspace_t.html'>workspace_t</a>)</small>
+    </h4>
+    
+
+    </div>
+  </div>
+
+        </section>
+    </div>
+  </div>
+
+      <hr>
+    </div> <!-- /container -->
+    <footer>
+      <div class="container">
+        <div class="row justify-content-between">
+          <div class="col">
+            <p>
+              Fiats
+ was developed by Berkeley Lab<br>              &copy; 2024 
+</p>
+          </div>
+          <div class="col">
+            <p class="text-end">
+              Documentation generated by
+              <a href="https://github.com/Fortran-FOSS-Programmers/ford">FORD</a>
+ on 2024-10-17 00:07              </p>
+          </div>
+        </div>
+        <br>
+      </div> <!-- /container -->
+    </footer>
+
+    <!-- Bootstrap core JavaScript -->
+    <!-- Placed at the end of the document so the pages load faster -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"
+            integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p" crossorigin="anonymous"></script>    
+
+    <!-- MathJax JavaScript
+             ================================================== -->
+             <!-- Placed at the end of the document so the pages load faster -->
+        <script type="text/x-mathjax-config">
+          MathJax.Hub.Config({
+          TeX: { extensions: ['AMSmath.js','AMSsymbols.js','noErrors.js','noUndefined.js'], equationNumbers: { autoNumber: 'AMS' } },
+          jax: ['input/TeX','input/MathML','output/HTML-CSS'],
+          extensions: ['tex2jax.js','mml2jax.js','MathMenu.js','MathZoom.js']
+          });
+        </script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+
+          <script src="../tipuesearch/tipuesearch_content.js"></script>
+          <script src="../tipuesearch/tipuesearch_set.js"></script>
+          <script src="../tipuesearch/tipuesearch.js"></script>
+
+  </body>
+</html>

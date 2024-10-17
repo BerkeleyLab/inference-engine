@@ -1,0 +1,3371 @@
+<!-- -*- mode: jinja2 -*- -->
+
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+      <meta name="description" content="Functional inference and training of surrogate models for computational science.">
+    <meta name="author" content="Berkeley Lab" >
+    <link rel="icon" href="../favicon.png">
+
+    <title>neural_network_t &ndash; Fiats </title>
+
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet"
+          integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
+    <link href="../css/pygments.css" rel="stylesheet">
+    <link href="../css/font-awesome.min.css" rel="stylesheet">
+    <link href="../css/local.css" rel="stylesheet">
+      <link  href="../tipuesearch/tipuesearch.css" rel="stylesheet">
+
+    <script src="https://code.jquery.com/jquery-3.7.1.min.js" integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
+    <script src="../js/svg-pan-zoom.min.js"></script>
+  </head>
+
+  <body>
+
+    <!-- Fixed navbar -->
+    <div class="container-fluid mb-sm-4 mb-xl-2">
+      <nav class="navbar navbar-expand-lg navbar-dark bg-dark fixed-top">
+        <div class="container">
+          <a class="navbar-brand" href="../index.html">Fiats </a>
+          <button type="button" class="navbar-toggler" data-bs-toggle="collapse" data-bs-target="#navbar"
+                  aria-expanded="false" aria-controls="navbar" aria-label="Toggle navigation">
+                  <span class="navbar-toggler-icon">
+          </button>
+
+          <div id="navbar" class="navbar-collapse collapse">
+            <ul class="navbar-nav">
+                  <li class="nav-item">
+                    <a class="nav-link" href="../lists/files.html">Source Files</a>
+                  </li>
+                <li class="nav-item">
+                  <a class="nav-link" href="../lists/modules.html">Modules</a>
+                </li>
+                <li class="nav-item">
+                  <a class="nav-link" href="../lists/procedures.html">Procedures</a>
+                </li>
+                <li class="nav-item">
+                  <a class="nav-link" href="../lists/types.html">Derived Types</a>
+                </li>
+                <li class="nav-item">
+                  <a class="nav-link" href="../lists/programs.html">Programs</a>
+                </li>
+            </ul>
+              <div class="d-flex align-items-end flex-grow-1">
+                <form action="../search.html" role="search" class="ms-auto">
+                  <input type="text" class="form-control" aria-label="Search" placeholder="Search" name="q" id="tipue_search_input" autocomplete="off" required>
+                </form>
+              </div>
+          </div><!--/.nav-collapse -->
+        </div>
+      </nav>
+    </div>
+
+    <div class="container">
+  <div class="row">
+    <h1>neural_network_t
+      <small>Derived Type</small>
+      
+    </h1>
+      <div class="container p-2 mb-4 bg-light border rounded-3">
+    <div class="row align-items-center justify-content-between" id="info-bar">
+      <div class="col">
+        <ul class="list-inline" style="margin-bottom:0px;display:inline">
+
+            <li class="list-inline-item" id="statements"><i class="fa fa-list-ol"></i>
+              <a data-bs-toggle="tooltip" data-bs-placement="bottom" data-bs-html="true"
+                 title="<p>12.9% of total for derived types.</p>Including implementation: 37 statements, 15.7% of total for derived types.">65 statements</a>
+            </li>
+
+            <li class="list-inline-item" id="source-file">
+              <i class="fa fa-code"></i>
+              <a href="../src/neural_network_m.f90"> Source File</a>
+            </li>
+        </ul>
+      </div>
+      <div class="col">
+        <nav aria-label="breadcrumb">
+          <ol class="breadcrumb justify-content-end mb-0">
+                <li class="breadcrumb-item"><a href='../sourcefile/neural_network_m.f90.html'>neural_network_m.f90</a></li>
+                <li class="breadcrumb-item"><a href='../module/neural_network_m.html'>neural_network_m</a></li>
+            <li class="breadcrumb-item active" aria-current="page">neural_network_t</li>
+          </ol>
+        </nav>
+      </div>
+    </div>
+  </div>
+  <script>
+    $(function () {
+    $('[data-bs-toggle="tooltip"]').tooltip()
+    })
+  </script>
+
+  </div>
+  
+  <div class="row">
+    <div class="col-md-3 hidden-xs hidden-sm visible-md visible-lg">
+      <div id="sidebar">
+      <h3>Contents</h3>
+  
+      <div class="card mb-4">
+      <a data-bs-toggle="collapse" href="#vars-0"
+         aria-expanded="false" aria-controls="vars-0">
+         <h4 class="card-header bg-primary text-white">Variables</h4>
+      </a>
+      <div id="vars-0" class="collapse">
+        <div class="list-group list-group-flush">
+            <a class="list-group-item" href="../type/neural_network_t.html#variable-k~21">k</a>
+            <a class="list-group-item" href="../type/neural_network_t.html#variable-activation_">activation_</a>
+            <a class="list-group-item" href="../type/neural_network_t.html#variable-biases_">biases_</a>
+            <a class="list-group-item" href="../type/neural_network_t.html#variable-input_map_">input_map_</a>
+            <a class="list-group-item" href="../type/neural_network_t.html#variable-metadata_">metadata_</a>
+            <a class="list-group-item" href="../type/neural_network_t.html#variable-nodes_">nodes_</a>
+            <a class="list-group-item" href="../type/neural_network_t.html#variable-output_map_">output_map_</a>
+            <a class="list-group-item" href="../type/neural_network_t.html#variable-weights_~2">weights_</a>
+        </div>
+      </div>
+    </div>
+
+  
+      <div class="card mb-4">
+      <a data-bs-toggle="collapse" href="#cons-0"
+         aria-expanded="false" aria-controls="cons-0">
+         <h4 class="card-header bg-primary text-white">Constructor</h4>
+      </a>
+      <div id="cons-0" class="collapse">
+        <div class="list-group list-group-flush">
+            <a class="list-group-item" href="../type/neural_network_t.html#interface-neural_network_t">neural_network_t</a>
+        </div>
+      </div>
+    </div>
+
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+      <div class="card mb-4">
+      <a data-bs-toggle="collapse" href="#boundprocs-0"
+         aria-expanded="false" aria-controls="boundprocs-0">
+         <h4 class="card-header bg-primary text-white">Type-Bound Procedures</h4>
+      </a>
+      <div id="boundprocs-0" class="collapse">
+        <div class="list-group list-group-flush">
+            <a class="list-group-item" href="../type/neural_network_t.html#boundprocedure-activation_function_name">activation_function_name</a>
+            <a class="list-group-item" href="../type/neural_network_t.html#boundprocedure-assert_conformable_with">assert_conformable_with</a>
+            <a class="list-group-item" href="../type/neural_network_t.html#boundprocedure-assert_consistency">assert_consistency</a>
+            <a class="list-group-item" href="../type/neural_network_t.html#boundprocedure-infer">infer</a>
+            <a class="list-group-item" href="../type/neural_network_t.html#boundprocedure-learn">learn</a>
+            <a class="list-group-item" href="../type/neural_network_t.html#boundprocedure-map_from_output_range">map_from_output_range</a>
+            <a class="list-group-item" href="../type/neural_network_t.html#boundprocedure-map_to_input_range">map_to_input_range</a>
+            <a class="list-group-item" href="../type/neural_network_t.html#boundprocedure-nodes_per_layer~5">nodes_per_layer</a>
+            <a class="list-group-item" href="../type/neural_network_t.html#boundprocedure-num_hidden_layers~2">num_hidden_layers</a>
+            <a class="list-group-item" href="../type/neural_network_t.html#boundprocedure-num_inputs~6">num_inputs</a>
+            <a class="list-group-item" href="../type/neural_network_t.html#boundprocedure-num_outputs">num_outputs</a>
+            <a class="list-group-item" href="../type/neural_network_t.html#boundprocedure-operator%28%3D%3D%29~6">operator(==)</a>
+            <a class="list-group-item" href="../type/neural_network_t.html#boundprocedure-skip">skip</a>
+            <a class="list-group-item" href="../type/neural_network_t.html#boundprocedure-to_json~5">to_json</a>
+            <a class="list-group-item" href="../type/neural_network_t.html#boundprocedure-default_real_activation_name">default_real_activation_name</a>
+            <a class="list-group-item" href="../type/neural_network_t.html#boundprocedure-default_real_approximately_equal">default_real_approximately_equal</a>
+            <a class="list-group-item" href="../type/neural_network_t.html#boundprocedure-default_real_assert_conformable_with">default_real_assert_conformable_with</a>
+            <a class="list-group-item" href="../type/neural_network_t.html#boundprocedure-default_real_consistency">default_real_consistency</a>
+            <a class="list-group-item" href="../type/neural_network_t.html#boundprocedure-default_real_infer">default_real_infer</a>
+            <a class="list-group-item" href="../type/neural_network_t.html#boundprocedure-default_real_learn">default_real_learn</a>
+            <a class="list-group-item" href="../type/neural_network_t.html#boundprocedure-default_real_map_from_output_range">default_real_map_from_output_range</a>
+            <a class="list-group-item" href="../type/neural_network_t.html#boundprocedure-default_real_map_to_input_range">default_real_map_to_input_range</a>
+            <a class="list-group-item" href="../type/neural_network_t.html#boundprocedure-default_real_nodes_per_layer~2">default_real_nodes_per_layer</a>
+            <a class="list-group-item" href="../type/neural_network_t.html#boundprocedure-default_real_num_hidden_layers">default_real_num_hidden_layers</a>
+            <a class="list-group-item" href="../type/neural_network_t.html#boundprocedure-default_real_num_inputs~2">default_real_num_inputs</a>
+            <a class="list-group-item" href="../type/neural_network_t.html#boundprocedure-default_real_num_outputs">default_real_num_outputs</a>
+            <a class="list-group-item" href="../type/neural_network_t.html#boundprocedure-default_real_skip">default_real_skip</a>
+            <a class="list-group-item" href="../type/neural_network_t.html#boundprocedure-default_real_to_json~4">default_real_to_json</a>
+            <a class="list-group-item" href="../type/neural_network_t.html#boundprocedure-double_precision_activation_name">double_precision_activation_name</a>
+            <a class="list-group-item" href="../type/neural_network_t.html#boundprocedure-double_precision_approximately_equal">double_precision_approximately_equal</a>
+            <a class="list-group-item" href="../type/neural_network_t.html#boundprocedure-double_precision_assert_conformable_with">double_precision_assert_conformable_with</a>
+            <a class="list-group-item" href="../type/neural_network_t.html#boundprocedure-double_precision_consistency">double_precision_consistency</a>
+            <a class="list-group-item" href="../type/neural_network_t.html#boundprocedure-double_precision_infer">double_precision_infer</a>
+            <a class="list-group-item" href="../type/neural_network_t.html#boundprocedure-double_precision_map_from_output_range">double_precision_map_from_output_range</a>
+            <a class="list-group-item" href="../type/neural_network_t.html#boundprocedure-double_precision_map_to_input_range">double_precision_map_to_input_range</a>
+            <a class="list-group-item" href="../type/neural_network_t.html#boundprocedure-double_precision_nodes_per_layer~2">double_precision_nodes_per_layer</a>
+            <a class="list-group-item" href="../type/neural_network_t.html#boundprocedure-double_precision_num_hidden_layers">double_precision_num_hidden_layers</a>
+            <a class="list-group-item" href="../type/neural_network_t.html#boundprocedure-double_precision_num_inputs~2">double_precision_num_inputs</a>
+            <a class="list-group-item" href="../type/neural_network_t.html#boundprocedure-double_precision_num_outputs">double_precision_num_outputs</a>
+            <a class="list-group-item" href="../type/neural_network_t.html#boundprocedure-double_precision_skip">double_precision_skip</a>
+            <a class="list-group-item" href="../type/neural_network_t.html#boundprocedure-double_precision_to_json~4">double_precision_to_json</a>
+        </div>
+      </div>
+    </div>
+
+  
+  
+
+
+  </div>
+
+    </div>
+    
+    <div class="col-md-9" id='text'>
+      <h2 id="type-def-statement">
+        type, public :: neural_network_t</h2>
+    <p>Encapsulate the information needed to perform inference</p>
+<br>      <div class="card">
+        <div class="card-header">
+          <h3 class="card-title">Inherits</h3>
+        </div>
+        <div class="card-body">
+          <div class="depgraph"><?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN"
+ "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
+<!-- Generated by graphviz version 12.1.2 (20240928.0832)
+ -->
+<!-- Title: type~~neural_network_t~~InheritsGraph Pages: 1 -->
+<svg id="typeneural_network_tInheritsGraph" width="641pt" height="84pt"
+ viewBox="0.00 0.00 641.00 84.19" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+<g id="type~~neural_network_t~~InheritsGraph" class="graph" transform="scale(0.724057 0.724057) rotate(0) translate(4 112.27)">
+<title>type~~neural_network_t~~InheritsGraph</title>
+<polygon fill="white" stroke="none" points="-4,4 -4,-112.27 881.29,-112.27 881.29,4 -4,4"/>
+<!-- type~neural_network_t -->
+<g id="type~~neural_network_t~~InheritsGraph_node1" class="node">
+<title>type~neural_network_t</title>
+<polygon fill="none" stroke="black" points="877.29,-66.27 774.27,-66.27 774.27,-42 877.29,-42 877.29,-66.27"/>
+<text text-anchor="middle" x="825.78" y="-50.53" font-family="Helvetica,sans-Serif" font-size="10.50">neural_network_t</text>
+</g>
+<!-- type~activation_t -->
+<g id="type~~neural_network_t~~InheritsGraph_node2" class="node">
+<title>type~activation_t</title>
+<g id="a_type~~neural_network_t~~InheritsGraph_node2"><a xlink:href="../type/activation_t.html" xlink:title="activation_t">
+<polygon fill="#5cb85c" stroke="#5cb85c" points="610.77,-108.27 537.75,-108.27 537.75,-84 610.77,-84 610.77,-108.27"/>
+<text text-anchor="middle" x="574.26" y="-92.54" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">activation_t</text>
+</a>
+</g>
+</g>
+<!-- type~neural_network_t&#45;&gt;type~activation_t -->
+<g id="type~~neural_network_t~~InheritsGraph_edge3" class="edge">
+<title>type~neural_network_t&#45;&gt;type~activation_t</title>
+<path fill="none" stroke="#ff0000" stroke-dasharray="5,2" d="M773.98,-65.66C768.02,-66.89 762.02,-68.08 756.27,-69.14 711.01,-77.46 659.03,-85 622.42,-89.99"/>
+<polygon fill="#ff0000" stroke="#ff0000" points="622.04,-86.51 612.6,-91.31 622.97,-93.45 622.04,-86.51"/>
+<text text-anchor="middle" x="695.14" y="-90.38" font-family="Helvetica,sans-Serif" font-size="9.50">activation_</text>
+</g>
+<!-- type~metadata_t -->
+<g id="type~~neural_network_t~~InheritsGraph_node3" class="node">
+<title>type~metadata_t</title>
+<g id="a_type~~neural_network_t~~InheritsGraph_node3"><a xlink:href="../type/metadata_t.html" xlink:title="metadata_t">
+<polygon fill="#5cb85c" stroke="#5cb85c" points="610.39,-66.27 538.12,-66.27 538.12,-42 610.39,-42 610.39,-66.27"/>
+<text text-anchor="middle" x="574.26" y="-50.53" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">metadata_t</text>
+</a>
+</g>
+</g>
+<!-- type~neural_network_t&#45;&gt;type~metadata_t -->
+<g id="type~~neural_network_t~~InheritsGraph_edge2" class="edge">
+<title>type~neural_network_t&#45;&gt;type~metadata_t</title>
+<path fill="none" stroke="#ff0000" stroke-dasharray="5,2" d="M773.99,-54.13C729.48,-54.13 665.31,-54.13 622.04,-54.13"/>
+<polygon fill="#ff0000" stroke="#ff0000" points="622.21,-50.64 612.21,-54.14 622.21,-57.64 622.21,-50.64"/>
+<text text-anchor="middle" x="695.14" y="-56.36" font-family="Helvetica,sans-Serif" font-size="9.50">metadata_</text>
+</g>
+<!-- type~tensor_map_t -->
+<g id="type~~neural_network_t~~InheritsGraph_node4" class="node">
+<title>type~tensor_map_t</title>
+<g id="a_type~~neural_network_t~~InheritsGraph_node4"><a xlink:href="../type/tensor_map_t.html" xlink:title="tensor_map_t">
+<polygon fill="#5cb85c" stroke="#5cb85c" points="616.02,-24.27 532.5,-24.27 532.5,0 616.02,0 616.02,-24.27"/>
+<text text-anchor="middle" x="574.26" y="-8.53" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">tensor_map_t</text>
+</a>
+</g>
+</g>
+<!-- type~neural_network_t&#45;&gt;type~tensor_map_t -->
+<g id="type~~neural_network_t~~InheritsGraph_edge1" class="edge">
+<title>type~neural_network_t&#45;&gt;type~tensor_map_t</title>
+<path fill="none" stroke="#ff0000" stroke-dasharray="5,2" d="M773.98,-42.4C768.02,-41.15 762.02,-39.95 756.27,-38.88 713.14,-30.91 663.89,-23.76 627.66,-18.86"/>
+<polygon fill="#ff0000" stroke="#ff0000" points="628.25,-15.41 617.88,-17.55 627.32,-22.34 628.25,-15.41"/>
+<text text-anchor="middle" x="695.14" y="-41.11" font-family="Helvetica,sans-Serif" font-size="9.50">input_map_, output_map_</text>
+</g>
+<!-- string_t -->
+<g id="type~~neural_network_t~~InheritsGraph_node5" class="node">
+<title>string_t</title>
+<polygon fill="#5cb85c" stroke="#5cb85c" points="54,-66.27 0,-66.27 0,-42 54,-42 54,-66.27"/>
+<text text-anchor="middle" x="27" y="-50.53" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">string_t</text>
+</g>
+<!-- type~metadata_t&#45;&gt;string_t -->
+<g id="type~~neural_network_t~~InheritsGraph_edge4" class="edge">
+<title>type~metadata_t&#45;&gt;string_t</title>
+<path fill="none" stroke="#00ff00" stroke-dasharray="5,2" d="M537.9,-54.13C440.05,-54.13 166.27,-54.13 65.68,-54.13"/>
+<polygon fill="#00ff00" stroke="#00ff00" points="65.81,-50.64 55.81,-54.14 65.81,-57.64 65.81,-50.64"/>
+<text text-anchor="middle" x="293.25" y="-56.36" font-family="Helvetica,sans-Serif" font-size="9.50">modelName_, modelAuthor_, compilationDate_, activationFunction_, usingSkipConnections_</text>
+</g>
+</g>
+</svg>
+</div>                <script>
+                  var pantypeneural_network_tInheritsGraph = svgPanZoom('#typeneural_network_tInheritsGraph',
+                    {zoomEnabled: true, controlIconsEnabled: true, fit: true, center: true,}
+                  );
+                </script>          <div>
+            <a type="button" class="graph-help" data-bs-toggle="modal" href="#InheritsGraph-help-text">Help</a>
+          </div>
+          <div class="modal fade" id="InheritsGraph-help-text" tabindex="-1" role="dialog">
+            <div class="modal-dialog modal-lg" role="document">
+              <div class="modal-content">
+                <div class="modal-header">
+                  <h4 class="modal-title" id="-graph-help-label">Graph Key</h4>
+                  <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+<p>Nodes of different colours represent the following: </p>
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN"
+ "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
+<!-- Generated by graphviz version 12.1.2 (20240928.0832)
+ -->
+<!-- Title: Graph Key Pages: 1 -->
+<svg width="184pt" height="32pt"
+ viewBox="0.00 0.00 183.88 32.27" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+<g id="graph0" class="graph" transform="scale(1 1) rotate(0) translate(4 28.27)">
+<title>Graph Key</title>
+<polygon fill="white" stroke="none" points="-4,4 -4,-28.27 179.88,-28.27 179.88,4 -4,4"/>
+<!-- Type -->
+<g id="node1" class="node">
+<title>Type</title>
+<polygon fill="#5cb85c" stroke="#5cb85c" points="54,-24.27 0,-24.27 0,0 54,0 54,-24.27"/>
+<text text-anchor="middle" x="27" y="-8.53" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">Type</text>
+</g>
+<!-- This Page&#39;s Entity -->
+<g id="node2" class="node">
+<title>This Page&#39;s Entity</title>
+<polygon fill="none" stroke="black" points="175.88,-24.27 72.12,-24.27 72.12,0 175.88,0 175.88,-24.27"/>
+<text text-anchor="middle" x="124" y="-8.53" font-family="Helvetica,sans-Serif" font-size="10.50">This Page&#39;s Entity</text>
+</g>
+</g>
+</svg>
+
+<p>Solid arrows point from a derived type to the parent type which it
+extends. Dashed arrows point from a derived type to the other
+types it contains as a components, with a label listing the name(s) of
+said component(s).
+</p>
+ Where possible, edges connecting nodes are
+given different colours to make them easier to distinguish in
+large graphs.</div>
+            </div>
+          </div>
+        </div>
+        </div>
+      </div>
+      <div class="card">
+        <div class="card-header">
+          <h3 class="card-title">Inherited by</h3>
+        </div>
+        <div class="card-body">
+          <div class="depgraph"><?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN"
+ "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
+<!-- Generated by graphviz version 12.1.2 (20240928.0832)
+ -->
+<!-- Title: type~~neural_network_t~~InheritedByGraph Pages: 1 -->
+<svg id="typeneural_network_tInheritedByGraph" width="351pt" height="74pt"
+ viewBox="0.00 0.00 351.29 74.27" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+<g id="type~~neural_network_t~~InheritedByGraph" class="graph" transform="scale(1 1) rotate(0) translate(4 70.27)">
+<title>type~~neural_network_t~~InheritedByGraph</title>
+<polygon fill="white" stroke="none" points="-4,4 -4,-70.27 347.29,-70.27 347.29,4 -4,4"/>
+<!-- type~neural_network_t -->
+<g id="type~~neural_network_t~~InheritedByGraph_node1" class="node">
+<title>type~neural_network_t</title>
+<polygon fill="none" stroke="black" points="103.02,-45.27 0,-45.27 0,-21 103.02,-21 103.02,-45.27"/>
+<text text-anchor="middle" x="51.51" y="-29.53" font-family="Helvetica,sans-Serif" font-size="10.50">neural_network_t</text>
+</g>
+<!-- type~trainable_network_t -->
+<g id="type~~neural_network_t~~InheritedByGraph_node2" class="node">
+<title>type~trainable_network_t</title>
+<g id="a_type~~neural_network_t~~InheritedByGraph_node2"><a xlink:href="../type/trainable_network_t.html" xlink:title="trainable_network_t">
+<polygon fill="#5cb85c" stroke="#5cb85c" points="338.41,-66.27 221.89,-66.27 221.89,-42 338.41,-42 338.41,-66.27"/>
+<text text-anchor="middle" x="280.15" y="-50.53" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">trainable_network_t</text>
+</a>
+</g>
+</g>
+<!-- type~trainable_network_t&#45;&gt;type~neural_network_t -->
+<g id="type~~neural_network_t~~InheritedByGraph_edge2" class="edge">
+<title>type~trainable_network_t&#45;&gt;type~neural_network_t</title>
+<path fill="none" stroke="#ff0000" d="M221.68,-49.23C191.67,-46.63 154.36,-43.31 121.02,-40.13 118.97,-39.94 116.88,-39.74 114.77,-39.53"/>
+<polygon fill="#ff0000" stroke="#ff0000" points="115.18,-36.06 104.89,-38.56 114.5,-43.02 115.18,-36.06"/>
+</g>
+<!-- type~unmapped_network_t -->
+<g id="type~~neural_network_t~~InheritedByGraph_node3" class="node">
+<title>type~unmapped_network_t</title>
+<g id="a_type~~neural_network_t~~InheritedByGraph_node3"><a xlink:href="../type/unmapped_network_t.html" xlink:title="unmapped_network_t">
+<polygon fill="#5cb85c" stroke="#5cb85c" points="343.29,-24.27 217.02,-24.27 217.02,0 343.29,0 343.29,-24.27"/>
+<text text-anchor="middle" x="280.15" y="-8.53" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">unmapped_network_t</text>
+</a>
+</g>
+</g>
+<!-- type~unmapped_network_t&#45;&gt;type~neural_network_t -->
+<g id="type~~neural_network_t~~InheritedByGraph_edge1" class="edge">
+<title>type~unmapped_network_t&#45;&gt;type~neural_network_t</title>
+<path fill="none" stroke="#ff0000" stroke-dasharray="5,2" d="M216.62,-17.93C184.88,-20.87 146.44,-24.43 114.74,-27.37"/>
+<polygon fill="#ff0000" stroke="#ff0000" points="114.53,-23.87 104.9,-28.28 115.18,-30.84 114.53,-23.87"/>
+<text text-anchor="middle" x="160.02" y="-28.57" font-family="Helvetica,sans-Serif" font-size="9.50">neural_network_</text>
+</g>
+</g>
+</svg>
+</div>          <div>
+            <a type="button" class="graph-help" data-bs-toggle="modal" href="#InheritedByGraph-help-text">Help</a>
+          </div>
+          <div class="modal fade" id="InheritedByGraph-help-text" tabindex="-1" role="dialog">
+            <div class="modal-dialog modal-lg" role="document">
+              <div class="modal-content">
+                <div class="modal-header">
+                  <h4 class="modal-title" id="-graph-help-label">Graph Key</h4>
+                  <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+<p>Nodes of different colours represent the following: </p>
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN"
+ "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
+<!-- Generated by graphviz version 12.1.2 (20240928.0832)
+ -->
+<!-- Title: Graph Key Pages: 1 -->
+<svg width="184pt" height="32pt"
+ viewBox="0.00 0.00 183.88 32.27" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+<g id="graph0" class="graph" transform="scale(1 1) rotate(0) translate(4 28.27)">
+<title>Graph Key</title>
+<polygon fill="white" stroke="none" points="-4,4 -4,-28.27 179.88,-28.27 179.88,4 -4,4"/>
+<!-- Type -->
+<g id="node1" class="node">
+<title>Type</title>
+<polygon fill="#5cb85c" stroke="#5cb85c" points="54,-24.27 0,-24.27 0,0 54,0 54,-24.27"/>
+<text text-anchor="middle" x="27" y="-8.53" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">Type</text>
+</g>
+<!-- This Page&#39;s Entity -->
+<g id="node2" class="node">
+<title>This Page&#39;s Entity</title>
+<polygon fill="none" stroke="black" points="175.88,-24.27 72.12,-24.27 72.12,0 175.88,0 175.88,-24.27"/>
+<text text-anchor="middle" x="124" y="-8.53" font-family="Helvetica,sans-Serif" font-size="10.50">This Page&#39;s Entity</text>
+</g>
+</g>
+</svg>
+
+<p>Solid arrows point from a derived type to the parent type which it
+extends. Dashed arrows point from a derived type to the other
+types it contains as a components, with a label listing the name(s) of
+said component(s).
+</p>
+ Where possible, edges connecting nodes are
+given different colours to make them easier to distinguish in
+large graphs.</div>
+            </div>
+          </div>
+        </div>
+        </div>
+      </div>
+    <br>
+
+    <section>
+    <h2>Components</h2>
+      <table class="table table-striped varlist">
+    <thead>
+      <tr>
+        <th scope="col">Type</th>
+<th scope="col">Visibility</th>        <th scope="col">Attributes</th>
+        <th scope="col"></th>
+        <th scope="col">Name</th>
+<th></th><th scope="col">Initial</th>        <th scope="col"></th>
+    </thead>
+    <tbody>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-k~21"></span>
+              integer,
+            </td>
+              <td>public,</td>
+            <td>
+              kind
+            </td>
+            <td>::</td>
+            <td><strong>k</strong></td>
+<td> =</td>
+                <td>default_real</td>
+            <td>
+                
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-activation_"></span>
+              type(<a href='activation_t.html'>activation_t</a>),
+            </td>
+              <td>private</td>
+            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>activation_</strong></td>
+                <td></td>
+                <td></td>
+            <td>
+                
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-biases_"></span>
+              real(kind=k),
+            </td>
+              <td>private,</td>
+            <td>
+              allocatable
+            </td>
+            <td>::</td>
+            <td><strong>biases_</strong>(:,:)</td>
+                <td></td>
+                <td></td>
+            <td>
+                
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-input_map_"></span>
+              type(<a href='tensor_map_t.html'>tensor_map_t</a>(k)),
+            </td>
+              <td>private</td>
+            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>input_map_</strong></td>
+                <td></td>
+                <td></td>
+            <td>
+                
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-metadata_"></span>
+              type(<a href='metadata_t.html'>metadata_t</a>),
+            </td>
+              <td>private</td>
+            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>metadata_</strong></td>
+                <td></td>
+                <td></td>
+            <td>
+                
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-nodes_"></span>
+              integer,
+            </td>
+              <td>private,</td>
+            <td>
+              allocatable
+            </td>
+            <td>::</td>
+            <td><strong>nodes_</strong>(:)</td>
+                <td></td>
+                <td></td>
+            <td>
+                
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-output_map_"></span>
+              type(<a href='tensor_map_t.html'>tensor_map_t</a>(k)),
+            </td>
+              <td>private</td>
+            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>output_map_</strong></td>
+                <td></td>
+                <td></td>
+            <td>
+                
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-weights_~2"></span>
+              real(kind=k),
+            </td>
+              <td>private,</td>
+            <td>
+              allocatable
+            </td>
+            <td>::</td>
+            <td><strong>weights_</strong>(:,:,:)</td>
+                <td></td>
+                <td></td>
+            <td>
+                
+            </td>
+        </tr>
+    </tbody>
+  </table>
+
+    </section>
+    <br>
+    
+      <section>
+        <h2>Constructor</h2>
+            <div class="card">
+    <div class="card-header bg-light codesum">
+      <span class="anchor" id="interface-neural_network_t"></span>
+      <h3>public        interface <a href='../interface/neural_network_t.html'>neural_network_t</a> 
+      </h3>
+    </div>
+    <ul class="list-group">
+          <li class="list-group-item">
+                <h3>
+    private module function default_real_construct_from_components(metadata, weights, biases, nodes, input_map, output_map) result(neural_network)  
+    <a href="../proc/default_real_construct_from_components.html"><button type="button" class="btn btn-info depwarn">Implementation &rarr;</button></a>
+
+    </h3>
+  
+
+  <h4>Arguments</h4>
+      <table class="table table-striped varlist">
+    <thead>
+      <tr>
+        <th scope="col">Type</th>
+<th scope="col">Intent</th><th scope="col">Optional</th>        <th scope="col">Attributes</th>
+        <th scope="col"></th>
+        <th scope="col">Name</th>
+        <th scope="col"></th>
+    </thead>
+    <tbody>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-metadata~4"></span>
+              type(string_t),
+            </td>
+<td>intent(in)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>metadata</strong>(:)</td>
+            <td>
+                
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-weights~4"></span>
+              real,
+            </td>
+<td>intent(in)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>weights</strong>(:,:,:)</td>
+            <td>
+                
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-biases"></span>
+              real,
+            </td>
+<td>intent(in)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>biases</strong>(:,:)</td>
+            <td>
+                
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-nodes~5"></span>
+              integer,
+            </td>
+<td>intent(in)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>nodes</strong>(0:)</td>
+            <td>
+                
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-input_map~6"></span>
+              type(<a href='tensor_map_t.html'>tensor_map_t</a>),
+            </td>
+<td>intent(in),</td>
+              <td>optional</td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>input_map</strong></td>
+            <td>
+                
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-output_map~6"></span>
+              type(<a href='tensor_map_t.html'>tensor_map_t</a>),
+            </td>
+<td>intent(in),</td>
+              <td>optional</td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>output_map</strong></td>
+            <td>
+                
+            </td>
+        </tr>
+    </tbody>
+  </table>
+
+    <h4>
+    Return Value
+    <small>type(<a href='neural_network_t.html'>neural_network_t</a>)</small>
+    </h4>
+    
+
+          </li>
+          <li class="list-group-item">
+                <h3>
+    private impure elemental module function default_real_from_json(file_) result(neural_network)  
+    <a href="../proc/default_real_from_json.html"><button type="button" class="btn btn-info depwarn">Implementation &rarr;</button></a>
+
+    </h3>
+  
+
+  <h4>Arguments</h4>
+      <table class="table table-striped varlist">
+    <thead>
+      <tr>
+        <th scope="col">Type</th>
+<th scope="col">Intent</th><th scope="col">Optional</th>        <th scope="col">Attributes</th>
+        <th scope="col"></th>
+        <th scope="col">Name</th>
+        <th scope="col"></th>
+    </thead>
+    <tbody>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-file_"></span>
+              type(file_t),
+            </td>
+<td>intent(in)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>file_</strong></td>
+            <td>
+                
+            </td>
+        </tr>
+    </tbody>
+  </table>
+
+    <h4>
+    Return Value
+    <small>type(<a href='neural_network_t.html'>neural_network_t</a>)</small>
+    </h4>
+    
+
+          </li>
+          <li class="list-group-item">
+                <h3>
+    private module function double_precision_construct_from_components(metadata, weights, biases, nodes, input_map, output_map) result(neural_network)  
+    <a href="../proc/double_precision_construct_from_components.html"><button type="button" class="btn btn-info depwarn">Implementation &rarr;</button></a>
+
+    </h3>
+  
+
+  <h4>Arguments</h4>
+      <table class="table table-striped varlist">
+    <thead>
+      <tr>
+        <th scope="col">Type</th>
+<th scope="col">Intent</th><th scope="col">Optional</th>        <th scope="col">Attributes</th>
+        <th scope="col"></th>
+        <th scope="col">Name</th>
+        <th scope="col"></th>
+    </thead>
+    <tbody>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-metadata~5"></span>
+              type(<a href='metadata_t.html'>metadata_t</a>),
+            </td>
+<td>intent(in)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>metadata</strong></td>
+            <td>
+                
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-weights~5"></span>
+              double precision,
+            </td>
+<td>intent(in)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>weights</strong>(:,:,:)</td>
+            <td>
+                
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-biases~2"></span>
+              double precision,
+            </td>
+<td>intent(in)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>biases</strong>(:,:)</td>
+            <td>
+                
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-nodes~6"></span>
+              integer,
+            </td>
+<td>intent(in)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>nodes</strong>(0:)</td>
+            <td>
+                
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-input_map~7"></span>
+              type(<a href='tensor_map_t.html'>tensor_map_t</a>(double_precision)),
+            </td>
+<td>intent(in),</td>
+              <td>optional</td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>input_map</strong></td>
+            <td>
+                
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-output_map~7"></span>
+              type(<a href='tensor_map_t.html'>tensor_map_t</a>(double_precision)),
+            </td>
+<td>intent(in),</td>
+              <td>optional</td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>output_map</strong></td>
+            <td>
+                
+            </td>
+        </tr>
+    </tbody>
+  </table>
+
+    <h4>
+    Return Value
+    <small>type(<a href='neural_network_t.html'>neural_network_t</a>(double_precision))</small>
+    </h4>
+    
+
+          </li>
+          <li class="list-group-item">
+                <h3>
+    private impure elemental module function double_precision_from_json(file) result(neural_network)  
+    <a href="../proc/double_precision_from_json.html"><button type="button" class="btn btn-info depwarn">Implementation &rarr;</button></a>
+
+    </h3>
+  
+
+  <h4>Arguments</h4>
+      <table class="table table-striped varlist">
+    <thead>
+      <tr>
+        <th scope="col">Type</th>
+<th scope="col">Intent</th><th scope="col">Optional</th>        <th scope="col">Attributes</th>
+        <th scope="col"></th>
+        <th scope="col">Name</th>
+        <th scope="col"></th>
+    </thead>
+    <tbody>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-file"></span>
+              type(<a href='double_precision_file_t.html'>double_precision_file_t</a>),
+            </td>
+<td>intent(in)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>file</strong></td>
+            <td>
+                
+            </td>
+        </tr>
+    </tbody>
+  </table>
+
+    <h4>
+    Return Value
+    <small>type(<a href='neural_network_t.html'>neural_network_t</a>(double_precision))</small>
+    </h4>
+    
+
+          </li>
+    </ul>
+  </div>
+
+      </section>
+      <br>
+
+
+      <section>
+        <h2>Type-Bound Procedures</h2>
+          <div class="row">
+              <div class="card mt-3">
+    <div class="card-header codesum">
+      <span class="anchor" id="boundprocedure-activation_function_name"></span>
+      <h3>
+          generic, public ::
+  <strong>activation_function_name</strong> => <a href='/home/runner/work/inference-engine/inference-engine/doc/html/type/neural_network_t.html#boundprocedure-default_real_activation_name'>default_real_activation_name</a>, <a href='/home/runner/work/inference-engine/inference-engine/doc/html/type/neural_network_t.html#boundprocedure-double_precision_activation_name'>double_precision_activation_name</a>
+        
+      </h3>
+    </div>
+    <ul class="list-group">
+        <li class="list-group-item">
+                  <h3>
+    private  interface <a href='../interface/default_real_activation_name.html'>default_real_activation_name</a>()  
+</h3>
+    
+
+  
+
+  <h4>Arguments</h4>
+    <em>None</em>
+
+        </li>
+        <li class="list-group-item">
+                  <h3>
+    private  interface <a href='../interface/double_precision_activation_name.html'>double_precision_activation_name</a>()  
+</h3>
+    
+
+  
+
+  <h4>Arguments</h4>
+    <em>None</em>
+
+        </li>
+    </ul>
+  </div>
+
+          </div>
+          <div class="row">
+              <div class="card mt-3">
+    <div class="card-header codesum">
+      <span class="anchor" id="boundprocedure-assert_conformable_with"></span>
+      <h3>
+          generic, public ::
+  <strong>assert_conformable_with</strong> => <a href='/home/runner/work/inference-engine/inference-engine/doc/html/type/neural_network_t.html#boundprocedure-default_real_assert_conformable_with'>default_real_assert_conformable_with</a>, <a href='/home/runner/work/inference-engine/inference-engine/doc/html/type/neural_network_t.html#boundprocedure-double_precision_assert_conformable_with'>double_precision_assert_conformable_with</a>
+        
+      </h3>
+    </div>
+    <ul class="list-group">
+        <li class="list-group-item">
+                  <h3>
+    private  interface <a href='../interface/default_real_assert_conformable_with.html'>default_real_assert_conformable_with</a>()  
+</h3>
+    
+
+  
+
+  <h4>Arguments</h4>
+    <em>None</em>
+
+        </li>
+        <li class="list-group-item">
+                  <h3>
+    private  interface <a href='../interface/double_precision_assert_conformable_with.html'>double_precision_assert_conformable_with</a>()  
+</h3>
+    
+
+  
+
+  <h4>Arguments</h4>
+    <em>None</em>
+
+        </li>
+    </ul>
+  </div>
+
+          </div>
+          <div class="row">
+              <div class="card mt-3">
+    <div class="card-header codesum">
+      <span class="anchor" id="boundprocedure-assert_consistency"></span>
+      <h3>
+          generic, public ::
+  <strong>assert_consistency</strong> => <a href='/home/runner/work/inference-engine/inference-engine/doc/html/type/neural_network_t.html#boundprocedure-default_real_consistency'>default_real_consistency</a>, <a href='/home/runner/work/inference-engine/inference-engine/doc/html/type/neural_network_t.html#boundprocedure-double_precision_consistency'>double_precision_consistency</a>
+        
+      </h3>
+    </div>
+    <ul class="list-group">
+        <li class="list-group-item">
+                  <h3>
+    private  interface <a href='../interface/default_real_consistency.html'>default_real_consistency</a>()  
+</h3>
+    
+
+  
+
+  <h4>Arguments</h4>
+    <em>None</em>
+
+        </li>
+        <li class="list-group-item">
+                  <h3>
+    private  interface <a href='../interface/double_precision_consistency.html'>double_precision_consistency</a>()  
+</h3>
+    
+
+  
+
+  <h4>Arguments</h4>
+    <em>None</em>
+
+        </li>
+    </ul>
+  </div>
+
+          </div>
+          <div class="row">
+              <div class="card mt-3">
+    <div class="card-header codesum">
+      <span class="anchor" id="boundprocedure-infer"></span>
+      <h3>
+          generic, public ::
+  <strong>infer</strong> => <a href='/home/runner/work/inference-engine/inference-engine/doc/html/type/neural_network_t.html#boundprocedure-default_real_infer'>default_real_infer</a>, <a href='/home/runner/work/inference-engine/inference-engine/doc/html/type/neural_network_t.html#boundprocedure-double_precision_infer'>double_precision_infer</a>
+        
+      </h3>
+    </div>
+    <ul class="list-group">
+        <li class="list-group-item">
+                  <h3>
+    private  interface <a href='../interface/default_real_infer.html'>default_real_infer</a>()  
+</h3>
+    
+
+  
+
+  <h4>Arguments</h4>
+    <em>None</em>
+
+        </li>
+        <li class="list-group-item">
+                  <h3>
+    private  interface <a href='../interface/double_precision_infer.html'>double_precision_infer</a>()  
+</h3>
+    
+
+  
+
+  <h4>Arguments</h4>
+    <em>None</em>
+
+        </li>
+    </ul>
+  </div>
+
+          </div>
+          <div class="row">
+              <div class="card mt-3">
+    <div class="card-header codesum">
+      <span class="anchor" id="boundprocedure-learn"></span>
+      <h3>
+          generic, public ::
+  <strong>learn</strong> => <a href='/home/runner/work/inference-engine/inference-engine/doc/html/type/neural_network_t.html#boundprocedure-default_real_learn'>default_real_learn</a>
+        
+      </h3>
+    </div>
+    <ul class="list-group">
+        <li class="list-group-item">
+                  <h3>
+    private  interface <a href='../interface/default_real_learn.html'>default_real_learn</a>()  
+</h3>
+    
+
+  
+
+  <h4>Arguments</h4>
+    <em>None</em>
+
+        </li>
+    </ul>
+  </div>
+
+          </div>
+          <div class="row">
+              <div class="card mt-3">
+    <div class="card-header codesum">
+      <span class="anchor" id="boundprocedure-map_from_output_range"></span>
+      <h3>
+          generic, public ::
+  <strong>map_from_output_range</strong> => <a href='/home/runner/work/inference-engine/inference-engine/doc/html/type/neural_network_t.html#boundprocedure-default_real_map_from_output_range'>default_real_map_from_output_range</a>, <a href='/home/runner/work/inference-engine/inference-engine/doc/html/type/neural_network_t.html#boundprocedure-double_precision_map_from_output_range'>double_precision_map_from_output_range</a>
+        
+      </h3>
+    </div>
+    <ul class="list-group">
+        <li class="list-group-item">
+                  <h3>
+    private  interface <a href='../interface/default_real_map_from_output_range.html'>default_real_map_from_output_range</a>()  
+</h3>
+    
+
+  
+
+  <h4>Arguments</h4>
+    <em>None</em>
+
+        </li>
+        <li class="list-group-item">
+                  <h3>
+    private  interface <a href='../interface/double_precision_map_from_output_range.html'>double_precision_map_from_output_range</a>()  
+</h3>
+    
+
+  
+
+  <h4>Arguments</h4>
+    <em>None</em>
+
+        </li>
+    </ul>
+  </div>
+
+          </div>
+          <div class="row">
+              <div class="card mt-3">
+    <div class="card-header codesum">
+      <span class="anchor" id="boundprocedure-map_to_input_range"></span>
+      <h3>
+          generic, public ::
+  <strong>map_to_input_range</strong> => <a href='/home/runner/work/inference-engine/inference-engine/doc/html/type/neural_network_t.html#boundprocedure-default_real_map_to_input_range'>default_real_map_to_input_range</a>, <a href='/home/runner/work/inference-engine/inference-engine/doc/html/type/neural_network_t.html#boundprocedure-double_precision_map_to_input_range'>double_precision_map_to_input_range</a>
+        
+      </h3>
+    </div>
+    <ul class="list-group">
+        <li class="list-group-item">
+                  <h3>
+    private  interface <a href='../interface/default_real_map_to_input_range.html'>default_real_map_to_input_range</a>()  
+</h3>
+    
+
+  
+
+  <h4>Arguments</h4>
+    <em>None</em>
+
+        </li>
+        <li class="list-group-item">
+                  <h3>
+    private  interface <a href='../interface/double_precision_map_to_input_range.html'>double_precision_map_to_input_range</a>()  
+</h3>
+    
+
+  
+
+  <h4>Arguments</h4>
+    <em>None</em>
+
+        </li>
+    </ul>
+  </div>
+
+          </div>
+          <div class="row">
+              <div class="card mt-3">
+    <div class="card-header codesum">
+      <span class="anchor" id="boundprocedure-nodes_per_layer~5"></span>
+      <h3>
+          generic, public ::
+  <strong>nodes_per_layer</strong> => <a href='/home/runner/work/inference-engine/inference-engine/doc/html/type/neural_network_t.html#boundprocedure-default_real_nodes_per_layer~2'>default_real_nodes_per_layer</a>, <a href='/home/runner/work/inference-engine/inference-engine/doc/html/type/neural_network_t.html#boundprocedure-double_precision_nodes_per_layer~2'>double_precision_nodes_per_layer</a>
+        
+      </h3>
+    </div>
+    <ul class="list-group">
+        <li class="list-group-item">
+                  <h3>
+    private  interface <a href='../interface/default_real_nodes_per_layer~2.html'>default_real_nodes_per_layer</a>()  
+</h3>
+    
+
+  
+
+  <h4>Arguments</h4>
+    <em>None</em>
+
+        </li>
+        <li class="list-group-item">
+                  <h3>
+    private  interface <a href='../interface/double_precision_nodes_per_layer~2.html'>double_precision_nodes_per_layer</a>()  
+</h3>
+    
+
+  
+
+  <h4>Arguments</h4>
+    <em>None</em>
+
+        </li>
+    </ul>
+  </div>
+
+          </div>
+          <div class="row">
+              <div class="card mt-3">
+    <div class="card-header codesum">
+      <span class="anchor" id="boundprocedure-num_hidden_layers~2"></span>
+      <h3>
+          generic, public ::
+  <strong>num_hidden_layers</strong> => <a href='/home/runner/work/inference-engine/inference-engine/doc/html/type/neural_network_t.html#boundprocedure-default_real_num_hidden_layers'>default_real_num_hidden_layers</a>, <a href='/home/runner/work/inference-engine/inference-engine/doc/html/type/neural_network_t.html#boundprocedure-double_precision_num_hidden_layers'>double_precision_num_hidden_layers</a>
+        
+      </h3>
+    </div>
+    <ul class="list-group">
+        <li class="list-group-item">
+                  <h3>
+    private  interface <a href='../interface/default_real_num_hidden_layers.html'>default_real_num_hidden_layers</a>()  
+</h3>
+    
+
+  
+
+  <h4>Arguments</h4>
+    <em>None</em>
+
+        </li>
+        <li class="list-group-item">
+                  <h3>
+    private  interface <a href='../interface/double_precision_num_hidden_layers.html'>double_precision_num_hidden_layers</a>()  
+</h3>
+    
+
+  
+
+  <h4>Arguments</h4>
+    <em>None</em>
+
+        </li>
+    </ul>
+  </div>
+
+          </div>
+          <div class="row">
+              <div class="card mt-3">
+    <div class="card-header codesum">
+      <span class="anchor" id="boundprocedure-num_inputs~6"></span>
+      <h3>
+          generic, public ::
+  <strong>num_inputs</strong> => <a href='/home/runner/work/inference-engine/inference-engine/doc/html/type/neural_network_t.html#boundprocedure-default_real_num_inputs~2'>default_real_num_inputs</a>, <a href='/home/runner/work/inference-engine/inference-engine/doc/html/type/neural_network_t.html#boundprocedure-double_precision_num_inputs~2'>double_precision_num_inputs</a>
+        
+      </h3>
+    </div>
+    <ul class="list-group">
+        <li class="list-group-item">
+                  <h3>
+    private  interface <a href='../interface/default_real_num_inputs~2.html'>default_real_num_inputs</a>()  
+</h3>
+    
+
+  
+
+  <h4>Arguments</h4>
+    <em>None</em>
+
+        </li>
+        <li class="list-group-item">
+                  <h3>
+    private  interface <a href='../interface/double_precision_num_inputs~2.html'>double_precision_num_inputs</a>()  
+</h3>
+    
+
+  
+
+  <h4>Arguments</h4>
+    <em>None</em>
+
+        </li>
+    </ul>
+  </div>
+
+          </div>
+          <div class="row">
+              <div class="card mt-3">
+    <div class="card-header codesum">
+      <span class="anchor" id="boundprocedure-num_outputs"></span>
+      <h3>
+          generic, public ::
+  <strong>num_outputs</strong> => <a href='/home/runner/work/inference-engine/inference-engine/doc/html/type/neural_network_t.html#boundprocedure-default_real_num_outputs'>default_real_num_outputs</a>, <a href='/home/runner/work/inference-engine/inference-engine/doc/html/type/neural_network_t.html#boundprocedure-double_precision_num_outputs'>double_precision_num_outputs</a>
+        
+      </h3>
+    </div>
+    <ul class="list-group">
+        <li class="list-group-item">
+                  <h3>
+    private  interface <a href='../interface/default_real_num_outputs.html'>default_real_num_outputs</a>()  
+</h3>
+    
+
+  
+
+  <h4>Arguments</h4>
+    <em>None</em>
+
+        </li>
+        <li class="list-group-item">
+                  <h3>
+    private  interface <a href='../interface/double_precision_num_outputs.html'>double_precision_num_outputs</a>()  
+</h3>
+    
+
+  
+
+  <h4>Arguments</h4>
+    <em>None</em>
+
+        </li>
+    </ul>
+  </div>
+
+          </div>
+          <div class="row">
+              <div class="card mt-3">
+    <div class="card-header codesum">
+      <span class="anchor" id="boundprocedure-operator%28%3D%3D%29~6"></span>
+      <h3>
+          generic, public ::
+  <strong>operator(==)</strong> => <a href='/home/runner/work/inference-engine/inference-engine/doc/html/type/neural_network_t.html#boundprocedure-default_real_approximately_equal'>default_real_approximately_equal</a>, <a href='/home/runner/work/inference-engine/inference-engine/doc/html/type/neural_network_t.html#boundprocedure-double_precision_approximately_equal'>double_precision_approximately_equal</a>
+        
+      </h3>
+    </div>
+    <ul class="list-group">
+        <li class="list-group-item">
+                  <h3>
+    private  interface <a href='../interface/default_real_approximately_equal.html'>default_real_approximately_equal</a>()  
+</h3>
+    
+
+  
+
+  <h4>Arguments</h4>
+    <em>None</em>
+
+        </li>
+        <li class="list-group-item">
+                  <h3>
+    private  interface <a href='../interface/double_precision_approximately_equal.html'>double_precision_approximately_equal</a>()  
+</h3>
+    
+
+  
+
+  <h4>Arguments</h4>
+    <em>None</em>
+
+        </li>
+    </ul>
+  </div>
+
+          </div>
+          <div class="row">
+              <div class="card mt-3">
+    <div class="card-header codesum">
+      <span class="anchor" id="boundprocedure-skip"></span>
+      <h3>
+          generic, public ::
+  <strong>skip</strong> => <a href='/home/runner/work/inference-engine/inference-engine/doc/html/type/neural_network_t.html#boundprocedure-default_real_skip'>default_real_skip</a>, <a href='/home/runner/work/inference-engine/inference-engine/doc/html/type/neural_network_t.html#boundprocedure-double_precision_skip'>double_precision_skip</a>
+        
+      </h3>
+    </div>
+    <ul class="list-group">
+        <li class="list-group-item">
+                  <h3>
+    private  interface <a href='../interface/default_real_skip.html'>default_real_skip</a>()  
+</h3>
+    
+
+  
+
+  <h4>Arguments</h4>
+    <em>None</em>
+
+        </li>
+        <li class="list-group-item">
+                  <h3>
+    private  interface <a href='../interface/double_precision_skip.html'>double_precision_skip</a>()  
+</h3>
+    
+
+  
+
+  <h4>Arguments</h4>
+    <em>None</em>
+
+        </li>
+    </ul>
+  </div>
+
+          </div>
+          <div class="row">
+              <div class="card mt-3">
+    <div class="card-header codesum">
+      <span class="anchor" id="boundprocedure-to_json~5"></span>
+      <h3>
+          generic, public ::
+  <strong>to_json</strong> => <a href='/home/runner/work/inference-engine/inference-engine/doc/html/type/neural_network_t.html#boundprocedure-default_real_to_json~4'>default_real_to_json</a>, <a href='/home/runner/work/inference-engine/inference-engine/doc/html/type/neural_network_t.html#boundprocedure-double_precision_to_json~4'>double_precision_to_json</a>
+        
+      </h3>
+    </div>
+    <ul class="list-group">
+        <li class="list-group-item">
+                  <h3>
+    private  interface <a href='../interface/default_real_to_json~4.html'>default_real_to_json</a>()  
+</h3>
+    
+
+  
+
+  <h4>Arguments</h4>
+    <em>None</em>
+
+        </li>
+        <li class="list-group-item">
+                  <h3>
+    private  interface <a href='../interface/double_precision_to_json~4.html'>double_precision_to_json</a>()  
+</h3>
+    
+
+  
+
+  <h4>Arguments</h4>
+    <em>None</em>
+
+        </li>
+    </ul>
+  </div>
+
+          </div>
+          <div class="row">
+              <div class="card mt-3">
+    <div class="card-header codesum">
+      <span class="anchor" id="boundprocedure-default_real_activation_name"></span>
+      <h3>
+          procedure, private, non_overridable ::
+  <strong>default_real_activation_name</strong>
+        
+      </h3>
+    </div>
+    <ul class="list-group">
+        <li class="list-group-item">
+              <h3>interface </h3>
+                  <h3>
+    private elemental module function default_real_activation_name(self) result(activation_name)  
+    <a href="../proc/default_real_activation_name.html"><button type="button" class="btn btn-info depwarn">Implementation &rarr;</button></a>
+</h3>
+
+  
+
+  <h4>Arguments</h4>
+      <table class="table table-striped varlist">
+    <thead>
+      <tr>
+        <th scope="col">Type</th>
+<th scope="col">Intent</th><th scope="col">Optional</th>        <th scope="col">Attributes</th>
+        <th scope="col"></th>
+        <th scope="col">Name</th>
+        <th scope="col"></th>
+    </thead>
+    <tbody>
+        <tr>
+            <td>
+              <span class="anchor" ></span>
+              class(<a href='neural_network_t.html'>neural_network_t</a>),
+            </td>
+<td>intent(in)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>self</strong></td>
+            <td>
+                
+            </td>
+        </tr>
+    </tbody>
+  </table>
+
+    <h4>
+    Return Value
+    <small>type(string_t)</small>
+    </h4>
+    
+
+        </li>
+    </ul>
+  </div>
+
+          </div>
+          <div class="row">
+              <div class="card mt-3">
+    <div class="card-header codesum">
+      <span class="anchor" id="boundprocedure-default_real_approximately_equal"></span>
+      <h3>
+          procedure, private, non_overridable ::
+  <strong>default_real_approximately_equal</strong>
+        
+      </h3>
+    </div>
+    <ul class="list-group">
+        <li class="list-group-item">
+              <h3>interface </h3>
+                  <h3>
+    private elemental module function default_real_approximately_equal(lhs, rhs) result(lhs_eq_rhs)  
+    <a href="../proc/default_real_approximately_equal.html"><button type="button" class="btn btn-info depwarn">Implementation &rarr;</button></a>
+</h3>
+
+  <p>The result is true if lhs and rhs are the same to within a tolerance</p>
+
+  <h4>Arguments</h4>
+      <table class="table table-striped varlist">
+    <thead>
+      <tr>
+        <th scope="col">Type</th>
+<th scope="col">Intent</th><th scope="col">Optional</th>        <th scope="col">Attributes</th>
+        <th scope="col"></th>
+        <th scope="col">Name</th>
+        <th scope="col"></th>
+    </thead>
+    <tbody>
+        <tr>
+            <td>
+              <span class="anchor" ></span>
+              class(<a href='neural_network_t.html'>neural_network_t</a>),
+            </td>
+<td>intent(in)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>lhs</strong></td>
+            <td>
+                
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" ></span>
+              class(<a href='neural_network_t.html'>neural_network_t</a>),
+            </td>
+<td>intent(in)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>rhs</strong></td>
+            <td>
+                
+            </td>
+        </tr>
+    </tbody>
+  </table>
+
+    <h4>
+    Return Value
+    <small>logical</small>
+    </h4>
+    
+
+        </li>
+    </ul>
+  </div>
+
+          </div>
+          <div class="row">
+              <div class="card mt-3">
+    <div class="card-header codesum">
+      <span class="anchor" id="boundprocedure-default_real_assert_conformable_with"></span>
+      <h3>
+          procedure, private, non_overridable ::
+  <strong>default_real_assert_conformable_with</strong>
+        
+      </h3>
+    </div>
+    <ul class="list-group">
+        <li class="list-group-item">
+              <h3>interface </h3>
+                  <h3>
+    private elemental module subroutine default_real_assert_conformable_with(self, neural_network)  
+    <a href="../proc/default_real_assert_conformable_with.html"><button type="button" class="btn btn-info depwarn">Implementation &rarr;</button></a>
+</h3>
+
+  
+
+  <h4>Arguments</h4>
+      <table class="table table-striped varlist">
+    <thead>
+      <tr>
+        <th scope="col">Type</th>
+<th scope="col">Intent</th><th scope="col">Optional</th>        <th scope="col">Attributes</th>
+        <th scope="col"></th>
+        <th scope="col">Name</th>
+        <th scope="col"></th>
+    </thead>
+    <tbody>
+        <tr>
+            <td>
+              <span class="anchor" ></span>
+              class(<a href='neural_network_t.html'>neural_network_t</a>),
+            </td>
+<td>intent(in)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>self</strong></td>
+            <td>
+                
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" ></span>
+              type(<a href='neural_network_t.html'>neural_network_t</a>),
+            </td>
+<td>intent(in)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>neural_network</strong></td>
+            <td>
+                
+            </td>
+        </tr>
+    </tbody>
+  </table>
+
+
+        </li>
+    </ul>
+  </div>
+
+          </div>
+          <div class="row">
+              <div class="card mt-3">
+    <div class="card-header codesum">
+      <span class="anchor" id="boundprocedure-default_real_consistency"></span>
+      <h3>
+          procedure, private, non_overridable ::
+  <strong>default_real_consistency</strong>
+        
+      </h3>
+    </div>
+    <ul class="list-group">
+        <li class="list-group-item">
+              <h3>interface </h3>
+                  <h3>
+    private pure module subroutine default_real_consistency(self)  
+    <a href="../proc/default_real_consistency.html"><button type="button" class="btn btn-info depwarn">Implementation &rarr;</button></a>
+</h3>
+
+  
+
+  <h4>Arguments</h4>
+      <table class="table table-striped varlist">
+    <thead>
+      <tr>
+        <th scope="col">Type</th>
+<th scope="col">Intent</th><th scope="col">Optional</th>        <th scope="col">Attributes</th>
+        <th scope="col"></th>
+        <th scope="col">Name</th>
+        <th scope="col"></th>
+    </thead>
+    <tbody>
+        <tr>
+            <td>
+              <span class="anchor" ></span>
+              class(<a href='neural_network_t.html'>neural_network_t</a>),
+            </td>
+<td>intent(in)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>self</strong></td>
+            <td>
+                
+            </td>
+        </tr>
+    </tbody>
+  </table>
+
+
+        </li>
+    </ul>
+  </div>
+
+          </div>
+          <div class="row">
+              <div class="card mt-3">
+    <div class="card-header codesum">
+      <span class="anchor" id="boundprocedure-default_real_infer"></span>
+      <h3>
+          procedure, private, non_overridable ::
+  <strong>default_real_infer</strong>
+        
+      </h3>
+    </div>
+    <ul class="list-group">
+        <li class="list-group-item">
+              <h3>interface </h3>
+                  <h3>
+    private elemental module function default_real_infer(self, inputs) result(outputs)  
+    <a href="../proc/default_real_infer.html"><button type="button" class="btn btn-info depwarn">Implementation &rarr;</button></a>
+</h3>
+
+  
+
+  <h4>Arguments</h4>
+      <table class="table table-striped varlist">
+    <thead>
+      <tr>
+        <th scope="col">Type</th>
+<th scope="col">Intent</th><th scope="col">Optional</th>        <th scope="col">Attributes</th>
+        <th scope="col"></th>
+        <th scope="col">Name</th>
+        <th scope="col"></th>
+    </thead>
+    <tbody>
+        <tr>
+            <td>
+              <span class="anchor" ></span>
+              class(<a href='neural_network_t.html'>neural_network_t</a>),
+            </td>
+<td>intent(in)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>self</strong></td>
+            <td>
+                
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" ></span>
+              type(<a href='tensor_t.html'>tensor_t</a>),
+            </td>
+<td>intent(in)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>inputs</strong></td>
+            <td>
+                
+            </td>
+        </tr>
+    </tbody>
+  </table>
+
+    <h4>
+    Return Value
+    <small>type(<a href='tensor_t.html'>tensor_t</a>)</small>
+    </h4>
+    
+
+        </li>
+    </ul>
+  </div>
+
+          </div>
+          <div class="row">
+              <div class="card mt-3">
+    <div class="card-header codesum">
+      <span class="anchor" id="boundprocedure-default_real_learn"></span>
+      <h3>
+          procedure, private, non_overridable ::
+  <strong>default_real_learn</strong>
+        
+      </h3>
+    </div>
+    <ul class="list-group">
+        <li class="list-group-item">
+              <h3>interface </h3>
+                  <h3>
+    private pure module subroutine default_real_learn(self, mini_batches_arr, cost, adam, learning_rate, workspace)  
+    <a href="../proc/default_real_learn.html"><button type="button" class="btn btn-info depwarn">Implementation &rarr;</button></a>
+</h3>
+
+  
+
+  <h4>Arguments</h4>
+      <table class="table table-striped varlist">
+    <thead>
+      <tr>
+        <th scope="col">Type</th>
+<th scope="col">Intent</th><th scope="col">Optional</th>        <th scope="col">Attributes</th>
+        <th scope="col"></th>
+        <th scope="col">Name</th>
+        <th scope="col"></th>
+    </thead>
+    <tbody>
+        <tr>
+            <td>
+              <span class="anchor" ></span>
+              class(<a href='neural_network_t.html'>neural_network_t</a>),
+            </td>
+<td>intent(inout)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>self</strong></td>
+            <td>
+                
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" ></span>
+              type(<a href='mini_batch_t.html'>mini_batch_t</a>),
+            </td>
+<td>intent(in)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>mini_batches_arr</strong>(:)</td>
+            <td>
+                
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" ></span>
+              real,
+            </td>
+<td>intent(out),</td>
+              <td>optional,</td>            <td>
+              allocatable
+            </td>
+            <td>::</td>
+            <td><strong>cost</strong>(:)</td>
+            <td>
+                
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" ></span>
+              logical,
+            </td>
+<td>intent(in)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>adam</strong></td>
+            <td>
+                
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" ></span>
+              real,
+            </td>
+<td>intent(in)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>learning_rate</strong></td>
+            <td>
+                
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" ></span>
+              type(<a href='workspace_t.html'>workspace_t</a>),
+            </td>
+<td>intent(inout)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>workspace</strong></td>
+            <td>
+                
+            </td>
+        </tr>
+    </tbody>
+  </table>
+
+
+        </li>
+    </ul>
+  </div>
+
+          </div>
+          <div class="row">
+              <div class="card mt-3">
+    <div class="card-header codesum">
+      <span class="anchor" id="boundprocedure-default_real_map_from_output_range"></span>
+      <h3>
+          procedure, private, non_overridable ::
+  <strong>default_real_map_from_output_range</strong>
+        
+      </h3>
+    </div>
+    <ul class="list-group">
+        <li class="list-group-item">
+              <h3>interface </h3>
+                  <h3>
+    private elemental module function default_real_map_from_output_range(self, normalized_tensor) result(tensor)  
+    <a href="../proc/default_real_map_from_output_range.html"><button type="button" class="btn btn-info depwarn">Implementation &rarr;</button></a>
+</h3>
+
+  <p>The result contains the output tensor values unmapped via the inverse of the mapping used in training</p>
+
+  <h4>Arguments</h4>
+      <table class="table table-striped varlist">
+    <thead>
+      <tr>
+        <th scope="col">Type</th>
+<th scope="col">Intent</th><th scope="col">Optional</th>        <th scope="col">Attributes</th>
+        <th scope="col"></th>
+        <th scope="col">Name</th>
+        <th scope="col"></th>
+    </thead>
+    <tbody>
+        <tr>
+            <td>
+              <span class="anchor" ></span>
+              class(<a href='neural_network_t.html'>neural_network_t</a>),
+            </td>
+<td>intent(in)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>self</strong></td>
+            <td>
+                
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" ></span>
+              type(<a href='tensor_t.html'>tensor_t</a>),
+            </td>
+<td>intent(in)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>normalized_tensor</strong></td>
+            <td>
+                
+            </td>
+        </tr>
+    </tbody>
+  </table>
+
+    <h4>
+    Return Value
+    <small>type(<a href='tensor_t.html'>tensor_t</a>)</small>
+    </h4>
+    
+
+        </li>
+    </ul>
+  </div>
+
+          </div>
+          <div class="row">
+              <div class="card mt-3">
+    <div class="card-header codesum">
+      <span class="anchor" id="boundprocedure-default_real_map_to_input_range"></span>
+      <h3>
+          procedure, private, non_overridable ::
+  <strong>default_real_map_to_input_range</strong>
+        
+      </h3>
+    </div>
+    <ul class="list-group">
+        <li class="list-group-item">
+              <h3>interface </h3>
+                  <h3>
+    private elemental module function default_real_map_to_input_range(self, tensor) result(normalized_tensor)  
+    <a href="../proc/default_real_map_to_input_range.html"><button type="button" class="btn btn-info depwarn">Implementation &rarr;</button></a>
+</h3>
+
+  <p>The result contains the input tensor values normalized to fall on the range used during training</p>
+
+  <h4>Arguments</h4>
+      <table class="table table-striped varlist">
+    <thead>
+      <tr>
+        <th scope="col">Type</th>
+<th scope="col">Intent</th><th scope="col">Optional</th>        <th scope="col">Attributes</th>
+        <th scope="col"></th>
+        <th scope="col">Name</th>
+        <th scope="col"></th>
+    </thead>
+    <tbody>
+        <tr>
+            <td>
+              <span class="anchor" ></span>
+              class(<a href='neural_network_t.html'>neural_network_t</a>),
+            </td>
+<td>intent(in)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>self</strong></td>
+            <td>
+                
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" ></span>
+              type(<a href='tensor_t.html'>tensor_t</a>),
+            </td>
+<td>intent(in)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>tensor</strong></td>
+            <td>
+                
+            </td>
+        </tr>
+    </tbody>
+  </table>
+
+    <h4>
+    Return Value
+    <small>type(<a href='tensor_t.html'>tensor_t</a>)</small>
+    </h4>
+    
+
+        </li>
+    </ul>
+  </div>
+
+          </div>
+          <div class="row">
+              <div class="card mt-3">
+    <div class="card-header codesum">
+      <span class="anchor" id="boundprocedure-default_real_nodes_per_layer~2"></span>
+      <h3>
+          procedure, private, non_overridable ::
+  <strong>default_real_nodes_per_layer</strong>
+        
+      </h3>
+    </div>
+    <ul class="list-group">
+        <li class="list-group-item">
+              <h3>interface </h3>
+                  <h3>
+    private pure module function default_real_nodes_per_layer(self) result(node_count)  
+    <a href="../proc/default_real_nodes_per_layer.html"><button type="button" class="btn btn-info depwarn">Implementation &rarr;</button></a>
+</h3>
+
+  
+
+  <h4>Arguments</h4>
+      <table class="table table-striped varlist">
+    <thead>
+      <tr>
+        <th scope="col">Type</th>
+<th scope="col">Intent</th><th scope="col">Optional</th>        <th scope="col">Attributes</th>
+        <th scope="col"></th>
+        <th scope="col">Name</th>
+        <th scope="col"></th>
+    </thead>
+    <tbody>
+        <tr>
+            <td>
+              <span class="anchor" ></span>
+              class(<a href='neural_network_t.html'>neural_network_t</a>),
+            </td>
+<td>intent(in)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>self</strong></td>
+            <td>
+                
+            </td>
+        </tr>
+    </tbody>
+  </table>
+
+    <h4>
+    Return Value
+    <small>integer, allocatable, (:)</small>
+    </h4>
+    
+
+        </li>
+    </ul>
+  </div>
+
+          </div>
+          <div class="row">
+              <div class="card mt-3">
+    <div class="card-header codesum">
+      <span class="anchor" id="boundprocedure-default_real_num_hidden_layers"></span>
+      <h3>
+          procedure, private, non_overridable ::
+  <strong>default_real_num_hidden_layers</strong>
+        
+      </h3>
+    </div>
+    <ul class="list-group">
+        <li class="list-group-item">
+              <h3>interface </h3>
+                  <h3>
+    private elemental module function default_real_num_hidden_layers(self) result(hidden_layer_count)  
+    <a href="../proc/default_real_num_hidden_layers.html"><button type="button" class="btn btn-info depwarn">Implementation &rarr;</button></a>
+</h3>
+
+  
+
+  <h4>Arguments</h4>
+      <table class="table table-striped varlist">
+    <thead>
+      <tr>
+        <th scope="col">Type</th>
+<th scope="col">Intent</th><th scope="col">Optional</th>        <th scope="col">Attributes</th>
+        <th scope="col"></th>
+        <th scope="col">Name</th>
+        <th scope="col"></th>
+    </thead>
+    <tbody>
+        <tr>
+            <td>
+              <span class="anchor" ></span>
+              class(<a href='neural_network_t.html'>neural_network_t</a>),
+            </td>
+<td>intent(in)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>self</strong></td>
+            <td>
+                
+            </td>
+        </tr>
+    </tbody>
+  </table>
+
+    <h4>
+    Return Value
+    <small>integer</small>
+    </h4>
+    
+
+        </li>
+    </ul>
+  </div>
+
+          </div>
+          <div class="row">
+              <div class="card mt-3">
+    <div class="card-header codesum">
+      <span class="anchor" id="boundprocedure-default_real_num_inputs~2"></span>
+      <h3>
+          procedure, private, non_overridable ::
+  <strong>default_real_num_inputs</strong>
+        
+      </h3>
+    </div>
+    <ul class="list-group">
+        <li class="list-group-item">
+              <h3>interface </h3>
+                  <h3>
+    private elemental module function default_real_num_inputs(self) result(input_count)  
+    <a href="../proc/default_real_num_inputs.html"><button type="button" class="btn btn-info depwarn">Implementation &rarr;</button></a>
+</h3>
+
+  
+
+  <h4>Arguments</h4>
+      <table class="table table-striped varlist">
+    <thead>
+      <tr>
+        <th scope="col">Type</th>
+<th scope="col">Intent</th><th scope="col">Optional</th>        <th scope="col">Attributes</th>
+        <th scope="col"></th>
+        <th scope="col">Name</th>
+        <th scope="col"></th>
+    </thead>
+    <tbody>
+        <tr>
+            <td>
+              <span class="anchor" ></span>
+              class(<a href='neural_network_t.html'>neural_network_t</a>),
+            </td>
+<td>intent(in)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>self</strong></td>
+            <td>
+                
+            </td>
+        </tr>
+    </tbody>
+  </table>
+
+    <h4>
+    Return Value
+    <small>integer</small>
+    </h4>
+    
+
+        </li>
+    </ul>
+  </div>
+
+          </div>
+          <div class="row">
+              <div class="card mt-3">
+    <div class="card-header codesum">
+      <span class="anchor" id="boundprocedure-default_real_num_outputs"></span>
+      <h3>
+          procedure, private, non_overridable ::
+  <strong>default_real_num_outputs</strong>
+        
+      </h3>
+    </div>
+    <ul class="list-group">
+        <li class="list-group-item">
+              <h3>interface </h3>
+                  <h3>
+    private elemental module function default_real_num_outputs(self) result(output_count)  
+    <a href="../proc/default_real_num_outputs.html"><button type="button" class="btn btn-info depwarn">Implementation &rarr;</button></a>
+</h3>
+
+  
+
+  <h4>Arguments</h4>
+      <table class="table table-striped varlist">
+    <thead>
+      <tr>
+        <th scope="col">Type</th>
+<th scope="col">Intent</th><th scope="col">Optional</th>        <th scope="col">Attributes</th>
+        <th scope="col"></th>
+        <th scope="col">Name</th>
+        <th scope="col"></th>
+    </thead>
+    <tbody>
+        <tr>
+            <td>
+              <span class="anchor" ></span>
+              class(<a href='neural_network_t.html'>neural_network_t</a>),
+            </td>
+<td>intent(in)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>self</strong></td>
+            <td>
+                
+            </td>
+        </tr>
+    </tbody>
+  </table>
+
+    <h4>
+    Return Value
+    <small>integer</small>
+    </h4>
+    
+
+        </li>
+    </ul>
+  </div>
+
+          </div>
+          <div class="row">
+              <div class="card mt-3">
+    <div class="card-header codesum">
+      <span class="anchor" id="boundprocedure-default_real_skip"></span>
+      <h3>
+          procedure, private, non_overridable ::
+  <strong>default_real_skip</strong>
+        
+      </h3>
+    </div>
+    <ul class="list-group">
+        <li class="list-group-item">
+              <h3>interface </h3>
+                  <h3>
+    private pure module function default_real_skip(self) result(use_skip_connections)  
+    <a href="../proc/default_real_skip.html"><button type="button" class="btn btn-info depwarn">Implementation &rarr;</button></a>
+</h3>
+
+  
+
+  <h4>Arguments</h4>
+      <table class="table table-striped varlist">
+    <thead>
+      <tr>
+        <th scope="col">Type</th>
+<th scope="col">Intent</th><th scope="col">Optional</th>        <th scope="col">Attributes</th>
+        <th scope="col"></th>
+        <th scope="col">Name</th>
+        <th scope="col"></th>
+    </thead>
+    <tbody>
+        <tr>
+            <td>
+              <span class="anchor" ></span>
+              class(<a href='neural_network_t.html'>neural_network_t</a>),
+            </td>
+<td>intent(in)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>self</strong></td>
+            <td>
+                
+            </td>
+        </tr>
+    </tbody>
+  </table>
+
+    <h4>
+    Return Value
+    <small>logical</small>
+    </h4>
+    
+
+        </li>
+    </ul>
+  </div>
+
+          </div>
+          <div class="row">
+              <div class="card mt-3">
+    <div class="card-header codesum">
+      <span class="anchor" id="boundprocedure-default_real_to_json~4"></span>
+      <h3>
+          procedure, private, non_overridable ::
+  <strong>default_real_to_json</strong>
+        
+      </h3>
+    </div>
+    <ul class="list-group">
+        <li class="list-group-item">
+              <h3>interface </h3>
+                  <h3>
+    private impure elemental module function default_real_to_json(self) result(json_file)  
+    <a href="../proc/default_real_to_json.html"><button type="button" class="btn btn-info depwarn">Implementation &rarr;</button></a>
+</h3>
+
+  
+
+  <h4>Arguments</h4>
+      <table class="table table-striped varlist">
+    <thead>
+      <tr>
+        <th scope="col">Type</th>
+<th scope="col">Intent</th><th scope="col">Optional</th>        <th scope="col">Attributes</th>
+        <th scope="col"></th>
+        <th scope="col">Name</th>
+        <th scope="col"></th>
+    </thead>
+    <tbody>
+        <tr>
+            <td>
+              <span class="anchor" ></span>
+              class(<a href='neural_network_t.html'>neural_network_t</a>),
+            </td>
+<td>intent(in)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>self</strong></td>
+            <td>
+                
+            </td>
+        </tr>
+    </tbody>
+  </table>
+
+    <h4>
+    Return Value
+    <small>type(file_t)</small>
+    </h4>
+    
+
+        </li>
+    </ul>
+  </div>
+
+          </div>
+          <div class="row">
+              <div class="card mt-3">
+    <div class="card-header codesum">
+      <span class="anchor" id="boundprocedure-double_precision_activation_name"></span>
+      <h3>
+          procedure, private, non_overridable ::
+  <strong>double_precision_activation_name</strong>
+        
+      </h3>
+    </div>
+    <ul class="list-group">
+        <li class="list-group-item">
+              <h3>interface </h3>
+                  <h3>
+    private elemental module function double_precision_activation_name(self) result(activation_name)  
+    <a href="../proc/double_precision_activation_name.html"><button type="button" class="btn btn-info depwarn">Implementation &rarr;</button></a>
+</h3>
+
+  
+
+  <h4>Arguments</h4>
+      <table class="table table-striped varlist">
+    <thead>
+      <tr>
+        <th scope="col">Type</th>
+<th scope="col">Intent</th><th scope="col">Optional</th>        <th scope="col">Attributes</th>
+        <th scope="col"></th>
+        <th scope="col">Name</th>
+        <th scope="col"></th>
+    </thead>
+    <tbody>
+        <tr>
+            <td>
+              <span class="anchor" ></span>
+              class(<a href='neural_network_t.html'>neural_network_t</a>(double_precision)),
+            </td>
+<td>intent(in)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>self</strong></td>
+            <td>
+                
+            </td>
+        </tr>
+    </tbody>
+  </table>
+
+    <h4>
+    Return Value
+    <small>type(string_t)</small>
+    </h4>
+    
+
+        </li>
+    </ul>
+  </div>
+
+          </div>
+          <div class="row">
+              <div class="card mt-3">
+    <div class="card-header codesum">
+      <span class="anchor" id="boundprocedure-double_precision_approximately_equal"></span>
+      <h3>
+          procedure, private, non_overridable ::
+  <strong>double_precision_approximately_equal</strong>
+        
+      </h3>
+    </div>
+    <ul class="list-group">
+        <li class="list-group-item">
+              <h3>interface </h3>
+                  <h3>
+    private elemental module function double_precision_approximately_equal(lhs, rhs) result(lhs_eq_rhs)  
+    <a href="../proc/double_precision_approximately_equal.html"><button type="button" class="btn btn-info depwarn">Implementation &rarr;</button></a>
+</h3>
+
+  <p>The result is true if lhs and rhs are the same to within a tolerance</p>
+
+  <h4>Arguments</h4>
+      <table class="table table-striped varlist">
+    <thead>
+      <tr>
+        <th scope="col">Type</th>
+<th scope="col">Intent</th><th scope="col">Optional</th>        <th scope="col">Attributes</th>
+        <th scope="col"></th>
+        <th scope="col">Name</th>
+        <th scope="col"></th>
+    </thead>
+    <tbody>
+        <tr>
+            <td>
+              <span class="anchor" ></span>
+              class(<a href='neural_network_t.html'>neural_network_t</a>(double_precision)),
+            </td>
+<td>intent(in)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>lhs</strong></td>
+            <td>
+                
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" ></span>
+              class(<a href='neural_network_t.html'>neural_network_t</a>(double_precision)),
+            </td>
+<td>intent(in)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>rhs</strong></td>
+            <td>
+                
+            </td>
+        </tr>
+    </tbody>
+  </table>
+
+    <h4>
+    Return Value
+    <small>logical</small>
+    </h4>
+    
+
+        </li>
+    </ul>
+  </div>
+
+          </div>
+          <div class="row">
+              <div class="card mt-3">
+    <div class="card-header codesum">
+      <span class="anchor" id="boundprocedure-double_precision_assert_conformable_with"></span>
+      <h3>
+          procedure, private, non_overridable ::
+  <strong>double_precision_assert_conformable_with</strong>
+        
+      </h3>
+    </div>
+    <ul class="list-group">
+        <li class="list-group-item">
+              <h3>interface </h3>
+                  <h3>
+    private elemental module subroutine double_precision_assert_conformable_with(self, neural_network)  
+    <a href="../proc/double_precision_assert_conformable_with.html"><button type="button" class="btn btn-info depwarn">Implementation &rarr;</button></a>
+</h3>
+
+  
+
+  <h4>Arguments</h4>
+      <table class="table table-striped varlist">
+    <thead>
+      <tr>
+        <th scope="col">Type</th>
+<th scope="col">Intent</th><th scope="col">Optional</th>        <th scope="col">Attributes</th>
+        <th scope="col"></th>
+        <th scope="col">Name</th>
+        <th scope="col"></th>
+    </thead>
+    <tbody>
+        <tr>
+            <td>
+              <span class="anchor" ></span>
+              class(<a href='neural_network_t.html'>neural_network_t</a>(double_precision)),
+            </td>
+<td>intent(in)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>self</strong></td>
+            <td>
+                
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" ></span>
+              type(<a href='neural_network_t.html'>neural_network_t</a>(double_precision)),
+            </td>
+<td>intent(in)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>neural_network</strong></td>
+            <td>
+                
+            </td>
+        </tr>
+    </tbody>
+  </table>
+
+
+        </li>
+    </ul>
+  </div>
+
+          </div>
+          <div class="row">
+              <div class="card mt-3">
+    <div class="card-header codesum">
+      <span class="anchor" id="boundprocedure-double_precision_consistency"></span>
+      <h3>
+          procedure, private, non_overridable ::
+  <strong>double_precision_consistency</strong>
+        
+      </h3>
+    </div>
+    <ul class="list-group">
+        <li class="list-group-item">
+              <h3>interface </h3>
+                  <h3>
+    private pure module subroutine double_precision_consistency(self)  
+    <a href="../proc/double_precision_consistency.html"><button type="button" class="btn btn-info depwarn">Implementation &rarr;</button></a>
+</h3>
+
+  
+
+  <h4>Arguments</h4>
+      <table class="table table-striped varlist">
+    <thead>
+      <tr>
+        <th scope="col">Type</th>
+<th scope="col">Intent</th><th scope="col">Optional</th>        <th scope="col">Attributes</th>
+        <th scope="col"></th>
+        <th scope="col">Name</th>
+        <th scope="col"></th>
+    </thead>
+    <tbody>
+        <tr>
+            <td>
+              <span class="anchor" ></span>
+              class(<a href='neural_network_t.html'>neural_network_t</a>(double_precision)),
+            </td>
+<td>intent(in)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>self</strong></td>
+            <td>
+                
+            </td>
+        </tr>
+    </tbody>
+  </table>
+
+
+        </li>
+    </ul>
+  </div>
+
+          </div>
+          <div class="row">
+              <div class="card mt-3">
+    <div class="card-header codesum">
+      <span class="anchor" id="boundprocedure-double_precision_infer"></span>
+      <h3>
+          procedure, private, non_overridable ::
+  <strong>double_precision_infer</strong>
+        
+      </h3>
+    </div>
+    <ul class="list-group">
+        <li class="list-group-item">
+              <h3>interface </h3>
+                  <h3>
+    private elemental module function double_precision_infer(self, inputs) result(outputs)  
+    <a href="../proc/double_precision_infer.html"><button type="button" class="btn btn-info depwarn">Implementation &rarr;</button></a>
+</h3>
+
+  
+
+  <h4>Arguments</h4>
+      <table class="table table-striped varlist">
+    <thead>
+      <tr>
+        <th scope="col">Type</th>
+<th scope="col">Intent</th><th scope="col">Optional</th>        <th scope="col">Attributes</th>
+        <th scope="col"></th>
+        <th scope="col">Name</th>
+        <th scope="col"></th>
+    </thead>
+    <tbody>
+        <tr>
+            <td>
+              <span class="anchor" ></span>
+              class(<a href='neural_network_t.html'>neural_network_t</a>(double_precision)),
+            </td>
+<td>intent(in)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>self</strong></td>
+            <td>
+                
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" ></span>
+              type(<a href='tensor_t.html'>tensor_t</a>(double_precision)),
+            </td>
+<td>intent(in)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>inputs</strong></td>
+            <td>
+                
+            </td>
+        </tr>
+    </tbody>
+  </table>
+
+    <h4>
+    Return Value
+    <small>type(<a href='tensor_t.html'>tensor_t</a>(double_precision))</small>
+    </h4>
+    
+
+        </li>
+    </ul>
+  </div>
+
+          </div>
+          <div class="row">
+              <div class="card mt-3">
+    <div class="card-header codesum">
+      <span class="anchor" id="boundprocedure-double_precision_map_from_output_range"></span>
+      <h3>
+          procedure, private, non_overridable ::
+  <strong>double_precision_map_from_output_range</strong>
+        
+      </h3>
+    </div>
+    <ul class="list-group">
+        <li class="list-group-item">
+              <h3>interface </h3>
+                  <h3>
+    private elemental module function double_precision_map_from_output_range(self, normalized_tensor) result(tensor)  
+    <a href="../proc/double_precision_map_from_output_range.html"><button type="button" class="btn btn-info depwarn">Implementation &rarr;</button></a>
+</h3>
+
+  <p>The result contains the output tensor values unmapped via the inverse of the mapping used in training</p>
+
+  <h4>Arguments</h4>
+      <table class="table table-striped varlist">
+    <thead>
+      <tr>
+        <th scope="col">Type</th>
+<th scope="col">Intent</th><th scope="col">Optional</th>        <th scope="col">Attributes</th>
+        <th scope="col"></th>
+        <th scope="col">Name</th>
+        <th scope="col"></th>
+    </thead>
+    <tbody>
+        <tr>
+            <td>
+              <span class="anchor" ></span>
+              class(<a href='neural_network_t.html'>neural_network_t</a>(double_precision)),
+            </td>
+<td>intent(in)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>self</strong></td>
+            <td>
+                
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" ></span>
+              type(<a href='tensor_t.html'>tensor_t</a>(double_precision)),
+            </td>
+<td>intent(in)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>normalized_tensor</strong></td>
+            <td>
+                
+            </td>
+        </tr>
+    </tbody>
+  </table>
+
+    <h4>
+    Return Value
+    <small>type(<a href='tensor_t.html'>tensor_t</a>(double_precision))</small>
+    </h4>
+    
+
+        </li>
+    </ul>
+  </div>
+
+          </div>
+          <div class="row">
+              <div class="card mt-3">
+    <div class="card-header codesum">
+      <span class="anchor" id="boundprocedure-double_precision_map_to_input_range"></span>
+      <h3>
+          procedure, private, non_overridable ::
+  <strong>double_precision_map_to_input_range</strong>
+        
+      </h3>
+    </div>
+    <ul class="list-group">
+        <li class="list-group-item">
+              <h3>interface </h3>
+                  <h3>
+    private elemental module function double_precision_map_to_input_range(self, tensor) result(normalized_tensor)  
+    <a href="../proc/double_precision_map_to_input_range.html"><button type="button" class="btn btn-info depwarn">Implementation &rarr;</button></a>
+</h3>
+
+  <p>The result contains the input tensor values normalized to fall on the range used during training</p>
+
+  <h4>Arguments</h4>
+      <table class="table table-striped varlist">
+    <thead>
+      <tr>
+        <th scope="col">Type</th>
+<th scope="col">Intent</th><th scope="col">Optional</th>        <th scope="col">Attributes</th>
+        <th scope="col"></th>
+        <th scope="col">Name</th>
+        <th scope="col"></th>
+    </thead>
+    <tbody>
+        <tr>
+            <td>
+              <span class="anchor" ></span>
+              class(<a href='neural_network_t.html'>neural_network_t</a>(double_precision)),
+            </td>
+<td>intent(in)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>self</strong></td>
+            <td>
+                
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" ></span>
+              type(<a href='tensor_t.html'>tensor_t</a>(double_precision)),
+            </td>
+<td>intent(in)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>tensor</strong></td>
+            <td>
+                
+            </td>
+        </tr>
+    </tbody>
+  </table>
+
+    <h4>
+    Return Value
+    <small>type(<a href='tensor_t.html'>tensor_t</a>(double_precision))</small>
+    </h4>
+    
+
+        </li>
+    </ul>
+  </div>
+
+          </div>
+          <div class="row">
+              <div class="card mt-3">
+    <div class="card-header codesum">
+      <span class="anchor" id="boundprocedure-double_precision_nodes_per_layer~2"></span>
+      <h3>
+          procedure, private, non_overridable ::
+  <strong>double_precision_nodes_per_layer</strong>
+        
+      </h3>
+    </div>
+    <ul class="list-group">
+        <li class="list-group-item">
+              <h3>interface </h3>
+                  <h3>
+    private pure module function double_precision_nodes_per_layer(self) result(node_count)  
+    <a href="../proc/double_precision_nodes_per_layer.html"><button type="button" class="btn btn-info depwarn">Implementation &rarr;</button></a>
+</h3>
+
+  
+
+  <h4>Arguments</h4>
+      <table class="table table-striped varlist">
+    <thead>
+      <tr>
+        <th scope="col">Type</th>
+<th scope="col">Intent</th><th scope="col">Optional</th>        <th scope="col">Attributes</th>
+        <th scope="col"></th>
+        <th scope="col">Name</th>
+        <th scope="col"></th>
+    </thead>
+    <tbody>
+        <tr>
+            <td>
+              <span class="anchor" ></span>
+              class(<a href='neural_network_t.html'>neural_network_t</a>(double_precision)),
+            </td>
+<td>intent(in)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>self</strong></td>
+            <td>
+                
+            </td>
+        </tr>
+    </tbody>
+  </table>
+
+    <h4>
+    Return Value
+    <small>integer, allocatable, (:)</small>
+    </h4>
+    
+
+        </li>
+    </ul>
+  </div>
+
+          </div>
+          <div class="row">
+              <div class="card mt-3">
+    <div class="card-header codesum">
+      <span class="anchor" id="boundprocedure-double_precision_num_hidden_layers"></span>
+      <h3>
+          procedure, private, non_overridable ::
+  <strong>double_precision_num_hidden_layers</strong>
+        
+      </h3>
+    </div>
+    <ul class="list-group">
+        <li class="list-group-item">
+              <h3>interface </h3>
+                  <h3>
+    private elemental module function double_precision_num_hidden_layers(self) result(hidden_layer_count)  
+    <a href="../proc/double_precision_num_hidden_layers.html"><button type="button" class="btn btn-info depwarn">Implementation &rarr;</button></a>
+</h3>
+
+  
+
+  <h4>Arguments</h4>
+      <table class="table table-striped varlist">
+    <thead>
+      <tr>
+        <th scope="col">Type</th>
+<th scope="col">Intent</th><th scope="col">Optional</th>        <th scope="col">Attributes</th>
+        <th scope="col"></th>
+        <th scope="col">Name</th>
+        <th scope="col"></th>
+    </thead>
+    <tbody>
+        <tr>
+            <td>
+              <span class="anchor" ></span>
+              class(<a href='neural_network_t.html'>neural_network_t</a>(double_precision)),
+            </td>
+<td>intent(in)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>self</strong></td>
+            <td>
+                
+            </td>
+        </tr>
+    </tbody>
+  </table>
+
+    <h4>
+    Return Value
+    <small>integer</small>
+    </h4>
+    
+
+        </li>
+    </ul>
+  </div>
+
+          </div>
+          <div class="row">
+              <div class="card mt-3">
+    <div class="card-header codesum">
+      <span class="anchor" id="boundprocedure-double_precision_num_inputs~2"></span>
+      <h3>
+          procedure, private, non_overridable ::
+  <strong>double_precision_num_inputs</strong>
+        
+      </h3>
+    </div>
+    <ul class="list-group">
+        <li class="list-group-item">
+              <h3>interface </h3>
+                  <h3>
+    private elemental module function double_precision_num_inputs(self) result(input_count)  
+    <a href="../proc/double_precision_num_inputs.html"><button type="button" class="btn btn-info depwarn">Implementation &rarr;</button></a>
+</h3>
+
+  
+
+  <h4>Arguments</h4>
+      <table class="table table-striped varlist">
+    <thead>
+      <tr>
+        <th scope="col">Type</th>
+<th scope="col">Intent</th><th scope="col">Optional</th>        <th scope="col">Attributes</th>
+        <th scope="col"></th>
+        <th scope="col">Name</th>
+        <th scope="col"></th>
+    </thead>
+    <tbody>
+        <tr>
+            <td>
+              <span class="anchor" ></span>
+              class(<a href='neural_network_t.html'>neural_network_t</a>(double_precision)),
+            </td>
+<td>intent(in)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>self</strong></td>
+            <td>
+                
+            </td>
+        </tr>
+    </tbody>
+  </table>
+
+    <h4>
+    Return Value
+    <small>integer</small>
+    </h4>
+    
+
+        </li>
+    </ul>
+  </div>
+
+          </div>
+          <div class="row">
+              <div class="card mt-3">
+    <div class="card-header codesum">
+      <span class="anchor" id="boundprocedure-double_precision_num_outputs"></span>
+      <h3>
+          procedure, private, non_overridable ::
+  <strong>double_precision_num_outputs</strong>
+        
+      </h3>
+    </div>
+    <ul class="list-group">
+        <li class="list-group-item">
+              <h3>interface </h3>
+                  <h3>
+    private elemental module function double_precision_num_outputs(self) result(output_count)  
+    <a href="../proc/double_precision_num_outputs.html"><button type="button" class="btn btn-info depwarn">Implementation &rarr;</button></a>
+</h3>
+
+  
+
+  <h4>Arguments</h4>
+      <table class="table table-striped varlist">
+    <thead>
+      <tr>
+        <th scope="col">Type</th>
+<th scope="col">Intent</th><th scope="col">Optional</th>        <th scope="col">Attributes</th>
+        <th scope="col"></th>
+        <th scope="col">Name</th>
+        <th scope="col"></th>
+    </thead>
+    <tbody>
+        <tr>
+            <td>
+              <span class="anchor" ></span>
+              class(<a href='neural_network_t.html'>neural_network_t</a>(double_precision)),
+            </td>
+<td>intent(in)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>self</strong></td>
+            <td>
+                
+            </td>
+        </tr>
+    </tbody>
+  </table>
+
+    <h4>
+    Return Value
+    <small>integer</small>
+    </h4>
+    
+
+        </li>
+    </ul>
+  </div>
+
+          </div>
+          <div class="row">
+              <div class="card mt-3">
+    <div class="card-header codesum">
+      <span class="anchor" id="boundprocedure-double_precision_skip"></span>
+      <h3>
+          procedure, private, non_overridable ::
+  <strong>double_precision_skip</strong>
+        
+      </h3>
+    </div>
+    <ul class="list-group">
+        <li class="list-group-item">
+              <h3>interface </h3>
+                  <h3>
+    private pure module function double_precision_skip(self) result(use_skip_connections)  
+    <a href="../proc/double_precision_skip.html"><button type="button" class="btn btn-info depwarn">Implementation &rarr;</button></a>
+</h3>
+
+  
+
+  <h4>Arguments</h4>
+      <table class="table table-striped varlist">
+    <thead>
+      <tr>
+        <th scope="col">Type</th>
+<th scope="col">Intent</th><th scope="col">Optional</th>        <th scope="col">Attributes</th>
+        <th scope="col"></th>
+        <th scope="col">Name</th>
+        <th scope="col"></th>
+    </thead>
+    <tbody>
+        <tr>
+            <td>
+              <span class="anchor" ></span>
+              class(<a href='neural_network_t.html'>neural_network_t</a>(double_precision)),
+            </td>
+<td>intent(in)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>self</strong></td>
+            <td>
+                
+            </td>
+        </tr>
+    </tbody>
+  </table>
+
+    <h4>
+    Return Value
+    <small>logical</small>
+    </h4>
+    
+
+        </li>
+    </ul>
+  </div>
+
+          </div>
+          <div class="row">
+              <div class="card mt-3">
+    <div class="card-header codesum">
+      <span class="anchor" id="boundprocedure-double_precision_to_json~4"></span>
+      <h3>
+          procedure, private, non_overridable ::
+  <strong>double_precision_to_json</strong>
+        
+      </h3>
+    </div>
+    <ul class="list-group">
+        <li class="list-group-item">
+              <h3>interface </h3>
+                  <h3>
+    private impure elemental module function double_precision_to_json(self) result(json_file)  
+    <a href="../proc/double_precision_to_json.html"><button type="button" class="btn btn-info depwarn">Implementation &rarr;</button></a>
+</h3>
+
+  
+
+  <h4>Arguments</h4>
+      <table class="table table-striped varlist">
+    <thead>
+      <tr>
+        <th scope="col">Type</th>
+<th scope="col">Intent</th><th scope="col">Optional</th>        <th scope="col">Attributes</th>
+        <th scope="col"></th>
+        <th scope="col">Name</th>
+        <th scope="col"></th>
+    </thead>
+    <tbody>
+        <tr>
+            <td>
+              <span class="anchor" ></span>
+              class(<a href='neural_network_t.html'>neural_network_t</a>(double_precision)),
+            </td>
+<td>intent(in)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>self</strong></td>
+            <td>
+                
+            </td>
+        </tr>
+    </tbody>
+  </table>
+
+    <h4>
+    Return Value
+    <small>type(file_t)</small>
+    </h4>
+    
+
+        </li>
+    </ul>
+  </div>
+
+          </div>
+      </section>
+
+    
+    </div>
+  </div>
+
+      <hr>
+    </div> <!-- /container -->
+    <footer>
+      <div class="container">
+        <div class="row justify-content-between">
+          <div class="col">
+            <p>
+              Fiats
+ was developed by Berkeley Lab<br>              &copy; 2024 
+</p>
+          </div>
+          <div class="col">
+            <p class="text-end">
+              Documentation generated by
+              <a href="https://github.com/Fortran-FOSS-Programmers/ford">FORD</a>
+ on 2024-10-17 00:07              </p>
+          </div>
+        </div>
+        <br>
+      </div> <!-- /container -->
+    </footer>
+
+    <!-- Bootstrap core JavaScript -->
+    <!-- Placed at the end of the document so the pages load faster -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"
+            integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p" crossorigin="anonymous"></script>    
+
+    <!-- MathJax JavaScript
+             ================================================== -->
+             <!-- Placed at the end of the document so the pages load faster -->
+        <script type="text/x-mathjax-config">
+          MathJax.Hub.Config({
+          TeX: { extensions: ['AMSmath.js','AMSsymbols.js','noErrors.js','noUndefined.js'], equationNumbers: { autoNumber: 'AMS' } },
+          jax: ['input/TeX','input/MathML','output/HTML-CSS'],
+          extensions: ['tex2jax.js','mml2jax.js','MathMenu.js','MathZoom.js']
+          });
+        </script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+
+          <script src="../tipuesearch/tipuesearch_content.js"></script>
+          <script src="../tipuesearch/tipuesearch_set.js"></script>
+          <script src="../tipuesearch/tipuesearch.js"></script>
+
+  </body>
+</html>

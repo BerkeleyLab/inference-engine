@@ -6,11 +6,11 @@
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-      <meta name="description" content="A deep learning library targeting high-performance computing (HPC) applications with performance-critical inference and training needs.">
+      <meta name="description" content="Functional inference and training of surrogate models for computational science.">
     <meta name="author" content="Berkeley Lab" >
     <link rel="icon" href="../favicon.png">
 
-    <title>input_output_pair_t &ndash; Inference-Engine </title>
+    <title>input_output_pair_t &ndash; Fiats </title>
 
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet"
           integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
@@ -29,7 +29,7 @@
     <div class="container-fluid mb-sm-4 mb-xl-2">
       <nav class="navbar navbar-expand-lg navbar-dark bg-dark fixed-top">
         <div class="container">
-          <a class="navbar-brand" href="../index.html">Inference-Engine </a>
+          <a class="navbar-brand" href="../index.html">Fiats </a>
           <button type="button" class="navbar-toggler" data-bs-toggle="collapse" data-bs-target="#navbar"
                   aria-expanded="false" aria-controls="navbar" aria-label="Toggle navigation">
                   <span class="navbar-toggler-icon">
@@ -45,9 +45,6 @@
                 </li>
                 <li class="nav-item">
                   <a class="nav-link" href="../lists/procedures.html">Procedures</a>
-                </li>
-                <li class="nav-item">
-                  <a class="nav-link" href="../lists/absint.html">Abstract Interfaces</a>
                 </li>
                 <li class="nav-item">
                   <a class="nav-link" href="../lists/types.html">Derived Types</a>
@@ -79,7 +76,7 @@
 
             <li class="list-inline-item" id="statements"><i class="fa fa-list-ol"></i>
               <a data-bs-toggle="tooltip" data-bs-placement="bottom" data-bs-html="true"
-                 title="<p> 3.9% of total for derived types.</p>Including implementation: 7 statements,  3.2% of total for derived types.">14 statements</a>
+                 title="<p> 4.2% of total for derived types.</p>Including implementation: 9 statements,  3.8% of total for derived types.">21 statements</a>
             </li>
 
             <li class="list-inline-item" id="source-file">
@@ -119,6 +116,7 @@
       </a>
       <div id="vars-0" class="collapse">
         <div class="list-group list-group-flush">
+            <a class="list-group-item" href="../type/input_output_pair_t.html#variable-k~7">k</a>
             <a class="list-group-item" href="../type/input_output_pair_t.html#variable-expected_outputs_">expected_outputs_</a>
             <a class="list-group-item" href="../type/input_output_pair_t.html#variable-inputs_">inputs_</a>
         </div>
@@ -159,7 +157,11 @@
       <div id="boundprocs-0" class="collapse">
         <div class="list-group list-group-flush">
             <a class="list-group-item" href="../type/input_output_pair_t.html#boundprocedure-expected_outputs~2">expected_outputs</a>
-            <a class="list-group-item" href="../type/input_output_pair_t.html#boundprocedure-inputs~5">inputs</a>
+            <a class="list-group-item" href="../type/input_output_pair_t.html#boundprocedure-inputs~3">inputs</a>
+            <a class="list-group-item" href="../type/input_output_pair_t.html#boundprocedure-default_real_expected_outputs">default_real_expected_outputs</a>
+            <a class="list-group-item" href="../type/input_output_pair_t.html#boundprocedure-default_real_inputs">default_real_inputs</a>
+            <a class="list-group-item" href="../type/input_output_pair_t.html#boundprocedure-double_precision_expected_outputs">double_precision_expected_outputs</a>
+            <a class="list-group-item" href="../type/input_output_pair_t.html#boundprocedure-double_precision_inputs">double_precision_inputs</a>
         </div>
       </div>
     </div>
@@ -374,8 +376,25 @@ large graphs.</div>
     <tbody>
         <tr>
             <td>
+              <span class="anchor" id="variable-k~7"></span>
+              integer,
+            </td>
+              <td>public,</td>
+            <td>
+              kind
+            </td>
+            <td>::</td>
+            <td><strong>k</strong></td>
+<td> =</td>
+                <td>default_real</td>
+            <td>
+                
+            </td>
+        </tr>
+        <tr>
+            <td>
               <span class="anchor" id="variable-expected_outputs_"></span>
-              type(<a href='tensor_t.html'>tensor_t</a>),
+              type(<a href='tensor_t.html'>tensor_t</a>(k)),
             </td>
               <td>private</td>
             <td>
@@ -392,7 +411,7 @@ large graphs.</div>
         <tr>
             <td>
               <span class="anchor" id="variable-inputs_"></span>
-              type(<a href='tensor_t.html'>tensor_t</a>),
+              type(<a href='tensor_t.html'>tensor_t</a>(k)),
             </td>
               <td>private</td>
             <td>
@@ -423,8 +442,8 @@ large graphs.</div>
     <ul class="list-group">
           <li class="list-group-item">
                 <h3>
-    private elemental module function construct(inputs, expected_outputs) result(input_output_pair)  
-    <a href="../proc/construct~2.html"><button type="button" class="btn btn-info depwarn">Implementation &rarr;</button></a>
+    private elemental module function default_real_construct(inputs, expected_outputs) result(input_output_pair)  
+    <a href="../proc/default_real_construct.html"><button type="button" class="btn btn-info depwarn">Implementation &rarr;</button></a>
 
     </h3>
   
@@ -442,7 +461,7 @@ large graphs.</div>
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-inputs~6"></span>
+              <span class="anchor" id="variable-inputs~4"></span>
               type(<a href='tensor_t.html'>tensor_t</a>),
             </td>
 <td>intent(in)</td>
@@ -480,6 +499,65 @@ large graphs.</div>
     
 
           </li>
+          <li class="list-group-item">
+                <h3>
+    private elemental module function double_precision_construct(inputs, expected_outputs) result(input_output_pair)  
+    <a href="../proc/double_precision_construct.html"><button type="button" class="btn btn-info depwarn">Implementation &rarr;</button></a>
+
+    </h3>
+  
+
+  <h4>Arguments</h4>
+      <table class="table table-striped varlist">
+    <thead>
+      <tr>
+        <th scope="col">Type</th>
+<th scope="col">Intent</th><th scope="col">Optional</th>        <th scope="col">Attributes</th>
+        <th scope="col"></th>
+        <th scope="col">Name</th>
+        <th scope="col"></th>
+    </thead>
+    <tbody>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-inputs~5"></span>
+              type(<a href='tensor_t.html'>tensor_t</a>(double_precision)),
+            </td>
+<td>intent(in)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>inputs</strong></td>
+            <td>
+                
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-expected_outputs~4"></span>
+              type(<a href='tensor_t.html'>tensor_t</a>(double_precision)),
+            </td>
+<td>intent(in)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>expected_outputs</strong></td>
+            <td>
+                
+            </td>
+        </tr>
+    </tbody>
+  </table>
+
+    <h4>
+    Return Value
+    <small>type(<a href='input_output_pair_t.html'>input_output_pair_t</a>(double_precision))</small>
+    </h4>
+    
+
+          </li>
     </ul>
   </div>
 
@@ -494,8 +572,86 @@ large graphs.</div>
     <div class="card-header codesum">
       <span class="anchor" id="boundprocedure-expected_outputs~2"></span>
       <h3>
-          procedure, public ::
-  <strong>expected_outputs</strong>
+          generic, public ::
+  <strong>expected_outputs</strong> => <a href='/home/runner/work/inference-engine/inference-engine/doc/html/type/input_output_pair_t.html#boundprocedure-default_real_expected_outputs'>default_real_expected_outputs</a>, <a href='/home/runner/work/inference-engine/inference-engine/doc/html/type/input_output_pair_t.html#boundprocedure-double_precision_expected_outputs'>double_precision_expected_outputs</a>
+        
+      </h3>
+    </div>
+    <ul class="list-group">
+        <li class="list-group-item">
+                  <h3>
+    private  interface <a href='../interface/default_real_expected_outputs.html'>default_real_expected_outputs</a>()  
+</h3>
+    
+
+  
+
+  <h4>Arguments</h4>
+    <em>None</em>
+
+        </li>
+        <li class="list-group-item">
+                  <h3>
+    private  interface <a href='../interface/double_precision_expected_outputs.html'>double_precision_expected_outputs</a>()  
+</h3>
+    
+
+  
+
+  <h4>Arguments</h4>
+    <em>None</em>
+
+        </li>
+    </ul>
+  </div>
+
+          </div>
+          <div class="row">
+              <div class="card mt-3">
+    <div class="card-header codesum">
+      <span class="anchor" id="boundprocedure-inputs~3"></span>
+      <h3>
+          generic, public ::
+  <strong>inputs</strong> => <a href='/home/runner/work/inference-engine/inference-engine/doc/html/type/input_output_pair_t.html#boundprocedure-default_real_inputs'>default_real_inputs</a>, <a href='/home/runner/work/inference-engine/inference-engine/doc/html/type/input_output_pair_t.html#boundprocedure-double_precision_inputs'>double_precision_inputs</a>
+        
+      </h3>
+    </div>
+    <ul class="list-group">
+        <li class="list-group-item">
+                  <h3>
+    private  interface <a href='../interface/default_real_inputs.html'>default_real_inputs</a>()  
+</h3>
+    
+
+  
+
+  <h4>Arguments</h4>
+    <em>None</em>
+
+        </li>
+        <li class="list-group-item">
+                  <h3>
+    private  interface <a href='../interface/double_precision_inputs.html'>double_precision_inputs</a>()  
+</h3>
+    
+
+  
+
+  <h4>Arguments</h4>
+    <em>None</em>
+
+        </li>
+    </ul>
+  </div>
+
+          </div>
+          <div class="row">
+              <div class="card mt-3">
+    <div class="card-header codesum">
+      <span class="anchor" id="boundprocedure-default_real_expected_outputs"></span>
+      <h3>
+          procedure, private, non_overridable ::
+  <strong>default_real_expected_outputs</strong>
         
       </h3>
     </div>
@@ -503,8 +659,8 @@ large graphs.</div>
         <li class="list-group-item">
               <h3>interface </h3>
                   <h3>
-    private elemental module function expected_outputs(self) result(my_expected_outputs)  
-    <a href="../proc/expected_outputs.html"><button type="button" class="btn btn-info depwarn">Implementation &rarr;</button></a>
+    private elemental module function default_real_expected_outputs(self) result(my_expected_outputs)  
+    <a href="../proc/default_real_expected_outputs.html"><button type="button" class="btn btn-info depwarn">Implementation &rarr;</button></a>
 </h3>
 
   
@@ -552,10 +708,10 @@ large graphs.</div>
           <div class="row">
               <div class="card mt-3">
     <div class="card-header codesum">
-      <span class="anchor" id="boundprocedure-inputs~5"></span>
+      <span class="anchor" id="boundprocedure-default_real_inputs"></span>
       <h3>
-          procedure, public ::
-  <strong>inputs</strong>
+          procedure, private, non_overridable ::
+  <strong>default_real_inputs</strong>
         
       </h3>
     </div>
@@ -563,8 +719,8 @@ large graphs.</div>
         <li class="list-group-item">
               <h3>interface </h3>
                   <h3>
-    private elemental module function inputs(self) result(my_inputs)  
-    <a href="../proc/inputs.html"><button type="button" class="btn btn-info depwarn">Implementation &rarr;</button></a>
+    private elemental module function default_real_inputs(self) result(my_inputs)  
+    <a href="../proc/default_real_inputs.html"><button type="button" class="btn btn-info depwarn">Implementation &rarr;</button></a>
 </h3>
 
   
@@ -601,6 +757,126 @@ large graphs.</div>
     <h4>
     Return Value
     <small>type(<a href='tensor_t.html'>tensor_t</a>)</small>
+    </h4>
+    
+
+        </li>
+    </ul>
+  </div>
+
+          </div>
+          <div class="row">
+              <div class="card mt-3">
+    <div class="card-header codesum">
+      <span class="anchor" id="boundprocedure-double_precision_expected_outputs"></span>
+      <h3>
+          procedure, private, non_overridable ::
+  <strong>double_precision_expected_outputs</strong>
+        
+      </h3>
+    </div>
+    <ul class="list-group">
+        <li class="list-group-item">
+              <h3>interface </h3>
+                  <h3>
+    private elemental module function double_precision_expected_outputs(self) result(my_expected_outputs)  
+    <a href="../proc/double_precision_expected_outputs.html"><button type="button" class="btn btn-info depwarn">Implementation &rarr;</button></a>
+</h3>
+
+  
+
+  <h4>Arguments</h4>
+      <table class="table table-striped varlist">
+    <thead>
+      <tr>
+        <th scope="col">Type</th>
+<th scope="col">Intent</th><th scope="col">Optional</th>        <th scope="col">Attributes</th>
+        <th scope="col"></th>
+        <th scope="col">Name</th>
+        <th scope="col"></th>
+    </thead>
+    <tbody>
+        <tr>
+            <td>
+              <span class="anchor" ></span>
+              class(<a href='input_output_pair_t.html'>input_output_pair_t</a>(double_precision)),
+            </td>
+<td>intent(in)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>self</strong></td>
+            <td>
+                
+            </td>
+        </tr>
+    </tbody>
+  </table>
+
+    <h4>
+    Return Value
+    <small>type(<a href='tensor_t.html'>tensor_t</a>(double_precision))</small>
+    </h4>
+    
+
+        </li>
+    </ul>
+  </div>
+
+          </div>
+          <div class="row">
+              <div class="card mt-3">
+    <div class="card-header codesum">
+      <span class="anchor" id="boundprocedure-double_precision_inputs"></span>
+      <h3>
+          procedure, private, non_overridable ::
+  <strong>double_precision_inputs</strong>
+        
+      </h3>
+    </div>
+    <ul class="list-group">
+        <li class="list-group-item">
+              <h3>interface </h3>
+                  <h3>
+    private elemental module function double_precision_inputs(self) result(my_inputs)  
+    <a href="../proc/double_precision_inputs.html"><button type="button" class="btn btn-info depwarn">Implementation &rarr;</button></a>
+</h3>
+
+  
+
+  <h4>Arguments</h4>
+      <table class="table table-striped varlist">
+    <thead>
+      <tr>
+        <th scope="col">Type</th>
+<th scope="col">Intent</th><th scope="col">Optional</th>        <th scope="col">Attributes</th>
+        <th scope="col"></th>
+        <th scope="col">Name</th>
+        <th scope="col"></th>
+    </thead>
+    <tbody>
+        <tr>
+            <td>
+              <span class="anchor" ></span>
+              class(<a href='input_output_pair_t.html'>input_output_pair_t</a>(double_precision)),
+            </td>
+<td>intent(in)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>self</strong></td>
+            <td>
+                
+            </td>
+        </tr>
+    </tbody>
+  </table>
+
+    <h4>
+    Return Value
+    <small>type(<a href='tensor_t.html'>tensor_t</a>(double_precision))</small>
     </h4>
     
 
@@ -622,7 +898,7 @@ large graphs.</div>
         <div class="row justify-content-between">
           <div class="col">
             <p>
-              Inference-Engine
+              Fiats
  was developed by Berkeley Lab<br>              &copy; 2024 
 </p>
           </div>
@@ -630,7 +906,7 @@ large graphs.</div>
             <p class="text-end">
               Documentation generated by
               <a href="https://github.com/Fortran-FOSS-Programmers/ford">FORD</a>
- on 2024-10-01 22:45              </p>
+ on 2024-10-17 00:07              </p>
           </div>
         </div>
         <br>

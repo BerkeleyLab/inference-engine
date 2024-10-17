@@ -1,0 +1,571 @@
+<!-- -*- mode: jinja2 -*- -->
+
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+      <meta name="description" content="Functional inference and training of surrogate models for computational science.">
+    <meta name="author" content="Berkeley Lab" >
+    <link rel="icon" href="../favicon.png">
+
+    <title>unmapped_network_s.f90 &ndash; Fiats</title>
+
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet"
+          integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
+    <link href="../css/pygments.css" rel="stylesheet">
+    <link href="../css/font-awesome.min.css" rel="stylesheet">
+    <link href="../css/local.css" rel="stylesheet">
+      <link  href="../tipuesearch/tipuesearch.css" rel="stylesheet">
+
+    <script src="https://code.jquery.com/jquery-3.7.1.min.js" integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
+    <script src="../js/svg-pan-zoom.min.js"></script>
+  </head>
+
+  <body>
+
+    <!-- Fixed navbar -->
+    <div class="container-fluid mb-sm-4 mb-xl-2">
+      <nav class="navbar navbar-expand-lg navbar-dark bg-dark fixed-top">
+        <div class="container">
+          <a class="navbar-brand" href="../index.html">Fiats </a>
+          <button type="button" class="navbar-toggler" data-bs-toggle="collapse" data-bs-target="#navbar"
+                  aria-expanded="false" aria-controls="navbar" aria-label="Toggle navigation">
+                  <span class="navbar-toggler-icon">
+          </button>
+
+          <div id="navbar" class="navbar-collapse collapse">
+            <ul class="navbar-nav">
+                  <li class="nav-item">
+                    <a class="nav-link" href="../lists/files.html">Source Files</a>
+                  </li>
+                <li class="nav-item">
+                  <a class="nav-link" href="../lists/modules.html">Modules</a>
+                </li>
+                <li class="nav-item">
+                  <a class="nav-link" href="../lists/procedures.html">Procedures</a>
+                </li>
+                <li class="nav-item">
+                  <a class="nav-link" href="../lists/types.html">Derived Types</a>
+                </li>
+                <li class="nav-item">
+                  <a class="nav-link" href="../lists/programs.html">Programs</a>
+                </li>
+            </ul>
+              <div class="d-flex align-items-end flex-grow-1">
+                <form action="../search.html" role="search" class="ms-auto">
+                  <input type="text" class="form-control" aria-label="Search" placeholder="Search" name="q" id="tipue_search_input" autocomplete="off" required>
+                </form>
+              </div>
+          </div><!--/.nav-collapse -->
+        </div>
+      </nav>
+    </div>
+
+    <div class="container">
+  <div class="row">
+    <h1>unmapped_network_s.f90
+      <small>Source File</small>
+      
+    </h1>
+      <div class="container p-2 mb-4 bg-light border rounded-3">
+    <div class="row align-items-center justify-content-between" id="info-bar">
+      <div class="col">
+        <ul class="list-inline" style="margin-bottom:0px;display:inline">
+
+            <li class="list-inline-item" id="statements"><i class="fa fa-list-ol"></i>
+              <a data-bs-toggle="tooltip" data-bs-placement="bottom" data-bs-html="true"
+                 title=" 1.2% of total for source files.">50 statements</a>
+            </li>
+
+            <li class="list-inline-item" id="source-file">
+              <i class="fa fa-code"></i>
+              <a href="../src/unmapped_network_s.f90"> Source File</a>
+            </li>
+        </ul>
+      </div>
+      <div class="col">
+        <nav aria-label="breadcrumb">
+          <ol class="breadcrumb justify-content-end mb-0">
+            <li class="breadcrumb-item active" aria-current="page">unmapped_network_s.f90</li>
+          </ol>
+        </nav>
+      </div>
+    </div>
+  </div>
+  <script>
+    $(function () {
+    $('[data-bs-toggle="tooltip"]').tooltip()
+    })
+  </script>
+
+  </div>
+  <div class="row">
+    <div class="col-md-3 hidden-xs hidden-sm visible-md visible-lg">
+        <div id="sidebar">
+      <h3>Contents</h3>
+  
+  
+  
+  
+  
+  
+      <div class="card mb-4">
+      <a data-bs-toggle="collapse" href="#submods-0"
+         aria-expanded="false" aria-controls="submods-0">
+         <h4 class="card-header bg-primary text-white">Submodules</h4>
+      </a>
+      <div id="submods-0" class="collapse">
+        <div class="list-group list-group-flush">
+            <a class="list-group-item" href="../module/unmapped_network_s.html">unmapped_network_s</a>
+        </div>
+      </div>
+    </div>
+
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+    <div class="card card-primary">
+      <div class="card-header text-left"><h3 class="card-title">Source Code</h3></div>
+      <div class="list-group">
+        <a class="list-group-item" href="../sourcefile/unmapped_network_s.f90.html#src">unmapped_network_s.f90</a>
+      </div>
+    </div>
+
+
+  </div>
+
+    </div>
+    <div class="col-md-9" id='text'>
+      
+      <br>
+        <div class="card">
+          <div class="card-header">
+            <h3 class="card-title">This file depends on</h3>
+          </div>
+          <div class="card-body">
+            <div class="depgraph"><?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN"
+ "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
+<!-- Generated by graphviz version 12.1.2 (20240928.0832)
+ -->
+<!-- Title: sourcefile~~unmapped_network_s.f90~~EfferentGraph Pages: 1 -->
+<svg id="sourcefileunmapped_network_sf90EfferentGraph" width="641pt" height="197pt"
+ viewBox="0.00 0.00 641.00 196.61" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+<g id="sourcefile~~unmapped_network_s.f90~~EfferentGraph" class="graph" transform="scale(0.630366 0.630366) rotate(0) translate(4 307.9)">
+<title>sourcefile~~unmapped_network_s.f90~~EfferentGraph</title>
+<polygon fill="white" stroke="none" points="-4,4 -4,-307.9 1012.87,-307.9 1012.87,4 -4,4"/>
+<!-- sourcefile~unmapped_network_s.f90 -->
+<g id="sourcefile~~unmapped_network_s.f90~~EfferentGraph_node1" class="node">
+<title>sourcefile~unmapped_network_s.f90</title>
+<polygon fill="none" stroke="black" points="1008.87,-179.9 860.85,-179.9 860.85,-155.63 1008.87,-155.63 1008.87,-179.9"/>
+<text text-anchor="middle" x="934.86" y="-164.17" font-family="Helvetica,sans-Serif" font-size="10.50">unmapped_network_s.f90</text>
+</g>
+<!-- sourcefile~neural_network_m.f90 -->
+<g id="sourcefile~~unmapped_network_s.f90~~EfferentGraph_node2" class="node">
+<title>sourcefile~neural_network_m.f90</title>
+<g id="a_sourcefile~~unmapped_network_s.f90~~EfferentGraph_node2"><a xlink:href="../sourcefile/neural_network_m.f90.html" xlink:title="neural_network_m.f90">
+<polygon fill="#f0ad4e" stroke="#f0ad4e" points="824.85,-179.9 694.83,-179.9 694.83,-155.63 824.85,-155.63 824.85,-179.9"/>
+<text text-anchor="middle" x="759.84" y="-164.17" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">neural_network_m.f90</text>
+</a>
+</g>
+</g>
+<!-- sourcefile~unmapped_network_s.f90&#45;&gt;sourcefile~neural_network_m.f90 -->
+<g id="sourcefile~~unmapped_network_s.f90~~EfferentGraph_edge1" class="edge">
+<title>sourcefile~unmapped_network_s.f90&#45;&gt;sourcefile~neural_network_m.f90</title>
+<path fill="none" stroke="#ff0000" stroke-dasharray="5,2" d="M860.48,-167.77C852.62,-167.77 844.62,-167.77 836.73,-167.77"/>
+<polygon fill="#ff0000" stroke="#ff0000" points="836.8,-164.27 826.8,-167.77 836.8,-171.27 836.8,-164.27"/>
+</g>
+<!-- sourcefile~activation_m.f90 -->
+<g id="sourcefile~~unmapped_network_s.f90~~EfferentGraph_node3" class="node">
+<title>sourcefile~activation_m.f90</title>
+<g id="a_sourcefile~~unmapped_network_s.f90~~EfferentGraph_node3"><a xlink:href="../sourcefile/activation_m.f90.html" xlink:title="activation_m.f90">
+<polygon fill="#f0ad4e" stroke="#f0ad4e" points="629.21,-303.9 529.19,-303.9 529.19,-279.63 629.21,-279.63 629.21,-303.9"/>
+<text text-anchor="middle" x="579.2" y="-288.17" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">activation_m.f90</text>
+</a>
+</g>
+</g>
+<!-- sourcefile~neural_network_m.f90&#45;&gt;sourcefile~activation_m.f90 -->
+<g id="sourcefile~~unmapped_network_s.f90~~EfferentGraph_edge2" class="edge">
+<title>sourcefile~neural_network_m.f90&#45;&gt;sourcefile~activation_m.f90</title>
+<path fill="none" stroke="#ff0000" stroke-dasharray="5,2" d="M750.22,-180.34C734.61,-202.15 699.46,-246.93 658.83,-270.77 653.13,-274.11 646.89,-276.93 640.49,-279.31"/>
+<polygon fill="#ff0000" stroke="#ff0000" points="639.48,-275.96 631.09,-282.44 641.68,-282.61 639.48,-275.96"/>
+</g>
+<!-- sourcefile~double_precision_file_m.f90 -->
+<g id="sourcefile~~unmapped_network_s.f90~~EfferentGraph_node4" class="node">
+<title>sourcefile~double_precision_file_m.f90</title>
+<g id="a_sourcefile~~unmapped_network_s.f90~~EfferentGraph_node4"><a xlink:href="../sourcefile/double_precision_file_m.f90.html" xlink:title="double_precision_file_m.f90">
+<polygon fill="#f0ad4e" stroke="#f0ad4e" points="658.83,-219.9 499.56,-219.9 499.56,-195.63 658.83,-195.63 658.83,-219.9"/>
+<text text-anchor="middle" x="579.2" y="-204.17" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">double_precision_file_m.f90</text>
+</a>
+</g>
+</g>
+<!-- sourcefile~neural_network_m.f90&#45;&gt;sourcefile~double_precision_file_m.f90 -->
+<g id="sourcefile~~unmapped_network_s.f90~~EfferentGraph_edge3" class="edge">
+<title>sourcefile~neural_network_m.f90&#45;&gt;sourcefile~double_precision_file_m.f90</title>
+<path fill="none" stroke="#ff0000" stroke-dasharray="5,2" d="M702.81,-180.31C685.26,-184.24 665.73,-188.62 647.49,-192.7"/>
+<polygon fill="#ff0000" stroke="#ff0000" points="646.81,-189.27 637.81,-194.87 648.34,-196.1 646.81,-189.27"/>
+</g>
+<!-- sourcefile~kind_parameters_m.f90 -->
+<g id="sourcefile~~unmapped_network_s.f90~~EfferentGraph_node5" class="node">
+<title>sourcefile~kind_parameters_m.f90</title>
+<g id="a_sourcefile~~unmapped_network_s.f90~~EfferentGraph_node5"><a xlink:href="../sourcefile/kind_parameters_m.f90.html" xlink:title="kind_parameters_m.f90">
+<polygon fill="#f0ad4e" stroke="#f0ad4e" points="137.52,-99.9 0,-99.9 0,-75.63 137.52,-75.63 137.52,-99.9"/>
+<text text-anchor="middle" x="68.76" y="-84.17" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">kind_parameters_m.f90</text>
+</a>
+</g>
+</g>
+<!-- sourcefile~neural_network_m.f90&#45;&gt;sourcefile~kind_parameters_m.f90 -->
+<g id="sourcefile~~unmapped_network_s.f90~~EfferentGraph_edge4" class="edge">
+<title>sourcefile~neural_network_m.f90&#45;&gt;sourcefile~kind_parameters_m.f90</title>
+<path fill="none" stroke="#ff0000" stroke-dasharray="5,2" d="M694.64,-167.15C604.25,-165.67 434.43,-160.67 290.79,-143.77 256.84,-139.77 248.67,-136.51 215.16,-129.77"/>
+</g>
+<!-- sourcefile~metadata_m.f90 -->
+<g id="sourcefile~~unmapped_network_s.f90~~EfferentGraph_node6" class="node">
+<title>sourcefile~metadata_m.f90</title>
+<g id="a_sourcefile~~unmapped_network_s.f90~~EfferentGraph_node6"><a xlink:href="../sourcefile/metadata_m.f90.html" xlink:title="metadata_m.f90">
+<polygon fill="#f0ad4e" stroke="#f0ad4e" points="628.83,-261.9 529.56,-261.9 529.56,-237.63 628.83,-237.63 628.83,-261.9"/>
+<text text-anchor="middle" x="579.2" y="-246.17" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">metadata_m.f90</text>
+</a>
+</g>
+</g>
+<!-- sourcefile~neural_network_m.f90&#45;&gt;sourcefile~metadata_m.f90 -->
+<g id="sourcefile~~unmapped_network_s.f90~~EfferentGraph_edge5" class="edge">
+<title>sourcefile~neural_network_m.f90&#45;&gt;sourcefile~metadata_m.f90</title>
+<path fill="none" stroke="#ff0000" stroke-dasharray="5,2" d="M741.96,-180.16C722.71,-193.78 689.87,-215.49 658.83,-228.77 652.84,-231.33 646.45,-233.65 640.01,-235.74"/>
+<polygon fill="#ff0000" stroke="#ff0000" points="639.18,-232.33 630.62,-238.58 641.21,-239.03 639.18,-232.33"/>
+</g>
+<!-- sourcefile~mini_batch_m.f90 -->
+<g id="sourcefile~~unmapped_network_s.f90~~EfferentGraph_node7" class="node">
+<title>sourcefile~mini_batch_m.f90</title>
+<g id="a_sourcefile~~unmapped_network_s.f90~~EfferentGraph_node7"><a xlink:href="../sourcefile/mini_batch_m.f90.html" xlink:title="mini_batch_m.f90">
+<polygon fill="#f0ad4e" stroke="#f0ad4e" points="632.21,-59.9 526.19,-59.9 526.19,-35.63 632.21,-35.63 632.21,-59.9"/>
+<text text-anchor="middle" x="579.2" y="-44.17" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">mini_batch_m.f90</text>
+</a>
+</g>
+</g>
+<!-- sourcefile~neural_network_m.f90&#45;&gt;sourcefile~mini_batch_m.f90 -->
+<g id="sourcefile~~unmapped_network_s.f90~~EfferentGraph_edge6" class="edge">
+<title>sourcefile~neural_network_m.f90&#45;&gt;sourcefile~mini_batch_m.f90</title>
+<path fill="none" stroke="#ff0000" stroke-dasharray="5,2" d="M748.77,-155.29C732.07,-135.36 696.71,-96.31 658.83,-73.77 652.91,-70.24 646.45,-67.13 639.87,-64.39"/>
+<polygon fill="#ff0000" stroke="#ff0000" points="641.47,-61.26 630.88,-60.94 638.96,-67.79 641.47,-61.26"/>
+</g>
+<!-- sourcefile~tensor_m.f90 -->
+<g id="sourcefile~~unmapped_network_s.f90~~EfferentGraph_node8" class="node">
+<title>sourcefile~tensor_m.f90</title>
+<g id="a_sourcefile~~unmapped_network_s.f90~~EfferentGraph_node8"><a xlink:href="../sourcefile/tensor_m.f90.html" xlink:title="tensor_m.f90">
+<polygon fill="#f0ad4e" stroke="#f0ad4e" points="254.79,-99.9 173.52,-99.9 173.52,-75.63 254.79,-75.63 254.79,-99.9"/>
+<text text-anchor="middle" x="214.16" y="-84.17" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">tensor_m.f90</text>
+</a>
+</g>
+</g>
+<!-- sourcefile~neural_network_m.f90&#45;&gt;sourcefile~tensor_m.f90 -->
+<g id="sourcefile~~unmapped_network_s.f90~~EfferentGraph_edge7" class="edge">
+<title>sourcefile~neural_network_m.f90&#45;&gt;sourcefile~tensor_m.f90</title>
+<path fill="none" stroke="#ff0000" stroke-dasharray="5,2" d="M743.76,-155.15C725.16,-140.43 691.91,-116.83 658.83,-106.77 521.98,-65.15 350.47,-73.87 266.4,-81.83"/>
+<polygon fill="#ff0000" stroke="#ff0000" points="266.25,-78.33 256.64,-82.8 266.94,-85.3 266.25,-78.33"/>
+</g>
+<!-- sourcefile~tensor_map_m.f90 -->
+<g id="sourcefile~~unmapped_network_s.f90~~EfferentGraph_node9" class="node">
+<title>sourcefile~tensor_map_m.f90</title>
+<g id="a_sourcefile~~unmapped_network_s.f90~~EfferentGraph_node9"><a xlink:href="../sourcefile/tensor_map_m.f90.html" xlink:title="tensor_map_m.f90">
+<polygon fill="#f0ad4e" stroke="#f0ad4e" points="634.46,-139.9 523.94,-139.9 523.94,-115.63 634.46,-115.63 634.46,-139.9"/>
+<text text-anchor="middle" x="579.2" y="-124.17" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">tensor_map_m.f90</text>
+</a>
+</g>
+</g>
+<!-- sourcefile~neural_network_m.f90&#45;&gt;sourcefile~tensor_map_m.f90 -->
+<g id="sourcefile~~unmapped_network_s.f90~~EfferentGraph_edge8" class="edge">
+<title>sourcefile~neural_network_m.f90&#45;&gt;sourcefile~tensor_map_m.f90</title>
+<path fill="none" stroke="#ff0000" stroke-dasharray="5,2" d="M702.81,-155.22C684.76,-151.18 664.59,-146.66 645.91,-142.48"/>
+<polygon fill="#ff0000" stroke="#ff0000" points="646.81,-139.1 636.28,-140.33 645.28,-145.93 646.81,-139.1"/>
+</g>
+<!-- sourcefile~double_precision_string_m.f90 -->
+<g id="sourcefile~~unmapped_network_s.f90~~EfferentGraph_node10" class="node">
+<title>sourcefile~double_precision_string_m.f90</title>
+<g id="a_sourcefile~~unmapped_network_s.f90~~EfferentGraph_node10"><a xlink:href="../sourcefile/double_precision_string_m.f90.html" xlink:title="double_precision_string_m.f90">
+<polygon fill="#f0ad4e" stroke="#f0ad4e" points="463.56,-219.9 290.79,-219.9 290.79,-195.63 463.56,-195.63 463.56,-219.9"/>
+<text text-anchor="middle" x="377.18" y="-204.17" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">double_precision_string_m.f90</text>
+</a>
+</g>
+</g>
+<!-- sourcefile~double_precision_file_m.f90&#45;&gt;sourcefile~double_precision_string_m.f90 -->
+<g id="sourcefile~~unmapped_network_s.f90~~EfferentGraph_edge9" class="edge">
+<title>sourcefile~double_precision_file_m.f90&#45;&gt;sourcefile~double_precision_string_m.f90</title>
+<path fill="none" stroke="#ffda00" stroke-dasharray="5,2" d="M499.14,-207.77C491.27,-207.77 483.23,-207.77 475.2,-207.77"/>
+<polygon fill="#ffda00" stroke="#ffda00" points="475.41,-204.27 465.41,-207.77 475.41,-211.27 475.41,-204.27"/>
+</g>
+<!-- sourcefile~metadata_m.f90&#45;&gt;sourcefile~double_precision_string_m.f90 -->
+<g id="sourcefile~~unmapped_network_s.f90~~EfferentGraph_edge10" class="edge">
+<title>sourcefile~metadata_m.f90&#45;&gt;sourcefile~double_precision_string_m.f90</title>
+<path fill="none" stroke="#00ff91" stroke-dasharray="5,2" d="M529.26,-239.49C505.18,-234.44 475.69,-228.24 449.18,-222.68"/>
+<polygon fill="#00ff91" stroke="#00ff91" points="450.01,-219.28 439.51,-220.65 448.57,-226.13 450.01,-219.28"/>
+</g>
+<!-- sourcefile~mini_batch_m.f90&#45;&gt;sourcefile~kind_parameters_m.f90 -->
+<g id="sourcefile~~unmapped_network_s.f90~~EfferentGraph_edge12" class="edge">
+<title>sourcefile~mini_batch_m.f90&#45;&gt;sourcefile~kind_parameters_m.f90</title>
+<path fill="none" stroke="#0091ff" stroke-dasharray="5,2" d="M536.76,-35.2C469.01,-16.42 330.5,14.47 215.16,-7.77"/>
+<path fill="none" stroke="#0091ff" stroke-dasharray="5,2" d="M213.16,-7.77C166.78,-16.68 120.38,-47.56 93.4,-68.24"/>
+<polygon fill="#0091ff" stroke="#0091ff" points="91.27,-65.47 85.57,-74.4 95.59,-70.97 91.27,-65.47"/>
+</g>
+<!-- sourcefile~input_output_pair_m.f90 -->
+<g id="sourcefile~~unmapped_network_s.f90~~EfferentGraph_node11" class="node">
+<title>sourcefile~input_output_pair_m.f90</title>
+<g id="a_sourcefile~~unmapped_network_s.f90~~EfferentGraph_node11"><a xlink:href="../sourcefile/input_output_pair_m.f90.html" xlink:title="input_output_pair_m.f90">
+<polygon fill="#f0ad4e" stroke="#f0ad4e" points="447.44,-59.9 306.92,-59.9 306.92,-35.63 447.44,-35.63 447.44,-59.9"/>
+<text text-anchor="middle" x="377.18" y="-44.17" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">input_output_pair_m.f90</text>
+</a>
+</g>
+</g>
+<!-- sourcefile~mini_batch_m.f90&#45;&gt;sourcefile~input_output_pair_m.f90 -->
+<g id="sourcefile~~unmapped_network_s.f90~~EfferentGraph_edge11" class="edge">
+<title>sourcefile~mini_batch_m.f90&#45;&gt;sourcefile~input_output_pair_m.f90</title>
+<path fill="none" stroke="#0091ff" stroke-dasharray="5,2" d="M525.9,-47.77C505.51,-47.77 481.65,-47.77 459.13,-47.77"/>
+<polygon fill="#0091ff" stroke="#0091ff" points="459.37,-44.27 449.37,-47.77 459.37,-51.27 459.37,-44.27"/>
+</g>
+<!-- sourcefile~tensor_m.f90&#45;&gt;sourcefile~kind_parameters_m.f90 -->
+<g id="sourcefile~~unmapped_network_s.f90~~EfferentGraph_edge13" class="edge">
+<title>sourcefile~tensor_m.f90&#45;&gt;sourcefile~kind_parameters_m.f90</title>
+<path fill="none" stroke="#4800ff" stroke-dasharray="5,2" d="M173.21,-87.77C165.63,-87.77 157.46,-87.77 149.15,-87.77"/>
+<polygon fill="#4800ff" stroke="#4800ff" points="149.29,-84.27 139.29,-87.77 149.29,-91.27 149.29,-84.27"/>
+</g>
+<!-- sourcefile~tensor_map_m.f90&#45;&gt;sourcefile~kind_parameters_m.f90 -->
+<g id="sourcefile~~unmapped_network_s.f90~~EfferentGraph_edge15" class="edge">
+<title>sourcefile~tensor_map_m.f90&#45;&gt;sourcefile~kind_parameters_m.f90</title>
+<path fill="none" stroke="#ff00da" stroke-dasharray="5,2" d="M376.18,-129.77C304.74,-125.54 285.31,-143.89 215.16,-129.77"/>
+<path fill="none" stroke="#ff00da" stroke-dasharray="5,2" d="M213.16,-129.77C180.49,-123.19 144.5,-112.64 116.75,-103.76"/>
+<polygon fill="#ff00da" stroke="#ff00da" points="118.2,-100.55 107.6,-100.79 116.04,-107.21 118.2,-100.55"/>
+</g>
+<!-- sourcefile~tensor_map_m.f90&#45;&gt;sourcefile~tensor_m.f90 -->
+<g id="sourcefile~~unmapped_network_s.f90~~EfferentGraph_edge16" class="edge">
+<title>sourcefile~tensor_map_m.f90&#45;&gt;sourcefile~tensor_m.f90</title>
+<path fill="none" stroke="#ff00da" stroke-dasharray="5,2" d="M523.81,-130.34C483.56,-131.75 427.4,-132.68 378.18,-129.77"/>
+<path fill="none" stroke="#ff00da" stroke-dasharray="5,2" d="M376.18,-129.77C335.41,-127.36 290.58,-114.8 258.6,-104.05"/>
+<polygon fill="#ff00da" stroke="#ff00da" points="259.87,-100.78 249.28,-100.83 257.59,-107.4 259.87,-100.78"/>
+</g>
+<!-- sourcefile~tensor_map_m.f90&#45;&gt;sourcefile~double_precision_string_m.f90 -->
+<g id="sourcefile~~unmapped_network_s.f90~~EfferentGraph_edge14" class="edge">
+<title>sourcefile~tensor_map_m.f90&#45;&gt;sourcefile~double_precision_string_m.f90</title>
+<path fill="none" stroke="#ff00da" stroke-dasharray="5,2" d="M546.94,-140.27C512.84,-153.91 458.07,-175.81 420.22,-190.95"/>
+<polygon fill="#ff00da" stroke="#ff00da" points="418.93,-187.7 410.94,-194.66 421.53,-194.2 418.93,-187.7"/>
+</g>
+<!-- sourcefile~input_output_pair_m.f90&#45;&gt;sourcefile~kind_parameters_m.f90 -->
+<g id="sourcefile~~unmapped_network_s.f90~~EfferentGraph_edge17" class="edge">
+<title>sourcefile~input_output_pair_m.f90&#45;&gt;sourcefile~kind_parameters_m.f90</title>
+<path fill="none" stroke="#00ffff" stroke-dasharray="5,2" d="M333.63,-35.23C289.96,-22.68 226.79,-5.52 215.16,-7.77"/>
+</g>
+<!-- sourcefile~input_output_pair_m.f90&#45;&gt;sourcefile~tensor_m.f90 -->
+<g id="sourcefile~~unmapped_network_s.f90~~EfferentGraph_edge18" class="edge">
+<title>sourcefile~input_output_pair_m.f90&#45;&gt;sourcefile~tensor_m.f90</title>
+<path fill="none" stroke="#00ffff" stroke-dasharray="5,2" d="M325.67,-60.31C306.79,-65 285.35,-70.33 266.4,-75.04"/>
+<polygon fill="#00ffff" stroke="#00ffff" points="265.61,-71.63 256.75,-77.44 267.29,-78.42 265.61,-71.63"/>
+</g>
+</g>
+</svg>
+</div>                <script>
+                  var pansourcefileunmapped_network_sf90EfferentGraph = svgPanZoom('#sourcefileunmapped_network_sf90EfferentGraph',
+                    {zoomEnabled: true, controlIconsEnabled: true, fit: true, center: true,}
+                  );
+                </script>          <div>
+            <a type="button" class="graph-help" data-bs-toggle="modal" href="#EfferentGraph-help-text">Help</a>
+          </div>
+          <div class="modal fade" id="EfferentGraph-help-text" tabindex="-1" role="dialog">
+            <div class="modal-dialog modal-lg" role="document">
+              <div class="modal-content">
+                <div class="modal-header">
+                  <h4 class="modal-title" id="-graph-help-label">Graph Key</h4>
+                  <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+<p>Nodes of different colours represent the following: </p>
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN"
+ "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
+<!-- Generated by graphviz version 12.1.2 (20240928.0832)
+ -->
+<!-- Title: Graph Key Pages: 1 -->
+<svg width="200pt" height="32pt"
+ viewBox="0.00 0.00 199.52 32.27" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+<g id="graph0" class="graph" transform="scale(1 1) rotate(0) translate(4 28.27)">
+<title>Graph Key</title>
+<polygon fill="white" stroke="none" points="-4,4 -4,-28.27 195.52,-28.27 195.52,4 -4,4"/>
+<!-- Source File -->
+<g id="node1" class="node">
+<title>Source File</title>
+<polygon fill="#f0ad4e" stroke="#f0ad4e" points="69.27,-24.27 0,-24.27 0,0 69.27,0 69.27,-24.27"/>
+<text text-anchor="middle" x="34.63" y="-8.53" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">Source File</text>
+</g>
+<!-- This Page&#39;s Entity -->
+<g id="node2" class="node">
+<title>This Page&#39;s Entity</title>
+<polygon fill="none" stroke="black" points="191.52,-24.27 87.75,-24.27 87.75,0 191.52,0 191.52,-24.27"/>
+<text text-anchor="middle" x="139.63" y="-8.53" font-family="Helvetica,sans-Serif" font-size="10.50">This Page&#39;s Entity</text>
+</g>
+</g>
+</svg>
+
+<p>Solid arrows point from a file to a file which it depends on. A file
+is dependent upon another if the latter must be compiled before the former
+can be.
+</p>
+ Where possible, edges connecting nodes are
+given different colours to make them easier to distinguish in
+large graphs.</div>
+            </div>
+          </div>
+        </div>
+          </div>
+        </div>
+<br>
+      <section>
+        <h2><span class="anchor" id="src"></span>Source Code</h2>
+        <div class="hl codehilite"><pre><span></span><a id="ln-1" name="ln-1" href="#ln-1"></a><span class="c">! Copyright (c), The Regents of the University of California</span>
+<a id="ln-2" name="ln-2" href="#ln-2"></a><span class="c">! Terms of use are as specified in LICENSE.txt</span>
+<a id="ln-3" name="ln-3" href="#ln-3"></a><span class="k">submodule</span><span class="p">(</span><span class="n">neural_network_m</span><span class="p">)</span><span class="w"> </span><span class="n">unmapped_network_s</span>
+<a id="ln-4" name="ln-4" href="#ln-4"></a><span class="w">  </span><span class="k">implicit none</span>
+<a id="ln-5" name="ln-5" href="#ln-5"></a>
+<a id="ln-6" name="ln-6" href="#ln-6"></a><span class="k">  </span><span class="kt">integer</span><span class="p">,</span><span class="w"> </span><span class="k">parameter</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">input_layer</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">0</span><span class="w"> </span>
+<a id="ln-7" name="ln-7" href="#ln-7"></a>
+<a id="ln-8" name="ln-8" href="#ln-8"></a><span class="k">contains</span>
+<a id="ln-9" name="ln-9" href="#ln-9"></a>
+<a id="ln-10" name="ln-10" href="#ln-10"></a><span class="k">  module procedure </span><span class="n">double_precision_unmapped_from_json</span>
+<a id="ln-11" name="ln-11" href="#ln-11"></a><span class="w">    </span><span class="n">unmapped_network</span><span class="p">%</span><span class="n">neural_network_</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">double_precision_from_json</span><span class="p">(</span><span class="k">file</span><span class="p">)</span>
+<a id="ln-12" name="ln-12" href="#ln-12"></a><span class="w">  </span><span class="k">end procedure</span>
+<a id="ln-13" name="ln-13" href="#ln-13"></a>
+<a id="ln-14" name="ln-14" href="#ln-14"></a><span class="k">  module procedure </span><span class="n">default_real_infer_unmapped</span>
+<a id="ln-15" name="ln-15" href="#ln-15"></a>
+<a id="ln-16" name="ln-16" href="#ln-16"></a><span class="w">    </span><span class="kt">real</span><span class="p">,</span><span class="w"> </span><span class="k">allocatable</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">a</span><span class="p">(:,:)</span>
+<a id="ln-17" name="ln-17" href="#ln-17"></a><span class="w">    </span><span class="kt">integer </span><span class="n">l</span>
+<a id="ln-18" name="ln-18" href="#ln-18"></a>
+<a id="ln-19" name="ln-19" href="#ln-19"></a><span class="w">    </span><span class="k">associate</span><span class="p">(</span><span class="n">neural_network</span><span class="w"> </span><span class="o">=&gt;</span><span class="w"> </span><span class="n">self</span><span class="p">%</span><span class="n">neural_network_</span><span class="p">)</span>
+<a id="ln-20" name="ln-20" href="#ln-20"></a>
+<a id="ln-21" name="ln-21" href="#ln-21"></a><span class="w">      </span><span class="k">call </span><span class="n">neural_network</span><span class="p">%</span><span class="n">assert_consistency</span><span class="p">()</span>
+<a id="ln-22" name="ln-22" href="#ln-22"></a>
+<a id="ln-23" name="ln-23" href="#ln-23"></a><span class="w">      </span><span class="k">associate</span><span class="p">(</span><span class="w"> </span><span class="p">&amp;</span>
+<a id="ln-24" name="ln-24" href="#ln-24"></a><span class="w">        </span><span class="n">w</span><span class="w"> </span><span class="o">=&gt;</span><span class="w"> </span><span class="n">neural_network</span><span class="p">%</span><span class="n">weights_</span><span class="w"> </span><span class="p">&amp;</span>
+<a id="ln-25" name="ln-25" href="#ln-25"></a><span class="w">       </span><span class="p">,</span><span class="n">b</span><span class="w"> </span><span class="o">=&gt;</span><span class="w"> </span><span class="n">neural_network</span><span class="p">%</span><span class="n">biases_</span><span class="w"> </span><span class="p">&amp;</span>
+<a id="ln-26" name="ln-26" href="#ln-26"></a><span class="w">       </span><span class="p">,</span><span class="n">n</span><span class="w"> </span><span class="o">=&gt;</span><span class="w"> </span><span class="n">neural_network</span><span class="p">%</span><span class="n">nodes_</span><span class="w"> </span><span class="p">&amp;</span>
+<a id="ln-27" name="ln-27" href="#ln-27"></a><span class="w">       </span><span class="p">,</span><span class="n">output_layer</span><span class="w"> </span><span class="o">=&gt;</span><span class="w"> </span><span class="nb">ubound</span><span class="p">(</span><span class="n">neural_network</span><span class="p">%</span><span class="n">nodes_</span><span class="p">,</span><span class="mi">1</span><span class="p">)</span><span class="w"> </span><span class="p">&amp;</span>
+<a id="ln-28" name="ln-28" href="#ln-28"></a><span class="w">      </span><span class="p">)</span>
+<a id="ln-29" name="ln-29" href="#ln-29"></a><span class="w">        </span><span class="k">allocate</span><span class="p">(</span><span class="n">a</span><span class="p">(</span><span class="nb">maxval</span><span class="p">(</span><span class="n">n</span><span class="p">),</span><span class="w"> </span><span class="n">input_layer</span><span class="p">:</span><span class="n">output_layer</span><span class="p">))</span>
+<a id="ln-30" name="ln-30" href="#ln-30"></a>
+<a id="ln-31" name="ln-31" href="#ln-31"></a><span class="w">        </span><span class="n">a</span><span class="p">(</span><span class="mi">1</span><span class="p">:</span><span class="n">n</span><span class="p">(</span><span class="n">input_layer</span><span class="p">),</span><span class="n">input_layer</span><span class="p">)</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">inputs</span><span class="p">%</span><span class="n">values</span><span class="p">()</span>
+<a id="ln-32" name="ln-32" href="#ln-32"></a>
+<a id="ln-33" name="ln-33" href="#ln-33"></a><span class="w">        </span><span class="n">feed_forward</span><span class="p">:</span><span class="w"> </span><span class="p">&amp;</span>
+<a id="ln-34" name="ln-34" href="#ln-34"></a><span class="w">        </span><span class="k">do </span><span class="n">l</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">input_layer</span><span class="o">+</span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="n">output_layer</span>
+<a id="ln-35" name="ln-35" href="#ln-35"></a><span class="w">          </span><span class="k">associate</span><span class="p">(</span><span class="n">z</span><span class="w"> </span><span class="o">=&gt;</span><span class="w"> </span><span class="nb">matmul</span><span class="p">(</span><span class="n">w</span><span class="p">(</span><span class="mi">1</span><span class="p">:</span><span class="n">n</span><span class="p">(</span><span class="n">l</span><span class="p">),</span><span class="mi">1</span><span class="p">:</span><span class="n">n</span><span class="p">(</span><span class="n">l</span><span class="o">-</span><span class="mi">1</span><span class="p">),</span><span class="n">l</span><span class="p">),</span><span class="w"> </span><span class="n">a</span><span class="p">(</span><span class="mi">1</span><span class="p">:</span><span class="n">n</span><span class="p">(</span><span class="n">l</span><span class="o">-</span><span class="mi">1</span><span class="p">),</span><span class="n">l</span><span class="o">-</span><span class="mi">1</span><span class="p">))</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">b</span><span class="p">(</span><span class="mi">1</span><span class="p">:</span><span class="n">n</span><span class="p">(</span><span class="n">l</span><span class="p">),</span><span class="n">l</span><span class="p">))</span>
+<a id="ln-36" name="ln-36" href="#ln-36"></a><span class="w">            </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">l</span><span class="w"> </span><span class="p">.</span><span class="n">lt</span><span class="p">.</span><span class="w"> </span><span class="n">output_layer</span><span class="p">)</span><span class="w"> </span><span class="k">then</span>
+<a id="ln-37" name="ln-37" href="#ln-37"></a><span class="k">               </span><span class="n">a</span><span class="p">(</span><span class="mi">1</span><span class="p">:</span><span class="n">n</span><span class="p">(</span><span class="n">l</span><span class="p">),</span><span class="n">l</span><span class="p">)</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">neural_network</span><span class="p">%</span><span class="n">activation_</span><span class="p">%</span><span class="n">evaluate</span><span class="p">(</span><span class="n">z</span><span class="p">)</span>
+<a id="ln-38" name="ln-38" href="#ln-38"></a><span class="w">            </span><span class="k">else</span>
+<a id="ln-39" name="ln-39" href="#ln-39"></a><span class="k">               </span><span class="n">a</span><span class="p">(</span><span class="mi">1</span><span class="p">:</span><span class="n">n</span><span class="p">(</span><span class="n">l</span><span class="p">),</span><span class="n">l</span><span class="p">)</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">z</span><span class="p">(</span><span class="mi">1</span><span class="p">:</span><span class="n">n</span><span class="p">(</span><span class="n">l</span><span class="p">))</span>
+<a id="ln-40" name="ln-40" href="#ln-40"></a><span class="w">            </span><span class="k">end if</span>
+<a id="ln-41" name="ln-41" href="#ln-41"></a><span class="k">          end associate</span>
+<a id="ln-42" name="ln-42" href="#ln-42"></a><span class="k">        end do </span><span class="n">feed_forward</span>
+<a id="ln-43" name="ln-43" href="#ln-43"></a>
+<a id="ln-44" name="ln-44" href="#ln-44"></a><span class="w">        </span><span class="n">outputs</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">tensor_t</span><span class="p">(</span><span class="n">a</span><span class="p">(</span><span class="mi">1</span><span class="p">:</span><span class="n">n</span><span class="p">(</span><span class="n">output_layer</span><span class="p">),</span><span class="w"> </span><span class="n">output_layer</span><span class="p">))</span>
+<a id="ln-45" name="ln-45" href="#ln-45"></a>
+<a id="ln-46" name="ln-46" href="#ln-46"></a><span class="w">      </span><span class="k">end associate</span>
+<a id="ln-47" name="ln-47" href="#ln-47"></a><span class="k">    end associate</span>
+<a id="ln-48" name="ln-48" href="#ln-48"></a>
+<a id="ln-49" name="ln-49" href="#ln-49"></a><span class="k">  end procedure</span>
+<a id="ln-50" name="ln-50" href="#ln-50"></a>
+<a id="ln-51" name="ln-51" href="#ln-51"></a><span class="k">  module procedure </span><span class="n">double_precision_infer_unmapped</span>
+<a id="ln-52" name="ln-52" href="#ln-52"></a>
+<a id="ln-53" name="ln-53" href="#ln-53"></a><span class="w">    </span><span class="kt">double precision</span><span class="p">,</span><span class="w"> </span><span class="k">allocatable</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">a</span><span class="p">(:,:)</span>
+<a id="ln-54" name="ln-54" href="#ln-54"></a><span class="w">    </span><span class="kt">integer </span><span class="n">l</span>
+<a id="ln-55" name="ln-55" href="#ln-55"></a>
+<a id="ln-56" name="ln-56" href="#ln-56"></a><span class="w">    </span><span class="k">associate</span><span class="p">(</span><span class="n">neural_network</span><span class="w"> </span><span class="o">=&gt;</span><span class="w"> </span><span class="n">self</span><span class="p">%</span><span class="n">neural_network_</span><span class="p">)</span>
+<a id="ln-57" name="ln-57" href="#ln-57"></a>
+<a id="ln-58" name="ln-58" href="#ln-58"></a><span class="w">      </span><span class="k">call </span><span class="n">neural_network</span><span class="p">%</span><span class="n">assert_consistency</span><span class="p">()</span>
+<a id="ln-59" name="ln-59" href="#ln-59"></a>
+<a id="ln-60" name="ln-60" href="#ln-60"></a><span class="w">      </span><span class="k">associate</span><span class="p">(</span><span class="w"> </span><span class="p">&amp;</span>
+<a id="ln-61" name="ln-61" href="#ln-61"></a><span class="w">        </span><span class="n">w</span><span class="w"> </span><span class="o">=&gt;</span><span class="w"> </span><span class="n">neural_network</span><span class="p">%</span><span class="n">weights_</span><span class="w"> </span><span class="p">&amp;</span>
+<a id="ln-62" name="ln-62" href="#ln-62"></a><span class="w">       </span><span class="p">,</span><span class="n">b</span><span class="w"> </span><span class="o">=&gt;</span><span class="w"> </span><span class="n">neural_network</span><span class="p">%</span><span class="n">biases_</span><span class="w"> </span><span class="p">&amp;</span>
+<a id="ln-63" name="ln-63" href="#ln-63"></a><span class="w">       </span><span class="p">,</span><span class="n">n</span><span class="w"> </span><span class="o">=&gt;</span><span class="w"> </span><span class="n">neural_network</span><span class="p">%</span><span class="n">nodes_</span><span class="w"> </span><span class="p">&amp;</span>
+<a id="ln-64" name="ln-64" href="#ln-64"></a><span class="w">       </span><span class="p">,</span><span class="n">output_layer</span><span class="w"> </span><span class="o">=&gt;</span><span class="w"> </span><span class="nb">ubound</span><span class="p">(</span><span class="n">neural_network</span><span class="p">%</span><span class="n">nodes_</span><span class="p">,</span><span class="mi">1</span><span class="p">)</span><span class="w"> </span><span class="p">&amp;</span>
+<a id="ln-65" name="ln-65" href="#ln-65"></a><span class="w">      </span><span class="p">)</span>
+<a id="ln-66" name="ln-66" href="#ln-66"></a>
+<a id="ln-67" name="ln-67" href="#ln-67"></a><span class="w">        </span><span class="k">allocate</span><span class="p">(</span><span class="n">a</span><span class="p">(</span><span class="nb">maxval</span><span class="p">(</span><span class="n">n</span><span class="p">),</span><span class="w"> </span><span class="n">input_layer</span><span class="p">:</span><span class="n">output_layer</span><span class="p">))</span>
+<a id="ln-68" name="ln-68" href="#ln-68"></a>
+<a id="ln-69" name="ln-69" href="#ln-69"></a><span class="w">        </span><span class="n">a</span><span class="p">(</span><span class="mi">1</span><span class="p">:</span><span class="n">n</span><span class="p">(</span><span class="n">input_layer</span><span class="p">),</span><span class="n">input_layer</span><span class="p">)</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">inputs</span><span class="p">%</span><span class="n">values</span><span class="p">()</span>
+<a id="ln-70" name="ln-70" href="#ln-70"></a>
+<a id="ln-71" name="ln-71" href="#ln-71"></a><span class="w">        </span><span class="n">feed_forward</span><span class="p">:</span><span class="w"> </span><span class="p">&amp;</span>
+<a id="ln-72" name="ln-72" href="#ln-72"></a><span class="w">        </span><span class="k">do </span><span class="n">l</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">input_layer</span><span class="o">+</span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="n">output_layer</span>
+<a id="ln-73" name="ln-73" href="#ln-73"></a><span class="w">          </span><span class="k">associate</span><span class="p">(</span><span class="n">z</span><span class="w"> </span><span class="o">=&gt;</span><span class="w"> </span><span class="nb">matmul</span><span class="p">(</span><span class="n">w</span><span class="p">(</span><span class="mi">1</span><span class="p">:</span><span class="n">n</span><span class="p">(</span><span class="n">l</span><span class="p">),</span><span class="mi">1</span><span class="p">:</span><span class="n">n</span><span class="p">(</span><span class="n">l</span><span class="o">-</span><span class="mi">1</span><span class="p">),</span><span class="n">l</span><span class="p">),</span><span class="w"> </span><span class="n">a</span><span class="p">(</span><span class="mi">1</span><span class="p">:</span><span class="n">n</span><span class="p">(</span><span class="n">l</span><span class="o">-</span><span class="mi">1</span><span class="p">),</span><span class="n">l</span><span class="o">-</span><span class="mi">1</span><span class="p">))</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">b</span><span class="p">(</span><span class="mi">1</span><span class="p">:</span><span class="n">n</span><span class="p">(</span><span class="n">l</span><span class="p">),</span><span class="n">l</span><span class="p">))</span>
+<a id="ln-74" name="ln-74" href="#ln-74"></a><span class="w">            </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">l</span><span class="w"> </span><span class="p">.</span><span class="n">lt</span><span class="p">.</span><span class="w"> </span><span class="n">output_layer</span><span class="p">)</span><span class="w"> </span><span class="k">then</span>
+<a id="ln-75" name="ln-75" href="#ln-75"></a><span class="k">               </span><span class="n">a</span><span class="p">(</span><span class="mi">1</span><span class="p">:</span><span class="n">n</span><span class="p">(</span><span class="n">l</span><span class="p">),</span><span class="n">l</span><span class="p">)</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">neural_network</span><span class="p">%</span><span class="n">activation_</span><span class="p">%</span><span class="n">evaluate</span><span class="p">(</span><span class="n">z</span><span class="p">)</span>
+<a id="ln-76" name="ln-76" href="#ln-76"></a><span class="w">            </span><span class="k">else</span>
+<a id="ln-77" name="ln-77" href="#ln-77"></a><span class="k">               </span><span class="n">a</span><span class="p">(</span><span class="mi">1</span><span class="p">:</span><span class="n">n</span><span class="p">(</span><span class="n">l</span><span class="p">),</span><span class="n">l</span><span class="p">)</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">z</span><span class="p">(</span><span class="mi">1</span><span class="p">:</span><span class="n">n</span><span class="p">(</span><span class="n">l</span><span class="p">))</span>
+<a id="ln-78" name="ln-78" href="#ln-78"></a><span class="w">            </span><span class="k">end if</span>
+<a id="ln-79" name="ln-79" href="#ln-79"></a><span class="k">          end associate</span>
+<a id="ln-80" name="ln-80" href="#ln-80"></a><span class="k">        end do </span><span class="n">feed_forward</span>
+<a id="ln-81" name="ln-81" href="#ln-81"></a>
+<a id="ln-82" name="ln-82" href="#ln-82"></a><span class="w">        </span><span class="n">outputs</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">tensor_t</span><span class="p">(</span><span class="n">a</span><span class="p">(</span><span class="mi">1</span><span class="p">:</span><span class="n">n</span><span class="p">(</span><span class="n">output_layer</span><span class="p">),</span><span class="w"> </span><span class="n">output_layer</span><span class="p">))</span>
+<a id="ln-83" name="ln-83" href="#ln-83"></a><span class="w">      </span><span class="k">end associate</span>
+<a id="ln-84" name="ln-84" href="#ln-84"></a><span class="k">    end associate</span>
+<a id="ln-85" name="ln-85" href="#ln-85"></a>
+<a id="ln-86" name="ln-86" href="#ln-86"></a><span class="k">  end procedure</span>
+<a id="ln-87" name="ln-87" href="#ln-87"></a>
+<a id="ln-88" name="ln-88" href="#ln-88"></a><span class="k">end submodule </span><span class="n">unmapped_network_s</span>
+</pre></div>
+
+      </section>
+    </div>
+  </div>
+
+      <hr>
+    </div> <!-- /container -->
+    <footer>
+      <div class="container">
+        <div class="row justify-content-between">
+          <div class="col">
+            <p>
+              Fiats
+ was developed by Berkeley Lab<br>              &copy; 2024 
+</p>
+          </div>
+          <div class="col">
+            <p class="text-end">
+              Documentation generated by
+              <a href="https://github.com/Fortran-FOSS-Programmers/ford">FORD</a>
+ on 2024-10-17 00:07              </p>
+          </div>
+        </div>
+        <br>
+      </div> <!-- /container -->
+    </footer>
+
+    <!-- Bootstrap core JavaScript -->
+    <!-- Placed at the end of the document so the pages load faster -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"
+            integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p" crossorigin="anonymous"></script>    
+
+    <!-- MathJax JavaScript
+             ================================================== -->
+             <!-- Placed at the end of the document so the pages load faster -->
+        <script type="text/x-mathjax-config">
+          MathJax.Hub.Config({
+          TeX: { extensions: ['AMSmath.js','AMSsymbols.js','noErrors.js','noUndefined.js'], equationNumbers: { autoNumber: 'AMS' } },
+          jax: ['input/TeX','input/MathML','output/HTML-CSS'],
+          extensions: ['tex2jax.js','mml2jax.js','MathMenu.js','MathZoom.js']
+          });
+        </script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+
+          <script src="../tipuesearch/tipuesearch_content.js"></script>
+          <script src="../tipuesearch/tipuesearch_set.js"></script>
+          <script src="../tipuesearch/tipuesearch.js"></script>
+
+  </body>
+</html>

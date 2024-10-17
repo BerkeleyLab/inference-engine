@@ -6,11 +6,11 @@
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-      <meta name="description" content="A deep learning library targeting high-performance computing (HPC) applications with performance-critical inference and training needs.">
+      <meta name="description" content="Functional inference and training of surrogate models for computational science.">
     <meta name="author" content="Berkeley Lab" >
     <link rel="icon" href="../favicon.png">
 
-    <title>tensor_s &ndash; Inference-Engine</title>
+    <title>tensor_s &ndash; Fiats</title>
 
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet"
           integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
@@ -29,7 +29,7 @@
     <div class="container-fluid mb-sm-4 mb-xl-2">
       <nav class="navbar navbar-expand-lg navbar-dark bg-dark fixed-top">
         <div class="container">
-          <a class="navbar-brand" href="../index.html">Inference-Engine </a>
+          <a class="navbar-brand" href="../index.html">Fiats </a>
           <button type="button" class="navbar-toggler" data-bs-toggle="collapse" data-bs-target="#navbar"
                   aria-expanded="false" aria-controls="navbar" aria-label="Toggle navigation">
                   <span class="navbar-toggler-icon">
@@ -45,9 +45,6 @@
                 </li>
                 <li class="nav-item">
                   <a class="nav-link" href="../lists/procedures.html">Procedures</a>
-                </li>
-                <li class="nav-item">
-                  <a class="nav-link" href="../lists/absint.html">Abstract Interfaces</a>
                 </li>
                 <li class="nav-item">
                   <a class="nav-link" href="../lists/types.html">Derived Types</a>
@@ -79,7 +76,7 @@
 
             <li class="list-inline-item" id="statements"><i class="fa fa-list-ol"></i>
               <a data-bs-toggle="tooltip" data-bs-placement="bottom" data-bs-html="true"
-                 title=" 0.5% of total for modules and submodules.">13 statements</a>
+                 title=" 0.7% of total for modules and submodules.">22 statements</a>
             </li>
 
             <li class="list-inline-item" id="source-file">
@@ -132,9 +129,12 @@
       </a>
       <div id="modprocs-0" class="collapse">
         <div class="list-group list-group-flush">
-            <a class="list-group-item" href="../module/tensor_s.html#proc-construct_from_components">construct_from_components</a>
-            <a class="list-group-item" href="../module/tensor_s.html#proc-num_components">num_components</a>
-            <a class="list-group-item" href="../module/tensor_s.html#proc-values">values</a>
+            <a class="list-group-item" href="../module/tensor_s.html#proc-construct_default_real">construct_default_real</a>
+            <a class="list-group-item" href="../module/tensor_s.html#proc-construct_double_precision">construct_double_precision</a>
+            <a class="list-group-item" href="../module/tensor_s.html#proc-default_real_num_components">default_real_num_components</a>
+            <a class="list-group-item" href="../module/tensor_s.html#proc-default_real_values">default_real_values</a>
+            <a class="list-group-item" href="../module/tensor_s.html#proc-double_precision_num_components">double_precision_num_components</a>
+            <a class="list-group-item" href="../module/tensor_s.html#proc-double_precision_values">double_precision_values</a>
         </div>
       </div>
     </div>
@@ -304,7 +304,7 @@ large graphs.</div>
         <section>
           <h2>Module Procedures</h2>
               <div class="card">
-    <div class="card-header codesum"><span class="anchor" id="proc-construct_from_components"></span> <h3>module procedure /home/runner/work/inference-engine/inference-engine/doc/html/module/tensor_s.html <a href='../proc/construct_from_components.html'>construct_from_components</a> <small>pure module function construct_from_components(values) result(tensor)</small>  
+    <div class="card-header codesum"><span class="anchor" id="proc-construct_default_real"></span> <h3>module procedure /home/runner/work/inference-engine/inference-engine/doc/html/module/tensor_s.html <a href='../proc/construct_default_real.html'>construct_default_real</a> <small>pure module function construct_default_real(values) result(tensor)</small>  
 </h3></div>
     <div class="card-body">
           
@@ -324,7 +324,7 @@ large graphs.</div>
         <tr>
             <td>
               <span class="anchor" id="variable-values~2"></span>
-              real(kind=rkind),
+              real,
             </td>
 <td>intent(in)</td>
               <td></td>            <td>
@@ -349,8 +349,7 @@ large graphs.</div>
   </div>
 
               <div class="card">
-    <div class="card-header codesum"><span class="anchor" id="proc-num_components"></span> <h3>module procedure /home/runner/work/inference-engine/inference-engine/doc/html/module/tensor_s.html <a href='../proc/num_components.html'>num_components</a> <small>pure module function num_components(self) result(n)</small>  
-    <a href="../interface/num_components.html"><button type="button" class="btn btn-info depwarn">Interface &rarr;</button></a>
+    <div class="card-header codesum"><span class="anchor" id="proc-construct_double_precision"></span> <h3>module procedure /home/runner/work/inference-engine/inference-engine/doc/html/module/tensor_s.html <a href='../proc/construct_double_precision.html'>construct_double_precision</a> <small>pure module function construct_double_precision(values) result(tensor)</small>  
 </h3></div>
     <div class="card-body">
           
@@ -369,7 +368,53 @@ large graphs.</div>
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-self~63"></span>
+              <span class="anchor" id="variable-values~3"></span>
+              double precision,
+            </td>
+<td>intent(in)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>values</strong>(:)</td>
+            <td>
+
+            </td>
+        </tr>
+    </tbody>
+  </table>
+
+    <h4>
+    Return Value
+    <small>type(<a href='../type/tensor_t.html'>tensor_t</a>(double_precision))</small>
+    </h4>
+    
+
+    </div>
+  </div>
+
+              <div class="card">
+    <div class="card-header codesum"><span class="anchor" id="proc-default_real_num_components"></span> <h3>module procedure /home/runner/work/inference-engine/inference-engine/doc/html/module/tensor_s.html <a href='../proc/default_real_num_components.html'>default_real_num_components</a> <small>pure module function default_real_num_components(self) result(n)</small>  
+    <a href="../interface/default_real_num_components.html"><button type="button" class="btn btn-info depwarn">Interface &rarr;</button></a>
+</h3></div>
+    <div class="card-body">
+          
+  
+
+  <h4>Arguments</h4>
+      <table class="table table-striped varlist">
+    <thead>
+      <tr>
+        <th scope="col">Type</th>
+<th scope="col">Intent</th><th scope="col">Optional</th>        <th scope="col">Attributes</th>
+        <th scope="col"></th>
+        <th scope="col">Name</th>
+        <th scope="col"></th>
+    </thead>
+    <tbody>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-self~42"></span>
               class(<a href='../type/tensor_t.html'>tensor_t</a>),
             </td>
 <td>intent(in)</td>
@@ -395,8 +440,8 @@ large graphs.</div>
   </div>
 
               <div class="card">
-    <div class="card-header codesum"><span class="anchor" id="proc-values"></span> <h3>module procedure /home/runner/work/inference-engine/inference-engine/doc/html/module/tensor_s.html <a href='../proc/values.html'>values</a> <small>pure module function values(self) result(tensor_values)</small>  
-    <a href="../interface/values.html"><button type="button" class="btn btn-info depwarn">Interface &rarr;</button></a>
+    <div class="card-header codesum"><span class="anchor" id="proc-default_real_values"></span> <h3>module procedure /home/runner/work/inference-engine/inference-engine/doc/html/module/tensor_s.html <a href='../proc/default_real_values.html'>default_real_values</a> <small>pure module function default_real_values(self) result(tensor_values)</small>  
+    <a href="../interface/default_real_values.html"><button type="button" class="btn btn-info depwarn">Interface &rarr;</button></a>
 </h3></div>
     <div class="card-body">
           
@@ -415,7 +460,7 @@ large graphs.</div>
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-self~62"></span>
+              <span class="anchor" id="variable-self~40"></span>
               class(<a href='../type/tensor_t.html'>tensor_t</a>),
             </td>
 <td>intent(in)</td>
@@ -433,7 +478,99 @@ large graphs.</div>
 
     <h4>
     Return Value
-    <small>real(kind=rkind), allocatable, (:)</small>
+    <small>real, allocatable, (:)</small>
+    </h4>
+    
+
+    </div>
+  </div>
+
+              <div class="card">
+    <div class="card-header codesum"><span class="anchor" id="proc-double_precision_num_components"></span> <h3>module procedure /home/runner/work/inference-engine/inference-engine/doc/html/module/tensor_s.html <a href='../proc/double_precision_num_components.html'>double_precision_num_components</a> <small>pure module function double_precision_num_components(self) result(n)</small>  
+    <a href="../interface/double_precision_num_components.html"><button type="button" class="btn btn-info depwarn">Interface &rarr;</button></a>
+</h3></div>
+    <div class="card-body">
+          
+  
+
+  <h4>Arguments</h4>
+      <table class="table table-striped varlist">
+    <thead>
+      <tr>
+        <th scope="col">Type</th>
+<th scope="col">Intent</th><th scope="col">Optional</th>        <th scope="col">Attributes</th>
+        <th scope="col"></th>
+        <th scope="col">Name</th>
+        <th scope="col"></th>
+    </thead>
+    <tbody>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-self~43"></span>
+              class(<a href='../type/tensor_t.html'>tensor_t</a>(double_precision)),
+            </td>
+<td>intent(in)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>self</strong></td>
+            <td>
+
+            </td>
+        </tr>
+    </tbody>
+  </table>
+
+    <h4>
+    Return Value
+    <small>integer</small>
+    </h4>
+    
+
+    </div>
+  </div>
+
+              <div class="card">
+    <div class="card-header codesum"><span class="anchor" id="proc-double_precision_values"></span> <h3>module procedure /home/runner/work/inference-engine/inference-engine/doc/html/module/tensor_s.html <a href='../proc/double_precision_values.html'>double_precision_values</a> <small>pure module function double_precision_values(self) result(tensor_values)</small>  
+    <a href="../interface/double_precision_values.html"><button type="button" class="btn btn-info depwarn">Interface &rarr;</button></a>
+</h3></div>
+    <div class="card-body">
+          
+  
+
+  <h4>Arguments</h4>
+      <table class="table table-striped varlist">
+    <thead>
+      <tr>
+        <th scope="col">Type</th>
+<th scope="col">Intent</th><th scope="col">Optional</th>        <th scope="col">Attributes</th>
+        <th scope="col"></th>
+        <th scope="col">Name</th>
+        <th scope="col"></th>
+    </thead>
+    <tbody>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-self~41"></span>
+              class(<a href='../type/tensor_t.html'>tensor_t</a>(double_precision)),
+            </td>
+<td>intent(in)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>self</strong></td>
+            <td>
+
+            </td>
+        </tr>
+    </tbody>
+  </table>
+
+    <h4>
+    Return Value
+    <small>double precision, allocatable, (:)</small>
     </h4>
     
 
@@ -451,7 +588,7 @@ large graphs.</div>
         <div class="row justify-content-between">
           <div class="col">
             <p>
-              Inference-Engine
+              Fiats
  was developed by Berkeley Lab<br>              &copy; 2024 
 </p>
           </div>
@@ -459,7 +596,7 @@ large graphs.</div>
             <p class="text-end">
               Documentation generated by
               <a href="https://github.com/Fortran-FOSS-Programmers/ford">FORD</a>
- on 2024-10-01 22:45              </p>
+ on 2024-10-17 00:07              </p>
           </div>
         </div>
         <br>

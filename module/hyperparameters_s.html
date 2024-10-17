@@ -6,11 +6,11 @@
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-      <meta name="description" content="A deep learning library targeting high-performance computing (HPC) applications with performance-critical inference and training needs.">
+      <meta name="description" content="Functional inference and training of surrogate models for computational science.">
     <meta name="author" content="Berkeley Lab" >
     <link rel="icon" href="../favicon.png">
 
-    <title>hyperparameters_s &ndash; Inference-Engine</title>
+    <title>hyperparameters_s &ndash; Fiats</title>
 
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet"
           integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
@@ -29,7 +29,7 @@
     <div class="container-fluid mb-sm-4 mb-xl-2">
       <nav class="navbar navbar-expand-lg navbar-dark bg-dark fixed-top">
         <div class="container">
-          <a class="navbar-brand" href="../index.html">Inference-Engine </a>
+          <a class="navbar-brand" href="../index.html">Fiats </a>
           <button type="button" class="navbar-toggler" data-bs-toggle="collapse" data-bs-target="#navbar"
                   aria-expanded="false" aria-controls="navbar" aria-label="Toggle navigation">
                   <span class="navbar-toggler-icon">
@@ -45,9 +45,6 @@
                 </li>
                 <li class="nav-item">
                   <a class="nav-link" href="../lists/procedures.html">Procedures</a>
-                </li>
-                <li class="nav-item">
-                  <a class="nav-link" href="../lists/absint.html">Abstract Interfaces</a>
                 </li>
                 <li class="nav-item">
                   <a class="nav-link" href="../lists/types.html">Derived Types</a>
@@ -79,7 +76,7 @@
 
             <li class="list-inline-item" id="statements"><i class="fa fa-list-ol"></i>
               <a data-bs-toggle="tooltip" data-bs-placement="bottom" data-bs-html="true"
-                 title=" 2.1% of total for modules and submodules.">50 statements</a>
+                 title=" 2.8% of total for modules and submodules.">92 statements</a>
             </li>
 
             <li class="list-inline-item" id="source-file">
@@ -145,13 +142,20 @@
       </a>
       <div id="modprocs-0" class="collapse">
         <div class="list-group list-group-flush">
-            <a class="list-group-item" href="../module/hyperparameters_s.html#proc-equals~4">equals</a>
-            <a class="list-group-item" href="../module/hyperparameters_s.html#proc-from_components~4">from_components</a>
-            <a class="list-group-item" href="../module/hyperparameters_s.html#proc-from_json~6">from_json</a>
-            <a class="list-group-item" href="../module/hyperparameters_s.html#proc-learning_rate">learning_rate</a>
-            <a class="list-group-item" href="../module/hyperparameters_s.html#proc-mini_batches">mini_batches</a>
-            <a class="list-group-item" href="../module/hyperparameters_s.html#proc-optimizer_name">optimizer_name</a>
-            <a class="list-group-item" href="../module/hyperparameters_s.html#proc-to_json~6">to_json</a>
+            <a class="list-group-item" href="../module/hyperparameters_s.html#proc-default_real_equals~2">default_real_equals</a>
+            <a class="list-group-item" href="../module/hyperparameters_s.html#proc-default_real_from_components">default_real_from_components</a>
+            <a class="list-group-item" href="../module/hyperparameters_s.html#proc-default_real_from_json~2">default_real_from_json</a>
+            <a class="list-group-item" href="../module/hyperparameters_s.html#proc-default_real_learning_rate">default_real_learning_rate</a>
+            <a class="list-group-item" href="../module/hyperparameters_s.html#proc-default_real_mini_batches">default_real_mini_batches</a>
+            <a class="list-group-item" href="../module/hyperparameters_s.html#proc-default_real_optimizer_name">default_real_optimizer_name</a>
+            <a class="list-group-item" href="../module/hyperparameters_s.html#proc-default_real_to_json~3">default_real_to_json</a>
+            <a class="list-group-item" href="../module/hyperparameters_s.html#proc-double_precision_equals~2">double_precision_equals</a>
+            <a class="list-group-item" href="../module/hyperparameters_s.html#proc-double_precision_from_components">double_precision_from_components</a>
+            <a class="list-group-item" href="../module/hyperparameters_s.html#proc-double_precision_from_json~3">double_precision_from_json</a>
+            <a class="list-group-item" href="../module/hyperparameters_s.html#proc-double_precision_learning_rate">double_precision_learning_rate</a>
+            <a class="list-group-item" href="../module/hyperparameters_s.html#proc-double_precision_mini_batches">double_precision_mini_batches</a>
+            <a class="list-group-item" href="../module/hyperparameters_s.html#proc-double_precision_optimizer_name">double_precision_optimizer_name</a>
+            <a class="list-group-item" href="../module/hyperparameters_s.html#proc-double_precision_to_json~3">double_precision_to_json</a>
         </div>
       </div>
     </div>
@@ -190,70 +194,97 @@
 <!-- Generated by graphviz version 12.1.2 (20240928.0832)
  -->
 <!-- Title: module~~hyperparameters_s~~UsesGraph Pages: 1 -->
-<svg id="modulehyperparameters_sUsesGraph" width="433pt" height="95pt"
- viewBox="0.00 0.00 432.56 95.27" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
-<g id="module~~hyperparameters_s~~UsesGraph" class="graph" transform="scale(1 1) rotate(0) translate(4 91.27)">
+<svg id="modulehyperparameters_sUsesGraph" width="574pt" height="116pt"
+ viewBox="0.00 0.00 573.83 116.27" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+<g id="module~~hyperparameters_s~~UsesGraph" class="graph" transform="scale(1 1) rotate(0) translate(4 112.27)">
 <title>module~~hyperparameters_s~~UsesGraph</title>
-<polygon fill="white" stroke="none" points="-4,4 -4,-91.27 428.56,-91.27 428.56,4 -4,4"/>
+<polygon fill="white" stroke="none" points="-4,4 -4,-112.27 569.83,-112.27 569.83,4 -4,4"/>
 <!-- module~hyperparameters_s -->
 <g id="module~~hyperparameters_s~~UsesGraph_node1" class="node">
 <title>module~hyperparameters_s</title>
-<polygon fill="none" stroke="black" points="424.56,-66.27 309.54,-66.27 309.54,-42 424.56,-42 424.56,-66.27"/>
-<text text-anchor="middle" x="367.05" y="-50.53" font-family="Helvetica,sans-Serif" font-size="10.50">hyperparameters_s</text>
+<polygon fill="none" stroke="black" points="565.83,-87.27 450.81,-87.27 450.81,-63 565.83,-63 565.83,-87.27"/>
+<text text-anchor="middle" x="508.32" y="-71.54" font-family="Helvetica,sans-Serif" font-size="10.50">hyperparameters_s</text>
 </g>
 <!-- assert_m -->
 <g id="module~~hyperparameters_s~~UsesGraph_node2" class="node">
 <title>assert_m</title>
-<polygon fill="#337ab7" stroke="#337ab7" points="243.16,-87.27 183.64,-87.27 183.64,-63 243.16,-63 243.16,-87.27"/>
-<text text-anchor="middle" x="213.4" y="-71.54" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">assert_m</text>
+<polygon fill="#337ab7" stroke="#337ab7" points="384.44,-108.27 324.92,-108.27 324.92,-84 384.44,-84 384.44,-108.27"/>
+<text text-anchor="middle" x="354.68" y="-92.54" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">assert_m</text>
 </g>
 <!-- module~hyperparameters_s&#45;&gt;assert_m -->
 <g id="module~~hyperparameters_s~~UsesGraph_edge1" class="edge">
 <title>module~hyperparameters_s&#45;&gt;assert_m</title>
-<path fill="none" stroke="#ff0000" stroke-dasharray="5,2" d="M309.15,-62.01C290.99,-64.53 271.28,-67.26 254.56,-69.57"/>
-<polygon fill="#ff0000" stroke="#ff0000" points="254.45,-66.06 245.02,-70.9 255.41,-72.99 254.45,-66.06"/>
+<path fill="none" stroke="#ff0000" stroke-dasharray="5,2" d="M450.42,-83.01C432.26,-85.53 412.55,-88.26 395.83,-90.57"/>
+<polygon fill="#ff0000" stroke="#ff0000" points="395.72,-87.06 386.29,-91.9 396.68,-93.99 395.72,-87.06"/>
 </g>
 <!-- module~hyperparameters_m -->
 <g id="module~~hyperparameters_s~~UsesGraph_node3" class="node">
 <title>module~hyperparameters_m</title>
 <g id="a_module~~hyperparameters_s~~UsesGraph_node3"><a xlink:href="../module/hyperparameters_m.html" xlink:title="hyperparameters_m">
-<polygon fill="#337ab7" stroke="#337ab7" points="273.54,-45.27 153.27,-45.27 153.27,-21 273.54,-21 273.54,-45.27"/>
-<text text-anchor="middle" x="213.4" y="-29.53" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">hyperparameters_m</text>
+<polygon fill="#337ab7" stroke="#337ab7" points="414.81,-66.27 294.54,-66.27 294.54,-42 414.81,-42 414.81,-66.27"/>
+<text text-anchor="middle" x="354.68" y="-50.53" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">hyperparameters_m</text>
 </a>
 </g>
 </g>
 <!-- module~hyperparameters_s&#45;&gt;module~hyperparameters_m -->
 <g id="module~~hyperparameters_s~~UsesGraph_edge2" class="edge">
 <title>module~hyperparameters_s&#45;&gt;module~hyperparameters_m</title>
-<path fill="none" stroke="#ff0000" d="M309.15,-46.26C301.33,-45.17 293.21,-44.05 285.18,-42.94"/>
-<polygon fill="#ff0000" stroke="#ff0000" points="285.79,-39.49 275.4,-41.58 284.83,-46.42 285.79,-39.49"/>
+<path fill="none" stroke="#ff0000" d="M450.42,-67.26C442.6,-66.17 434.48,-65.05 426.45,-63.94"/>
+<polygon fill="#ff0000" stroke="#ff0000" points="427.06,-60.49 416.67,-62.58 426.1,-67.42 427.06,-60.49"/>
 </g>
 <!-- julienne_string_m -->
 <g id="module~~hyperparameters_s~~UsesGraph_node4" class="node">
 <title>julienne_string_m</title>
-<polygon fill="#337ab7" stroke="#337ab7" points="111.27,-66.27 6,-66.27 6,-42 111.27,-42 111.27,-66.27"/>
-<text text-anchor="middle" x="58.63" y="-50.53" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">julienne_string_m</text>
+<polygon fill="#337ab7" stroke="#337ab7" points="234.91,-108.27 129.65,-108.27 129.65,-84 234.91,-84 234.91,-108.27"/>
+<text text-anchor="middle" x="182.28" y="-92.54" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">julienne_string_m</text>
 </g>
 <!-- module~hyperparameters_m&#45;&gt;julienne_string_m -->
 <g id="module~~hyperparameters_s~~UsesGraph_edge3" class="edge">
 <title>module~hyperparameters_m&#45;&gt;julienne_string_m</title>
-<path fill="none" stroke="#00ffff" stroke-dasharray="5,2" d="M152.9,-41.31C142.92,-42.69 132.53,-44.11 122.47,-45.5"/>
-<polygon fill="#00ffff" stroke="#00ffff" points="122.21,-42 112.78,-46.83 123.17,-48.93 122.21,-42"/>
+<path fill="none" stroke="#00ffff" stroke-dasharray="5,2" d="M302.55,-66.74C284.61,-71.16 264.25,-76.18 245.5,-80.8"/>
+<polygon fill="#00ffff" stroke="#00ffff" points="244.71,-77.39 235.84,-83.18 246.38,-84.19 244.71,-77.39"/>
+</g>
+<!-- module~double_precision_string_m -->
+<g id="module~~hyperparameters_s~~UsesGraph_node5" class="node">
+<title>module~double_precision_string_m</title>
+<g id="a_module~~hyperparameters_s~~UsesGraph_node5"><a xlink:href="../module/double_precision_string_m.html" xlink:title="double_precision_string_m">
+<polygon fill="#337ab7" stroke="#337ab7" points="258.54,-66.27 106.02,-66.27 106.02,-42 258.54,-42 258.54,-66.27"/>
+<text text-anchor="middle" x="182.28" y="-50.53" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">double_precision_string_m</text>
+</a>
+</g>
+</g>
+<!-- module~hyperparameters_m&#45;&gt;module~double_precision_string_m -->
+<g id="module~~hyperparameters_s~~UsesGraph_edge4" class="edge">
+<title>module~hyperparameters_m&#45;&gt;module~double_precision_string_m</title>
+<path fill="none" stroke="#00ffff" stroke-dasharray="5,2" d="M294.08,-54.13C286.38,-54.13 278.38,-54.13 270.35,-54.13"/>
+<polygon fill="#00ffff" stroke="#00ffff" points="270.53,-50.64 260.53,-54.14 270.53,-57.64 270.53,-50.64"/>
 </g>
 <!-- module~kind_parameters_m -->
-<g id="module~~hyperparameters_s~~UsesGraph_node5" class="node">
+<g id="module~~hyperparameters_s~~UsesGraph_node6" class="node">
 <title>module~kind_parameters_m</title>
-<g id="a_module~~hyperparameters_s~~UsesGraph_node5"><a xlink:href="../module/kind_parameters_m.html" xlink:title="kind_parameters_m">
-<polygon fill="#337ab7" stroke="#337ab7" points="117.27,-24.27 0,-24.27 0,0 117.27,0 117.27,-24.27"/>
-<text text-anchor="middle" x="58.63" y="-8.53" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">kind_parameters_m</text>
+<g id="a_module~~hyperparameters_s~~UsesGraph_node6"><a xlink:href="../module/kind_parameters_m.html" xlink:title="kind_parameters_m">
+<polygon fill="#337ab7" stroke="#337ab7" points="240.91,-24.27 123.65,-24.27 123.65,0 240.91,0 240.91,-24.27"/>
+<text text-anchor="middle" x="182.28" y="-8.53" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">kind_parameters_m</text>
 </a>
 </g>
 </g>
 <!-- module~hyperparameters_m&#45;&gt;module~kind_parameters_m -->
-<g id="module~~hyperparameters_s~~UsesGraph_edge4" class="edge">
+<g id="module~~hyperparameters_s~~UsesGraph_edge5" class="edge">
 <title>module~hyperparameters_m&#45;&gt;module~kind_parameters_m</title>
-<path fill="none" stroke="#00ffff" stroke-dasharray="5,2" d="M152.9,-24.96C145.04,-23.88 136.94,-22.76 128.93,-21.66"/>
-<polygon fill="#00ffff" stroke="#00ffff" points="129.6,-18.22 119.22,-20.33 128.65,-25.15 129.6,-18.22"/>
+<path fill="none" stroke="#00ffff" stroke-dasharray="5,2" d="M302.55,-41.53C284.61,-37.11 264.25,-32.09 245.5,-27.47"/>
+<polygon fill="#00ffff" stroke="#00ffff" points="246.38,-24.08 235.84,-25.09 244.71,-30.88 246.38,-24.08"/>
+</g>
+<!-- julienne_m -->
+<g id="module~~hyperparameters_s~~UsesGraph_node7" class="node">
+<title>julienne_m</title>
+<polygon fill="#337ab7" stroke="#337ab7" points="70.02,-66.27 0,-66.27 0,-42 70.02,-42 70.02,-66.27"/>
+<text text-anchor="middle" x="35.01" y="-50.53" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">julienne_m</text>
+</g>
+<!-- module~double_precision_string_m&#45;&gt;julienne_m -->
+<g id="module~~hyperparameters_s~~UsesGraph_edge6" class="edge">
+<title>module~double_precision_string_m&#45;&gt;julienne_m</title>
+<path fill="none" stroke="#00ff00" stroke-dasharray="5,2" d="M105.67,-54.13C97.43,-54.13 89.24,-54.13 81.52,-54.13"/>
+<polygon fill="#00ff00" stroke="#00ff00" points="81.75,-50.64 71.75,-54.14 81.75,-57.64 81.75,-50.64"/>
 </g>
 </g>
 </svg>
@@ -418,8 +449,8 @@ parameter
         <section>
           <h2>Module Procedures</h2>
               <div class="card">
-    <div class="card-header codesum"><span class="anchor" id="proc-equals~4"></span> <h3>module procedure /home/runner/work/inference-engine/inference-engine/doc/html/module/hyperparameters_s.html <a href='../proc/equals~4.html'>equals</a> <small>elemental module function equals(lhs, rhs) result(lhs_equals_rhs)</small>  
-    <a href="../interface/equals~2.html"><button type="button" class="btn btn-info depwarn">Interface &rarr;</button></a>
+    <div class="card-header codesum"><span class="anchor" id="proc-default_real_equals~2"></span> <h3>module procedure /home/runner/work/inference-engine/inference-engine/doc/html/module/hyperparameters_s.html <a href='../proc/default_real_equals~2.html'>default_real_equals</a> <small>elemental module function default_real_equals(lhs, rhs) result(lhs_equals_rhs)</small>  
+    <a href="../interface/default_real_equals~2.html"><button type="button" class="btn btn-info depwarn">Interface &rarr;</button></a>
 </h3></div>
     <div class="card-body">
           
@@ -438,7 +469,7 @@ parameter
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-lhs~2"></span>
+              <span class="anchor" id="variable-lhs~5"></span>
               class(<a href='../type/hyperparameters_t.html'>hyperparameters_t</a>),
             </td>
 <td>intent(in)</td>
@@ -453,7 +484,7 @@ parameter
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-rhs~2"></span>
+              <span class="anchor" id="variable-rhs~6"></span>
               class(<a href='../type/hyperparameters_t.html'>hyperparameters_t</a>),
             </td>
 <td>intent(in)</td>
@@ -479,7 +510,7 @@ parameter
   </div>
 
               <div class="card">
-    <div class="card-header codesum"><span class="anchor" id="proc-from_components~4"></span> <h3>module procedure /home/runner/work/inference-engine/inference-engine/doc/html/module/hyperparameters_s.html <a href='../proc/from_components~4.html'>from_components</a> <small>pure module function from_components(mini_batches, learning_rate, optimizer) result(hyperparameters)</small>  
+    <div class="card-header codesum"><span class="anchor" id="proc-default_real_from_components"></span> <h3>module procedure /home/runner/work/inference-engine/inference-engine/doc/html/module/hyperparameters_s.html <a href='../proc/default_real_from_components.html'>default_real_from_components</a> <small>pure module function default_real_from_components(mini_batches, learning_rate, optimizer) result(hyperparameters)</small>  
 </h3></div>
     <div class="card-body">
           
@@ -498,7 +529,7 @@ parameter
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-mini_batches~2"></span>
+              <span class="anchor" id="variable-mini_batches~3"></span>
               integer,
             </td>
 <td>intent(in)</td>
@@ -513,7 +544,7 @@ parameter
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-learning_rate~2"></span>
+              <span class="anchor" id="variable-learning_rate~4"></span>
               real,
             </td>
 <td>intent(in)</td>
@@ -554,7 +585,7 @@ parameter
   </div>
 
               <div class="card">
-    <div class="card-header codesum"><span class="anchor" id="proc-from_json~6"></span> <h3>module procedure /home/runner/work/inference-engine/inference-engine/doc/html/module/hyperparameters_s.html <a href='../proc/from_json~6.html'>from_json</a> <small>pure module function from_json(lines) result(hyperparameters)</small>  
+    <div class="card-header codesum"><span class="anchor" id="proc-default_real_from_json~2"></span> <h3>module procedure /home/runner/work/inference-engine/inference-engine/doc/html/module/hyperparameters_s.html <a href='../proc/default_real_from_json~2.html'>default_real_from_json</a> <small>pure module function default_real_from_json(lines) result(hyperparameters)</small>  
 </h3></div>
     <div class="card-body">
           
@@ -573,7 +604,7 @@ parameter
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-lines~3"></span>
+              <span class="anchor" id="variable-lines~7"></span>
               type(string_t),
             </td>
 <td>intent(in)</td>
@@ -599,8 +630,8 @@ parameter
   </div>
 
               <div class="card">
-    <div class="card-header codesum"><span class="anchor" id="proc-learning_rate"></span> <h3>module procedure /home/runner/work/inference-engine/inference-engine/doc/html/module/hyperparameters_s.html <a href='../proc/learning_rate.html'>learning_rate</a> <small>elemental module function learning_rate(self) result(rate)</small>  
-    <a href="../interface/learning_rate.html"><button type="button" class="btn btn-info depwarn">Interface &rarr;</button></a>
+    <div class="card-header codesum"><span class="anchor" id="proc-default_real_learning_rate"></span> <h3>module procedure /home/runner/work/inference-engine/inference-engine/doc/html/module/hyperparameters_s.html <a href='../proc/default_real_learning_rate.html'>default_real_learning_rate</a> <small>elemental module function default_real_learning_rate(self) result(rate)</small>  
+    <a href="../interface/default_real_learning_rate~2.html"><button type="button" class="btn btn-info depwarn">Interface &rarr;</button></a>
 </h3></div>
     <div class="card-body">
           
@@ -619,7 +650,7 @@ parameter
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-self~8"></span>
+              <span class="anchor" id="variable-self~36"></span>
               class(<a href='../type/hyperparameters_t.html'>hyperparameters_t</a>),
             </td>
 <td>intent(in)</td>
@@ -637,7 +668,7 @@ parameter
 
     <h4>
     Return Value
-    <small>real(kind=rkind)</small>
+    <small>real</small>
     </h4>
     
 
@@ -645,8 +676,8 @@ parameter
   </div>
 
               <div class="card">
-    <div class="card-header codesum"><span class="anchor" id="proc-mini_batches"></span> <h3>module procedure /home/runner/work/inference-engine/inference-engine/doc/html/module/hyperparameters_s.html <a href='../proc/mini_batches.html'>mini_batches</a> <small>elemental module function mini_batches(self) result(num_mini_batches)</small>  
-    <a href="../interface/mini_batches.html"><button type="button" class="btn btn-info depwarn">Interface &rarr;</button></a>
+    <div class="card-header codesum"><span class="anchor" id="proc-default_real_mini_batches"></span> <h3>module procedure /home/runner/work/inference-engine/inference-engine/doc/html/module/hyperparameters_s.html <a href='../proc/default_real_mini_batches.html'>default_real_mini_batches</a> <small>elemental module function default_real_mini_batches(self) result(num_mini_batches)</small>  
+    <a href="../interface/default_real_mini_batches~2.html"><button type="button" class="btn btn-info depwarn">Interface &rarr;</button></a>
 </h3></div>
     <div class="card-body">
           
@@ -665,7 +696,7 @@ parameter
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-self~6"></span>
+              <span class="anchor" id="variable-self~34"></span>
               class(<a href='../type/hyperparameters_t.html'>hyperparameters_t</a>),
             </td>
 <td>intent(in)</td>
@@ -691,8 +722,8 @@ parameter
   </div>
 
               <div class="card">
-    <div class="card-header codesum"><span class="anchor" id="proc-optimizer_name"></span> <h3>module procedure /home/runner/work/inference-engine/inference-engine/doc/html/module/hyperparameters_s.html <a href='../proc/optimizer_name.html'>optimizer_name</a> <small>elemental module function optimizer_name(self) result(identifier)</small>  
-    <a href="../interface/optimizer_name.html"><button type="button" class="btn btn-info depwarn">Interface &rarr;</button></a>
+    <div class="card-header codesum"><span class="anchor" id="proc-default_real_optimizer_name"></span> <h3>module procedure /home/runner/work/inference-engine/inference-engine/doc/html/module/hyperparameters_s.html <a href='../proc/default_real_optimizer_name.html'>default_real_optimizer_name</a> <small>elemental module function default_real_optimizer_name(self) result(identifier)</small>  
+    <a href="../interface/default_real_optimizer_name~2.html"><button type="button" class="btn btn-info depwarn">Interface &rarr;</button></a>
 </h3></div>
     <div class="card-body">
           
@@ -711,7 +742,7 @@ parameter
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-self~7"></span>
+              <span class="anchor" id="variable-self~38"></span>
               class(<a href='../type/hyperparameters_t.html'>hyperparameters_t</a>),
             </td>
 <td>intent(in)</td>
@@ -737,8 +768,8 @@ parameter
   </div>
 
               <div class="card">
-    <div class="card-header codesum"><span class="anchor" id="proc-to_json~6"></span> <h3>module procedure /home/runner/work/inference-engine/inference-engine/doc/html/module/hyperparameters_s.html <a href='../proc/to_json~6.html'>to_json</a> <small>pure module function to_json(self) result(lines)</small>  
-    <a href="../interface/to_json~2.html"><button type="button" class="btn btn-info depwarn">Interface &rarr;</button></a>
+    <div class="card-header codesum"><span class="anchor" id="proc-default_real_to_json~3"></span> <h3>module procedure /home/runner/work/inference-engine/inference-engine/doc/html/module/hyperparameters_s.html <a href='../proc/default_real_to_json~3.html'>default_real_to_json</a> <small>pure module function default_real_to_json(self) result(lines)</small>  
+    <a href="../interface/default_real_to_json~2.html"><button type="button" class="btn btn-info depwarn">Interface &rarr;</button></a>
 </h3></div>
     <div class="card-body">
           
@@ -757,8 +788,373 @@ parameter
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-self~5"></span>
+              <span class="anchor" id="variable-self~32"></span>
               class(<a href='../type/hyperparameters_t.html'>hyperparameters_t</a>),
+            </td>
+<td>intent(in)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>self</strong></td>
+            <td>
+
+            </td>
+        </tr>
+    </tbody>
+  </table>
+
+    <h4>
+    Return Value
+    <small>type(string_t), allocatable, (:)</small>
+    </h4>
+    
+
+    </div>
+  </div>
+
+              <div class="card">
+    <div class="card-header codesum"><span class="anchor" id="proc-double_precision_equals~2"></span> <h3>module procedure /home/runner/work/inference-engine/inference-engine/doc/html/module/hyperparameters_s.html <a href='../proc/double_precision_equals~2.html'>double_precision_equals</a> <small>elemental module function double_precision_equals(lhs, rhs) result(lhs_equals_rhs)</small>  
+    <a href="../interface/double_precision_equals~2.html"><button type="button" class="btn btn-info depwarn">Interface &rarr;</button></a>
+</h3></div>
+    <div class="card-body">
+          
+  
+
+  <h4>Arguments</h4>
+      <table class="table table-striped varlist">
+    <thead>
+      <tr>
+        <th scope="col">Type</th>
+<th scope="col">Intent</th><th scope="col">Optional</th>        <th scope="col">Attributes</th>
+        <th scope="col"></th>
+        <th scope="col">Name</th>
+        <th scope="col"></th>
+    </thead>
+    <tbody>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-lhs~6"></span>
+              class(<a href='../type/hyperparameters_t.html'>hyperparameters_t</a>(double_precision)),
+            </td>
+<td>intent(in)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>lhs</strong></td>
+            <td>
+
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-rhs~7"></span>
+              class(<a href='../type/hyperparameters_t.html'>hyperparameters_t</a>(double_precision)),
+            </td>
+<td>intent(in)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>rhs</strong></td>
+            <td>
+
+            </td>
+        </tr>
+    </tbody>
+  </table>
+
+    <h4>
+    Return Value
+    <small>logical</small>
+    </h4>
+    
+
+    </div>
+  </div>
+
+              <div class="card">
+    <div class="card-header codesum"><span class="anchor" id="proc-double_precision_from_components"></span> <h3>module procedure /home/runner/work/inference-engine/inference-engine/doc/html/module/hyperparameters_s.html <a href='../proc/double_precision_from_components.html'>double_precision_from_components</a> <small>pure module function double_precision_from_components(mini_batches, learning_rate, optimizer) result(hyperparameters)</small>  
+</h3></div>
+    <div class="card-body">
+          
+  
+
+  <h4>Arguments</h4>
+      <table class="table table-striped varlist">
+    <thead>
+      <tr>
+        <th scope="col">Type</th>
+<th scope="col">Intent</th><th scope="col">Optional</th>        <th scope="col">Attributes</th>
+        <th scope="col"></th>
+        <th scope="col">Name</th>
+        <th scope="col"></th>
+    </thead>
+    <tbody>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-mini_batches~4"></span>
+              integer,
+            </td>
+<td>intent(in)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>mini_batches</strong></td>
+            <td>
+
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-learning_rate~5"></span>
+              double precision,
+            </td>
+<td>intent(in)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>learning_rate</strong></td>
+            <td>
+
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-optimizer~2"></span>
+              character(len=*),
+            </td>
+<td>intent(in)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>optimizer</strong></td>
+            <td>
+
+            </td>
+        </tr>
+    </tbody>
+  </table>
+
+    <h4>
+    Return Value
+    <small>type(<a href='../type/hyperparameters_t.html'>hyperparameters_t</a>(double_precision))</small>
+    </h4>
+    
+
+    </div>
+  </div>
+
+              <div class="card">
+    <div class="card-header codesum"><span class="anchor" id="proc-double_precision_from_json~3"></span> <h3>module procedure /home/runner/work/inference-engine/inference-engine/doc/html/module/hyperparameters_s.html <a href='../proc/double_precision_from_json~3.html'>double_precision_from_json</a> <small>pure module function double_precision_from_json(lines) result(hyperparameters)</small>  
+</h3></div>
+    <div class="card-body">
+          
+  
+
+  <h4>Arguments</h4>
+      <table class="table table-striped varlist">
+    <thead>
+      <tr>
+        <th scope="col">Type</th>
+<th scope="col">Intent</th><th scope="col">Optional</th>        <th scope="col">Attributes</th>
+        <th scope="col"></th>
+        <th scope="col">Name</th>
+        <th scope="col"></th>
+    </thead>
+    <tbody>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-lines~8"></span>
+              type(<a href='../type/double_precision_string_t.html'>double_precision_string_t</a>),
+            </td>
+<td>intent(in)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>lines</strong>(:)</td>
+            <td>
+
+            </td>
+        </tr>
+    </tbody>
+  </table>
+
+    <h4>
+    Return Value
+    <small>type(<a href='../type/hyperparameters_t.html'>hyperparameters_t</a>(double_precision))</small>
+    </h4>
+    
+
+    </div>
+  </div>
+
+              <div class="card">
+    <div class="card-header codesum"><span class="anchor" id="proc-double_precision_learning_rate"></span> <h3>module procedure /home/runner/work/inference-engine/inference-engine/doc/html/module/hyperparameters_s.html <a href='../proc/double_precision_learning_rate.html'>double_precision_learning_rate</a> <small>elemental module function double_precision_learning_rate(self) result(rate)</small>  
+    <a href="../interface/double_precision_learning_rate~2.html"><button type="button" class="btn btn-info depwarn">Interface &rarr;</button></a>
+</h3></div>
+    <div class="card-body">
+          
+  
+
+  <h4>Arguments</h4>
+      <table class="table table-striped varlist">
+    <thead>
+      <tr>
+        <th scope="col">Type</th>
+<th scope="col">Intent</th><th scope="col">Optional</th>        <th scope="col">Attributes</th>
+        <th scope="col"></th>
+        <th scope="col">Name</th>
+        <th scope="col"></th>
+    </thead>
+    <tbody>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-self~37"></span>
+              class(<a href='../type/hyperparameters_t.html'>hyperparameters_t</a>(double_precision)),
+            </td>
+<td>intent(in)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>self</strong></td>
+            <td>
+
+            </td>
+        </tr>
+    </tbody>
+  </table>
+
+    <h4>
+    Return Value
+    <small>double precision</small>
+    </h4>
+    
+
+    </div>
+  </div>
+
+              <div class="card">
+    <div class="card-header codesum"><span class="anchor" id="proc-double_precision_mini_batches"></span> <h3>module procedure /home/runner/work/inference-engine/inference-engine/doc/html/module/hyperparameters_s.html <a href='../proc/double_precision_mini_batches.html'>double_precision_mini_batches</a> <small>elemental module function double_precision_mini_batches(self) result(num_mini_batches)</small>  
+    <a href="../interface/double_precision_mini_batches~2.html"><button type="button" class="btn btn-info depwarn">Interface &rarr;</button></a>
+</h3></div>
+    <div class="card-body">
+          
+  
+
+  <h4>Arguments</h4>
+      <table class="table table-striped varlist">
+    <thead>
+      <tr>
+        <th scope="col">Type</th>
+<th scope="col">Intent</th><th scope="col">Optional</th>        <th scope="col">Attributes</th>
+        <th scope="col"></th>
+        <th scope="col">Name</th>
+        <th scope="col"></th>
+    </thead>
+    <tbody>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-self~35"></span>
+              class(<a href='../type/hyperparameters_t.html'>hyperparameters_t</a>(double_precision)),
+            </td>
+<td>intent(in)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>self</strong></td>
+            <td>
+
+            </td>
+        </tr>
+    </tbody>
+  </table>
+
+    <h4>
+    Return Value
+    <small>integer</small>
+    </h4>
+    
+
+    </div>
+  </div>
+
+              <div class="card">
+    <div class="card-header codesum"><span class="anchor" id="proc-double_precision_optimizer_name"></span> <h3>module procedure /home/runner/work/inference-engine/inference-engine/doc/html/module/hyperparameters_s.html <a href='../proc/double_precision_optimizer_name.html'>double_precision_optimizer_name</a> <small>elemental module function double_precision_optimizer_name(self) result(identifier)</small>  
+    <a href="../interface/double_precision_optimizer_name~2.html"><button type="button" class="btn btn-info depwarn">Interface &rarr;</button></a>
+</h3></div>
+    <div class="card-body">
+          
+  
+
+  <h4>Arguments</h4>
+      <table class="table table-striped varlist">
+    <thead>
+      <tr>
+        <th scope="col">Type</th>
+<th scope="col">Intent</th><th scope="col">Optional</th>        <th scope="col">Attributes</th>
+        <th scope="col"></th>
+        <th scope="col">Name</th>
+        <th scope="col"></th>
+    </thead>
+    <tbody>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-self~39"></span>
+              class(<a href='../type/hyperparameters_t.html'>hyperparameters_t</a>(double_precision)),
+            </td>
+<td>intent(in)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>self</strong></td>
+            <td>
+
+            </td>
+        </tr>
+    </tbody>
+  </table>
+
+    <h4>
+    Return Value
+    <small>type(string_t)</small>
+    </h4>
+    
+
+    </div>
+  </div>
+
+              <div class="card">
+    <div class="card-header codesum"><span class="anchor" id="proc-double_precision_to_json~3"></span> <h3>module procedure /home/runner/work/inference-engine/inference-engine/doc/html/module/hyperparameters_s.html <a href='../proc/double_precision_to_json~3.html'>double_precision_to_json</a> <small>pure module function double_precision_to_json(self) result(lines)</small>  
+    <a href="../interface/double_precision_to_json~2.html"><button type="button" class="btn btn-info depwarn">Interface &rarr;</button></a>
+</h3></div>
+    <div class="card-body">
+          
+  
+
+  <h4>Arguments</h4>
+      <table class="table table-striped varlist">
+    <thead>
+      <tr>
+        <th scope="col">Type</th>
+<th scope="col">Intent</th><th scope="col">Optional</th>        <th scope="col">Attributes</th>
+        <th scope="col"></th>
+        <th scope="col">Name</th>
+        <th scope="col"></th>
+    </thead>
+    <tbody>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-self~33"></span>
+              class(<a href='../type/hyperparameters_t.html'>hyperparameters_t</a>(double_precision)),
             </td>
 <td>intent(in)</td>
               <td></td>            <td>
@@ -793,7 +1189,7 @@ parameter
         <div class="row justify-content-between">
           <div class="col">
             <p>
-              Inference-Engine
+              Fiats
  was developed by Berkeley Lab<br>              &copy; 2024 
 </p>
           </div>
@@ -801,7 +1197,7 @@ parameter
             <p class="text-end">
               Documentation generated by
               <a href="https://github.com/Fortran-FOSS-Programmers/ford">FORD</a>
- on 2024-10-01 22:45              </p>
+ on 2024-10-17 00:07              </p>
           </div>
         </div>
         <br>

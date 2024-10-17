@@ -1,0 +1,524 @@
+<!-- -*- mode: jinja2 -*- -->
+
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+      <meta name="description" content="Functional inference and training of surrogate models for computational science.">
+    <meta name="author" content="Berkeley Lab" >
+    <link rel="icon" href="../favicon.png">
+
+    <title>double_precision_construct_layer &ndash; Fiats</title>
+
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet"
+          integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
+    <link href="../css/pygments.css" rel="stylesheet">
+    <link href="../css/font-awesome.min.css" rel="stylesheet">
+    <link href="../css/local.css" rel="stylesheet">
+      <link  href="../tipuesearch/tipuesearch.css" rel="stylesheet">
+
+    <script src="https://code.jquery.com/jquery-3.7.1.min.js" integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
+    <script src="../js/svg-pan-zoom.min.js"></script>
+  </head>
+
+  <body>
+
+    <!-- Fixed navbar -->
+    <div class="container-fluid mb-sm-4 mb-xl-2">
+      <nav class="navbar navbar-expand-lg navbar-dark bg-dark fixed-top">
+        <div class="container">
+          <a class="navbar-brand" href="../index.html">Fiats </a>
+          <button type="button" class="navbar-toggler" data-bs-toggle="collapse" data-bs-target="#navbar"
+                  aria-expanded="false" aria-controls="navbar" aria-label="Toggle navigation">
+                  <span class="navbar-toggler-icon">
+          </button>
+
+          <div id="navbar" class="navbar-collapse collapse">
+            <ul class="navbar-nav">
+                  <li class="nav-item">
+                    <a class="nav-link" href="../lists/files.html">Source Files</a>
+                  </li>
+                <li class="nav-item">
+                  <a class="nav-link" href="../lists/modules.html">Modules</a>
+                </li>
+                <li class="nav-item">
+                  <a class="nav-link" href="../lists/procedures.html">Procedures</a>
+                </li>
+                <li class="nav-item">
+                  <a class="nav-link" href="../lists/types.html">Derived Types</a>
+                </li>
+                <li class="nav-item">
+                  <a class="nav-link" href="../lists/programs.html">Programs</a>
+                </li>
+            </ul>
+              <div class="d-flex align-items-end flex-grow-1">
+                <form action="../search.html" role="search" class="ms-auto">
+                  <input type="text" class="form-control" aria-label="Search" placeholder="Search" name="q" id="tipue_search_input" autocomplete="off" required>
+                </form>
+              </div>
+          </div><!--/.nav-collapse -->
+        </div>
+      </nav>
+    </div>
+
+    <div class="container">
+  <div class="row">
+    <h1>double_precision_construct_layer
+      <small>Module Procedure</small>
+      
+    </h1>
+      <div class="container p-2 mb-4 bg-light border rounded-3">
+    <div class="row align-items-center justify-content-between" id="info-bar">
+      <div class="col">
+        <ul class="list-inline" style="margin-bottom:0px;display:inline">
+
+            <li class="list-inline-item" id="statements"><i class="fa fa-list-ol"></i>
+              <a data-bs-toggle="tooltip" data-bs-placement="bottom" data-bs-html="true"
+                 title=" 0.2% of total for procedures.">23 statements</a>
+            </li>
+
+            <li class="list-inline-item" id="source-file">
+              <i class="fa fa-code"></i>
+              <a href="../src/layer_s.f90"> Source File</a>
+            </li>
+        </ul>
+      </div>
+      <div class="col">
+        <nav aria-label="breadcrumb">
+          <ol class="breadcrumb justify-content-end mb-0">
+                <li class="breadcrumb-item"><a href='../sourcefile/layer_s.f90.html'>layer_s.f90</a></li>
+                <li class="breadcrumb-item"><a href='../module/layer_s.html'>layer_s</a></li>
+            <li class="breadcrumb-item active" aria-current="page">double_precision_construct_layer</li>
+          </ol>
+        </nav>
+      </div>
+    </div>
+  </div>
+  <script>
+    $(function () {
+    $('[data-bs-toggle="tooltip"]').tooltip()
+    })
+  </script>
+
+  </div>
+  
+  <div class="row">
+    <div class="col-md-3 hidden-xs hidden-sm visible-md visible-lg">
+      <div id="sidebar">
+      <h3>Contents</h3>
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+
+
+  </div>
+
+    </div>
+    
+    <div class="col-md-9" id='text'>
+    <h2>module procedure double_precision_construct_layer <small>recursive module function double_precision_construct_layer(layer_lines, start) result(layer)</small>  
+</h2>
+    
+
+
+
+    <h3>Arguments</h3>
+        <table class="table table-striped varlist">
+    <thead>
+      <tr>
+        <th scope="col">Type</th>
+<th scope="col">Intent</th><th scope="col">Optional</th>        <th scope="col">Attributes</th>
+        <th scope="col"></th>
+        <th scope="col">Name</th>
+        <th scope="col"></th>
+    </thead>
+    <tbody>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-layer_lines~2"></span>
+              type(<a href='../type/double_precision_string_t.html'>double_precision_string_t</a>),
+            </td>
+<td>intent(in)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>layer_lines</strong>(:)</td>
+            <td>
+                
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-start~2"></span>
+              integer,
+            </td>
+<td>intent(in)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>start</strong></td>
+            <td>
+                
+            </td>
+        </tr>
+    </tbody>
+  </table>
+
+      <h3>Return Value
+        <small>
+          <span class="anchor" id="variable-layer~2"></span>
+          type(<a href='../type/layer_t.html'>layer_t</a>(double_precision)), target
+        </small>
+      </h3>
+      
+    <br>
+    <div class="card">
+      <div class="card-header">
+  <h3 class="card-title">Calls</h3>
+      </div>
+      <div class="card-body">
+  <div class="depgraph"><?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN"
+ "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
+<!-- Generated by graphviz version 12.1.2 (20240928.0832)
+ -->
+<!-- Title: proc~~double_precision_construct_layer~~CallsGraph Pages: 1 -->
+<svg id="procdouble_precision_construct_layerCallsGraph" width="641pt" height="238pt"
+ viewBox="0.00 0.00 641.00 237.52" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+<g id="proc~~double_precision_construct_layer~~CallsGraph" class="graph" transform="scale(0.980407 0.980407) rotate(0) translate(4 238.27)">
+<title>proc~~double_precision_construct_layer~~CallsGraph</title>
+<polygon fill="white" stroke="none" points="-4,4 -4,-238.27 649.81,-238.27 649.81,4 -4,4"/>
+<!-- proc~double_precision_construct_layer -->
+<g id="proc~~double_precision_construct_layer~~CallsGraph_node1" class="node">
+<title>proc~double_precision_construct_layer</title>
+<polygon fill="none" stroke="black" points="188.52,-139.27 0,-139.27 0,-115 188.52,-115 188.52,-139.27"/>
+<text text-anchor="middle" x="94.26" y="-123.53" font-family="Helvetica,sans-Serif" font-size="10.50">double_precision_construct_layer</text>
+</g>
+<!-- assert -->
+<g id="proc~~double_precision_construct_layer~~CallsGraph_node2" class="node">
+<title>assert</title>
+<polygon fill="#777777" stroke="#777777" points="324.03,-228.27 270.03,-228.27 270.03,-204 324.03,-204 324.03,-228.27"/>
+<text text-anchor="middle" x="297.03" y="-212.53" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">assert</text>
+</g>
+<!-- proc~double_precision_construct_layer&#45;&gt;assert -->
+<g id="proc~~double_precision_construct_layer~~CallsGraph_edge1" class="edge">
+<title>proc~double_precision_construct_layer&#45;&gt;assert</title>
+<path fill="none" stroke="#ff0000" d="M115.7,-139.52C140.68,-154.27 184.57,-178.95 224.52,-195.13 235.49,-199.58 247.76,-203.53 258.99,-206.77"/>
+<polygon fill="#ff0000" stroke="#ff0000" points="257.76,-210.06 268.33,-209.37 259.63,-203.32 257.76,-210.06"/>
+</g>
+<!-- none~next_allocated~2 -->
+<g id="proc~~double_precision_construct_layer~~CallsGraph_node3" class="node">
+<title>none~next_allocated~2</title>
+<g id="a_proc~~double_precision_construct_layer~~CallsGraph_node3"><a xlink:href="../type/neuron_t.html#boundprocedure-next_allocated~2" xlink:title="neuron_t%next_allocated">
+<polygon fill="#a7506f" stroke="#a7506f" points="369.54,-186.27 224.52,-186.27 224.52,-162 369.54,-162 369.54,-186.27"/>
+<text text-anchor="middle" x="297.03" y="-170.53" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">neuron_t%next_allocated</text>
+</a>
+</g>
+</g>
+<!-- proc~double_precision_construct_layer&#45;&gt;none~next_allocated~2 -->
+<g id="proc~~double_precision_construct_layer~~CallsGraph_edge2" class="edge">
+<title>proc~double_precision_construct_layer&#45;&gt;none~next_allocated~2</title>
+<path fill="none" stroke="#ff0000" d="M149.06,-139.73C174.27,-145.63 204.51,-152.71 230.99,-158.91"/>
+<polygon fill="#ff0000" stroke="#ff0000" points="230.07,-162.29 240.61,-161.16 231.67,-155.47 230.07,-162.29"/>
+</g>
+<!-- none~next_pointer~2 -->
+<g id="proc~~double_precision_construct_layer~~CallsGraph_node4" class="node">
+<title>none~next_pointer~2</title>
+<g id="a_proc~~double_precision_construct_layer~~CallsGraph_node4"><a xlink:href="../type/neuron_t.html#boundprocedure-next_pointer~2" xlink:title="neuron_t%next_pointer">
+<polygon fill="#a7506f" stroke="#a7506f" points="363.92,-139.27 230.15,-139.27 230.15,-115 363.92,-115 363.92,-139.27"/>
+<text text-anchor="middle" x="297.03" y="-123.53" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">neuron_t%next_pointer</text>
+</a>
+</g>
+</g>
+<!-- proc~double_precision_construct_layer&#45;&gt;none~next_pointer~2 -->
+<g id="proc~~double_precision_construct_layer~~CallsGraph_edge3" class="edge">
+<title>proc~double_precision_construct_layer&#45;&gt;none~next_pointer~2</title>
+<path fill="none" stroke="#ff0000" d="M188.89,-127.14C198.8,-127.14 208.81,-127.14 218.52,-127.14"/>
+<polygon fill="#ff0000" stroke="#ff0000" points="218.24,-130.64 228.24,-127.14 218.24,-123.64 218.24,-130.64"/>
+</g>
+<!-- none~weights -->
+<g id="proc~~double_precision_construct_layer~~CallsGraph_node5" class="node">
+<title>none~weights</title>
+<g id="a_proc~~double_precision_construct_layer~~CallsGraph_node5"><a xlink:href="../type/neuron_t.html#boundprocedure-weights" xlink:title="neuron_t%weights">
+<polygon fill="#a7506f" stroke="#a7506f" points="351.17,-87.27 242.9,-87.27 242.9,-63 351.17,-63 351.17,-87.27"/>
+<text text-anchor="middle" x="297.03" y="-71.54" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">neuron_t%weights</text>
+</a>
+</g>
+</g>
+<!-- proc~double_precision_construct_layer&#45;&gt;none~weights -->
+<g id="proc~~double_precision_construct_layer~~CallsGraph_edge4" class="edge">
+<title>proc~double_precision_construct_layer&#45;&gt;none~weights</title>
+<path fill="none" stroke="#ff0000" d="M143.86,-114.55C171.75,-107.32 206.98,-98.2 236.51,-90.55"/>
+<polygon fill="#ff0000" stroke="#ff0000" points="237.26,-93.97 246.06,-88.08 235.51,-87.2 237.26,-93.97"/>
+</g>
+<!-- string -->
+<g id="proc~~double_precision_construct_layer~~CallsGraph_node6" class="node">
+<title>string</title>
+<polygon fill="#777777" stroke="#777777" points="324.03,-45.27 270.03,-45.27 270.03,-21 324.03,-21 324.03,-45.27"/>
+<text text-anchor="middle" x="297.03" y="-29.53" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">string</text>
+</g>
+<!-- proc~double_precision_construct_layer&#45;&gt;string -->
+<g id="proc~~double_precision_construct_layer~~CallsGraph_edge5" class="edge">
+<title>proc~double_precision_construct_layer&#45;&gt;string</title>
+<path fill="none" stroke="#ff0000" d="M114.26,-114.56C138.86,-98.73 183.45,-71.49 224.52,-54.13 235.43,-49.53 247.67,-45.53 258.9,-42.3"/>
+<polygon fill="#ff0000" stroke="#ff0000" points="259.54,-45.75 268.26,-39.72 257.69,-39 259.54,-45.75"/>
+</g>
+<!-- interface~default_real_next_allocated~2 -->
+<g id="proc~~double_precision_construct_layer~~CallsGraph_node7" class="node">
+<title>interface~default_real_next_allocated~2</title>
+<g id="a_proc~~double_precision_construct_layer~~CallsGraph_node7"><a xlink:href="../interface/default_real_next_allocated~2.html" xlink:title="neuron_t%default_real_next_allocated">
+<polygon fill="#a7506f" stroke="#a7506f" points="632.31,-234.27 419.04,-234.27 419.04,-210 632.31,-210 632.31,-234.27"/>
+<text text-anchor="middle" x="525.68" y="-218.53" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">neuron_t%default_real_next_allocated</text>
+</a>
+</g>
+</g>
+<!-- none~next_allocated~2&#45;&gt;interface~default_real_next_allocated~2 -->
+<g id="proc~~double_precision_construct_layer~~CallsGraph_edge6" class="edge">
+<title>none~next_allocated~2&#45;&gt;interface~default_real_next_allocated~2</title>
+<path fill="none" stroke="#cbff00" stroke-dasharray="5,2" d="M345.23,-186.76C363.94,-191.57 385.68,-196.9 405.54,-201.13 415.83,-203.33 426.65,-205.47 437.41,-207.49"/>
+<polygon fill="#cbff00" stroke="#cbff00" points="436.61,-210.91 447.08,-209.28 437.89,-204.02 436.61,-210.91"/>
+</g>
+<!-- interface~double_precision_next_allocated~2 -->
+<g id="proc~~double_precision_construct_layer~~CallsGraph_node10" class="node">
+<title>interface~double_precision_next_allocated~2</title>
+<g id="a_proc~~double_precision_construct_layer~~CallsGraph_node10"><a xlink:href="../interface/double_precision_next_allocated~2.html" xlink:title="neuron_t%double_precision_next_allocated">
+<polygon fill="#a7506f" stroke="#a7506f" points="645.81,-192.27 405.54,-192.27 405.54,-168 645.81,-168 645.81,-192.27"/>
+<text text-anchor="middle" x="525.68" y="-176.53" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">neuron_t%double_precision_next_allocated</text>
+</a>
+</g>
+</g>
+<!-- none~next_allocated~2&#45;&gt;interface~double_precision_next_allocated~2 -->
+<g id="proc~~double_precision_construct_layer~~CallsGraph_edge7" class="edge">
+<title>none~next_allocated~2&#45;&gt;interface~double_precision_next_allocated~2</title>
+<path fill="none" stroke="#cbff00" stroke-dasharray="5,2" d="M369.74,-176.03C377.59,-176.24 385.74,-176.46 394.02,-176.68"/>
+<polygon fill="#cbff00" stroke="#cbff00" points="393.78,-180.17 403.87,-176.94 393.96,-173.17 393.78,-180.17"/>
+</g>
+<!-- interface~default_real_next_pointer~2 -->
+<g id="proc~~double_precision_construct_layer~~CallsGraph_node8" class="node">
+<title>interface~default_real_next_pointer~2</title>
+<g id="a_proc~~double_precision_construct_layer~~CallsGraph_node8"><a xlink:href="../interface/default_real_next_pointer~2.html" xlink:title="neuron_t%default_real_next_pointer">
+<polygon fill="#a7506f" stroke="#a7506f" points="626.69,-150.27 424.67,-150.27 424.67,-126 626.69,-126 626.69,-150.27"/>
+<text text-anchor="middle" x="525.68" y="-134.53" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">neuron_t%default_real_next_pointer</text>
+</a>
+</g>
+</g>
+<!-- none~next_pointer~2&#45;&gt;interface~default_real_next_pointer~2 -->
+<g id="proc~~double_precision_construct_layer~~CallsGraph_edge8" class="edge">
+<title>none~next_pointer~2&#45;&gt;interface~default_real_next_pointer~2</title>
+<path fill="none" stroke="#00ff66" stroke-dasharray="5,2" d="M364.19,-130.35C379.48,-131.09 396.16,-131.9 412.8,-132.71"/>
+<polygon fill="#00ff66" stroke="#00ff66" points="412.63,-136.2 422.78,-133.19 412.97,-129.21 412.63,-136.2"/>
+</g>
+<!-- interface~double_precision_next_pointer~2 -->
+<g id="proc~~double_precision_construct_layer~~CallsGraph_node11" class="node">
+<title>interface~double_precision_next_pointer~2</title>
+<g id="a_proc~~double_precision_construct_layer~~CallsGraph_node11"><a xlink:href="../interface/double_precision_next_pointer~2.html" xlink:title="neuron_t%double_precision_next_pointer">
+<polygon fill="#a7506f" stroke="#a7506f" points="640.19,-108.27 411.17,-108.27 411.17,-84 640.19,-84 640.19,-108.27"/>
+<text text-anchor="middle" x="525.68" y="-92.54" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">neuron_t%double_precision_next_pointer</text>
+</a>
+</g>
+</g>
+<!-- none~next_pointer~2&#45;&gt;interface~double_precision_next_pointer~2 -->
+<g id="proc~~double_precision_construct_layer~~CallsGraph_edge9" class="edge">
+<title>none~next_pointer~2&#45;&gt;interface~double_precision_next_pointer~2</title>
+<path fill="none" stroke="#00ff66" stroke-dasharray="5,2" d="M364.19,-118.09C382,-115.65 401.69,-112.96 421.01,-110.31"/>
+<polygon fill="#00ff66" stroke="#00ff66" points="421.39,-113.8 430.82,-108.97 420.44,-106.86 421.39,-113.8"/>
+</g>
+<!-- interface~default_real_weights -->
+<g id="proc~~double_precision_construct_layer~~CallsGraph_node9" class="node">
+<title>interface~default_real_weights</title>
+<g id="a_proc~~double_precision_construct_layer~~CallsGraph_node9"><a xlink:href="../interface/default_real_weights.html" xlink:title="neuron_t%default_real_weights">
+<polygon fill="#a7506f" stroke="#a7506f" points="613.94,-66.27 437.42,-66.27 437.42,-42 613.94,-42 613.94,-66.27"/>
+<text text-anchor="middle" x="525.68" y="-50.53" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">neuron_t%default_real_weights</text>
+</a>
+</g>
+</g>
+<!-- none~weights&#45;&gt;interface~default_real_weights -->
+<g id="proc~~double_precision_construct_layer~~CallsGraph_edge10" class="edge">
+<title>none~weights&#45;&gt;interface~default_real_weights</title>
+<path fill="none" stroke="#0066ff" stroke-dasharray="5,2" d="M351.45,-70.18C373.68,-68.13 400.23,-65.67 425.78,-63.3"/>
+<polygon fill="#0066ff" stroke="#0066ff" points="425.9,-66.8 435.54,-62.39 425.26,-59.83 425.9,-66.8"/>
+</g>
+<!-- interface~double_precision_weights -->
+<g id="proc~~double_precision_construct_layer~~CallsGraph_node12" class="node">
+<title>interface~double_precision_weights</title>
+<g id="a_proc~~double_precision_construct_layer~~CallsGraph_node12"><a xlink:href="../interface/double_precision_weights.html" xlink:title="neuron_t%double_precision_weights">
+<polygon fill="#a7506f" stroke="#a7506f" points="627.44,-24.27 423.92,-24.27 423.92,0 627.44,0 627.44,-24.27"/>
+<text text-anchor="middle" x="525.68" y="-8.53" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">neuron_t%double_precision_weights</text>
+</a>
+</g>
+</g>
+<!-- none~weights&#45;&gt;interface~double_precision_weights -->
+<g id="proc~~double_precision_construct_layer~~CallsGraph_edge11" class="edge">
+<title>none~weights&#45;&gt;interface~double_precision_weights</title>
+<path fill="none" stroke="#0066ff" stroke-dasharray="5,2" d="M346.68,-62.58C354.44,-60.09 362.29,-57.26 369.54,-54.13 386.55,-46.8 388.15,-39.51 405.54,-33.13 411.15,-31.08 416.98,-29.22 422.92,-27.54"/>
+<polygon fill="#0066ff" stroke="#0066ff" points="423.45,-31.02 432.23,-25.1 421.67,-24.25 423.45,-31.02"/>
+</g>
+</g>
+</svg>
+</div>                <script>
+                  var panprocdouble_precision_construct_layerCallsGraph = svgPanZoom('#procdouble_precision_construct_layerCallsGraph',
+                    {zoomEnabled: true, controlIconsEnabled: true, fit: true, center: true,}
+                  );
+                </script>          <div>
+            <a type="button" class="graph-help" data-bs-toggle="modal" href="#CallsGraph-help-text">Help</a>
+          </div>
+          <div class="modal fade" id="CallsGraph-help-text" tabindex="-1" role="dialog">
+            <div class="modal-dialog modal-lg" role="document">
+              <div class="modal-content">
+                <div class="modal-header">
+                  <h4 class="modal-title" id="-graph-help-label">Graph Key</h4>
+                  <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+<p>Nodes of different colours represent the following: </p>
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN"
+ "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
+<!-- Generated by graphviz version 12.1.2 (20240928.0832)
+ -->
+<!-- Title: Graph Key Pages: 1 -->
+<svg width="641pt" height="28pt"
+ viewBox="0.00 0.00 641.00 28.20" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+<g id="graph0" class="graph" transform="scale(0.873868 0.873868) rotate(0) translate(4 28.27)">
+<title>Graph Key</title>
+<polygon fill="white" stroke="none" points="-4,4 -4,-28.27 729.52,-28.27 729.52,4 -4,4"/>
+<!-- Subroutine -->
+<g id="node1" class="node">
+<title>Subroutine</title>
+<polygon fill="#d9534f" stroke="#d9534f" points="69.27,-24.27 0,-24.27 0,0 69.27,0 69.27,-24.27"/>
+<text text-anchor="middle" x="34.63" y="-8.53" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">Subroutine</text>
+</g>
+<!-- Function -->
+<g id="node2" class="node">
+<title>Function</title>
+<polygon fill="#d94e8f" stroke="#d94e8f" points="143.89,-24.27 87.38,-24.27 87.38,0 143.89,0 143.89,-24.27"/>
+<text text-anchor="middle" x="115.63" y="-8.53" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">Function</text>
+</g>
+<!-- Interface -->
+<g id="node3" class="node">
+<title>Interface</title>
+<polygon fill="#a7506f" stroke="#a7506f" points="221.39,-24.27 161.88,-24.27 161.88,0 221.39,0 221.39,-24.27"/>
+<text text-anchor="middle" x="191.63" y="-8.53" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">Interface</text>
+</g>
+<!-- Type Bound Procedure -->
+<g id="node4" class="node">
+<title>Type Bound Procedure</title>
+<polygon fill="#a7506f" stroke="#a7506f" points="368.27,-24.27 239,-24.27 239,0 368.27,0 368.27,-24.27"/>
+<text text-anchor="middle" x="303.63" y="-8.53" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">Type Bound Procedure</text>
+</g>
+<!-- Unknown Procedure Type -->
+<g id="node5" class="node">
+<title>Unknown Procedure Type</title>
+<polygon fill="#777777" stroke="#777777" points="529.39,-24.27 385.88,-24.27 385.88,0 529.39,0 529.39,-24.27"/>
+<text text-anchor="middle" x="457.63" y="-8.53" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">Unknown Procedure Type</text>
+</g>
+<!-- Program -->
+<g id="node6" class="node">
+<title>Program</title>
+<polygon fill="#f0ad4e" stroke="#f0ad4e" points="603.89,-24.27 547.38,-24.27 547.38,0 603.89,0 603.89,-24.27"/>
+<text text-anchor="middle" x="575.63" y="-8.53" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">Program</text>
+</g>
+<!-- This Page&#39;s Entity -->
+<g id="node7" class="node">
+<title>This Page&#39;s Entity</title>
+<polygon fill="none" stroke="black" points="725.52,-24.27 621.75,-24.27 621.75,0 725.52,0 725.52,-24.27"/>
+<text text-anchor="middle" x="673.63" y="-8.53" font-family="Helvetica,sans-Serif" font-size="10.50">This Page&#39;s Entity</text>
+</g>
+</g>
+</svg>
+
+<p>Solid arrows point from a procedure to one which it calls. Dashed 
+arrows point from an interface to procedures which implement that interface.
+This could include the module procedures in a generic interface or the
+implementation in a submodule of an interface in a parent module.
+</p>
+ Where possible, edges connecting nodes are
+given different colours to make them easier to distinguish in
+large graphs.</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <br>
+
+
+    
+    
+
+    
+    
+
+
+
+    
+    
+    </div>
+  </div>
+
+      <hr>
+    </div> <!-- /container -->
+    <footer>
+      <div class="container">
+        <div class="row justify-content-between">
+          <div class="col">
+            <p>
+              Fiats
+ was developed by Berkeley Lab<br>              &copy; 2024 
+</p>
+          </div>
+          <div class="col">
+            <p class="text-end">
+              Documentation generated by
+              <a href="https://github.com/Fortran-FOSS-Programmers/ford">FORD</a>
+ on 2024-10-17 00:07              </p>
+          </div>
+        </div>
+        <br>
+      </div> <!-- /container -->
+    </footer>
+
+    <!-- Bootstrap core JavaScript -->
+    <!-- Placed at the end of the document so the pages load faster -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"
+            integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p" crossorigin="anonymous"></script>    
+
+    <!-- MathJax JavaScript
+             ================================================== -->
+             <!-- Placed at the end of the document so the pages load faster -->
+        <script type="text/x-mathjax-config">
+          MathJax.Hub.Config({
+          TeX: { extensions: ['AMSmath.js','AMSsymbols.js','noErrors.js','noUndefined.js'], equationNumbers: { autoNumber: 'AMS' } },
+          jax: ['input/TeX','input/MathML','output/HTML-CSS'],
+          extensions: ['tex2jax.js','mml2jax.js','MathMenu.js','MathZoom.js']
+          });
+        </script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+
+          <script src="../tipuesearch/tipuesearch_content.js"></script>
+          <script src="../tipuesearch/tipuesearch_set.js"></script>
+          <script src="../tipuesearch/tipuesearch.js"></script>
+
+  </body>
+</html>

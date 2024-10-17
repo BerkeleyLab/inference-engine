@@ -6,11 +6,11 @@
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-      <meta name="description" content="A deep learning library targeting high-performance computing (HPC) applications with performance-critical inference and training needs.">
+      <meta name="description" content="Functional inference and training of surrogate models for computational science.">
     <meta name="author" content="Berkeley Lab" >
     <link rel="icon" href="./favicon.png">
 
-    <title> Inference-Engine </title>
+    <title> Fiats </title>
 
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet"
           integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
@@ -29,7 +29,7 @@
     <div class="container-fluid mb-sm-4 mb-xl-2">
       <nav class="navbar navbar-expand-lg navbar-dark bg-dark fixed-top">
         <div class="container">
-          <a class="navbar-brand" href="./index.html">Inference-Engine </a>
+          <a class="navbar-brand" href="./index.html">Fiats </a>
           <button type="button" class="navbar-toggler" data-bs-toggle="collapse" data-bs-target="#navbar"
                   aria-expanded="false" aria-controls="navbar" aria-label="Toggle navigation">
                   <span class="navbar-toggler-icon">
@@ -45,9 +45,6 @@
                 </li>
                 <li class="nav-item">
                   <a class="nav-link" href="./lists/procedures.html">Procedures</a>
-                </li>
-                <li class="nav-item">
-                  <a class="nav-link" href="./lists/absint.html">Abstract Interfaces</a>
                 </li>
                 <li class="nav-item">
                   <a class="nav-link" href="./lists/types.html">Derived Types</a>
@@ -69,45 +66,44 @@
     <div class="container">
   <!-- Main component for a primary marketing message or call to action -->
     <div class="p-5 mb-4 bg-light border rounded-3" id="jumbotron">
-      <p>A deep learning library targeting high-performance computing (HPC) applications with performance-critical inference and training needs.</p>
+      <p>Functional inference and training of surrogate models for computational science.</p>
         <p> Find us on&hellip;</p>
       <p>
-        <a class="btn btn-lg btn-primary" href="https://github.com/berkeleylab/inference-engine
-https://github.com/berkeleylab/inference-engine" role="button">GitHub</a>
+        <a class="btn btn-lg btn-primary" href="https://github.com/berkeleylab/fiats
+https://github.com/berkeleylab/fiats" role="button">GitHub</a>
         
         
         
         
-        <a class="btn btn-lg btn-danger" style="float:right" href="https://github.com/berkeleylab/inference-engine/releases" role="button">Download the Source</a>
+        <a class="btn btn-lg btn-danger" style="float:right" href="https://github.com/berkeleylab/fiats/releases" role="button">Download the Source</a>
       </p>
     </div>
 
       <div class="row" id='text'>
         <div class=col-md-8>
-          <h1>Inference-Engine</h1>
-          <div class="codehilite"><pre><span></span><code>  _        __                                                     <span class="ge">_            </span>
-<span class="ge"> (_</span>)      / <span class="ge">_|                                                   (_</span>)           
-  <span class="ge">_ _</span> __ | |_ ___ _ __ ___ _ __   ___ ___         ___ _ __   __ <span class="ge">_ _</span> _ __   ___ 
- | | &#39;_ \|  <span class="ge">_/ _</span> \ &#39;__/ <span class="ge">_ \ &#39;_</span> \ / __/ _ \  __   / <span class="ge">_ \ &#39;_</span> \ / <span class="ge">_` | | &#39;_</span> \ / _ \
- | | | | | ||  __/ | |  __/ | | | (_|  __/ |__| |  __/ | | | (_| | | | | |  __/
- |_|_| |_|_| \___|_|  \___|_| |_|\___\___|       \___|_| |_|\__, |_|_| |_|\___|
-                                                             __/ |             
-                                                            |___/              
+          <h1>Fiats</h1>
+          <div class="codehilite"><pre><span></span><code>___________.__        __          
+\_   _____/|__|____ <span class="ge">_/  |_</span>  ______
+ |    __)  |  \__  \\   __\/  ___/
+ |     \   |  |/ __ \|  |  \___ \ 
+ \___  /   |__(____  /__| /____  &gt;
+     \/            \/          \/ 
 </code></pre></div>
 
-<h1 id="inference-engine">Inference-Engine</h1>
+<h1 id="fiats-functional-inference-and-training-for-surrogates">Fiats: Functional inference and training for surrogates</h1>
+<p>Alternatively, <em>Fortran inference and training for science</em>.</p>
 <p><a href="#overview">Overview</a> | <a href="#getting-started">Getting Started</a> | <a href="#documentation">Documentation</a></p>
 <h2 id="overview">Overview</h2>
-<p>Inference-Engine supports research in the training and deployment of neural-network surrogate models for computational science.
-Inference-Engine also provides a platform for exploring and advancing the native parallel programming features of Fortran 2023 in the context of deep learning.
-The language features of interest facilitate loop-level parallelism via the <code>do concurrent</code> construct and Single-Program, Multiple Data (SMPD) parallelism via "multi-image" (e.g., multithreaded or multiprocess) execution.
-Toward these ends,</p>
+<p>Fiats supports research on the training and deployment of neural-network surrogate models for computational science.
+Fiats also provides a platform for exploring and advancing the native parallel programming features of Fortran 2023 in the context of deep learning.
+The design of Fiats centers around functional programming patterns that facilitate concurrency, including loop-level parallelism via the <code>do concurrent</code> construct and Single-Program, Multiple Data (SMPD) parallelism via "multi-image" (e.g., multithreaded or multiprocess) execution.
+Towards these ends,</p>
 <ul>
-<li>Most Inference-Engine procedures are <code>pure</code> and thus satisfy a language requirement for invocation inside <code>do concurrent</code>,</li>
-<li>The network training procedure uses <code>do concurrent</code> to expose automatic parallelization opportunities to compilers, and</li>
+<li>Most Fiats procedures are <code>pure</code> and thus satisfy a language requirement for invocation inside <code>do concurrent</code>,</li>
+<li>The network training procedure use <code>do concurrent</code> to expose automatic parallelization opportunities to compilers, and</li>
 <li>Exploiting multi-image execution to speedup training is under investigation.</li>
 </ul>
-<p>To broaden support for the native parallel features, Inference-Engine's contributors also write compiler tests, bug reports, and patches; develop a parallel runtime library (<a href="https://go.lbl.gov/caffeine">Caffeine</a>); participate in the language standardization process; and provide example inference and training code for exercising and evaluating compilers' automatic parallelization capabilities on processors and accelerators, including Graphics Processing Units (GPUs).</p>
+<p>To broaden support for the native parallel features, the Fiats contributors also write compiler tests, bug reports, and patches; develop a parallel runtime library (<a href="https://go.lbl.gov/caffeine">Caffeine</a>); participate in the language standardization process; and provide example inference and training code for exercising and evaluating compilers' automatic parallelization capabilities on processors and accelerators, including Graphics Processing Units (GPUs).</p>
 <p>Available optimizers:
 * Stochastic gradient descent and
 * Adam (recommended).</p>
@@ -125,7 +121,7 @@ Toward these ends,</p>
 <h3 id="examples-and-demonstration-applications">Examples and demonstration applications</h3>
 <p>The <a href="example">example</a> subdirectory contains demonstrations of several relatively simple use cases.
 We recommend reviewing the examples to see how to handle basic tasks such as configuring a network training run or reading a neural network and using it to perform inference.</p>
-<p>The <a href="demo">demo</a> subdirectory contains demonstration applications that depend on Inference-Engine but build separately due to requiring additional prerequisites such as NetCDF and HDF5.
+<p>The <a href="demo">demo</a> subdirectory contains demonstration applications that depend on Fiats but build separately due to requiring additional prerequisites such as <a href="https://www.unidata.ucar.edu/software/netcdf/">NetCDF</a> and <a href="https://www.hdfgroup.org/solutions/hdf5/">HDF5</a>.
 The demonstration applications
  - Train a cloud microphysics model surrogate for the Intermediate Complexity Atmospheric Research (<a href="https://github.com/BerkeleyLab/icar/tree/neural-net">ICAR</a>) package,
  - Perform inference using a pretrained model for aerosol dynamics in the Energy Exascale Earth System (<a href="https://e3sm.org">E3SM</a>) package, and
@@ -134,22 +130,19 @@ The demonstration applications
 <p>Because this repository supports programming language research, the code exercises new language features in novel ways.
 We recommend using any compiler's latest release or even building open-source compilers from source.
 The <a href="https://github.com/rouson/handy-dandy/blob/main/src">handy-dandy</a> repository contains scripts capturing steps for building the <a href="https://github.com/llvm/llvm-project">LLVM</a> compiler suite.
-The remainder of this section contains commands for building Inference-Engine with a recent Fortran compiler and the Fortran Package Manager ([<code>fpm</code>]) in your <code>PATH</code>.</p>
-<h4 id="gnu-gfortran-13-or-higher-required">GNU (<code>gfortran</code>) 13 or higher required</h4>
-<div class="codehilite"><pre><span></span><code>fpm test --compiler gfortran --profile release
+The remainder of this section contains commands for building Fiats with a recent Fortran compiler and the Fortran Package Manager ([<code>fpm</code>]).</p>
+<h4 id="supported-compilers">Supported Compilers</h4>
+<h5 id="llvm-flang-new">LLVM (<code>flang-new</code>)</h5>
+<p>With LLVM <code>flang</code> 20 installed in your <code>PATH</code>, build and test Fiats with the installed <code>flang-new</code> symlink in order for <code>fpm</code> to correctly identify the compiler:</p>
+<div class="codehilite"><pre><span></span><code>fpm test --compiler flang-new --flag &quot;-O3&quot;
 </code></pre></div>
 
-<h4 id="nag-nagfor">NAG (<code>nagfor</code>)</h4>
-<div class="codehilite"><pre><span></span><code>fpm test --compiler nagfor --flag -fpp --profile release
-</code></pre></div>
-
-<h4 id="llvm-flang-new">LLVM (<code>flang-new</code>)</h4>
-<p>Building with <code>flang-new</code> requires passing flags to enable the compiler's experimental support for assumed-rank entities:</p>
+<p>With LLVM <code>flang</code> 19, enable the compiler's experimental support for assumed-rank entities:</p>
 <div class="codehilite"><pre><span></span><code>fpm test --compiler flang-new --flag &quot;-mmlir -allow-assumed-rank -O3&quot;
 </code></pre></div>
 
-<h5 id="experimental-automatic-parallelization-of-do-concurrent-on-cpus"><em>Experimental:</em> Automatic parallelization of <code>do concurrent</code> on CPUs</h5>
-<p>With the <code>amd_trunk_dev</code> branch of the <a href="https://github.com/ROCm/llvm-project">ROCm fork</a> fork of LLVM, automatic parallelization currently works for inference, e.g.</p>
+<h6 id="experimental-automatic-parallelization-of-do-concurrent-on-cpus"><em>Experimental:</em> Automatic parallelization of <code>do concurrent</code> on CPUs</h6>
+<p>With the <code>amd-trunk-dev</code> branch of the <a href="https://github.com/ROCm/llvm-project">ROCm fork</a> of LLVM, automatically parallelize inference calculations inside <code>do concurrent</code> constructs:</p>
 <div class="codehilite"><pre><span></span><code>fpm run \
   --example concurrent-inferences \
   --compiler flang-new \
@@ -157,22 +150,37 @@ The remainder of this section contains commands for building Inference-Engine wi
   -- --network model.json
 </code></pre></div>
 
-<p>where <code>model.json</code> must be a neural network in the <a href="https://www.json.org/json-en.html">JSON</a> format used by Inference-Engine and the companion <a href="https://go.lbl.gov/nexport">nexport</a> package.
-Automatic parallelization for training is under development.</p>
-<h4 id="intel-ifx">Intel (<code>ifx</code>)</h4>
+<p>where <code>model.json</code> must be a neural network in the <a href="https://www.json.org/json-en.html">JSON</a> format used by Fiats and the companion <a href="https://go.lbl.gov/nexport">nexport</a> package.</p>
+<p>Automatic parallelization for training neural networks is under development.</p>
+<h4 id="partially-supported-compilers">Partially Supported Compilers</h4>
+<p>Fiats release 0.14.0 and earlier support the use of the NAG, GNU, and Intel Fortran compilers.
+We are corresponding with these compilers' developers about addressing the compiler issues preventing building newer Fiats releases.</p>
+<h5 id="nag-nagfor">NAG (<code>nagfor</code>)</h5>
+<div class="codehilite"><pre><span></span><code>fpm test --compiler nagfor --flag -fpp --profile release
+</code></pre></div>
+
+<h5 id="gnu-gfortran">GNU (<code>gfortran</code>)</h5>
+<p>Compiler bugs related to parameterized derived types currently prevent <code>gfortran</code> from building Fiats versions 0.15.0 or later.
+Test and build earlier versions of Fiats build with the following command:</p>
+<div class="codehilite"><pre><span></span><code>fpm test --compiler gfortran --profile release
+</code></pre></div>
+
+<h5 id="intel-ifx">Intel (<code>ifx</code>)</h5>
+<p>Compiler bugs related to generic name resolution currently prevent <code>ifx</code> from building Fiats versions 0.15.0 or later.
+Test and build earlier versions of Fiats build with the following command:</p>
 <div class="codehilite"><pre><span></span><code>fpm test --compiler ifx --profile release --flag -O3
 </code></pre></div>
 
 <h5 id="experimental-automatic-offloading-of-do-concurrent-to-gpus"><em>Experimental:</em> Automatic offloading of <code>do concurrent</code> to GPUs</h5>
 <p>This capability is under development with the goal to facilitate automatic GPU offloading via the following command:</p>
-<div class="codehilite"><pre><span></span><code><span class="nv">fpm</span><span class="w"> </span><span class="nv">test</span><span class="w"> </span><span class="o">--</span><span class="nv">compiler</span><span class="w"> </span><span class="nv">ifx</span><span class="w"> </span><span class="o">--</span><span class="nv">profile</span><span class="w"> </span><span class="nv">releae</span><span class="w"> </span><span class="o">--</span><span class="nv">flag</span><span class="w"> </span><span class="s2">&quot;-fopenmp-target-do-concurrent -qopenmp -fopenmp-targets=spir64 -O3&quot;</span>
+<div class="codehilite"><pre><span></span><code><span class="nv">fpm</span><span class="w"> </span><span class="nv">test</span><span class="w"> </span><span class="o">--</span><span class="nv">compiler</span><span class="w"> </span><span class="nv">ifx</span><span class="w"> </span><span class="o">--</span><span class="nv">profile</span><span class="w"> </span><span class="nv">release</span><span class="w"> </span><span class="o">--</span><span class="nv">flag</span><span class="w"> </span><span class="s2">&quot;-fopenmp-target-do-concurrent -qopenmp -fopenmp-targets=spir64 -O3&quot;</span>
 </code></pre></div>
 
-<h4 id="hpe-crayftnsh-under-development">HPE (<code>crayftn.sh</code>) -- under development</h4>
-<p>Support for the Cray Compiler Environment (CCE) Fortran compiler is under development.
-Building with the CCE <code>ftn</code> compiler wrapper requires an additional trivial wrapper
-shell script. For example, create a file <code>crayftn.sh</code> with the following contents and
-place this file's location in your <code>PATH</code>:</p>
+<h4 id="under-development">Under Development</h4>
+<p>We are corresponding with the developers of the compiler(s) below about addressing the compiler issues preventing building Fiats.</p>
+<h4 id="hpe-cray-compiler-environment-cce-crayftnsh">HPE Cray Compiler Environment (CCE) (<code>crayftn.sh</code>)</h4>
+<p>Building with the CCE <code>ftn</code> compiler wrapper requires an additional trivial wrapper.
+For example, create a file <code>crayftn.sh</code> with the following contents and place this file's location in your <code>PATH</code>:</p>
 <div class="codehilite"><pre><span></span><code><span class="ch">#!/bin/bash</span>
 
 ftn<span class="w"> </span><span class="s2">&quot;</span><span class="nv">$@</span><span class="s2">&quot;</span>
@@ -183,7 +191,7 @@ ftn<span class="w"> </span><span class="s2">&quot;</span><span class="nv">$@</sp
 </code></pre></div>
 
 <h3 id="configuring-a-training-run">Configuring a training run</h3>
-<p>Inference-Engine imports hyperparameters and network configurations to and from JSON files.
+<p>Fiats imports hyperparameters and network configurations to and from JSON files.
 To see the expected file format, run the [print-training-configuration] example as follows:</p>
 <div class="codehilite"><pre><span></span><code><span class="c">% fpm run --example print-training-configuration --compiler gfortran</span>
 </code></pre></div>
@@ -205,7 +213,7 @@ To see the expected file format, run the [print-training-configuration] example 
  }
 </code></pre></div>
 
-<p>Inference-Engine's JSON file format is fragile: splitting or combining lines breaks the file reader.
+<p>The Fiats JSON file format is fragile: splitting or combining lines breaks the file reader.
 Files with added or removed white space or reordered whole objects ("hyperparameters" or "network configuration") should work.
 A future release will leverage the <a href="https://gitlab.com/everythingfunctional/rojff">rojff</a> JSON interface to allow for more flexible file formatting.</p>
 <h3 id="training-a-neural-network">Training a neural network</h3>
@@ -221,14 +229,17 @@ A future release will leverage the <a href="https://gitlab.com/everythingfunctio
          3000    0.45270E-04     14.864      2,4,72,2,1
 </code></pre></div>
 
-<p>The example program halts execution after reaching a cost-function threshold (which requires millions of epochws) or a maximum number of iterations or if the program detects a file named <code>stop</code> in the source-tree root directory.
+<p>The example program halts execution after reaching a cost-function threshold (which requires millions of epochs) or a maximum number of iterations or if the program detects a file named <code>stop</code> in the source-tree root directory.
 Before halting, the program will print a table of expected and predicted saturated mixing ratio values across a range of input pressures and temperatures, wherein two the inputs have each been mapped to the unit interval [0,1].
 The program also writes the neural network initial condition to <code>initial-network.json</code> and the final (trained) network to the file specified in the above command: <code>sat-mix-rat.json</code>.</p>
 <h3 id="performing-inference">Performing inference</h3>
-<p>Users with a PyTorch model may use <a href="https://go.lbl.gov/nexport">nexport</a> to export the model to JSON files that Inference-Engine can read.
+<p>Users with a PyTorch model may use <a href="https://go.lbl.gov/nexport">nexport</a> to export the model to JSON files that Fiats can read.
 Examples of performing inference using a neural-network JSON file are in <a href="example/concurrent-inferences.f90">example/concurrent-inferences</a>.</p>
 <h2 id="documentation">Documentation</h2>
-<p>Please see our <a href="https://berkeleylab.github.io/inference-engine/">GitHub Pages site</a> for HTML documentation generated by [<code>ford</code>] or generate documentaiton locally by installing <code>ford</code> and executing <code>ford ford.md</code>.</p>
+<h3 id="html">HTML</h3>
+<p>Please see our <a href="https://berkeleylab.github.io/fiats/">GitHub Pages site</a> for Hypertext Markup Languge (HTML) documentation generated by [<code>ford</code>] or generate documentation locally by installing <code>ford</code> and executing <code>ford ford.md</code>.</p>
+<h3 id="uml">UML</h3>
+<p>Please see the <code>doc/uml</code> subdirectory for Unified Modeling Language (UML) diagrams such as a comprehensive Fiats <a href="./doc/uml/class-diagram.md">class diagram</a> with human-readable <a href="https://mermaid.js.org">Mermaid</a> source that renders graphically when opened by browsing to the document on GitHub.</p>
         </div>
           <div class="col-md-4">
             <div class="card card-body bg-light">
@@ -253,7 +264,7 @@ Examples of performing inference using a neural-network JSON file are in <a href
           <div class="col-xs-6 col-sm-3">
             <div>
               <h3>Source Files</h3>
-              <ul><li><a href='sourcefile/activation_strategy_m.f90.html'>activation_strategy_m.f90</a></li><li><a href='sourcefile/concurrent-inferences.f90.html'>concurrent-inferences.f90</a></li><li><a href='sourcefile/differentiable_activation_strategy_m.f90.html'>differentiable_activation_strategy_m.f90</a></li><li><a href='sourcefile/gelu_m.f90.html'>gelu_m.f90</a></li><li><a href='sourcefile/gelu_s.f90.html'>gelu_s.f90</a></li><li><a href='sourcefile/hyperparameters_m.f90.html'>hyperparameters_m.f90</a></li><li><a href='sourcefile/hyperparameters_s.f90.html'>hyperparameters_s.f90</a></li><li><a href='sourcefile/inference_engine_m.f90.html'>inference_engine_m.f90</a></li><li><a href='sourcefile/inference_engine_m_.f90.html'>inference_engine_m_.f90</a></li><li><a href='sourcefile/inference_engine_s.f90.html'>inference_engine_s.F90</a></li></ul>
+              <ul><li><a href='sourcefile/activation_m.f90.html'>activation_m.f90</a></li><li><a href='sourcefile/activation_s.f90.html'>activation_s.f90</a></li><li><a href='sourcefile/concurrent-inferences.f90.html'>concurrent-inferences.f90</a></li><li><a href='sourcefile/double_precision_file_m.f90.html'>double_precision_file_m.f90</a></li><li><a href='sourcefile/double_precision_file_s.f90.html'>double_precision_file_s.f90</a></li><li><a href='sourcefile/double_precision_string_m.f90.html'>double_precision_string_m.f90</a></li><li><a href='sourcefile/double_precision_string_s.f90.html'>double_precision_string_s.f90</a></li><li><a href='sourcefile/fiats_m.f90.html'>fiats_m.f90</a></li><li><a href='sourcefile/hyperparameters_m.f90.html'>hyperparameters_m.f90</a></li><li><a href='sourcefile/hyperparameters_s.f90.html'>hyperparameters_s.f90</a></li></ul>
             </div>
             <div>
               <ul>
@@ -264,7 +275,7 @@ Examples of performing inference using a neural-network JSON file are in <a href
           <div class="col-xs-6 col-sm-3">
             <div>
               <h3>Modules</h3>
-              <ul><li><a href='module/activation_strategy_m.html'>activation_strategy_m</a></li><li><a href='module/addition_m.html'>addition_m</a></li><li><a href='module/differentiable_activation_strategy_m.html'>differentiable_activation_strategy_m</a></li><li><a href='module/exponentiation_m.html'>exponentiation_m</a></li><li><a href='module/gelu_m.html'>gelu_m</a></li><li><a href='module/hyperparameters_m.html'>hyperparameters_m</a></li><li><a href='module/inference_engine_m.html'>inference_engine_m</a></li><li><a href='module/inference_engine_m_.html'>inference_engine_m_</a></li><li><a href='module/input_output_pair_m.html'>input_output_pair_m</a></li><li><a href='module/kind_parameters_m.html'>kind_parameters_m</a></li></ul>
+              <ul><li><a href='module/activation_m.html'>activation_m</a></li><li><a href='module/addition_m.html'>addition_m</a></li><li><a href='module/double_precision_file_m.html'>double_precision_file_m</a></li><li><a href='module/double_precision_string_m.html'>double_precision_string_m</a></li><li><a href='module/exponentiation_m.html'>exponentiation_m</a></li><li><a href='module/fiats_m.html'>fiats_m</a></li><li><a href='module/hyperparameters_m.html'>hyperparameters_m</a></li><li><a href='module/input_output_pair_m.html'>input_output_pair_m</a></li><li><a href='module/kind_parameters_m.html'>kind_parameters_m</a></li><li><a href='module/layer_m.html'>layer_m</a></li></ul>
             </div>
             <div>
               <ul>
@@ -275,7 +286,7 @@ Examples of performing inference using a neural-network JSON file are in <a href
           <div class="col-xs-6 col-sm-3">
             <div>
               <h3>Procedures</h3>
-              <ul><li><a href='interface/activation.html'>activation</a></li><li><a href='interface/activation~2.html'>activation</a></li><li><a href='interface/activation~3.html'>activation</a></li><li><a href='interface/activation~4.html'>activation</a></li><li><a href='interface/activation~5.html'>activation</a></li><li><a href='interface/activation_derivative.html'>activation_derivative</a></li><li><a href='interface/activation_derivative~2.html'>activation_derivative</a></li><li><a href='interface/activation_derivative~3.html'>activation_derivative</a></li><li><a href='interface/activation_derivative~4.html'>activation_derivative</a></li><li><a href='proc/activation_factory_method.html'>activation_factory_method</a></li></ul>
+              <ul><li><a href='interface/activation_name.html'>activation_name</a></li><li><a href='interface/activation_name~2.html'>activation_name</a></li><li><a href='interface/activation_t.html'>activation_t</a></li><li><a href='interface/default_real_activation_name.html'>default_real_activation_name</a></li><li><a href='interface/default_real_allocate.html'>default_real_allocate</a></li><li><a href='interface/default_real_allocated.html'>default_real_allocated</a></li><li><a href='interface/default_real_approximately_equal.html'>default_real_approximately_equal</a></li><li><a href='interface/default_real_assert_conformable_with.html'>default_real_assert_conformable_with</a></li><li><a href='interface/default_real_bias.html'>default_real_bias</a></li><li><a href='interface/default_real_consistency.html'>default_real_consistency</a></li></ul>
             </div>
             <div>
               <ul>
@@ -286,7 +297,7 @@ Examples of performing inference using a neural-network JSON file are in <a href
           <div class="col-xs-6 col-sm-3">
             <div>
               <h3>Derived Types</h3>
-              <ul><li><a href='type/activation_strategy_t.html'>activation_strategy_t</a></li><li><a href='type/difference_t.html'>difference_t</a></li><li><a href='type/differentiable_activation_strategy_t.html'>differentiable_activation_strategy_t</a></li><li><a href='type/exchange_t.html'>exchange_t</a></li><li><a href='type/gelu_t.html'>gelu_t</a></li><li><a href='type/hyperparameters_t.html'>hyperparameters_t</a></li><li><a href='type/inference_engine_t.html'>inference_engine_t</a></li><li><a href='type/input_output_pair_t.html'>input_output_pair_t</a></li><li><a href='type/layer_t.html'>layer_t</a></li><li><a href='type/metadata_t.html'>metadata_t</a></li></ul>
+              <ul><li><a href='type/activation_t.html'>activation_t</a></li><li><a href='type/double_precision_file_t.html'>double_precision_file_t</a></li><li><a href='type/double_precision_string_t.html'>double_precision_string_t</a></li><li><a href='type/hyperparameters_t.html'>hyperparameters_t</a></li><li><a href='type/input_output_pair_t.html'>input_output_pair_t</a></li><li><a href='type/layer_t.html'>layer_t</a></li><li><a href='type/metadata_t.html'>metadata_t</a></li><li><a href='type/mini_batch_t.html'>mini_batch_t</a></li><li><a href='type/network_configuration_t.html'>network_configuration_t</a></li><li><a href='type/neural_network_t.html'>neural_network_t</a></li></ul>
             </div>
             <div>
               <ul>
@@ -302,7 +313,7 @@ Examples of performing inference using a neural-network JSON file are in <a href
         <div class="row justify-content-between">
           <div class="col">
             <p>
-              Inference-Engine
+              Fiats
  was developed by Berkeley Lab<br>              &copy; 2024 
 </p>
           </div>
@@ -310,7 +321,7 @@ Examples of performing inference using a neural-network JSON file are in <a href
             <p class="text-end">
               Documentation generated by
               <a href="https://github.com/Fortran-FOSS-Programmers/ford">FORD</a>
- on 2024-10-01 22:45              </p>
+ on 2024-10-17 00:07              </p>
           </div>
         </div>
         <br>

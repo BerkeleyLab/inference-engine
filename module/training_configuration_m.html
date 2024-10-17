@@ -6,11 +6,11 @@
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-      <meta name="description" content="A deep learning library targeting high-performance computing (HPC) applications with performance-critical inference and training needs.">
+      <meta name="description" content="Functional inference and training of surrogate models for computational science.">
     <meta name="author" content="Berkeley Lab" >
     <link rel="icon" href="../favicon.png">
 
-    <title>training_configuration_m &ndash; Inference-Engine</title>
+    <title>training_configuration_m &ndash; Fiats</title>
 
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet"
           integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
@@ -29,7 +29,7 @@
     <div class="container-fluid mb-sm-4 mb-xl-2">
       <nav class="navbar navbar-expand-lg navbar-dark bg-dark fixed-top">
         <div class="container">
-          <a class="navbar-brand" href="../index.html">Inference-Engine </a>
+          <a class="navbar-brand" href="../index.html">Fiats </a>
           <button type="button" class="navbar-toggler" data-bs-toggle="collapse" data-bs-target="#navbar"
                   aria-expanded="false" aria-controls="navbar" aria-label="Toggle navigation">
                   <span class="navbar-toggler-icon">
@@ -45,9 +45,6 @@
                 </li>
                 <li class="nav-item">
                   <a class="nav-link" href="../lists/procedures.html">Procedures</a>
-                </li>
-                <li class="nav-item">
-                  <a class="nav-link" href="../lists/absint.html">Abstract Interfaces</a>
                 </li>
                 <li class="nav-item">
                   <a class="nav-link" href="../lists/types.html">Derived Types</a>
@@ -79,7 +76,7 @@
 
             <li class="list-inline-item" id="statements"><i class="fa fa-list-ol"></i>
               <a data-bs-toggle="tooltip" data-bs-placement="bottom" data-bs-html="true"
-                 title=" 3.4% of total for modules and submodules.">81 statements</a>
+                 title=" 4.2% of total for modules and submodules.">140 statements</a>
             </li>
 
             <li class="list-inline-item" id="source-file">
@@ -126,14 +123,22 @@
       <div id="inters-0" class="collapse">
         <div class="list-group list-group-flush">
             <a class="list-group-item" href="../module/training_configuration_m.html#interface-training_configuration_t">training_configuration_t</a>
-            <a class="list-group-item" href="../module/training_configuration_m.html#interface-differentiable_activation_strategy">differentiable_activation_strategy</a>
-            <a class="list-group-item" href="../module/training_configuration_m.html#interface-equals~3">equals</a>
-            <a class="list-group-item" href="../module/training_configuration_m.html#interface-learning_rate~2">learning_rate</a>
-            <a class="list-group-item" href="../module/training_configuration_m.html#interface-mini_batches~2">mini_batches</a>
-            <a class="list-group-item" href="../module/training_configuration_m.html#interface-nodes_per_layer">nodes_per_layer</a>
-            <a class="list-group-item" href="../module/training_configuration_m.html#interface-optimizer_name~2">optimizer_name</a>
-            <a class="list-group-item" href="../module/training_configuration_m.html#interface-skip_connections">skip_connections</a>
-            <a class="list-group-item" href="../module/training_configuration_m.html#interface-to_json~3">to_json</a>
+            <a class="list-group-item" href="../module/training_configuration_m.html#interface-default_real_differentiable_activation">default_real_differentiable_activation</a>
+            <a class="list-group-item" href="../module/training_configuration_m.html#interface-default_real_equals">default_real_equals</a>
+            <a class="list-group-item" href="../module/training_configuration_m.html#interface-default_real_learning_rate">default_real_learning_rate</a>
+            <a class="list-group-item" href="../module/training_configuration_m.html#interface-default_real_mini_batches">default_real_mini_batches</a>
+            <a class="list-group-item" href="../module/training_configuration_m.html#interface-default_real_nodes_per_layer">default_real_nodes_per_layer</a>
+            <a class="list-group-item" href="../module/training_configuration_m.html#interface-default_real_optimizer_name">default_real_optimizer_name</a>
+            <a class="list-group-item" href="../module/training_configuration_m.html#interface-default_real_skip_connections">default_real_skip_connections</a>
+            <a class="list-group-item" href="../module/training_configuration_m.html#interface-default_real_to_json">default_real_to_json</a>
+            <a class="list-group-item" href="../module/training_configuration_m.html#interface-double_precision_differentiable_activation">double_precision_differentiable_activation</a>
+            <a class="list-group-item" href="../module/training_configuration_m.html#interface-double_precision_equals">double_precision_equals</a>
+            <a class="list-group-item" href="../module/training_configuration_m.html#interface-double_precision_learning_rate">double_precision_learning_rate</a>
+            <a class="list-group-item" href="../module/training_configuration_m.html#interface-double_precision_mini_batches">double_precision_mini_batches</a>
+            <a class="list-group-item" href="../module/training_configuration_m.html#interface-double_precision_nodes_per_layer">double_precision_nodes_per_layer</a>
+            <a class="list-group-item" href="../module/training_configuration_m.html#interface-double_precision_optimizer_name">double_precision_optimizer_name</a>
+            <a class="list-group-item" href="../module/training_configuration_m.html#interface-double_precision_skip_connections">double_precision_skip_connections</a>
+            <a class="list-group-item" href="../module/training_configuration_m.html#interface-double_precision_to_json">double_precision_to_json</a>
         </div>
       </div>
     </div>
@@ -174,12 +179,13 @@
         <ul class="list-group list-group-flush">
             <li class="list-group-item">
               <ul class="list-inline">
-                  <li class="list-inline-item"><a href='kind_parameters_m.html'>kind_parameters_m</a></li>
-                  <li class="list-inline-item"><a href='hyperparameters_m.html'>hyperparameters_m</a></li>
+                  <li class="list-inline-item"><a href='double_precision_file_m.html'>double_precision_file_m</a></li>
                   <li class="list-inline-item">julienne_string_m</li>
                   <li class="list-inline-item">julienne_file_m</li>
+                  <li class="list-inline-item"><a href='activation_m.html'>activation_m</a></li>
                   <li class="list-inline-item"><a href='network_configuration_m.html'>network_configuration_m</a></li>
-                  <li class="list-inline-item"><a href='differentiable_activation_strategy_m.html'>differentiable_activation_strategy_m</a></li>
+                  <li class="list-inline-item"><a href='kind_parameters_m.html'>kind_parameters_m</a></li>
+                  <li class="list-inline-item"><a href='hyperparameters_m.html'>hyperparameters_m</a></li>
               </ul>
             </li>
             <li class="list-group-item">
@@ -189,154 +195,204 @@
 <!-- Generated by graphviz version 12.1.2 (20240928.0832)
  -->
 <!-- Title: module~~training_configuration_m~~UsesGraph Pages: 1 -->
-<svg id="moduletraining_configuration_mUsesGraph" width="641pt" height="158pt"
- viewBox="0.00 0.00 641.00 158.11" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
-<g id="module~~training_configuration_m~~UsesGraph" class="graph" transform="scale(0.878287 0.878287) rotate(0) translate(4 176.02)">
+<svg id="moduletraining_configuration_mUsesGraph" width="630pt" height="238pt"
+ viewBox="0.00 0.00 630.08 238.27" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+<g id="module~~training_configuration_m~~UsesGraph" class="graph" transform="scale(1 1) rotate(0) translate(4 234.27)">
 <title>module~~training_configuration_m~~UsesGraph</title>
-<polygon fill="white" stroke="none" points="-4,4 -4,-176.02 725.83,-176.02 725.83,4 -4,4"/>
+<polygon fill="white" stroke="none" points="-4,4 -4,-234.27 626.08,-234.27 626.08,4 -4,4"/>
 <!-- module~training_configuration_m -->
 <g id="module~~training_configuration_m~~UsesGraph_node1" class="node">
 <title>module~training_configuration_m</title>
-<polygon fill="none" stroke="black" points="721.83,-111.02 576.81,-111.02 576.81,-86.75 721.83,-86.75 721.83,-111.02"/>
-<text text-anchor="middle" x="649.32" y="-95.29" font-family="Helvetica,sans-Serif" font-size="10.50">training_configuration_m</text>
+<polygon fill="none" stroke="black" points="622.08,-129.27 477.06,-129.27 477.06,-105 622.08,-105 622.08,-129.27"/>
+<text text-anchor="middle" x="549.57" y="-113.54" font-family="Helvetica,sans-Serif" font-size="10.50">training_configuration_m</text>
 </g>
 <!-- julienne_file_m -->
 <g id="module~~training_configuration_m~~UsesGraph_node2" class="node">
 <title>julienne_file_m</title>
-<polygon fill="#337ab7" stroke="#337ab7" points="484.19,-172.02 392.42,-172.02 392.42,-147.75 484.19,-147.75 484.19,-172.02"/>
-<text text-anchor="middle" x="438.3" y="-156.29" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">julienne_file_m</text>
+<polygon fill="#337ab7" stroke="#337ab7" points="413.69,-230.27 321.92,-230.27 321.92,-206 413.69,-206 413.69,-230.27"/>
+<text text-anchor="middle" x="367.8" y="-214.53" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">julienne_file_m</text>
 </g>
 <!-- module~training_configuration_m&#45;&gt;julienne_file_m -->
 <g id="module~~training_configuration_m~~UsesGraph_edge1" class="edge">
 <title>module~training_configuration_m&#45;&gt;julienne_file_m</title>
-<path fill="none" stroke="#ff0000" stroke-dasharray="5,2" d="M611.68,-111.46C590.98,-118.4 564.56,-126.99 540.81,-133.89 526.19,-138.13 510.29,-142.38 495.5,-146.18"/>
-<polygon fill="#ff0000" stroke="#ff0000" points="494.74,-142.76 485.91,-148.61 496.46,-149.54 494.74,-142.76"/>
+<path fill="none" stroke="#ff0000" stroke-dasharray="5,2" d="M533.37,-129.69C513.26,-145.83 476.23,-173.95 441.06,-192.13 434.46,-195.55 427.3,-198.71 420.15,-201.57"/>
+<polygon fill="#ff0000" stroke="#ff0000" points="419.25,-198.16 411.15,-204.99 421.74,-204.71 419.25,-198.16"/>
 </g>
 <!-- julienne_string_m -->
 <g id="module~~training_configuration_m~~UsesGraph_node3" class="node">
 <title>julienne_string_m</title>
-<polygon fill="#337ab7" stroke="#337ab7" points="111.27,-112.02 6,-112.02 6,-87.75 111.27,-87.75 111.27,-112.02"/>
-<text text-anchor="middle" x="58.63" y="-96.29" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">julienne_string_m</text>
+<polygon fill="#337ab7" stroke="#337ab7" points="234.91,-148.27 129.65,-148.27 129.65,-124 234.91,-124 234.91,-148.27"/>
+<text text-anchor="middle" x="182.28" y="-132.53" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">julienne_string_m</text>
 </g>
 <!-- module~training_configuration_m&#45;&gt;julienne_string_m -->
 <g id="module~~training_configuration_m~~UsesGraph_edge2" class="edge">
 <title>module~training_configuration_m&#45;&gt;julienne_string_m</title>
-<path fill="none" stroke="#ff0000" stroke-dasharray="5,2" d="M437.3,-119.89C326.58,-125.38 197.64,-114.93 122.67,-107.17"/>
-<polygon fill="#ff0000" stroke="#ff0000" points="123.37,-103.73 113.06,-106.16 122.64,-110.69 123.37,-103.73"/>
+<path fill="none" stroke="#ff0000" stroke-dasharray="5,2" d="M523.19,-129.77C489.1,-145.79 426.16,-172.06 368.8,-178.13"/>
+<path fill="none" stroke="#ff0000" stroke-dasharray="5,2" d="M366.8,-178.13C354.32,-179.46 290.8,-164.08 241.95,-151.57"/>
+<polygon fill="#ff0000" stroke="#ff0000" points="242.85,-148.19 232.29,-149.08 241.1,-154.97 242.85,-148.19"/>
 </g>
-<!-- module~differentiable_activation_strategy_m -->
+<!-- module~activation_m -->
 <g id="module~~training_configuration_m~~UsesGraph_node4" class="node">
-<title>module~differentiable_activation_strategy_m</title>
-<g id="a_module~~training_configuration_m~~UsesGraph_node4"><a xlink:href="../module/differentiable_activation_strategy_m.html" xlink:title="differentiable_activation_strategy_m">
-<polygon fill="#337ab7" stroke="#337ab7" points="540.81,-70.02 335.79,-70.02 335.79,-45.75 540.81,-45.75 540.81,-70.02"/>
-<text text-anchor="middle" x="438.3" y="-54.29" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">differentiable_activation_strategy_m</text>
+<title>module~activation_m</title>
+<g id="a_module~~training_configuration_m~~UsesGraph_node4"><a xlink:href="../module/activation_m.html" xlink:title="activation_m">
+<polygon fill="#337ab7" stroke="#337ab7" points="407.69,-24.27 327.92,-24.27 327.92,0 407.69,0 407.69,-24.27"/>
+<text text-anchor="middle" x="367.8" y="-8.53" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">activation_m</text>
 </a>
 </g>
 </g>
-<!-- module~training_configuration_m&#45;&gt;module~differentiable_activation_strategy_m -->
+<!-- module~training_configuration_m&#45;&gt;module~activation_m -->
 <g id="module~~training_configuration_m~~UsesGraph_edge3" class="edge">
-<title>module~training_configuration_m&#45;&gt;module~differentiable_activation_strategy_m</title>
-<path fill="none" stroke="#ff0000" stroke-dasharray="5,2" d="M584.19,-86.31C562.22,-82 537.44,-77.14 514.67,-72.67"/>
-<polygon fill="#ff0000" stroke="#ff0000" points="515.64,-69.29 505.16,-70.8 514.3,-76.16 515.64,-69.29"/>
+<title>module~training_configuration_m&#45;&gt;module~activation_m</title>
+<path fill="none" stroke="#ff0000" stroke-dasharray="5,2" d="M536.12,-104.76C517.17,-86.57 479.22,-52.67 441.06,-33.13 434.18,-29.62 426.63,-26.6 419.08,-24.05"/>
+<polygon fill="#ff0000" stroke="#ff0000" points="420.13,-20.71 409.54,-21.08 418.05,-27.39 420.13,-20.71"/>
+</g>
+<!-- module~double_precision_file_m -->
+<g id="module~~training_configuration_m~~UsesGraph_node5" class="node">
+<title>module~double_precision_file_m</title>
+<g id="a_module~~training_configuration_m~~UsesGraph_node5"><a xlink:href="../module/double_precision_file_m.html" xlink:title="double_precision_file_m">
+<polygon fill="#337ab7" stroke="#337ab7" points="437.31,-66.27 298.29,-66.27 298.29,-42 437.31,-42 437.31,-66.27"/>
+<text text-anchor="middle" x="367.8" y="-50.53" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">double_precision_file_m</text>
+</a>
+</g>
+</g>
+<!-- module~training_configuration_m&#45;&gt;module~double_precision_file_m -->
+<g id="module~~training_configuration_m~~UsesGraph_edge4" class="edge">
+<title>module~training_configuration_m&#45;&gt;module~double_precision_file_m</title>
+<path fill="none" stroke="#ff0000" stroke-dasharray="5,2" d="M518.71,-104.64C497.28,-95.88 467.62,-84.16 441.06,-75.14 435.99,-73.41 430.7,-71.7 425.37,-70.05"/>
+<polygon fill="#ff0000" stroke="#ff0000" points="426.51,-66.74 415.93,-67.18 424.48,-73.43 426.51,-66.74"/>
 </g>
 <!-- module~hyperparameters_m -->
-<g id="module~~training_configuration_m~~UsesGraph_node5" class="node">
+<g id="module~~training_configuration_m~~UsesGraph_node6" class="node">
 <title>module~hyperparameters_m</title>
-<g id="a_module~~training_configuration_m~~UsesGraph_node5"><a xlink:href="../module/hyperparameters_m.html" xlink:title="hyperparameters_m">
-<polygon fill="#337ab7" stroke="#337ab7" points="286.67,-92.02 166.4,-92.02 166.4,-67.75 286.67,-67.75 286.67,-92.02"/>
-<text text-anchor="middle" x="226.53" y="-76.29" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">hyperparameters_m</text>
+<g id="a_module~~training_configuration_m~~UsesGraph_node6"><a xlink:href="../module/hyperparameters_m.html" xlink:title="hyperparameters_m">
+<polygon fill="#337ab7" stroke="#337ab7" points="427.94,-150.27 307.67,-150.27 307.67,-126 427.94,-126 427.94,-150.27"/>
+<text text-anchor="middle" x="367.8" y="-134.53" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">hyperparameters_m</text>
 </a>
 </g>
 </g>
 <!-- module~training_configuration_m&#45;&gt;module~hyperparameters_m -->
-<g id="module~~training_configuration_m~~UsesGraph_edge4" class="edge">
+<g id="module~~training_configuration_m~~UsesGraph_edge5" class="edge">
 <title>module~training_configuration_m&#45;&gt;module~hyperparameters_m</title>
-<path fill="none" stroke="#ff0000" stroke-dasharray="5,2" d="M576.39,-107.92C536.14,-112.53 485.01,-117.62 439.3,-119.89"/>
-<path fill="none" stroke="#ff0000" stroke-dasharray="5,2" d="M437.3,-119.89C381.04,-122.68 317.68,-108.07 275.46,-95.73"/>
-<polygon fill="#ff0000" stroke="#ff0000" points="276.7,-92.45 266.12,-92.92 274.69,-99.15 276.7,-92.45"/>
+<path fill="none" stroke="#ff0000" stroke-dasharray="5,2" d="M476.75,-125.53C464.47,-126.96 451.72,-128.45 439.47,-129.88"/>
+<polygon fill="#ff0000" stroke="#ff0000" points="439.42,-126.36 429.89,-131 440.23,-133.31 439.42,-126.36"/>
 </g>
 <!-- module~kind_parameters_m -->
-<g id="module~~training_configuration_m~~UsesGraph_node6" class="node">
+<g id="module~~training_configuration_m~~UsesGraph_node7" class="node">
 <title>module~kind_parameters_m</title>
-<g id="a_module~~training_configuration_m~~UsesGraph_node6"><a xlink:href="../module/kind_parameters_m.html" xlink:title="kind_parameters_m">
-<polygon fill="#337ab7" stroke="#337ab7" points="117.27,-50.02 0,-50.02 0,-25.75 117.27,-25.75 117.27,-50.02"/>
-<text text-anchor="middle" x="58.63" y="-34.29" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">kind_parameters_m</text>
+<g id="a_module~~training_configuration_m~~UsesGraph_node7"><a xlink:href="../module/kind_parameters_m.html" xlink:title="kind_parameters_m">
+<polygon fill="#337ab7" stroke="#337ab7" points="240.91,-190.27 123.65,-190.27 123.65,-166 240.91,-166 240.91,-190.27"/>
+<text text-anchor="middle" x="182.28" y="-174.53" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">kind_parameters_m</text>
 </a>
 </g>
 </g>
 <!-- module~training_configuration_m&#45;&gt;module~kind_parameters_m -->
-<g id="module~~training_configuration_m~~UsesGraph_edge5" class="edge">
+<g id="module~~training_configuration_m~~UsesGraph_edge6" class="edge">
 <title>module~training_configuration_m&#45;&gt;module~kind_parameters_m</title>
-<path fill="none" stroke="#ff0000" stroke-dasharray="5,2" d="M631.91,-86.3C611.71,-71.57 575.77,-47.81 540.81,-36.89 376.19,14.57 324.69,2.1 153.27,-16.89 141.6,-18.18 129.26,-20.35 117.5,-22.82"/>
-<polygon fill="#ff0000" stroke="#ff0000" points="116.94,-19.36 107.92,-24.93 118.44,-26.2 116.94,-19.36"/>
+<path fill="none" stroke="#ff0000" stroke-dasharray="5,2" d="M366.8,-178.13C329.22,-182.12 287.08,-182.41 252.66,-181.57"/>
+<polygon fill="#ff0000" stroke="#ff0000" points="252.91,-178.08 242.82,-181.3 252.71,-185.08 252.91,-178.08"/>
 </g>
 <!-- module~network_configuration_m -->
-<g id="module~~training_configuration_m~~UsesGraph_node7" class="node">
+<g id="module~~training_configuration_m~~UsesGraph_node8" class="node">
 <title>module~network_configuration_m</title>
-<g id="a_module~~training_configuration_m~~UsesGraph_node7"><a xlink:href="../module/network_configuration_m.html" xlink:title="network_configuration_m">
-<polygon fill="#337ab7" stroke="#337ab7" points="299.79,-172.02 153.27,-172.02 153.27,-147.75 299.79,-147.75 299.79,-172.02"/>
-<text text-anchor="middle" x="226.53" y="-156.29" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">network_configuration_m</text>
+<g id="a_module~~training_configuration_m~~UsesGraph_node8"><a xlink:href="../module/network_configuration_m.html" xlink:title="network_configuration_m">
+<polygon fill="#337ab7" stroke="#337ab7" points="441.06,-108.27 294.54,-108.27 294.54,-84 441.06,-84 441.06,-108.27"/>
+<text text-anchor="middle" x="367.8" y="-92.54" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">network_configuration_m</text>
 </a>
 </g>
 </g>
 <!-- module~training_configuration_m&#45;&gt;module~network_configuration_m -->
-<g id="module~~training_configuration_m~~UsesGraph_edge6" class="edge">
+<g id="module~~training_configuration_m~~UsesGraph_edge7" class="edge">
 <title>module~training_configuration_m&#45;&gt;module~network_configuration_m</title>
-<path fill="none" stroke="#ff0000" stroke-dasharray="5,2" d="M437.3,-119.89C384.89,-122.49 326.32,-134.44 284.42,-144.6"/>
-<polygon fill="#ff0000" stroke="#ff0000" points="283.66,-141.18 274.8,-146.98 285.35,-147.98 283.66,-141.18"/>
+<path fill="none" stroke="#ff0000" stroke-dasharray="5,2" d="M476.75,-108.74C468.83,-107.82 460.73,-106.87 452.69,-105.93"/>
+<polygon fill="#ff0000" stroke="#ff0000" points="453.23,-102.47 442.89,-104.79 452.42,-109.43 453.23,-102.47"/>
 </g>
-<!-- module~activation_strategy_m -->
-<g id="module~~training_configuration_m~~UsesGraph_node8" class="node">
-<title>module~activation_strategy_m</title>
-<g id="a_module~~training_configuration_m~~UsesGraph_node8"><a xlink:href="../module/activation_strategy_m.html" xlink:title="activation_strategy_m">
-<polygon fill="#337ab7" stroke="#337ab7" points="290.79,-50.02 162.27,-50.02 162.27,-25.75 290.79,-25.75 290.79,-50.02"/>
-<text text-anchor="middle" x="226.53" y="-34.29" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">activation_strategy_m</text>
+<!-- iso_c_binding -->
+<g id="module~~training_configuration_m~~UsesGraph_node9" class="node">
+<title>iso_c_binding</title>
+<g id="a_module~~training_configuration_m~~UsesGraph_node9"><a xlink:href="http://fortranwiki.org/fortran/show/iso_c_binding" xlink:title="iso_c_binding">
+<polygon fill="#337ab7" stroke="#337ab7" points="223.66,-24.27 140.9,-24.27 140.9,0 223.66,0 223.66,-24.27"/>
+<text text-anchor="middle" x="182.28" y="-8.53" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">iso_c_binding</text>
 </a>
 </g>
 </g>
-<!-- module~differentiable_activation_strategy_m&#45;&gt;module~activation_strategy_m -->
-<g id="module~~training_configuration_m~~UsesGraph_edge7" class="edge">
-<title>module~differentiable_activation_strategy_m&#45;&gt;module~activation_strategy_m</title>
-<path fill="none" stroke="#00ff00" stroke-dasharray="5,2" d="M335.49,-48.18C324.37,-47.12 313.21,-46.05 302.5,-45.03"/>
-<polygon fill="#00ff00" stroke="#00ff00" points="302.88,-41.55 292.59,-44.09 302.21,-48.52 302.88,-41.55"/>
+<!-- module~activation_m&#45;&gt;iso_c_binding -->
+<g id="module~~training_configuration_m~~UsesGraph_edge8" class="edge">
+<title>module~activation_m&#45;&gt;iso_c_binding</title>
+<path fill="none" stroke="#48ff00" stroke-dasharray="5,2" d="M327.43,-12.13C300.47,-12.13 264.43,-12.13 235.13,-12.13"/>
+<polygon fill="#48ff00" stroke="#48ff00" points="235.37,-8.64 225.37,-12.14 235.37,-15.64 235.37,-8.64"/>
+</g>
+<!-- julienne_m -->
+<g id="module~~training_configuration_m~~UsesGraph_node10" class="node">
+<title>julienne_m</title>
+<polygon fill="#337ab7" stroke="#337ab7" points="70.02,-86.27 0,-86.27 0,-62 70.02,-62 70.02,-86.27"/>
+<text text-anchor="middle" x="35.01" y="-70.54" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">julienne_m</text>
+</g>
+<!-- module~activation_m&#45;&gt;julienne_m -->
+<g id="module~~training_configuration_m~~UsesGraph_edge9" class="edge">
+<title>module~activation_m&#45;&gt;julienne_m</title>
+<path fill="none" stroke="#48ff00" stroke-dasharray="5,2" d="M327.48,-23.57C290.59,-33.71 233.72,-47.86 183.28,-54.13"/>
+<path fill="none" stroke="#48ff00" stroke-dasharray="5,2" d="M181.28,-54.13C147.86,-58.29 110.19,-63.5 81.59,-67.55"/>
+<polygon fill="#48ff00" stroke="#48ff00" points="81.22,-64.07 71.82,-68.94 82.21,-71 81.22,-64.07"/>
+</g>
+<!-- module~double_precision_file_m&#45;&gt;julienne_m -->
+<g id="module~~training_configuration_m~~UsesGraph_edge10" class="edge">
+<title>module~double_precision_file_m&#45;&gt;julienne_m</title>
+<path fill="none" stroke="#00ff91" stroke-dasharray="5,2" d="M298.14,-50.12C263.56,-49.12 221.06,-49.43 183.28,-54.13"/>
+</g>
+<!-- module~double_precision_string_m -->
+<g id="module~~training_configuration_m~~UsesGraph_node11" class="node">
+<title>module~double_precision_string_m</title>
+<g id="a_module~~training_configuration_m~~UsesGraph_node11"><a xlink:href="../module/double_precision_string_m.html" xlink:title="double_precision_string_m">
+<polygon fill="#337ab7" stroke="#337ab7" points="258.54,-106.27 106.02,-106.27 106.02,-82 258.54,-82 258.54,-106.27"/>
+<text text-anchor="middle" x="182.28" y="-90.54" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">double_precision_string_m</text>
+</a>
+</g>
+</g>
+<!-- module~double_precision_file_m&#45;&gt;module~double_precision_string_m -->
+<g id="module~~training_configuration_m~~UsesGraph_edge11" class="edge">
+<title>module~double_precision_file_m&#45;&gt;module~double_precision_string_m</title>
+<path fill="none" stroke="#00ff91" stroke-dasharray="5,2" d="M308.99,-66.74C290.98,-70.66 270.94,-75.03 252.25,-79.1"/>
+<polygon fill="#00ff91" stroke="#00ff91" points="251.62,-75.66 242.6,-81.21 253.11,-82.5 251.62,-75.66"/>
 </g>
 <!-- module~hyperparameters_m&#45;&gt;julienne_string_m -->
-<g id="module~~training_configuration_m~~UsesGraph_edge8" class="edge">
+<g id="module~~training_configuration_m~~UsesGraph_edge12" class="edge">
 <title>module~hyperparameters_m&#45;&gt;julienne_string_m</title>
-<path fill="none" stroke="#00ffff" stroke-dasharray="5,2" d="M166.11,-87.05C152.02,-88.75 136.95,-90.57 122.71,-92.28"/>
-<polygon fill="#00ffff" stroke="#00ffff" points="122.51,-88.78 113,-93.45 123.35,-95.73 122.51,-88.78"/>
+<path fill="none" stroke="#0091ff" stroke-dasharray="5,2" d="M307.22,-137.49C287.79,-137.27 266.17,-137.04 246.49,-136.82"/>
+<polygon fill="#0091ff" stroke="#0091ff" points="246.71,-133.33 236.67,-136.72 246.63,-140.33 246.71,-133.33"/>
 </g>
 <!-- module~hyperparameters_m&#45;&gt;module~kind_parameters_m -->
-<g id="module~~training_configuration_m~~UsesGraph_edge9" class="edge">
+<g id="module~~training_configuration_m~~UsesGraph_edge14" class="edge">
 <title>module~hyperparameters_m&#45;&gt;module~kind_parameters_m</title>
-<path fill="none" stroke="#00ffff" stroke-dasharray="5,2" d="M175.76,-67.28C158.37,-62.88 138.65,-57.89 120.47,-53.29"/>
-<polygon fill="#00ffff" stroke="#00ffff" points="121.39,-49.91 110.84,-50.85 119.68,-56.7 121.39,-49.91"/>
+<path fill="none" stroke="#0091ff" stroke-dasharray="5,2" d="M308.99,-150.74C290.98,-154.66 270.94,-159.03 252.25,-163.1"/>
+<polygon fill="#0091ff" stroke="#0091ff" points="251.62,-159.66 242.6,-165.21 253.11,-166.5 251.62,-159.66"/>
+</g>
+<!-- module~hyperparameters_m&#45;&gt;module~double_precision_string_m -->
+<g id="module~~training_configuration_m~~UsesGraph_edge13" class="edge">
+<title>module~hyperparameters_m&#45;&gt;module~double_precision_string_m</title>
+<path fill="none" stroke="#0091ff" stroke-dasharray="5,2" d="M314.21,-125.53C293.19,-120.49 268.79,-114.64 246.79,-109.36"/>
+<polygon fill="#0091ff" stroke="#0091ff" points="247.89,-106.03 237.35,-107.1 246.26,-112.83 247.89,-106.03"/>
 </g>
 <!-- module~network_configuration_m&#45;&gt;julienne_string_m -->
-<g id="module~~training_configuration_m~~UsesGraph_edge10" class="edge">
+<g id="module~~training_configuration_m~~UsesGraph_edge15" class="edge">
 <title>module~network_configuration_m&#45;&gt;julienne_string_m</title>
-<path fill="none" stroke="#ff00ff" stroke-dasharray="5,2" d="M190.61,-147.34C178.75,-143.08 165.43,-138.28 153.27,-133.89 137.56,-128.21 120.38,-121.98 105.08,-116.42"/>
-<polygon fill="#ff00ff" stroke="#ff00ff" points="106.33,-113.15 95.73,-113.02 103.94,-119.73 106.33,-113.15"/>
+<path fill="none" stroke="#ff00da" stroke-dasharray="5,2" d="M308.99,-108.74C289.04,-113.08 266.6,-117.97 246.26,-122.41"/>
+<polygon fill="#ff00da" stroke="#ff00da" points="245.71,-118.94 236.69,-124.49 247.2,-125.78 245.71,-118.94"/>
 </g>
-<!-- module~activation_strategy_m&#45;&gt;julienne_string_m -->
-<g id="module~~training_configuration_m~~UsesGraph_edge11" class="edge">
-<title>module~activation_strategy_m&#45;&gt;julienne_string_m</title>
-<path fill="none" stroke="#ff0000" stroke-dasharray="5,2" d="M178.98,-50.45C170.37,-53.04 161.5,-55.9 153.27,-58.89 134.07,-65.85 113.2,-74.84 96.05,-82.63"/>
-<polygon fill="#ff0000" stroke="#ff0000" points="94.9,-79.3 87.28,-86.66 97.82,-85.66 94.9,-79.3"/>
+<!-- module~network_configuration_m&#45;&gt;module~double_precision_string_m -->
+<g id="module~~training_configuration_m~~UsesGraph_edge16" class="edge">
+<title>module~network_configuration_m&#45;&gt;module~double_precision_string_m</title>
+<path fill="none" stroke="#ff00da" stroke-dasharray="5,2" d="M294.27,-95.34C286.37,-95.26 278.27,-95.17 270.22,-95.08"/>
+<polygon fill="#ff00da" stroke="#ff00da" points="270.45,-91.58 260.41,-94.98 270.38,-98.58 270.45,-91.58"/>
 </g>
-<!-- module~activation_strategy_m&#45;&gt;module~kind_parameters_m -->
-<g id="module~~training_configuration_m~~UsesGraph_edge12" class="edge">
-<title>module~activation_strategy_m&#45;&gt;module~kind_parameters_m</title>
-<path fill="none" stroke="#ff0000" stroke-dasharray="5,2" d="M161.87,-37.89C151.08,-37.89 139.84,-37.89 128.92,-37.89"/>
-<polygon fill="#ff0000" stroke="#ff0000" points="129.21,-34.39 119.21,-37.89 129.21,-41.39 129.21,-34.39"/>
+<!-- module~double_precision_string_m&#45;&gt;julienne_m -->
+<g id="module~~training_configuration_m~~UsesGraph_edge17" class="edge">
+<title>module~double_precision_string_m&#45;&gt;julienne_m</title>
+<path fill="none" stroke="#0000ff" stroke-dasharray="5,2" d="M105.67,-83.72C97.43,-82.59 89.24,-81.46 81.52,-80.4"/>
+<polygon fill="#0000ff" stroke="#0000ff" points="82.12,-76.95 71.74,-79.05 81.17,-83.89 82.12,-76.95"/>
 </g>
 </g>
 </svg>
-</div>                <script>
-                  var panmoduletraining_configuration_mUsesGraph = svgPanZoom('#moduletraining_configuration_mUsesGraph',
-                    {zoomEnabled: true, controlIconsEnabled: true, fit: true, center: true,}
-                  );
-                </script>          <div>
+</div>          <div>
             <a type="button" class="graph-help" data-bs-toggle="modal" href="#UsesGraph-help-text">Help</a>
           </div>
           <div class="modal fade" id="UsesGraph-help-text" tabindex="-1" role="dialog">
@@ -430,379 +486,337 @@ large graphs.</div>
 <!-- Generated by graphviz version 12.1.2 (20240928.0832)
  -->
 <!-- Title: module~~training_configuration_m~~UsedByGraph Pages: 1 -->
-<svg id="moduletraining_configuration_mUsedByGraph" width="641pt" height="531pt"
- viewBox="0.00 0.00 641.00 531.48" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
-<g id="module~~training_configuration_m~~UsedByGraph" class="graph" transform="scale(0.735851 0.735851) rotate(0) translate(4 718.27)">
+<svg id="moduletraining_configuration_mUsedByGraph" width="641pt" height="439pt"
+ viewBox="0.00 0.00 641.00 439.27" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+<g id="module~~training_configuration_m~~UsedByGraph" class="graph" transform="scale(0.726469 0.726469) rotate(0) translate(4 600.66)">
 <title>module~~training_configuration_m~~UsedByGraph</title>
-<polygon fill="white" stroke="none" points="-4,4 -4,-718.27 867.1,-718.27 867.1,4 -4,4"/>
+<polygon fill="white" stroke="none" points="-4,4 -4,-600.66 878.35,-600.66 878.35,4 -4,4"/>
 <!-- module~training_configuration_m -->
 <g id="module~~training_configuration_m~~UsedByGraph_node1" class="node">
 <title>module~training_configuration_m</title>
-<polygon fill="none" stroke="black" points="145.02,-436.27 0,-436.27 0,-412 145.02,-412 145.02,-436.27"/>
-<text text-anchor="middle" x="72.51" y="-420.53" font-family="Helvetica,sans-Serif" font-size="10.50">training_configuration_m</text>
+<polygon fill="none" stroke="black" points="145.02,-314.27 0,-314.27 0,-290 145.02,-290 145.02,-314.27"/>
+<text text-anchor="middle" x="72.51" y="-298.53" font-family="Helvetica,sans-Serif" font-size="10.50">training_configuration_m</text>
 </g>
-<!-- module~inference_engine_m -->
+<!-- module~fiats_m -->
 <g id="module~~training_configuration_m~~UsedByGraph_node2" class="node">
-<title>module~inference_engine_m</title>
-<g id="a_module~~training_configuration_m~~UsedByGraph_node2"><a xlink:href="../module/inference_engine_m.html" xlink:title="inference_engine_m">
-<polygon fill="#337ab7" stroke="#337ab7" points="453.81,-394.27 334.29,-394.27 334.29,-370 453.81,-370 453.81,-394.27"/>
-<text text-anchor="middle" x="394.05" y="-378.53" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">inference_engine_m</text>
+<title>module~fiats_m</title>
+<g id="a_module~~training_configuration_m~~UsedByGraph_node2"><a xlink:href="../module/fiats_m.html" xlink:title="fiats_m">
+<polygon fill="#337ab7" stroke="#337ab7" points="442.8,-314.27 388.8,-314.27 388.8,-290 442.8,-290 442.8,-314.27"/>
+<text text-anchor="middle" x="415.8" y="-298.53" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">fiats_m</text>
 </a>
 </g>
 </g>
-<!-- module~inference_engine_m&#45;&gt;module~training_configuration_m -->
+<!-- module~fiats_m&#45;&gt;module~training_configuration_m -->
 <g id="module~~training_configuration_m~~UsedByGraph_edge1" class="edge">
-<title>module~inference_engine_m&#45;&gt;module~training_configuration_m</title>
-<path fill="none" stroke="#ff0000" stroke-dasharray="5,2" d="M333.92,-386.49C291.29,-390 232.44,-395.58 181.02,-403.13 168.99,-404.9 156.27,-407.1 143.94,-409.39"/>
-<polygon fill="#ff0000" stroke="#ff0000" points="143.42,-405.93 134.25,-411.24 144.73,-412.8 143.42,-405.93"/>
+<title>module~fiats_m&#45;&gt;module~training_configuration_m</title>
+<path fill="none" stroke="#ff0000" stroke-dasharray="5,2" d="M388.3,-302.13C339.22,-302.13 232.27,-302.13 156.69,-302.13"/>
+<polygon fill="#ff0000" stroke="#ff0000" points="156.83,-298.64 146.83,-302.14 156.83,-305.64 156.83,-298.64"/>
 </g>
-<!-- module~trainable_engine_m -->
+<!-- module~trainable_network_m -->
 <g id="module~~training_configuration_m~~UsedByGraph_node3" class="node">
-<title>module~trainable_engine_m</title>
-<g id="a_module~~training_configuration_m~~UsedByGraph_node3"><a xlink:href="../module/trainable_engine_m.html" xlink:title="trainable_engine_m">
-<polygon fill="#337ab7" stroke="#337ab7" points="298.29,-436.27 181.02,-436.27 181.02,-412 298.29,-412 298.29,-436.27"/>
-<text text-anchor="middle" x="239.66" y="-420.53" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">trainable_engine_m</text>
+<title>module~trainable_network_m</title>
+<g id="a_module~~training_configuration_m~~UsedByGraph_node3"><a xlink:href="../module/trainable_network_m.html" xlink:title="trainable_network_m">
+<polygon fill="#337ab7" stroke="#337ab7" points="312.54,-354.27 189.27,-354.27 189.27,-330 312.54,-330 312.54,-354.27"/>
+<text text-anchor="middle" x="250.91" y="-338.53" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">trainable_network_m</text>
 </a>
 </g>
 </g>
-<!-- module~inference_engine_m&#45;&gt;module~trainable_engine_m -->
-<g id="module~~training_configuration_m~~UsedByGraph_edge22" class="edge">
-<title>module~inference_engine_m&#45;&gt;module~trainable_engine_m</title>
-<path fill="none" stroke="#00ff00" stroke-dasharray="5,2" d="M347.33,-394.74C331.5,-399.1 313.58,-404.04 297.01,-408.6"/>
-<polygon fill="#00ff00" stroke="#00ff00" points="296.52,-405.11 287.81,-411.14 298.38,-411.86 296.52,-405.11"/>
+<!-- module~fiats_m&#45;&gt;module~trainable_network_m -->
+<g id="module~~training_configuration_m~~UsedByGraph_edge19" class="edge">
+<title>module~fiats_m&#45;&gt;module~trainable_network_m</title>
+<path fill="none" stroke="#00ff00" stroke-dasharray="5,2" d="M388.63,-308.56C368.56,-313.49 340.02,-320.5 314.2,-326.84"/>
+<polygon fill="#00ff00" stroke="#00ff00" points="313.68,-323.36 304.8,-329.15 315.35,-330.16 313.68,-323.36"/>
 </g>
-<!-- module~trainable_engine_m&#45;&gt;module~training_configuration_m -->
+<!-- module~trainable_network_m&#45;&gt;module~training_configuration_m -->
 <g id="module~~training_configuration_m~~UsedByGraph_edge2" class="edge">
-<title>module~trainable_engine_m&#45;&gt;module~training_configuration_m</title>
-<path fill="none" stroke="#ff0000" stroke-dasharray="5,2" d="M180.9,-424.13C173.12,-424.13 165.02,-424.13 156.91,-424.13"/>
-<polygon fill="#ff0000" stroke="#ff0000" points="156.98,-420.64 146.98,-424.14 156.98,-427.64 156.98,-420.64"/>
+<title>module~trainable_network_m&#45;&gt;module~training_configuration_m</title>
+<path fill="none" stroke="#ff0000" stroke-dasharray="5,2" d="M194.58,-329.59C177.26,-325.66 157.96,-321.29 139.96,-317.2"/>
+<polygon fill="#ff0000" stroke="#ff0000" points="140.95,-313.84 130.42,-315.04 139.4,-320.67 140.95,-313.84"/>
 </g>
 <!-- module~training_configuration_s -->
 <g id="module~~training_configuration_m~~UsedByGraph_node4" class="node">
 <title>module~training_configuration_s</title>
 <g id="a_module~~training_configuration_m~~UsedByGraph_node4"><a xlink:href="../module/training_configuration_s.html" xlink:title="training_configuration_s">
-<polygon fill="#5bc0de" stroke="#5bc0de" points="639.33,-714.27 499.56,-714.27 499.56,-690 639.33,-690 639.33,-714.27"/>
-<text text-anchor="middle" x="569.45" y="-698.53" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">training_configuration_s</text>
+<polygon fill="#5bc0de" stroke="#5bc0de" points="320.79,-274.27 181.02,-274.27 181.02,-250 320.79,-250 320.79,-274.27"/>
+<text text-anchor="middle" x="250.91" y="-258.53" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">training_configuration_s</text>
 </a>
 </g>
 </g>
 <!-- module~training_configuration_s&#45;&gt;module~training_configuration_m -->
 <g id="module~~training_configuration_m~~UsedByGraph_edge3" class="edge">
 <title>module~training_configuration_s&#45;&gt;module~training_configuration_m</title>
-<path fill="none" stroke="#ff0000" d="M528.22,-689.54C515.7,-685.16 502,-679.89 489.81,-674.13 335.74,-601.33 165.45,-487.65 100.59,-443.02"/>
-<polygon fill="#ff0000" stroke="#ff0000" points="102.92,-440.37 92.7,-437.57 98.94,-446.13 102.92,-440.37"/>
-</g>
-<!-- module~training_configuration_s&#45;&gt;module~inference_engine_m -->
-<g id="module~~training_configuration_m~~UsedByGraph_edge10" class="edge">
-<title>module~training_configuration_s&#45;&gt;module~inference_engine_m</title>
-<path fill="none" stroke="#ff0000" stroke-dasharray="5,2" d="M506.92,-689.69C500.42,-686.22 494.49,-681.78 489.81,-676.13 411.79,-581.85 530.7,-498.35 453.81,-403.13 453.56,-402.83 453.31,-402.52 453.05,-402.22"/>
-<polygon fill="#ff0000" stroke="#ff0000" points="455.4,-399.63 445.56,-395.73 450.82,-404.92 455.4,-399.63"/>
+<path fill="none" stroke="#ff0000" d="M194.58,-274.68C177.26,-278.61 157.96,-282.98 139.96,-287.07"/>
+<polygon fill="#ff0000" stroke="#ff0000" points="139.4,-283.6 130.42,-289.23 140.95,-290.43 139.4,-283.6"/>
 </g>
 <!-- module~addition_m -->
 <g id="module~~training_configuration_m~~UsedByGraph_node5" class="node">
 <title>module~addition_m</title>
 <g id="a_module~~training_configuration_m~~UsedByGraph_node5"><a xlink:href="../module/addition_m.html" xlink:title="addition_m">
-<polygon fill="#337ab7" stroke="#337ab7" points="604.83,-634.27 534.06,-634.27 534.06,-610 604.83,-610 604.83,-634.27"/>
-<text text-anchor="middle" x="569.45" y="-618.53" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">addition_m</text>
+<polygon fill="#337ab7" stroke="#337ab7" points="625.83,-554.27 555.06,-554.27 555.06,-530 625.83,-530 625.83,-554.27"/>
+<text text-anchor="middle" x="590.45" y="-538.53" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">addition_m</text>
 </a>
 </g>
 </g>
-<!-- module~addition_m&#45;&gt;module~inference_engine_m -->
+<!-- module~addition_m&#45;&gt;module~fiats_m -->
 <g id="module~~training_configuration_m~~UsedByGraph_edge4" class="edge">
-<title>module~addition_m&#45;&gt;module~inference_engine_m</title>
-<path fill="none" stroke="#ff0000" stroke-dasharray="5,2" d="M533.86,-618.67C518.25,-615.33 500.88,-608.81 489.81,-596.13 432.41,-530.42 510.42,-469.54 453.81,-403.13 453.46,-402.72 453.1,-402.32 452.73,-401.92"/>
-<polygon fill="#ff0000" stroke="#ff0000" points="455.07,-399.31 445.12,-395.67 450.63,-404.73 455.07,-399.31"/>
+<title>module~addition_m&#45;&gt;module~fiats_m</title>
+<path fill="none" stroke="#ff0000" stroke-dasharray="5,2" d="M554.86,-538.67C539.25,-535.33 521.88,-528.81 510.81,-516.13 453.41,-450.42 531.29,-389.65 474.81,-323.13 469.38,-316.74 461.83,-312.29 453.98,-309.19"/>
+<polygon fill="#ff0000" stroke="#ff0000" points="455.28,-305.93 444.69,-306.22 453.15,-312.6 455.28,-305.93"/>
 </g>
 <!-- module~exponentiation_m -->
 <g id="module~~training_configuration_m~~UsedByGraph_node6" class="node">
 <title>module~exponentiation_m</title>
 <g id="a_module~~training_configuration_m~~UsedByGraph_node6"><a xlink:href="../module/exponentiation_m.html" xlink:title="exponentiation_m">
-<polygon fill="#337ab7" stroke="#337ab7" points="622.83,-554.27 516.06,-554.27 516.06,-530 622.83,-530 622.83,-554.27"/>
-<text text-anchor="middle" x="569.45" y="-538.53" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">exponentiation_m</text>
+<polygon fill="#337ab7" stroke="#337ab7" points="643.83,-474.27 537.06,-474.27 537.06,-450 643.83,-450 643.83,-474.27"/>
+<text text-anchor="middle" x="590.45" y="-458.53" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">exponentiation_m</text>
 </a>
 </g>
 </g>
-<!-- module~exponentiation_m&#45;&gt;module~inference_engine_m -->
+<!-- module~exponentiation_m&#45;&gt;module~fiats_m -->
 <g id="module~~training_configuration_m~~UsedByGraph_edge5" class="edge">
-<title>module~exponentiation_m&#45;&gt;module~inference_engine_m</title>
-<path fill="none" stroke="#ff0000" stroke-dasharray="5,2" d="M515.85,-532.4C506.23,-528.63 496.99,-523.39 489.81,-516.13 452.74,-478.66 490.43,-441.05 453.81,-403.13 453.22,-402.52 452.61,-401.93 451.98,-401.35"/>
-<polygon fill="#ff0000" stroke="#ff0000" points="454.32,-398.73 444.18,-395.66 450.19,-404.38 454.32,-398.73"/>
+<title>module~exponentiation_m&#45;&gt;module~fiats_m</title>
+<path fill="none" stroke="#ff0000" stroke-dasharray="5,2" d="M536.85,-452.4C527.23,-448.63 517.99,-443.39 510.81,-436.13 473.74,-398.66 511.35,-361.12 474.81,-323.13 469.11,-317.21 461.6,-312.94 453.9,-309.88"/>
+<polygon fill="#ff0000" stroke="#ff0000" points="455.06,-306.58 444.46,-306.78 452.87,-313.23 455.06,-306.58"/>
 </g>
 <!-- module~multiply_inputs -->
 <g id="module~~training_configuration_m~~UsedByGraph_node7" class="node">
 <title>module~multiply_inputs</title>
 <g id="a_module~~training_configuration_m~~UsedByGraph_node7"><a xlink:href="../module/multiply_inputs.html" xlink:title="multiply_inputs">
-<polygon fill="#337ab7" stroke="#337ab7" points="615.33,-474.27 523.56,-474.27 523.56,-450 615.33,-450 615.33,-474.27"/>
-<text text-anchor="middle" x="569.45" y="-458.53" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">multiply_inputs</text>
+<polygon fill="#337ab7" stroke="#337ab7" points="636.33,-394.27 544.56,-394.27 544.56,-370 636.33,-370 636.33,-394.27"/>
+<text text-anchor="middle" x="590.45" y="-378.53" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">multiply_inputs</text>
 </a>
 </g>
 </g>
-<!-- module~multiply_inputs&#45;&gt;module~inference_engine_m -->
+<!-- module~multiply_inputs&#45;&gt;module~fiats_m -->
 <g id="module~~training_configuration_m~~UsedByGraph_edge6" class="edge">
-<title>module~multiply_inputs&#45;&gt;module~inference_engine_m</title>
-<path fill="none" stroke="#ff0000" stroke-dasharray="5,2" d="M523.35,-450.84C511.99,-447.03 500.1,-442.17 489.81,-436.13 471.09,-425.15 472.4,-414.34 453.81,-403.13 451.66,-401.84 449.42,-400.61 447.12,-399.44"/>
-<polygon fill="#ff0000" stroke="#ff0000" points="448.71,-396.31 438.16,-395.33 445.79,-402.67 448.71,-396.31"/>
+<title>module~multiply_inputs&#45;&gt;module~fiats_m</title>
+<path fill="none" stroke="#ff0000" stroke-dasharray="5,2" d="M544.35,-370.84C532.99,-367.03 521.1,-362.17 510.81,-356.13 492.09,-345.15 493.37,-334.38 474.81,-323.13 468.36,-319.23 461.07,-315.88 453.89,-313.08"/>
+<polygon fill="#ff0000" stroke="#ff0000" points="455.23,-309.84 444.63,-309.77 452.87,-316.43 455.23,-309.84"/>
 </g>
 <!-- module~power_series -->
 <g id="module~~training_configuration_m~~UsedByGraph_node8" class="node">
 <title>module~power_series</title>
 <g id="a_module~~training_configuration_m~~UsedByGraph_node8"><a xlink:href="../module/power_series.html" xlink:title="power_series">
-<polygon fill="#337ab7" stroke="#337ab7" points="610.08,-394.27 528.81,-394.27 528.81,-370 610.08,-370 610.08,-394.27"/>
-<text text-anchor="middle" x="569.45" y="-378.53" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">power_series</text>
+<polygon fill="#337ab7" stroke="#337ab7" points="631.08,-314.27 549.81,-314.27 549.81,-290 631.08,-290 631.08,-314.27"/>
+<text text-anchor="middle" x="590.45" y="-298.53" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">power_series</text>
 </a>
 </g>
 </g>
-<!-- module~power_series&#45;&gt;module~inference_engine_m -->
+<!-- module~power_series&#45;&gt;module~fiats_m -->
 <g id="module~~training_configuration_m~~UsedByGraph_edge7" class="edge">
-<title>module~power_series&#45;&gt;module~inference_engine_m</title>
-<path fill="none" stroke="#ff0000" stroke-dasharray="5,2" d="M528.66,-382.13C509.93,-382.13 487.02,-382.13 465.5,-382.13"/>
-<polygon fill="#ff0000" stroke="#ff0000" points="465.57,-378.64 455.57,-382.14 465.57,-385.64 465.57,-378.64"/>
+<title>module~power_series&#45;&gt;module~fiats_m</title>
+<path fill="none" stroke="#ff0000" stroke-dasharray="5,2" d="M549.4,-302.13C520.81,-302.13 482.61,-302.13 454.55,-302.13"/>
+<polygon fill="#ff0000" stroke="#ff0000" points="454.72,-298.64 444.72,-302.14 454.72,-305.64 454.72,-298.64"/>
 </g>
 <!-- module~saturated_mixing_ratio_m -->
 <g id="module~~training_configuration_m~~UsedByGraph_node9" class="node">
 <title>module~saturated_mixing_ratio_m</title>
 <g id="a_module~~training_configuration_m~~UsedByGraph_node9"><a xlink:href="../module/saturated_mixing_ratio_m.html" xlink:title="saturated_mixing_ratio_m">
-<polygon fill="#337ab7" stroke="#337ab7" points="644.21,-314.27 494.69,-314.27 494.69,-290 644.21,-290 644.21,-314.27"/>
-<text text-anchor="middle" x="569.45" y="-298.53" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">saturated_mixing_ratio_m</text>
+<polygon fill="#337ab7" stroke="#337ab7" points="665.21,-234.27 515.69,-234.27 515.69,-210 665.21,-210 665.21,-234.27"/>
+<text text-anchor="middle" x="590.45" y="-218.53" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">saturated_mixing_ratio_m</text>
 </a>
 </g>
 </g>
-<!-- module~saturated_mixing_ratio_m&#45;&gt;module~inference_engine_m -->
+<!-- module~saturated_mixing_ratio_m&#45;&gt;module~fiats_m -->
 <g id="module~~training_configuration_m~~UsedByGraph_edge8" class="edge">
-<title>module~saturated_mixing_ratio_m&#45;&gt;module~inference_engine_m</title>
-<path fill="none" stroke="#ff0000" stroke-dasharray="5,2" d="M525.42,-314.65C513.69,-318.52 501.11,-323.11 489.81,-328.13 467,-338.28 442.55,-352.3 424.2,-363.52"/>
-<polygon fill="#ff0000" stroke="#ff0000" points="422.36,-360.54 415.7,-368.78 426.05,-366.49 422.36,-360.54"/>
+<title>module~saturated_mixing_ratio_m&#45;&gt;module~fiats_m</title>
+<path fill="none" stroke="#ff0000" stroke-dasharray="5,2" d="M546,-234.76C534.39,-238.61 521.97,-243.15 510.81,-248.13 488.15,-258.26 463.9,-272.28 445.7,-283.5"/>
+<polygon fill="#ff0000" stroke="#ff0000" points="443.91,-280.49 437.28,-288.76 447.62,-286.43 443.91,-280.49"/>
 </g>
-<!-- module~thompson_tensors_m -->
+<!-- module~trainable_network_s -->
 <g id="module~~training_configuration_m~~UsedByGraph_node10" class="node">
-<title>module~thompson_tensors_m</title>
-<g id="a_module~~training_configuration_m~~UsedByGraph_node10"><a xlink:href="../module/thompson_tensors_m.html" xlink:title="thompson_tensors_m">
-<polygon fill="#337ab7" stroke="#337ab7" points="631.83,-234.27 507.06,-234.27 507.06,-210 631.83,-210 631.83,-234.27"/>
-<text text-anchor="middle" x="569.45" y="-218.53" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">thompson_tensors_m</text>
+<title>module~trainable_network_s</title>
+<g id="a_module~~training_configuration_m~~UsedByGraph_node10"><a xlink:href="../module/trainable_network_s.html" xlink:title="trainable_network_s">
+<polygon fill="#5bc0de" stroke="#5bc0de" points="474.81,-356.27 356.79,-356.27 356.79,-332 474.81,-332 474.81,-356.27"/>
+<text text-anchor="middle" x="415.8" y="-340.53" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">trainable_network_s</text>
 </a>
 </g>
 </g>
-<!-- module~thompson_tensors_m&#45;&gt;module~inference_engine_m -->
-<g id="module~~training_configuration_m~~UsedByGraph_edge9" class="edge">
-<title>module~thompson_tensors_m&#45;&gt;module~inference_engine_m</title>
-<path fill="none" stroke="#ff0000" stroke-dasharray="5,2" d="M514.99,-234.67C506.09,-238.16 497.32,-242.57 489.81,-248.13 449.6,-277.9 419.98,-329.87 405.33,-359.58"/>
-<polygon fill="#ff0000" stroke="#ff0000" points="402.26,-357.89 401.11,-368.42 408.57,-360.9 402.26,-357.89"/>
-</g>
-<!-- module~trainable_engine_s -->
-<g id="module~~training_configuration_m~~UsedByGraph_node11" class="node">
-<title>module~trainable_engine_s</title>
-<g id="a_module~~training_configuration_m~~UsedByGraph_node11"><a xlink:href="../module/trainable_engine_s.html" xlink:title="trainable_engine_s">
-<polygon fill="#5bc0de" stroke="#5bc0de" points="450.06,-436.27 338.04,-436.27 338.04,-412 450.06,-412 450.06,-436.27"/>
-<text text-anchor="middle" x="394.05" y="-420.53" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">trainable_engine_s</text>
-</a>
-</g>
-</g>
-<!-- module~trainable_engine_s&#45;&gt;module~trainable_engine_m -->
-<g id="module~~training_configuration_m~~UsedByGraph_edge23" class="edge">
-<title>module~trainable_engine_s&#45;&gt;module~trainable_engine_m</title>
-<path fill="none" stroke="#00ff00" d="M337.6,-424.13C328.59,-424.13 319.15,-424.13 309.86,-424.13"/>
-<polygon fill="#00ff00" stroke="#00ff00" points="310.14,-420.64 300.14,-424.14 310.14,-427.64 310.14,-420.64"/>
+<!-- module~trainable_network_s&#45;&gt;module~trainable_network_m -->
+<g id="module~~training_configuration_m~~UsedByGraph_edge20" class="edge">
+<title>module~trainable_network_s&#45;&gt;module~trainable_network_m</title>
+<path fill="none" stroke="#00ff00" d="M356.45,-343.42C345.95,-343.29 334.89,-343.15 324.05,-343.02"/>
+<polygon fill="#00ff00" stroke="#00ff00" points="324.43,-339.53 314.38,-342.9 324.34,-346.52 324.43,-339.53"/>
 </g>
 <!-- program~concurrent_inferences -->
-<g id="module~~training_configuration_m~~UsedByGraph_node12" class="node">
+<g id="module~~training_configuration_m~~UsedByGraph_node11" class="node">
 <title>program~concurrent_inferences</title>
-<g id="a_module~~training_configuration_m~~UsedByGraph_node12"><a xlink:href="../program/concurrent_inferences.html" xlink:title="concurrent_inferences">
-<polygon fill="#f0ad4e" stroke="#f0ad4e" points="634.46,-192.27 504.44,-192.27 504.44,-168 634.46,-168 634.46,-192.27"/>
-<text text-anchor="middle" x="569.45" y="-176.53" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">concurrent_inferences</text>
+<g id="a_module~~training_configuration_m~~UsedByGraph_node11"><a xlink:href="../program/concurrent_inferences.html" xlink:title="concurrent_inferences">
+<polygon fill="#f0ad4e" stroke="#f0ad4e" points="655.46,-192.27 525.44,-192.27 525.44,-168 655.46,-168 655.46,-192.27"/>
+<text text-anchor="middle" x="590.45" y="-176.53" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">concurrent_inferences</text>
 </a>
 </g>
 </g>
-<!-- program~concurrent_inferences&#45;&gt;module~inference_engine_m -->
-<g id="module~~training_configuration_m~~UsedByGraph_edge11" class="edge">
-<title>program~concurrent_inferences&#45;&gt;module~inference_engine_m</title>
-<path fill="none" stroke="#ff0000" stroke-dasharray="5,2" d="M504,-192.4C498.93,-194.81 494.11,-197.69 489.81,-201.13 437.96,-242.61 411.27,-320.21 400.67,-358.92"/>
-<polygon fill="#ff0000" stroke="#ff0000" points="397.35,-357.8 398.22,-368.36 404.12,-359.56 397.35,-357.8"/>
+<!-- program~concurrent_inferences&#45;&gt;module~fiats_m -->
+<g id="module~~training_configuration_m~~UsedByGraph_edge9" class="edge">
+<title>program~concurrent_inferences&#45;&gt;module~fiats_m</title>
+<path fill="none" stroke="#ff0000" stroke-dasharray="5,2" d="M528.35,-192.74C522.22,-195.09 516.26,-197.86 510.81,-201.13 477.01,-221.45 447.8,-257.41 431.26,-280.49"/>
+<polygon fill="#ff0000" stroke="#ff0000" points="428.48,-278.35 425.64,-288.55 434.23,-282.35 428.48,-278.35"/>
 </g>
 <!-- program~learn_addition -->
-<g id="module~~training_configuration_m~~UsedByGraph_node13" class="node">
+<g id="module~~training_configuration_m~~UsedByGraph_node12" class="node">
 <title>program~learn_addition</title>
-<g id="a_module~~training_configuration_m~~UsedByGraph_node13"><a xlink:href="../program/learn_addition.html" xlink:title="learn_addition">
-<polygon fill="#f0ad4e" stroke="#f0ad4e" points="818.1,-644.27 730.08,-644.27 730.08,-620 818.1,-620 818.1,-644.27"/>
-<text text-anchor="middle" x="774.09" y="-628.53" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">learn_addition</text>
+<g id="a_module~~training_configuration_m~~UsedByGraph_node12"><a xlink:href="../program/learn_addition.html" xlink:title="learn_addition">
+<polygon fill="#f0ad4e" stroke="#f0ad4e" points="834.23,-564.27 746.21,-564.27 746.21,-540 834.23,-540 834.23,-564.27"/>
+<text text-anchor="middle" x="790.22" y="-548.53" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">learn_addition</text>
 </a>
 </g>
 </g>
-<!-- program~learn_addition&#45;&gt;module~inference_engine_m -->
-<g id="module~~training_configuration_m~~UsedByGraph_edge12" class="edge">
-<title>program~learn_addition&#45;&gt;module~inference_engine_m</title>
-<path fill="none" stroke="#ff0000" stroke-dasharray="5,2" d="M744.02,-644.72C687.54,-667 562.16,-705.44 489.81,-643.13 408.08,-572.75 522.32,-486.44 453.81,-403.13 453.47,-402.72 453.11,-402.31 452.75,-401.9"/>
-<polygon fill="#ff0000" stroke="#ff0000" points="455.14,-399.34 445.23,-395.58 450.64,-404.7 455.14,-399.34"/>
+<!-- program~learn_addition&#45;&gt;module~fiats_m -->
+<g id="module~~training_configuration_m~~UsedByGraph_edge10" class="edge">
+<title>program~learn_addition&#45;&gt;module~fiats_m</title>
+<path fill="none" stroke="#ff0000" stroke-dasharray="5,2" d="M760.22,-564.7C704.5,-586.67 581.73,-624.21 510.81,-563.13 429.08,-492.75 543.15,-406.58 474.81,-323.13 469.44,-316.58 461.86,-312.08 453.94,-308.97"/>
+<polygon fill="#ff0000" stroke="#ff0000" points="455.14,-305.68 444.55,-306.01 453.03,-312.36 455.14,-305.68"/>
 </g>
 <!-- program~learn_addition&#45;&gt;module~addition_m -->
-<g id="module~~training_configuration_m~~UsedByGraph_edge24" class="edge">
+<g id="module~~training_configuration_m~~UsedByGraph_edge21" class="edge">
 <title>program~learn_addition&#45;&gt;module~addition_m</title>
-<path fill="none" stroke="#ff0000" stroke-dasharray="5,2" d="M729.62,-629.99C696.33,-628.35 650.51,-626.09 616.58,-624.41"/>
-<polygon fill="#ff0000" stroke="#ff0000" points="616.78,-620.92 606.62,-623.92 616.44,-627.91 616.78,-620.92"/>
+<path fill="none" stroke="#ff0000" stroke-dasharray="5,2" d="M745.81,-549.94C713.67,-548.32 669.97,-546.11 637.27,-544.45"/>
+<polygon fill="#ff0000" stroke="#ff0000" points="637.87,-540.98 627.71,-543.97 637.52,-547.97 637.87,-540.98"/>
 </g>
 <!-- program~learn_exponentiation -->
-<g id="module~~training_configuration_m~~UsedByGraph_node14" class="node">
+<g id="module~~training_configuration_m~~UsedByGraph_node13" class="node">
 <title>program~learn_exponentiation</title>
-<g id="a_module~~training_configuration_m~~UsedByGraph_node14"><a xlink:href="../program/learn_exponentiation.html" xlink:title="learn_exponentiation">
-<polygon fill="#f0ad4e" stroke="#f0ad4e" points="836.1,-583.27 712.08,-583.27 712.08,-559 836.1,-559 836.1,-583.27"/>
-<text text-anchor="middle" x="774.09" y="-567.53" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">learn_exponentiation</text>
+<g id="a_module~~training_configuration_m~~UsedByGraph_node13"><a xlink:href="../program/learn_exponentiation.html" xlink:title="learn_exponentiation">
+<polygon fill="#f0ad4e" stroke="#f0ad4e" points="852.23,-503.27 728.21,-503.27 728.21,-479 852.23,-479 852.23,-503.27"/>
+<text text-anchor="middle" x="790.22" y="-487.53" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">learn_exponentiation</text>
 </a>
 </g>
 </g>
-<!-- program~learn_exponentiation&#45;&gt;module~inference_engine_m -->
-<g id="module~~training_configuration_m~~UsedByGraph_edge13" class="edge">
-<title>program~learn_exponentiation&#45;&gt;module~inference_engine_m</title>
-<path fill="none" stroke="#ff0000" stroke-dasharray="5,2" d="M733.59,-583.65C673.58,-599.97 559.13,-620.21 489.81,-563.13 433.54,-516.8 502.11,-457.72 453.81,-403.13 453.35,-402.62 452.88,-402.11 452.39,-401.61"/>
-<polygon fill="#ff0000" stroke="#ff0000" points="454.76,-399.02 444.73,-395.59 450.43,-404.52 454.76,-399.02"/>
+<!-- program~learn_exponentiation&#45;&gt;module~fiats_m -->
+<g id="module~~training_configuration_m~~UsedByGraph_edge11" class="edge">
+<title>program~learn_exponentiation&#45;&gt;module~fiats_m</title>
+<path fill="none" stroke="#ff0000" stroke-dasharray="5,2" d="M749.41,-503.67C690.18,-519.64 578.55,-538.94 510.81,-483.13 454.55,-436.79 523,-377.82 474.81,-323.13 469.26,-316.84 461.67,-312.43 453.81,-309.34"/>
+<polygon fill="#ff0000" stroke="#ff0000" points="455.13,-306.09 444.53,-306.36 452.98,-312.75 455.13,-306.09"/>
 </g>
 <!-- program~learn_exponentiation&#45;&gt;module~exponentiation_m -->
-<g id="module~~training_configuration_m~~UsedByGraph_edge25" class="edge">
+<g id="module~~training_configuration_m~~UsedByGraph_edge22" class="edge">
 <title>program~learn_exponentiation&#45;&gt;module~exponentiation_m</title>
-<path fill="none" stroke="#ff5400" stroke-dasharray="5,2" d="M711.74,-562.36C687.19,-558.84 658.92,-554.8 634.14,-551.25"/>
-<polygon fill="#ff5400" stroke="#ff5400" points="634.92,-547.83 624.53,-549.87 633.93,-554.76 634.92,-547.83"/>
-</g>
-<!-- program~learn_microphysics_procedures -->
-<g id="module~~training_configuration_m~~UsedByGraph_node15" class="node">
-<title>program~learn_microphysics_procedures</title>
-<g id="a_module~~training_configuration_m~~UsedByGraph_node15"><a xlink:href="../program/learn_microphysics_procedures.html" xlink:title="learn_microphysics_procedures">
-<polygon fill="#f0ad4e" stroke="#f0ad4e" points="863.1,-254.27 685.08,-254.27 685.08,-230 863.1,-230 863.1,-254.27"/>
-<text text-anchor="middle" x="774.09" y="-238.53" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">learn_microphysics_procedures</text>
-</a>
-</g>
-</g>
-<!-- program~learn_microphysics_procedures&#45;&gt;module~inference_engine_m -->
-<g id="module~~training_configuration_m~~UsedByGraph_edge14" class="edge">
-<title>program~learn_microphysics_procedures&#45;&gt;module~inference_engine_m</title>
-<path fill="none" stroke="#ff0000" stroke-dasharray="5,2" d="M684.62,-247.86C614.46,-253.59 522.89,-264.04 489.81,-281.13 454.46,-299.41 425.21,-336.27 408.95,-360.05"/>
-<polygon fill="#ff0000" stroke="#ff0000" points="406.04,-358.11 403.44,-368.38 411.88,-361.97 406.04,-358.11"/>
-</g>
-<!-- program~learn_microphysics_procedures&#45;&gt;module~thompson_tensors_m -->
-<g id="module~~training_configuration_m~~UsedByGraph_edge29" class="edge">
-<title>program~learn_microphysics_procedures&#45;&gt;module~thompson_tensors_m</title>
-<path fill="none" stroke="#54ff00" stroke-dasharray="5,2" d="M684.8,-233.42C670.96,-232.06 656.8,-230.66 643.37,-229.33"/>
-<polygon fill="#54ff00" stroke="#54ff00" points="644.07,-225.88 633.78,-228.39 643.39,-232.85 644.07,-225.88"/>
+<path fill="none" stroke="#ff5f00" stroke-dasharray="5,2" d="M727.72,-482.12C704.73,-478.75 678.57,-474.91 655.35,-471.51"/>
+<polygon fill="#ff5f00" stroke="#ff5f00" points="656.12,-468.08 645.72,-470.09 655.11,-475.01 656.12,-468.08"/>
 </g>
 <!-- program~learn_multiplication -->
-<g id="module~~training_configuration_m~~UsedByGraph_node16" class="node">
+<g id="module~~training_configuration_m~~UsedByGraph_node14" class="node">
 <title>program~learn_multiplication</title>
-<g id="a_module~~training_configuration_m~~UsedByGraph_node16"><a xlink:href="../program/learn_multiplication.html" xlink:title="learn_multiplication">
-<polygon fill="#f0ad4e" stroke="#f0ad4e" points="832.73,-494.27 715.46,-494.27 715.46,-470 832.73,-470 832.73,-494.27"/>
-<text text-anchor="middle" x="774.09" y="-478.53" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">learn_multiplication</text>
+<g id="a_module~~training_configuration_m~~UsedByGraph_node14"><a xlink:href="../program/learn_multiplication.html" xlink:title="learn_multiplication">
+<polygon fill="#f0ad4e" stroke="#f0ad4e" points="848.85,-414.27 731.58,-414.27 731.58,-390 848.85,-390 848.85,-414.27"/>
+<text text-anchor="middle" x="790.22" y="-398.53" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">learn_multiplication</text>
 </a>
 </g>
 </g>
-<!-- program~learn_multiplication&#45;&gt;module~inference_engine_m -->
-<g id="module~~training_configuration_m~~UsedByGraph_edge15" class="edge">
-<title>program~learn_multiplication&#45;&gt;module~inference_engine_m</title>
-<path fill="none" stroke="#ff0000" stroke-dasharray="5,2" d="M734.13,-494.65C675.83,-510.84 564.77,-531.6 489.81,-483.13 457.07,-461.96 482.46,-429.59 453.81,-403.13 452.91,-402.31 451.98,-401.51 451.02,-400.75"/>
-<polygon fill="#ff0000" stroke="#ff0000" points="453.26,-398.03 442.97,-395.5 449.44,-403.89 453.26,-398.03"/>
+<!-- program~learn_multiplication&#45;&gt;module~fiats_m -->
+<g id="module~~training_configuration_m~~UsedByGraph_edge12" class="edge">
+<title>program~learn_multiplication&#45;&gt;module~fiats_m</title>
+<path fill="none" stroke="#ff0000" stroke-dasharray="5,2" d="M749.97,-414.71C692.43,-430.58 584.07,-450.51 510.81,-403.13 478.07,-381.96 503.4,-349.64 474.81,-323.13 468.88,-317.64 461.41,-313.56 453.82,-310.54"/>
+<polygon fill="#ff0000" stroke="#ff0000" points="455.19,-307.31 444.59,-307.42 452.94,-313.94 455.19,-307.31"/>
 </g>
 <!-- program~learn_multiplication&#45;&gt;module~multiply_inputs -->
-<g id="module~~training_configuration_m~~UsedByGraph_edge26" class="edge">
+<g id="module~~training_configuration_m~~UsedByGraph_edge23" class="edge">
 <title>program~learn_multiplication&#45;&gt;module~multiply_inputs</title>
-<path fill="none" stroke="#ffaa00" stroke-dasharray="5,2" d="M715.02,-476.4C687.39,-473.68 654.48,-470.43 627.04,-467.72"/>
-<polygon fill="#ffaa00" stroke="#ffaa00" points="627.45,-464.24 617.15,-466.74 626.76,-471.21 627.45,-464.24"/>
+<path fill="none" stroke="#ffbf00" stroke-dasharray="5,2" d="M731.21,-396.27C704.9,-393.61 673.91,-390.47 647.8,-387.83"/>
+<polygon fill="#ffbf00" stroke="#ffbf00" points="648.36,-384.37 638.06,-386.85 647.66,-391.34 648.36,-384.37"/>
 </g>
 <!-- program~learn_power_series -->
-<g id="module~~training_configuration_m~~UsedByGraph_node17" class="node">
+<g id="module~~training_configuration_m~~UsedByGraph_node15" class="node">
 <title>program~learn_power_series</title>
-<g id="a_module~~training_configuration_m~~UsedByGraph_node17"><a xlink:href="../program/learn_power_series.html" xlink:title="learn_power_series">
-<polygon fill="#f0ad4e" stroke="#f0ad4e" points="831.23,-414.27 716.96,-414.27 716.96,-390 831.23,-390 831.23,-414.27"/>
-<text text-anchor="middle" x="774.09" y="-398.53" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">learn_power_series</text>
+<g id="a_module~~training_configuration_m~~UsedByGraph_node15"><a xlink:href="../program/learn_power_series.html" xlink:title="learn_power_series">
+<polygon fill="#f0ad4e" stroke="#f0ad4e" points="847.35,-334.27 733.08,-334.27 733.08,-310 847.35,-310 847.35,-334.27"/>
+<text text-anchor="middle" x="790.22" y="-318.53" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">learn_power_series</text>
 </a>
 </g>
 </g>
-<!-- program~learn_power_series&#45;&gt;module~inference_engine_m -->
-<g id="module~~training_configuration_m~~UsedByGraph_edge16" class="edge">
-<title>program~learn_power_series&#45;&gt;module~inference_engine_m</title>
-<path fill="none" stroke="#ff0000" stroke-dasharray="5,2" d="M716.46,-406.06C659.13,-409.17 568.03,-411.7 489.81,-403.13 478,-401.84 465.52,-399.67 453.62,-397.2"/>
-<polygon fill="#ff0000" stroke="#ff0000" points="454.43,-393.79 443.91,-395.08 452.94,-400.63 454.43,-393.79"/>
+<!-- program~learn_power_series&#45;&gt;module~fiats_m -->
+<g id="module~~training_configuration_m~~UsedByGraph_edge13" class="edge">
+<title>program~learn_power_series&#45;&gt;module~fiats_m</title>
+<path fill="none" stroke="#ff0000" stroke-dasharray="5,2" d="M732.76,-326.07C676.37,-329.13 587.32,-331.58 510.81,-323.13 491.86,-321.04 471.14,-316.65 453.98,-312.42"/>
+<polygon fill="#ff0000" stroke="#ff0000" points="455.3,-309.14 444.75,-310.06 453.57,-315.93 455.3,-309.14"/>
 </g>
 <!-- program~learn_power_series&#45;&gt;module~power_series -->
-<g id="module~~training_configuration_m~~UsedByGraph_edge27" class="edge">
+<g id="module~~training_configuration_m~~UsedByGraph_edge24" class="edge">
 <title>program~learn_power_series&#45;&gt;module~power_series</title>
-<path fill="none" stroke="#ffff00" stroke-dasharray="5,2" d="M716.64,-396.56C686.87,-393.63 650.61,-390.05 621.66,-387.19"/>
-<polygon fill="#ffff00" stroke="#ffff00" points="622.34,-383.74 612.05,-386.24 621.66,-390.71 622.34,-383.74"/>
+<path fill="none" stroke="#dfff00" stroke-dasharray="5,2" d="M732.81,-316.43C704.44,-313.56 670.3,-310.11 642.69,-307.32"/>
+<polygon fill="#dfff00" stroke="#dfff00" points="643.09,-303.84 632.79,-306.32 642.39,-310.8 643.09,-303.84"/>
 </g>
 <!-- program~print_training_configuration -->
-<g id="module~~training_configuration_m~~UsedByGraph_node18" class="node">
+<g id="module~~training_configuration_m~~UsedByGraph_node16" class="node">
 <title>program~print_training_configuration</title>
-<g id="a_module~~training_configuration_m~~UsedByGraph_node18"><a xlink:href="../program/print_training_configuration.html" xlink:title="print_training_configuration">
-<polygon fill="#f0ad4e" stroke="#f0ad4e" points="649.08,-150.27 489.81,-150.27 489.81,-126 649.08,-126 649.08,-150.27"/>
-<text text-anchor="middle" x="569.45" y="-134.53" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">print_training_configuration</text>
+<g id="a_module~~training_configuration_m~~UsedByGraph_node16"><a xlink:href="../program/print_training_configuration.html" xlink:title="print_training_configuration">
+<polygon fill="#f0ad4e" stroke="#f0ad4e" points="670.08,-150.27 510.81,-150.27 510.81,-126 670.08,-126 670.08,-150.27"/>
+<text text-anchor="middle" x="590.45" y="-134.53" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">print_training_configuration</text>
 </a>
 </g>
 </g>
-<!-- program~print_training_configuration&#45;&gt;module~inference_engine_m -->
-<g id="module~~training_configuration_m~~UsedByGraph_edge17" class="edge">
-<title>program~print_training_configuration&#45;&gt;module~inference_engine_m</title>
-<path fill="none" stroke="#ff0000" stroke-dasharray="5,2" d="M502.55,-150.62C497.97,-152.99 493.65,-155.8 489.81,-159.13 428.4,-212.45 405.7,-312.41 398.27,-358.17"/>
-<polygon fill="#ff0000" stroke="#ff0000" points="394.81,-357.64 396.78,-368.05 401.73,-358.69 394.81,-357.64"/>
+<!-- program~print_training_configuration&#45;&gt;module~fiats_m -->
+<g id="module~~training_configuration_m~~UsedByGraph_edge14" class="edge">
+<title>program~print_training_configuration&#45;&gt;module~fiats_m</title>
+<path fill="none" stroke="#ff0000" stroke-dasharray="5,2" d="M525.76,-150.69C520.46,-153.04 515.39,-155.83 510.81,-159.13 467.89,-190.1 439.19,-247.21 425.69,-279.08"/>
+<polygon fill="#ff0000" stroke="#ff0000" points="422.51,-277.61 421.98,-288.19 429,-280.25 422.51,-277.61"/>
 </g>
 <!-- program~read_query_infer -->
-<g id="module~~training_configuration_m~~UsedByGraph_node19" class="node">
+<g id="module~~training_configuration_m~~UsedByGraph_node17" class="node">
 <title>program~read_query_infer</title>
-<g id="a_module~~training_configuration_m~~UsedByGraph_node19"><a xlink:href="../program/read_query_infer.html" xlink:title="read_query_infer">
-<polygon fill="#f0ad4e" stroke="#f0ad4e" points="620.21,-108.27 518.69,-108.27 518.69,-84 620.21,-84 620.21,-108.27"/>
-<text text-anchor="middle" x="569.45" y="-92.54" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">read_query_infer</text>
+<g id="a_module~~training_configuration_m~~UsedByGraph_node17"><a xlink:href="../program/read_query_infer.html" xlink:title="read_query_infer">
+<polygon fill="#f0ad4e" stroke="#f0ad4e" points="641.21,-108.27 539.69,-108.27 539.69,-84 641.21,-84 641.21,-108.27"/>
+<text text-anchor="middle" x="590.45" y="-92.53" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">read_query_infer</text>
 </a>
 </g>
 </g>
-<!-- program~read_query_infer&#45;&gt;module~inference_engine_m -->
-<g id="module~~training_configuration_m~~UsedByGraph_edge18" class="edge">
-<title>program~read_query_infer&#45;&gt;module~inference_engine_m</title>
-<path fill="none" stroke="#ff0000" stroke-dasharray="5,2" d="M518.2,-101.89C507.85,-105.05 497.71,-109.86 489.81,-117.14 418.25,-183.02 400.68,-306.7 396.41,-358.43"/>
-<polygon fill="#ff0000" stroke="#ff0000" points="392.93,-357.96 395.71,-368.18 399.92,-358.46 392.93,-357.96"/>
+<!-- program~read_query_infer&#45;&gt;module~fiats_m -->
+<g id="module~~training_configuration_m~~UsedByGraph_edge15" class="edge">
+<title>program~read_query_infer&#45;&gt;module~fiats_m</title>
+<path fill="none" stroke="#ff0000" stroke-dasharray="5,2" d="M539.45,-102.78C529.2,-105.9 519.05,-110.46 510.81,-117.13 458.41,-159.58 432.37,-238.87 422.17,-278.42"/>
+<polygon fill="#ff0000" stroke="#ff0000" points="418.78,-277.54 419.8,-288.09 425.58,-279.2 418.78,-277.54"/>
 </g>
 <!-- program~train_and_write -->
-<g id="module~~training_configuration_m~~UsedByGraph_node20" class="node">
+<g id="module~~training_configuration_m~~UsedByGraph_node18" class="node">
 <title>program~train_and_write</title>
-<g id="a_module~~training_configuration_m~~UsedByGraph_node20"><a xlink:href="../program/train_and_write.html" xlink:title="train_and_write">
-<polygon fill="#f0ad4e" stroke="#f0ad4e" points="616.08,-66.27 522.81,-66.27 522.81,-42 616.08,-42 616.08,-66.27"/>
-<text text-anchor="middle" x="569.45" y="-50.53" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">train_and_write</text>
+<g id="a_module~~training_configuration_m~~UsedByGraph_node18"><a xlink:href="../program/train_and_write.html" xlink:title="train_and_write">
+<polygon fill="#f0ad4e" stroke="#f0ad4e" points="637.08,-66.27 543.81,-66.27 543.81,-42 637.08,-42 637.08,-66.27"/>
+<text text-anchor="middle" x="590.45" y="-50.53" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">train_and_write</text>
 </a>
 </g>
 </g>
-<!-- program~train_and_write&#45;&gt;module~inference_engine_m -->
-<g id="module~~training_configuration_m~~UsedByGraph_edge19" class="edge">
-<title>program~train_and_write&#45;&gt;module~inference_engine_m</title>
-<path fill="none" stroke="#ff0000" stroke-dasharray="5,2" d="M522.46,-58.36C510.59,-61.46 498.67,-66.61 489.81,-75.14 408.16,-153.7 396.43,-300.88 395.06,-358.32"/>
-<polygon fill="#ff0000" stroke="#ff0000" points="391.56,-358.18 394.92,-368.23 398.56,-358.28 391.56,-358.18"/>
+<!-- program~train_and_write&#45;&gt;module~fiats_m -->
+<g id="module~~training_configuration_m~~UsedByGraph_edge16" class="edge">
+<title>program~train_and_write&#45;&gt;module~fiats_m</title>
+<path fill="none" stroke="#ff0000" stroke-dasharray="5,2" d="M543.56,-59.02C531.82,-62.13 519.95,-67.13 510.81,-75.13 448.51,-129.73 426.63,-232.12 419.7,-278.38"/>
+<polygon fill="#ff0000" stroke="#ff0000" points="416.26,-277.72 418.36,-288.11 423.19,-278.68 416.26,-277.72"/>
 </g>
 <!-- program~train_saturated_mixture_ratio -->
-<g id="module~~training_configuration_m~~UsedByGraph_node21" class="node">
+<g id="module~~training_configuration_m~~UsedByGraph_node19" class="node">
 <title>program~train_saturated_mixture_ratio</title>
-<g id="a_module~~training_configuration_m~~UsedByGraph_node21"><a xlink:href="../program/train_saturated_mixture_ratio.html" xlink:title="train_saturated_mixture_ratio">
-<polygon fill="#f0ad4e" stroke="#f0ad4e" points="858.23,-334.27 689.96,-334.27 689.96,-310 858.23,-310 858.23,-334.27"/>
-<text text-anchor="middle" x="774.09" y="-318.53" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">train_saturated_mixture_ratio</text>
+<g id="a_module~~training_configuration_m~~UsedByGraph_node19"><a xlink:href="../program/train_saturated_mixture_ratio.html" xlink:title="train_saturated_mixture_ratio">
+<polygon fill="#f0ad4e" stroke="#f0ad4e" points="874.35,-254.27 706.08,-254.27 706.08,-230 874.35,-230 874.35,-254.27"/>
+<text text-anchor="middle" x="790.22" y="-238.53" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">train_saturated_mixture_ratio</text>
 </a>
 </g>
 </g>
-<!-- program~train_saturated_mixture_ratio&#45;&gt;module~inference_engine_m -->
-<g id="module~~training_configuration_m~~UsedByGraph_edge20" class="edge">
-<title>program~train_saturated_mixture_ratio&#45;&gt;module~inference_engine_m</title>
-<path fill="none" stroke="#ff0000" stroke-dasharray="5,2" d="M689.76,-331.8C633.18,-338.8 556.75,-349.13 489.81,-361.13 479.82,-362.93 469.29,-365.04 459.02,-367.22"/>
-<polygon fill="#ff0000" stroke="#ff0000" points="458.53,-363.74 449.5,-369.28 460.02,-370.58 458.53,-363.74"/>
+<!-- program~train_saturated_mixture_ratio&#45;&gt;module~fiats_m -->
+<g id="module~~training_configuration_m~~UsedByGraph_edge17" class="edge">
+<title>program~train_saturated_mixture_ratio&#45;&gt;module~fiats_m</title>
+<path fill="none" stroke="#ff0000" stroke-dasharray="5,2" d="M705.79,-252.04C650.34,-259.06 576,-269.31 510.81,-281.13 491.91,-284.56 471.05,-289.14 453.79,-293.15"/>
+<polygon fill="#ff0000" stroke="#ff0000" points="453.43,-289.64 444.5,-295.34 455.03,-296.45 453.43,-289.64"/>
 </g>
 <!-- program~train_saturated_mixture_ratio&#45;&gt;module~saturated_mixing_ratio_m -->
-<g id="module~~training_configuration_m~~UsedByGraph_edge28" class="edge">
+<g id="module~~training_configuration_m~~UsedByGraph_edge25" class="edge">
 <title>program~train_saturated_mixture_ratio&#45;&gt;module~saturated_mixing_ratio_m</title>
-<path fill="none" stroke="#aaff00" stroke-dasharray="5,2" d="M689.5,-313.88C678.29,-312.78 666.79,-311.64 655.57,-310.54"/>
-<polygon fill="#aaff00" stroke="#aaff00" points="656.25,-307.09 645.96,-309.59 655.56,-314.05 656.25,-307.09"/>
+<path fill="none" stroke="#7fff00" stroke-dasharray="5,2" d="M705.63,-233.68C696.19,-232.73 686.55,-231.75 677.08,-230.8"/>
+<polygon fill="#7fff00" stroke="#7fff00" points="677.45,-227.31 667.14,-229.79 676.74,-234.28 677.45,-227.31"/>
 </g>
 <!-- program~write_read_infer -->
-<g id="module~~training_configuration_m~~UsedByGraph_node22" class="node">
+<g id="module~~training_configuration_m~~UsedByGraph_node20" class="node">
 <title>program~write_read_infer</title>
-<g id="a_module~~training_configuration_m~~UsedByGraph_node22"><a xlink:href="../program/write_read_infer.html" xlink:title="write_read_infer">
-<polygon fill="#f0ad4e" stroke="#f0ad4e" points="617.96,-24.27 520.94,-24.27 520.94,0 617.96,0 617.96,-24.27"/>
-<text text-anchor="middle" x="569.45" y="-8.53" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">write_read_infer</text>
+<g id="a_module~~training_configuration_m~~UsedByGraph_node20"><a xlink:href="../program/write_read_infer.html" xlink:title="write_read_infer">
+<polygon fill="#f0ad4e" stroke="#f0ad4e" points="638.96,-24.27 541.94,-24.27 541.94,0 638.96,0 638.96,-24.27"/>
+<text text-anchor="middle" x="590.45" y="-8.53" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">write_read_infer</text>
 </a>
 </g>
 </g>
-<!-- program~write_read_infer&#45;&gt;module~inference_engine_m -->
-<g id="module~~training_configuration_m~~UsedByGraph_edge21" class="edge">
-<title>program~write_read_infer&#45;&gt;module~inference_engine_m</title>
-<path fill="none" stroke="#ff0000" stroke-dasharray="5,2" d="M520.63,-16.61C509.31,-19.74 498.12,-24.86 489.81,-33.13 442.7,-80.05 408.68,-288.19 398.34,-358.7"/>
-<polygon fill="#ff0000" stroke="#ff0000" points="394.91,-357.95 396.95,-368.34 401.84,-358.95 394.91,-357.95"/>
+<!-- program~write_read_infer&#45;&gt;module~fiats_m -->
+<g id="module~~training_configuration_m~~UsedByGraph_edge18" class="edge">
+<title>program~write_read_infer&#45;&gt;module~fiats_m</title>
+<path fill="none" stroke="#ff0000" stroke-dasharray="5,2" d="M541.62,-17.13C530.43,-20.27 519.31,-25.26 510.81,-33.13 438.6,-100.11 421.85,-225.6 417.97,-278.09"/>
+<polygon fill="#ff0000" stroke="#ff0000" points="414.48,-277.8 417.34,-288 421.46,-278.24 414.48,-277.8"/>
 </g>
 </g>
 </svg>
@@ -903,8 +917,8 @@ large graphs.</div>
     <ul class="list-group">
           <li class="list-group-item">
                 <h3>
-    private module function from_components(hyperparameters, network_configuration) result(training_configuration)  
-    <a href="../proc/from_components~5.html"><button type="button" class="btn btn-info depwarn">Implementation &rarr;</button></a>
+    private module function default_real_from_components(hyperparameters, network_configuration) result(training_configuration)  
+    <a href="../proc/default_real_from_components~2.html"><button type="button" class="btn btn-info depwarn">Implementation &rarr;</button></a>
 
     </h3>
   
@@ -922,7 +936,7 @@ large graphs.</div>
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-hyperparameters~3"></span>
+              <span class="anchor" id="variable-hyperparameters"></span>
               type(<a href='../type/hyperparameters_t.html'>hyperparameters_t</a>),
             </td>
 <td>intent(in)</td>
@@ -962,8 +976,8 @@ large graphs.</div>
           </li>
           <li class="list-group-item">
                 <h3>
-    private module function from_file(file_object) result(training_configuration)  
-    <a href="../proc/from_file.html"><button type="button" class="btn btn-info depwarn">Implementation &rarr;</button></a>
+    private module function default_real_from_file(file_object) result(training_configuration)  
+    <a href="../proc/default_real_from_file.html"><button type="button" class="btn btn-info depwarn">Implementation &rarr;</button></a>
 
     </h3>
   
@@ -1004,20 +1018,10 @@ large graphs.</div>
     
 
           </li>
-    </ul>
-  </div>
-
-              <div class="card">
-    <div class="card-header bg-light codesum">
-      <span class="anchor" id="interface-differentiable_activation_strategy"></span>
-      <h3>        interface
-      </h3>
-    </div>
-    <ul class="list-group">
-        <li class="list-group-item">
-              <h3>
-    private module function differentiable_activation_strategy(self) result(strategy)  
-    <a href="../proc/differentiable_activation_strategy.html"><button type="button" class="btn btn-info depwarn">Implementation &rarr;</button></a>
+          <li class="list-group-item">
+                <h3>
+    private module function double_precision_from_components(hyperparameters, network_configuration) result(training_configuration)  
+    <a href="../proc/double_precision_from_components~2.html"><button type="button" class="btn btn-info depwarn">Implementation &rarr;</button></a>
 
     </h3>
   
@@ -1035,15 +1039,30 @@ large graphs.</div>
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-self~13"></span>
-              class(<a href='../type/training_configuration_t.html'>training_configuration_t</a>),
+              <span class="anchor" id="variable-hyperparameters~2"></span>
+              type(<a href='../type/hyperparameters_t.html'>hyperparameters_t</a>(double_precision)),
             </td>
 <td>intent(in)</td>
               <td></td>            <td>
               
             </td>
             <td>::</td>
-            <td><strong>self</strong></td>
+            <td><strong>hyperparameters</strong></td>
+            <td>
+                
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-network_configuration~2"></span>
+              type(<a href='../type/network_configuration_t.html'>network_configuration_t</a>),
+            </td>
+<td>intent(in)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>network_configuration</strong></td>
             <td>
                 
             </td>
@@ -1053,25 +1072,15 @@ large graphs.</div>
 
     <h4>
     Return Value
-    <small>class(<a href='../type/differentiable_activation_strategy_t.html'>differentiable_activation_strategy_t</a>), allocatable</small>
+    <small>type(<a href='../type/training_configuration_t.html'>training_configuration_t</a>(double_precision))</small>
     </h4>
     
 
-        </li>
-    </ul>
-  </div>
-
-              <div class="card">
-    <div class="card-header bg-light codesum">
-      <span class="anchor" id="interface-equals~3"></span>
-      <h3>        interface
-      </h3>
-    </div>
-    <ul class="list-group">
-        <li class="list-group-item">
-              <h3>
-    private elemental module function equals(lhs, rhs) result(lhs_eq_rhs)  
-    <a href="../proc/equals~6.html"><button type="button" class="btn btn-info depwarn">Implementation &rarr;</button></a>
+          </li>
+          <li class="list-group-item">
+                <h3>
+    private module function double_precision_from_file(file_object) result(training_configuration)  
+    <a href="../proc/double_precision_from_file.html"><button type="button" class="btn btn-info depwarn">Implementation &rarr;</button></a>
 
     </h3>
   
@@ -1089,30 +1098,15 @@ large graphs.</div>
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-lhs~3"></span>
-              class(<a href='../type/training_configuration_t.html'>training_configuration_t</a>),
+              <span class="anchor" id="variable-file_object~2"></span>
+              type(<a href='../type/double_precision_file_t.html'>double_precision_file_t</a>),
             </td>
 <td>intent(in)</td>
               <td></td>            <td>
               
             </td>
             <td>::</td>
-            <td><strong>lhs</strong></td>
-            <td>
-                
-            </td>
-        </tr>
-        <tr>
-            <td>
-              <span class="anchor" id="variable-rhs~3"></span>
-              class(<a href='../type/training_configuration_t.html'>training_configuration_t</a>),
-            </td>
-<td>intent(in)</td>
-              <td></td>            <td>
-              
-            </td>
-            <td>::</td>
-            <td><strong>rhs</strong></td>
+            <td><strong>file_object</strong></td>
             <td>
                 
             </td>
@@ -1122,187 +1116,25 @@ large graphs.</div>
 
     <h4>
     Return Value
-    <small>logical</small>
+    <small>type(<a href='../type/training_configuration_t.html'>training_configuration_t</a>(double_precision))</small>
     </h4>
     
 
-        </li>
+          </li>
     </ul>
   </div>
 
               <div class="card">
     <div class="card-header bg-light codesum">
-      <span class="anchor" id="interface-learning_rate~2"></span>
+      <span class="anchor" id="interface-default_real_differentiable_activation"></span>
       <h3>        interface
       </h3>
     </div>
     <ul class="list-group">
         <li class="list-group-item">
               <h3>
-    private elemental module function learning_rate(self) result(rate)  
-    <a href="../proc/learning_rate~2.html"><button type="button" class="btn btn-info depwarn">Implementation &rarr;</button></a>
-
-    </h3>
-  
-
-  <h4>Arguments</h4>
-      <table class="table table-striped varlist">
-    <thead>
-      <tr>
-        <th scope="col">Type</th>
-<th scope="col">Intent</th><th scope="col">Optional</th>        <th scope="col">Attributes</th>
-        <th scope="col"></th>
-        <th scope="col">Name</th>
-        <th scope="col"></th>
-    </thead>
-    <tbody>
-        <tr>
-            <td>
-              <span class="anchor" id="variable-self~12"></span>
-              class(<a href='../type/training_configuration_t.html'>training_configuration_t</a>),
-            </td>
-<td>intent(in)</td>
-              <td></td>            <td>
-              
-            </td>
-            <td>::</td>
-            <td><strong>self</strong></td>
-            <td>
-                
-            </td>
-        </tr>
-    </tbody>
-  </table>
-
-    <h4>
-    Return Value
-    <small>real(kind=rkind)</small>
-    </h4>
-    
-
-        </li>
-    </ul>
-  </div>
-
-              <div class="card">
-    <div class="card-header bg-light codesum">
-      <span class="anchor" id="interface-mini_batches~2"></span>
-      <h3>        interface
-      </h3>
-    </div>
-    <ul class="list-group">
-        <li class="list-group-item">
-              <h3>
-    private elemental module function mini_batches(self) result(num_mini_batches)  
-    <a href="../proc/mini_batches~2.html"><button type="button" class="btn btn-info depwarn">Implementation &rarr;</button></a>
-
-    </h3>
-  
-
-  <h4>Arguments</h4>
-      <table class="table table-striped varlist">
-    <thead>
-      <tr>
-        <th scope="col">Type</th>
-<th scope="col">Intent</th><th scope="col">Optional</th>        <th scope="col">Attributes</th>
-        <th scope="col"></th>
-        <th scope="col">Name</th>
-        <th scope="col"></th>
-    </thead>
-    <tbody>
-        <tr>
-            <td>
-              <span class="anchor" id="variable-self~10"></span>
-              class(<a href='../type/training_configuration_t.html'>training_configuration_t</a>),
-            </td>
-<td>intent(in)</td>
-              <td></td>            <td>
-              
-            </td>
-            <td>::</td>
-            <td><strong>self</strong></td>
-            <td>
-                
-            </td>
-        </tr>
-    </tbody>
-  </table>
-
-    <h4>
-    Return Value
-    <small>integer</small>
-    </h4>
-    
-
-        </li>
-    </ul>
-  </div>
-
-              <div class="card">
-    <div class="card-header bg-light codesum">
-      <span class="anchor" id="interface-nodes_per_layer"></span>
-      <h3>        interface
-      </h3>
-    </div>
-    <ul class="list-group">
-        <li class="list-group-item">
-              <h3>
-    private pure module function nodes_per_layer(self) result(nodes)  
-    <a href="../proc/nodes_per_layer~3.html"><button type="button" class="btn btn-info depwarn">Implementation &rarr;</button></a>
-
-    </h3>
-  
-
-  <h4>Arguments</h4>
-      <table class="table table-striped varlist">
-    <thead>
-      <tr>
-        <th scope="col">Type</th>
-<th scope="col">Intent</th><th scope="col">Optional</th>        <th scope="col">Attributes</th>
-        <th scope="col"></th>
-        <th scope="col">Name</th>
-        <th scope="col"></th>
-    </thead>
-    <tbody>
-        <tr>
-            <td>
-              <span class="anchor" id="variable-self~14"></span>
-              class(<a href='../type/training_configuration_t.html'>training_configuration_t</a>),
-            </td>
-<td>intent(in)</td>
-              <td></td>            <td>
-              
-            </td>
-            <td>::</td>
-            <td><strong>self</strong></td>
-            <td>
-                
-            </td>
-        </tr>
-    </tbody>
-  </table>
-
-    <h4>
-    Return Value
-    <small>integer, allocatable, (:)</small>
-    </h4>
-    
-
-        </li>
-    </ul>
-  </div>
-
-              <div class="card">
-    <div class="card-header bg-light codesum">
-      <span class="anchor" id="interface-optimizer_name~2"></span>
-      <h3>        interface
-      </h3>
-    </div>
-    <ul class="list-group">
-        <li class="list-group-item">
-              <h3>
-    private elemental module function optimizer_name(self) result(identifier)  
-    <a href="../proc/optimizer_name~2.html"><button type="button" class="btn btn-info depwarn">Implementation &rarr;</button></a>
+    private module function default_real_differentiable_activation(self) result(activation)  
+    <a href="../proc/default_real_differentiable_activation.html"><button type="button" class="btn btn-info depwarn">Implementation &rarr;</button></a>
 
     </h3>
   
@@ -1338,6 +1170,291 @@ large graphs.</div>
 
     <h4>
     Return Value
+    <small>type(<a href='../type/activation_t.html'>activation_t</a>)</small>
+    </h4>
+    
+
+        </li>
+    </ul>
+  </div>
+
+              <div class="card">
+    <div class="card-header bg-light codesum">
+      <span class="anchor" id="interface-default_real_equals"></span>
+      <h3>        interface
+      </h3>
+    </div>
+    <ul class="list-group">
+        <li class="list-group-item">
+              <h3>
+    private elemental module function default_real_equals(lhs, rhs) result(lhs_eq_rhs)  
+    <a href="../proc/default_real_equals~3.html"><button type="button" class="btn btn-info depwarn">Implementation &rarr;</button></a>
+
+    </h3>
+  
+
+  <h4>Arguments</h4>
+      <table class="table table-striped varlist">
+    <thead>
+      <tr>
+        <th scope="col">Type</th>
+<th scope="col">Intent</th><th scope="col">Optional</th>        <th scope="col">Attributes</th>
+        <th scope="col"></th>
+        <th scope="col">Name</th>
+        <th scope="col"></th>
+    </thead>
+    <tbody>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-lhs"></span>
+              class(<a href='../type/training_configuration_t.html'>training_configuration_t</a>),
+            </td>
+<td>intent(in)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>lhs</strong></td>
+            <td>
+                
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-rhs"></span>
+              class(<a href='../type/training_configuration_t.html'>training_configuration_t</a>),
+            </td>
+<td>intent(in)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>rhs</strong></td>
+            <td>
+                
+            </td>
+        </tr>
+    </tbody>
+  </table>
+
+    <h4>
+    Return Value
+    <small>logical</small>
+    </h4>
+    
+
+        </li>
+    </ul>
+  </div>
+
+              <div class="card">
+    <div class="card-header bg-light codesum">
+      <span class="anchor" id="interface-default_real_learning_rate"></span>
+      <h3>        interface
+      </h3>
+    </div>
+    <ul class="list-group">
+        <li class="list-group-item">
+              <h3>
+    private elemental module function default_real_learning_rate(self) result(rate)  
+    <a href="../proc/default_real_learning_rate~2.html"><button type="button" class="btn btn-info depwarn">Implementation &rarr;</button></a>
+
+    </h3>
+  
+
+  <h4>Arguments</h4>
+      <table class="table table-striped varlist">
+    <thead>
+      <tr>
+        <th scope="col">Type</th>
+<th scope="col">Intent</th><th scope="col">Optional</th>        <th scope="col">Attributes</th>
+        <th scope="col"></th>
+        <th scope="col">Name</th>
+        <th scope="col"></th>
+    </thead>
+    <tbody>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-self~9"></span>
+              class(<a href='../type/training_configuration_t.html'>training_configuration_t</a>),
+            </td>
+<td>intent(in)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>self</strong></td>
+            <td>
+                
+            </td>
+        </tr>
+    </tbody>
+  </table>
+
+    <h4>
+    Return Value
+    <small>real</small>
+    </h4>
+    
+
+        </li>
+    </ul>
+  </div>
+
+              <div class="card">
+    <div class="card-header bg-light codesum">
+      <span class="anchor" id="interface-default_real_mini_batches"></span>
+      <h3>        interface
+      </h3>
+    </div>
+    <ul class="list-group">
+        <li class="list-group-item">
+              <h3>
+    private elemental module function default_real_mini_batches(self) result(num_mini_batches)  
+    <a href="../proc/default_real_mini_batches~2.html"><button type="button" class="btn btn-info depwarn">Implementation &rarr;</button></a>
+
+    </h3>
+  
+
+  <h4>Arguments</h4>
+      <table class="table table-striped varlist">
+    <thead>
+      <tr>
+        <th scope="col">Type</th>
+<th scope="col">Intent</th><th scope="col">Optional</th>        <th scope="col">Attributes</th>
+        <th scope="col"></th>
+        <th scope="col">Name</th>
+        <th scope="col"></th>
+    </thead>
+    <tbody>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-self~5"></span>
+              class(<a href='../type/training_configuration_t.html'>training_configuration_t</a>),
+            </td>
+<td>intent(in)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>self</strong></td>
+            <td>
+                
+            </td>
+        </tr>
+    </tbody>
+  </table>
+
+    <h4>
+    Return Value
+    <small>integer</small>
+    </h4>
+    
+
+        </li>
+    </ul>
+  </div>
+
+              <div class="card">
+    <div class="card-header bg-light codesum">
+      <span class="anchor" id="interface-default_real_nodes_per_layer"></span>
+      <h3>        interface
+      </h3>
+    </div>
+    <ul class="list-group">
+        <li class="list-group-item">
+              <h3>
+    private pure module function default_real_nodes_per_layer(self) result(nodes)  
+    <a href="../proc/default_real_nodes_per_layer~2.html"><button type="button" class="btn btn-info depwarn">Implementation &rarr;</button></a>
+
+    </h3>
+  
+
+  <h4>Arguments</h4>
+      <table class="table table-striped varlist">
+    <thead>
+      <tr>
+        <th scope="col">Type</th>
+<th scope="col">Intent</th><th scope="col">Optional</th>        <th scope="col">Attributes</th>
+        <th scope="col"></th>
+        <th scope="col">Name</th>
+        <th scope="col"></th>
+    </thead>
+    <tbody>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-self~13"></span>
+              class(<a href='../type/training_configuration_t.html'>training_configuration_t</a>),
+            </td>
+<td>intent(in)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>self</strong></td>
+            <td>
+                
+            </td>
+        </tr>
+    </tbody>
+  </table>
+
+    <h4>
+    Return Value
+    <small>integer, allocatable, (:)</small>
+    </h4>
+    
+
+        </li>
+    </ul>
+  </div>
+
+              <div class="card">
+    <div class="card-header bg-light codesum">
+      <span class="anchor" id="interface-default_real_optimizer_name"></span>
+      <h3>        interface
+      </h3>
+    </div>
+    <ul class="list-group">
+        <li class="list-group-item">
+              <h3>
+    private elemental module function default_real_optimizer_name(self) result(identifier)  
+    <a href="../proc/default_real_optimizer_name~2.html"><button type="button" class="btn btn-info depwarn">Implementation &rarr;</button></a>
+
+    </h3>
+  
+
+  <h4>Arguments</h4>
+      <table class="table table-striped varlist">
+    <thead>
+      <tr>
+        <th scope="col">Type</th>
+<th scope="col">Intent</th><th scope="col">Optional</th>        <th scope="col">Attributes</th>
+        <th scope="col"></th>
+        <th scope="col">Name</th>
+        <th scope="col"></th>
+    </thead>
+    <tbody>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-self~7"></span>
+              class(<a href='../type/training_configuration_t.html'>training_configuration_t</a>),
+            </td>
+<td>intent(in)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>self</strong></td>
+            <td>
+                
+            </td>
+        </tr>
+    </tbody>
+  </table>
+
+    <h4>
+    Return Value
     <small>type(string_t)</small>
     </h4>
     
@@ -1348,15 +1465,15 @@ large graphs.</div>
 
               <div class="card">
     <div class="card-header bg-light codesum">
-      <span class="anchor" id="interface-skip_connections"></span>
+      <span class="anchor" id="interface-default_real_skip_connections"></span>
       <h3>        interface
       </h3>
     </div>
     <ul class="list-group">
         <li class="list-group-item">
               <h3>
-    private elemental module function skip_connections(self) result(using_skip)  
-    <a href="../proc/skip_connections~2.html"><button type="button" class="btn btn-info depwarn">Implementation &rarr;</button></a>
+    private elemental module function default_real_skip_connections(self) result(using_skip)  
+    <a href="../proc/default_real_skip_connections.html"><button type="button" class="btn btn-info depwarn">Implementation &rarr;</button></a>
 
     </h3>
   
@@ -1402,15 +1519,15 @@ large graphs.</div>
 
               <div class="card">
     <div class="card-header bg-light codesum">
-      <span class="anchor" id="interface-to_json~3"></span>
+      <span class="anchor" id="interface-default_real_to_json"></span>
       <h3>        interface
       </h3>
     </div>
     <ul class="list-group">
         <li class="list-group-item">
               <h3>
-    private pure module function to_json(self) result(json_lines)  
-    <a href="../proc/to_json~7.html"><button type="button" class="btn btn-info depwarn">Implementation &rarr;</button></a>
+    private pure module function default_real_to_json(self) result(json_lines)  
+    <a href="../proc/default_real_to_json~4.html"><button type="button" class="btn btn-info depwarn">Implementation &rarr;</button></a>
 
     </h3>
   
@@ -1428,8 +1545,455 @@ large graphs.</div>
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-self~9"></span>
+              <span class="anchor" id="variable-self~3"></span>
               class(<a href='../type/training_configuration_t.html'>training_configuration_t</a>),
+            </td>
+<td>intent(in)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>self</strong></td>
+            <td>
+                
+            </td>
+        </tr>
+    </tbody>
+  </table>
+
+    <h4>
+    Return Value
+    <small>type(string_t), allocatable, (:)</small>
+    </h4>
+    
+
+        </li>
+    </ul>
+  </div>
+
+              <div class="card">
+    <div class="card-header bg-light codesum">
+      <span class="anchor" id="interface-double_precision_differentiable_activation"></span>
+      <h3>        interface
+      </h3>
+    </div>
+    <ul class="list-group">
+        <li class="list-group-item">
+              <h3>
+    private module function double_precision_differentiable_activation(self) result(activation)  
+    <a href="../proc/double_precision_differentiable_activation.html"><button type="button" class="btn btn-info depwarn">Implementation &rarr;</button></a>
+
+    </h3>
+  
+
+  <h4>Arguments</h4>
+      <table class="table table-striped varlist">
+    <thead>
+      <tr>
+        <th scope="col">Type</th>
+<th scope="col">Intent</th><th scope="col">Optional</th>        <th scope="col">Attributes</th>
+        <th scope="col"></th>
+        <th scope="col">Name</th>
+        <th scope="col"></th>
+    </thead>
+    <tbody>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-self~12"></span>
+              class(<a href='../type/training_configuration_t.html'>training_configuration_t</a>(double_precision)),
+            </td>
+<td>intent(in)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>self</strong></td>
+            <td>
+                
+            </td>
+        </tr>
+    </tbody>
+  </table>
+
+    <h4>
+    Return Value
+    <small>type(<a href='../type/activation_t.html'>activation_t</a>)</small>
+    </h4>
+    
+
+        </li>
+    </ul>
+  </div>
+
+              <div class="card">
+    <div class="card-header bg-light codesum">
+      <span class="anchor" id="interface-double_precision_equals"></span>
+      <h3>        interface
+      </h3>
+    </div>
+    <ul class="list-group">
+        <li class="list-group-item">
+              <h3>
+    private elemental module function double_precision_equals(lhs, rhs) result(lhs_eq_rhs)  
+    <a href="../proc/double_precision_equals~3.html"><button type="button" class="btn btn-info depwarn">Implementation &rarr;</button></a>
+
+    </h3>
+  
+
+  <h4>Arguments</h4>
+      <table class="table table-striped varlist">
+    <thead>
+      <tr>
+        <th scope="col">Type</th>
+<th scope="col">Intent</th><th scope="col">Optional</th>        <th scope="col">Attributes</th>
+        <th scope="col"></th>
+        <th scope="col">Name</th>
+        <th scope="col"></th>
+    </thead>
+    <tbody>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-lhs~2"></span>
+              class(<a href='../type/training_configuration_t.html'>training_configuration_t</a>(double_precision)),
+            </td>
+<td>intent(in)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>lhs</strong></td>
+            <td>
+                
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-rhs~2"></span>
+              class(<a href='../type/training_configuration_t.html'>training_configuration_t</a>(double_precision)),
+            </td>
+<td>intent(in)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>rhs</strong></td>
+            <td>
+                
+            </td>
+        </tr>
+    </tbody>
+  </table>
+
+    <h4>
+    Return Value
+    <small>logical</small>
+    </h4>
+    
+
+        </li>
+    </ul>
+  </div>
+
+              <div class="card">
+    <div class="card-header bg-light codesum">
+      <span class="anchor" id="interface-double_precision_learning_rate"></span>
+      <h3>        interface
+      </h3>
+    </div>
+    <ul class="list-group">
+        <li class="list-group-item">
+              <h3>
+    private elemental module function double_precision_learning_rate(self) result(rate)  
+    <a href="../proc/double_precision_learning_rate~2.html"><button type="button" class="btn btn-info depwarn">Implementation &rarr;</button></a>
+
+    </h3>
+  
+
+  <h4>Arguments</h4>
+      <table class="table table-striped varlist">
+    <thead>
+      <tr>
+        <th scope="col">Type</th>
+<th scope="col">Intent</th><th scope="col">Optional</th>        <th scope="col">Attributes</th>
+        <th scope="col"></th>
+        <th scope="col">Name</th>
+        <th scope="col"></th>
+    </thead>
+    <tbody>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-self~10"></span>
+              class(<a href='../type/training_configuration_t.html'>training_configuration_t</a>(double_precision)),
+            </td>
+<td>intent(in)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>self</strong></td>
+            <td>
+                
+            </td>
+        </tr>
+    </tbody>
+  </table>
+
+    <h4>
+    Return Value
+    <small>double precision</small>
+    </h4>
+    
+
+        </li>
+    </ul>
+  </div>
+
+              <div class="card">
+    <div class="card-header bg-light codesum">
+      <span class="anchor" id="interface-double_precision_mini_batches"></span>
+      <h3>        interface
+      </h3>
+    </div>
+    <ul class="list-group">
+        <li class="list-group-item">
+              <h3>
+    private elemental module function double_precision_mini_batches(self) result(num_mini_batches)  
+    <a href="../proc/double_precision_mini_batches~2.html"><button type="button" class="btn btn-info depwarn">Implementation &rarr;</button></a>
+
+    </h3>
+  
+
+  <h4>Arguments</h4>
+      <table class="table table-striped varlist">
+    <thead>
+      <tr>
+        <th scope="col">Type</th>
+<th scope="col">Intent</th><th scope="col">Optional</th>        <th scope="col">Attributes</th>
+        <th scope="col"></th>
+        <th scope="col">Name</th>
+        <th scope="col"></th>
+    </thead>
+    <tbody>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-self~6"></span>
+              class(<a href='../type/training_configuration_t.html'>training_configuration_t</a>(double_precision)),
+            </td>
+<td>intent(in)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>self</strong></td>
+            <td>
+                
+            </td>
+        </tr>
+    </tbody>
+  </table>
+
+    <h4>
+    Return Value
+    <small>integer</small>
+    </h4>
+    
+
+        </li>
+    </ul>
+  </div>
+
+              <div class="card">
+    <div class="card-header bg-light codesum">
+      <span class="anchor" id="interface-double_precision_nodes_per_layer"></span>
+      <h3>        interface
+      </h3>
+    </div>
+    <ul class="list-group">
+        <li class="list-group-item">
+              <h3>
+    private pure module function double_precision_nodes_per_layer(self) result(nodes)  
+    <a href="../proc/double_precision_nodes_per_layer~2.html"><button type="button" class="btn btn-info depwarn">Implementation &rarr;</button></a>
+
+    </h3>
+  
+
+  <h4>Arguments</h4>
+      <table class="table table-striped varlist">
+    <thead>
+      <tr>
+        <th scope="col">Type</th>
+<th scope="col">Intent</th><th scope="col">Optional</th>        <th scope="col">Attributes</th>
+        <th scope="col"></th>
+        <th scope="col">Name</th>
+        <th scope="col"></th>
+    </thead>
+    <tbody>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-self~14"></span>
+              class(<a href='../type/training_configuration_t.html'>training_configuration_t</a>(double_precision)),
+            </td>
+<td>intent(in)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>self</strong></td>
+            <td>
+                
+            </td>
+        </tr>
+    </tbody>
+  </table>
+
+    <h4>
+    Return Value
+    <small>integer, allocatable, (:)</small>
+    </h4>
+    
+
+        </li>
+    </ul>
+  </div>
+
+              <div class="card">
+    <div class="card-header bg-light codesum">
+      <span class="anchor" id="interface-double_precision_optimizer_name"></span>
+      <h3>        interface
+      </h3>
+    </div>
+    <ul class="list-group">
+        <li class="list-group-item">
+              <h3>
+    private elemental module function double_precision_optimizer_name(self) result(identifier)  
+    <a href="../proc/double_precision_optimizer_name~2.html"><button type="button" class="btn btn-info depwarn">Implementation &rarr;</button></a>
+
+    </h3>
+  
+
+  <h4>Arguments</h4>
+      <table class="table table-striped varlist">
+    <thead>
+      <tr>
+        <th scope="col">Type</th>
+<th scope="col">Intent</th><th scope="col">Optional</th>        <th scope="col">Attributes</th>
+        <th scope="col"></th>
+        <th scope="col">Name</th>
+        <th scope="col"></th>
+    </thead>
+    <tbody>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-self~8"></span>
+              class(<a href='../type/training_configuration_t.html'>training_configuration_t</a>(double_precision)),
+            </td>
+<td>intent(in)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>self</strong></td>
+            <td>
+                
+            </td>
+        </tr>
+    </tbody>
+  </table>
+
+    <h4>
+    Return Value
+    <small>type(string_t)</small>
+    </h4>
+    
+
+        </li>
+    </ul>
+  </div>
+
+              <div class="card">
+    <div class="card-header bg-light codesum">
+      <span class="anchor" id="interface-double_precision_skip_connections"></span>
+      <h3>        interface
+      </h3>
+    </div>
+    <ul class="list-group">
+        <li class="list-group-item">
+              <h3>
+    private elemental module function double_precision_skip_connections(self) result(using_skip)  
+    <a href="../proc/double_precision_skip_connections.html"><button type="button" class="btn btn-info depwarn">Implementation &rarr;</button></a>
+
+    </h3>
+  
+
+  <h4>Arguments</h4>
+      <table class="table table-striped varlist">
+    <thead>
+      <tr>
+        <th scope="col">Type</th>
+<th scope="col">Intent</th><th scope="col">Optional</th>        <th scope="col">Attributes</th>
+        <th scope="col"></th>
+        <th scope="col">Name</th>
+        <th scope="col"></th>
+    </thead>
+    <tbody>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-self~16"></span>
+              class(<a href='../type/training_configuration_t.html'>training_configuration_t</a>(double_precision)),
+            </td>
+<td>intent(in)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>self</strong></td>
+            <td>
+                
+            </td>
+        </tr>
+    </tbody>
+  </table>
+
+    <h4>
+    Return Value
+    <small>logical</small>
+    </h4>
+    
+
+        </li>
+    </ul>
+  </div>
+
+              <div class="card">
+    <div class="card-header bg-light codesum">
+      <span class="anchor" id="interface-double_precision_to_json"></span>
+      <h3>        interface
+      </h3>
+    </div>
+    <ul class="list-group">
+        <li class="list-group-item">
+              <h3>
+    private pure module function double_precision_to_json(self) result(json_lines)  
+    <a href="../proc/double_precision_to_json~4.html"><button type="button" class="btn btn-info depwarn">Implementation &rarr;</button></a>
+
+    </h3>
+  
+
+  <h4>Arguments</h4>
+      <table class="table table-striped varlist">
+    <thead>
+      <tr>
+        <th scope="col">Type</th>
+<th scope="col">Intent</th><th scope="col">Optional</th>        <th scope="col">Attributes</th>
+        <th scope="col"></th>
+        <th scope="col">Name</th>
+        <th scope="col"></th>
+    </thead>
+    <tbody>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-self~4"></span>
+              class(<a href='../type/training_configuration_t.html'>training_configuration_t</a>(double_precision)),
             </td>
 <td>intent(in)</td>
               <td></td>            <td>
@@ -1464,7 +2028,7 @@ large graphs.</div>
     <div class="card-header codesum">
       <span class="anchor" id="type-training_configuration_t"></span>
       <h3>
-        type, public, extends(file_t)&nbsp;::&nbsp;
+        type, public, extends(<a href='../type/double_precision_file_t.html'>double_precision_file_t</a>)&nbsp;::&nbsp;
         <a href='../type/training_configuration_t.html'>training_configuration_t</a>
         
       </h3>
@@ -1485,8 +2049,25 @@ large graphs.</div>
     <tbody>
         <tr>
             <td>
+              <span class="anchor" id="variable-k~2"></span>
+              integer,
+            </td>
+              <td>public,</td>
+            <td>
+              kind
+            </td>
+            <td>::</td>
+            <td><strong>k</strong></td>
+<td> =</td>
+                <td>default_real</td>
+            <td>
+
+            </td>
+        </tr>
+        <tr>
+            <td>
               <span class="anchor" id="variable-hyperparameters_"></span>
-              type(<a href='../type/hyperparameters_t.html'>hyperparameters_t</a>),
+              type(<a href='../type/hyperparameters_t.html'>hyperparameters_t</a>(k)),
             </td>
               <td>private</td>
             <td>
@@ -1531,7 +2112,7 @@ large graphs.</div>
 
                     module
                     function
-                    <strong>from_components</strong>
+                    <strong>default_real_from_components</strong>
                     (hyperparameters, network_configuration)
                   </td>
                   <td></td>
@@ -1542,7 +2123,29 @@ large graphs.</div>
 
                     module
                     function
-                    <strong>from_file</strong>
+                    <strong>default_real_from_file</strong>
+                    (file_object)
+                  </td>
+                  <td></td>
+                </tr>
+                <tr>
+                  <td>
+                        private
+
+                    module
+                    function
+                    <strong>double_precision_from_components</strong>
+                    (hyperparameters, network_configuration)
+                  </td>
+                  <td></td>
+                </tr>
+                <tr>
+                  <td>
+                        private
+
+                    module
+                    function
+                    <strong>double_precision_from_file</strong>
                     (file_object)
                   </td>
                   <td></td>
@@ -1555,48 +2158,128 @@ large graphs.</div>
         <table class="table table-striped varlist">
           <tbody>
               <tr>
-                <td>  procedure, public ::
-  <strong><a href='../type/training_configuration_t.html#boundprocedure-differentiable_activation_strategy'>differentiable_activation_strategy</a></strong></td>
+                <td>  generic, public ::
+  <strong><a href='../type/training_configuration_t.html#boundprocedure-differentiable_activation'>differentiable_activation</a></strong> => <a href='/home/runner/work/inference-engine/inference-engine/doc/html/type/training_configuration_t.html#boundprocedure-default_real_differentiable_activation'>default_real_differentiable_activation</a>, <a href='/home/runner/work/inference-engine/inference-engine/doc/html/type/training_configuration_t.html#boundprocedure-double_precision_differentiable_activation'>double_precision_differentiable_activation</a></td>
                 <td></td>
               </tr>
               <tr>
                 <td>  procedure, public ::
-  <strong><a href='../type/training_configuration_t.html#boundprocedure-equals~3'>equals</a></strong></td>
-                <td></td>
-              </tr>
-              <tr>
-                <td>  procedure, public ::
-  <strong><a href='../type/training_configuration_t.html#boundprocedure-learning_rate~3'>learning_rate</a></strong></td>
-                <td></td>
-              </tr>
-              <tr>
-                <td>  procedure, public ::
-  <strong><a href='../type/training_configuration_t.html#boundprocedure-mini_batches~3'>mini_batches</a></strong></td>
-                <td></td>
-              </tr>
-              <tr>
-                <td>  procedure, public ::
-  <strong><a href='../type/training_configuration_t.html#boundprocedure-nodes_per_layer~2'>nodes_per_layer</a></strong></td>
+  <strong><a href='../type/double_precision_file_t.html#boundprocedure-double_precision_lines'>double_precision_lines</a></strong></td>
                 <td></td>
               </tr>
               <tr>
                 <td>  generic, public ::
-  <strong><a href='../type/training_configuration_t.html#boundprocedure-operator%28%3D%3D%29~3'>operator(==)</a></strong> => <a href='/home/runner/work/inference-engine/inference-engine/doc/html/type/training_configuration_t.html#boundprocedure-equals~3'>equals</a></td>
+  <strong><a href='../type/training_configuration_t.html#boundprocedure-learning_rate~2'>learning_rate</a></strong> => <a href='/home/runner/work/inference-engine/inference-engine/doc/html/type/training_configuration_t.html#boundprocedure-default_real_learning_rate'>default_real_learning_rate</a>, <a href='/home/runner/work/inference-engine/inference-engine/doc/html/type/training_configuration_t.html#boundprocedure-double_precision_learning_rate'>double_precision_learning_rate</a></td>
                 <td></td>
               </tr>
               <tr>
-                <td>  procedure, public ::
-  <strong><a href='../type/training_configuration_t.html#boundprocedure-optimizer_name~2'>optimizer_name</a></strong></td>
+                <td>  generic, public ::
+  <strong><a href='../type/training_configuration_t.html#boundprocedure-mini_batches'>mini_batches</a></strong> => <a href='/home/runner/work/inference-engine/inference-engine/doc/html/type/training_configuration_t.html#boundprocedure-default_real_mini_batches'>default_real_mini_batches</a>, <a href='/home/runner/work/inference-engine/inference-engine/doc/html/type/training_configuration_t.html#boundprocedure-double_precision_mini_batches'>double_precision_mini_batches</a></td>
                 <td></td>
               </tr>
               <tr>
-                <td>  procedure, public ::
-  <strong><a href='../type/training_configuration_t.html#boundprocedure-skip_connections'>skip_connections</a></strong></td>
+                <td>  generic, public ::
+  <strong><a href='../type/training_configuration_t.html#boundprocedure-nodes_per_layer~2'>nodes_per_layer</a></strong> => <a href='/home/runner/work/inference-engine/inference-engine/doc/html/type/training_configuration_t.html#boundprocedure-default_real_nodes_per_layer'>default_real_nodes_per_layer</a>, <a href='/home/runner/work/inference-engine/inference-engine/doc/html/type/training_configuration_t.html#boundprocedure-double_precision_nodes_per_layer'>double_precision_nodes_per_layer</a></td>
                 <td></td>
               </tr>
               <tr>
-                <td>  procedure, public ::
-  <strong><a href='../type/training_configuration_t.html#boundprocedure-to_json~3'>to_json</a></strong></td>
+                <td>  generic, public ::
+  <strong><a href='../type/training_configuration_t.html#boundprocedure-operator%28%3D%3D%29'>operator(==)</a></strong> => <a href='/home/runner/work/inference-engine/inference-engine/doc/html/type/training_configuration_t.html#boundprocedure-default_real_equals'>default_real_equals</a>, <a href='/home/runner/work/inference-engine/inference-engine/doc/html/type/training_configuration_t.html#boundprocedure-double_precision_equals'>double_precision_equals</a></td>
+                <td></td>
+              </tr>
+              <tr>
+                <td>  generic, public ::
+  <strong><a href='../type/training_configuration_t.html#boundprocedure-optimizer_name'>optimizer_name</a></strong> => <a href='/home/runner/work/inference-engine/inference-engine/doc/html/type/training_configuration_t.html#boundprocedure-default_real_optimizer_name'>default_real_optimizer_name</a>, <a href='/home/runner/work/inference-engine/inference-engine/doc/html/type/training_configuration_t.html#boundprocedure-double_precision_optimizer_name'>double_precision_optimizer_name</a></td>
+                <td></td>
+              </tr>
+              <tr>
+                <td>  generic, public ::
+  <strong><a href='../type/training_configuration_t.html#boundprocedure-skip_connections'>skip_connections</a></strong> => <a href='/home/runner/work/inference-engine/inference-engine/doc/html/type/training_configuration_t.html#boundprocedure-default_real_skip_connections'>default_real_skip_connections</a>, <a href='/home/runner/work/inference-engine/inference-engine/doc/html/type/training_configuration_t.html#boundprocedure-double_precision_skip_connections'>double_precision_skip_connections</a></td>
+                <td></td>
+              </tr>
+              <tr>
+                <td>  generic, public ::
+  <strong><a href='../type/training_configuration_t.html#boundprocedure-to_json'>to_json</a></strong> => <a href='/home/runner/work/inference-engine/inference-engine/doc/html/type/training_configuration_t.html#boundprocedure-default_real_to_json'>default_real_to_json</a>, <a href='/home/runner/work/inference-engine/inference-engine/doc/html/type/training_configuration_t.html#boundprocedure-double_precision_to_json'>double_precision_to_json</a></td>
+                <td></td>
+              </tr>
+              <tr>
+                <td>  procedure, private ::
+  <strong><a href='../type/training_configuration_t.html#boundprocedure-default_real_differentiable_activation'>default_real_differentiable_activation</a></strong></td>
+                <td></td>
+              </tr>
+              <tr>
+                <td>  procedure, private ::
+  <strong><a href='../type/training_configuration_t.html#boundprocedure-default_real_equals'>default_real_equals</a></strong></td>
+                <td></td>
+              </tr>
+              <tr>
+                <td>  procedure, private ::
+  <strong><a href='../type/training_configuration_t.html#boundprocedure-default_real_learning_rate'>default_real_learning_rate</a></strong></td>
+                <td></td>
+              </tr>
+              <tr>
+                <td>  procedure, private ::
+  <strong><a href='../type/training_configuration_t.html#boundprocedure-default_real_mini_batches'>default_real_mini_batches</a></strong></td>
+                <td></td>
+              </tr>
+              <tr>
+                <td>  procedure, private ::
+  <strong><a href='../type/training_configuration_t.html#boundprocedure-default_real_nodes_per_layer'>default_real_nodes_per_layer</a></strong></td>
+                <td></td>
+              </tr>
+              <tr>
+                <td>  procedure, private ::
+  <strong><a href='../type/training_configuration_t.html#boundprocedure-default_real_optimizer_name'>default_real_optimizer_name</a></strong></td>
+                <td></td>
+              </tr>
+              <tr>
+                <td>  procedure, private ::
+  <strong><a href='../type/training_configuration_t.html#boundprocedure-default_real_skip_connections'>default_real_skip_connections</a></strong></td>
+                <td></td>
+              </tr>
+              <tr>
+                <td>  procedure, private ::
+  <strong><a href='../type/training_configuration_t.html#boundprocedure-default_real_to_json'>default_real_to_json</a></strong></td>
+                <td></td>
+              </tr>
+              <tr>
+                <td>  procedure, private ::
+  <strong><a href='../type/training_configuration_t.html#boundprocedure-double_precision_differentiable_activation'>double_precision_differentiable_activation</a></strong></td>
+                <td></td>
+              </tr>
+              <tr>
+                <td>  procedure, private ::
+  <strong><a href='../type/training_configuration_t.html#boundprocedure-double_precision_equals'>double_precision_equals</a></strong></td>
+                <td></td>
+              </tr>
+              <tr>
+                <td>  procedure, private ::
+  <strong><a href='../type/training_configuration_t.html#boundprocedure-double_precision_learning_rate'>double_precision_learning_rate</a></strong></td>
+                <td></td>
+              </tr>
+              <tr>
+                <td>  procedure, private ::
+  <strong><a href='../type/training_configuration_t.html#boundprocedure-double_precision_mini_batches'>double_precision_mini_batches</a></strong></td>
+                <td></td>
+              </tr>
+              <tr>
+                <td>  procedure, private ::
+  <strong><a href='../type/training_configuration_t.html#boundprocedure-double_precision_nodes_per_layer'>double_precision_nodes_per_layer</a></strong></td>
+                <td></td>
+              </tr>
+              <tr>
+                <td>  procedure, private ::
+  <strong><a href='../type/training_configuration_t.html#boundprocedure-double_precision_optimizer_name'>double_precision_optimizer_name</a></strong></td>
+                <td></td>
+              </tr>
+              <tr>
+                <td>  procedure, private ::
+  <strong><a href='../type/training_configuration_t.html#boundprocedure-double_precision_skip_connections'>double_precision_skip_connections</a></strong></td>
+                <td></td>
+              </tr>
+              <tr>
+                <td>  procedure, private ::
+  <strong><a href='../type/training_configuration_t.html#boundprocedure-double_precision_to_json'>double_precision_to_json</a></strong></td>
                 <td></td>
               </tr>
           </tbody>
@@ -1621,7 +2304,7 @@ large graphs.</div>
         <div class="row justify-content-between">
           <div class="col">
             <p>
-              Inference-Engine
+              Fiats
  was developed by Berkeley Lab<br>              &copy; 2024 
 </p>
           </div>
@@ -1629,7 +2312,7 @@ large graphs.</div>
             <p class="text-end">
               Documentation generated by
               <a href="https://github.com/Fortran-FOSS-Programmers/ford">FORD</a>
- on 2024-10-01 22:45              </p>
+ on 2024-10-17 00:07              </p>
           </div>
         </div>
         <br>

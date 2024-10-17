@@ -6,11 +6,11 @@
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-      <meta name="description" content="A deep learning library targeting high-performance computing (HPC) applications with performance-critical inference and training needs.">
+      <meta name="description" content="Functional inference and training of surrogate models for computational science.">
     <meta name="author" content="Berkeley Lab" >
     <link rel="icon" href="../favicon.png">
 
-    <title>tensor_map_s &ndash; Inference-Engine</title>
+    <title>tensor_map_s &ndash; Fiats</title>
 
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet"
           integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
@@ -29,7 +29,7 @@
     <div class="container-fluid mb-sm-4 mb-xl-2">
       <nav class="navbar navbar-expand-lg navbar-dark bg-dark fixed-top">
         <div class="container">
-          <a class="navbar-brand" href="../index.html">Inference-Engine </a>
+          <a class="navbar-brand" href="../index.html">Fiats </a>
           <button type="button" class="navbar-toggler" data-bs-toggle="collapse" data-bs-target="#navbar"
                   aria-expanded="false" aria-controls="navbar" aria-label="Toggle navigation">
                   <span class="navbar-toggler-icon">
@@ -45,9 +45,6 @@
                 </li>
                 <li class="nav-item">
                   <a class="nav-link" href="../lists/procedures.html">Procedures</a>
-                </li>
-                <li class="nav-item">
-                  <a class="nav-link" href="../lists/absint.html">Abstract Interfaces</a>
                 </li>
                 <li class="nav-item">
                   <a class="nav-link" href="../lists/types.html">Derived Types</a>
@@ -79,7 +76,7 @@
 
             <li class="list-inline-item" id="statements"><i class="fa fa-list-ol"></i>
               <a data-bs-toggle="tooltip" data-bs-placement="bottom" data-bs-html="true"
-                 title=" 2.8% of total for modules and submodules.">68 statements</a>
+                 title=" 3.9% of total for modules and submodules.">129 statements</a>
             </li>
 
             <li class="list-inline-item" id="source-file">
@@ -132,12 +129,18 @@
       </a>
       <div id="modprocs-0" class="collapse">
         <div class="list-group list-group-flush">
-            <a class="list-group-item" href="../module/tensor_map_s.html#proc-equals">equals</a>
-            <a class="list-group-item" href="../module/tensor_map_s.html#proc-from_component_ranges">from_component_ranges</a>
+            <a class="list-group-item" href="../module/tensor_map_s.html#proc-construct_default_real~2">construct_default_real</a>
+            <a class="list-group-item" href="../module/tensor_map_s.html#proc-construct_double_precision~2">construct_double_precision</a>
+            <a class="list-group-item" href="../module/tensor_map_s.html#proc-default_real_equals">default_real_equals</a>
+            <a class="list-group-item" href="../module/tensor_map_s.html#proc-default_real_map_from_training_range">default_real_map_from_training_range</a>
+            <a class="list-group-item" href="../module/tensor_map_s.html#proc-default_real_map_to_training_range">default_real_map_to_training_range</a>
+            <a class="list-group-item" href="../module/tensor_map_s.html#proc-default_real_to_json~2">default_real_to_json</a>
+            <a class="list-group-item" href="../module/tensor_map_s.html#proc-double_precision_equals">double_precision_equals</a>
+            <a class="list-group-item" href="../module/tensor_map_s.html#proc-double_precision_from_json~2">double_precision_from_json</a>
+            <a class="list-group-item" href="../module/tensor_map_s.html#proc-double_precision_map_from_training_range">double_precision_map_from_training_range</a>
+            <a class="list-group-item" href="../module/tensor_map_s.html#proc-double_precision_map_to_training_range">double_precision_map_to_training_range</a>
+            <a class="list-group-item" href="../module/tensor_map_s.html#proc-double_precision_to_json~2">double_precision_to_json</a>
             <a class="list-group-item" href="../module/tensor_map_s.html#proc-from_json">from_json</a>
-            <a class="list-group-item" href="../module/tensor_map_s.html#proc-map_from_training_range">map_from_training_range</a>
-            <a class="list-group-item" href="../module/tensor_map_s.html#proc-map_to_training_range">map_to_training_range</a>
-            <a class="list-group-item" href="../module/tensor_map_s.html#proc-to_json">to_json</a>
         </div>
       </div>
     </div>
@@ -160,9 +163,9 @@
         <ul class="list-group list-group-flush">
             <li class="list-group-item">
               <ul class="list-inline">
+                  <li class="list-inline-item">assert_m</li>
                   <li class="list-inline-item">julienne_m</li>
                   <li class="list-inline-item"><a href='kind_parameters_m.html'>kind_parameters_m</a></li>
-                  <li class="list-inline-item">assert_m</li>
               </ul>
             </li>
             <li class="list-group-item">
@@ -178,103 +181,124 @@
 <!-- Generated by graphviz version 12.1.2 (20240928.0832)
  -->
 <!-- Title: module~~tensor_map_s~~UsesGraph Pages: 1 -->
-<svg id="moduletensor_map_sUsesGraph" width="479pt" height="140pt"
- viewBox="0.00 0.00 478.58 140.45" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
-<g id="module~~tensor_map_s~~UsesGraph" class="graph" transform="scale(1 1) rotate(0) translate(4 136.45)">
+<svg id="moduletensor_map_sUsesGraph" width="561pt" height="184pt"
+ viewBox="0.00 0.00 561.08 183.64" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+<g id="module~~tensor_map_s~~UsesGraph" class="graph" transform="scale(1 1) rotate(0) translate(4 179.64)">
 <title>module~~tensor_map_s~~UsesGraph</title>
-<polygon fill="white" stroke="none" points="-4,4 -4,-136.45 474.58,-136.45 474.58,4 -4,4"/>
+<polygon fill="white" stroke="none" points="-4,4 -4,-179.64 557.08,-179.64 557.08,4 -4,4"/>
 <!-- module~tensor_map_s -->
 <g id="module~~tensor_map_s~~UsesGraph_node1" class="node">
 <title>module~tensor_map_s</title>
-<polygon fill="none" stroke="black" points="470.58,-72.45 385.56,-72.45 385.56,-48.18 470.58,-48.18 470.58,-72.45"/>
-<text text-anchor="middle" x="428.07" y="-56.71" font-family="Helvetica,sans-Serif" font-size="10.50">tensor_map_s</text>
+<polygon fill="none" stroke="black" points="553.08,-114.64 468.06,-114.64 468.06,-90.37 553.08,-90.37 553.08,-114.64"/>
+<text text-anchor="middle" x="510.57" y="-98.91" font-family="Helvetica,sans-Serif" font-size="10.50">tensor_map_s</text>
 </g>
 <!-- assert_m -->
 <g id="module~~tensor_map_s~~UsesGraph_node2" class="node">
 <title>assert_m</title>
-<polygon fill="#337ab7" stroke="#337ab7" points="334.18,-132.45 274.66,-132.45 274.66,-108.18 334.18,-108.18 334.18,-132.45"/>
-<text text-anchor="middle" x="304.42" y="-116.71" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">assert_m</text>
+<polygon fill="#337ab7" stroke="#337ab7" points="416.69,-175.64 357.17,-175.64 357.17,-151.37 416.69,-151.37 416.69,-175.64"/>
+<text text-anchor="middle" x="386.93" y="-159.91" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">assert_m</text>
 </g>
 <!-- module~tensor_map_s&#45;&gt;assert_m -->
 <g id="module~~tensor_map_s~~UsesGraph_edge1" class="edge">
 <title>module~tensor_map_s&#45;&gt;assert_m</title>
-<path fill="none" stroke="#ff0000" stroke-dasharray="5,2" d="M401.57,-72.89C384.05,-81.53 360.55,-93.12 341.17,-102.68"/>
-<polygon fill="#ff0000" stroke="#ff0000" points="339.67,-99.52 332.25,-107.08 342.77,-105.79 339.67,-99.52"/>
+<path fill="none" stroke="#ff0000" stroke-dasharray="5,2" d="M484.66,-115C466.87,-123.92 442.68,-136.05 422.95,-145.94"/>
+<polygon fill="#ff0000" stroke="#ff0000" points="421.53,-142.74 414.15,-150.35 424.66,-149 421.53,-142.74"/>
 </g>
 <!-- julienne_m -->
 <g id="module~~tensor_map_s~~UsesGraph_node3" class="node">
 <title>julienne_m</title>
-<polygon fill="#337ab7" stroke="#337ab7" points="223.29,-94.45 153.27,-94.45 153.27,-70.18 223.29,-70.18 223.29,-94.45"/>
-<text text-anchor="middle" x="188.28" y="-78.71" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">julienne_m</text>
+<polygon fill="#337ab7" stroke="#337ab7" points="93.64,-33.64 23.62,-33.64 23.62,-9.37 93.64,-9.37 93.64,-33.64"/>
+<text text-anchor="middle" x="58.63" y="-17.91" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">julienne_m</text>
 </g>
 <!-- module~tensor_map_s&#45;&gt;julienne_m -->
 <g id="module~~tensor_map_s~~UsesGraph_edge2" class="edge">
 <title>module~tensor_map_s&#45;&gt;julienne_m</title>
-<path fill="none" stroke="#ff0000" stroke-dasharray="5,2" d="M385.11,-64.19C342.97,-68.09 278.24,-74.08 234.87,-78.09"/>
-<polygon fill="#ff0000" stroke="#ff0000" points="234.65,-74.6 225.02,-79 235.3,-81.57 234.65,-74.6"/>
+<path fill="none" stroke="#ff0000" stroke-dasharray="5,2" d="M498.21,-90.38C484.11,-76.11 458.65,-52.8 432.06,-40.51 349.25,-2.23 321.7,-4.78 230.53,-1.51"/>
+<path fill="none" stroke="#ff0000" stroke-dasharray="5,2" d="M228.53,-1.51C186.46,1.51 138.75,-5.07 104.79,-11.47"/>
+<polygon fill="#ff0000" stroke="#ff0000" points="104.46,-7.97 95.32,-13.33 105.81,-14.84 104.46,-7.97"/>
 </g>
 <!-- module~kind_parameters_m -->
 <g id="module~~tensor_map_s~~UsesGraph_node4" class="node">
 <title>module~kind_parameters_m</title>
 <g id="a_module~~tensor_map_s~~UsesGraph_node4"><a xlink:href="../module/kind_parameters_m.html" xlink:title="kind_parameters_m">
-<polygon fill="#337ab7" stroke="#337ab7" points="117.27,-32.45 0,-32.45 0,-8.18 117.27,-8.18 117.27,-32.45"/>
-<text text-anchor="middle" x="58.63" y="-16.71" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">kind_parameters_m</text>
+<polygon fill="#337ab7" stroke="#337ab7" points="117.27,-115.64 0,-115.64 0,-91.37 117.27,-91.37 117.27,-115.64"/>
+<text text-anchor="middle" x="58.63" y="-99.91" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">kind_parameters_m</text>
 </a>
 </g>
 </g>
 <!-- module~tensor_map_s&#45;&gt;module~kind_parameters_m -->
 <g id="module~~tensor_map_s~~UsesGraph_edge3" class="edge">
 <title>module~tensor_map_s&#45;&gt;module~kind_parameters_m</title>
-<path fill="none" stroke="#ff0000" stroke-dasharray="5,2" d="M408.19,-47.77C393.01,-38.33 370.78,-25.93 349.56,-19.31 281.08,2.04 261.01,-0.94 189.28,-0.31"/>
-<path fill="none" stroke="#ff0000" stroke-dasharray="5,2" d="M187.28,-0.31C166.19,0.31 143.36,-2.23 122.92,-5.68"/>
-<polygon fill="#ff0000" stroke="#ff0000" points="122.54,-2.19 113.32,-7.42 123.79,-9.08 122.54,-2.19"/>
+<path fill="none" stroke="#ff0000" stroke-dasharray="5,2" d="M468.02,-106.58C413.55,-111.7 315,-120.21 230.53,-123.51"/>
 </g>
 <!-- module~tensor_map_m -->
 <g id="module~~tensor_map_s~~UsesGraph_node5" class="node">
 <title>module~tensor_map_m</title>
 <g id="a_module~~tensor_map_s~~UsesGraph_node5"><a xlink:href="../module/tensor_map_m.html" xlink:title="tensor_map_m">
-<polygon fill="#337ab7" stroke="#337ab7" points="349.56,-52.45 259.29,-52.45 259.29,-28.18 349.56,-28.18 349.56,-52.45"/>
-<text text-anchor="middle" x="304.42" y="-36.71" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">tensor_map_m</text>
+<polygon fill="#337ab7" stroke="#337ab7" points="432.06,-73.64 341.79,-73.64 341.79,-49.37 432.06,-49.37 432.06,-73.64"/>
+<text text-anchor="middle" x="386.93" y="-57.91" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">tensor_map_m</text>
 </a>
 </g>
 </g>
 <!-- module~tensor_map_s&#45;&gt;module~tensor_map_m -->
 <g id="module~~tensor_map_s~~UsesGraph_edge4" class="edge">
 <title>module~tensor_map_s&#45;&gt;module~tensor_map_m</title>
-<path fill="none" stroke="#ff0000" d="M385.21,-53.43C377.45,-52.15 369.24,-50.8 361.15,-49.47"/>
-<polygon fill="#ff0000" stroke="#ff0000" points="361.78,-46.03 351.35,-47.86 360.65,-52.94 361.78,-46.03"/>
+<path fill="none" stroke="#ff0000" d="M472.41,-89.98C460.96,-86.13 448.19,-81.82 436.11,-77.75"/>
+<polygon fill="#ff0000" stroke="#ff0000" points="437.3,-74.46 426.71,-74.58 435.07,-81.09 437.3,-74.46"/>
 </g>
 <!-- module~tensor_map_m&#45;&gt;julienne_m -->
 <g id="module~~tensor_map_s~~UsesGraph_edge5" class="edge">
 <title>module~tensor_map_m&#45;&gt;julienne_m</title>
-<path fill="none" stroke="#7f00ff" stroke-dasharray="5,2" d="M269.18,-52.91C258.12,-56.98 245.69,-61.56 233.98,-65.86"/>
-<polygon fill="#7f00ff" stroke="#7f00ff" points="233.1,-62.46 224.92,-69.2 235.52,-69.03 233.1,-62.46"/>
+<path fill="none" stroke="#7f00ff" stroke-dasharray="5,2" d="M366.25,-48.99C337.62,-31.96 282.26,-3.37 230.53,-1.51"/>
 </g>
 <!-- module~tensor_map_m&#45;&gt;module~kind_parameters_m -->
-<g id="module~~tensor_map_s~~UsesGraph_edge6" class="edge">
+<g id="module~~tensor_map_s~~UsesGraph_edge7" class="edge">
 <title>module~tensor_map_m&#45;&gt;module~kind_parameters_m</title>
-<path fill="none" stroke="#7f00ff" stroke-dasharray="5,2" d="M281.48,-27.78C259.07,-16.16 222.88,-0.6 189.28,-0.31"/>
+<path fill="none" stroke="#7f00ff" stroke-dasharray="5,2" d="M366.78,-74.12C338.37,-91.65 282.77,-121.47 230.53,-123.51"/>
+<path fill="none" stroke="#7f00ff" stroke-dasharray="5,2" d="M228.53,-123.51C195.7,-124.79 159.49,-121.18 129.05,-116.68"/>
+<polygon fill="#7f00ff" stroke="#7f00ff" points="129.6,-113.23 119.19,-115.16 128.53,-120.14 129.6,-113.23"/>
+</g>
+<!-- module~double_precision_string_m -->
+<g id="module~~tensor_map_s~~UsesGraph_node6" class="node">
+<title>module~double_precision_string_m</title>
+<g id="a_module~~tensor_map_s~~UsesGraph_node6"><a xlink:href="../module/double_precision_string_m.html" xlink:title="double_precision_string_m">
+<polygon fill="#337ab7" stroke="#337ab7" points="305.79,-53.64 153.27,-53.64 153.27,-29.37 305.79,-29.37 305.79,-53.64"/>
+<text text-anchor="middle" x="229.53" y="-37.91" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">double_precision_string_m</text>
+</a>
+</g>
+</g>
+<!-- module~tensor_map_m&#45;&gt;module~double_precision_string_m -->
+<g id="module~~tensor_map_s~~UsesGraph_edge6" class="edge">
+<title>module~tensor_map_m&#45;&gt;module~double_precision_string_m</title>
+<path fill="none" stroke="#7f00ff" stroke-dasharray="5,2" d="M341.4,-55.78C333.81,-54.8 325.71,-53.76 317.46,-52.7"/>
+<polygon fill="#7f00ff" stroke="#7f00ff" points="318.04,-49.24 307.67,-51.44 317.14,-56.18 318.04,-49.24"/>
 </g>
 <!-- module~tensor_m -->
-<g id="module~~tensor_map_s~~UsesGraph_node6" class="node">
+<g id="module~~tensor_map_s~~UsesGraph_node7" class="node">
 <title>module~tensor_m</title>
-<g id="a_module~~tensor_map_s~~UsesGraph_node6"><a xlink:href="../module/tensor_m.html" xlink:title="tensor_m">
-<polygon fill="#337ab7" stroke="#337ab7" points="218.79,-52.45 157.77,-52.45 157.77,-28.18 218.79,-28.18 218.79,-52.45"/>
-<text text-anchor="middle" x="188.28" y="-36.71" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">tensor_m</text>
+<g id="a_module~~tensor_map_s~~UsesGraph_node7"><a xlink:href="../module/tensor_m.html" xlink:title="tensor_m">
+<polygon fill="#337ab7" stroke="#337ab7" points="260.04,-95.64 199.02,-95.64 199.02,-71.37 260.04,-71.37 260.04,-95.64"/>
+<text text-anchor="middle" x="229.53" y="-79.91" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">tensor_m</text>
 </a>
 </g>
 </g>
 <!-- module~tensor_map_m&#45;&gt;module~tensor_m -->
-<g id="module~~tensor_map_s~~UsesGraph_edge7" class="edge">
+<g id="module~~tensor_map_s~~UsesGraph_edge8" class="edge">
 <title>module~tensor_map_m&#45;&gt;module~tensor_m</title>
-<path fill="none" stroke="#7f00ff" stroke-dasharray="5,2" d="M258.97,-40.31C249.55,-40.31 239.65,-40.31 230.36,-40.31"/>
-<polygon fill="#7f00ff" stroke="#7f00ff" points="230.52,-36.81 220.52,-40.31 230.52,-43.81 230.52,-36.81"/>
+<path fill="none" stroke="#7f00ff" stroke-dasharray="5,2" d="M341.4,-67.81C319.45,-70.92 293.16,-74.64 271.69,-77.68"/>
+<polygon fill="#7f00ff" stroke="#7f00ff" points="271.22,-74.21 261.81,-79.08 272.21,-81.14 271.22,-74.21"/>
+</g>
+<!-- module~double_precision_string_m&#45;&gt;julienne_m -->
+<g id="module~~tensor_map_s~~UsesGraph_edge9" class="edge">
+<title>module~double_precision_string_m&#45;&gt;julienne_m</title>
+<path fill="none" stroke="#ff0000" stroke-dasharray="5,2" d="M152.97,-32.56C136.76,-30.64 120.1,-28.67 105.42,-26.93"/>
+<polygon fill="#ff0000" stroke="#ff0000" points="105.97,-23.47 95.63,-25.77 105.15,-30.42 105.97,-23.47"/>
 </g>
 <!-- module~tensor_m&#45;&gt;module~kind_parameters_m -->
-<g id="module~~tensor_map_s~~UsesGraph_edge8" class="edge">
+<g id="module~~tensor_map_s~~UsesGraph_edge10" class="edge">
 <title>module~tensor_m&#45;&gt;module~kind_parameters_m</title>
-<path fill="none" stroke="#ff0000" stroke-dasharray="5,2" d="M157.35,-35.62C148.73,-34.27 138.95,-32.74 128.99,-31.18"/>
-<polygon fill="#ff0000" stroke="#ff0000" points="129.63,-27.74 119.21,-29.65 128.55,-34.65 129.63,-27.74"/>
+<path fill="none" stroke="#00ffff" stroke-dasharray="5,2" d="M198.72,-87.04C179.35,-89.33 153.25,-92.42 128.89,-95.31"/>
+<polygon fill="#00ffff" stroke="#00ffff" points="128.51,-91.83 118.99,-96.48 129.33,-98.78 128.51,-91.83"/>
 </g>
 </g>
 </svg>
@@ -371,8 +395,7 @@ large graphs.</div>
         <section>
           <h2>Module Procedures</h2>
               <div class="card">
-    <div class="card-header codesum"><span class="anchor" id="proc-equals"></span> <h3>module procedure /home/runner/work/inference-engine/inference-engine/doc/html/module/tensor_map_s.html <a href='../proc/equals.html'>equals</a> <small>elemental module function equals(lhs, rhs) result(lhs_equals_rhs)</small>  
-    <a href="../interface/equals~5.html"><button type="button" class="btn btn-info depwarn">Interface &rarr;</button></a>
+    <div class="card-header codesum"><span class="anchor" id="proc-construct_default_real~2"></span> <h3>module procedure /home/runner/work/inference-engine/inference-engine/doc/html/module/tensor_map_s.html <a href='../proc/construct_default_real~2.html'>construct_default_real</a> <small>pure module function construct_default_real(layer, minima, maxima) result(tensor_map)</small>  
 </h3></div>
     <div class="card-body">
           
@@ -391,7 +414,158 @@ large graphs.</div>
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-lhs~5"></span>
+              <span class="anchor" id="variable-layer~9"></span>
+              character(len=*),
+            </td>
+<td>intent(in)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>layer</strong></td>
+            <td>
+
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-minima"></span>
+              real,
+            </td>
+<td>intent(in),</td>
+              <td></td>            <td>
+              dimension(:)
+            </td>
+            <td>::</td>
+            <td><strong>minima</strong></td>
+            <td>
+
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-maxima"></span>
+              real,
+            </td>
+<td>intent(in),</td>
+              <td></td>            <td>
+              dimension(:)
+            </td>
+            <td>::</td>
+            <td><strong>maxima</strong></td>
+            <td>
+
+            </td>
+        </tr>
+    </tbody>
+  </table>
+
+    <h4>
+    Return Value
+    <small>type(<a href='../type/tensor_map_t.html'>tensor_map_t</a>)</small>
+    </h4>
+    
+
+    </div>
+  </div>
+
+              <div class="card">
+    <div class="card-header codesum"><span class="anchor" id="proc-construct_double_precision~2"></span> <h3>module procedure /home/runner/work/inference-engine/inference-engine/doc/html/module/tensor_map_s.html <a href='../proc/construct_double_precision~2.html'>construct_double_precision</a> <small>pure module function construct_double_precision(layer, minima, maxima) result(tensor_map)</small>  
+</h3></div>
+    <div class="card-body">
+          
+  
+
+  <h4>Arguments</h4>
+      <table class="table table-striped varlist">
+    <thead>
+      <tr>
+        <th scope="col">Type</th>
+<th scope="col">Intent</th><th scope="col">Optional</th>        <th scope="col">Attributes</th>
+        <th scope="col"></th>
+        <th scope="col">Name</th>
+        <th scope="col"></th>
+    </thead>
+    <tbody>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-layer~10"></span>
+              character(len=*),
+            </td>
+<td>intent(in)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>layer</strong></td>
+            <td>
+
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-minima~2"></span>
+              double precision,
+            </td>
+<td>intent(in),</td>
+              <td></td>            <td>
+              dimension(:)
+            </td>
+            <td>::</td>
+            <td><strong>minima</strong></td>
+            <td>
+
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-maxima~2"></span>
+              double precision,
+            </td>
+<td>intent(in),</td>
+              <td></td>            <td>
+              dimension(:)
+            </td>
+            <td>::</td>
+            <td><strong>maxima</strong></td>
+            <td>
+
+            </td>
+        </tr>
+    </tbody>
+  </table>
+
+    <h4>
+    Return Value
+    <small>type(<a href='../type/tensor_map_t.html'>tensor_map_t</a>(double_precision))</small>
+    </h4>
+    
+
+    </div>
+  </div>
+
+              <div class="card">
+    <div class="card-header codesum"><span class="anchor" id="proc-default_real_equals"></span> <h3>module procedure /home/runner/work/inference-engine/inference-engine/doc/html/module/tensor_map_s.html <a href='../proc/default_real_equals.html'>default_real_equals</a> <small>elemental module function default_real_equals(lhs, rhs) result(lhs_equals_rhs)</small>  
+    <a href="../interface/default_real_equals~3.html"><button type="button" class="btn btn-info depwarn">Interface &rarr;</button></a>
+</h3></div>
+    <div class="card-body">
+          
+  
+
+  <h4>Arguments</h4>
+      <table class="table table-striped varlist">
+    <thead>
+      <tr>
+        <th scope="col">Type</th>
+<th scope="col">Intent</th><th scope="col">Optional</th>        <th scope="col">Attributes</th>
+        <th scope="col"></th>
+        <th scope="col">Name</th>
+        <th scope="col"></th>
+    </thead>
+    <tbody>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-lhs~9"></span>
               class(<a href='../type/tensor_map_t.html'>tensor_map_t</a>),
             </td>
 <td>intent(in)</td>
@@ -406,7 +580,7 @@ large graphs.</div>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-rhs~6"></span>
+              <span class="anchor" id="variable-rhs~10"></span>
               class(<a href='../type/tensor_map_t.html'>tensor_map_t</a>),
             </td>
 <td>intent(in)</td>
@@ -432,7 +606,8 @@ large graphs.</div>
   </div>
 
               <div class="card">
-    <div class="card-header codesum"><span class="anchor" id="proc-from_component_ranges"></span> <h3>module procedure /home/runner/work/inference-engine/inference-engine/doc/html/module/tensor_map_s.html <a href='../proc/from_component_ranges.html'>from_component_ranges</a> <small>pure module function from_component_ranges(layer, minima, maxima) result(tensor_map)</small>  
+    <div class="card-header codesum"><span class="anchor" id="proc-default_real_map_from_training_range"></span> <h3>module procedure /home/runner/work/inference-engine/inference-engine/doc/html/module/tensor_map_s.html <a href='../proc/default_real_map_from_training_range.html'>default_real_map_from_training_range</a> <small>elemental module function default_real_map_from_training_range(self, tensor) result(unnormalized_tensor)</small>  
+    <a href="../interface/default_real_map_from_training_range.html"><button type="button" class="btn btn-info depwarn">Interface &rarr;</button></a>
 </h3></div>
     <div class="card-body">
           
@@ -451,45 +626,30 @@ large graphs.</div>
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-layer"></span>
-              character(len=*),
+              <span class="anchor" id="variable-self~95"></span>
+              class(<a href='../type/tensor_map_t.html'>tensor_map_t</a>),
             </td>
 <td>intent(in)</td>
               <td></td>            <td>
               
             </td>
             <td>::</td>
-            <td><strong>layer</strong></td>
+            <td><strong>self</strong></td>
             <td>
 
             </td>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-minima"></span>
-              real(kind=rkind),
+              <span class="anchor" id="variable-tensor~9"></span>
+              type(<a href='../type/tensor_t.html'>tensor_t</a>),
             </td>
-<td>intent(in),</td>
+<td>intent(in)</td>
               <td></td>            <td>
-              dimension(:)
+              
             </td>
             <td>::</td>
-            <td><strong>minima</strong></td>
-            <td>
-
-            </td>
-        </tr>
-        <tr>
-            <td>
-              <span class="anchor" id="variable-maxima"></span>
-              real(kind=rkind),
-            </td>
-<td>intent(in),</td>
-              <td></td>            <td>
-              dimension(:)
-            </td>
-            <td>::</td>
-            <td><strong>maxima</strong></td>
+            <td><strong>tensor</strong></td>
             <td>
 
             </td>
@@ -499,7 +659,388 @@ large graphs.</div>
 
     <h4>
     Return Value
-    <small>type(<a href='../type/tensor_map_t.html'>tensor_map_t</a>)</small>
+    <small>type(<a href='../type/tensor_t.html'>tensor_t</a>)</small>
+    </h4>
+    
+
+    </div>
+  </div>
+
+              <div class="card">
+    <div class="card-header codesum"><span class="anchor" id="proc-default_real_map_to_training_range"></span> <h3>module procedure /home/runner/work/inference-engine/inference-engine/doc/html/module/tensor_map_s.html <a href='../proc/default_real_map_to_training_range.html'>default_real_map_to_training_range</a> <small>elemental module function default_real_map_to_training_range(self, tensor) result(normalized_tensor)</small>  
+    <a href="../interface/default_real_map_to_training_range.html"><button type="button" class="btn btn-info depwarn">Interface &rarr;</button></a>
+</h3></div>
+    <div class="card-body">
+          
+  
+
+  <h4>Arguments</h4>
+      <table class="table table-striped varlist">
+    <thead>
+      <tr>
+        <th scope="col">Type</th>
+<th scope="col">Intent</th><th scope="col">Optional</th>        <th scope="col">Attributes</th>
+        <th scope="col"></th>
+        <th scope="col">Name</th>
+        <th scope="col"></th>
+    </thead>
+    <tbody>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-self~93"></span>
+              class(<a href='../type/tensor_map_t.html'>tensor_map_t</a>),
+            </td>
+<td>intent(in)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>self</strong></td>
+            <td>
+
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-tensor~7"></span>
+              type(<a href='../type/tensor_t.html'>tensor_t</a>),
+            </td>
+<td>intent(in)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>tensor</strong></td>
+            <td>
+
+            </td>
+        </tr>
+    </tbody>
+  </table>
+
+    <h4>
+    Return Value
+    <small>type(<a href='../type/tensor_t.html'>tensor_t</a>)</small>
+    </h4>
+    
+
+    </div>
+  </div>
+
+              <div class="card">
+    <div class="card-header codesum"><span class="anchor" id="proc-default_real_to_json~2"></span> <h3>module procedure /home/runner/work/inference-engine/inference-engine/doc/html/module/tensor_map_s.html <a href='../proc/default_real_to_json~2.html'>default_real_to_json</a> <small>pure module function default_real_to_json(self) result(lines)</small>  
+    <a href="../interface/default_real_to_json~5.html"><button type="button" class="btn btn-info depwarn">Interface &rarr;</button></a>
+</h3></div>
+    <div class="card-body">
+          
+  
+
+  <h4>Arguments</h4>
+      <table class="table table-striped varlist">
+    <thead>
+      <tr>
+        <th scope="col">Type</th>
+<th scope="col">Intent</th><th scope="col">Optional</th>        <th scope="col">Attributes</th>
+        <th scope="col"></th>
+        <th scope="col">Name</th>
+        <th scope="col"></th>
+    </thead>
+    <tbody>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-self~97"></span>
+              class(<a href='../type/tensor_map_t.html'>tensor_map_t</a>),
+            </td>
+<td>intent(in)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>self</strong></td>
+            <td>
+
+            </td>
+        </tr>
+    </tbody>
+  </table>
+
+    <h4>
+    Return Value
+    <small>type(string_t), allocatable, (:)</small>
+    </h4>
+    
+
+    </div>
+  </div>
+
+              <div class="card">
+    <div class="card-header codesum"><span class="anchor" id="proc-double_precision_equals"></span> <h3>module procedure /home/runner/work/inference-engine/inference-engine/doc/html/module/tensor_map_s.html <a href='../proc/double_precision_equals.html'>double_precision_equals</a> <small>elemental module function double_precision_equals(lhs, rhs) result(lhs_equals_rhs)</small>  
+    <a href="../interface/double_precision_equals~3.html"><button type="button" class="btn btn-info depwarn">Interface &rarr;</button></a>
+</h3></div>
+    <div class="card-body">
+          
+  
+
+  <h4>Arguments</h4>
+      <table class="table table-striped varlist">
+    <thead>
+      <tr>
+        <th scope="col">Type</th>
+<th scope="col">Intent</th><th scope="col">Optional</th>        <th scope="col">Attributes</th>
+        <th scope="col"></th>
+        <th scope="col">Name</th>
+        <th scope="col"></th>
+    </thead>
+    <tbody>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-lhs~10"></span>
+              class(<a href='../type/tensor_map_t.html'>tensor_map_t</a>(double_precision)),
+            </td>
+<td>intent(in)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>lhs</strong></td>
+            <td>
+
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-rhs~11"></span>
+              class(<a href='../type/tensor_map_t.html'>tensor_map_t</a>(double_precision)),
+            </td>
+<td>intent(in)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>rhs</strong></td>
+            <td>
+
+            </td>
+        </tr>
+    </tbody>
+  </table>
+
+    <h4>
+    Return Value
+    <small>logical</small>
+    </h4>
+    
+
+    </div>
+  </div>
+
+              <div class="card">
+    <div class="card-header codesum"><span class="anchor" id="proc-double_precision_from_json~2"></span> <h3>module procedure /home/runner/work/inference-engine/inference-engine/doc/html/module/tensor_map_s.html <a href='../proc/double_precision_from_json~2.html'>double_precision_from_json</a> <small>module function double_precision_from_json(lines) result(tensor_map)</small>  
+</h3></div>
+    <div class="card-body">
+          
+  
+
+  <h4>Arguments</h4>
+      <table class="table table-striped varlist">
+    <thead>
+      <tr>
+        <th scope="col">Type</th>
+<th scope="col">Intent</th><th scope="col">Optional</th>        <th scope="col">Attributes</th>
+        <th scope="col"></th>
+        <th scope="col">Name</th>
+        <th scope="col"></th>
+    </thead>
+    <tbody>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-lines~15"></span>
+              type(<a href='../type/double_precision_string_t.html'>double_precision_string_t</a>),
+            </td>
+<td>intent(in)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>lines</strong>(:)</td>
+            <td>
+
+            </td>
+        </tr>
+    </tbody>
+  </table>
+
+    <h4>
+    Return Value
+    <small>type(<a href='../type/tensor_map_t.html'>tensor_map_t</a>(double_precision))</small>
+    </h4>
+    
+
+    </div>
+  </div>
+
+              <div class="card">
+    <div class="card-header codesum"><span class="anchor" id="proc-double_precision_map_from_training_range"></span> <h3>module procedure /home/runner/work/inference-engine/inference-engine/doc/html/module/tensor_map_s.html <a href='../proc/double_precision_map_from_training_range.html'>double_precision_map_from_training_range</a> <small>elemental module function double_precision_map_from_training_range(self, tensor) result(unnormalized_tensor)</small>  
+    <a href="../interface/double_precision_map_from_training_range.html"><button type="button" class="btn btn-info depwarn">Interface &rarr;</button></a>
+</h3></div>
+    <div class="card-body">
+          
+  
+
+  <h4>Arguments</h4>
+      <table class="table table-striped varlist">
+    <thead>
+      <tr>
+        <th scope="col">Type</th>
+<th scope="col">Intent</th><th scope="col">Optional</th>        <th scope="col">Attributes</th>
+        <th scope="col"></th>
+        <th scope="col">Name</th>
+        <th scope="col"></th>
+    </thead>
+    <tbody>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-self~96"></span>
+              class(<a href='../type/tensor_map_t.html'>tensor_map_t</a>(double_precision)),
+            </td>
+<td>intent(in)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>self</strong></td>
+            <td>
+
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-tensor~10"></span>
+              type(<a href='../type/tensor_t.html'>tensor_t</a>(double_precision)),
+            </td>
+<td>intent(in)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>tensor</strong></td>
+            <td>
+
+            </td>
+        </tr>
+    </tbody>
+  </table>
+
+    <h4>
+    Return Value
+    <small>type(<a href='../type/tensor_t.html'>tensor_t</a>(double_precision))</small>
+    </h4>
+    
+
+    </div>
+  </div>
+
+              <div class="card">
+    <div class="card-header codesum"><span class="anchor" id="proc-double_precision_map_to_training_range"></span> <h3>module procedure /home/runner/work/inference-engine/inference-engine/doc/html/module/tensor_map_s.html <a href='../proc/double_precision_map_to_training_range.html'>double_precision_map_to_training_range</a> <small>elemental module function double_precision_map_to_training_range(self, tensor) result(normalized_tensor)</small>  
+    <a href="../interface/double_precision_map_to_training_range.html"><button type="button" class="btn btn-info depwarn">Interface &rarr;</button></a>
+</h3></div>
+    <div class="card-body">
+          
+  
+
+  <h4>Arguments</h4>
+      <table class="table table-striped varlist">
+    <thead>
+      <tr>
+        <th scope="col">Type</th>
+<th scope="col">Intent</th><th scope="col">Optional</th>        <th scope="col">Attributes</th>
+        <th scope="col"></th>
+        <th scope="col">Name</th>
+        <th scope="col"></th>
+    </thead>
+    <tbody>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-self~94"></span>
+              class(<a href='../type/tensor_map_t.html'>tensor_map_t</a>(double_precision)),
+            </td>
+<td>intent(in)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>self</strong></td>
+            <td>
+
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-tensor~8"></span>
+              type(<a href='../type/tensor_t.html'>tensor_t</a>(double_precision)),
+            </td>
+<td>intent(in)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>tensor</strong></td>
+            <td>
+
+            </td>
+        </tr>
+    </tbody>
+  </table>
+
+    <h4>
+    Return Value
+    <small>type(<a href='../type/tensor_t.html'>tensor_t</a>(double_precision))</small>
+    </h4>
+    
+
+    </div>
+  </div>
+
+              <div class="card">
+    <div class="card-header codesum"><span class="anchor" id="proc-double_precision_to_json~2"></span> <h3>module procedure /home/runner/work/inference-engine/inference-engine/doc/html/module/tensor_map_s.html <a href='../proc/double_precision_to_json~2.html'>double_precision_to_json</a> <small>pure module function double_precision_to_json(self) result(lines)</small>  
+    <a href="../interface/double_precision_to_json~5.html"><button type="button" class="btn btn-info depwarn">Interface &rarr;</button></a>
+</h3></div>
+    <div class="card-body">
+          
+  
+
+  <h4>Arguments</h4>
+      <table class="table table-striped varlist">
+    <thead>
+      <tr>
+        <th scope="col">Type</th>
+<th scope="col">Intent</th><th scope="col">Optional</th>        <th scope="col">Attributes</th>
+        <th scope="col"></th>
+        <th scope="col">Name</th>
+        <th scope="col"></th>
+    </thead>
+    <tbody>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-self~98"></span>
+              class(<a href='../type/tensor_map_t.html'>tensor_map_t</a>(double_precision)),
+            </td>
+<td>intent(in)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>self</strong></td>
+            <td>
+
+            </td>
+        </tr>
+    </tbody>
+  </table>
+
+    <h4>
+    Return Value
+    <small>type(string_t), allocatable, (:)</small>
     </h4>
     
 
@@ -526,7 +1067,7 @@ large graphs.</div>
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-lines~10"></span>
+              <span class="anchor" id="variable-lines~14"></span>
               type(string_t),
             </td>
 <td>intent(in)</td>
@@ -551,174 +1092,6 @@ large graphs.</div>
     </div>
   </div>
 
-              <div class="card">
-    <div class="card-header codesum"><span class="anchor" id="proc-map_from_training_range"></span> <h3>module procedure /home/runner/work/inference-engine/inference-engine/doc/html/module/tensor_map_s.html <a href='../proc/map_from_training_range.html'>map_from_training_range</a> <small>elemental module function map_from_training_range(self, tensor) result(unnormalized_tensor)</small>  
-    <a href="../interface/map_from_training_range.html"><button type="button" class="btn btn-info depwarn">Interface &rarr;</button></a>
-</h3></div>
-    <div class="card-body">
-          
-  
-
-  <h4>Arguments</h4>
-      <table class="table table-striped varlist">
-    <thead>
-      <tr>
-        <th scope="col">Type</th>
-<th scope="col">Intent</th><th scope="col">Optional</th>        <th scope="col">Attributes</th>
-        <th scope="col"></th>
-        <th scope="col">Name</th>
-        <th scope="col"></th>
-    </thead>
-    <tbody>
-        <tr>
-            <td>
-              <span class="anchor" id="variable-self~40"></span>
-              class(<a href='../type/tensor_map_t.html'>tensor_map_t</a>),
-            </td>
-<td>intent(in)</td>
-              <td></td>            <td>
-              
-            </td>
-            <td>::</td>
-            <td><strong>self</strong></td>
-            <td>
-
-            </td>
-        </tr>
-        <tr>
-            <td>
-              <span class="anchor" id="variable-tensor~4"></span>
-              type(<a href='../type/tensor_t.html'>tensor_t</a>),
-            </td>
-<td>intent(in)</td>
-              <td></td>            <td>
-              
-            </td>
-            <td>::</td>
-            <td><strong>tensor</strong></td>
-            <td>
-
-            </td>
-        </tr>
-    </tbody>
-  </table>
-
-    <h4>
-    Return Value
-    <small>type(<a href='../type/tensor_t.html'>tensor_t</a>)</small>
-    </h4>
-    
-
-    </div>
-  </div>
-
-              <div class="card">
-    <div class="card-header codesum"><span class="anchor" id="proc-map_to_training_range"></span> <h3>module procedure /home/runner/work/inference-engine/inference-engine/doc/html/module/tensor_map_s.html <a href='../proc/map_to_training_range.html'>map_to_training_range</a> <small>elemental module function map_to_training_range(self, tensor) result(normalized_tensor)</small>  
-    <a href="../interface/map_to_training_range.html"><button type="button" class="btn btn-info depwarn">Interface &rarr;</button></a>
-</h3></div>
-    <div class="card-body">
-          
-  
-
-  <h4>Arguments</h4>
-      <table class="table table-striped varlist">
-    <thead>
-      <tr>
-        <th scope="col">Type</th>
-<th scope="col">Intent</th><th scope="col">Optional</th>        <th scope="col">Attributes</th>
-        <th scope="col"></th>
-        <th scope="col">Name</th>
-        <th scope="col"></th>
-    </thead>
-    <tbody>
-        <tr>
-            <td>
-              <span class="anchor" id="variable-self~39"></span>
-              class(<a href='../type/tensor_map_t.html'>tensor_map_t</a>),
-            </td>
-<td>intent(in)</td>
-              <td></td>            <td>
-              
-            </td>
-            <td>::</td>
-            <td><strong>self</strong></td>
-            <td>
-
-            </td>
-        </tr>
-        <tr>
-            <td>
-              <span class="anchor" id="variable-tensor~3"></span>
-              type(<a href='../type/tensor_t.html'>tensor_t</a>),
-            </td>
-<td>intent(in)</td>
-              <td></td>            <td>
-              
-            </td>
-            <td>::</td>
-            <td><strong>tensor</strong></td>
-            <td>
-
-            </td>
-        </tr>
-    </tbody>
-  </table>
-
-    <h4>
-    Return Value
-    <small>type(<a href='../type/tensor_t.html'>tensor_t</a>)</small>
-    </h4>
-    
-
-    </div>
-  </div>
-
-              <div class="card">
-    <div class="card-header codesum"><span class="anchor" id="proc-to_json"></span> <h3>module procedure /home/runner/work/inference-engine/inference-engine/doc/html/module/tensor_map_s.html <a href='../proc/to_json.html'>to_json</a> <small>pure module function to_json(self) result(lines)</small>  
-    <a href="../interface/to_json~6.html"><button type="button" class="btn btn-info depwarn">Interface &rarr;</button></a>
-</h3></div>
-    <div class="card-body">
-          
-  
-
-  <h4>Arguments</h4>
-      <table class="table table-striped varlist">
-    <thead>
-      <tr>
-        <th scope="col">Type</th>
-<th scope="col">Intent</th><th scope="col">Optional</th>        <th scope="col">Attributes</th>
-        <th scope="col"></th>
-        <th scope="col">Name</th>
-        <th scope="col"></th>
-    </thead>
-    <tbody>
-        <tr>
-            <td>
-              <span class="anchor" id="variable-self~41"></span>
-              class(<a href='../type/tensor_map_t.html'>tensor_map_t</a>),
-            </td>
-<td>intent(in)</td>
-              <td></td>            <td>
-              
-            </td>
-            <td>::</td>
-            <td><strong>self</strong></td>
-            <td>
-
-            </td>
-        </tr>
-    </tbody>
-  </table>
-
-    <h4>
-    Return Value
-    <small>type(string_t), allocatable, (:)</small>
-    </h4>
-    
-
-    </div>
-  </div>
-
         </section>
     </div>
   </div>
@@ -730,7 +1103,7 @@ large graphs.</div>
         <div class="row justify-content-between">
           <div class="col">
             <p>
-              Inference-Engine
+              Fiats
  was developed by Berkeley Lab<br>              &copy; 2024 
 </p>
           </div>
@@ -738,7 +1111,7 @@ large graphs.</div>
             <p class="text-end">
               Documentation generated by
               <a href="https://github.com/Fortran-FOSS-Programmers/ford">FORD</a>
- on 2024-10-01 22:45              </p>
+ on 2024-10-17 00:07              </p>
           </div>
         </div>
         <br>

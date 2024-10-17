@@ -1,0 +1,443 @@
+<!-- -*- mode: jinja2 -*- -->
+
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+      <meta name="description" content="Functional inference and training of surrogate models for computational science.">
+    <meta name="author" content="Berkeley Lab" >
+    <link rel="icon" href="../favicon.png">
+
+    <title>double_precision_num_inputs &ndash; Fiats</title>
+
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet"
+          integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
+    <link href="../css/pygments.css" rel="stylesheet">
+    <link href="../css/font-awesome.min.css" rel="stylesheet">
+    <link href="../css/local.css" rel="stylesheet">
+      <link  href="../tipuesearch/tipuesearch.css" rel="stylesheet">
+
+    <script src="https://code.jquery.com/jquery-3.7.1.min.js" integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
+    <script src="../js/svg-pan-zoom.min.js"></script>
+  </head>
+
+  <body>
+
+    <!-- Fixed navbar -->
+    <div class="container-fluid mb-sm-4 mb-xl-2">
+      <nav class="navbar navbar-expand-lg navbar-dark bg-dark fixed-top">
+        <div class="container">
+          <a class="navbar-brand" href="../index.html">Fiats </a>
+          <button type="button" class="navbar-toggler" data-bs-toggle="collapse" data-bs-target="#navbar"
+                  aria-expanded="false" aria-controls="navbar" aria-label="Toggle navigation">
+                  <span class="navbar-toggler-icon">
+          </button>
+
+          <div id="navbar" class="navbar-collapse collapse">
+            <ul class="navbar-nav">
+                  <li class="nav-item">
+                    <a class="nav-link" href="../lists/files.html">Source Files</a>
+                  </li>
+                <li class="nav-item">
+                  <a class="nav-link" href="../lists/modules.html">Modules</a>
+                </li>
+                <li class="nav-item">
+                  <a class="nav-link" href="../lists/procedures.html">Procedures</a>
+                </li>
+                <li class="nav-item">
+                  <a class="nav-link" href="../lists/types.html">Derived Types</a>
+                </li>
+                <li class="nav-item">
+                  <a class="nav-link" href="../lists/programs.html">Programs</a>
+                </li>
+            </ul>
+              <div class="d-flex align-items-end flex-grow-1">
+                <form action="../search.html" role="search" class="ms-auto">
+                  <input type="text" class="form-control" aria-label="Search" placeholder="Search" name="q" id="tipue_search_input" autocomplete="off" required>
+                </form>
+              </div>
+          </div><!--/.nav-collapse -->
+        </div>
+      </nav>
+    </div>
+
+    <div class="container">
+  <div class="row">
+    <h1>double_precision_num_inputs
+      <small>Interface</small>
+      
+    </h1>
+      <div class="container p-2 mb-4 bg-light border rounded-3">
+    <div class="row align-items-center justify-content-between" id="info-bar">
+      <div class="col">
+        <ul class="list-inline" style="margin-bottom:0px;display:inline">
+
+            <li class="list-inline-item" id="statements"><i class="fa fa-list-ol"></i>
+              <a data-bs-toggle="tooltip" data-bs-placement="bottom" data-bs-html="true"
+                 title=" 1.6% of total for procedures.">145 statements</a>
+            </li>
+
+            <li class="list-inline-item" id="source-file">
+              <i class="fa fa-code"></i>
+              <a href="../src/neural_network_m.f90"> Source File</a>
+            </li>
+        </ul>
+      </div>
+      <div class="col">
+        <nav aria-label="breadcrumb">
+          <ol class="breadcrumb justify-content-end mb-0">
+                <li class="breadcrumb-item"><a href='../sourcefile/neural_network_m.f90.html'>neural_network_m.f90</a></li>
+                <li class="breadcrumb-item"><a href='../module/neural_network_m.html'>neural_network_m</a></li>
+            <li class="breadcrumb-item active" aria-current="page">double_precision_num_inputs</li>
+          </ol>
+        </nav>
+      </div>
+    </div>
+  </div>
+  <script>
+    $(function () {
+    $('[data-bs-toggle="tooltip"]').tooltip()
+    })
+  </script>
+
+  </div>
+  
+  <div class="row">
+    <div class="col-md-3 hidden-xs hidden-sm visible-md visible-lg">
+      <div id="sidebar">
+      <h3>Contents</h3>
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+
+    <em>None</em>
+
+  </div>
+
+    </div>
+    
+    <div class="col-md-9" id='text'>
+      <h2>interface</h2>
+      
+      <br>
+    <div class="card">
+      <div class="card-header">
+  <h3 class="card-title">Called by</h3>
+      </div>
+      <div class="card-body">
+  <div class="depgraph"><?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN"
+ "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
+<!-- Generated by graphviz version 12.1.2 (20240928.0832)
+ -->
+<!-- Title: interface~~double_precision_num_inputs~2~~CalledByGraph Pages: 1 -->
+<svg id="interfacedouble_precision_num_inputs2CalledByGraph" width="641pt" height="160pt"
+ viewBox="0.00 0.00 641.00 160.25" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+<g id="interface~~double_precision_num_inputs~2~~CalledByGraph" class="graph" transform="scale(0.80017 0.80017) rotate(0) translate(4 196.27)">
+<title>interface~~double_precision_num_inputs~2~~CalledByGraph</title>
+<polygon fill="white" stroke="none" points="-4,4 -4,-196.27 797.08,-196.27 797.08,4 -4,4"/>
+<!-- interface~double_precision_num_inputs~2 -->
+<g id="interface~~double_precision_num_inputs~2~~CalledByGraph_node1" class="node">
+<title>interface~double_precision_num_inputs~2</title>
+<polygon fill="none" stroke="black" points="793.08,-108.27 523.56,-108.27 523.56,-84 793.08,-84 793.08,-108.27"/>
+<text text-anchor="middle" x="658.32" y="-92.54" font-family="Helvetica,sans-Serif" font-size="10.50">neural_network_t%double_precision_num_inputs</text>
+</g>
+<!-- none~num_inputs~6 -->
+<g id="interface~~double_precision_num_inputs~2~~CalledByGraph_node2" class="node">
+<title>none~num_inputs~6</title>
+<g id="a_interface~~double_precision_num_inputs~2~~CalledByGraph_node2"><a xlink:href="../type/neural_network_t.html#boundprocedure-num_inputs~6" xlink:title="neural_network_t%num_inputs">
+<polygon fill="#a7506f" stroke="#a7506f" points="487.56,-108.27 313.29,-108.27 313.29,-84 487.56,-84 487.56,-108.27"/>
+<text text-anchor="middle" x="400.42" y="-92.54" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">neural_network_t%num_inputs</text>
+</a>
+</g>
+</g>
+<!-- none~num_inputs~6&#45;&gt;interface~double_precision_num_inputs~2 -->
+<g id="interface~~double_precision_num_inputs~2~~CalledByGraph_edge1" class="edge">
+<title>none~num_inputs~6&#45;&gt;interface~double_precision_num_inputs~2</title>
+<path fill="none" stroke="#ff0000" d="M488.06,-96.14C495.93,-96.14 504.04,-96.14 512.25,-96.14"/>
+<polygon fill="#ff0000" stroke="#ff0000" points="511.97,-99.64 521.97,-96.14 511.97,-92.64 511.97,-99.64"/>
+</g>
+<!-- proc~default_real_learn -->
+<g id="interface~~double_precision_num_inputs~2~~CalledByGraph_node3" class="node">
+<title>proc~default_real_learn</title>
+<g id="a_interface~~double_precision_num_inputs~2~~CalledByGraph_node3"><a xlink:href="../proc/default_real_learn.html" xlink:title="default_real_learn">
+<polygon fill="#d9534f" stroke="#d9534f" points="258.91,-192.27 151.39,-192.27 151.39,-168 258.91,-168 258.91,-192.27"/>
+<text text-anchor="middle" x="205.15" y="-176.53" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">default_real_learn</text>
+</a>
+</g>
+</g>
+<!-- proc~default_real_learn&#45;&gt;none~num_inputs~6 -->
+<g id="interface~~double_precision_num_inputs~2~~CalledByGraph_edge2" class="edge">
+<title>proc~default_real_learn&#45;&gt;none~num_inputs~6</title>
+<path fill="none" stroke="#ff0000" d="M253.27,-167.6C261.37,-165.05 269.64,-162.2 277.29,-159.13 309.45,-146.23 344.44,-127.69 368.69,-114.06"/>
+<polygon fill="#ff0000" stroke="#ff0000" points="370.1,-117.28 377.07,-109.3 366.64,-111.19 370.1,-117.28"/>
+</g>
+<!-- proc~default_real_to_json -->
+<g id="interface~~double_precision_num_inputs~2~~CalledByGraph_node4" class="node">
+<title>proc~default_real_to_json</title>
+<g id="a_interface~~double_precision_num_inputs~2~~CalledByGraph_node4"><a xlink:href="../proc/default_real_to_json.html" xlink:title="default_real_to_json">
+<polygon fill="#d94e8f" stroke="#d94e8f" points="263.79,-150.27 146.52,-150.27 146.52,-126 263.79,-126 263.79,-150.27"/>
+<text text-anchor="middle" x="205.15" y="-134.53" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">default_real_to_json</text>
+</a>
+</g>
+</g>
+<!-- proc~default_real_to_json&#45;&gt;none~num_inputs~6 -->
+<g id="interface~~double_precision_num_inputs~2~~CalledByGraph_edge3" class="edge">
+<title>proc~default_real_to_json&#45;&gt;none~num_inputs~6</title>
+<path fill="none" stroke="#ff0000" d="M264.14,-125.53C284.97,-121.01 308.67,-115.86 330.35,-111.15"/>
+<polygon fill="#ff0000" stroke="#ff0000" points="330.97,-114.59 340,-109.05 329.48,-107.75 330.97,-114.59"/>
+</g>
+<!-- proc~double_precision_to_json -->
+<g id="interface~~double_precision_num_inputs~2~~CalledByGraph_node5" class="node">
+<title>proc~double_precision_to_json</title>
+<g id="a_interface~~double_precision_num_inputs~2~~CalledByGraph_node5"><a xlink:href="../proc/double_precision_to_json.html" xlink:title="double_precision_to_json">
+<polygon fill="#d94e8f" stroke="#d94e8f" points="277.29,-108.27 133.02,-108.27 133.02,-84 277.29,-84 277.29,-108.27"/>
+<text text-anchor="middle" x="205.15" y="-92.54" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">double_precision_to_json</text>
+</a>
+</g>
+</g>
+<!-- proc~double_precision_to_json&#45;&gt;none~num_inputs~6 -->
+<g id="interface~~double_precision_num_inputs~2~~CalledByGraph_edge4" class="edge">
+<title>proc~double_precision_to_json&#45;&gt;none~num_inputs~6</title>
+<path fill="none" stroke="#ff0000" d="M277.57,-96.14C285.39,-96.14 293.45,-96.14 301.52,-96.14"/>
+<polygon fill="#ff0000" stroke="#ff0000" points="301.4,-99.64 311.4,-96.14 301.4,-92.64 301.4,-99.64"/>
+</g>
+<!-- proc~write_read_query_infer -->
+<g id="interface~~double_precision_num_inputs~2~~CalledByGraph_node6" class="node">
+<title>proc~write_read_query_infer</title>
+<g id="a_interface~~double_precision_num_inputs~2~~CalledByGraph_node6"><a xlink:href="../proc/write_read_query_infer.html" xlink:title="write_read_query_infer">
+<polygon fill="#d9534f" stroke="#d9534f" points="271.66,-66.27 138.64,-66.27 138.64,-42 271.66,-42 271.66,-66.27"/>
+<text text-anchor="middle" x="205.15" y="-50.53" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">write_read_query_infer</text>
+</a>
+</g>
+</g>
+<!-- proc~write_read_query_infer&#45;&gt;none~num_inputs~6 -->
+<g id="interface~~double_precision_num_inputs~2~~CalledByGraph_edge5" class="edge">
+<title>proc~write_read_query_infer&#45;&gt;none~num_inputs~6</title>
+<path fill="none" stroke="#ff0000" d="M264.14,-66.74C284.97,-71.26 308.67,-76.41 330.35,-81.12"/>
+<polygon fill="#ff0000" stroke="#ff0000" points="329.48,-84.52 340,-83.22 330.97,-77.68 329.48,-84.52"/>
+</g>
+<!-- program~read_query_infer -->
+<g id="interface~~double_precision_num_inputs~2~~CalledByGraph_node7" class="node">
+<title>program~read_query_infer</title>
+<g id="a_interface~~double_precision_num_inputs~2~~CalledByGraph_node7"><a xlink:href="../program/read_query_infer.html" xlink:title="read_query_infer">
+<polygon fill="#f0ad4e" stroke="#f0ad4e" points="255.91,-24.27 154.39,-24.27 154.39,0 255.91,0 255.91,-24.27"/>
+<text text-anchor="middle" x="205.15" y="-8.53" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">read_query_infer</text>
+</a>
+</g>
+</g>
+<!-- program~read_query_infer&#45;&gt;none~num_inputs~6 -->
+<g id="interface~~double_precision_num_inputs~2~~CalledByGraph_edge6" class="edge">
+<title>program~read_query_infer&#45;&gt;none~num_inputs~6</title>
+<path fill="none" stroke="#ff0000" d="M253.27,-24.67C261.37,-27.22 269.64,-30.07 277.29,-33.13 309.45,-46.04 344.44,-64.58 368.69,-78.21"/>
+<polygon fill="#ff0000" stroke="#ff0000" points="366.64,-81.08 377.07,-82.97 370.1,-74.99 366.64,-81.08"/>
+</g>
+<!-- program~write_read_infer -->
+<g id="interface~~double_precision_num_inputs~2~~CalledByGraph_node8" class="node">
+<title>program~write_read_infer</title>
+<g id="a_interface~~double_precision_num_inputs~2~~CalledByGraph_node8"><a xlink:href="../program/write_read_infer.html" xlink:title="write_read_infer">
+<polygon fill="#f0ad4e" stroke="#f0ad4e" points="97.02,-66.27 0,-66.27 0,-42 97.02,-42 97.02,-66.27"/>
+<text text-anchor="middle" x="48.51" y="-50.53" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">write_read_infer</text>
+</a>
+</g>
+</g>
+<!-- program~write_read_infer&#45;&gt;proc~write_read_query_infer -->
+<g id="interface~~double_precision_num_inputs~2~~CalledByGraph_edge7" class="edge">
+<title>program~write_read_infer&#45;&gt;proc~write_read_query_infer</title>
+<path fill="none" stroke="#0066ff" d="M97.17,-54.13C106.58,-54.13 116.69,-54.13 126.8,-54.13"/>
+<polygon fill="#0066ff" stroke="#0066ff" points="126.66,-57.64 136.66,-54.14 126.66,-50.64 126.66,-57.64"/>
+</g>
+</g>
+</svg>
+</div>                <script>
+                  var paninterfacedouble_precision_num_inputs2CalledByGraph = svgPanZoom('#interfacedouble_precision_num_inputs2CalledByGraph',
+                    {zoomEnabled: true, controlIconsEnabled: true, fit: true, center: true,}
+                  );
+                </script>          <div>
+            <a type="button" class="graph-help" data-bs-toggle="modal" href="#CalledByGraph-help-text">Help</a>
+          </div>
+          <div class="modal fade" id="CalledByGraph-help-text" tabindex="-1" role="dialog">
+            <div class="modal-dialog modal-lg" role="document">
+              <div class="modal-content">
+                <div class="modal-header">
+                  <h4 class="modal-title" id="-graph-help-label">Graph Key</h4>
+                  <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+<p>Nodes of different colours represent the following: </p>
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN"
+ "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
+<!-- Generated by graphviz version 12.1.2 (20240928.0832)
+ -->
+<!-- Title: Graph Key Pages: 1 -->
+<svg width="641pt" height="28pt"
+ viewBox="0.00 0.00 641.00 28.20" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+<g id="graph0" class="graph" transform="scale(0.873868 0.873868) rotate(0) translate(4 28.27)">
+<title>Graph Key</title>
+<polygon fill="white" stroke="none" points="-4,4 -4,-28.27 729.52,-28.27 729.52,4 -4,4"/>
+<!-- Subroutine -->
+<g id="node1" class="node">
+<title>Subroutine</title>
+<polygon fill="#d9534f" stroke="#d9534f" points="69.27,-24.27 0,-24.27 0,0 69.27,0 69.27,-24.27"/>
+<text text-anchor="middle" x="34.63" y="-8.53" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">Subroutine</text>
+</g>
+<!-- Function -->
+<g id="node2" class="node">
+<title>Function</title>
+<polygon fill="#d94e8f" stroke="#d94e8f" points="143.89,-24.27 87.38,-24.27 87.38,0 143.89,0 143.89,-24.27"/>
+<text text-anchor="middle" x="115.63" y="-8.53" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">Function</text>
+</g>
+<!-- Interface -->
+<g id="node3" class="node">
+<title>Interface</title>
+<polygon fill="#a7506f" stroke="#a7506f" points="221.39,-24.27 161.88,-24.27 161.88,0 221.39,0 221.39,-24.27"/>
+<text text-anchor="middle" x="191.63" y="-8.53" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">Interface</text>
+</g>
+<!-- Type Bound Procedure -->
+<g id="node4" class="node">
+<title>Type Bound Procedure</title>
+<polygon fill="#a7506f" stroke="#a7506f" points="368.27,-24.27 239,-24.27 239,0 368.27,0 368.27,-24.27"/>
+<text text-anchor="middle" x="303.63" y="-8.53" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">Type Bound Procedure</text>
+</g>
+<!-- Unknown Procedure Type -->
+<g id="node5" class="node">
+<title>Unknown Procedure Type</title>
+<polygon fill="#777777" stroke="#777777" points="529.39,-24.27 385.88,-24.27 385.88,0 529.39,0 529.39,-24.27"/>
+<text text-anchor="middle" x="457.63" y="-8.53" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">Unknown Procedure Type</text>
+</g>
+<!-- Program -->
+<g id="node6" class="node">
+<title>Program</title>
+<polygon fill="#f0ad4e" stroke="#f0ad4e" points="603.89,-24.27 547.38,-24.27 547.38,0 603.89,0 603.89,-24.27"/>
+<text text-anchor="middle" x="575.63" y="-8.53" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">Program</text>
+</g>
+<!-- This Page&#39;s Entity -->
+<g id="node7" class="node">
+<title>This Page&#39;s Entity</title>
+<polygon fill="none" stroke="black" points="725.52,-24.27 621.75,-24.27 621.75,0 725.52,0 725.52,-24.27"/>
+<text text-anchor="middle" x="673.63" y="-8.53" font-family="Helvetica,sans-Serif" font-size="10.50">This Page&#39;s Entity</text>
+</g>
+</g>
+</svg>
+
+<p>Solid arrows point from a procedure to one which it calls. Dashed 
+arrows point from an interface to procedures which implement that interface.
+This could include the module procedures in a generic interface or the
+implementation in a submodule of an interface in a parent module.
+</p>
+ Where possible, edges connecting nodes are
+given different colours to make them easier to distinguish in
+large graphs.</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <br>
+      <h2>private elemental module function double_precision_num_inputs(self) result(input_count)  
+    <a href="../proc/double_precision_num_inputs.html"><button type="button" class="btn btn-info depwarn">Implementation &rarr;</button></a>
+</h2>
+
+    
+
+    <h3>Arguments</h3>
+        <table class="table table-striped varlist">
+    <thead>
+      <tr>
+        <th scope="col">Type</th>
+<th scope="col">Intent</th><th scope="col">Optional</th>        <th scope="col">Attributes</th>
+        <th scope="col"></th>
+        <th scope="col">Name</th>
+        <th scope="col"></th>
+    </thead>
+    <tbody>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-self~81"></span>
+              class(<a href='../type/neural_network_t.html'>neural_network_t</a>(double_precision)),
+            </td>
+<td>intent(in)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>self</strong></td>
+            <td>
+                
+            </td>
+        </tr>
+    </tbody>
+  </table>
+
+      <h3>Return Value <span class="anchor" id="variable-input_count~2"></span><small>integer</small></h3>
+    
+    <br>
+
+ </div>
+</div>
+
+      <hr>
+    </div> <!-- /container -->
+    <footer>
+      <div class="container">
+        <div class="row justify-content-between">
+          <div class="col">
+            <p>
+              Fiats
+ was developed by Berkeley Lab<br>              &copy; 2024 
+</p>
+          </div>
+          <div class="col">
+            <p class="text-end">
+              Documentation generated by
+              <a href="https://github.com/Fortran-FOSS-Programmers/ford">FORD</a>
+ on 2024-10-17 00:07              </p>
+          </div>
+        </div>
+        <br>
+      </div> <!-- /container -->
+    </footer>
+
+    <!-- Bootstrap core JavaScript -->
+    <!-- Placed at the end of the document so the pages load faster -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"
+            integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p" crossorigin="anonymous"></script>    
+
+    <!-- MathJax JavaScript
+             ================================================== -->
+             <!-- Placed at the end of the document so the pages load faster -->
+        <script type="text/x-mathjax-config">
+          MathJax.Hub.Config({
+          TeX: { extensions: ['AMSmath.js','AMSsymbols.js','noErrors.js','noUndefined.js'], equationNumbers: { autoNumber: 'AMS' } },
+          jax: ['input/TeX','input/MathML','output/HTML-CSS'],
+          extensions: ['tex2jax.js','mml2jax.js','MathMenu.js','MathZoom.js']
+          });
+        </script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+
+          <script src="../tipuesearch/tipuesearch_content.js"></script>
+          <script src="../tipuesearch/tipuesearch_set.js"></script>
+          <script src="../tipuesearch/tipuesearch.js"></script>
+
+  </body>
+</html>

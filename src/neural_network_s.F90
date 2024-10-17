@@ -1,0 +1,1051 @@
+! Copyright (c), The Regents of the University of California
+! Terms of use are as specified in LICENSE.txt
+submodule(neural_network_m) neural_network_s
+  use assert_m, only : assert, intrinsic_array_t
+  use double_precision_string_m, only : double_precision_string_t
+  use kind_parameters_m, only : double_precision
+  use layer_m, only : layer_t
+  use neuron_m, only : neuron_t
+  implicit none
+
+  character(len=*), parameter :: minimum_acceptable_tag = "0.15.0" ! git tag capable of reading the current json file format
+  integer, parameter :: input_layer = 0 
+
+contains
+
+  module procedure default_real_map_to_input_range
+    normalized_tensor = self%input_map_%map_to_training_range(tensor)
+  end procedure
+
+  module procedure double_precision_map_to_input_range
+    normalized_tensor = self%input_map_%map_to_training_range(tensor)
+  end procedure
+
+  module procedure default_real_map_from_output_range
+    tensor = self%output_map_%map_from_training_range(normalized_tensor)
+  end procedure
+
+  module procedure double_precision_map_from_output_range
+    tensor = self%output_map_%map_from_training_range(normalized_tensor)
+  end procedure
+
+  module procedure default_real_infer
+
+    real, allocatable :: a(:,:)
+    integer l
+
+    call self%assert_consistency()
+
+    associate(w => self%weights_, b => self%biases_, n => self%nodes_, output_layer => ubound(self%nodes_,1))
+
+      allocate(a(maxval(n), input_layer:output_layer))
+
+#ifndef _CRAYFTN
+      associate(normalized_inputs => self%input_map_%map_to_training_range(inputs))
+        a(1:n(input_layer),input_layer) = normalized_inputs%values()
+      end associate
+#else
+      block
+        type(tensor_t) normalized_inputs
+        normalized_inputs = self%input_map_%map_to_training_range(inputs)
+        a(1:n(input_layer),input_layer) = normalized_inputs%values()
+      end block
+#endif
+
+      feed_forward: &
+      do l = input_layer+1, output_layer
+        associate(z => matmul(w(1:n(l),1:n(l-1),l), a(1:n(l-1),l-1)) + b(1:n(l),l))
+          a(1:n(l),l) = self%activation_%evaluate(z)
+        end associate
+      end do feed_forward
+
+#ifndef _CRAYFTN
+      associate(normalized_outputs => tensor_t(a(1:n(output_layer), output_layer)))
+        outputs = self%output_map_%map_from_training_range(normalized_outputs)
+      end associate
+#else
+      block
+        type(tensor_t) :: normalized_outputs
+        normalized_outputs = tensor_t(a(1:n(output_layer), output_layer))
+        outputs = self%output_map_%map_from_training_range(normalized_outputs)
+      end block
+#endif
+
+    end associate
+
+  end procedure
+
+  module procedure double_precision_infer
+
+    double precision, allocatable :: a(:,:)
+    integer l
+
+    call self%assert_consistency()
+
+    associate(w => self%weights_, b => self%biases_, n => self%nodes_, output_layer => ubound(self%nodes_,1))
+
+      allocate(a(maxval(n), input_layer:output_layer))
+
+#ifndef _CRAYFTN
+      associate(normalized_inputs => self%input_map_%map_to_training_range(inputs))
+        a(1:n(input_layer),input_layer) = normalized_inputs%values()
+      end associate
+#else
+      block
+        type(tensor_t) normalized_inputs
+        normalized_inputs = self%input_map_%map_to_training_range(inputs)
+        a(1:n(input_layer),input_layer) = normalized_inputs%values()
+      end block
+#endif
+
+      feed_forward: &
+      do l = input_layer+1, output_layer
+        associate(z => matmul(w(1:n(l),1:n(l-1),l), a(1:n(l-1),l-1)) + b(1:n(l),l))
+          a(1:n(l),l) = self%activation_%evaluate(z)
+        end associate
+      end do feed_forward
+
+#ifdef _CRAYFTN
+      block
+        type(tensor_t) :: normalized_outputs
+        normalized_outputs = tensor_t(a(1:n(output_layer), output_layer))
+#else
+      associate(normalized_outputs => tensor_t(a(1:n(output_layer), output_layer)))
+#endif
+        outputs = self%output_map_%map_from_training_range(normalized_outputs)
+#ifdef _CRAYFTN
+      end block
+#else
+      end associate
+#endif
+
+    end associate
+
+  end procedure
+
+  module procedure default_real_consistency
+
+    associate( &
+      all_allocated=>[allocated(self%weights_),allocated(self%biases_),allocated(self%nodes_)]&
+    )   
+      call assert(all(all_allocated),"neural_network_s(default_real_consistency): fully_allocated", &
+        intrinsic_array_t(all_allocated))
+    end associate
+
+    associate(max_width=>maxval(self%nodes_), component_dims=>[size(self%biases_,1), size(self%weights_,1), size(self%weights_,2)])
+      call assert(all(component_dims == max_width), "neural_network_s(default_real_consistency): conformable arrays", &
+        intrinsic_array_t([max_width,component_dims]))
+    end associate
+
+    associate(input_subscript => lbound(self%nodes_,1))
+      call assert(input_subscript == input_layer, "neural_network_s(default_real_consistency): n base subsscript", &
+        input_subscript)
+    end associate
+
+  end procedure
+
+  module procedure double_precision_consistency
+
+    associate( &
+      all_allocated=>[allocated(self%weights_),allocated(self%biases_),allocated(self%nodes_)]&
+    )   
+      call assert(all(all_allocated),"neural_network_s(default_real_consistency): fully_allocated", &
+        intrinsic_array_t(all_allocated))
+    end associate
+
+    associate(max_width=>maxval(self%nodes_), component_dims=>[size(self%biases_,1), size(self%weights_,1), size(self%weights_,2)])
+      call assert(all(component_dims == max_width), "neural_network_s(default_real_consistency): conformable arrays", &
+        intrinsic_array_t([max_width,component_dims]))
+    end associate
+
+    associate(input_subscript => lbound(self%nodes_,1))
+      call assert(input_subscript == input_layer, "neural_network_s(default_real_consistency): n base subsscript", &
+        input_subscript)
+    end associate
+
+  end procedure
+
+  module procedure default_real_construct_from_components
+
+    neural_network%metadata_ = metadata_t(metadata(1),metadata(2),metadata(3),metadata(4),metadata(5))
+    neural_network%weights_ = weights
+    neural_network%biases_ = biases
+    neural_network%nodes_ = nodes
+
+    block
+      integer i
+
+      if (present(input_map)) then
+        neural_network%input_map_ = input_map
+      else
+        associate(num_inputs => nodes(lbound(nodes,1)))
+          associate(default_minima => [(0., i=1,num_inputs)], default_maxima => [(1., i=1,num_inputs)])
+            neural_network%input_map_ = tensor_map_t("inputs", default_minima, default_maxima)
+          end associate
+        end associate
+      end if
+
+      if (present(output_map)) then
+        neural_network%output_map_ = output_map
+      else
+        associate(num_outputs => nodes(ubound(nodes,1)))
+          associate(default_minima => [(0., i=1,num_outputs)], default_maxima => [(1., i=1,num_outputs)])
+            neural_network%output_map_ = tensor_map_t("outputs", default_minima, default_maxima)
+          end associate
+        end associate
+      end if
+    end block
+
+    neural_network%activation_ = activation_t(metadata(4)%string())
+
+    call neural_network%assert_consistency()
+
+  end procedure default_real_construct_from_components
+
+  module procedure double_precision_construct_from_components
+
+    neural_network%metadata_ = metadata
+    neural_network%weights_ = weights
+    neural_network%biases_ = biases
+    neural_network%nodes_ = nodes
+
+    block
+      integer i
+
+      if (present(input_map)) then
+        neural_network%input_map_ = input_map
+      else
+        associate(num_inputs => nodes(lbound(nodes,1)))
+          associate(default_intercept => [(0D0, i=1,num_inputs)], default_slope => [(1D0, i=1,num_inputs)])
+            neural_network%input_map_ = tensor_map_t("inputs", default_intercept, default_slope)
+          end associate
+        end associate
+      end if
+
+      if (present(output_map)) then
+        neural_network%output_map_ = output_map
+      else
+        associate(num_outputs => nodes(ubound(nodes,1)))
+          associate(default_intercept => [(0D0, i=1,num_outputs)], default_slope => [(1D0, i=1,num_outputs)])
+            neural_network%output_map_ = tensor_map_t("outputs", default_intercept, default_slope)
+          end associate
+        end associate
+      end if
+    end block
+
+    associate(function_name => metadata%activation_name())
+      neural_network%activation_ = activation_t(function_name%string())
+    end associate
+
+    call neural_network%assert_consistency()
+
+  end procedure double_precision_construct_from_components
+
+  module procedure default_real_to_json
+
+#ifdef _CRAYFTN
+    type(tensor_map_t) proto_map
+    type(metadata_t) proto_meta
+    type(neuron_t) proto_neuron
+    proto_map = tensor_map_t("",[0.],[1.])
+    proto_meta = metadata_t(string_t(""),string_t(""),string_t(""),string_t(""),string_t(""))
+    proto_neuron = neuron_t([0.],1.)
+#endif
+
+    call self%assert_consistency()
+
+    associate( &
+       num_hidden_layers => self%num_hidden_layers() &
+      ,num_outputs => self%num_outputs() &
+      ,num_inputs => self%num_inputs() &
+      ,first_hidden => lbound(self%nodes_,1) + 1 &
+      ,last_hidden => ubound(self%nodes_,1) - 1 &
+#ifndef _CRAYFTN
+      ,proto_map => tensor_map_t("",[0.],[1.]) &
+      ,proto_meta => metadata_t(string_t(""),string_t(""),string_t(""),string_t(""),string_t("")) &
+      ,proto_neuron => neuron_t([0.],0.) &
+#endif
+    )
+      associate( &
+        metadata_lines => size(proto_meta%to_json()), &
+        tensor_map_lines => size(proto_map%to_json()), &
+        neuron_lines => size(proto_neuron%to_json()) &
+      )
+        block
+          type(string_t), allocatable :: lines(:)
+          integer layer, n, line
+          integer, parameter :: &
+            brace = 1, bracket_hidden_layers_array = 1, bracket_layer = 1, bracket_output_layer = 1, file_version_lines = 1
+               
+          associate( json_lines => &
+            brace + &                                                          ! { 
+              file_version_lines + &                                           !   "minimum_acceptable_tag": ...
+              metadata_lines + &                                               !   "metadata": ...
+              tensor_map_lines + &                                             !   "inputs_tensor_map": ...
+              tensor_map_lines + &                                             !   "outputs_tensor_map": ...
+                bracket_hidden_layers_array + &                                !   "hidden_layers": [
+                  bracket_layer*num_hidden_layers + &                          !      [
+                    neuron_lines*sum(self%nodes_(first_hidden:last_hidden))+ & !        neuron ...
+                  bracket_layer*num_hidden_layers + &                          !      ] ...
+                bracket_hidden_layers_array + &                                !   ],
+                bracket_output_layer + &                                       !   "output_layer": [
+                  neuron_lines*num_outputs + &                                 !        neurons
+                bracket_output_layer + &                                       !    ]
+            brace &                                                            ! }
+          )
+            allocate(lines(json_lines))
+            lines(brace) = string_t('{')
+            lines(brace+1:brace+file_version_lines)= string_t('    "minimum_acceptable_tag": "')//minimum_acceptable_tag//'",'
+            associate(meta_start => brace + file_version_lines + 1)
+              associate(meta_end => meta_start + metadata_lines - 1)
+              lines(meta_start:meta_end) = self%metadata_%to_json()
+              lines(meta_end) = lines(meta_end) // ","
+              associate(input_map_start => meta_end + 1,  input_map_end => meta_end + tensor_map_lines)
+                lines(input_map_start:input_map_end) =  self%input_map_%to_json()
+                lines(input_map_end) = lines(input_map_end) // ","
+                associate(output_map_start => input_map_end + 1,  output_map_end => input_map_end + tensor_map_lines)
+                  lines(output_map_start:output_map_end) =  self%output_map_%to_json()
+                  lines(output_map_end) = lines(output_map_end) // ","
+                  lines(output_map_end + 1) = string_t('     "hidden_layers": [')
+                  line= output_map_end + 1
+                end associate
+              end associate
+              end associate
+            end associate
+            do layer = first_hidden, last_hidden
+              line = line + 1
+              lines(line) = string_t('         [')
+              do n = 1, self%nodes_(layer)
+                associate( &
+                  neuron => neuron_t(weights=self%weights_(n,1:self%nodes_(layer-1),layer), bias=self%biases_(n,layer)), &
+                  neuron_start => line + 1, &
+                  neuron_end => line + neuron_lines &
+                )
+                  lines(neuron_start:neuron_end) = neuron%to_json()
+                  lines(neuron_end) = lines(neuron_end) // trim(merge(" ", ",", n==self%nodes_(layer)))
+                end associate
+                line = line + neuron_lines
+              end do
+              line = line + 1
+              lines(line) = string_t('         ]') // trim(merge(" ", ",", layer==last_hidden))
+            end do
+            line = line + 1
+            lines(line) = string_t('    ],')
+            line = line + 1
+            lines(line) = string_t('     "output_layer": [')
+            layer = last_hidden + 1
+            do n = 1, self%nodes_(layer)
+              associate( &
+                  neuron => neuron_t(weights=self%weights_(n,1:self%nodes_(layer-1),layer), bias=self%biases_(n,layer)), &
+                  neuron_start=>line+1, &
+                  neuron_end=>line+neuron_lines &
+              )
+                lines(neuron_start:neuron_end) = neuron%to_json()
+                lines(neuron_end) = lines(neuron_end) // trim(merge(" ", ",", n==self%nodes_(layer)))
+              end associate
+              line = line + neuron_lines
+            end do
+            line = line + 1
+            lines(line) = string_t('         ]')
+            line = line + 1
+            lines(line) = string_t('}')
+            call assert(line == json_lines, "neural_network_t%to_json: all lines defined", intrinsic_array_t([json_lines, line]))
+          end associate
+          json_file = file_t(lines)
+        end block
+      end associate
+    end associate
+  end procedure default_real_to_json
+
+  module procedure double_precision_to_json
+
+#ifdef _CRAYFTN
+    type(tensor_map_t) proto_map
+    type(metadata_t) proto_meta
+    type(neuron_t) proto_neuron
+    proto_map = tensor_map_t("",[0D0],[1D0])
+    proto_meta = metadata_t(string_t(""),string_t(""),string_t(""),string_t(""),string_t(""))
+    proto_neuron = neuron_t([0D0],1D0)
+#endif
+
+    call self%assert_consistency()
+
+    associate( &
+       num_hidden_layers => self%num_hidden_layers() &
+      ,num_outputs => self%num_outputs() &
+      ,num_inputs => self%num_inputs() &
+      ,first_hidden => lbound(self%nodes_,1) + 1 &
+      ,last_hidden => ubound(self%nodes_,1) - 1 &
+#ifndef _CRAYFTN
+      ,proto_map => tensor_map_t("",[0D0],[0D0]) &
+      ,proto_meta => metadata_t(string_t(""),string_t(""),string_t(""),string_t(""),string_t("")) &
+      ,proto_neuron => neuron_t([0D0],0D0) &
+#endif
+    )
+      associate( &
+        metadata_lines => size(proto_meta%to_json()), &
+        tensor_map_lines => size(proto_map%to_json()), &
+        neuron_lines => size(proto_neuron%to_json()) &
+      )
+        block
+          type(string_t), allocatable :: lines(:)
+          integer layer, n, line
+          integer, parameter :: &
+            brace = 1, bracket_hidden_layers_array = 1, bracket_layer = 1, bracket_output_layer = 1, file_version_lines = 1
+               
+          associate( json_lines => &
+            brace + &                                                          ! { 
+              file_version_lines + &                                           !   "minimum_acceptable_tag": ...
+              metadata_lines + &                                               !   "metadata": ...
+              tensor_map_lines + &                                             !   "inputs_tensor_map": ...
+              tensor_map_lines + &                                             !   "outputs_tensor_map": ...
+                bracket_hidden_layers_array + &                                !   "hidden_layers": [
+                  bracket_layer*num_hidden_layers + &                          !      [
+                    neuron_lines*sum(self%nodes_(first_hidden:last_hidden))+ & !        neuron ...
+                  bracket_layer*num_hidden_layers + &                          !      ] ...
+                bracket_hidden_layers_array + &                                !   ],
+                bracket_output_layer + &                                       !   "output_layer": [
+                  neuron_lines*num_outputs + &                                 !        neurons
+                bracket_output_layer + &                                       !    ]
+            brace &                                                            ! }
+          )
+            allocate(lines(json_lines))
+            lines(brace) = string_t('{')
+            lines(brace+1:brace+file_version_lines)= string_t('    "minimum_acceptable_tag": "')//minimum_acceptable_tag//'",'
+            associate(meta_start => brace + file_version_lines + 1)
+              associate(meta_end => meta_start + metadata_lines - 1)
+              lines(meta_start:meta_end) = self%metadata_%to_json()
+              lines(meta_end) = lines(meta_end) // ","
+                associate(input_map_start => meta_end + 1,  input_map_end => meta_end + tensor_map_lines)
+                  lines(input_map_start:input_map_end) =  self%input_map_%to_json()
+                  lines(input_map_end) = lines(input_map_end) // ","
+                  associate(output_map_start => input_map_end + 1,  output_map_end => input_map_end + tensor_map_lines)
+                    lines(output_map_start:output_map_end) =  self%output_map_%to_json()
+                    lines(output_map_end) = lines(output_map_end) // ","
+                    lines(output_map_end + 1) = string_t('     "hidden_layers": [')
+                    line= output_map_end + 1
+                  end associate
+                end associate
+              end associate
+            end associate
+            do layer = first_hidden, last_hidden
+              line = line + 1
+              lines(line) = string_t('         [')
+              do n = 1, self%nodes_(layer)
+                associate( &
+                  neuron => neuron_t(weights=self%weights_(n,1:self%nodes_(layer-1),layer), bias=self%biases_(n,layer)), &
+                  neuron_start => line + 1, &
+                  neuron_end => line + neuron_lines &
+                )
+                  lines(neuron_start:neuron_end) = neuron%to_json()
+                  lines(neuron_end) = lines(neuron_end) // trim(merge(" ", ",", n==self%nodes_(layer)))
+                end associate
+                line = line + neuron_lines
+              end do
+              line = line + 1
+              lines(line) = string_t('         ]') // trim(merge(" ", ",", layer==last_hidden))
+            end do
+            line = line + 1
+            lines(line) = string_t('    ],')
+            line = line + 1
+            lines(line) = string_t('     "output_layer": [')
+            layer = last_hidden + 1
+            do n = 1, self%nodes_(layer)
+              associate( &
+                  neuron => neuron_t(weights=self%weights_(n,1:self%nodes_(layer-1),layer), bias=self%biases_(n,layer)), &
+                  neuron_start=>line+1, &
+                  neuron_end=>line+neuron_lines &
+              )
+                lines(neuron_start:neuron_end) = neuron%to_json()
+                lines(neuron_end) = lines(neuron_end) // trim(merge(" ", ",", n==self%nodes_(layer)))
+              end associate
+              line = line + neuron_lines
+            end do
+            line = line + 1
+            lines(line) = string_t('         ]')
+            line = line + 1
+            lines(line) = string_t('}')
+            call assert(line == json_lines, "neural_network_t%to_json: all lines defined", intrinsic_array_t([json_lines, line]))
+          end associate
+          json_file = file_t(lines)
+        end block
+      end associate
+    end associate
+  end procedure double_precision_to_json
+
+  module procedure default_real_from_json
+
+    character(len=:), allocatable :: justified_line
+    integer l, num_file_lines
+    type(string_t), allocatable :: lines(:)
+    type(tensor_map_t) input_map, output_map
+    type(layer_t) hidden_layers, output_layer
+
+    lines = file_%lines()
+    call assert(adjustl(lines(1)%string())=="{", "neural_network_s(default_real_from_json): expected outermost object '{'")
+ 
+    check_git_tag: &
+    block 
+      character(len=:), allocatable :: tag
+
+      tag = lines(2)%get_json_value("minimum_acceptable_tag", mold="")
+      call assert( &
+        tag == minimum_acceptable_tag &
+        ,"neural_network_s(default_real_from_json): minimum_acceptable_tag" &
+        ,tag //"(expected " //minimum_acceptable_tag // ")" &
+      )
+    end block check_git_tag
+      
+    num_file_lines = size(lines)
+
+    read_tensor_maps: &
+    associate(proto_map => tensor_map_t("",[0.],[1.]))
+      associate(num_map_lines => size(proto_map%to_json()))
+
+         find_inputs_map: &
+         do l = 1, num_file_lines
+           justified_line = adjustl(lines(l)%string())
+           if (justified_line == '"inputs_map": {') exit
+         end do find_inputs_map
+
+         call assert(justified_line =='"inputs_map": {', 'default_real_from_json: expecting "inputs_map": {', justified_line)
+         input_map = tensor_map_t(lines(l:l+num_map_lines-1))
+
+         find_outputs_map: &
+         do l = 1, num_file_lines
+           justified_line = adjustl(lines(l)%string())
+           if (justified_line == '"outputs_map": {') exit
+         end do find_outputs_map
+
+         call assert(justified_line =='"outputs_map": {', 'default_real_from_json: expecting "outputs_map": {', justified_line)
+         output_map = tensor_map_t(lines(l:l+num_map_lines-1))
+
+      end associate
+    end associate read_tensor_maps
+
+    find_hidden_layers: &
+    do l = 1, num_file_lines
+      justified_line = adjustl(lines(l)%string())
+      if (justified_line == '"hidden_layers": [') exit
+    end do find_hidden_layers
+    call assert(justified_line=='"hidden_layers": [', 'default_real_from_json: expecting "hidden_layers": [', justified_line)
+
+    read_hidden_layers: &
+    block
+      integer, parameter :: bracket_lines_per_layer=2
+      character(len=:), allocatable :: output_layer_line
+
+      hidden_layers = layer_t(lines, start=l+1)
+
+      read_layers_of_neurons: &
+      associate(proto_neuron => neuron_t(weights=[0.], bias=0.))
+        associate(output_layer_line_number => l + 1 + size(proto_neuron%to_json())*sum(hidden_layers%count_neurons()) &
+          + bracket_lines_per_layer*hidden_layers%count_layers() + 1)
+
+          output_layer_line = lines(output_layer_line_number)%string()
+
+          call assert(adjustl(output_layer_line)=='"output_layer": [', 'default_real_from_json: expecting "output_layer": [', &
+            lines(output_layer_line_number)%string())
+
+          output_layer = layer_t(lines, start=output_layer_line_number)
+        end associate
+      end associate read_layers_of_neurons
+    end block read_hidden_layers
+
+    find_metadata: &
+    do l = 1, num_file_lines
+      justified_line = adjustl(lines(l)%string())
+      if (justified_line == '"metadata": {') exit
+    end do find_metadata
+    call assert(justified_line=='"metadata": {', 'default_real_from_json: expecting "metadata": {', justified_line)
+
+    read_metadata: &
+    associate(proto_meta => metadata_t(string_t(""),string_t(""),string_t(""),string_t(""),string_t("")))
+      associate(metadata => metadata_t(lines(l : l + size(proto_meta%to_json()) - 1)))
+        associate(metadata_strings => metadata%strings())
+          neural_network = hidden_layers%neural_network(metadata_strings, output_layer, input_map, output_map)
+          associate(function_name => metadata%activation_name())
+            neural_network%activation_ = activation_t(function_name%string())
+          end associate
+        end associate
+      end associate
+    end associate read_metadata
+
+    call neural_network%assert_consistency()
+
+  end procedure default_real_from_json
+
+  module procedure double_precision_from_json
+
+    character(len=:), allocatable :: justified_line
+    integer l, num_file_lines
+    type(double_precision_string_t), allocatable :: lines(:)
+    type(tensor_map_t(double_precision)) input_map, output_map
+    type(layer_t(double_precision)) hidden_layers, output_layer
+
+    lines = file%double_precision_lines()
+    call assert(adjustl(lines(1)%string())=="{", "neural_network_s(double_precision_from_json): expected outermost object '{'")
+
+    check_git_tag: &
+    block
+      character(len=:), allocatable :: tag
+
+      tag = lines(2)%get_json_value("minimum_acceptable_tag", mold="")
+      call assert( &
+        tag == minimum_acceptable_tag &
+        ,"neural_network_s(double_precision_from_json): minimum_acceptable_tag" &
+        ,tag //"(expected " //minimum_acceptable_tag // ")" &
+      )
+    end block check_git_tag
+
+    num_file_lines = size(lines)
+
+    read_tensor_maps: &
+    associate(proto_map => tensor_map_t("",[0D0],[1D0]))
+      associate(num_map_lines => size(proto_map%to_json()))
+
+         find_inputs_map: &
+         do l = 1, num_file_lines
+           justified_line = adjustl(lines(l)%string())
+           if (justified_line == '"inputs_map": {') exit
+         end do find_inputs_map
+
+         call assert(justified_line =='"inputs_map": {', 'double_precision_from_json: expecting "inputs_map": {', justified_line)
+         input_map = tensor_map_t(lines(l:l+num_map_lines-1))
+
+         find_outputs_map: &
+         do l = 1, num_file_lines
+           justified_line = adjustl(lines(l)%string())
+           if (justified_line == '"outputs_map": {') exit
+         end do find_outputs_map
+
+         call assert(justified_line =='"outputs_map": {', 'double_precision_from_json: expecting "outputs_map": {', justified_line)
+         output_map = tensor_map_t(lines(l:l+num_map_lines-1))
+
+      end associate
+    end associate read_tensor_maps
+
+    find_hidden_layers: &
+    do l = 1, num_file_lines
+      justified_line = adjustl(lines(l)%string())
+      if (justified_line == '"hidden_layers": [') exit
+    end do find_hidden_layers
+    call assert(justified_line=='"hidden_layers": [', 'double_precision_from_json: expecting "hidden_layers": [', justified_line)
+
+    read_hidden_layers: &
+    block
+      integer, parameter :: bracket_lines_per_layer=2
+      character(len=:), allocatable :: output_layer_line
+
+      hidden_layers = layer_t(lines, start=l+1)
+
+      read_layers_of_neurons: &
+      associate(proto_neuron => neuron_t(weights=[0D0], bias=0D0))
+        associate(output_layer_line_number => l + 1 + size(proto_neuron%to_json())*sum(hidden_layers%count_neurons()) &
+          + bracket_lines_per_layer*hidden_layers%count_layers() + 1)
+
+          output_layer_line = lines(output_layer_line_number)%string()
+
+          call assert(adjustl(output_layer_line)=='"output_layer": [', 'double_precision_from_json: expecting "output_layer": [', &
+            lines(output_layer_line_number)%string())
+
+          output_layer = layer_t(lines, start=output_layer_line_number)
+        end associate
+      end associate read_layers_of_neurons
+    end block read_hidden_layers
+
+    find_metadata: &
+    do l = 1, num_file_lines
+      justified_line = adjustl(lines(l)%string())
+      if (justified_line == '"metadata": {') exit
+    end do find_metadata
+    call assert(justified_line=='"metadata": {', 'double_precision_from_json: expecting "metadata": {', justified_line)
+
+    read_metadata: &
+    associate(proto_meta => metadata_t(string_t(""),string_t(""),string_t(""),string_t(""),string_t("")))
+      associate(metadata => metadata_t(lines(l : l + size(proto_meta%to_json()) - 1)))
+        neural_network = hidden_layers%neural_network(metadata, output_layer, input_map, output_map)
+        associate(function_name => metadata%activation_name())
+          neural_network%activation_ = activation_t(function_name%string())
+        end associate
+      end associate
+    end associate read_metadata
+
+    call neural_network%assert_consistency()
+
+  end procedure double_precision_from_json
+
+  module procedure default_real_assert_conformable_with
+
+    call self%assert_consistency()
+
+    associate(equal_shapes => [ &
+      shape(self%weights_) == shape(neural_network%weights_), &
+      shape(self%biases_) == shape(neural_network%biases_), &
+      shape(self%nodes_) == shape(neural_network%nodes_)  &
+     ])
+      call assert(all(equal_shapes), "assert_conformable_with: all(equal_shapes)", intrinsic_array_t(equal_shapes))
+    end associate
+
+    call assert(self%activation_ == neural_network%activation_, "assert_conformable_with: activation_")
+    
+  end procedure
+
+  module procedure double_precision_assert_conformable_with
+
+    call self%assert_consistency()
+
+    associate(equal_shapes => [ &
+      shape(self%weights_) == shape(neural_network%weights_), &
+      shape(self%biases_) == shape(neural_network%biases_), &
+      shape(self%nodes_) == shape(neural_network%nodes_)  &
+     ])
+      call assert(all(equal_shapes), "assert_conformable_with: all(equal_shapes)", intrinsic_array_t(equal_shapes))
+    end associate
+
+    call assert(self%activation_ == neural_network%activation_, "assert_conformable_with: activation_")
+    
+  end procedure
+
+  module procedure default_real_approximately_equal
+
+    logical nodes_eq
+
+    nodes_eq = all(lhs%nodes_ == rhs%nodes_)
+
+    call lhs%assert_consistency()
+    call rhs%assert_consistency()
+    call lhs%assert_conformable_with(rhs)
+
+    block
+      integer l
+      logical layer_eq(ubound(lhs%nodes_,1))
+      real, parameter :: tolerance = 1.E-06
+
+      associate(n => lhs%nodes_)
+#ifndef __INTEL_COMPILER
+        do concurrent(l = 1:ubound(n,1))
+            layer_eq(l) = all(abs(lhs%weights_(1:n(l),1:n(l-1),l) - rhs%weights_(1:n(l),1:n(l-1),l)) < tolerance) .and. &
+                          all(abs(lhs%biases_(1:n(l),l)           - rhs%biases_(1:n(l),l)) < tolerance)
+        end do
+#else
+        block
+          integer j, k
+          do l = 1, ubound(n,1)
+            do j = 1, n(l)
+              do k = 1, n(l-1)
+                layer_eq(l) = all(abs(lhs%weights_(j,k,l) - rhs%weights_(j,k,l)) < tolerance) .and. &
+                              all(abs(lhs%biases_(j,l)    - rhs%biases_(j,l)) < tolerance)
+              end do
+            end do
+          end do
+        end block
+#endif
+      end associate
+
+      lhs_eq_rhs = nodes_eq .and. all(layer_eq)
+    end block
+
+  end procedure
+
+  module procedure double_precision_approximately_equal
+
+    logical nodes_eq
+
+    nodes_eq = all(lhs%nodes_ == rhs%nodes_)
+
+    call lhs%assert_consistency()
+    call rhs%assert_consistency()
+    call lhs%assert_conformable_with(rhs)
+
+    block
+      integer l
+      logical layer_eq(ubound(lhs%nodes_,1))
+      real, parameter :: tolerance = 1.D-12
+
+      associate(n => lhs%nodes_)
+#ifndef __INTEL_COMPILER
+        do concurrent(l = 1:ubound(n,1))
+            layer_eq(l) = all(abs(lhs%weights_(1:n(l),1:n(l-1),l) - rhs%weights_(1:n(l),1:n(l-1),l)) < tolerance) .and. &
+                          all(abs(lhs%biases_(1:n(l),l)           - rhs%biases_(1:n(l),l)) < tolerance)
+        end do
+#else
+        block
+          integer j, k
+          do l = 1, ubound(n,1)
+            do j = 1, n(l)
+              do k = 1, n(l-1)
+                layer_eq(l) = all(abs(lhs%weights_(j,k,l) - rhs%weights_(j,k,l)) < tolerance) .and. &
+                              all(abs(lhs%biases_(j,l)    - rhs%biases_(j,l)) < tolerance)
+              end do
+            end do
+          end do
+        end block
+#endif
+      end associate
+
+      lhs_eq_rhs = nodes_eq .and. all(layer_eq)
+    end block
+
+  end procedure
+
+  module procedure default_real_num_outputs
+    call self%assert_consistency()
+    output_count = self%nodes_(ubound(self%nodes_,1))
+  end procedure
+
+  module procedure double_precision_num_outputs
+    call self%assert_consistency()
+    output_count = self%nodes_(ubound(self%nodes_,1))
+  end procedure
+
+  module procedure default_real_num_hidden_layers
+    integer, parameter :: num_non_hidden_layers = 2
+    call self%assert_consistency()
+    associate(num_layers => size(self%nodes_))
+      hidden_layer_count =  num_layers - num_non_hidden_layers
+    end associate
+  end procedure
+
+  module procedure double_precision_num_hidden_layers
+    integer, parameter :: num_non_hidden_layers = 2
+    call self%assert_consistency()
+    associate(num_layers => size(self%nodes_))
+      hidden_layer_count =  num_layers - num_non_hidden_layers
+    end associate
+  end procedure
+
+  module procedure default_real_num_inputs
+    call self%assert_consistency()
+    input_count = self%nodes_(lbound(self%nodes_,1))
+  end procedure
+
+  module procedure double_precision_num_inputs
+    call self%assert_consistency()
+    input_count = self%nodes_(lbound(self%nodes_,1))
+  end procedure
+
+  module procedure default_real_nodes_per_layer
+    call self%assert_consistency()
+    node_count = self%nodes_
+  end procedure
+
+  module procedure double_precision_nodes_per_layer
+    call self%assert_consistency()
+    node_count = self%nodes_
+  end procedure
+
+  module procedure default_real_skip
+    associate(strings => self%metadata_%strings())
+      use_skip_connections = merge(.true., .false.,  strings(5) == "true")
+    end associate
+  end procedure
+
+  module procedure double_precision_skip
+    associate(strings => self%metadata_%strings())
+      use_skip_connections = merge(.true., .false.,  strings(5) == "true")
+    end associate
+  end procedure
+
+  module procedure default_real_activation_name
+    associate(strings => self%metadata_%strings())
+      activation_name = strings(4)
+    end associate
+  end procedure
+
+  module procedure double_precision_activation_name
+    associate(strings => self%metadata_%strings())
+      activation_name = strings(4)
+    end associate
+  end procedure
+
+  module procedure default_real_learn
+    integer l, batch, mini_batch_size, pair
+    type(tensor_t), allocatable :: inputs(:), expected_outputs(:)
+
+    call self%assert_consistency()
+    call assert(workspace%fully_allocated(), "neural_network_s(default_real_learn): workspace%fully_allocated()")
+
+    associate(output_layer => ubound(self%nodes_,1))
+
+      associate( &
+        dcdw => workspace%dcdw, vdw => workspace%vdw, sdw   => workspace%sdw  , vdwc => workspace%vdwc, sdwc => workspace%sdwc &
+       ,dcdb => workspace%dcdb, vdb => workspace%vdb, sdb   => workspace%sdb  , vdbc => workspace%vdbc, sdbc => workspace%sdbc &
+       ,a    => workspace%a   , z   => workspace%z  , delta => workspace%delta &
+      )
+        vdw = 0.; sdw = 1.; vdb = 0.; sdb = 1.
+
+        associate(w => self%weights_, b => self%biases_, n => self%nodes_, num_mini_batches => size(mini_batches_arr))
+
+          if (present(cost)) allocate(cost(num_mini_batches))
+        
+          iterate_across_batches: &
+          do batch = 1, num_mini_batches
+
+            dcdw = 0.; dcdb = 0.
+
+#ifndef _CRAYFTN
+            associate(input_output_pairs => mini_batches_arr(batch)%input_output_pairs())
+#else
+            block
+              type(input_output_pair_t), allocatable :: input_output_pairs(:)
+              input_output_pairs = mini_batches_arr(batch)%input_output_pairs()
+#endif  
+              inputs = input_output_pairs%inputs()
+              expected_outputs = input_output_pairs%expected_outputs()
+              mini_batch_size = size(input_output_pairs)
+#ifndef _CRAYFTN
+            end associate
+#else
+            end block
+#endif  
+            sum_cost: &
+            block
+              real, allocatable :: pair_cost(:)
+              if (present(cost)) allocate(pair_cost(mini_batch_size))
+
+#if F2023_LOCALITY
+              iterate_through_batch: &
+              do concurrent (pair = 1:mini_batch_size) local(a,z,delta) reduce(+: dcdb, dcdw)
+
+#elif F2018_LOCALITY
+
+              reduce_gradients: &
+              block
+                real reduce_dcdb(size(dcdb,1),size(dcdb,2),mini_batch_size)
+                real reduce_dcdw(size(dcdw,1),size(dcdw,2),size(dcdw,3),mini_batch_size)
+                reduce_dcdb = 0.
+                reduce_dcdw = 0.
+
+                iterate_through_batch: &
+                do concurrent (pair = 1:mini_batch_size) local(a,z,delta)
+
+#else
+
+              reduce_gradients: &
+              block
+                real reduce_dcdb(size(dcdb,1),size(dcdb,2),mini_batch_size)
+                real reduce_dcdw(size(dcdw,1),size(dcdw,2),size(dcdw,3),mini_batch_size)
+                reduce_dcdb = 0.
+                reduce_dcdw = 0.
+              
+                iterate_through_batch: &
+                do concurrent (pair = 1:mini_batch_size)
+
+                  iteration: &
+                  block
+
+                    real a(maxval(self%nodes_), input_layer:output_layer) ! Activations
+                    real z(size(b,1),size(b,2)), delta(size(b,1),size(b,2))
+#endif
+
+                    a(1:self%num_inputs(), input_layer) = inputs(pair)%values()
+
+                    feed_forward: &
+                    do l = 1,output_layer
+                      z(1:n(l),l) = matmul(w(1:n(l),1:n(l-1),l), a(1:n(l-1),l-1)) + b(1:n(l),l) ! z_j^l =  sum_k(w_jk^{l} a_k^{l-1}) + b_j^l
+                      a(1:n(l),l) = self%activation_%evaluate(z(1:n(l),l))
+                    end do feed_forward
+
+                    associate(y => expected_outputs(pair)%values())
+                      if (present(cost)) pair_cost(pair) = sum((y(1:n(output_layer))-a(1:n(output_layer),output_layer))**2)
+              
+                      delta(1:n(output_layer),output_layer) = (a(1:n(output_layer),output_layer) - y(1:n(output_layer))) &
+                                                             * self%activation_%differentiate(z(1:n(output_layer),output_layer))
+                    end associate
+                
+                    associate(n_hidden => self%num_hidden_layers())
+                      back_propagate_error: &
+                      do l = n_hidden,1,-1
+                        delta(1:n(l),l) = matmul(transpose(w(1:n(l+1),1:n(l),l+1)), delta(1:n(l+1),l+1)) &
+                                         * self%activation_%differentiate(z(1:n(l),l))
+                      end do back_propagate_error
+                    end associate
+
+                    
+
+                    block
+                      integer j
+                      sum_gradients: &
+                      do l = 1,output_layer
+#if F2023_LOCALITY
+                        dcdb(1:n(l),l) = dcdb(1:n(l),l) + delta(1:n(l),l)
+                        do concurrent(j = 1:n(l)) reduce(+: dcdw)
+                          dcdw(j,1:n(l-1),l) = dcdw(j,1:n(l-1),l) + a(1:n(l-1),l-1)*delta(j,l)
+                        end do
+#else
+                        reduce_dcdb(1:n(l),l,pair) = reduce_dcdb(1:n(l),l,pair) + delta(1:n(l),l)
+                        do j = 1,n(l)
+                          reduce_dcdw(j,1:n(l-1),l,pair) = reduce_dcdw(j,1:n(l-1),l,pair) + a(1:n(l-1),l-1)*delta(j,l)
+                        end do
+#endif
+                      end do sum_gradients
+                    end block
+    
+#if F2023_LOCALITY
+              end do iterate_through_batch
+#elif F2018_LOCALITY
+
+                end do iterate_through_batch
+                dcdb = sum(reduce_dcdb,dim=3)
+                dcdw = sum(reduce_dcdw,dim=4)
+
+              end block reduce_gradients
+#else
+                  end block iteration
+                end do iterate_through_batch
+                dcdb = sum(reduce_dcdb,dim=3)
+                dcdw = sum(reduce_dcdw,dim=4)
+  
+              end block reduce_gradients
+#endif
+
+              if (present(cost)) cost(batch) = sum(pair_cost)/(2*mini_batch_size)
+            end block sum_cost
+          
+            if (adam) then
+              adam: &
+              block
+                ! Adam parameters  
+                real, parameter :: beta(*) = [.9, .999]
+                real, parameter :: obeta(*) = [1.- beta(1), 1.- beta(2)]
+                real, parameter :: epsilon = 1.E-08
+
+                associate(alpha => learning_rate)
+                  adam_adjust_weights_and_biases: &
+                  do concurrent(l = 1:output_layer)
+                    dcdw(1:n(l),1:n(l-1),l) = dcdw(1:n(l),1:n(l-1),l)/(mini_batch_size)
+                    vdw(1:n(l),1:n(l-1),l)  = beta(1)*vdw(1:n(l),1:n(l-1),l) + obeta(1)*dcdw(1:n(l),1:n(l-1),l)
+                    sdw (1:n(l),1:n(l-1),l) = beta(2)*sdw(1:n(l),1:n(l-1),l) + obeta(2)*(dcdw(1:n(l),1:n(l-1),l)**2)
+                    vdwc(1:n(l),1:n(l-1),l) = vdw(1:n(l),1:n(l-1),l)/(1.- beta(1)**num_mini_batches)
+                    sdwc(1:n(l),1:n(l-1),l) = sdw(1:n(l),1:n(l-1),l)/(1.- beta(2)**num_mini_batches)
+                    w(1:n(l),1:n(l-1),l) = w(1:n(l),1:n(l-1),l) &
+                      - alpha*vdwc(1:n(l),1:n(l-1),l)/(sqrt(sdwc(1:n(l),1:n(l-1),l))+epsilon) ! Adjust weights
+
+                    dcdb(1:n(l),l) = dcdb(1:n(l),l)/mini_batch_size
+                    vdb(1:n(l),l) = beta(1)*vdb(1:n(l),l) + obeta(1)*dcdb(1:n(l),l)
+                    sdb(1:n(l),l) = beta(2)*sdb(1:n(l),l) + obeta(2)*(dcdb(1:n(l),l)**2)
+                    vdbc(1:n(l),l) = vdb(1:n(l),l)/(1. - beta(1)**num_mini_batches)
+                    sdbc(1:n(l),l) = sdb(1:n(l),l)/(1. - beta(2)**num_mini_batches)
+                    b(1:n(l),l) = b(1:n(l),l) - alpha*vdbc(1:n(l),l)/(sqrt(sdbc(1:n(l),l))+epsilon) ! Adjust weights
+                  end do adam_adjust_weights_and_biases
+                end associate
+              end block adam
+            else
+              associate(eta => learning_rate)
+                adjust_weights_and_biases: &
+                do concurrent(l = 1:output_layer)
+                  dcdb(1:n(l),l) = dcdb(1:n(l),l)/mini_batch_size
+                  b(1:n(l),l) = b(1:n(l),l) - eta*dcdb(1:n(l),l) ! Adjust biases
+                  dcdw(1:n(l),1:n(l-1),l) = dcdw(1:n(l),1:n(l-1),l)/mini_batch_size
+                  w(1:n(l),1:n(l-1),l) = w(1:n(l),1:n(l-1),l) - eta*dcdw(1:n(l),1:n(l-1),l) ! Adjust weights
+                end do adjust_weights_and_biases
+              end associate
+            end if
+          end do iterate_across_batches
+        end associate
+      end associate
+    end associate
+  end procedure default_real_learn
+
+end submodule neural_network_s

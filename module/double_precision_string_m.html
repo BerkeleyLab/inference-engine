@@ -1,0 +1,1296 @@
+<!-- -*- mode: jinja2 -*- -->
+
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+      <meta name="description" content="Functional inference and training of surrogate models for computational science.">
+    <meta name="author" content="Berkeley Lab" >
+    <link rel="icon" href="../favicon.png">
+
+    <title>double_precision_string_m &ndash; Fiats</title>
+
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet"
+          integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
+    <link href="../css/pygments.css" rel="stylesheet">
+    <link href="../css/font-awesome.min.css" rel="stylesheet">
+    <link href="../css/local.css" rel="stylesheet">
+      <link  href="../tipuesearch/tipuesearch.css" rel="stylesheet">
+
+    <script src="https://code.jquery.com/jquery-3.7.1.min.js" integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
+    <script src="../js/svg-pan-zoom.min.js"></script>
+  </head>
+
+  <body>
+
+    <!-- Fixed navbar -->
+    <div class="container-fluid mb-sm-4 mb-xl-2">
+      <nav class="navbar navbar-expand-lg navbar-dark bg-dark fixed-top">
+        <div class="container">
+          <a class="navbar-brand" href="../index.html">Fiats </a>
+          <button type="button" class="navbar-toggler" data-bs-toggle="collapse" data-bs-target="#navbar"
+                  aria-expanded="false" aria-controls="navbar" aria-label="Toggle navigation">
+                  <span class="navbar-toggler-icon">
+          </button>
+
+          <div id="navbar" class="navbar-collapse collapse">
+            <ul class="navbar-nav">
+                  <li class="nav-item">
+                    <a class="nav-link" href="../lists/files.html">Source Files</a>
+                  </li>
+                <li class="nav-item">
+                  <a class="nav-link" href="../lists/modules.html">Modules</a>
+                </li>
+                <li class="nav-item">
+                  <a class="nav-link" href="../lists/procedures.html">Procedures</a>
+                </li>
+                <li class="nav-item">
+                  <a class="nav-link" href="../lists/types.html">Derived Types</a>
+                </li>
+                <li class="nav-item">
+                  <a class="nav-link" href="../lists/programs.html">Programs</a>
+                </li>
+            </ul>
+              <div class="d-flex align-items-end flex-grow-1">
+                <form action="../search.html" role="search" class="ms-auto">
+                  <input type="text" class="form-control" aria-label="Search" placeholder="Search" name="q" id="tipue_search_input" autocomplete="off" required>
+                </form>
+              </div>
+          </div><!--/.nav-collapse -->
+        </div>
+      </nav>
+    </div>
+
+    <div class="container">
+  <div class="row">
+    <h1>double_precision_string_m
+      <small>Module</small>
+      
+    </h1>
+      <div class="container p-2 mb-4 bg-light border rounded-3">
+    <div class="row align-items-center justify-content-between" id="info-bar">
+      <div class="col">
+        <ul class="list-inline" style="margin-bottom:0px;display:inline">
+
+            <li class="list-inline-item" id="statements"><i class="fa fa-list-ol"></i>
+              <a data-bs-toggle="tooltip" data-bs-placement="bottom" data-bs-html="true"
+                 title=" 0.4% of total for modules and submodules.">13 statements</a>
+            </li>
+
+            <li class="list-inline-item" id="source-file">
+              <i class="fa fa-code"></i>
+              <a href="../src/double_precision_string_m.f90"> Source File</a>
+            </li>
+        </ul>
+      </div>
+      <div class="col">
+        <nav aria-label="breadcrumb">
+          <ol class="breadcrumb justify-content-end mb-0">
+                <li class="breadcrumb-item"><a href='../sourcefile/double_precision_string_m.f90.html'>double_precision_string_m.f90</a></li>
+            <li class="breadcrumb-item active" aria-current="page">double_precision_string_m</li>
+          </ol>
+        </nav>
+      </div>
+    </div>
+  </div>
+  <script>
+    $(function () {
+    $('[data-bs-toggle="tooltip"]').tooltip()
+    })
+  </script>
+
+  </div>
+
+  <div class="row">
+    <div class="col-md-3">
+        <div id="sidebar">
+      <h3>Contents</h3>
+  
+  
+  
+  
+  
+  
+  
+  
+      <div class="card mb-4">
+      <a data-bs-toggle="collapse" href="#inters-0"
+         aria-expanded="false" aria-controls="inters-0">
+         <h4 class="card-header bg-primary text-white">Interfaces</h4>
+      </a>
+      <div id="inters-0" class="collapse">
+        <div class="list-group list-group-flush">
+            <a class="list-group-item" href="../module/double_precision_string_m.html#interface-double_precision_string_t">double_precision_string_t</a>
+        </div>
+      </div>
+    </div>
+
+  
+      <div class="card mb-4">
+      <a data-bs-toggle="collapse" href="#types-0"
+         aria-expanded="false" aria-controls="types-0">
+         <h4 class="card-header bg-primary text-white">Derived Types</h4>
+      </a>
+      <div id="types-0" class="collapse">
+        <div class="list-group list-group-flush">
+            <a class="list-group-item" href="../module/double_precision_string_m.html#type-double_precision_string_t">double_precision_string_t</a>
+        </div>
+      </div>
+    </div>
+
+  
+  
+  
+  
+  
+  
+  
+  
+  
+
+
+  </div>
+
+    </div>
+
+    <div class="col-md-9" id='text'>
+      
+<br>          <div class="card mb-4">
+      <h3 class="card-header card-title bg-light">Uses</h3>
+      <div class="card-body">
+        <ul class="list-group list-group-flush">
+            <li class="list-group-item">
+              <ul class="list-inline">
+                  <li class="list-inline-item">julienne_m</li>
+              </ul>
+            </li>
+            <li class="list-group-item">
+              <div class="depgraph"><?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN"
+ "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
+<!-- Generated by graphviz version 12.1.2 (20240928.0832)
+ -->
+<!-- Title: module~~double_precision_string_m~~UsesGraph Pages: 1 -->
+<svg id="moduledouble_precision_string_mUsesGraph" width="267pt" height="32pt"
+ viewBox="0.00 0.00 266.54 32.27" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+<g id="module~~double_precision_string_m~~UsesGraph" class="graph" transform="scale(1 1) rotate(0) translate(4 28.27)">
+<title>module~~double_precision_string_m~~UsesGraph</title>
+<polygon fill="white" stroke="none" points="-4,4 -4,-28.27 262.54,-28.27 262.54,4 -4,4"/>
+<!-- module~double_precision_string_m -->
+<g id="module~~double_precision_string_m~~UsesGraph_node1" class="node">
+<title>module~double_precision_string_m</title>
+<polygon fill="none" stroke="black" points="258.54,-24.27 106.02,-24.27 106.02,0 258.54,0 258.54,-24.27"/>
+<text text-anchor="middle" x="182.28" y="-8.53" font-family="Helvetica,sans-Serif" font-size="10.50">double_precision_string_m</text>
+</g>
+<!-- julienne_m -->
+<g id="module~~double_precision_string_m~~UsesGraph_node2" class="node">
+<title>julienne_m</title>
+<polygon fill="#337ab7" stroke="#337ab7" points="70.02,-24.27 0,-24.27 0,0 70.02,0 70.02,-24.27"/>
+<text text-anchor="middle" x="35.01" y="-8.53" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">julienne_m</text>
+</g>
+<!-- module~double_precision_string_m&#45;&gt;julienne_m -->
+<g id="module~~double_precision_string_m~~UsesGraph_edge1" class="edge">
+<title>module~double_precision_string_m&#45;&gt;julienne_m</title>
+<path fill="none" stroke="#ff0000" stroke-dasharray="5,2" d="M105.67,-12.13C97.43,-12.13 89.24,-12.13 81.52,-12.13"/>
+<polygon fill="#ff0000" stroke="#ff0000" points="81.75,-8.64 71.75,-12.14 81.75,-15.64 81.75,-8.64"/>
+</g>
+</g>
+</svg>
+</div>          <div>
+            <a type="button" class="graph-help" data-bs-toggle="modal" href="#UsesGraph-help-text">Help</a>
+          </div>
+          <div class="modal fade" id="UsesGraph-help-text" tabindex="-1" role="dialog">
+            <div class="modal-dialog modal-lg" role="document">
+              <div class="modal-content">
+                <div class="modal-header">
+                  <h4 class="modal-title" id="-graph-help-label">Graph Key</h4>
+                  <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+<p>Nodes of different colours represent the following: </p>
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN"
+ "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
+<!-- Generated by graphviz version 12.1.2 (20240928.0832)
+ -->
+<!-- Title: Graph Key Pages: 1 -->
+<svg width="511pt" height="32pt"
+ viewBox="0.00 0.00 510.88 32.27" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+<g id="graph0" class="graph" transform="scale(1 1) rotate(0) translate(4 28.27)">
+<title>Graph Key</title>
+<polygon fill="white" stroke="none" points="-4,4 -4,-28.27 506.88,-28.27 506.88,4 -4,4"/>
+<!-- Module -->
+<g id="node1" class="node">
+<title>Module</title>
+<polygon fill="#337ab7" stroke="#337ab7" points="54,-24.27 0,-24.27 0,0 54,0 54,-24.27"/>
+<text text-anchor="middle" x="27" y="-8.53" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">Module</text>
+</g>
+<!-- Submodule -->
+<g id="node2" class="node">
+<title>Submodule</title>
+<polygon fill="#5bc0de" stroke="#5bc0de" points="144.13,-24.27 71.87,-24.27 71.87,0 144.13,0 144.13,-24.27"/>
+<text text-anchor="middle" x="108" y="-8.53" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">Submodule</text>
+</g>
+<!-- Subroutine -->
+<g id="node3" class="node">
+<title>Subroutine</title>
+<polygon fill="#d9534f" stroke="#d9534f" points="231.63,-24.27 162.37,-24.27 162.37,0 231.63,0 231.63,-24.27"/>
+<text text-anchor="middle" x="197" y="-8.53" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">Subroutine</text>
+</g>
+<!-- Function -->
+<g id="node4" class="node">
+<title>Function</title>
+<polygon fill="#d94e8f" stroke="#d94e8f" points="306.26,-24.27 249.74,-24.27 249.74,0 306.26,0 306.26,-24.27"/>
+<text text-anchor="middle" x="278" y="-8.53" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">Function</text>
+</g>
+<!-- Program -->
+<g id="node5" class="node">
+<title>Program</title>
+<polygon fill="#f0ad4e" stroke="#f0ad4e" points="381.26,-24.27 324.74,-24.27 324.74,0 381.26,0 381.26,-24.27"/>
+<text text-anchor="middle" x="353" y="-8.53" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">Program</text>
+</g>
+<!-- This Page&#39;s Entity -->
+<g id="node6" class="node">
+<title>This Page&#39;s Entity</title>
+<polygon fill="none" stroke="black" points="502.88,-24.27 399.12,-24.27 399.12,0 502.88,0 502.88,-24.27"/>
+<text text-anchor="middle" x="451" y="-8.53" font-family="Helvetica,sans-Serif" font-size="10.50">This Page&#39;s Entity</text>
+</g>
+</g>
+</svg>
+
+<p>Solid arrows point from a submodule to the (sub)module which it is
+descended from. Dashed arrows point from a module or program unit to 
+modules which it uses.
+</p>
+ Where possible, edges connecting nodes are
+given different colours to make them easier to distinguish in
+large graphs.</div>
+            </div>
+          </div>
+        </div>
+            </li>
+        </ul>
+      </div>
+    </div>
+
+          <div class="card">
+      <h3 class="card-header card-title bg-light">Used by</h3>
+      <div class="card-body">
+        <ul class="list-group list-group-flush">
+            <li class="list-group-item">
+              <ul class="list-inline">
+                <li class="list-inline-item"><h5>Descendants:</h5></li>
+                  <li class="list-inline-item"><a href='double_precision_string_s.html'>double_precision_string_s</a></li>
+              </ul>
+            </li>
+            <li class="list-group-item">
+              <div class="depgraph"><?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN"
+ "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
+<!-- Generated by graphviz version 12.1.2 (20240928.0832)
+ -->
+<!-- Title: module~~double_precision_string_m~~UsedByGraph Pages: 1 -->
+<svg id="moduledouble_precision_string_mUsedByGraph" width="641pt" height="382pt"
+ viewBox="0.00 0.00 641.00 382.45" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+<g id="module~~double_precision_string_m~~UsedByGraph" class="graph" transform="scale(0.511107 0.511107) rotate(0) translate(4 744.27)">
+<title>module~~double_precision_string_m~~UsedByGraph</title>
+<polygon fill="white" stroke="none" points="-4,4 -4,-744.27 1250.14,-744.27 1250.14,4 -4,4"/>
+<!-- module~double_precision_string_m -->
+<g id="module~~double_precision_string_m~~UsedByGraph_node1" class="node">
+<title>module~double_precision_string_m</title>
+<polygon fill="none" stroke="black" points="152.52,-344.27 0,-344.27 0,-320 152.52,-320 152.52,-344.27"/>
+<text text-anchor="middle" x="76.26" y="-328.53" font-family="Helvetica,sans-Serif" font-size="10.50">double_precision_string_m</text>
+</g>
+<!-- module~double_precision_file_m -->
+<g id="module~~double_precision_string_m~~UsedByGraph_node2" class="node">
+<title>module~double_precision_file_m</title>
+<g id="a_module~~double_precision_string_m~~UsedByGraph_node2"><a xlink:href="../module/double_precision_file_m.html" xlink:title="double_precision_file_m">
+<polygon fill="#337ab7" stroke="#337ab7" points="331.67,-104.27 192.65,-104.27 192.65,-80 331.67,-80 331.67,-104.27"/>
+<text text-anchor="middle" x="262.16" y="-88.54" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">double_precision_file_m</text>
+</a>
+</g>
+</g>
+<!-- module~double_precision_file_m&#45;&gt;module~double_precision_string_m -->
+<g id="module~~double_precision_string_m~~UsedByGraph_edge1" class="edge">
+<title>module~double_precision_file_m&#45;&gt;module~double_precision_string_m</title>
+<path fill="none" stroke="#ff0000" stroke-dasharray="5,2" d="M251.53,-104.7C221.8,-143.5 131.2,-261.73 93.74,-310.63"/>
+<polygon fill="#ff0000" stroke="#ff0000" points="91.02,-308.43 87.71,-318.49 96.57,-312.68 91.02,-308.43"/>
+</g>
+<!-- module~double_precision_string_s -->
+<g id="module~~double_precision_string_m~~UsedByGraph_node3" class="node">
+<title>module~double_precision_string_s</title>
+<g id="a_module~~double_precision_string_m~~UsedByGraph_node3"><a xlink:href="../module/double_precision_string_s.html" xlink:title="double_precision_string_s">
+<polygon fill="#5bc0de" stroke="#5bc0de" points="335.79,-24.27 188.52,-24.27 188.52,0 335.79,0 335.79,-24.27"/>
+<text text-anchor="middle" x="262.16" y="-8.53" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">double_precision_string_s</text>
+</a>
+</g>
+</g>
+<!-- module~double_precision_string_s&#45;&gt;module~double_precision_string_m -->
+<g id="module~~double_precision_string_m~~UsedByGraph_edge11" class="edge">
+<title>module~double_precision_string_s&#45;&gt;module~double_precision_string_m</title>
+<path fill="none" stroke="#ff0000" d="M208.7,-24.62C201.29,-28.08 194.25,-32.5 188.52,-38.13 110.13,-115.12 86.23,-252.84 79.59,-308.16"/>
+<polygon fill="#ff0000" stroke="#ff0000" points="76.12,-307.69 78.5,-318.02 83.08,-308.46 76.12,-307.69"/>
+</g>
+<!-- module~fiats_m -->
+<g id="module~~double_precision_string_m~~UsedByGraph_node4" class="node">
+<title>module~fiats_m</title>
+<g id="a_module~~double_precision_string_m~~UsedByGraph_node4"><a xlink:href="../module/fiats_m.html" xlink:title="fiats_m">
+<polygon fill="#337ab7" stroke="#337ab7" points="814.59,-324.27 760.59,-324.27 760.59,-300 814.59,-300 814.59,-324.27"/>
+<text text-anchor="middle" x="787.59" y="-308.53" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">fiats_m</text>
+</a>
+</g>
+</g>
+<!-- module~fiats_m&#45;&gt;module~double_precision_string_m -->
+<g id="module~~double_precision_string_m~~UsedByGraph_edge2" class="edge">
+<title>module~fiats_m&#45;&gt;module~double_precision_string_m</title>
+<path fill="none" stroke="#ff0000" stroke-dasharray="5,2" d="M783.01,-299.89C773.54,-269.73 744.92,-191.39 692.58,-151.13 667.41,-131.77 652.33,-145.87 623.7,-132.13"/>
+<path fill="none" stroke="#ff0000" stroke-dasharray="5,2" d="M621.7,-132.13C573.07,-108.82 566.62,-91.8 516.81,-71.14 486.44,-58.53 477.79,-57.25 445.3,-52.13"/>
+<path fill="none" stroke="#ff0000" stroke-dasharray="5,2" d="M443.3,-52.13C387.22,-43.31 234.69,-38.09 188.52,-71.14 108.42,-128.46 85.57,-255.48 79.4,-308.34"/>
+<polygon fill="#ff0000" stroke="#ff0000" points="75.95,-307.73 78.38,-318.04 82.91,-308.46 75.95,-307.73"/>
+</g>
+<!-- module~fiats_m&#45;&gt;module~double_precision_file_m -->
+<g id="module~~double_precision_string_m~~UsedByGraph_edge12" class="edge">
+<title>module~fiats_m&#45;&gt;module~double_precision_file_m</title>
+<path fill="none" stroke="#ff0000" stroke-dasharray="5,2" d="M443.3,-52.13C418.87,-48.29 358.37,-63.64 314.2,-76.42"/>
+<polygon fill="#ff0000" stroke="#ff0000" points="313.42,-73 304.81,-79.18 315.39,-79.72 313.42,-73"/>
+</g>
+<!-- module~hyperparameters_m -->
+<g id="module~~double_precision_string_m~~UsedByGraph_node5" class="node">
+<title>module~hyperparameters_m</title>
+<g id="a_module~~double_precision_string_m~~UsedByGraph_node5"><a xlink:href="../module/hyperparameters_m.html" xlink:title="hyperparameters_m">
+<polygon fill="#337ab7" stroke="#337ab7" points="322.29,-425.27 202.02,-425.27 202.02,-401 322.29,-401 322.29,-425.27"/>
+<text text-anchor="middle" x="262.16" y="-409.53" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">hyperparameters_m</text>
+</a>
+</g>
+</g>
+<!-- module~fiats_m&#45;&gt;module~hyperparameters_m -->
+<g id="module~~double_precision_string_m~~UsedByGraph_edge31" class="edge">
+<title>module~fiats_m&#45;&gt;module~hyperparameters_m</title>
+<path fill="none" stroke="#5cff00" stroke-dasharray="5,2" d="M621.7,-452.13C514.15,-472.79 386.21,-447.02 315.93,-428.62"/>
+<polygon fill="#5cff00" stroke="#5cff00" points="317.19,-425.33 306.62,-426.13 315.38,-432.09 317.19,-425.33"/>
+</g>
+<!-- module~metadata_m -->
+<g id="module~~double_precision_string_m~~UsedByGraph_node7" class="node">
+<title>module~metadata_m</title>
+<g id="a_module~~double_precision_string_m~~UsedByGraph_node7"><a xlink:href="../module/metadata_m.html" xlink:title="metadata_m">
+<polygon fill="#337ab7" stroke="#337ab7" points="301.67,-584.27 222.65,-584.27 222.65,-560 301.67,-560 301.67,-584.27"/>
+<text text-anchor="middle" x="262.16" y="-568.53" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">metadata_m</text>
+</a>
+</g>
+</g>
+<!-- module~fiats_m&#45;&gt;module~metadata_m -->
+<g id="module~~double_precision_string_m~~UsedByGraph_edge36" class="edge">
+<title>module~fiats_m&#45;&gt;module~metadata_m</title>
+<path fill="none" stroke="#00ffb9" stroke-dasharray="5,2" d="M760.12,-315.74C748.82,-318.62 736.46,-323.81 728.58,-333.13 670.59,-401.81 758.81,-471.37 692.58,-532.13 638.45,-581.8 414.99,-578.83 313.6,-574.73"/>
+<polygon fill="#00ffb9" stroke="#00ffb9" points="313.8,-571.24 303.66,-574.31 313.5,-578.23 313.8,-571.24"/>
+</g>
+<!-- module~network_configuration_m -->
+<g id="module~~double_precision_string_m~~UsedByGraph_node8" class="node">
+<title>module~network_configuration_m</title>
+<g id="a_module~~double_precision_string_m~~UsedByGraph_node8"><a xlink:href="../module/network_configuration_m.html" xlink:title="network_configuration_m">
+<polygon fill="#337ab7" stroke="#337ab7" points="335.42,-344.27 188.9,-344.27 188.9,-320 335.42,-320 335.42,-344.27"/>
+<text text-anchor="middle" x="262.16" y="-328.53" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">network_configuration_m</text>
+</a>
+</g>
+</g>
+<!-- module~fiats_m&#45;&gt;module~network_configuration_m -->
+<g id="module~~double_precision_string_m~~UsedByGraph_edge40" class="edge">
+<title>module~fiats_m&#45;&gt;module~network_configuration_m</title>
+<path fill="none" stroke="#00b9ff" stroke-dasharray="5,2" d="M760.3,-310.29C694.6,-306.08 518.03,-297.13 371.79,-311.13 357.76,-312.48 342.84,-314.78 328.71,-317.37"/>
+<polygon fill="#00b9ff" stroke="#00b9ff" points="328.22,-313.9 319.05,-319.22 329.53,-320.78 328.22,-313.9"/>
+</g>
+<!-- module~tensor_map_m -->
+<g id="module~~double_precision_string_m~~UsedByGraph_node11" class="node">
+<title>module~tensor_map_m</title>
+<g id="a_module~~double_precision_string_m~~UsedByGraph_node11"><a xlink:href="../module/tensor_map_m.html" xlink:title="tensor_map_m">
+<polygon fill="#337ab7" stroke="#337ab7" points="307.29,-246.27 217.02,-246.27 217.02,-222 307.29,-222 307.29,-246.27"/>
+<text text-anchor="middle" x="262.16" y="-230.53" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">tensor_map_m</text>
+</a>
+</g>
+</g>
+<!-- module~fiats_m&#45;&gt;module~tensor_map_m -->
+<g id="module~~double_precision_string_m~~UsedByGraph_edge46" class="edge">
+<title>module~fiats_m&#45;&gt;module~tensor_map_m</title>
+<path fill="none" stroke="#e700ff" stroke-dasharray="5,2" d="M621.7,-132.13C571.59,-107.82 423.83,-131.3 371.79,-151.13 336.44,-164.61 302.99,-193.49 282.78,-213.36"/>
+<polygon fill="#e700ff" stroke="#e700ff" points="280.33,-210.86 275.78,-220.43 285.3,-215.79 280.33,-210.86"/>
+</g>
+<!-- module~neural_network_m -->
+<g id="module~~double_precision_string_m~~UsedByGraph_node21" class="node">
+<title>module~neural_network_m</title>
+<g id="a_module~~double_precision_string_m~~UsedByGraph_node21"><a xlink:href="../module/neural_network_m.html" xlink:title="neural_network_m">
+<polygon fill="#337ab7" stroke="#337ab7" points="499.19,-184.27 389.42,-184.27 389.42,-160 499.19,-160 499.19,-184.27"/>
+<text text-anchor="middle" x="444.3" y="-168.53" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">neural_network_m</text>
+</a>
+</g>
+</g>
+<!-- module~fiats_m&#45;&gt;module~neural_network_m -->
+<g id="module~~double_precision_string_m~~UsedByGraph_edge54" class="edge">
+<title>module~fiats_m&#45;&gt;module~neural_network_m</title>
+<path fill="none" stroke="#14ff00" stroke-dasharray="5,2" d="M621.7,-132.13C598.65,-120.95 533.32,-140.27 488.97,-155.76"/>
+<polygon fill="#14ff00" stroke="#14ff00" points="487.86,-152.44 479.61,-159.08 490.21,-159.03 487.86,-152.44"/>
+</g>
+<!-- module~trainable_network_m -->
+<g id="module~~double_precision_string_m~~UsedByGraph_node26" class="node">
+<title>module~trainable_network_m</title>
+<g id="a_module~~double_precision_string_m~~UsedByGraph_node26"><a xlink:href="../module/trainable_network_m.html" xlink:title="trainable_network_m">
+<polygon fill="#337ab7" stroke="#337ab7" points="684.33,-344.27 561.06,-344.27 561.06,-320 684.33,-320 684.33,-344.27"/>
+<text text-anchor="middle" x="622.7" y="-328.53" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">trainable_network_m</text>
+</a>
+</g>
+</g>
+<!-- module~fiats_m&#45;&gt;module~trainable_network_m -->
+<g id="module~~double_precision_string_m~~UsedByGraph_edge62" class="edge">
+<title>module~fiats_m&#45;&gt;module~trainable_network_m</title>
+<path fill="none" stroke="#00e0ff" stroke-dasharray="5,2" d="M760.42,-315.35C742.87,-317.5 718.85,-320.45 695.83,-323.28"/>
+<polygon fill="#00e0ff" stroke="#00e0ff" points="695.65,-319.77 686.15,-324.47 696.5,-326.72 695.65,-319.77"/>
+</g>
+<!-- module~training_configuration_m -->
+<g id="module~~double_precision_string_m~~UsedByGraph_node27" class="node">
+<title>module~training_configuration_m</title>
+<g id="a_module~~double_precision_string_m~~UsedByGraph_node27"><a xlink:href="../module/training_configuration_m.html" xlink:title="training_configuration_m">
+<polygon fill="#337ab7" stroke="#337ab7" points="516.81,-344.27 371.79,-344.27 371.79,-320 516.81,-320 516.81,-344.27"/>
+<text text-anchor="middle" x="444.3" y="-328.53" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">training_configuration_m</text>
+</a>
+</g>
+</g>
+<!-- module~fiats_m&#45;&gt;module~training_configuration_m -->
+<g id="module~~double_precision_string_m~~UsedByGraph_edge64" class="edge">
+<title>module~fiats_m&#45;&gt;module~training_configuration_m</title>
+<path fill="none" stroke="#00a3ff" stroke-dasharray="5,2" d="M760.14,-318.64C749.74,-321.96 738.05,-326.68 728.58,-333.13 670.31,-372.82 692.93,-438.84 623.7,-452.13"/>
+<path fill="none" stroke="#00a3ff" stroke-dasharray="5,2" d="M621.7,-452.13C585.78,-459.03 579.37,-432.27 552.81,-407.13 533.18,-388.56 538.44,-374.34 516.81,-358.13 512.48,-354.89 507.7,-352.02 502.73,-349.48"/>
+<polygon fill="#00a3ff" stroke="#00a3ff" points="504.27,-346.34 493.72,-345.37 501.37,-352.71 504.27,-346.34"/>
+</g>
+<!-- module~hyperparameters_m&#45;&gt;module~double_precision_string_m -->
+<g id="module~~double_precision_string_m~~UsedByGraph_edge3" class="edge">
+<title>module~hyperparameters_m&#45;&gt;module~double_precision_string_m</title>
+<path fill="none" stroke="#ff0000" stroke-dasharray="5,2" d="M232.82,-400.66C201.6,-386.9 151.17,-364.69 116.23,-349.3"/>
+<polygon fill="#ff0000" stroke="#ff0000" points="117.87,-346.2 107.31,-345.37 115.05,-352.61 117.87,-346.2"/>
+</g>
+<!-- module~layer_m -->
+<g id="module~~double_precision_string_m~~UsedByGraph_node6" class="node">
+<title>module~layer_m</title>
+<g id="a_module~~double_precision_string_m~~UsedByGraph_node6"><a xlink:href="../module/layer_m.html" xlink:title="layer_m">
+<polygon fill="#337ab7" stroke="#337ab7" points="649.83,-641.27 595.56,-641.27 595.56,-617 649.83,-617 649.83,-641.27"/>
+<text text-anchor="middle" x="622.7" y="-625.53" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">layer_m</text>
+</a>
+</g>
+</g>
+<!-- module~layer_m&#45;&gt;module~double_precision_string_m -->
+<g id="module~~double_precision_string_m~~UsedByGraph_edge4" class="edge">
+<title>module~layer_m&#45;&gt;module~double_precision_string_m</title>
+<path fill="none" stroke="#ff0000" stroke-dasharray="5,2" d="M443.3,-650.13C361.47,-650.45 333.06,-730.67 263.16,-688.13"/>
+<path fill="none" stroke="#ff0000" stroke-dasharray="5,2" d="M261.16,-688.13C136.67,-612.39 92.78,-422.26 80.94,-355.64"/>
+<polygon fill="#ff0000" stroke="#ff0000" points="84.46,-355.46 79.34,-346.19 77.56,-356.63 84.46,-355.46"/>
+</g>
+<!-- module~layer_m&#45;&gt;module~metadata_m -->
+<g id="module~~double_precision_string_m~~UsedByGraph_edge37" class="edge">
+<title>module~layer_m&#45;&gt;module~metadata_m</title>
+<path fill="none" stroke="#00ffb9" stroke-dasharray="5,2" d="M595.22,-634.21C560.81,-640.35 498.81,-649.93 445.3,-650.13"/>
+<path fill="none" stroke="#00ffb9" stroke-dasharray="5,2" d="M443.3,-650.13C384.05,-650.37 322.2,-614.32 288.6,-591.15"/>
+<polygon fill="#00ffb9" stroke="#00ffb9" points="290.93,-588.51 280.74,-585.59 286.89,-594.22 290.93,-588.51"/>
+</g>
+<!-- module~neuron_m -->
+<g id="module~~double_precision_string_m~~UsedByGraph_node10" class="node">
+<title>module~neuron_m</title>
+<g id="a_module~~double_precision_string_m~~UsedByGraph_node10"><a xlink:href="../module/neuron_m.html" xlink:title="neuron_m">
+<polygon fill="#337ab7" stroke="#337ab7" points="476.69,-740.27 411.92,-740.27 411.92,-716 476.69,-716 476.69,-740.27"/>
+<text text-anchor="middle" x="444.3" y="-724.53" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">neuron_m</text>
+</a>
+</g>
+</g>
+<!-- module~layer_m&#45;&gt;module~neuron_m -->
+<g id="module~~double_precision_string_m~~UsedByGraph_edge43" class="edge">
+<title>module~layer_m&#45;&gt;module~neuron_m</title>
+<path fill="none" stroke="#5c00ff" stroke-dasharray="5,2" d="M599.35,-641.67C568.56,-658.96 512.87,-690.21 477.56,-710.03"/>
+<polygon fill="#5c00ff" stroke="#5c00ff" points="476.06,-706.86 469.06,-714.8 479.49,-712.96 476.06,-706.86"/>
+</g>
+<!-- module~layer_m&#45;&gt;module~tensor_map_m -->
+<g id="module~~double_precision_string_m~~UsedByGraph_edge47" class="edge">
+<title>module~layer_m&#45;&gt;module~tensor_map_m</title>
+<path fill="none" stroke="#e700ff" stroke-dasharray="5,2" d="M610.45,-616.6C595.22,-598.98 568.17,-565.31 552.81,-532.13 525.63,-473.45 562.4,-437.01 516.81,-391.13 469.84,-343.87 428.27,-388.48 371.79,-353.13 350.95,-340.09 352.23,-329.42 335.79,-311.13 318.43,-291.83 298.11,-270.38 283.38,-255.04"/>
+<polygon fill="#e700ff" stroke="#e700ff" points="285.93,-252.64 276.47,-247.86 280.89,-257.49 285.93,-252.64"/>
+</g>
+<!-- module~layer_m&#45;&gt;module~neural_network_m -->
+<g id="module~~double_precision_string_m~~UsedByGraph_edge55" class="edge">
+<title>module~layer_m&#45;&gt;module~neural_network_m</title>
+<path fill="none" stroke="#14ff00" stroke-dasharray="5,2" d="M609.49,-616.6C593.41,-599.23 565.67,-566.14 552.81,-532.13 526.01,-461.28 565.35,-251.3 516.81,-193.13 514.63,-190.53 512.15,-188.23 509.45,-186.22"/>
+<polygon fill="#14ff00" stroke="#14ff00" points="511.24,-183.21 500.84,-181.14 507.68,-189.24 511.24,-183.21"/>
+</g>
+<!-- module~metadata_m&#45;&gt;module~double_precision_string_m -->
+<g id="module~~double_precision_string_m~~UsedByGraph_edge5" class="edge">
+<title>module~metadata_m&#45;&gt;module~double_precision_string_m</title>
+<path fill="none" stroke="#ff0000" stroke-dasharray="5,2" d="M222.48,-564.15C210.58,-560.24 198.11,-554.5 188.52,-546.13 127.82,-493.16 95.51,-398.93 83.21,-355.38"/>
+<polygon fill="#ff0000" stroke="#ff0000" points="86.65,-354.72 80.66,-345.98 79.9,-356.55 86.65,-354.72"/>
+</g>
+<!-- module~network_configuration_m&#45;&gt;module~double_precision_string_m -->
+<g id="module~~double_precision_string_m~~UsedByGraph_edge6" class="edge">
+<title>module~network_configuration_m&#45;&gt;module~double_precision_string_m</title>
+<path fill="none" stroke="#ff0000" stroke-dasharray="5,2" d="M188.47,-332.13C180.49,-332.13 172.3,-332.13 164.17,-332.13"/>
+<polygon fill="#ff0000" stroke="#ff0000" points="164.25,-328.64 154.25,-332.14 164.25,-335.64 164.25,-328.64"/>
+</g>
+<!-- module~neural_network_s -->
+<g id="module~~double_precision_string_m~~UsedByGraph_node9" class="node">
+<title>module~neural_network_s</title>
+<g id="a_module~~double_precision_string_m~~UsedByGraph_node9"><a xlink:href="../module/neural_network_s.html" xlink:title="neural_network_s">
+<polygon fill="#5bc0de" stroke="#5bc0de" points="839.85,-662.27 735.33,-662.27 735.33,-638 839.85,-638 839.85,-662.27"/>
+<text text-anchor="middle" x="787.59" y="-646.53" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">neural_network_s</text>
+</a>
+</g>
+</g>
+<!-- module~neural_network_s&#45;&gt;module~double_precision_string_m -->
+<g id="module~~double_precision_string_m~~UsedByGraph_edge7" class="edge">
+<title>module~neural_network_s&#45;&gt;module~double_precision_string_m</title>
+<path fill="none" stroke="#ff0000" stroke-dasharray="5,2" d="M739.49,-662.7C707.13,-670.95 663.06,-681.42 623.7,-688.13"/>
+<path fill="none" stroke="#ff0000" stroke-dasharray="5,2" d="M621.7,-688.13C582.43,-694.84 297.19,-708.84 263.16,-688.13"/>
+</g>
+<!-- module~neural_network_s&#45;&gt;module~layer_m -->
+<g id="module~~double_precision_string_m~~UsedByGraph_edge34" class="edge">
+<title>module~neural_network_s&#45;&gt;module~layer_m</title>
+<path fill="none" stroke="#00ff2e" stroke-dasharray="5,2" d="M735.05,-643.49C711.19,-640.41 683.35,-636.83 661.48,-634.01"/>
+<polygon fill="#00ff2e" stroke="#00ff2e" points="662.19,-630.57 651.82,-632.76 661.29,-637.51 662.19,-630.57"/>
+</g>
+<!-- module~neural_network_s&#45;&gt;module~neuron_m -->
+<g id="module~~double_precision_string_m~~UsedByGraph_edge44" class="edge">
+<title>module~neural_network_s&#45;&gt;module~neuron_m</title>
+<path fill="none" stroke="#5c00ff" stroke-dasharray="5,2" d="M621.7,-688.13C575.61,-696 523.46,-708.25 487.9,-717.12"/>
+<polygon fill="#5c00ff" stroke="#5c00ff" points="487.27,-713.67 478.43,-719.5 488.98,-720.46 487.27,-713.67"/>
+</g>
+<!-- module~neural_network_s&#45;&gt;module~neural_network_m -->
+<g id="module~~double_precision_string_m~~UsedByGraph_edge57" class="edge">
+<title>module~neural_network_s&#45;&gt;module~neural_network_m</title>
+<path fill="none" stroke="#14ff00" d="M739.1,-637.62C735.2,-635.26 731.61,-632.46 728.58,-629.13 685.62,-581.94 724.53,-545.38 692.58,-490.13 649.03,-414.84 595.15,-429.12 552.81,-353.13 517.33,-289.46 566.67,-246.31 516.81,-193.13 514.64,-190.83 512.24,-188.77 509.66,-186.93"/>
+<polygon fill="#14ff00" stroke="#14ff00" points="511.41,-183.9 500.99,-181.96 507.93,-189.97 511.41,-183.9"/>
+</g>
+<!-- module~neuron_m&#45;&gt;module~double_precision_string_m -->
+<g id="module~~double_precision_string_m~~UsedByGraph_edge8" class="edge">
+<title>module~neuron_m&#45;&gt;module~double_precision_string_m</title>
+<path fill="none" stroke="#ff0000" stroke-dasharray="5,2" d="M411.72,-727.21C373.86,-724.79 309.68,-716.44 263.16,-688.13"/>
+</g>
+<!-- module~tensor_map_m&#45;&gt;module~double_precision_string_m -->
+<g id="module~~double_precision_string_m~~UsedByGraph_edge9" class="edge">
+<title>module~tensor_map_m&#45;&gt;module~double_precision_string_m</title>
+<path fill="none" stroke="#ff0000" stroke-dasharray="5,2" d="M237.49,-246.75C205.21,-263.95 147.22,-294.85 110.57,-314.38"/>
+<polygon fill="#ff0000" stroke="#ff0000" points="109.35,-311.07 102.17,-318.86 112.64,-317.25 109.35,-311.07"/>
+</g>
+<!-- module~training_configuration_s -->
+<g id="module~~double_precision_string_m~~UsedByGraph_node12" class="node">
+<title>module~training_configuration_s</title>
+<g id="a_module~~double_precision_string_m~~UsedByGraph_node12"><a xlink:href="../module/training_configuration_s.html" xlink:title="training_configuration_s">
+<polygon fill="#5bc0de" stroke="#5bc0de" points="692.58,-523.27 552.81,-523.27 552.81,-499 692.58,-499 692.58,-523.27"/>
+<text text-anchor="middle" x="622.7" y="-507.53" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">training_configuration_s</text>
+</a>
+</g>
+</g>
+<!-- module~training_configuration_s&#45;&gt;module~double_precision_string_m -->
+<g id="module~~double_precision_string_m~~UsedByGraph_edge10" class="edge">
+<title>module~training_configuration_s&#45;&gt;module~double_precision_string_m</title>
+<path fill="none" stroke="#ff0000" stroke-dasharray="5,2" d="M552.52,-519.42C501.93,-523.62 431.92,-525.54 371.79,-513.13 284.92,-495.21 262.98,-482.33 188.52,-434.13 152.37,-410.73 116.77,-375.34 95.93,-352.99"/>
+<polygon fill="#ff0000" stroke="#ff0000" points="98.55,-350.68 89.21,-345.68 93.4,-355.41 98.55,-350.68"/>
+</g>
+<!-- module~training_configuration_s&#45;&gt;module~training_configuration_m -->
+<g id="module~~double_precision_string_m~~UsedByGraph_edge66" class="edge">
+<title>module~training_configuration_s&#45;&gt;module~training_configuration_m</title>
+<path fill="none" stroke="#00a3ff" d="M593.92,-498.58C579.86,-490.98 563.54,-480.05 552.81,-466.13 521.91,-426.07 552.1,-394.39 516.81,-358.13 514.01,-355.26 510.86,-352.69 507.49,-350.41"/>
+<polygon fill="#00a3ff" stroke="#00a3ff" points="509.24,-347.38 498.82,-345.46 505.77,-353.46 509.24,-347.38"/>
+</g>
+<!-- module~addition_m -->
+<g id="module~~double_precision_string_m~~UsedByGraph_node13" class="node">
+<title>module~addition_m</title>
+<g id="a_module~~double_precision_string_m~~UsedByGraph_node13"><a xlink:href="../module/addition_m.html" xlink:title="addition_m">
+<polygon fill="#337ab7" stroke="#337ab7" points="997.62,-604.27 926.85,-604.27 926.85,-580 997.62,-580 997.62,-604.27"/>
+<text text-anchor="middle" x="962.24" y="-588.53" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">addition_m</text>
+</a>
+</g>
+</g>
+<!-- module~addition_m&#45;&gt;module~fiats_m -->
+<g id="module~~double_precision_string_m~~UsedByGraph_edge16" class="edge">
+<title>module~addition_m&#45;&gt;module~fiats_m</title>
+<path fill="none" stroke="#e7ff00" stroke-dasharray="5,2" d="M926.47,-588.82C910.83,-585.51 893.47,-578.98 882.6,-566.13 814.91,-486.15 913.17,-414.06 846.6,-333.13 841.22,-326.6 833.63,-322.09 825.71,-318.99"/>
+<polygon fill="#e7ff00" stroke="#e7ff00" points="826.91,-315.7 816.32,-316.03 824.8,-322.38 826.91,-315.7"/>
+</g>
+<!-- module~double_precision_file_s -->
+<g id="module~~double_precision_string_m~~UsedByGraph_node14" class="node">
+<title>module~double_precision_file_s</title>
+<g id="a_module~~double_precision_string_m~~UsedByGraph_node14"><a xlink:href="../module/double_precision_file_s.html" xlink:title="double_precision_file_s">
+<polygon fill="#5bc0de" stroke="#5bc0de" points="511.19,-104.27 377.42,-104.27 377.42,-80 511.19,-80 511.19,-104.27"/>
+<text text-anchor="middle" x="444.3" y="-88.54" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">double_precision_file_s</text>
+</a>
+</g>
+</g>
+<!-- module~double_precision_file_s&#45;&gt;module~double_precision_file_m -->
+<g id="module~~double_precision_string_m~~UsedByGraph_edge15" class="edge">
+<title>module~double_precision_file_s&#45;&gt;module~double_precision_file_m</title>
+<path fill="none" stroke="#ff0000" d="M376.99,-92.14C366,-92.14 354.51,-92.14 343.23,-92.14"/>
+<polygon fill="#ff0000" stroke="#ff0000" points="343.56,-88.64 333.56,-92.14 343.56,-95.64 343.56,-88.64"/>
+</g>
+<!-- module~exponentiation_m -->
+<g id="module~~double_precision_string_m~~UsedByGraph_node15" class="node">
+<title>module~exponentiation_m</title>
+<g id="a_module~~double_precision_string_m~~UsedByGraph_node15"><a xlink:href="../module/exponentiation_m.html" xlink:title="exponentiation_m">
+<polygon fill="#337ab7" stroke="#337ab7" points="1015.62,-524.27 908.85,-524.27 908.85,-500 1015.62,-500 1015.62,-524.27"/>
+<text text-anchor="middle" x="962.24" y="-508.53" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">exponentiation_m</text>
+</a>
+</g>
+</g>
+<!-- module~exponentiation_m&#45;&gt;module~fiats_m -->
+<g id="module~~double_precision_string_m~~UsedByGraph_edge17" class="edge">
+<title>module~exponentiation_m&#45;&gt;module~fiats_m</title>
+<path fill="none" stroke="#e7ff00" stroke-dasharray="5,2" d="M908.6,-502.98C898.87,-499.17 889.59,-493.77 882.6,-486.13 835.43,-434.61 893.04,-385.32 846.6,-333.13 841.02,-326.86 833.42,-322.46 825.56,-319.38"/>
+<polygon fill="#e7ff00" stroke="#e7ff00" points="826.87,-316.13 816.28,-316.4 824.73,-322.79 826.87,-316.13"/>
+</g>
+<!-- module~hyperparameters_s -->
+<g id="module~~double_precision_string_m~~UsedByGraph_node16" class="node">
+<title>module~hyperparameters_s</title>
+<g id="a_module~~double_precision_string_m~~UsedByGraph_node16"><a xlink:href="../module/hyperparameters_s.html" xlink:title="hyperparameters_s">
+<polygon fill="#5bc0de" stroke="#5bc0de" points="501.81,-504.27 386.79,-504.27 386.79,-480 501.81,-480 501.81,-504.27"/>
+<text text-anchor="middle" x="444.3" y="-488.53" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">hyperparameters_s</text>
+</a>
+</g>
+</g>
+<!-- module~hyperparameters_s&#45;&gt;module~hyperparameters_m -->
+<g id="module~~double_precision_string_m~~UsedByGraph_edge33" class="edge">
+<title>module~hyperparameters_s&#45;&gt;module~hyperparameters_m</title>
+<path fill="none" stroke="#5cff00" d="M406.26,-479.51C395.09,-475.47 382.86,-470.83 371.79,-466.13 346.34,-455.34 318.31,-441.62 297.1,-430.84"/>
+<polygon fill="#5cff00" stroke="#5cff00" points="298.83,-427.79 288.33,-426.35 295.64,-434.02 298.83,-427.79"/>
+</g>
+<!-- module~layer_s -->
+<g id="module~~double_precision_string_m~~UsedByGraph_node17" class="node">
+<title>module~layer_s</title>
+<g id="a_module~~double_precision_string_m~~UsedByGraph_node17"><a xlink:href="../module/layer_s.html" xlink:title="layer_s">
+<polygon fill="#5bc0de" stroke="#5bc0de" points="814.59,-620.27 760.59,-620.27 760.59,-596 814.59,-596 814.59,-620.27"/>
+<text text-anchor="middle" x="787.59" y="-604.53" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">layer_s</text>
+</a>
+</g>
+</g>
+<!-- module~layer_s&#45;&gt;module~layer_m -->
+<g id="module~~double_precision_string_m~~UsedByGraph_edge35" class="edge">
+<title>module~layer_s&#45;&gt;module~layer_m</title>
+<path fill="none" stroke="#00ff2e" d="M760.42,-611.51C733.66,-614.96 691.84,-620.35 661.49,-624.26"/>
+<polygon fill="#00ff2e" stroke="#00ff2e" points="661.04,-620.79 651.57,-625.54 661.94,-627.73 661.04,-620.79"/>
+</g>
+<!-- module~metadata_s -->
+<g id="module~~double_precision_string_m~~UsedByGraph_node18" class="node">
+<title>module~metadata_s</title>
+<g id="a_module~~double_precision_string_m~~UsedByGraph_node18"><a xlink:href="../module/metadata_s.html" xlink:title="metadata_s">
+<polygon fill="#5bc0de" stroke="#5bc0de" points="481.19,-622.27 407.42,-622.27 407.42,-598 481.19,-598 481.19,-622.27"/>
+<text text-anchor="middle" x="444.3" y="-606.53" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">metadata_s</text>
+</a>
+</g>
+</g>
+<!-- module~metadata_s&#45;&gt;module~metadata_m -->
+<g id="module~~double_precision_string_m~~UsedByGraph_edge39" class="edge">
+<title>module~metadata_s&#45;&gt;module~metadata_m</title>
+<path fill="none" stroke="#00ffb9" d="M407.28,-602.54C380.24,-596.83 342.88,-588.95 312.98,-582.65"/>
+<polygon fill="#00ffb9" stroke="#00ffb9" points="313.91,-579.26 303.4,-580.62 312.46,-586.11 313.91,-579.26"/>
+</g>
+<!-- module~multiply_inputs -->
+<g id="module~~double_precision_string_m~~UsedByGraph_node19" class="node">
+<title>module~multiply_inputs</title>
+<g id="a_module~~double_precision_string_m~~UsedByGraph_node19"><a xlink:href="../module/multiply_inputs.html" xlink:title="multiply_inputs">
+<polygon fill="#337ab7" stroke="#337ab7" points="1008.12,-444.27 916.35,-444.27 916.35,-420 1008.12,-420 1008.12,-444.27"/>
+<text text-anchor="middle" x="962.24" y="-428.53" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">multiply_inputs</text>
+</a>
+</g>
+</g>
+<!-- module~multiply_inputs&#45;&gt;module~fiats_m -->
+<g id="module~~double_precision_string_m~~UsedByGraph_edge18" class="edge">
+<title>module~multiply_inputs&#45;&gt;module~fiats_m</title>
+<path fill="none" stroke="#e7ff00" stroke-dasharray="5,2" d="M916.01,-423.84C904.14,-419.98 892.04,-414.35 882.6,-406.13 855.31,-382.39 873.56,-357.26 846.6,-333.13 840.58,-327.75 833.07,-323.71 825.47,-320.7"/>
+<polygon fill="#e7ff00" stroke="#e7ff00" points="826.84,-317.47 816.25,-317.57 824.59,-324.1 826.84,-317.47"/>
+</g>
+<!-- module~network_configuration_s -->
+<g id="module~~double_precision_string_m~~UsedByGraph_node20" class="node">
+<title>module~network_configuration_s</title>
+<g id="a_module~~double_precision_string_m~~UsedByGraph_node20"><a xlink:href="../module/network_configuration_s.html" xlink:title="network_configuration_s">
+<polygon fill="#5bc0de" stroke="#5bc0de" points="514.94,-424.27 373.67,-424.27 373.67,-400 514.94,-400 514.94,-424.27"/>
+<text text-anchor="middle" x="444.3" y="-408.53" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">network_configuration_s</text>
+</a>
+</g>
+</g>
+<!-- module~network_configuration_s&#45;&gt;module~network_configuration_m -->
+<g id="module~~double_precision_string_m~~UsedByGraph_edge42" class="edge">
+<title>module~network_configuration_s&#45;&gt;module~network_configuration_m</title>
+<path fill="none" stroke="#00b9ff" d="M406.24,-399.56C395.07,-395.53 382.84,-390.87 371.79,-386.13 346.12,-375.13 317.9,-361.04 296.65,-350.01"/>
+<polygon fill="#00b9ff" stroke="#00b9ff" points="298.35,-346.95 287.87,-345.41 295.11,-353.15 298.35,-346.95"/>
+</g>
+<!-- module~neural_network_m&#45;&gt;module~double_precision_file_m -->
+<g id="module~~double_precision_string_m~~UsedByGraph_edge13" class="edge">
+<title>module~neural_network_m&#45;&gt;module~double_precision_file_m</title>
+<path fill="none" stroke="#ff0000" stroke-dasharray="5,2" d="M415.15,-159.63C384.7,-146.11 335.96,-124.46 301.9,-109.34"/>
+<polygon fill="#ff0000" stroke="#ff0000" points="303.34,-106.15 292.78,-105.29 300.5,-112.55 303.34,-106.15"/>
+</g>
+<!-- module~neural_network_m&#45;&gt;module~metadata_m -->
+<g id="module~~double_precision_string_m~~UsedByGraph_edge38" class="edge">
+<title>module~neural_network_m&#45;&gt;module~metadata_m</title>
+<path fill="none" stroke="#00ffb9" stroke-dasharray="5,2" d="M388.92,-180.72C382.43,-183.74 376.46,-187.77 371.79,-193.13 300.65,-274.79 369.49,-331.21 335.79,-434.13 321.51,-477.75 294.3,-524.11 277.54,-550.45"/>
+<polygon fill="#00ffb9" stroke="#00ffb9" points="274.78,-548.27 272.29,-558.56 280.66,-552.07 274.78,-548.27"/>
+</g>
+<!-- module~neural_network_m&#45;&gt;module~tensor_map_m -->
+<g id="module~~double_precision_string_m~~UsedByGraph_edge48" class="edge">
+<title>module~neural_network_m&#45;&gt;module~tensor_map_m</title>
+<path fill="none" stroke="#e700ff" stroke-dasharray="5,2" d="M398.51,-184.73C389.62,-187.38 380.38,-190.26 371.79,-193.13 349.53,-200.59 325.05,-209.75 304.97,-217.51"/>
+<polygon fill="#e700ff" stroke="#e700ff" points="303.77,-214.23 295.72,-221.12 306.31,-220.75 303.77,-214.23"/>
+</g>
+<!-- module~neuron_s -->
+<g id="module~~double_precision_string_m~~UsedByGraph_node22" class="node">
+<title>module~neuron_s</title>
+<g id="a_module~~double_precision_string_m~~UsedByGraph_node22"><a xlink:href="../module/neuron_s.html" xlink:title="neuron_s">
+<polygon fill="#5bc0de" stroke="#5bc0de" points="652.46,-740.27 592.94,-740.27 592.94,-716 652.46,-716 652.46,-740.27"/>
+<text text-anchor="middle" x="622.7" y="-724.53" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">neuron_s</text>
+</a>
+</g>
+</g>
+<!-- module~neuron_s&#45;&gt;module~neuron_m -->
+<g id="module~~double_precision_string_m~~UsedByGraph_edge45" class="edge">
+<title>module~neuron_s&#45;&gt;module~neuron_m</title>
+<path fill="none" stroke="#5c00ff" d="M592.57,-728.13C564.24,-728.13 520.88,-728.13 488.53,-728.13"/>
+<polygon fill="#5c00ff" stroke="#5c00ff" points="488.67,-724.64 478.67,-728.14 488.67,-731.64 488.67,-724.64"/>
+</g>
+<!-- module~power_series -->
+<g id="module~~double_precision_string_m~~UsedByGraph_node23" class="node">
+<title>module~power_series</title>
+<g id="a_module~~double_precision_string_m~~UsedByGraph_node23"><a xlink:href="../module/power_series.html" xlink:title="power_series">
+<polygon fill="#337ab7" stroke="#337ab7" points="1002.87,-364.27 921.6,-364.27 921.6,-340 1002.87,-340 1002.87,-364.27"/>
+<text text-anchor="middle" x="962.24" y="-348.53" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">power_series</text>
+</a>
+</g>
+</g>
+<!-- module~power_series&#45;&gt;module~fiats_m -->
+<g id="module~~double_precision_string_m~~UsedByGraph_edge19" class="edge">
+<title>module~power_series&#45;&gt;module~fiats_m</title>
+<path fill="none" stroke="#e7ff00" stroke-dasharray="5,2" d="M921.19,-342.86C892.48,-336.2 854.06,-327.3 825.97,-320.8"/>
+<polygon fill="#e7ff00" stroke="#e7ff00" points="827.01,-317.44 816.47,-318.6 825.43,-324.26 827.01,-317.44"/>
+</g>
+<!-- module~saturated_mixing_ratio_m -->
+<g id="module~~double_precision_string_m~~UsedByGraph_node24" class="node">
+<title>module~saturated_mixing_ratio_m</title>
+<g id="a_module~~double_precision_string_m~~UsedByGraph_node24"><a xlink:href="../module/saturated_mixing_ratio_m.html" xlink:title="saturated_mixing_ratio_m">
+<polygon fill="#337ab7" stroke="#337ab7" points="1037,-284.27 887.48,-284.27 887.48,-260 1037,-260 1037,-284.27"/>
+<text text-anchor="middle" x="962.24" y="-268.53" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">saturated_mixing_ratio_m</text>
+</a>
+</g>
+</g>
+<!-- module~saturated_mixing_ratio_m&#45;&gt;module~fiats_m -->
+<g id="module~~double_precision_string_m~~UsedByGraph_edge20" class="edge">
+<title>module~saturated_mixing_ratio_m&#45;&gt;module~fiats_m</title>
+<path fill="none" stroke="#e7ff00" stroke-dasharray="5,2" d="M907.08,-284.68C880.74,-290.79 849.73,-297.97 826.04,-303.46"/>
+<polygon fill="#e7ff00" stroke="#e7ff00" points="825.48,-300 816.53,-305.66 827.06,-306.81 825.48,-300"/>
+</g>
+<!-- module~tensor_map_s -->
+<g id="module~~double_precision_string_m~~UsedByGraph_node25" class="node">
+<title>module~tensor_map_s</title>
+<g id="a_module~~double_precision_string_m~~UsedByGraph_node25"><a xlink:href="../module/tensor_map_s.html" xlink:title="tensor_map_s">
+<polygon fill="#5bc0de" stroke="#5bc0de" points="486.81,-226.27 401.79,-226.27 401.79,-202 486.81,-202 486.81,-226.27"/>
+<text text-anchor="middle" x="444.3" y="-210.53" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">tensor_map_s</text>
+</a>
+</g>
+</g>
+<!-- module~tensor_map_s&#45;&gt;module~tensor_map_m -->
+<g id="module~~double_precision_string_m~~UsedByGraph_edge50" class="edge">
+<title>module~tensor_map_s&#45;&gt;module~tensor_map_m</title>
+<path fill="none" stroke="#e700ff" d="M401.52,-218.77C376.87,-221.51 345.38,-225.01 318.66,-227.97"/>
+<polygon fill="#e700ff" stroke="#e700ff" points="318.6,-224.46 309.05,-229.04 319.37,-231.42 318.6,-224.46"/>
+</g>
+<!-- module~trainable_network_m&#45;&gt;module~tensor_map_m -->
+<g id="module~~double_precision_string_m~~UsedByGraph_edge49" class="edge">
+<title>module~trainable_network_m&#45;&gt;module~tensor_map_m</title>
+<path fill="none" stroke="#e700ff" stroke-dasharray="5,2" d="M575.56,-319.52C509.76,-301.54 389.15,-268.57 318.59,-249.29"/>
+<polygon fill="#e700ff" stroke="#e700ff" points="319.74,-245.97 309.17,-246.71 317.89,-252.72 319.74,-245.97"/>
+</g>
+<!-- module~trainable_network_m&#45;&gt;module~neural_network_m -->
+<g id="module~~double_precision_string_m~~UsedByGraph_edge56" class="edge">
+<title>module~trainable_network_m&#45;&gt;module~neural_network_m</title>
+<path fill="none" stroke="#14ff00" stroke-dasharray="5,2" d="M613.05,-319.79C590.31,-287.42 529.68,-202.03 516.81,-193.13 514.57,-191.58 512.2,-190.14 509.76,-188.81"/>
+<polygon fill="#14ff00" stroke="#14ff00" points="511.26,-185.65 500.72,-184.54 508.27,-191.98 511.26,-185.65"/>
+</g>
+<!-- module~trainable_network_m&#45;&gt;module~training_configuration_m -->
+<g id="module~~double_precision_string_m~~UsedByGraph_edge65" class="edge">
+<title>module~trainable_network_m&#45;&gt;module~training_configuration_m</title>
+<path fill="none" stroke="#00a3ff" stroke-dasharray="5,2" d="M560.99,-332.13C550.49,-332.13 539.41,-332.13 528.43,-332.13"/>
+<polygon fill="#00a3ff" stroke="#00a3ff" points="528.57,-328.64 518.57,-332.14 528.57,-335.64 528.57,-328.64"/>
+</g>
+<!-- module~training_configuration_m&#45;&gt;module~double_precision_file_m -->
+<g id="module~~double_precision_string_m~~UsedByGraph_edge14" class="edge">
+<title>module~training_configuration_m&#45;&gt;module~double_precision_file_m</title>
+<path fill="none" stroke="#ff0000" stroke-dasharray="5,2" d="M433.87,-319.57C404.74,-280.77 316,-162.54 279.3,-113.64"/>
+<polygon fill="#ff0000" stroke="#ff0000" points="282.2,-111.68 273.4,-105.79 276.61,-115.89 282.2,-111.68"/>
+</g>
+<!-- module~training_configuration_m&#45;&gt;module~hyperparameters_m -->
+<g id="module~~double_precision_string_m~~UsedByGraph_edge32" class="edge">
+<title>module~training_configuration_m&#45;&gt;module~hyperparameters_m</title>
+<path fill="none" stroke="#5cff00" stroke-dasharray="5,2" d="M415.55,-344.61C384.96,-358.37 335.56,-380.58 301.33,-395.97"/>
+<polygon fill="#5cff00" stroke="#5cff00" points="300.3,-392.59 292.62,-399.89 303.17,-398.98 300.3,-392.59"/>
+</g>
+<!-- module~training_configuration_m&#45;&gt;module~network_configuration_m -->
+<g id="module~~double_precision_string_m~~UsedByGraph_edge41" class="edge">
+<title>module~training_configuration_m&#45;&gt;module~network_configuration_m</title>
+<path fill="none" stroke="#00b9ff" stroke-dasharray="5,2" d="M371.33,-332.13C363.4,-332.13 355.28,-332.13 347.22,-332.13"/>
+<polygon fill="#00b9ff" stroke="#00b9ff" points="347.41,-328.64 337.41,-332.14 347.41,-335.64 347.41,-328.64"/>
+</g>
+<!-- program~concurrent_inferences -->
+<g id="module~~double_precision_string_m~~UsedByGraph_node28" class="node">
+<title>program~concurrent_inferences</title>
+<g id="a_module~~double_precision_string_m~~UsedByGraph_node28"><a xlink:href="../program/concurrent_inferences.html" xlink:title="concurrent_inferences">
+<polygon fill="#f0ad4e" stroke="#f0ad4e" points="1027.25,-204.27 897.23,-204.27 897.23,-180 1027.25,-180 1027.25,-204.27"/>
+<text text-anchor="middle" x="962.24" y="-188.53" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">concurrent_inferences</text>
+</a>
+</g>
+</g>
+<!-- program~concurrent_inferences&#45;&gt;module~fiats_m -->
+<g id="module~~double_precision_string_m~~UsedByGraph_edge21" class="edge">
+<title>program~concurrent_inferences&#45;&gt;module~fiats_m</title>
+<path fill="none" stroke="#e7ff00" stroke-dasharray="5,2" d="M911.42,-204.7C901.49,-208.27 891.41,-212.7 882.6,-218.13 851.08,-237.56 822.14,-269.56 804.93,-290.74"/>
+<polygon fill="#e7ff00" stroke="#e7ff00" points="802.3,-288.43 798.83,-298.44 807.78,-292.78 802.3,-288.43"/>
+</g>
+<!-- program~learn_addition -->
+<g id="module~~double_precision_string_m~~UsedByGraph_node29" class="node">
+<title>program~learn_addition</title>
+<g id="a_module~~double_precision_string_m~~UsedByGraph_node29"><a xlink:href="../program/learn_addition.html" xlink:title="learn_addition">
+<polygon fill="#f0ad4e" stroke="#f0ad4e" points="1206.02,-574.27 1118,-574.27 1118,-550 1206.02,-550 1206.02,-574.27"/>
+<text text-anchor="middle" x="1162.01" y="-558.53" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">learn_addition</text>
+</a>
+</g>
+</g>
+<!-- program~learn_addition&#45;&gt;module~fiats_m -->
+<g id="module~~double_precision_string_m~~UsedByGraph_edge22" class="edge">
+<title>program~learn_addition&#45;&gt;module~fiats_m</title>
+<path fill="none" stroke="#e7ff00" stroke-dasharray="5,2" d="M1117.65,-563.71C1048.04,-565.26 915.77,-563.92 882.6,-533.13 816.41,-471.69 904.84,-402.17 846.6,-333.13 841.19,-326.72 833.65,-322.26 825.8,-319.17"/>
+<polygon fill="#e7ff00" stroke="#e7ff00" points="827.1,-315.91 816.51,-316.2 824.97,-322.58 827.1,-315.91"/>
+</g>
+<!-- program~learn_addition&#45;&gt;module~addition_m -->
+<g id="module~~double_precision_string_m~~UsedByGraph_edge51" class="edge">
+<title>program~learn_addition&#45;&gt;module~addition_m</title>
+<path fill="none" stroke="#ff0000" stroke-dasharray="5,2" d="M1117.6,-568.72C1085.46,-573.59 1041.76,-580.22 1009.06,-585.18"/>
+<polygon fill="#ff0000" stroke="#ff0000" points="1008.84,-581.68 999.48,-586.64 1009.89,-588.6 1008.84,-581.68"/>
+</g>
+<!-- program~learn_exponentiation -->
+<g id="module~~double_precision_string_m~~UsedByGraph_node30" class="node">
+<title>program~learn_exponentiation</title>
+<g id="a_module~~double_precision_string_m~~UsedByGraph_node30"><a xlink:href="../program/learn_exponentiation.html" xlink:title="learn_exponentiation">
+<polygon fill="#f0ad4e" stroke="#f0ad4e" points="1224.02,-513.27 1100,-513.27 1100,-489 1224.02,-489 1224.02,-513.27"/>
+<text text-anchor="middle" x="1162.01" y="-497.53" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">learn_exponentiation</text>
+</a>
+</g>
+</g>
+<!-- program~learn_exponentiation&#45;&gt;module~fiats_m -->
+<g id="module~~double_precision_string_m~~UsedByGraph_edge23" class="edge">
+<title>program~learn_exponentiation&#45;&gt;module~fiats_m</title>
+<path fill="none" stroke="#e7ff00" stroke-dasharray="5,2" d="M1099.52,-493.99C1022.51,-484.52 898.64,-467.34 882.6,-453.13 840.92,-416.21 884.86,-373.59 846.6,-333.13 840.95,-327.16 833.47,-322.88 825.76,-319.81"/>
+<polygon fill="#e7ff00" stroke="#e7ff00" points="826.92,-316.51 816.32,-316.71 824.73,-323.16 826.92,-316.51"/>
+</g>
+<!-- program~learn_exponentiation&#45;&gt;module~exponentiation_m -->
+<g id="module~~double_precision_string_m~~UsedByGraph_edge52" class="edge">
+<title>program~learn_exponentiation&#45;&gt;module~exponentiation_m</title>
+<path fill="none" stroke="#ff7a00" stroke-dasharray="5,2" d="M1099.51,-504.56C1076.62,-505.83 1050.59,-507.28 1027.46,-508.56"/>
+<polygon fill="#ff7a00" stroke="#ff7a00" points="1027.32,-505.07 1017.53,-509.12 1027.7,-512.05 1027.32,-505.07"/>
+</g>
+<!-- program~learn_multiplication -->
+<g id="module~~double_precision_string_m~~UsedByGraph_node31" class="node">
+<title>program~learn_multiplication</title>
+<g id="a_module~~double_precision_string_m~~UsedByGraph_node31"><a xlink:href="../program/learn_multiplication.html" xlink:title="learn_multiplication">
+<polygon fill="#f0ad4e" stroke="#f0ad4e" points="1220.64,-424.27 1103.37,-424.27 1103.37,-400 1220.64,-400 1220.64,-424.27"/>
+<text text-anchor="middle" x="1162.01" y="-408.53" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">learn_multiplication</text>
+</a>
+</g>
+</g>
+<!-- program~learn_multiplication&#45;&gt;module~fiats_m -->
+<g id="module~~double_precision_string_m~~UsedByGraph_edge24" class="edge">
+<title>program~learn_multiplication&#45;&gt;module~fiats_m</title>
+<path fill="none" stroke="#e7ff00" stroke-dasharray="5,2" d="M1103.03,-408.68C1032.93,-403.7 919.72,-392.86 882.6,-373.13 861.48,-361.91 866.44,-346.49 846.6,-333.13 840.29,-328.88 833.01,-325.38 825.79,-322.52"/>
+<polygon fill="#e7ff00" stroke="#e7ff00" points="827.03,-319.25 816.43,-319.2 824.68,-325.85 827.03,-319.25"/>
+</g>
+<!-- program~learn_multiplication&#45;&gt;module~multiply_inputs -->
+<g id="module~~double_precision_string_m~~UsedByGraph_edge53" class="edge">
+<title>program~learn_multiplication&#45;&gt;module~multiply_inputs</title>
+<path fill="none" stroke="#8eff00" stroke-dasharray="5,2" d="M1103,-418C1076.69,-420.66 1045.7,-423.8 1019.59,-426.44"/>
+<polygon fill="#8eff00" stroke="#8eff00" points="1019.45,-422.93 1009.85,-427.42 1020.15,-429.9 1019.45,-422.93"/>
+</g>
+<!-- program~learn_power_series -->
+<g id="module~~double_precision_string_m~~UsedByGraph_node32" class="node">
+<title>program~learn_power_series</title>
+<g id="a_module~~double_precision_string_m~~UsedByGraph_node32"><a xlink:href="../program/learn_power_series.html" xlink:title="learn_power_series">
+<polygon fill="#f0ad4e" stroke="#f0ad4e" points="1219.14,-334.27 1104.87,-334.27 1104.87,-310 1219.14,-310 1219.14,-334.27"/>
+<text text-anchor="middle" x="1162.01" y="-318.53" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">learn_power_series</text>
+</a>
+</g>
+</g>
+<!-- program~learn_power_series&#45;&gt;module~fiats_m -->
+<g id="module~~double_precision_string_m~~UsedByGraph_edge25" class="edge">
+<title>program~learn_power_series&#45;&gt;module~fiats_m</title>
+<path fill="none" stroke="#e7ff00" stroke-dasharray="5,2" d="M1104.44,-320.62C1027.44,-318.55 891.7,-314.9 826.13,-313.14"/>
+<polygon fill="#e7ff00" stroke="#e7ff00" points="826.34,-309.65 816.25,-312.88 826.15,-316.64 826.34,-309.65"/>
+</g>
+<!-- program~learn_power_series&#45;&gt;module~power_series -->
+<g id="module~~double_precision_string_m~~UsedByGraph_edge60" class="edge">
+<title>program~learn_power_series&#45;&gt;module~power_series</title>
+<path fill="none" stroke="#00ff66" stroke-dasharray="5,2" d="M1104.6,-330.69C1076.1,-335.01 1041.79,-340.22 1014.11,-344.42"/>
+<polygon fill="#00ff66" stroke="#00ff66" points="1013.93,-340.9 1004.57,-345.86 1014.98,-347.82 1013.93,-340.9"/>
+</g>
+<!-- program~print_training_configuration -->
+<g id="module~~double_precision_string_m~~UsedByGraph_node33" class="node">
+<title>program~print_training_configuration</title>
+<g id="a_module~~double_precision_string_m~~UsedByGraph_node33"><a xlink:href="../program/print_training_configuration.html" xlink:title="print_training_configuration">
+<polygon fill="#f0ad4e" stroke="#f0ad4e" points="1041.87,-162.27 882.6,-162.27 882.6,-138 1041.87,-138 1041.87,-162.27"/>
+<text text-anchor="middle" x="962.24" y="-146.53" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">print_training_configuration</text>
+</a>
+</g>
+</g>
+<!-- program~print_training_configuration&#45;&gt;module~fiats_m -->
+<g id="module~~double_precision_string_m~~UsedByGraph_edge26" class="edge">
+<title>program~print_training_configuration&#45;&gt;module~fiats_m</title>
+<path fill="none" stroke="#e7ff00" stroke-dasharray="5,2" d="M897.57,-162.72C892.27,-165.07 887.19,-167.84 882.6,-171.13 840,-201.66 811.17,-257.97 797.57,-289.41"/>
+<polygon fill="#e7ff00" stroke="#e7ff00" points="794.45,-287.79 793.83,-298.37 800.91,-290.49 794.45,-287.79"/>
+</g>
+<!-- program~read_query_infer -->
+<g id="module~~double_precision_string_m~~UsedByGraph_node34" class="node">
+<title>program~read_query_infer</title>
+<g id="a_module~~double_precision_string_m~~UsedByGraph_node34"><a xlink:href="../program/read_query_infer.html" xlink:title="read_query_infer">
+<polygon fill="#f0ad4e" stroke="#f0ad4e" points="1013,-120.27 911.48,-120.27 911.48,-96 1013,-96 1013,-120.27"/>
+<text text-anchor="middle" x="962.24" y="-104.54" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">read_query_infer</text>
+</a>
+</g>
+</g>
+<!-- program~read_query_infer&#45;&gt;module~fiats_m -->
+<g id="module~~double_precision_string_m~~UsedByGraph_edge27" class="edge">
+<title>program~read_query_infer&#45;&gt;module~fiats_m</title>
+<path fill="none" stroke="#e7ff00" stroke-dasharray="5,2" d="M911.27,-114.81C901.02,-117.93 890.85,-122.48 882.6,-129.13 830.55,-171.1 804.36,-249.54 794.03,-288.67"/>
+<polygon fill="#e7ff00" stroke="#e7ff00" points="790.68,-287.67 791.65,-298.22 797.47,-289.37 790.68,-287.67"/>
+</g>
+<!-- program~train_and_write -->
+<g id="module~~double_precision_string_m~~UsedByGraph_node35" class="node">
+<title>program~train_and_write</title>
+<g id="a_module~~double_precision_string_m~~UsedByGraph_node35"><a xlink:href="../program/train_and_write.html" xlink:title="train_and_write">
+<polygon fill="#f0ad4e" stroke="#f0ad4e" points="1008.87,-78.27 915.6,-78.27 915.6,-54 1008.87,-54 1008.87,-78.27"/>
+<text text-anchor="middle" x="962.24" y="-62.54" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">train_and_write</text>
+</a>
+</g>
+</g>
+<!-- program~train_and_write&#45;&gt;module~fiats_m -->
+<g id="module~~double_precision_string_m~~UsedByGraph_edge28" class="edge">
+<title>program~train_and_write&#45;&gt;module~fiats_m</title>
+<path fill="none" stroke="#e7ff00" stroke-dasharray="5,2" d="M915.37,-71.04C903.63,-74.15 891.75,-79.14 882.6,-87.14 820.68,-141.22 798.61,-242.72 791.56,-288.58"/>
+<polygon fill="#e7ff00" stroke="#e7ff00" points="788.13,-287.82 790.19,-298.21 795.06,-288.8 788.13,-287.82"/>
+</g>
+<!-- program~train_saturated_mixture_ratio -->
+<g id="module~~double_precision_string_m~~UsedByGraph_node36" class="node">
+<title>program~train_saturated_mixture_ratio</title>
+<g id="a_module~~double_precision_string_m~~UsedByGraph_node36"><a xlink:href="../program/train_saturated_mixture_ratio.html" xlink:title="train_saturated_mixture_ratio">
+<polygon fill="#f0ad4e" stroke="#f0ad4e" points="1246.14,-273.27 1077.87,-273.27 1077.87,-249 1246.14,-249 1246.14,-273.27"/>
+<text text-anchor="middle" x="1162.01" y="-257.53" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">train_saturated_mixture_ratio</text>
+</a>
+</g>
+</g>
+<!-- program~train_saturated_mixture_ratio&#45;&gt;module~fiats_m -->
+<g id="module~~double_precision_string_m~~UsedByGraph_edge29" class="edge">
+<title>program~train_saturated_mixture_ratio&#45;&gt;module~fiats_m</title>
+<path fill="none" stroke="#e7ff00" stroke-dasharray="5,2" d="M1103.14,-248.51C1045.88,-238.45 956.34,-229.31 882.6,-251.13 855.43,-259.18 828.76,-277.81 810.8,-292.38"/>
+<polygon fill="#e7ff00" stroke="#e7ff00" points="808.82,-289.47 803.41,-298.58 813.32,-294.83 808.82,-289.47"/>
+</g>
+<!-- program~train_saturated_mixture_ratio&#45;&gt;module~saturated_mixing_ratio_m -->
+<g id="module~~double_precision_string_m~~UsedByGraph_edge61" class="edge">
+<title>program~train_saturated_mixture_ratio&#45;&gt;module~saturated_mixing_ratio_m</title>
+<path fill="none" stroke="#00ffa3" stroke-dasharray="5,2" d="M1077.42,-265.78C1067.98,-266.31 1058.34,-266.85 1048.87,-267.37"/>
+<polygon fill="#00ffa3" stroke="#00ffa3" points="1048.73,-263.87 1038.94,-267.92 1049.12,-270.86 1048.73,-263.87"/>
+</g>
+<!-- program~write_read_infer -->
+<g id="module~~double_precision_string_m~~UsedByGraph_node37" class="node">
+<title>program~write_read_infer</title>
+<g id="a_module~~double_precision_string_m~~UsedByGraph_node37"><a xlink:href="../program/write_read_infer.html" xlink:title="write_read_infer">
+<polygon fill="#f0ad4e" stroke="#f0ad4e" points="1010.75,-36.27 913.73,-36.27 913.73,-12 1010.75,-12 1010.75,-36.27"/>
+<text text-anchor="middle" x="962.24" y="-20.53" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">write_read_infer</text>
+</a>
+</g>
+</g>
+<!-- program~write_read_infer&#45;&gt;module~fiats_m -->
+<g id="module~~double_precision_string_m~~UsedByGraph_edge30" class="edge">
+<title>program~write_read_infer&#45;&gt;module~fiats_m</title>
+<path fill="none" stroke="#e7ff00" stroke-dasharray="5,2" d="M913.42,-29.15C902.23,-32.28 891.1,-37.27 882.6,-45.13 810.79,-111.58 793.81,-236.16 789.82,-288.26"/>
+<polygon fill="#e7ff00" stroke="#e7ff00" points="786.33,-287.88 789.17,-298.09 793.32,-288.34 786.33,-287.88"/>
+</g>
+<!-- module~trainable_network_s -->
+<g id="module~~double_precision_string_m~~UsedByGraph_node38" class="node">
+<title>module~trainable_network_s</title>
+<g id="a_module~~double_precision_string_m~~UsedByGraph_node38"><a xlink:href="../module/trainable_network_s.html" xlink:title="trainable_network_s">
+<polygon fill="#5bc0de" stroke="#5bc0de" points="846.6,-366.27 728.58,-366.27 728.58,-342 846.6,-342 846.6,-366.27"/>
+<text text-anchor="middle" x="787.59" y="-350.53" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">trainable_network_s</text>
+</a>
+</g>
+</g>
+<!-- module~trainable_network_s&#45;&gt;module~trainable_network_m -->
+<g id="module~~double_precision_string_m~~UsedByGraph_edge63" class="edge">
+<title>module~trainable_network_s&#45;&gt;module~trainable_network_m</title>
+<path fill="none" stroke="#00e0ff" d="M728.24,-346.25C717.74,-344.84 706.68,-343.34 695.84,-341.88"/>
+<polygon fill="#00e0ff" stroke="#00e0ff" points="696.54,-338.44 686.16,-340.57 695.6,-345.38 696.54,-338.44"/>
+</g>
+<!-- module~unmapped_network_s -->
+<g id="module~~double_precision_string_m~~UsedByGraph_node39" class="node">
+<title>module~unmapped_network_s</title>
+<g id="a_module~~double_precision_string_m~~UsedByGraph_node39"><a xlink:href="../module/unmapped_network_s.html" xlink:title="unmapped_network_s">
+<polygon fill="#5bc0de" stroke="#5bc0de" points="686.58,-226.27 558.81,-226.27 558.81,-202 686.58,-202 686.58,-226.27"/>
+<text text-anchor="middle" x="622.7" y="-210.53" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">unmapped_network_s</text>
+</a>
+</g>
+</g>
+<!-- module~unmapped_network_s&#45;&gt;module~neural_network_m -->
+<g id="module~~double_precision_string_m~~UsedByGraph_edge58" class="edge">
+<title>module~unmapped_network_s&#45;&gt;module~neural_network_m</title>
+<path fill="none" stroke="#14ff00" d="M568.77,-201.53C550.02,-197.07 528.72,-192 509.16,-187.34"/>
+<polygon fill="#14ff00" stroke="#14ff00" points="510.2,-183.99 499.66,-185.08 508.58,-190.8 510.2,-183.99"/>
+</g>
+<!-- module~workspace_s -->
+<g id="module~~double_precision_string_m~~UsedByGraph_node40" class="node">
+<title>module~workspace_s</title>
+<g id="a_module~~double_precision_string_m~~UsedByGraph_node40"><a xlink:href="../module/workspace_s.html" xlink:title="workspace_s">
+<polygon fill="#5bc0de" stroke="#5bc0de" points="662.21,-184.27 583.19,-184.27 583.19,-160 662.21,-160 662.21,-184.27"/>
+<text text-anchor="middle" x="622.7" y="-168.53" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">workspace_s</text>
+</a>
+</g>
+</g>
+<!-- module~workspace_s&#45;&gt;module~neural_network_m -->
+<g id="module~~double_precision_string_m~~UsedByGraph_edge59" class="edge">
+<title>module~workspace_s&#45;&gt;module~neural_network_m</title>
+<path fill="none" stroke="#14ff00" d="M582.98,-172.13C561.88,-172.13 535.2,-172.13 510.95,-172.13"/>
+<polygon fill="#14ff00" stroke="#14ff00" points="511.16,-168.64 501.16,-172.14 511.16,-175.64 511.16,-168.64"/>
+</g>
+</g>
+</svg>
+</div>                <script>
+                  var panmoduledouble_precision_string_mUsedByGraph = svgPanZoom('#moduledouble_precision_string_mUsedByGraph',
+                    {zoomEnabled: true, controlIconsEnabled: true, fit: true, center: true,}
+                  );
+                </script>          <div>
+            <a type="button" class="graph-help" data-bs-toggle="modal" href="#UsedByGraph-help-text">Help</a>
+          </div>
+          <div class="modal fade" id="UsedByGraph-help-text" tabindex="-1" role="dialog">
+            <div class="modal-dialog modal-lg" role="document">
+              <div class="modal-content">
+                <div class="modal-header">
+                  <h4 class="modal-title" id="-graph-help-label">Graph Key</h4>
+                  <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+<p>Nodes of different colours represent the following: </p>
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN"
+ "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
+<!-- Generated by graphviz version 12.1.2 (20240928.0832)
+ -->
+<!-- Title: Graph Key Pages: 1 -->
+<svg width="511pt" height="32pt"
+ viewBox="0.00 0.00 510.88 32.27" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+<g id="graph0" class="graph" transform="scale(1 1) rotate(0) translate(4 28.27)">
+<title>Graph Key</title>
+<polygon fill="white" stroke="none" points="-4,4 -4,-28.27 506.88,-28.27 506.88,4 -4,4"/>
+<!-- Module -->
+<g id="node1" class="node">
+<title>Module</title>
+<polygon fill="#337ab7" stroke="#337ab7" points="54,-24.27 0,-24.27 0,0 54,0 54,-24.27"/>
+<text text-anchor="middle" x="27" y="-8.53" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">Module</text>
+</g>
+<!-- Submodule -->
+<g id="node2" class="node">
+<title>Submodule</title>
+<polygon fill="#5bc0de" stroke="#5bc0de" points="144.13,-24.27 71.87,-24.27 71.87,0 144.13,0 144.13,-24.27"/>
+<text text-anchor="middle" x="108" y="-8.53" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">Submodule</text>
+</g>
+<!-- Subroutine -->
+<g id="node3" class="node">
+<title>Subroutine</title>
+<polygon fill="#d9534f" stroke="#d9534f" points="231.63,-24.27 162.37,-24.27 162.37,0 231.63,0 231.63,-24.27"/>
+<text text-anchor="middle" x="197" y="-8.53" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">Subroutine</text>
+</g>
+<!-- Function -->
+<g id="node4" class="node">
+<title>Function</title>
+<polygon fill="#d94e8f" stroke="#d94e8f" points="306.26,-24.27 249.74,-24.27 249.74,0 306.26,0 306.26,-24.27"/>
+<text text-anchor="middle" x="278" y="-8.53" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">Function</text>
+</g>
+<!-- Program -->
+<g id="node5" class="node">
+<title>Program</title>
+<polygon fill="#f0ad4e" stroke="#f0ad4e" points="381.26,-24.27 324.74,-24.27 324.74,0 381.26,0 381.26,-24.27"/>
+<text text-anchor="middle" x="353" y="-8.53" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">Program</text>
+</g>
+<!-- This Page&#39;s Entity -->
+<g id="node6" class="node">
+<title>This Page&#39;s Entity</title>
+<polygon fill="none" stroke="black" points="502.88,-24.27 399.12,-24.27 399.12,0 502.88,0 502.88,-24.27"/>
+<text text-anchor="middle" x="451" y="-8.53" font-family="Helvetica,sans-Serif" font-size="10.50">This Page&#39;s Entity</text>
+</g>
+</g>
+</svg>
+
+<p>Solid arrows point from a submodule to the (sub)module which it is
+descended from. Dashed arrows point from a module or program unit to 
+modules which it uses.
+</p>
+ Where possible, edges connecting nodes are
+given different colours to make them easier to distinguish in
+large graphs.</div>
+            </div>
+          </div>
+        </div>
+            </li>
+        </ul>
+      </div>
+    </div>
+
+      <br>
+
+
+
+
+        <section>
+          <h2>Interfaces</h2>
+              <div class="card">
+    <div class="card-header bg-light codesum">
+      <span class="anchor" id="interface-double_precision_string_t"></span>
+      <h3>public        interface <a href='../interface/double_precision_string_t.html'>double_precision_string_t</a> 
+      </h3>
+    </div>
+    <ul class="list-group">
+          <li class="list-group-item">
+                <h3>
+    public elemental module function construct_from_string(string) result(double_precision_string)  
+    <a href="../proc/construct_from_string.html"><button type="button" class="btn btn-info depwarn">Implementation &rarr;</button></a>
+
+    </h3>
+  
+
+  <h4>Arguments</h4>
+      <table class="table table-striped varlist">
+    <thead>
+      <tr>
+        <th scope="col">Type</th>
+<th scope="col">Intent</th><th scope="col">Optional</th>        <th scope="col">Attributes</th>
+        <th scope="col"></th>
+        <th scope="col">Name</th>
+        <th scope="col"></th>
+    </thead>
+    <tbody>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-string~3"></span>
+              type(string_t),
+            </td>
+<td>intent(in)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>string</strong></td>
+            <td>
+                
+            </td>
+        </tr>
+    </tbody>
+  </table>
+
+    <h4>
+    Return Value
+    <small>type(<a href='../type/double_precision_string_t.html'>double_precision_string_t</a>)</small>
+    </h4>
+    
+
+          </li>
+    </ul>
+  </div>
+
+        </section>
+        <br>
+
+
+        <section>
+          <h2>Derived Types</h2>
+              <div class="card">
+    <div class="card-header codesum">
+      <span class="anchor" id="type-double_precision_string_t"></span>
+      <h3>
+        type, public, extends(string_t)&nbsp;::&nbsp;
+        <a href='../type/double_precision_string_t.html'>double_precision_string_t</a>
+        
+      </h3>
+    </div>
+    <div class="card-body">
+      
+
+
+        <h4>Constructor</h4>
+          
+        <table class="table table-striped varlist">
+          <tbody>
+                <tr>
+                  <td>
+                        public
+
+                    elemental, module
+                    function
+                    <strong>construct_from_string</strong>
+                    (string)
+                  </td>
+                  <td></td>
+                </tr>
+          </tbody>
+        </table>
+
+
+    </div>
+  </div>
+
+        </section>
+        <br>
+
+
+
+
+
+    </div>
+  </div>
+
+      <hr>
+    </div> <!-- /container -->
+    <footer>
+      <div class="container">
+        <div class="row justify-content-between">
+          <div class="col">
+            <p>
+              Fiats
+ was developed by Berkeley Lab<br>              &copy; 2024 
+</p>
+          </div>
+          <div class="col">
+            <p class="text-end">
+              Documentation generated by
+              <a href="https://github.com/Fortran-FOSS-Programmers/ford">FORD</a>
+ on 2024-10-17 00:07              </p>
+          </div>
+        </div>
+        <br>
+      </div> <!-- /container -->
+    </footer>
+
+    <!-- Bootstrap core JavaScript -->
+    <!-- Placed at the end of the document so the pages load faster -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"
+            integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p" crossorigin="anonymous"></script>    
+
+    <!-- MathJax JavaScript
+             ================================================== -->
+             <!-- Placed at the end of the document so the pages load faster -->
+        <script type="text/x-mathjax-config">
+          MathJax.Hub.Config({
+          TeX: { extensions: ['AMSmath.js','AMSsymbols.js','noErrors.js','noUndefined.js'], equationNumbers: { autoNumber: 'AMS' } },
+          jax: ['input/TeX','input/MathML','output/HTML-CSS'],
+          extensions: ['tex2jax.js','mml2jax.js','MathMenu.js','MathZoom.js']
+          });
+        </script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+
+          <script src="../tipuesearch/tipuesearch_content.js"></script>
+          <script src="../tipuesearch/tipuesearch_set.js"></script>
+          <script src="../tipuesearch/tipuesearch.js"></script>
+
+  </body>
+</html>

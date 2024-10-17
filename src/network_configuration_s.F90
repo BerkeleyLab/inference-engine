@@ -1,3 +1,5 @@
+! Copyright (c), The Regents of the University of California
+! Terms of use are as specified in LICENSE.txt
 submodule(network_configuration_m) network_configuration_s
   use assert_m, only : assert
   use julienne_formats_m, only : csv
@@ -44,6 +46,26 @@ contains
     end do
 
     call assert(network_configuration_key_found, "network_configuration_s(from_json): network_configuration_found")
+  end procedure
+
+  module procedure from_double_precision_string_json
+    integer l
+    logical network_configuration_key_found
+
+    network_configuration_key_found = .false.
+
+    do l=1,size(lines)
+      if (lines(l)%get_json_key() == "network configuration") then
+        network_configuration_key_found = .true.
+        network_configuration%skip_connections_  = lines(l+1)%get_json_value(string_t(skip_connections_key), mold=.true.)
+        network_configuration%nodes_per_layer_ = lines(l+2)%get_json_value(string_t(nodes_per_layer_key), mold=[integer::])
+        network_configuration%activation_name_ = lines(l+3)%get_json_value(string_t(activation_name_key), mold=string_t(""))
+        return
+      end if
+    end do
+
+    call assert(network_configuration_key_found, &
+      "network_configuration_s(from_double_precision_string_json): network_configuration_found")
   end procedure
 
   module procedure to_json

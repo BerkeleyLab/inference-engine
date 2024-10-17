@@ -6,11 +6,11 @@
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-      <meta name="description" content="A deep learning library targeting high-performance computing (HPC) applications with performance-critical inference and training needs.">
+      <meta name="description" content="Functional inference and training of surrogate models for computational science.">
     <meta name="author" content="Berkeley Lab" >
     <link rel="icon" href="../favicon.png">
 
-    <title>neuron_s &ndash; Inference-Engine</title>
+    <title>neuron_s &ndash; Fiats</title>
 
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet"
           integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
@@ -29,7 +29,7 @@
     <div class="container-fluid mb-sm-4 mb-xl-2">
       <nav class="navbar navbar-expand-lg navbar-dark bg-dark fixed-top">
         <div class="container">
-          <a class="navbar-brand" href="../index.html">Inference-Engine </a>
+          <a class="navbar-brand" href="../index.html">Fiats </a>
           <button type="button" class="navbar-toggler" data-bs-toggle="collapse" data-bs-target="#navbar"
                   aria-expanded="false" aria-controls="navbar" aria-label="Toggle navigation">
                   <span class="navbar-toggler-icon">
@@ -45,9 +45,6 @@
                 </li>
                 <li class="nav-item">
                   <a class="nav-link" href="../lists/procedures.html">Procedures</a>
-                </li>
-                <li class="nav-item">
-                  <a class="nav-link" href="../lists/absint.html">Abstract Interfaces</a>
                 </li>
                 <li class="nav-item">
                   <a class="nav-link" href="../lists/types.html">Derived Types</a>
@@ -79,7 +76,7 @@
 
             <li class="list-inline-item" id="statements"><i class="fa fa-list-ol"></i>
               <a data-bs-toggle="tooltip" data-bs-placement="bottom" data-bs-html="true"
-                 title=" 2.9% of total for modules and submodules.">69 statements</a>
+                 title=" 4.0% of total for modules and submodules.">132 statements</a>
             </li>
 
             <li class="list-inline-item" id="source-file">
@@ -132,14 +129,22 @@
       </a>
       <div id="modprocs-0" class="collapse">
         <div class="list-group list-group-flush">
-            <a class="list-group-item" href="../module/neuron_s.html#proc-bias">bias</a>
-            <a class="list-group-item" href="../module/neuron_s.html#proc-from_components~3">from_components</a>
-            <a class="list-group-item" href="../module/neuron_s.html#proc-from_json~5">from_json</a>
-            <a class="list-group-item" href="../module/neuron_s.html#proc-next_allocated~2">next_allocated</a>
-            <a class="list-group-item" href="../module/neuron_s.html#proc-next_pointer~2">next_pointer</a>
-            <a class="list-group-item" href="../module/neuron_s.html#proc-num_inputs~3">num_inputs</a>
-            <a class="list-group-item" href="../module/neuron_s.html#proc-to_json~5">to_json</a>
-            <a class="list-group-item" href="../module/neuron_s.html#proc-weights">weights</a>
+            <a class="list-group-item" href="../module/neuron_s.html#proc-default_real_bias">default_real_bias</a>
+            <a class="list-group-item" href="../module/neuron_s.html#proc-default_real_from_components~3">default_real_from_components</a>
+            <a class="list-group-item" href="../module/neuron_s.html#proc-default_real_next_allocated~2">default_real_next_allocated</a>
+            <a class="list-group-item" href="../module/neuron_s.html#proc-default_real_next_pointer~2">default_real_next_pointer</a>
+            <a class="list-group-item" href="../module/neuron_s.html#proc-default_real_num_inputs~2">default_real_num_inputs</a>
+            <a class="list-group-item" href="../module/neuron_s.html#proc-default_real_to_json~5">default_real_to_json</a>
+            <a class="list-group-item" href="../module/neuron_s.html#proc-default_real_weights">default_real_weights</a>
+            <a class="list-group-item" href="../module/neuron_s.html#proc-double_precision_bias">double_precision_bias</a>
+            <a class="list-group-item" href="../module/neuron_s.html#proc-double_precision_from_components~3">double_precision_from_components</a>
+            <a class="list-group-item" href="../module/neuron_s.html#proc-double_precision_from_json~5">double_precision_from_json</a>
+            <a class="list-group-item" href="../module/neuron_s.html#proc-double_precision_next_allocated~2">double_precision_next_allocated</a>
+            <a class="list-group-item" href="../module/neuron_s.html#proc-double_precision_next_pointer~2">double_precision_next_pointer</a>
+            <a class="list-group-item" href="../module/neuron_s.html#proc-double_precision_num_inputs~2">double_precision_num_inputs</a>
+            <a class="list-group-item" href="../module/neuron_s.html#proc-double_precision_to_json~5">double_precision_to_json</a>
+            <a class="list-group-item" href="../module/neuron_s.html#proc-double_precision_weights">double_precision_weights</a>
+            <a class="list-group-item" href="../module/neuron_s.html#proc-from_json~4">from_json</a>
         </div>
       </div>
     </div>
@@ -162,8 +167,8 @@
         <ul class="list-group list-group-flush">
             <li class="list-group-item">
               <ul class="list-inline">
-                  <li class="list-inline-item">julienne_formats_m</li>
                   <li class="list-inline-item">assert_m</li>
+                  <li class="list-inline-item">julienne_formats_m</li>
               </ul>
             </li>
             <li class="list-group-item">
@@ -179,82 +184,109 @@
 <!-- Generated by graphviz version 12.1.2 (20240928.0832)
  -->
 <!-- Title: module~~neuron_s~~UsesGraph Pages: 1 -->
-<svg id="moduleneuron_sUsesGraph" width="373pt" height="137pt"
- viewBox="0.00 0.00 373.31 137.27" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
-<g id="module~~neuron_s~~UsesGraph" class="graph" transform="scale(1 1) rotate(0) translate(4 133.27)">
+<svg id="moduleneuron_sUsesGraph" width="515pt" height="158pt"
+ viewBox="0.00 0.00 514.58 158.27" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+<g id="module~~neuron_s~~UsesGraph" class="graph" transform="scale(1 1) rotate(0) translate(4 154.27)">
 <title>module~~neuron_s~~UsesGraph</title>
-<polygon fill="white" stroke="none" points="-4,4 -4,-133.27 369.31,-133.27 369.31,4 -4,4"/>
+<polygon fill="white" stroke="none" points="-4,4 -4,-154.27 510.58,-154.27 510.58,4 -4,4"/>
 <!-- module~neuron_s -->
 <g id="module~~neuron_s~~UsesGraph_node1" class="node">
 <title>module~neuron_s</title>
-<polygon fill="none" stroke="black" points="365.31,-87.27 305.79,-87.27 305.79,-63 365.31,-63 365.31,-87.27"/>
-<text text-anchor="middle" x="335.55" y="-71.54" font-family="Helvetica,sans-Serif" font-size="10.50">neuron_s</text>
+<polygon fill="none" stroke="black" points="506.58,-108.27 447.06,-108.27 447.06,-84 506.58,-84 506.58,-108.27"/>
+<text text-anchor="middle" x="476.82" y="-92.54" font-family="Helvetica,sans-Serif" font-size="10.50">neuron_s</text>
 </g>
 <!-- assert_m -->
 <g id="module~~neuron_s~~UsesGraph_node2" class="node">
 <title>assert_m</title>
-<polygon fill="#337ab7" stroke="#337ab7" points="241.29,-129.27 181.77,-129.27 181.77,-105 241.29,-105 241.29,-129.27"/>
-<text text-anchor="middle" x="211.53" y="-113.54" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">assert_m</text>
+<polygon fill="#337ab7" stroke="#337ab7" points="382.56,-150.27 323.04,-150.27 323.04,-126 382.56,-126 382.56,-150.27"/>
+<text text-anchor="middle" x="352.8" y="-134.53" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">assert_m</text>
 </g>
 <!-- module~neuron_s&#45;&gt;assert_m -->
 <g id="module~~neuron_s~~UsesGraph_edge1" class="edge">
 <title>module~neuron_s&#45;&gt;assert_m</title>
-<path fill="none" stroke="#ff0000" stroke-dasharray="5,2" d="M305.32,-85.2C289.33,-90.7 269.28,-97.6 251.92,-103.58"/>
-<polygon fill="#ff0000" stroke="#ff0000" points="251.27,-100.1 242.95,-106.66 253.54,-106.72 251.27,-100.1"/>
+<path fill="none" stroke="#ff0000" stroke-dasharray="5,2" d="M446.59,-106.2C430.6,-111.7 410.55,-118.6 393.19,-124.58"/>
+<polygon fill="#ff0000" stroke="#ff0000" points="392.54,-121.1 384.22,-127.66 394.81,-127.72 392.54,-121.1"/>
 </g>
 <!-- julienne_formats_m -->
 <g id="module~~neuron_s~~UsesGraph_node3" class="node">
 <title>julienne_formats_m</title>
-<polygon fill="#337ab7" stroke="#337ab7" points="269.79,-87.27 153.27,-87.27 153.27,-63 269.79,-63 269.79,-87.27"/>
-<text text-anchor="middle" x="211.53" y="-71.54" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">julienne_formats_m</text>
+<polygon fill="#337ab7" stroke="#337ab7" points="411.06,-108.27 294.54,-108.27 294.54,-84 411.06,-84 411.06,-108.27"/>
+<text text-anchor="middle" x="352.8" y="-92.54" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">julienne_formats_m</text>
 </g>
 <!-- module~neuron_s&#45;&gt;julienne_formats_m -->
 <g id="module~~neuron_s~~UsesGraph_edge2" class="edge">
 <title>module~neuron_s&#45;&gt;julienne_formats_m</title>
-<path fill="none" stroke="#ff0000" stroke-dasharray="5,2" d="M305.32,-75.14C298.05,-75.14 289.95,-75.14 281.64,-75.14"/>
-<polygon fill="#ff0000" stroke="#ff0000" points="281.75,-71.64 271.75,-75.14 281.75,-78.64 281.75,-71.64"/>
+<path fill="none" stroke="#ff0000" stroke-dasharray="5,2" d="M446.59,-96.14C439.32,-96.14 431.22,-96.14 422.91,-96.14"/>
+<polygon fill="#ff0000" stroke="#ff0000" points="423.02,-92.64 413.02,-96.14 423.02,-99.64 423.02,-92.64"/>
 </g>
 <!-- module~neuron_m -->
 <g id="module~~neuron_s~~UsesGraph_node4" class="node">
 <title>module~neuron_m</title>
 <g id="a_module~~neuron_s~~UsesGraph_node4"><a xlink:href="../module/neuron_m.html" xlink:title="neuron_m">
-<polygon fill="#337ab7" stroke="#337ab7" points="243.91,-45.27 179.14,-45.27 179.14,-21 243.91,-21 243.91,-45.27"/>
-<text text-anchor="middle" x="211.53" y="-29.53" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">neuron_m</text>
+<polygon fill="#337ab7" stroke="#337ab7" points="385.18,-66.27 320.41,-66.27 320.41,-42 385.18,-42 385.18,-66.27"/>
+<text text-anchor="middle" x="352.8" y="-50.53" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">neuron_m</text>
 </a>
 </g>
 </g>
 <!-- module~neuron_s&#45;&gt;module~neuron_m -->
 <g id="module~~neuron_s~~UsesGraph_edge3" class="edge">
 <title>module~neuron_s&#45;&gt;module~neuron_m</title>
-<path fill="none" stroke="#ff0000" d="M305.32,-65.07C290.17,-59.86 271.39,-53.39 254.69,-47.65"/>
-<polygon fill="#ff0000" stroke="#ff0000" points="256.11,-44.43 245.51,-44.49 253.83,-51.05 256.11,-44.43"/>
+<path fill="none" stroke="#ff0000" d="M446.59,-86.07C431.44,-80.86 412.66,-74.39 395.96,-68.65"/>
+<polygon fill="#ff0000" stroke="#ff0000" points="397.38,-65.43 386.78,-65.49 395.1,-72.05 397.38,-65.43"/>
 </g>
 <!-- julienne_string_m -->
 <g id="module~~neuron_s~~UsesGraph_node5" class="node">
 <title>julienne_string_m</title>
-<polygon fill="#337ab7" stroke="#337ab7" points="111.27,-66.27 6,-66.27 6,-42 111.27,-42 111.27,-66.27"/>
-<text text-anchor="middle" x="58.63" y="-50.53" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">julienne_string_m</text>
+<polygon fill="#337ab7" stroke="#337ab7" points="234.91,-108.27 129.65,-108.27 129.65,-84 234.91,-84 234.91,-108.27"/>
+<text text-anchor="middle" x="182.28" y="-92.54" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">julienne_string_m</text>
 </g>
 <!-- module~neuron_m&#45;&gt;julienne_string_m -->
 <g id="module~~neuron_s~~UsesGraph_edge4" class="edge">
 <title>module~neuron_m&#45;&gt;julienne_string_m</title>
-<path fill="none" stroke="#0000ff" stroke-dasharray="5,2" d="M178.9,-37.54C162.64,-39.8 142.24,-42.64 122.92,-45.33"/>
-<polygon fill="#0000ff" stroke="#0000ff" points="122.64,-41.83 113.21,-46.68 123.6,-48.77 122.64,-41.83"/>
+<path fill="none" stroke="#0000ff" stroke-dasharray="5,2" d="M320.1,-62.03C298.92,-67.31 270.37,-74.43 244.82,-80.8"/>
+<polygon fill="#0000ff" stroke="#0000ff" points="244.04,-77.38 235.18,-83.2 245.73,-84.18 244.04,-77.38"/>
+</g>
+<!-- module~double_precision_string_m -->
+<g id="module~~neuron_s~~UsesGraph_node6" class="node">
+<title>module~double_precision_string_m</title>
+<g id="a_module~~neuron_s~~UsesGraph_node6"><a xlink:href="../module/double_precision_string_m.html" xlink:title="double_precision_string_m">
+<polygon fill="#337ab7" stroke="#337ab7" points="258.54,-66.27 106.02,-66.27 106.02,-42 258.54,-42 258.54,-66.27"/>
+<text text-anchor="middle" x="182.28" y="-50.53" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">double_precision_string_m</text>
+</a>
+</g>
+</g>
+<!-- module~neuron_m&#45;&gt;module~double_precision_string_m -->
+<g id="module~~neuron_s~~UsesGraph_edge5" class="edge">
+<title>module~neuron_m&#45;&gt;module~double_precision_string_m</title>
+<path fill="none" stroke="#0000ff" stroke-dasharray="5,2" d="M320.1,-54.13C305.8,-54.13 288.13,-54.13 270.3,-54.13"/>
+<polygon fill="#0000ff" stroke="#0000ff" points="270.42,-50.64 260.42,-54.14 270.42,-57.64 270.42,-50.64"/>
 </g>
 <!-- module~kind_parameters_m -->
-<g id="module~~neuron_s~~UsesGraph_node6" class="node">
+<g id="module~~neuron_s~~UsesGraph_node7" class="node">
 <title>module~kind_parameters_m</title>
-<g id="a_module~~neuron_s~~UsesGraph_node6"><a xlink:href="../module/kind_parameters_m.html" xlink:title="kind_parameters_m">
-<polygon fill="#337ab7" stroke="#337ab7" points="117.27,-24.27 0,-24.27 0,0 117.27,0 117.27,-24.27"/>
-<text text-anchor="middle" x="58.63" y="-8.53" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">kind_parameters_m</text>
+<g id="a_module~~neuron_s~~UsesGraph_node7"><a xlink:href="../module/kind_parameters_m.html" xlink:title="kind_parameters_m">
+<polygon fill="#337ab7" stroke="#337ab7" points="240.91,-24.27 123.65,-24.27 123.65,0 240.91,0 240.91,-24.27"/>
+<text text-anchor="middle" x="182.28" y="-8.53" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">kind_parameters_m</text>
 </a>
 </g>
 </g>
 <!-- module~neuron_m&#45;&gt;module~kind_parameters_m -->
-<g id="module~~neuron_s~~UsesGraph_edge5" class="edge">
+<g id="module~~neuron_s~~UsesGraph_edge6" class="edge">
 <title>module~neuron_m&#45;&gt;module~kind_parameters_m</title>
-<path fill="none" stroke="#0000ff" stroke-dasharray="5,2" d="M178.9,-28.73C164.36,-26.71 146.51,-24.23 129.09,-21.8"/>
-<polygon fill="#0000ff" stroke="#0000ff" points="129.63,-18.34 119.24,-20.43 128.66,-25.28 129.63,-18.34"/>
+<path fill="none" stroke="#0000ff" stroke-dasharray="5,2" d="M320.1,-46.24C298.92,-40.96 270.37,-33.84 244.82,-27.47"/>
+<polygon fill="#0000ff" stroke="#0000ff" points="245.73,-24.09 235.18,-25.07 244.04,-30.89 245.73,-24.09"/>
+</g>
+<!-- julienne_m -->
+<g id="module~~neuron_s~~UsesGraph_node8" class="node">
+<title>julienne_m</title>
+<polygon fill="#337ab7" stroke="#337ab7" points="70.02,-66.27 0,-66.27 0,-42 70.02,-42 70.02,-66.27"/>
+<text text-anchor="middle" x="35.01" y="-50.53" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">julienne_m</text>
+</g>
+<!-- module~double_precision_string_m&#45;&gt;julienne_m -->
+<g id="module~~neuron_s~~UsesGraph_edge7" class="edge">
+<title>module~double_precision_string_m&#45;&gt;julienne_m</title>
+<path fill="none" stroke="#00ff00" stroke-dasharray="5,2" d="M105.67,-54.13C97.43,-54.13 89.24,-54.13 81.52,-54.13"/>
+<polygon fill="#00ff00" stroke="#00ff00" points="81.75,-50.64 71.75,-54.14 81.75,-57.64 81.75,-50.64"/>
 </g>
 </g>
 </svg>
@@ -351,8 +383,8 @@ large graphs.</div>
         <section>
           <h2>Module Procedures</h2>
               <div class="card">
-    <div class="card-header codesum"><span class="anchor" id="proc-bias"></span> <h3>module procedure /home/runner/work/inference-engine/inference-engine/doc/html/module/neuron_s.html <a href='../proc/bias.html'>bias</a> <small>module function bias(self) result(my_bias)</small>  
-    <a href="../interface/bias.html"><button type="button" class="btn btn-info depwarn">Interface &rarr;</button></a>
+    <div class="card-header codesum"><span class="anchor" id="proc-default_real_bias"></span> <h3>module procedure /home/runner/work/inference-engine/inference-engine/doc/html/module/neuron_s.html <a href='../proc/default_real_bias.html'>default_real_bias</a> <small>module function default_real_bias(self) result(my_bias)</small>  
+    <a href="../interface/default_real_bias.html"><button type="button" class="btn btn-info depwarn">Interface &rarr;</button></a>
 </h3></div>
     <div class="card-body">
           
@@ -371,7 +403,7 @@ large graphs.</div>
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-self~44"></span>
+              <span class="anchor" id="variable-self~56"></span>
               class(<a href='../type/neuron_t.html'>neuron_t</a>),
             </td>
 <td>intent(in)</td>
@@ -389,7 +421,7 @@ large graphs.</div>
 
     <h4>
     Return Value
-    <small>real(kind=rkind)</small>
+    <small>real</small>
     </h4>
     
 
@@ -397,7 +429,7 @@ large graphs.</div>
   </div>
 
               <div class="card">
-    <div class="card-header codesum"><span class="anchor" id="proc-from_components~3"></span> <h3>module procedure /home/runner/work/inference-engine/inference-engine/doc/html/module/neuron_s.html <a href='../proc/from_components~3.html'>from_components</a> <small>pure module function from_components(weights, bias) result(neuron)</small>  
+    <div class="card-header codesum"><span class="anchor" id="proc-default_real_from_components~3"></span> <h3>module procedure /home/runner/work/inference-engine/inference-engine/doc/html/module/neuron_s.html <a href='../proc/default_real_from_components~3.html'>default_real_from_components</a> <small>pure module function default_real_from_components(weights, bias) result(neuron)</small>  
 </h3></div>
     <div class="card-body">
           
@@ -416,8 +448,8 @@ large graphs.</div>
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-weights~3"></span>
-              real(kind=rkind),
+              <span class="anchor" id="variable-weights~2"></span>
+              real,
             </td>
 <td>intent(in)</td>
               <td></td>            <td>
@@ -432,7 +464,7 @@ large graphs.</div>
         <tr>
             <td>
               <span class="anchor" id="variable-bias~2"></span>
-              real(kind=rkind),
+              real,
             </td>
 <td>intent(in)</td>
               <td></td>            <td>
@@ -457,7 +489,633 @@ large graphs.</div>
   </div>
 
               <div class="card">
-    <div class="card-header codesum"><span class="anchor" id="proc-from_json~5"></span> <h3>module procedure /home/runner/work/inference-engine/inference-engine/doc/html/module/neuron_s.html <a href='../proc/from_json~5.html'>from_json</a> <small>pure recursive module function from_json(neuron_lines, start) result(neuron)</small>  
+    <div class="card-header codesum"><span class="anchor" id="proc-default_real_next_allocated~2"></span> <h3>module procedure /home/runner/work/inference-engine/inference-engine/doc/html/module/neuron_s.html <a href='../proc/default_real_next_allocated~2.html'>default_real_next_allocated</a> <small>module function default_real_next_allocated(self) result(next_is_allocated)</small>  
+    <a href="../interface/default_real_next_allocated~2.html"><button type="button" class="btn btn-info depwarn">Interface &rarr;</button></a>
+</h3></div>
+    <div class="card-body">
+          
+  
+
+  <h4>Arguments</h4>
+      <table class="table table-striped varlist">
+    <thead>
+      <tr>
+        <th scope="col">Type</th>
+<th scope="col">Intent</th><th scope="col">Optional</th>        <th scope="col">Attributes</th>
+        <th scope="col"></th>
+        <th scope="col">Name</th>
+        <th scope="col"></th>
+    </thead>
+    <tbody>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-self~58"></span>
+              class(<a href='../type/neuron_t.html'>neuron_t</a>),
+            </td>
+<td>intent(in)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>self</strong></td>
+            <td>
+
+            </td>
+        </tr>
+    </tbody>
+  </table>
+
+    <h4>
+    Return Value
+    <small>logical</small>
+    </h4>
+    
+
+    </div>
+  </div>
+
+              <div class="card">
+    <div class="card-header codesum"><span class="anchor" id="proc-default_real_next_pointer~2"></span> <h3>module procedure /home/runner/work/inference-engine/inference-engine/doc/html/module/neuron_s.html <a href='../proc/default_real_next_pointer~2.html'>default_real_next_pointer</a> <small>module function default_real_next_pointer(self) result(next_ptr)</small>  
+    <a href="../interface/default_real_next_pointer~2.html"><button type="button" class="btn btn-info depwarn">Interface &rarr;</button></a>
+</h3></div>
+    <div class="card-body">
+          
+  
+
+  <h4>Arguments</h4>
+      <table class="table table-striped varlist">
+    <thead>
+      <tr>
+        <th scope="col">Type</th>
+<th scope="col">Intent</th><th scope="col">Optional</th>        <th scope="col">Attributes</th>
+        <th scope="col"></th>
+        <th scope="col">Name</th>
+        <th scope="col"></th>
+    </thead>
+    <tbody>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-self~60"></span>
+              class(<a href='../type/neuron_t.html'>neuron_t</a>),
+            </td>
+<td>intent(in),</td>
+              <td></td>            <td>
+              target
+            </td>
+            <td>::</td>
+            <td><strong>self</strong></td>
+            <td>
+
+            </td>
+        </tr>
+    </tbody>
+  </table>
+
+    <h4>
+    Return Value
+    <small>type(<a href='../type/neuron_t.html'>neuron_t</a>), pointer</small>
+    </h4>
+    
+
+    </div>
+  </div>
+
+              <div class="card">
+    <div class="card-header codesum"><span class="anchor" id="proc-default_real_num_inputs~2"></span> <h3>module procedure /home/runner/work/inference-engine/inference-engine/doc/html/module/neuron_s.html <a href='../proc/default_real_num_inputs~2.html'>default_real_num_inputs</a> <small>pure module function default_real_num_inputs(self) result(size_weights)</small>  
+    <a href="../interface/default_real_num_inputs.html"><button type="button" class="btn btn-info depwarn">Interface &rarr;</button></a>
+</h3></div>
+    <div class="card-body">
+          
+  
+
+  <h4>Arguments</h4>
+      <table class="table table-striped varlist">
+    <thead>
+      <tr>
+        <th scope="col">Type</th>
+<th scope="col">Intent</th><th scope="col">Optional</th>        <th scope="col">Attributes</th>
+        <th scope="col"></th>
+        <th scope="col">Name</th>
+        <th scope="col"></th>
+    </thead>
+    <tbody>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-self~62"></span>
+              class(<a href='../type/neuron_t.html'>neuron_t</a>),
+            </td>
+<td>intent(in)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>self</strong></td>
+            <td>
+
+            </td>
+        </tr>
+    </tbody>
+  </table>
+
+    <h4>
+    Return Value
+    <small>integer</small>
+    </h4>
+    
+
+    </div>
+  </div>
+
+              <div class="card">
+    <div class="card-header codesum"><span class="anchor" id="proc-default_real_to_json~5"></span> <h3>module procedure /home/runner/work/inference-engine/inference-engine/doc/html/module/neuron_s.html <a href='../proc/default_real_to_json~5.html'>default_real_to_json</a> <small>pure module function default_real_to_json(self) result(lines)</small>  
+    <a href="../interface/default_real_to_json~3.html"><button type="button" class="btn btn-info depwarn">Interface &rarr;</button></a>
+</h3></div>
+    <div class="card-body">
+          
+  
+
+  <h4>Arguments</h4>
+      <table class="table table-striped varlist">
+    <thead>
+      <tr>
+        <th scope="col">Type</th>
+<th scope="col">Intent</th><th scope="col">Optional</th>        <th scope="col">Attributes</th>
+        <th scope="col"></th>
+        <th scope="col">Name</th>
+        <th scope="col"></th>
+    </thead>
+    <tbody>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-self~52"></span>
+              class(<a href='../type/neuron_t.html'>neuron_t</a>),
+            </td>
+<td>intent(in)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>self</strong></td>
+            <td>
+
+            </td>
+        </tr>
+    </tbody>
+  </table>
+
+    <h4>
+    Return Value
+    <small>type(string_t), allocatable, (:)</small>
+    </h4>
+    
+
+    </div>
+  </div>
+
+              <div class="card">
+    <div class="card-header codesum"><span class="anchor" id="proc-default_real_weights"></span> <h3>module procedure /home/runner/work/inference-engine/inference-engine/doc/html/module/neuron_s.html <a href='../proc/default_real_weights.html'>default_real_weights</a> <small>module function default_real_weights(self) result(my_weights)</small>  
+    <a href="../interface/default_real_weights.html"><button type="button" class="btn btn-info depwarn">Interface &rarr;</button></a>
+</h3></div>
+    <div class="card-body">
+          
+  
+
+  <h4>Arguments</h4>
+      <table class="table table-striped varlist">
+    <thead>
+      <tr>
+        <th scope="col">Type</th>
+<th scope="col">Intent</th><th scope="col">Optional</th>        <th scope="col">Attributes</th>
+        <th scope="col"></th>
+        <th scope="col">Name</th>
+        <th scope="col"></th>
+    </thead>
+    <tbody>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-self~54"></span>
+              class(<a href='../type/neuron_t.html'>neuron_t</a>),
+            </td>
+<td>intent(in)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>self</strong></td>
+            <td>
+
+            </td>
+        </tr>
+    </tbody>
+  </table>
+
+    <h4>
+    Return Value
+    <small>real, allocatable, (:)</small>
+    </h4>
+    
+
+    </div>
+  </div>
+
+              <div class="card">
+    <div class="card-header codesum"><span class="anchor" id="proc-double_precision_bias"></span> <h3>module procedure /home/runner/work/inference-engine/inference-engine/doc/html/module/neuron_s.html <a href='../proc/double_precision_bias.html'>double_precision_bias</a> <small>module function double_precision_bias(self) result(my_bias)</small>  
+    <a href="../interface/double_precision_bias.html"><button type="button" class="btn btn-info depwarn">Interface &rarr;</button></a>
+</h3></div>
+    <div class="card-body">
+          
+  
+
+  <h4>Arguments</h4>
+      <table class="table table-striped varlist">
+    <thead>
+      <tr>
+        <th scope="col">Type</th>
+<th scope="col">Intent</th><th scope="col">Optional</th>        <th scope="col">Attributes</th>
+        <th scope="col"></th>
+        <th scope="col">Name</th>
+        <th scope="col"></th>
+    </thead>
+    <tbody>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-self~57"></span>
+              class(<a href='../type/neuron_t.html'>neuron_t</a>(double_precision)),
+            </td>
+<td>intent(in)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>self</strong></td>
+            <td>
+
+            </td>
+        </tr>
+    </tbody>
+  </table>
+
+    <h4>
+    Return Value
+    <small>double precision</small>
+    </h4>
+    
+
+    </div>
+  </div>
+
+              <div class="card">
+    <div class="card-header codesum"><span class="anchor" id="proc-double_precision_from_components~3"></span> <h3>module procedure /home/runner/work/inference-engine/inference-engine/doc/html/module/neuron_s.html <a href='../proc/double_precision_from_components~3.html'>double_precision_from_components</a> <small>pure module function double_precision_from_components(weights, bias) result(neuron)</small>  
+</h3></div>
+    <div class="card-body">
+          
+  
+
+  <h4>Arguments</h4>
+      <table class="table table-striped varlist">
+    <thead>
+      <tr>
+        <th scope="col">Type</th>
+<th scope="col">Intent</th><th scope="col">Optional</th>        <th scope="col">Attributes</th>
+        <th scope="col"></th>
+        <th scope="col">Name</th>
+        <th scope="col"></th>
+    </thead>
+    <tbody>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-weights~3"></span>
+              double precision,
+            </td>
+<td>intent(in)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>weights</strong>(:)</td>
+            <td>
+
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-bias~3"></span>
+              double precision,
+            </td>
+<td>intent(in)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>bias</strong></td>
+            <td>
+
+            </td>
+        </tr>
+    </tbody>
+  </table>
+
+    <h4>
+    Return Value
+    <small>type(<a href='../type/neuron_t.html'>neuron_t</a>(double_precision))</small>
+    </h4>
+    
+
+    </div>
+  </div>
+
+              <div class="card">
+    <div class="card-header codesum"><span class="anchor" id="proc-double_precision_from_json~5"></span> <h3>module procedure /home/runner/work/inference-engine/inference-engine/doc/html/module/neuron_s.html <a href='../proc/double_precision_from_json~5.html'>double_precision_from_json</a> <small>pure recursive module function double_precision_from_json(neuron_lines, start) result(neuron)</small>  
+</h3></div>
+    <div class="card-body">
+          
+  
+
+  <h4>Arguments</h4>
+      <table class="table table-striped varlist">
+    <thead>
+      <tr>
+        <th scope="col">Type</th>
+<th scope="col">Intent</th><th scope="col">Optional</th>        <th scope="col">Attributes</th>
+        <th scope="col"></th>
+        <th scope="col">Name</th>
+        <th scope="col"></th>
+    </thead>
+    <tbody>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-neuron_lines~2"></span>
+              type(<a href='../type/double_precision_string_t.html'>double_precision_string_t</a>),
+            </td>
+<td>intent(in)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>neuron_lines</strong>(:)</td>
+            <td>
+
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-start~4"></span>
+              integer,
+            </td>
+<td>intent(in)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>start</strong></td>
+            <td>
+
+            </td>
+        </tr>
+    </tbody>
+  </table>
+
+    <h4>
+    Return Value
+    <small>type(<a href='../type/neuron_t.html'>neuron_t</a>(double_precision))</small>
+    </h4>
+    
+
+    </div>
+  </div>
+
+              <div class="card">
+    <div class="card-header codesum"><span class="anchor" id="proc-double_precision_next_allocated~2"></span> <h3>module procedure /home/runner/work/inference-engine/inference-engine/doc/html/module/neuron_s.html <a href='../proc/double_precision_next_allocated~2.html'>double_precision_next_allocated</a> <small>module function double_precision_next_allocated(self) result(next_is_allocated)</small>  
+    <a href="../interface/double_precision_next_allocated~2.html"><button type="button" class="btn btn-info depwarn">Interface &rarr;</button></a>
+</h3></div>
+    <div class="card-body">
+          
+  
+
+  <h4>Arguments</h4>
+      <table class="table table-striped varlist">
+    <thead>
+      <tr>
+        <th scope="col">Type</th>
+<th scope="col">Intent</th><th scope="col">Optional</th>        <th scope="col">Attributes</th>
+        <th scope="col"></th>
+        <th scope="col">Name</th>
+        <th scope="col"></th>
+    </thead>
+    <tbody>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-self~59"></span>
+              class(<a href='../type/neuron_t.html'>neuron_t</a>(double_precision)),
+            </td>
+<td>intent(in)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>self</strong></td>
+            <td>
+
+            </td>
+        </tr>
+    </tbody>
+  </table>
+
+    <h4>
+    Return Value
+    <small>logical</small>
+    </h4>
+    
+
+    </div>
+  </div>
+
+              <div class="card">
+    <div class="card-header codesum"><span class="anchor" id="proc-double_precision_next_pointer~2"></span> <h3>module procedure /home/runner/work/inference-engine/inference-engine/doc/html/module/neuron_s.html <a href='../proc/double_precision_next_pointer~2.html'>double_precision_next_pointer</a> <small>module function double_precision_next_pointer(self) result(next_ptr)</small>  
+    <a href="../interface/double_precision_next_pointer~2.html"><button type="button" class="btn btn-info depwarn">Interface &rarr;</button></a>
+</h3></div>
+    <div class="card-body">
+          
+  
+
+  <h4>Arguments</h4>
+      <table class="table table-striped varlist">
+    <thead>
+      <tr>
+        <th scope="col">Type</th>
+<th scope="col">Intent</th><th scope="col">Optional</th>        <th scope="col">Attributes</th>
+        <th scope="col"></th>
+        <th scope="col">Name</th>
+        <th scope="col"></th>
+    </thead>
+    <tbody>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-self~61"></span>
+              class(<a href='../type/neuron_t.html'>neuron_t</a>(double_precision)),
+            </td>
+<td>intent(in),</td>
+              <td></td>            <td>
+              target
+            </td>
+            <td>::</td>
+            <td><strong>self</strong></td>
+            <td>
+
+            </td>
+        </tr>
+    </tbody>
+  </table>
+
+    <h4>
+    Return Value
+    <small>type(<a href='../type/neuron_t.html'>neuron_t</a>(double_precision)), pointer</small>
+    </h4>
+    
+
+    </div>
+  </div>
+
+              <div class="card">
+    <div class="card-header codesum"><span class="anchor" id="proc-double_precision_num_inputs~2"></span> <h3>module procedure /home/runner/work/inference-engine/inference-engine/doc/html/module/neuron_s.html <a href='../proc/double_precision_num_inputs~2.html'>double_precision_num_inputs</a> <small>pure module function double_precision_num_inputs(self) result(size_weights)</small>  
+    <a href="../interface/double_precision_num_inputs.html"><button type="button" class="btn btn-info depwarn">Interface &rarr;</button></a>
+</h3></div>
+    <div class="card-body">
+          
+  
+
+  <h4>Arguments</h4>
+      <table class="table table-striped varlist">
+    <thead>
+      <tr>
+        <th scope="col">Type</th>
+<th scope="col">Intent</th><th scope="col">Optional</th>        <th scope="col">Attributes</th>
+        <th scope="col"></th>
+        <th scope="col">Name</th>
+        <th scope="col"></th>
+    </thead>
+    <tbody>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-self~63"></span>
+              class(<a href='../type/neuron_t.html'>neuron_t</a>(double_precision)),
+            </td>
+<td>intent(in)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>self</strong></td>
+            <td>
+
+            </td>
+        </tr>
+    </tbody>
+  </table>
+
+    <h4>
+    Return Value
+    <small>integer</small>
+    </h4>
+    
+
+    </div>
+  </div>
+
+              <div class="card">
+    <div class="card-header codesum"><span class="anchor" id="proc-double_precision_to_json~5"></span> <h3>module procedure /home/runner/work/inference-engine/inference-engine/doc/html/module/neuron_s.html <a href='../proc/double_precision_to_json~5.html'>double_precision_to_json</a> <small>pure module function double_precision_to_json(self) result(lines)</small>  
+    <a href="../interface/double_precision_to_json~3.html"><button type="button" class="btn btn-info depwarn">Interface &rarr;</button></a>
+</h3></div>
+    <div class="card-body">
+          
+  
+
+  <h4>Arguments</h4>
+      <table class="table table-striped varlist">
+    <thead>
+      <tr>
+        <th scope="col">Type</th>
+<th scope="col">Intent</th><th scope="col">Optional</th>        <th scope="col">Attributes</th>
+        <th scope="col"></th>
+        <th scope="col">Name</th>
+        <th scope="col"></th>
+    </thead>
+    <tbody>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-self~53"></span>
+              class(<a href='../type/neuron_t.html'>neuron_t</a>(double_precision)),
+            </td>
+<td>intent(in)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>self</strong></td>
+            <td>
+
+            </td>
+        </tr>
+    </tbody>
+  </table>
+
+    <h4>
+    Return Value
+    <small>type(string_t), allocatable, (:)</small>
+    </h4>
+    
+
+    </div>
+  </div>
+
+              <div class="card">
+    <div class="card-header codesum"><span class="anchor" id="proc-double_precision_weights"></span> <h3>module procedure /home/runner/work/inference-engine/inference-engine/doc/html/module/neuron_s.html <a href='../proc/double_precision_weights.html'>double_precision_weights</a> <small>module function double_precision_weights(self) result(my_weights)</small>  
+    <a href="../interface/double_precision_weights.html"><button type="button" class="btn btn-info depwarn">Interface &rarr;</button></a>
+</h3></div>
+    <div class="card-body">
+          
+  
+
+  <h4>Arguments</h4>
+      <table class="table table-striped varlist">
+    <thead>
+      <tr>
+        <th scope="col">Type</th>
+<th scope="col">Intent</th><th scope="col">Optional</th>        <th scope="col">Attributes</th>
+        <th scope="col"></th>
+        <th scope="col">Name</th>
+        <th scope="col"></th>
+    </thead>
+    <tbody>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-self~55"></span>
+              class(<a href='../type/neuron_t.html'>neuron_t</a>(double_precision)),
+            </td>
+<td>intent(in)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>self</strong></td>
+            <td>
+
+            </td>
+        </tr>
+    </tbody>
+  </table>
+
+    <h4>
+    Return Value
+    <small>double precision, allocatable, (:)</small>
+    </h4>
+    
+
+    </div>
+  </div>
+
+              <div class="card">
+    <div class="card-header codesum"><span class="anchor" id="proc-from_json~4"></span> <h3>module procedure /home/runner/work/inference-engine/inference-engine/doc/html/module/neuron_s.html <a href='../proc/from_json~4.html'>from_json</a> <small>pure recursive module function from_json(neuron_lines, start) result(neuron)</small>  
 </h3></div>
     <div class="card-body">
           
@@ -491,7 +1149,7 @@ large graphs.</div>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-start"></span>
+              <span class="anchor" id="variable-start~3"></span>
               integer,
             </td>
 <td>intent(in)</td>
@@ -516,236 +1174,6 @@ large graphs.</div>
     </div>
   </div>
 
-              <div class="card">
-    <div class="card-header codesum"><span class="anchor" id="proc-next_allocated~2"></span> <h3>module procedure /home/runner/work/inference-engine/inference-engine/doc/html/module/neuron_s.html <a href='../proc/next_allocated~2.html'>next_allocated</a> <small>module function next_allocated(self) result(next_is_allocated)</small>  
-    <a href="../interface/next_allocated.html"><button type="button" class="btn btn-info depwarn">Interface &rarr;</button></a>
-</h3></div>
-    <div class="card-body">
-          
-  
-
-  <h4>Arguments</h4>
-      <table class="table table-striped varlist">
-    <thead>
-      <tr>
-        <th scope="col">Type</th>
-<th scope="col">Intent</th><th scope="col">Optional</th>        <th scope="col">Attributes</th>
-        <th scope="col"></th>
-        <th scope="col">Name</th>
-        <th scope="col"></th>
-    </thead>
-    <tbody>
-        <tr>
-            <td>
-              <span class="anchor" id="variable-self~45"></span>
-              class(<a href='../type/neuron_t.html'>neuron_t</a>),
-            </td>
-<td>intent(in)</td>
-              <td></td>            <td>
-              
-            </td>
-            <td>::</td>
-            <td><strong>self</strong></td>
-            <td>
-
-            </td>
-        </tr>
-    </tbody>
-  </table>
-
-    <h4>
-    Return Value
-    <small>logical</small>
-    </h4>
-    
-
-    </div>
-  </div>
-
-              <div class="card">
-    <div class="card-header codesum"><span class="anchor" id="proc-next_pointer~2"></span> <h3>module procedure /home/runner/work/inference-engine/inference-engine/doc/html/module/neuron_s.html <a href='../proc/next_pointer~2.html'>next_pointer</a> <small>module function next_pointer(self) result(next_ptr)</small>  
-    <a href="../interface/next_pointer.html"><button type="button" class="btn btn-info depwarn">Interface &rarr;</button></a>
-</h3></div>
-    <div class="card-body">
-          
-  
-
-  <h4>Arguments</h4>
-      <table class="table table-striped varlist">
-    <thead>
-      <tr>
-        <th scope="col">Type</th>
-<th scope="col">Intent</th><th scope="col">Optional</th>        <th scope="col">Attributes</th>
-        <th scope="col"></th>
-        <th scope="col">Name</th>
-        <th scope="col"></th>
-    </thead>
-    <tbody>
-        <tr>
-            <td>
-              <span class="anchor" id="variable-self~46"></span>
-              class(<a href='../type/neuron_t.html'>neuron_t</a>),
-            </td>
-<td>intent(in),</td>
-              <td></td>            <td>
-              target
-            </td>
-            <td>::</td>
-            <td><strong>self</strong></td>
-            <td>
-
-            </td>
-        </tr>
-    </tbody>
-  </table>
-
-    <h4>
-    Return Value
-    <small>type(<a href='../type/neuron_t.html'>neuron_t</a>), pointer</small>
-    </h4>
-    
-
-    </div>
-  </div>
-
-              <div class="card">
-    <div class="card-header codesum"><span class="anchor" id="proc-num_inputs~3"></span> <h3>module procedure /home/runner/work/inference-engine/inference-engine/doc/html/module/neuron_s.html <a href='../proc/num_inputs~3.html'>num_inputs</a> <small>pure module function num_inputs(self) result(size_weights)</small>  
-    <a href="../interface/num_inputs~2.html"><button type="button" class="btn btn-info depwarn">Interface &rarr;</button></a>
-</h3></div>
-    <div class="card-body">
-          
-  
-
-  <h4>Arguments</h4>
-      <table class="table table-striped varlist">
-    <thead>
-      <tr>
-        <th scope="col">Type</th>
-<th scope="col">Intent</th><th scope="col">Optional</th>        <th scope="col">Attributes</th>
-        <th scope="col"></th>
-        <th scope="col">Name</th>
-        <th scope="col"></th>
-    </thead>
-    <tbody>
-        <tr>
-            <td>
-              <span class="anchor" id="variable-self~47"></span>
-              class(<a href='../type/neuron_t.html'>neuron_t</a>),
-            </td>
-<td>intent(in)</td>
-              <td></td>            <td>
-              
-            </td>
-            <td>::</td>
-            <td><strong>self</strong></td>
-            <td>
-
-            </td>
-        </tr>
-    </tbody>
-  </table>
-
-    <h4>
-    Return Value
-    <small>integer</small>
-    </h4>
-    
-
-    </div>
-  </div>
-
-              <div class="card">
-    <div class="card-header codesum"><span class="anchor" id="proc-to_json~5"></span> <h3>module procedure /home/runner/work/inference-engine/inference-engine/doc/html/module/neuron_s.html <a href='../proc/to_json~5.html'>to_json</a> <small>pure module function to_json(self) result(lines)</small>  
-    <a href="../interface/to_json~7.html"><button type="button" class="btn btn-info depwarn">Interface &rarr;</button></a>
-</h3></div>
-    <div class="card-body">
-          
-  
-
-  <h4>Arguments</h4>
-      <table class="table table-striped varlist">
-    <thead>
-      <tr>
-        <th scope="col">Type</th>
-<th scope="col">Intent</th><th scope="col">Optional</th>        <th scope="col">Attributes</th>
-        <th scope="col"></th>
-        <th scope="col">Name</th>
-        <th scope="col"></th>
-    </thead>
-    <tbody>
-        <tr>
-            <td>
-              <span class="anchor" id="variable-self~42"></span>
-              class(<a href='../type/neuron_t.html'>neuron_t</a>),
-            </td>
-<td>intent(in)</td>
-              <td></td>            <td>
-              
-            </td>
-            <td>::</td>
-            <td><strong>self</strong></td>
-            <td>
-
-            </td>
-        </tr>
-    </tbody>
-  </table>
-
-    <h4>
-    Return Value
-    <small>type(string_t), allocatable, (:)</small>
-    </h4>
-    
-
-    </div>
-  </div>
-
-              <div class="card">
-    <div class="card-header codesum"><span class="anchor" id="proc-weights"></span> <h3>module procedure /home/runner/work/inference-engine/inference-engine/doc/html/module/neuron_s.html <a href='../proc/weights.html'>weights</a> <small>module function weights(self) result(my_weights)</small>  
-    <a href="../interface/weights.html"><button type="button" class="btn btn-info depwarn">Interface &rarr;</button></a>
-</h3></div>
-    <div class="card-body">
-          
-  
-
-  <h4>Arguments</h4>
-      <table class="table table-striped varlist">
-    <thead>
-      <tr>
-        <th scope="col">Type</th>
-<th scope="col">Intent</th><th scope="col">Optional</th>        <th scope="col">Attributes</th>
-        <th scope="col"></th>
-        <th scope="col">Name</th>
-        <th scope="col"></th>
-    </thead>
-    <tbody>
-        <tr>
-            <td>
-              <span class="anchor" id="variable-self~43"></span>
-              class(<a href='../type/neuron_t.html'>neuron_t</a>),
-            </td>
-<td>intent(in)</td>
-              <td></td>            <td>
-              
-            </td>
-            <td>::</td>
-            <td><strong>self</strong></td>
-            <td>
-
-            </td>
-        </tr>
-    </tbody>
-  </table>
-
-    <h4>
-    Return Value
-    <small>real(kind=rkind), allocatable, (:)</small>
-    </h4>
-    
-
-    </div>
-  </div>
-
         </section>
     </div>
   </div>
@@ -757,7 +1185,7 @@ large graphs.</div>
         <div class="row justify-content-between">
           <div class="col">
             <p>
-              Inference-Engine
+              Fiats
  was developed by Berkeley Lab<br>              &copy; 2024 
 </p>
           </div>
@@ -765,7 +1193,7 @@ large graphs.</div>
             <p class="text-end">
               Documentation generated by
               <a href="https://github.com/Fortran-FOSS-Programmers/ford">FORD</a>
- on 2024-10-01 22:45              </p>
+ on 2024-10-17 00:07              </p>
           </div>
         </div>
         <br>

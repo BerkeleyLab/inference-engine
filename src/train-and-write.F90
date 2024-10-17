@@ -8,8 +8,8 @@ program train_and_write
   !! the desired network therefore contains weights corresponding to identity matrices and biases that vanish everywhere.
   !! The initial condition corresponds to the desired network with all weights and biases perturbed by a random variable
   !! that is uniformly distributed on the range [0,0.1].
-  use inference_engine_m, only : &
-    inference_engine_t, trainable_engine_t, mini_batch_t, tensor_t, input_output_pair_t, shuffle, relu_t
+  use fiats_m, only : &
+    neural_network_t, trainable_network_t, mini_batch_t, tensor_t, input_output_pair_t, shuffle
   use julienne_m, only : string_t, file_t, command_line_t, bin_t
   use assert_m, only : assert, intrinsic_array_t
   implicit none
@@ -30,17 +30,17 @@ program train_and_write
     type(mini_batch_t), allocatable :: mini_batches(:)
     type(input_output_pair_t), allocatable :: input_output_pairs(:)
     type(tensor_t), allocatable :: inputs(:)
-    type(trainable_engine_t)  trainable_engine
+    type(trainable_network_t)  trainable_network
     type(bin_t), allocatable :: bins(:)
     real, allocatable :: cost(:), random_numbers(:)
 
     call random_init(image_distinct=.true., repeatable=.true.)
-    trainable_engine = perturbed_identity_network(perturbation_magnitude=0.2)
-    call output(trainable_engine%to_inference_engine(), string_t("initial-network.json"))
+    trainable_network = perturbed_identity_network(perturbation_magnitude=0.2)
+    call output(trainable_network, string_t("initial-network.json"))
 
-    associate(num_inputs => trainable_engine%num_inputs(), num_outputs => trainable_engine%num_outputs())
+    associate(num_inputs => trainable_network%num_inputs(), num_outputs => trainable_network%num_outputs())
 
-      call assert(num_inputs == num_outputs,"trainable_engine_test_m(identity_mapping): # inputs == # outputs", &
+      call assert(num_inputs == num_outputs,"trainable_network_test_m(identity_mapping): # inputs == # outputs", &
         intrinsic_array_t([num_inputs, num_outputs]) &
       )
       block
@@ -64,7 +64,7 @@ program train_and_write
           call random_number(random_numbers)
           call shuffle(input_output_pairs)
           mini_batches = [(mini_batch_t(input_output_pairs(bins(b)%first():bins(b)%last())), b = 1, size(bins))]
-          call trainable_engine%train(mini_batches, cost, adam=.true., learning_rate=1.5)
+          call trainable_network%train(mini_batches, cost, adam=.true., learning_rate=1.5)
           print *,sum(cost)/size(cost)
         end do
       end block
@@ -74,14 +74,15 @@ program train_and_write
         integer p
 #if defined _CRAYFTN || __GFORTRAN__
         type(tensor_t), allocatable :: network_outputs(:)
-        network_outputs = trainable_engine%infer(inputs)
+        network_outputs = trainable_network%infer(inputs)
 #else
-        associate(network_outputs => trainable_engine%infer(inputs))
+        associate(network_outputs => trainable_network%infer(inputs))
 #endif
-          print "(a,62x,a,53x,a)", " Output", "| Desired outputs", "| Errors"
-
+          print "(a,43x,a,35x,a)", " Output", "| Desired outputs", "| Errors"
+          
           do p = 1, num_pairs
-            print *,network_outputs(p)%values(),"|", inputs(p)%values(), "|",  network_outputs(p)%values() - inputs(p)%values()
+            print "(2(3(G11.5,', '), G11.5, a), 3(G11.5,', '), G11.5)", &
+              network_outputs(p)%values(),"| ", inputs(p)%values(), "| ",  network_outputs(p)%values() - inputs(p)%values()
           end do
 #if defined _CRAYFTN || __GFORTRAN__
 #else
@@ -91,17 +92,17 @@ program train_and_write
 
    end associate
 
-   call output(trainable_engine%to_inference_engine(), final_network_file)
+   call output(trainable_network, final_network_file)
 
   end block
 
 contains
 
-  subroutine output(inference_engine, file_name)
-    type(inference_engine_t), intent(in) :: inference_engine
+  subroutine output(neural_network, file_name)
+    class(neural_network_t), intent(in) :: neural_network
     type(string_t), intent(in) :: file_name
     type(file_t) json_file
-    json_file = inference_engine%to_json()
+    json_file = neural_network%to_json()
     call json_file%write_lines(file_name)
   end subroutine
 
@@ -111,8 +112,8 @@ contains
     e_mn = real(merge(1,0,m==n))
   end function
 
-  function perturbed_identity_network(perturbation_magnitude) result(trainable_engine)
-    type(trainable_engine_t) trainable_engine
+  function perturbed_identity_network(perturbation_magnitude) result(trainable_network)
+    type(trainable_network_t) trainable_network
     real, intent(in) :: perturbation_magnitude
     integer, parameter :: nodes_per_layer(*) = [4, 4, 4, 4]
     integer, parameter :: max_n = maxval(nodes_per_layer), layers = size(nodes_per_layer)
@@ -129,11 +130,10 @@ contains
 
     associate(w => identity + perturbation_magnitude*(w_harvest-0.5)/0.5, b => perturbation_magnitude*(b_harvest-0.5)/0.5)
 
-      trainable_engine = trainable_engine_t( &
-        nodes = nodes_per_layer, weights = w, biases = b, differentiable_activation_strategy = relu_t(), &
-        metadata = &
-          [string_t("Perturbed Identity"), string_t("Damian Rouson"), string_t("2023-09-23"), string_t("relu"), string_t("false")] &
-      )
+      trainable_network = trainable_network_t( neural_network_t( &
+        nodes = nodes_per_layer, weights = w, biases = b, metadata = &
+          [string_t("Perturbed Identity"), string_t("Damian Rouson"), string_t("2024-10-13"), string_t("relu"), string_t("false")] &
+      ))
 
     end associate
 

@@ -4,9 +4,8 @@ program read_query_infer
   !! This program demonstrates how to read a neural network from a JSON file,
   !! query the network object for some of its properties, print those properties,
   !! and use the network to perform inference.  
-  use inference_engine_m, only : inference_engine_t, relu_t, tensor_t
+  use fiats_m, only : neural_network_t, tensor_t
   use julienne_m, only : string_t, command_line_t, file_t
-  use kind_parameters_m, only : rkind
   implicit none
 
   type(command_line_t) command_line
@@ -18,16 +17,16 @@ program read_query_infer
         'Usage: fpm run --example read-query -- --input-file "<file-name>"' 
     end if
 
-    print *, "Reading an inference_engine_t object from the same JSON file '"//file_name%string()//"'."
-    associate(inference_engine => inference_engine_t(file_t(file_name)))
+    print *, "Reading an neural_network_t object from the same JSON file '"//file_name%string()//"'."
+    associate(neural_network => neural_network_t(file_t(file_name)))
 
-      print *, "Querying the new inference_engine_t object for several properties:"
-      associate(activation_name => inference_engine%activation_function_name())
+      print *, "Querying the new neural_network_t object for several properties:"
+      associate(activation_name => neural_network%activation_function_name())
         print *, "Activation function: ", activation_name%string()
       end associate
-      print *, "Number of outputs:", inference_engine%num_outputs()
-      print *, "Number of inputs:", inference_engine%num_inputs()
-      print *, "Nodes per layer:", inference_engine%nodes_per_layer()
+      print *, "Number of outputs:", neural_network%num_outputs()
+      print *, "Number of inputs:", neural_network%num_inputs()
+      print *, "Nodes per layer:", neural_network%nodes_per_layer()
       print *, "Performing inference:"
 
       block
@@ -42,13 +41,13 @@ program read_query_infer
         do i = 1, num_tests
           call random_number(harvest)
           associate(inputs => tensor_t(tensor_min + (tensor_max-tensor_min)*harvest))
-            associate(outputs => inference_engine%infer(inputs))
+            associate(outputs => neural_network%infer(inputs))
               print '(2(2g12.5,a,2x))', inputs%values(), "|",  outputs%values()
             end associate
           end associate
         end do
 
       end block
-    end associate ! associate(inference_engine => ...)
+    end associate ! associate(neural_network => ...)
   end associate ! associate(file_name => ...)
 end program

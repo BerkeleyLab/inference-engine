@@ -6,11 +6,11 @@
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-      <meta name="description" content="A deep learning library targeting high-performance computing (HPC) applications with performance-critical inference and training needs.">
+      <meta name="description" content="Functional inference and training of surrogate models for computational science.">
     <meta name="author" content="Berkeley Lab" >
     <link rel="icon" href="../favicon.png">
 
-    <title>network_configuration_t &ndash; Inference-Engine </title>
+    <title>network_configuration_t &ndash; Fiats </title>
 
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet"
           integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
@@ -29,7 +29,7 @@
     <div class="container-fluid mb-sm-4 mb-xl-2">
       <nav class="navbar navbar-expand-lg navbar-dark bg-dark fixed-top">
         <div class="container">
-          <a class="navbar-brand" href="../index.html">Inference-Engine </a>
+          <a class="navbar-brand" href="../index.html">Fiats </a>
           <button type="button" class="navbar-toggler" data-bs-toggle="collapse" data-bs-target="#navbar"
                   aria-expanded="false" aria-controls="navbar" aria-label="Toggle navigation">
                   <span class="navbar-toggler-icon">
@@ -45,9 +45,6 @@
                 </li>
                 <li class="nav-item">
                   <a class="nav-link" href="../lists/procedures.html">Procedures</a>
-                </li>
-                <li class="nav-item">
-                  <a class="nav-link" href="../lists/absint.html">Abstract Interfaces</a>
                 </li>
                 <li class="nav-item">
                   <a class="nav-link" href="../lists/types.html">Derived Types</a>
@@ -79,7 +76,7 @@
 
             <li class="list-inline-item" id="statements"><i class="fa fa-list-ol"></i>
               <a data-bs-toggle="tooltip" data-bs-placement="bottom" data-bs-html="true"
-                 title="<p> 7.5% of total for derived types.</p>Including implementation: 13 statements,  6.0% of total for derived types.">27 statements</a>
+                 title="<p> 6.4% of total for derived types.</p>Including implementation: 13 statements,  5.5% of total for derived types.">32 statements</a>
             </li>
 
             <li class="list-inline-item" id="source-file">
@@ -159,12 +156,12 @@
       </a>
       <div id="boundprocs-0" class="collapse">
         <div class="list-group list-group-flush">
-            <a class="list-group-item" href="../type/network_configuration_t.html#boundprocedure-activation_name">activation_name</a>
-            <a class="list-group-item" href="../type/network_configuration_t.html#boundprocedure-equals~4">equals</a>
+            <a class="list-group-item" href="../type/network_configuration_t.html#boundprocedure-activation_name~2">activation_name</a>
+            <a class="list-group-item" href="../type/network_configuration_t.html#boundprocedure-equals">equals</a>
             <a class="list-group-item" href="../type/network_configuration_t.html#boundprocedure-nodes_per_layer~3">nodes_per_layer</a>
-            <a class="list-group-item" href="../type/network_configuration_t.html#boundprocedure-operator%28%3D%3D%29~4">operator(==)</a>
+            <a class="list-group-item" href="../type/network_configuration_t.html#boundprocedure-operator%28%3D%3D%29~2">operator(==)</a>
             <a class="list-group-item" href="../type/network_configuration_t.html#boundprocedure-skip_connections~2">skip_connections</a>
-            <a class="list-group-item" href="../type/network_configuration_t.html#boundprocedure-to_json~4">to_json</a>
+            <a class="list-group-item" href="../type/network_configuration_t.html#boundprocedure-to_json~2">to_json</a>
         </div>
       </div>
     </div>
@@ -355,7 +352,7 @@ large graphs.</div>
           <li class="list-group-item">
                 <h3>
     private pure module function from_components(skip_connections, nodes_per_layer, activation_name) result(network_configuration)  
-    <a href="../proc/from_components.html"><button type="button" class="btn btn-info depwarn">Implementation &rarr;</button></a>
+    <a href="../proc/from_components~2.html"><button type="button" class="btn btn-info depwarn">Implementation &rarr;</button></a>
 
     </h3>
   
@@ -403,7 +400,7 @@ large graphs.</div>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-activation_name~2"></span>
+              <span class="anchor" id="variable-activation_name~3"></span>
               character(len=*),
             </td>
 <td>intent(in)</td>
@@ -428,8 +425,8 @@ large graphs.</div>
           </li>
           <li class="list-group-item">
                 <h3>
-    private pure module function from_json(lines) result(network_configuration)  
-    <a href="../proc/from_json~2.html"><button type="button" class="btn btn-info depwarn">Implementation &rarr;</button></a>
+    private pure module function from_double_precision_string_json(lines) result(network_configuration)  
+    <a href="../proc/from_double_precision_string_json.html"><button type="button" class="btn btn-info depwarn">Implementation &rarr;</button></a>
 
     </h3>
   
@@ -447,7 +444,51 @@ large graphs.</div>
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-lines~6"></span>
+              <span class="anchor" id="variable-lines~2"></span>
+              type(<a href='double_precision_string_t.html'>double_precision_string_t</a>),
+            </td>
+<td>intent(in)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>lines</strong>(:)</td>
+            <td>
+                
+            </td>
+        </tr>
+    </tbody>
+  </table>
+
+    <h4>
+    Return Value
+    <small>type(<a href='network_configuration_t.html'>network_configuration_t</a>)</small>
+    </h4>
+    
+
+          </li>
+          <li class="list-group-item">
+                <h3>
+    private pure module function from_json(lines) result(network_configuration)  
+    <a href="../proc/from_json~3.html"><button type="button" class="btn btn-info depwarn">Implementation &rarr;</button></a>
+
+    </h3>
+  
+
+  <h4>Arguments</h4>
+      <table class="table table-striped varlist">
+    <thead>
+      <tr>
+        <th scope="col">Type</th>
+<th scope="col">Intent</th><th scope="col">Optional</th>        <th scope="col">Attributes</th>
+        <th scope="col"></th>
+        <th scope="col">Name</th>
+        <th scope="col"></th>
+    </thead>
+    <tbody>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-lines"></span>
               type(string_t),
             </td>
 <td>intent(in)</td>
@@ -482,7 +523,7 @@ large graphs.</div>
           <div class="row">
               <div class="card mt-3">
     <div class="card-header codesum">
-      <span class="anchor" id="boundprocedure-activation_name"></span>
+      <span class="anchor" id="boundprocedure-activation_name~2"></span>
       <h3>
           procedure, public ::
   <strong>activation_name</strong>
@@ -494,7 +535,7 @@ large graphs.</div>
               <h3>interface </h3>
                   <h3>
     private elemental module function activation_name(self) result(string)  
-    <a href="../proc/activation_name.html"><button type="button" class="btn btn-info depwarn">Implementation &rarr;</button></a>
+    <a href="../proc/activation_name~2.html"><button type="button" class="btn btn-info depwarn">Implementation &rarr;</button></a>
 </h3>
 
   
@@ -542,7 +583,7 @@ large graphs.</div>
           <div class="row">
               <div class="card mt-3">
     <div class="card-header codesum">
-      <span class="anchor" id="boundprocedure-equals~4"></span>
+      <span class="anchor" id="boundprocedure-equals"></span>
       <h3>
           procedure, public ::
   <strong>equals</strong>
@@ -554,7 +595,7 @@ large graphs.</div>
               <h3>interface </h3>
                   <h3>
     private elemental module function equals(lhs, rhs) result(lhs_equals_rhs)  
-    <a href="../proc/equals~2.html"><button type="button" class="btn btn-info depwarn">Implementation &rarr;</button></a>
+    <a href="../proc/equals~4.html"><button type="button" class="btn btn-info depwarn">Implementation &rarr;</button></a>
 </h3>
 
   
@@ -677,17 +718,17 @@ large graphs.</div>
           <div class="row">
               <div class="card mt-3">
     <div class="card-header codesum">
-      <span class="anchor" id="boundprocedure-operator%28%3D%3D%29~4"></span>
+      <span class="anchor" id="boundprocedure-operator%28%3D%3D%29~2"></span>
       <h3>
           generic, public ::
-  <strong>operator(==)</strong> => <a href='/home/runner/work/inference-engine/inference-engine/doc/html/type/network_configuration_t.html#boundprocedure-equals~4'>equals</a>
+  <strong>operator(==)</strong> => <a href='/home/runner/work/inference-engine/inference-engine/doc/html/type/network_configuration_t.html#boundprocedure-equals'>equals</a>
         
       </h3>
     </div>
     <ul class="list-group">
         <li class="list-group-item">
                   <h3>
-    private  interface <a href='../interface/equals~4.html'>equals</a>()  
+    private  interface <a href='../interface/equals.html'>equals</a>()  
 </h3>
     
 
@@ -764,7 +805,7 @@ large graphs.</div>
           <div class="row">
               <div class="card mt-3">
     <div class="card-header codesum">
-      <span class="anchor" id="boundprocedure-to_json~4"></span>
+      <span class="anchor" id="boundprocedure-to_json~2"></span>
       <h3>
           procedure, public ::
   <strong>to_json</strong>
@@ -834,7 +875,7 @@ large graphs.</div>
         <div class="row justify-content-between">
           <div class="col">
             <p>
-              Inference-Engine
+              Fiats
  was developed by Berkeley Lab<br>              &copy; 2024 
 </p>
           </div>
@@ -842,7 +883,7 @@ large graphs.</div>
             <p class="text-end">
               Documentation generated by
               <a href="https://github.com/Fortran-FOSS-Programmers/ford">FORD</a>
- on 2024-10-01 22:45              </p>
+ on 2024-10-17 00:07              </p>
           </div>
         </div>
         <br>
