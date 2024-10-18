@@ -23,7 +23,43 @@ module NetCDF_variable_m
     procedure, private, non_overridable :: default_real_rank, double_precision_rank
     generic :: operator(-)              => default_real_subtract, double_precision_subtract
     procedure, private, non_overridable :: default_real_subtract, double_precision_subtract
+    generic :: operator(/)              => default_real_divide, double_precision_divide
+    procedure, private, non_overridable :: default_real_divide, double_precision_divide
+    generic :: assignment(=)            => default_real_assign, double_precision_assign
+    procedure, private, non_overridable :: default_real_assign, double_precision_assign
   end type
+
+  interface NetCDF_variable_t
+
+    elemental module function default_real_copy(source, rename) result(NetCDF_variable)
+      implicit none
+      type(NetCDF_variable_t), intent(in) :: source
+      type(string_t), intent(in), optional :: rename
+      type(NetCDF_variable_t) NetCDF_variable
+    end function
+
+    elemental module function default_real_copy_character_name(source, rename) result(NetCDF_variable)
+      implicit none
+      type(NetCDF_variable_t), intent(in) :: source
+      character(len=*), intent(in), optional :: rename
+      type(NetCDF_variable_t) NetCDF_variable
+    end function
+ 
+    elemental module function double_precision_copy(source, rename) result(NetCDF_variable)
+      implicit none
+      type(NetCDF_variable_t(double_precision)), intent(in) :: source
+      type(string_t), intent(in), optional :: rename
+      type(NetCDF_variable_t(double_precision)) NetCDF_variable
+    end function
+
+    elemental module function double_precision_copy_character_name(source, rename) result(NetCDF_variable)
+      implicit none
+      type(NetCDF_variable_t(double_precision)), intent(in) :: source
+      character(len=*), intent(in), optional :: rename
+      type(NetCDF_variable_t(double_precision)) NetCDF_variable
+    end function
+ 
+  end interface
 
   interface
 
@@ -92,8 +128,32 @@ module NetCDF_variable_m
     elemental module function double_precision_subtract(lhs, rhs) result(difference)
       implicit none
       class(NetCDF_variable_t(double_precision)), intent(in) :: lhs, rhs
-      type(NetCDF_variable_t) difference
+      type(NetCDF_variable_t(double_precision)) difference
     end function
+
+    elemental module function default_real_divide(lhs, rhs) result(ratio)
+      implicit none
+      class(NetCDF_variable_t), intent(in) :: lhs, rhs
+      type(NetCDF_variable_t) ratio
+    end function
+
+    elemental module function double_precision_divide(lhs, rhs) result(ratio)
+      implicit none
+      class(NetCDF_variable_t(double_precision)), intent(in) :: lhs, rhs
+      type(NetCDF_variable_t(double_precision)) ratio
+    end function
+
+    elemental module subroutine default_real_assign(lhs, rhs)
+      implicit none
+      class(NetCDF_variable_t), intent(inout) :: lhs
+      type(NetCDF_variable_t), intent(in) :: rhs
+    end subroutine
+
+    elemental module subroutine double_precision_assign(lhs, rhs)
+      implicit none
+      class(NetCDF_variable_t(double_precision)), intent(inout) :: lhs
+      type(NetCDF_variable_t(double_precision)), intent(in) :: rhs
+    end subroutine
 
   end interface
 

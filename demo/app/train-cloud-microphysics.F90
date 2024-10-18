@@ -22,13 +22,13 @@ program train_cloud_microphysics
   use NetCDF_variable_m, only: NetCDF_variable_t
   implicit none
 
-  character(len=*), parameter :: usage =                                                  new_line('a') // new_line('a') // &
-    'Usage: ' //                                                                          new_line('a') // new_line('a') // &
-    './build/run-fpm.sh run train-cloud-microphysics -- \'                                              // new_line('a') // &
-    '  --base <string> --epochs <integer> \'                                                            // new_line('a') // &
+  character(len=*), parameter :: usage =                                                        new_line('a') // new_line('a') // &
+    'Usage: ' //                                                                                new_line('a') // new_line('a') // &
+    './build/run-fpm.sh run train-cloud-microphysics -- \'                                                    // new_line('a') // &
+    '  --base <string> --epochs <integer> \'                                                                  // new_line('a') // &
     '  [--start <integer>] [--end <integer>] [--stride <integer>] [--bins <integer>] [--report <integer>] [--tolerance <real>]'// &
-                                                                                          new_line('a') // new_line('a') // &
-    'where angular brackets denote user-provided values and square brackets denote optional arguments.' // new_line('a') // &
+                                                                                                new_line('a') // new_line('a') // &
+    'where angular brackets denote user-provided values and square brackets denote optional arguments.'       // new_line('a') // &
     'The presence of a file named "stop" halts execution gracefully.'
 
   type command_line_arguments_t 
@@ -249,20 +249,26 @@ contains
 
         end associate
       end associate
-    end associate
 
-    block
-      type(NetCDF_variable_t) derivative(size(output_variable))
-    end block
+      block
+        type(NetCDF_variable_t) derivative(size(output_variable))
+
+        print *,"Calculating time derivatives"
+
+        associate(dt => NetCDF_variable_t(output_time - input_time, "dt"))
+          do v = 1, size(derivative)
+            associate(derivative_name => "d" // output_names(v)%string() // "/dt")
+              print *,"- " // derivative_name
+              derivative(v) = NetCDF_variable_t( input_variable(v) - output_variable(v) / dt, derivative_name)
+            end associate
+          end do
+        end associate
+      end block
+
+    end associate
 
     !t_end = size(time_in)
 
-    !allocate(dpt_dt, mold = potential_temperature_out)
-    !allocate(dqv_dt, mold = qv_out)
-    !allocate(dqc_dt, mold = qc_out)
-    !allocate(dqr_dt, mold = qr_out)
-    !allocate(dqs_dt, mold = qs_out)
-       
     !associate(dt => real(time_out - time_in))
     !  do concurrent(t = 1:t_end)
     !    dpt_dt(:,:,:,t) = (potential_temperature_out(:,:,:,t) - potential_temperature_in(:,:,:,t))/dt(t)

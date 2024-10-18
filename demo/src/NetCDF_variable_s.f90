@@ -22,6 +22,60 @@ submodule(NetCDF_variable_m) NetCDF_variable_s
 
 contains
 
+  module procedure default_real_copy
+
+    if (present(rename)) then
+      NetCDF_variable%name_ = rename
+    else
+      NetCDF_variable%name_ = source%name_
+    end if
+
+    select case(source%rank())
+    case (1)
+      NetCDF_variable%values_1D_ = source%values_1D_
+    case (2)
+      NetCDF_variable%values_2D_ = source%values_2D_
+    case (3)
+      NetCDF_variable%values_3D_ = source%values_3D_
+    case (4)
+      NetCDF_variable%values_4D_ = source%values_4D_
+    case default
+      error stop 'NetCDF_variable_s(default_real_copy): unsupported rank'
+    end select 
+
+  end procedure
+
+  module procedure default_real_copy_character_name
+    NetCDF_variable = default_real_copy(source, string_t(rename))
+  end procedure
+  
+  module procedure double_precision_copy
+
+    if (present(rename)) then
+      NetCDF_variable%name_ = rename
+    else
+      NetCDF_variable%name_ = source%name_
+    end if
+
+    select case(source%rank())
+    case (1)
+      NetCDF_variable%values_1D_ = source%values_1D_
+    case (2)
+      NetCDF_variable%values_2D_ = source%values_2D_
+    case (3)
+      NetCDF_variable%values_3D_ = source%values_3D_
+    case (4)
+      NetCDF_variable%values_4D_ = source%values_4D_
+    case default
+      error stop 'NetCDF_variable_s(double_precision_copy): unsupported rank'
+    end select 
+
+  end procedure
+
+  module procedure double_precision_copy_character_name
+    NetCDF_variable = double_precision_copy(source, string_t(rename))
+  end procedure
+  
   module procedure default_real_input
     self%name_ = variable_name
     select case (rank)
@@ -204,6 +258,90 @@ contains
     case default
       error stop "NetCDF_variable_s(double_precision_subtract): unsupported rank)"
     end select
+  end procedure
+
+  module procedure default_real_divide
+
+    integer t
+
+    call assert(rhs%rank()==1, "NetCDF_variable_s(default_real_divide): rhs%rank()==1")
+
+    associate(t_end => size(rhs%values_1D_))
+
+      select case(lhs%rank())
+      case(4)
+
+        call assert(size(rhs%values_1D_) == size(lhs%values_4D_,4), "NetCDF_variable_s(default_real_divide): conformable numerator/denominator")
+        allocate(ratio%values_4D_, mold = lhs%values_4D_)
+
+        do concurrent(t = 1:t_end)
+          ratio%values_4D_(:,:,:,t) = lhs%values_4D_(:,:,:,t) / rhs%values_1D_(t)
+        end do
+
+      case default
+        error stop "NetCDF_variable_s(default_real_divide): unsupported lhs rank)"
+      end select
+
+    end associate
+
+  end procedure
+
+  module procedure double_precision_divide
+
+    integer t
+
+    call assert(rhs%rank()==1, "NetCDF_variable_s(double_precision_divide): rhs%rank()==1")
+
+    associate(t_end => size(rhs%values_1D_))
+
+      select case(lhs%rank())
+      case(4)
+
+        call assert(size(rhs%values_1D_) == size(lhs%values_4D_,4), "NetCDF_variable_s(double_precision_divide): conformable numerator/denominator")
+        allocate(ratio%values_4D_, mold = lhs%values_4D_)
+
+        do concurrent(t = 1:t_end)
+          ratio%values_4D_(:,:,:,t) = lhs%values_4D_(:,:,:,t) / rhs%values_1D_(t)
+        end do
+
+      case default
+        error stop "NetCDF_variable_s(double_precision_divide): unsupported lhs rank)"
+      end select
+
+    end associate
+
+  end procedure
+
+  module procedure default_real_assign
+    select case(rhs%rank())
+    case(1)
+      lhs%values_1D_ = rhs%values_1D_
+    case(2)
+      lhs%values_2D_ = rhs%values_2D_
+    case(3)
+      lhs%values_3D_ = rhs%values_3D_
+    case(4)
+      lhs%values_4D_ = rhs%values_4D_
+    case default
+      error stop "NetCDF_variable_s(default_real_assign): unsupported rank)"
+    end select
+    call assert(lhs%rank()==rhs%rank(), "NetCDF_variable_s(default_real_assign): ranks match)")
+  end procedure
+
+  module procedure double_precision_assign
+    select case(rhs%rank())
+    case(1)
+      lhs%values_1D_ = rhs%values_1D_
+    case(2)
+      lhs%values_2D_ = rhs%values_2D_
+    case(3)
+      lhs%values_3D_ = rhs%values_3D_
+    case(4)
+      lhs%values_4D_ = rhs%values_4D_
+    case default
+      error stop "NetCDF_variable_s(double_precision_assign): unsupported rank)"
+    end select
+    call assert(lhs%rank()==rhs%rank(), "NetCDF_variable_s(double_precision_assign): ranks match)")
   end procedure
 
 end submodule NetCDF_variable_s
