@@ -15,6 +15,5 @@ module fiats_m
  use tensor_map_m, only : tensor_map_t
  use trainable_network_m, only : trainable_network_t
  use training_configuration_m, only : training_configuration_t
- use ubounds_m, only : ubounds_t
  implicit none
 end module fiats_m

@@ -20,7 +20,6 @@ program train_cloud_microphysics
   use phase_space_bin_m, only : phase_space_bin_t
   use NetCDF_file_m, only: NetCDF_file_t
   use NetCDF_variable_m, only: NetCDF_variable_t
-  use ubounds_m, only : ubounds_t
   implicit none
 
   character(len=*), parameter :: usage =                                                  new_line('a') // new_line('a') // &
@@ -193,7 +192,6 @@ contains
       qv_out, qc_out, qr_out, qs_out, &
       qv_in , qc_in , qr_in , qs_in , &
       dpt_dt, dqv_dt, dqc_dt, dqr_dt, dqs_dt
-    type(ubounds_t), allocatable :: ubounds(:)
     double precision, allocatable, dimension(:) :: time_in, time_out
     integer, allocatable :: lbounds(:)
     integer t, b, t_end, i
@@ -227,11 +225,6 @@ contains
         do i = 2, size(input_variable)
           call assert(input_variable(i)%conformable_with(input_variable(1)), "train_cloud_microphysics: variables conformance")
         end do
-
-        !ubounds = &
-        !  [ubounds_t(ubound(qv_in)), ubounds_t(ubound(qc_in)), ubounds_t(ubound(qr_in)), ubounds_t(ubound(qs_in)), &
-        !   ubounds_t(ubound(pressure_in)), ubounds_t(ubound(temperature_in)) &
-        !  ]
 
       end associate
     end associate
