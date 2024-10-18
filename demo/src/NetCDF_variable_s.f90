@@ -21,6 +21,11 @@ submodule(NetCDF_variable_m) NetCDF_variable_s
     module procedure double_precision_upper_bounds
   end interface
 
+  interface default_if_not_present
+    module procedure default_integer_if_not_present
+    module procedure default_real_if_not_present
+  end interface
+
 contains
 
   module procedure default_real_copy
@@ -147,6 +152,36 @@ contains
       call assert(count(allocation_vector) == 1, "NetCDF_variable_s(double_precision_rank): allocation count")
       my_rank = findloc(allocation_vector, .true., dim=1)
     end associate
+  end procedure
+
+  module procedure default_real_end_step
+    select case(self%rank())
+    case(1)
+      end_step = ubound(self%values_1D_,1)
+    case(2)
+      end_step = ubound(self%values_2D_,2)
+    case(3)
+      end_step = ubound(self%values_3D_,3)
+    case(4)
+      end_step = ubound(self%values_4D_,4)
+    case default
+      error stop "NetCDF_variable_s(default_real_end_step): unsupported rank"
+    end select
+  end procedure
+
+  module procedure double_precision_end_step
+    select case(self%rank())
+    case(1)
+      end_step = ubound(self%values_1D_,1)
+    case(2)
+      end_step = ubound(self%values_2D_,2)
+    case(3)
+      end_step = ubound(self%values_3D_,3)
+    case(4)
+      end_step = ubound(self%values_4D_,4)
+    case default
+      error stop "NetCDF_variable_s(double_precision_end_step): unsupported rank"
+    end select
   end procedure
 
   pure function default_real_lower_bounds(NetCDF_variable) result(lbounds)
@@ -376,5 +411,148 @@ contains
       error stop "NetCDF_variable_s(double_precision_any_nan): unsupported rank)"
     end select
   end procedure
+
+  module procedure tensors
+
+    integer t_start, t_end, t_stride
+
+    select case(NetCDF_variables(1)%rank())
+    case(4)
+
+      t_start  = default_if_not_present(1, step_start )
+      t_stride = default_if_not_present(1, step_stride)
+      t_end    = default_if_not_present(size(NetCDF_variables(1)%values_4D_,4), step_end)
+
+      associate( longitudes => size(NetCDF_variables(1)%values_4D_,1) &
+                ,latitudes  => size(NetCDF_variables(1)%values_4D_,2) &
+                ,levels     => size(NetCDF_variables(1)%values_4D_,3) &
+      )
+        block
+          integer v, lon, lat, lev, time
+
+          tensors = [( [( [( [( tensor_t( [( NetCDF_variables(v)%values_4D_(lon,lat,lev,time),  v=1,size(NetCDF_variables) )] ), &
+                                lon = 1, longitudes)], lat = 1, latitudes)], lev = 1, levels)], time = t_start, t_end, t_stride)]
+        end block
+      end associate    
+
+    case default
+      error stop "NetCDF_variable_s(tensors): unsupported rank)"
+    end select
+
+  end procedure
+
+  module procedure default_real_end_time
+    select case(self%rank())
+    case (1)
+      end_time = size(self%values_1D_,1)
+    case (2)
+      end_time = size(self%values_2D_,2)
+    case (3)
+      end_time = size(self%values_3D_,3)
+    case (4)
+      end_time = size(self%values_4D_,4)
+    case default
+      error stop 'NetCDF_variable_s(default_real_end_time): unsupported rank'
+    end select 
+  end procedure
+
+  module procedure double_precision_end_time
+    select case(self%rank())
+    case (1)
+      end_time = size(self%values_1D_,1)
+    case (2)
+      end_time = size(self%values_2D_,2)
+    case (3)
+      end_time = size(self%values_3D_,3)
+    case (4)
+      end_time = size(self%values_4D_,4)
+    case default
+      error stop 'NetCDF_variable_s(double_precision_end_time): unsupported rank'
+    end select 
+  end procedure
+
+  module procedure default_real_minimum
+    select case(self%rank())
+    case (1)
+      minimum = minval(self%values_1D_)
+    case (2)
+      minimum = minval(self%values_2D_)
+    case (3)
+      minimum = minval(self%values_3D_)
+    case (4)
+      minimum = minval(self%values_4D_)
+    case default
+      error stop 'NetCDF_variable_s(default_real_minimum): unsupported rank'
+    end select 
+  end procedure
+
+  module procedure double_precision_minimum
+    select case(self%rank())
+    case (1)
+      minimum = minval(self%values_1D_)
+    case (2)
+      minimum = minval(self%values_2D_)
+    case (3)
+      minimum = minval(self%values_3D_)
+    case (4)
+      minimum = minval(self%values_4D_)
+    case default
+      error stop 'NetCDF_variable_s(double_precision_minimum): unsupported rank'
+    end select 
+  end procedure
+
+  module procedure default_real_maximum
+    select case(self%rank())
+    case (1)
+      maximum = maxval(self%values_1D_)
+    case (2)
+      maximum = maxval(self%values_2D_)
+    case (3)
+      maximum = maxval(self%values_3D_)
+    case (4)
+      maximum = maxval(self%values_4D_)
+    case default
+      error stop 'NetCDF_variable_s(default_real_maximum): unsupported rank'
+    end select 
+  end procedure
+
+  module procedure double_precision_maximum
+    select case(self%rank())
+    case (1)
+      maximum = maxval(self%values_1D_)
+    case (2)
+      maximum = maxval(self%values_2D_)
+    case (3)
+      maximum = maxval(self%values_3D_)
+    case (4)
+      maximum = maxval(self%values_4D_)
+    case default
+      error stop 'NetCDF_variable_s(double_precision_maximum): unsupported rank'
+    end select 
+  end procedure
+
+  pure function default_integer_if_not_present(default_value, optional_argument) result(set_value)
+    integer, intent(in) :: default_value
+    integer, intent(in), optional :: optional_argument
+    integer set_value
+    
+    if (present(optional_argument)) then
+      set_value = optional_argument
+    else
+      set_value = default_value
+    end if
+  end function
+
+  pure function default_real_if_not_present(default_value, optional_argument) result(set_value)
+    real, intent(in) :: default_value
+    real, intent(in), optional :: optional_argument
+    real set_value
+    
+    if (present(optional_argument)) then
+      set_value = optional_argument
+    else
+      set_value = default_value
+    end if
+  end function
 
 end submodule NetCDF_variable_s

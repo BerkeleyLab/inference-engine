@@ -4,10 +4,12 @@ module NetCDF_variable_m
   use NetCDF_file_m, only : NetCDF_file_t
   use kind_parameters_m, only : default_real, double_precision
   use julienne_m, only : string_t
+  use fiats_m, only : tensor_t
   implicit none
 
   private
   public :: NetCDF_variable_t
+  public :: tensors
 
   type NetCDF_variable_t(k)
     integer, kind :: k = default_real
@@ -19,16 +21,22 @@ module NetCDF_variable_m
     procedure, private, non_overridable :: default_real_input, double_precision_input, default_real_input_character_name, double_precision_input_character_name
     generic :: conformable_with         => default_real_conformable_with, double_precision_conformable_with
     procedure, private, non_overridable :: default_real_conformable_with, double_precision_conformable_with
-    generic :: rank                     => default_real_rank, double_precision_rank
-    procedure, private, non_overridable :: default_real_rank, double_precision_rank
-    generic :: any_nan                  => default_real_any_nan, double_precision_any_nan
-    procedure, private, non_overridable :: default_real_any_nan, double_precision_any_nan
-    generic :: operator(-)              => default_real_subtract, double_precision_subtract
-    procedure, private, non_overridable :: default_real_subtract, double_precision_subtract
-    generic :: operator(/)              => default_real_divide, double_precision_divide
-    procedure, private, non_overridable :: default_real_divide, double_precision_divide
-    generic :: assignment(=)            => default_real_assign, double_precision_assign
-    procedure, private, non_overridable :: default_real_assign, double_precision_assign
+    generic :: rank                     => default_real_rank            , double_precision_rank
+    procedure, private, non_overridable :: default_real_rank            , double_precision_rank
+    generic :: end_step                 => default_real_end_step        , double_precision_end_step
+    procedure, private, non_overridable :: default_real_end_step        , double_precision_end_step
+    generic :: any_nan                  => default_real_any_nan         , double_precision_any_nan
+    procedure, private, non_overridable :: default_real_any_nan         , double_precision_any_nan
+    generic :: minimum                  => default_real_minimum         , double_precision_minimum
+    procedure, private, non_overridable :: default_real_minimum         , double_precision_minimum
+    generic :: maximum                  => default_real_maximum         , double_precision_maximum
+    procedure, private, non_overridable :: default_real_maximum         , double_precision_maximum
+    generic :: operator(-)              => default_real_subtract        , double_precision_subtract
+    procedure, private, non_overridable :: default_real_subtract        , double_precision_subtract
+    generic :: operator(/)              => default_real_divide          , double_precision_divide
+    procedure, private, non_overridable :: default_real_divide          , double_precision_divide
+    generic :: assignment(=)            => default_real_assign          , double_precision_assign
+    procedure, private, non_overridable :: default_real_assign          , double_precision_assign
   end type
 
   interface NetCDF_variable_t
@@ -121,6 +129,18 @@ module NetCDF_variable_m
       integer my_rank
     end function
 
+    elemental module function default_real_end_step(self) result(end_step)
+      implicit none
+      class(NetCDF_variable_t), intent(inout) :: self
+      integer end_step
+    end function
+
+    elemental module function double_precision_end_step(self) result(end_step)
+      implicit none
+      class(NetCDF_variable_t(double_precision)), intent(inout) :: self
+      integer end_step
+    end function
+
     elemental module function default_real_subtract(lhs, rhs) result(difference)
       implicit none
       class(NetCDF_variable_t), intent(in) :: lhs, rhs
@@ -167,6 +187,49 @@ module NetCDF_variable_m
       implicit none
       class(NetCDF_variable_t(double_precision)), intent(in) :: self
       logical any_nan
+    end function
+
+    elemental module function default_real_minimum(self) result(minimum)
+      implicit none
+      class(NetCDF_variable_t), intent(in) :: self
+      real minimum
+    end function
+
+    elemental module function double_precision_minimum(self) result(minimum)
+      implicit none
+      class(NetCDF_variable_t(double_precision)), intent(in) :: self
+      real minimum
+    end function
+
+    elemental module function default_real_maximum(self) result(maximum)
+      implicit none
+      class(NetCDF_variable_t), intent(in) :: self
+      real maximum
+    end function
+
+    elemental module function double_precision_maximum(self) result(maximum)
+      implicit none
+      class(NetCDF_variable_t(double_precision)), intent(in) :: self
+      real maximum
+    end function
+
+    module function tensors(NetCDF_variables, step_start, step_end, step_stride)
+      implicit none
+      type(NetCDF_variable_t), intent(in) :: NetCDF_variables(:)
+      type(tensor_t), allocatable :: tensors(:)
+      integer, optional :: step_start, step_end, step_stride
+    end function
+
+    elemental module function default_real_end_time(self) result(end_time)
+      implicit none
+      class(NetCDF_variable_t), intent(inout) :: self
+      integer end_time
+    end function
+
+    elemental module function double_precision_end_time(self) result(end_time)
+      implicit none
+      class(NetCDF_variable_t), intent(inout) :: self
+      integer end_time
     end function
 
   end interface

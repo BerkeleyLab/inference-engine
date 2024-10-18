@@ -18,7 +18,7 @@ program train_cloud_microphysics
   !! Internal dependencies:
   use phase_space_bin_m, only : phase_space_bin_t
   use NetCDF_file_m, only: NetCDF_file_t
-  use NetCDF_variable_m, only: NetCDF_variable_t
+  use NetCDF_variable_m, only: NetCDF_variable_t, tensors
   implicit none
 
   character(len=*), parameter :: usage =                                                        new_line('a') // new_line('a') // &
@@ -31,7 +31,7 @@ program train_cloud_microphysics
     'The presence of a file named "stop" halts execution gracefully.'
 
   type command_line_arguments_t 
-    integer num_epochs, start_step, stride, num_bins, report_interval
+    integer num_epochs, start_step, stride, num_bins, report_step
     integer, allocatable :: end_step
     character(len=:), allocatable :: base_name
     real cost_tolerance
@@ -105,7 +105,7 @@ contains
       base_name, epochs_string, start_string, end_string, stride_string, bins_string, report_string, tolerance_string
     real cost_tolerance
     integer, allocatable :: end_step
-    integer num_epochs, num_bins, start_step, stride, report_interval
+    integer num_epochs, num_bins, start_step, stride, report_step
 
     base_name = command_line%flag_value("--base") ! gfortran 13 seg faults if this is an association
     epochs_string = command_line%flag_value("--epochs")
@@ -122,54 +122,24 @@ contains
 
     read(epochs_string,*) num_epochs
 
-    if (len(stride_string)==0) then
-      stride = 1
-    else
-      read(stride_string,*) stride
-    end if
-
-    if (len(start_string)==0) then
-      start_step = 1
-    else
-      read(start_string,*) start_step
-    end if
-
-    if (len(report_string)==0) then
-      report_interval = 1
-    else
-      read(report_string,*) report_interval
-    end if
-
-    if (len(bins_string)/=0) then
-      read(bins_string,*) num_bins
-    else
-      num_bins = 1
-    end if
+    stride         = default_integer_or_read(1,    stride_string)
+    start_step     = default_integer_or_read(1,     start_string)
+    report_step    = default_integer_or_read(1,    report_string)
+    num_bins       = default_integer_or_read(1,      bins_string)
+    cost_tolerance = default_real_or_read(5E-8, tolerance_string)
 
     if (len(end_string)/=0) then
       allocate(end_step)
       read(end_string,*) end_step
     end if
  
-    if (len(start_string)==0) then
-      start_step = 1
-    else
-      read(start_string,*) start_step
-    end if
-
-    if (len(tolerance_string)==0) then
-      cost_tolerance = 5.0E-08
-    else
-      read(tolerance_string,*) cost_tolerance
-    end if
-
     if (allocated(end_step)) then 
       command_line_arguments = command_line_arguments_t( &
-        num_epochs, start_step, stride, num_bins, report_interval, end_step, base_name, cost_tolerance &
+        num_epochs, start_step, stride, num_bins, report_step, end_step, base_name, cost_tolerance &
       )
     else
       command_line_arguments = command_line_arguments_t( &
-        num_epochs, start_step, stride, num_bins, report_interval, null(), base_name, cost_tolerance &
+        num_epochs, start_step, stride, num_bins, report_step, null(), base_name, cost_tolerance &
       )
     end if
     
@@ -194,15 +164,17 @@ contains
       enumerator :: dpotential_temperature_t=1, dqv_dt, dqc_dt, dqr_dt, dqs_dt
     end enum
 
-    associate(input_names => &
-      [string_t("pressure"), string_t("potential_temperature"), string_t("temperature"), &
-       string_t("qv"), string_t("qc"), string_t("qr"), string_t("qs")] &
-    )
+    !associate(input_names => &
+    !  [string_t("pressure"), string_t("potential_temperature"), string_t("temperature"), &
+    !   string_t("qv"), string_t("qc"), string_t("qr"), string_t("qs")] &
+    !)
+    associate(input_names => [string_t("qv"), string_t("qc")])
+    
       allocate(input_variable(size(input_names)))
 
       associate(input_file_name => args%base_name // "_input.nc")
 
-        print *,"Reading network inputs from " // input_file_name 
+        print *,"Reading physics-based model inputs from " // input_file_name 
 
         associate(input_file => netCDF_file_t(input_file_name))
 
@@ -222,13 +194,14 @@ contains
       end associate
     end associate
 
-    associate(output_names => [string_t("potential_temperature"),string_t("qv"), string_t("qc"), string_t("qr"), string_t("qs")])
+    !associate(output_names => [string_t("potential_temperature"),string_t("qv"), string_t("qc"), string_t("qr"), string_t("qs")])
+    associate(output_names => [string_t("qv"), string_t("qc")])
 
       allocate(output_variable(size(output_names)))
 
       associate(output_file_name => args%base_name // "_output.nc")
 
-        print *,"Reading network outputs from " // output_file_name 
+        print *,"Reading physics-based model outputs from " // output_file_name 
 
         associate(output_file => netCDF_file_t(output_file_name))
 
@@ -252,7 +225,7 @@ contains
       block
         type(NetCDF_variable_t) derivative(size(output_variable))
 
-        print *,"Calculating time derivatives"
+        print *,"Calculating desired neural-network model outputs"
 
         associate(dt => NetCDF_variable_t(output_time - input_time, "dt"))
           do v = 1, size(derivative)
@@ -275,45 +248,33 @@ contains
         type(input_output_pair_t), allocatable :: input_output_pairs(:)
         type(tensor_t), allocatable, dimension(:) :: inputs, outputs
         real, allocatable :: cost(:)
-        integer i, lon, lat, level, time, network_unit, io_status, epoch, end_step
+        integer i, network_unit, io_status, epoch, end_step
         integer(int64) start_training, finish_training
        
         associate( network_file => args%base_name // "_network.json")
       
         open(newunit=network_unit, file=network_file, form='formatted', status='old', iostat=io_status, action='read')
        
-    !    if (allocated(args%end_step)) then
-    !      end_step = args%end_step
-    !    else
-    !      end_step = t_end
-    !    end if
+        if (allocated(args%end_step)) then
+          end_step = args%end_step
+        else
+          end_step = input_variable(1)%end_step()
+        end if
        
-    !    print *,"Defining tensors from time step", args%start_step, "through", end_step, "with strides of", args%stride
+        print *,"Defining input tensors starting from time step", args%start_step, "through", end_step, "with strides of", args%stride
+        inputs  = tensors(input_variable,  step_start = args%start_step, step_end = end_step, step_stride = args%stride)
+
+        print *,"Defining output tensors starting from time step", args%start_step, "through", end_step, "with strides of", args%stride
+        outputs = tensors(output_variable, step_start = args%start_step, step_end = end_step, step_stride = args%stride)
        
-    !    ! The following temporary copies are required by gfortran bug 100650 and possibly 49324
-    !    ! See https://gcc.gnu.org/bugzilla/show_bug.cgi?id=100650 and https://gcc.gnu.org/bugzilla/show_bug.cgi?id=49324
-    !    inputs = [( [( [( [( &
-    !      tensor_t( &
-    !      [ pressure_in(lon,lat,level,time), potential_temperature_in(lon,lat,level,time), temperature_in(lon,lat,level,time), &
-    !        qv_in(lon,lat,level,time), qc_in(lon,lat,level,time), qr_in(lon,lat,level,time), qs_in(lon,lat,level,time) &
-    !      ] &
-    !      ), lon = 1, size(qv_in,1))], lat = 1, size(qv_in,2))], level = 1, size(qv_in,3))], &
-    !      time = args%start_step, end_step, args%stride)]
-       
-    !    outputs = [( [( [( [( &
-    !      tensor_t( &
-    !        [dpt_dt(lon,lat,level,time), dqv_dt(lon,lat,level,time), dqc_dt(lon,lat,level,time), dqr_dt(lon,lat,level,time), &
-    !         dqs_dt(lon,lat,level,time) &
-    !        ] &
-    !      ), lon = 1, size(qv_in,1))], lat = 1, size(qv_in,2))], level = 1, size(qv_in,3))], &
-    !      time = args%start_step, end_step, args%stride)]
-       
-    !    print *,"Calculating output tensor component ranges."
-    !    output_extrema: &
-    !    associate( &
-    !      output_minima => [minval(dpt_dt), minval(dqv_dt), minval(dqc_dt), minval(dqr_dt), minval(dqs_dt)], &
-    !      output_maxima => [maxval(dpt_dt), maxval(dqv_dt), maxval(dqc_dt), maxval(dqr_dt), maxval(dqs_dt)] &
-    !    )
+        print *,"Calculating output tensor component ranges."
+        tensor_extrema: &
+        associate( &
+           input_minima  => [(  input_variable(v)%minimum(), v=1,size( input_variable) )] &
+          ,input_maxima  => [(  input_variable(v)%maximum(), v=1,size( input_variable) )] &
+          ,output_minima => [( output_variable(v)%minimum(), v=1,size(output_variable) )] &
+          ,output_maxima => [( output_variable(v)%maximum(), v=1,size(output_variable) )] &
+        )
     !      output_map: &
     !      associate( output_map => tensor_map_t(layer = "outputs", minima = output_minima, maxima = output_maxima))
     !        read_or_initialize_network: &
@@ -376,7 +337,7 @@ contains
     !                 " in ", count(occupied)," out of ", size(occupied, kind=int64), " bins."
     !      end block
     !    end associate output_map
-    !  end associate output_extrema
+      end associate tensor_extrema
 
     !  print *,"Normalizing the remaining input and output tensors"
     !  input_output_pairs = trainable_network%map_to_training_ranges(input_output_pairs)
@@ -423,7 +384,7 @@ contains
       !            associate(converged => average_cost <= args%cost_tolerance)
 
       !              image_1_maybe_writes: &
-      !              if (me==1 .and. any([converged, epoch==[first_epoch,last_epoch], mod(epoch,args%report_interval)==0])) then
+      !              if (me==1 .and. any([converged, epoch==[first_epoch,last_epoch], mod(epoch,args%report_step)==0])) then
 
       !                print *, epoch, average_cost
       !                write(plot_file%plot_unit,*) epoch, average_cost
@@ -470,5 +431,31 @@ contains
     !close(plot_file%plot_unit)
 
   end subroutine read_train_write
+
+  pure function default_integer_or_read(default, string) result(set_value)
+    integer, intent(in) :: default
+    character(len=*), intent(in) :: string
+    integer set_value
+    
+    if (len(string)==0) then
+      set_value = default
+    else
+      read(string,*) set_value
+    end if
+
+  end function
+
+  pure function default_real_or_read(default, string) result(set_value)
+    real, intent(in) :: default
+    character(len=*), intent(in) :: string
+    real set_value
+    
+    if (len(string)==0) then
+      set_value = default
+    else
+      read(string,*) set_value
+    end if
+
+  end function
 
 end program train_cloud_microphysics
