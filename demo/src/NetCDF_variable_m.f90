@@ -21,6 +21,8 @@ module NetCDF_variable_m
     procedure, private, non_overridable :: default_real_conformable_with, double_precision_conformable_with
     generic :: rank                     => default_real_rank, double_precision_rank
     procedure, private, non_overridable :: default_real_rank, double_precision_rank
+    generic :: operator(-)              => default_real_subtract, double_precision_subtract
+    procedure, private, non_overridable :: default_real_subtract, double_precision_subtract
   end type
 
   interface
@@ -79,6 +81,18 @@ module NetCDF_variable_m
       implicit none
       class(NetCDF_variable_t(double_precision)), intent(in) :: self
       integer my_rank
+    end function
+
+    elemental module function default_real_subtract(lhs, rhs) result(difference)
+      implicit none
+      class(NetCDF_variable_t), intent(in) :: lhs, rhs
+      type(NetCDF_variable_t) difference
+    end function
+
+    elemental module function double_precision_subtract(lhs, rhs) result(difference)
+      implicit none
+      class(NetCDF_variable_t(double_precision)), intent(in) :: lhs, rhs
+      type(NetCDF_variable_t) difference
     end function
 
   end interface

@@ -2,7 +2,7 @@
 ! Terms of use are as specified in LICENSE.txt
 submodule(NetCDF_variable_m) NetCDF_variable_s
   use kind_parameters_m, only : default_real
-  use assert_m, only : assert
+  use assert_m, only : assert, intrinsic_array_t
   implicit none
 
   interface components_allocated
@@ -65,13 +65,19 @@ contains
   pure function default_real_components_allocated(NetCDF_variable) result(allocation_vector)
     type(NetCDF_variable_t), intent(in) :: NetCDF_variable
     logical, allocatable :: allocation_vector(:)
-    allocation_vector = [allocated(NetCDF_variable%values_1D_), allocated(NetCDF_variable%values_4D_)]
+    allocation_vector = [ allocated(NetCDF_variable%values_1D_) &
+                         ,allocated(NetCDF_variable%values_2D_) &
+                         ,allocated(NetCDF_variable%values_3D_) &
+                         ,allocated(NetCDF_variable%values_4D_) ]
   end function
 
   pure function double_precision_components_allocated(NetCDF_variable) result(allocation_vector)
     type(NetCDF_variable_t(double_precision)), intent(in) :: NetCDF_variable
     logical, allocatable :: allocation_vector(:)
-    allocation_vector = [allocated(NetCDF_variable%values_1D_), allocated(NetCDF_variable%values_4D_)]
+    allocation_vector = [ allocated(NetCDF_variable%values_1D_) &
+                         ,allocated(NetCDF_variable%values_2D_) &
+                         ,allocated(NetCDF_variable%values_3D_) &
+                         ,allocated(NetCDF_variable%values_4D_) ]
   end function
 
   module procedure default_real_rank
@@ -157,40 +163,47 @@ contains
   end function
 
   module procedure default_real_conformable_with
-
-    if (self%rank() /= NetCDF_variable%rank()) then
-      conformable = .false.
-      return
-    end if
-
-    if (any(lower_bounds(self) /= lower_bounds(NetCDF_variable))) then
-      conformable = .false.
-      return
-    end if
-
-    if (any(upper_bounds(self) /= upper_bounds(NetCDF_variable))) then
-      conformable = .false.
-      return
-    end if
-
-    conformable = .true.
-
+    conformable = all([ self%rank()        == NetCDF_variable%rank()         &
+                       ,lower_bounds(self) == lower_bounds(NetCDF_variable)  &
+                       ,upper_bounds(self) == upper_bounds(NetCDF_variable) ]) 
   end procedure
 
   module procedure double_precision_conformable_with
+    conformable = all([ self%rank()        == NetCDF_variable%rank()         &
+                       ,lower_bounds(self) == lower_bounds(NetCDF_variable)  &
+                       ,upper_bounds(self) == upper_bounds(NetCDF_variable) ]) 
+  end procedure
 
-    if (self%rank() /= NetCDF_variable%rank()) then
-      conformable = .false.
-      return
-    end if
+  module procedure default_real_subtract
+    call assert(lhs%conformable_with(rhs), "NetCDF_variable_s(default_real_subtract): lhs%conformable_with(rhs)")
+    select case(lhs%rank())
+    case(1)
+      difference%values_1D_ = lhs%values_1D_ - rhs%values_1D_
+    case(2)
+      difference%values_2D_ = lhs%values_2D_ - rhs%values_2D_
+    case(3)
+      difference%values_3D_ = lhs%values_3D_ - rhs%values_3D_
+    case(4)
+      difference%values_4D_ = lhs%values_4D_ - rhs%values_4D_
+    case default
+      error stop "NetCDF_variable_s(default_real_subtract): unsupported rank)"
+    end select
+  end procedure
 
-    if (any(lower_bounds(self) /= lower_bounds(NetCDF_variable))) then
-      conformable = .false.
-      return
-    end if
-
-    conformable = .true.
-
+  module procedure double_precision_subtract
+    call assert(lhs%conformable_with(rhs), "NetCDF_variable_s(double_precision_subtract): lhs%conformable_with(rhs)")
+    select case(lhs%rank())
+    case(1)
+      difference%values_1D_ = lhs%values_1D_ - rhs%values_1D_
+    case(2)
+      difference%values_2D_ = lhs%values_2D_ - rhs%values_2D_
+    case(3)
+      difference%values_3D_ = lhs%values_3D_ - rhs%values_3D_
+    case(4)
+      difference%values_4D_ = lhs%values_4D_ - rhs%values_4D_
+    case default
+      error stop "NetCDF_variable_s(double_precision_subtract): unsupported rank)"
+    end select
   end procedure
 
 end submodule NetCDF_variable_s

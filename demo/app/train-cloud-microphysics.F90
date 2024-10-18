@@ -183,228 +183,233 @@ contains
     type(NetCDF_variable_t), allocatable :: input_variable(:), output_variable(:)
     type(NetCDF_variable_t) input_time, output_time
 
-    type(string_t), allocatable :: names(:)
-
     ! local variables:
-    real, allocatable, dimension(:,:,:,:) :: &
-      pressure_in , potential_temperature_in , temperature_in , &
-      pressure_out, potential_temperature_out, temperature_out, &
-      qv_out, qc_out, qr_out, qs_out, &
-      qv_in , qc_in , qr_in , qs_in , &
-      dpt_dt, dqv_dt, dqc_dt, dqr_dt, dqs_dt
-    double precision, allocatable, dimension(:) :: time_in, time_out
-    integer, allocatable :: lbounds(:)
-    integer t, b, t_end, i
+    integer t, b, t_end, v
     logical stop_requested
 
     enum, bind(C)
       enumerator :: pressure=1, potential_temperature, temperature, qv, qc, qr, qs
     end enum
 
-    names = [ &
-       string_t("pressure"), string_t("potential_temperature"), string_t("temperature") &
-      ,string_t("qv"), string_t("qc"), string_t("qr"), string_t("qs") &
-    ]
-    allocate(input_variable(size(names)))
-    allocate(output_variable(size(names)))
+    enum, bind(C)
+      enumerator :: dpotential_temperature_t=1, dqv_dt, dqc_dt, dqr_dt, dqs_dt
+    end enum
 
-    associate( network_file => args%base_name // "_network.json", network_input => args%base_name // "_input.nc")
-      print *,"Reading network inputs from " // network_input
-      associate(network_input_file => netCDF_file_t(network_input))
+    associate(input_names => &
+      [string_t("pressure"), string_t("potential_temperature"), string_t("temperature"), &
+       string_t("qv"), string_t("qc"), string_t("qr"), string_t("qs")] &
+    )
+      allocate(input_variable(size(input_names)))
 
-        do i=1, size(names)
-          print *,"- reading ", names(i)%string()
-          call input_variable(i)%input(names(i), network_input_file, rank=4)
-        end do
+      associate(input_file_name => args%base_name // "_input.nc")
 
-        print *,"- reading time"
-        call input_time%input("time", network_input_file, rank=1)
+        print *,"Reading network inputs from " // input_file_name 
 
-        t_end = size(time_in)
+        associate(input_file => netCDF_file_t(input_file_name))
 
-        do i = 2, size(input_variable)
-          call assert(input_variable(i)%conformable_with(input_variable(1)), "train_cloud_microphysics: variables conformance")
-        end do
+          do v=1, size(input_variable) 
+            print *,"- reading ", input_names(v)%string()
+            call input_variable(v)%input(input_names(v), input_file, rank=4)
+          end do
 
+          do v = 2, size(input_variable)
+            call assert(input_variable(v)%conformable_with(input_variable(1)), "train_cloud_microphysics: input variable conformance")
+          end do
+
+          print *,"- reading time"
+          call input_time%input("time", input_file, rank=1)
+
+        end associate
       end associate
     end associate
 
-      !associate(network_output => args%base_name // "_output.nc")
-      !  print *,"Reading network outputs from " // network_output
-      !  associate(network_output_file => netCDF_file_t(network_output))
-      !    call network_output_file%input("potential_temperature", potential_temperature_out)
-      !    call network_output_file%input("qv", qv_out)
-      !    call network_output_file%input("qc", qc_out)
-      !    call network_output_file%input("qr", qr_out)
-      !    call network_output_file%input("qs", qs_out)
-      !    call network_output_file%input("time", time_out)
-      !    lbounds = [lbounds, lbound(qv_out), lbound(qc_out), lbound(qr_out), lbound(qs_out)]
-      !    ubounds = [ubounds, ubounds_t(ubound(qv_out)), ubounds_t(ubound(qc_out)), &
-      !      ubounds_t(ubound(qr_out)), ubounds_t(ubound(qs_out))]
-      !    call assert(all(lbounds == 1), "main: default input/output lower bounds", intrinsic_array_t(lbounds))
-      !    call assert(all(ubounds == ubounds(1)), "main: matching input/output upper bounds")
-      !    block
-      !      double precision, parameter :: time_tolerance = 1.E-07
-      !      associate(matching_time_stamps => all(abs(time_in(2:t_end) - time_out(1:t_end-1))<time_tolerance))
-      !        call assert(matching_time_stamps, "main: matching time stamps")
-      !      end associate
-      !    end block
-      !  end associate
-      !end associate
+    associate(output_names => [string_t("potential_temperature"),string_t("qv"), string_t("qc"), string_t("qr"), string_t("qs")])
 
-      !print *,"Calculating time derivatives"
-  
-      !allocate(dpt_dt, mold = potential_temperature_out)
-      !allocate(dqv_dt, mold = qv_out)
-      !allocate(dqc_dt, mold = qc_out)
-      !allocate(dqr_dt, mold = qr_out)
-      !allocate(dqs_dt, mold = qs_out)
+      allocate(output_variable(size(output_names)))
 
-      !associate(dt => real(time_out - time_in))
-      !  do concurrent(t = 1:t_end)
-      !    dpt_dt(:,:,:,t) = (potential_temperature_out(:,:,:,t) - potential_temperature_in(:,:,:,t))/dt(t)
-      !    dqv_dt(:,:,:,t) = (qv_out(:,:,:,t)- qv_in(:,:,:,t))/dt(t)
-      !    dqc_dt(:,:,:,t) = (qc_out(:,:,:,t)- qc_in(:,:,:,t))/dt(t)
-      !    dqr_dt(:,:,:,t) = (qr_out(:,:,:,t)- qr_in(:,:,:,t))/dt(t)
-      !    dqs_dt(:,:,:,t) = (qs_out(:,:,:,t)- qs_in(:,:,:,t))/dt(t)
-      !  end do
-      !end associate
+      associate(output_file_name => args%base_name // "_output.nc")
 
-      !call assert(.not. any(ieee_is_nan(dpt_dt)), ".not. any(ieee_is_nan(dpt_dt)")
-      !call assert(.not. any(ieee_is_nan(dqv_dt)), ".not. any(ieee_is_nan(dqv_dt)")
-      !call assert(.not. any(ieee_is_nan(dqc_dt)), ".not. any(ieee_is_nan(dqc_dt)")
-      !call assert(.not. any(ieee_is_nan(dqr_dt)), ".not. any(ieee_is_nan(dqr_dt)")
-      !call assert(.not. any(ieee_is_nan(dqs_dt)), ".not. any(ieee_is_nan(dqs_dt)")
+        print *,"Reading network outputs from " // output_file_name 
 
-      !train_network: &
-      !block
-      !  type(trainable_network_t) trainable_network
-      !  type(mini_batch_t), allocatable :: mini_batches(:)
-      !  type(bin_t), allocatable :: bins(:)
-      !  type(input_output_pair_t), allocatable :: input_output_pairs(:)
-      !  type(tensor_t), allocatable, dimension(:) :: inputs, outputs
-      !  real, allocatable :: cost(:)
-      !  integer i, lon, lat, level, time, network_unit, io_status, epoch, end_step
-      !  integer(int64) start_training, finish_training
+        associate(output_file => netCDF_file_t(output_file_name))
 
-      !  open(newunit=network_unit, file=network_file, form='formatted', status='old', iostat=io_status, action='read')
+          do v=1, size(output_variable)
+            print *,"- reading ", output_names(v)%string()
+            call output_variable(v)%input(output_names(v), output_file, rank=4)
+          end do
 
-      !  if (allocated(args%end_step)) then
-      !    end_step = args%end_step
-      !  else
-      !    end_step = t_end
-      !  end if
+          do v = 1, size(output_variable)
+            call assert(output_variable(v)%conformable_with(input_variable(1)), "train_cloud_microphysics: output variable conformance")
+          end do
 
-      !  print *,"Defining tensors from time step", args%start_step, "through", end_step, "with strides of", args%stride
+          print *,"- reading time"
+          call output_time%input("time", output_file, rank=1)
 
-      !  ! The following temporary copies are required by gfortran bug 100650 and possibly 49324
-      !  ! See https://gcc.gnu.org/bugzilla/show_bug.cgi?id=100650 and https://gcc.gnu.org/bugzilla/show_bug.cgi?id=49324
-      !  inputs = [( [( [( [( &
-      !    tensor_t( &
-      !    [ pressure_in(lon,lat,level,time), potential_temperature_in(lon,lat,level,time), temperature_in(lon,lat,level,time), &
-      !      qv_in(lon,lat,level,time), qc_in(lon,lat,level,time), qr_in(lon,lat,level,time), qs_in(lon,lat,level,time) &
-      !    ] &
-      !    ), lon = 1, size(qv_in,1))], lat = 1, size(qv_in,2))], level = 1, size(qv_in,3))], &
-      !    time = args%start_step, end_step, args%stride)]
- 
-      !  outputs = [( [( [( [( &
-      !    tensor_t( &
-      !      [dpt_dt(lon,lat,level,time), dqv_dt(lon,lat,level,time), dqc_dt(lon,lat,level,time), dqr_dt(lon,lat,level,time), &
-      !       dqs_dt(lon,lat,level,time) &
-      !      ] &
-      !    ), lon = 1, size(qv_in,1))], lat = 1, size(qv_in,2))], level = 1, size(qv_in,3))], &
-      !    time = args%start_step, end_step, args%stride)]
+          call assert(output_time%conformable_with(input_time), "train_cloud_microphysics: input/output time conformance")
 
-      !  print *,"Calculating output tensor component ranges."
-      !  output_extrema: &
-      !  associate( &
-      !    output_minima => [minval(dpt_dt), minval(dqv_dt), minval(dqc_dt), minval(dqr_dt), minval(dqs_dt)], &
-      !    output_maxima => [maxval(dpt_dt), maxval(dqv_dt), maxval(dqc_dt), maxval(dqr_dt), maxval(dqs_dt)] &
-      !  )
-      !    output_map: &
-      !    associate( output_map => tensor_map_t(layer = "outputs", minima = output_minima, maxima = output_maxima))
-      !      read_or_initialize_network: &
-      !      if (io_status==0) then
-      !        print *,"Reading network from file " // network_file
-      !        trainable_network = trainable_network_t(neural_network_t(file_t(string_t(network_file))))
-      !        close(network_unit)
-      !      else
-      !        close(network_unit)
+        end associate
+      end associate
+    end associate
 
-      !        initialize_network: &
-      !        block
-      !          character(len=len('YYYYMMDD')) date
+    block
+      type(NetCDF_variable_t) derivative(size(output_variable))
+    end block
 
-      !          call date_and_time(date)
+    !t_end = size(time_in)
 
-      !          print *,"Calculating input tensor component ranges."
-      !          associate( &
-      !            input_map => tensor_map_t( &
-      !              layer  = "inputs", &
-      !              minima = [minval(pressure_in), minval(potential_temperature_in), minval(temperature_in), &
-      !                minval(qv_in), minval(qc_in), minval(qr_in), minval(qs_in)], &
-      !              maxima = [maxval(pressure_in), maxval(potential_temperature_in), maxval(temperature_in), &
-      !                maxval(qv_in), maxval(qc_in), maxval(qr_in), maxval(qs_in)] &
-      !          ) )
-      !            associate(activation => training_configuration%differentiable_activation())
-      !              associate(residual_network=> string_t(trim(merge("true ", "false", training_configuration%skip_connections()))))
-      !                trainable_network = trainable_network_t( &
-      !                  training_configuration,  &
-      !                  perturbation_magnitude = 0.05, &
-      !                  metadata = [ &
-      !                    string_t("Simple microphysics"), string_t("train-on-flat-dist"), string_t(date), &
-      !                    activation%function_name(), residual_network &
-      !                  ], input_map = input_map, output_map = output_map &
-      !                )
-      !              end associate
-      !            end associate
-      !          end associate ! input_map, date_string
-      !        end block initialize_network
-      !      end if read_or_initialize_network
+    !allocate(dpt_dt, mold = potential_temperature_out)
+    !allocate(dqv_dt, mold = qv_out)
+    !allocate(dqc_dt, mold = qc_out)
+    !allocate(dqr_dt, mold = qr_out)
+    !allocate(dqs_dt, mold = qs_out)
+       
+    !associate(dt => real(time_out - time_in))
+    !  do concurrent(t = 1:t_end)
+    !    dpt_dt(:,:,:,t) = (potential_temperature_out(:,:,:,t) - potential_temperature_in(:,:,:,t))/dt(t)
+    !    dqv_dt(:,:,:,t) = (qv_out(:,:,:,t)- qv_in(:,:,:,t))/dt(t)
+    !    dqc_dt(:,:,:,t) = (qc_out(:,:,:,t)- qc_in(:,:,:,t))/dt(t)
+    !    dqr_dt(:,:,:,t) = (qr_out(:,:,:,t)- qr_in(:,:,:,t))/dt(t)
+    !    dqs_dt(:,:,:,t) = (qs_out(:,:,:,t)- qs_in(:,:,:,t))/dt(t)
+    !  end do
+    !end associate
+     
+    !call assert(.not. any(ieee_is_nan(dpt_dt)), ".not. any(ieee_is_nan(dpt_dt)")
+    !call assert(.not. any(ieee_is_nan(dqv_dt)), ".not. any(ieee_is_nan(dqv_dt)")
+    !call assert(.not. any(ieee_is_nan(dqc_dt)), ".not. any(ieee_is_nan(dqc_dt)")
+    !call assert(.not. any(ieee_is_nan(dqr_dt)), ".not. any(ieee_is_nan(dqr_dt)")
+    !call assert(.not. any(ieee_is_nan(dqs_dt)), ".not. any(ieee_is_nan(dqs_dt)")
+     
+    !train_network: &
+    !block
+    !    type(trainable_network_t) trainable_network
+    !    type(mini_batch_t), allocatable :: mini_batches(:)
+    !    type(bin_t), allocatable :: bins(:)
+    !    type(input_output_pair_t), allocatable :: input_output_pairs(:)
+    !    type(tensor_t), allocatable, dimension(:) :: inputs, outputs
+    !    real, allocatable :: cost(:)
+    !    integer i, lon, lat, level, time, network_unit, io_status, epoch, end_step
+    !    integer(int64) start_training, finish_training
+       
+    !    associate( network_file => args%base_name // "_network.json")
+       
+    !    open(newunit=network_unit, file=network_file, form='formatted', status='old', iostat=io_status, action='read')
+       
+    !    if (allocated(args%end_step)) then
+    !      end_step = args%end_step
+    !    else
+    !      end_step = t_end
+    !    end if
+       
+    !    print *,"Defining tensors from time step", args%start_step, "through", end_step, "with strides of", args%stride
+       
+    !    ! The following temporary copies are required by gfortran bug 100650 and possibly 49324
+    !    ! See https://gcc.gnu.org/bugzilla/show_bug.cgi?id=100650 and https://gcc.gnu.org/bugzilla/show_bug.cgi?id=49324
+    !    inputs = [( [( [( [( &
+    !      tensor_t( &
+    !      [ pressure_in(lon,lat,level,time), potential_temperature_in(lon,lat,level,time), temperature_in(lon,lat,level,time), &
+    !        qv_in(lon,lat,level,time), qc_in(lon,lat,level,time), qr_in(lon,lat,level,time), qs_in(lon,lat,level,time) &
+    !      ] &
+    !      ), lon = 1, size(qv_in,1))], lat = 1, size(qv_in,2))], level = 1, size(qv_in,3))], &
+    !      time = args%start_step, end_step, args%stride)]
+       
+    !    outputs = [( [( [( [( &
+    !      tensor_t( &
+    !        [dpt_dt(lon,lat,level,time), dqv_dt(lon,lat,level,time), dqc_dt(lon,lat,level,time), dqr_dt(lon,lat,level,time), &
+    !         dqs_dt(lon,lat,level,time) &
+    !        ] &
+    !      ), lon = 1, size(qv_in,1))], lat = 1, size(qv_in,2))], level = 1, size(qv_in,3))], &
+    !      time = args%start_step, end_step, args%stride)]
+       
+    !    print *,"Calculating output tensor component ranges."
+    !    output_extrema: &
+    !    associate( &
+    !      output_minima => [minval(dpt_dt), minval(dqv_dt), minval(dqc_dt), minval(dqr_dt), minval(dqs_dt)], &
+    !      output_maxima => [maxval(dpt_dt), maxval(dqv_dt), maxval(dqc_dt), maxval(dqr_dt), maxval(dqs_dt)] &
+    !    )
+    !      output_map: &
+    !      associate( output_map => tensor_map_t(layer = "outputs", minima = output_minima, maxima = output_maxima))
+    !        read_or_initialize_network: &
+    !        if (io_status==0) then
+    !          print *,"Reading network from file " // network_file
+    !          trainable_network = trainable_network_t(neural_network_t(file_t(string_t(network_file))))
+    !          close(network_unit)
+    !        else
+    !          close(network_unit)
+       
+    !          initialize_network: &
+    !          block
+    !            character(len=len('YYYYMMDD')) date
+       
+    !            call date_and_time(date)
+       
+    !            print *,"Calculating input tensor component ranges."
+    !            associate( &
+    !              input_map => tensor_map_t( &
+    !                layer  = "inputs", &
+    !                minima = [minval(pressure_in), minval(potential_temperature_in), minval(temperature_in), &
+    !                  minval(qv_in), minval(qc_in), minval(qr_in), minval(qs_in)], &
+    !                maxima = [maxval(pressure_in), maxval(potential_temperature_in), maxval(temperature_in), &
+    !                  maxval(qv_in), maxval(qc_in), maxval(qr_in), maxval(qs_in)] &
+    !            ) )
+    !              associate(activation => training_configuration%differentiable_activation())
+    !                associate(residual_network=> string_t(trim(merge("true ", "false", training_configuration%skip_connections()))))
+    !                  trainable_network = trainable_network_t( &
+    !                    training_configuration,  &
+    !                    perturbation_magnitude = 0.05, &
+    !                    metadata = [ &
+    !                      string_t("Simple microphysics"), string_t("train-on-flat-dist"), string_t(date), &
+    !                      activation%function_name(), residual_network &
+    !                    ], input_map = input_map, output_map = output_map &
+    !                  )
+    !                end associate
+    !              end associate
+    !            end associate ! input_map, date_string
+    !          end block initialize_network
+    !        end if read_or_initialize_network
+       
+    !        print *, "Conditionally sampling for a flat distribution of output values"
+    !        block
+    !          integer i
+    !          logical occupied(argsnum_bins, args%num_bins, args%num_bins, args%num_bins, args%num_bins)
+    !          logical keepers(size(outputs))
+    !          type(phase_space_bin_t), allocatable :: bin(:)
+    !          occupied = .false.
+    !          keepers = .false.
 
-      !      print *, "Conditionally sampling for a flat distribution of output values"
-      !      block
-      !        integer i
-      !        logical occupied(args%num_bins, args%num_bins, args%num_bins, args%num_bins, args%num_bins)
-      !        logical keepers(size(outputs))
-      !        type(phase_space_bin_t), allocatable :: bin(:)
-      !        occupied = .false.
-      !        keepers = .false.
+    !        bin = [(phase_space_bin_t(outputs(i), output_minima, output_maxima, args%num_bins), i=1,size(outputs))]
 
-      !        bin = [(phase_space_bin_t(outputs(i), output_minima, output_maxima, args%num_bins), i=1,size(outputs))]
+    !        do i = 1, size(outputs)
+    !          if (occupied(bin(i)%loc(1),bin(i)%loc(2),bin(i)%loc(3),bin(i)%loc(4),bin(i)%loc(5))) cycle
+    !          occupied(bin(i)%loc(1),bin(i)%loc(2),bin(i)%loc(3),bin(i)%loc(4),bin(i)%loc(5)) = .true.
+    !          keepers(i) = .true.
+    !        end do
+    !        input_output_pairs = input_output_pair_t(pack(inputs, keepers), pack(outputs, keepers))
+    !        print *, "Kept ", size(input_output_pairs), " out of ", size(outputs, kind=int64), " input/output pairs " // &
+    !                 " in ", count(occupied)," out of ", size(occupied, kind=int64), " bins."
+    !      end block
+    !    end associate output_map
+    !  end associate output_extrema
 
-      !        do i = 1, size(outputs)
-      !          if (occupied(bin(i)%loc(1),bin(i)%loc(2),bin(i)%loc(3),bin(i)%loc(4),bin(i)%loc(5))) cycle
-      !          occupied(bin(i)%loc(1),bin(i)%loc(2),bin(i)%loc(3),bin(i)%loc(4),bin(i)%loc(5)) = .true.
-      !          keepers(i) = .true.
-      !        end do
-      !        input_output_pairs = input_output_pair_t(pack(inputs, keepers), pack(outputs, keepers))
-      !        print *, "Kept ", size(input_output_pairs), " out of ", size(outputs, kind=int64), " input/output pairs " // &
-      !                 " in ", count(occupied)," out of ", size(occupied, kind=int64), " bins."
-      !      end block
-      !    end associate output_map
-      !  end associate output_extrema
+    !  print *,"Normalizing the remaining input and output tensors"
+    !  input_output_pairs = trainable_network%map_to_training_ranges(input_output_pairs)
 
-      !  print *,"Normalizing the remaining input and output tensors"
-      !  input_output_pairs = trainable_network%map_to_training_ranges(input_output_pairs)
+    !  associate( &
+    !    num_pairs => size(input_output_pairs), &
+    !    n_bins => training_configuration%mini_batches(), &
+    !    adam => merge(.true., .false., training_configuration%optimizer_name() == "adam"), &
+    !    learning_rate => training_configuration%learning_rate() &
+    !  )
+    !    bins = [(bin_t(num_items=num_pairs, num_bins=n_bins, bin_number=b), b = 1, n_bins)]
 
-      !  associate( &
-      !    num_pairs => size(input_output_pairs), &
-      !    n_bins => training_configuration%mini_batches(), &
-      !    adam => merge(.true., .false., training_configuration%optimizer_name() == "adam"), &
-      !    learning_rate => training_configuration%learning_rate() &
-      !  )
-      !    bins = [(bin_t(num_items=num_pairs, num_bins=n_bins, bin_number=b), b = 1, n_bins)]
+    !    print *,"Training network"
+    !    print *, "       Epoch  Cost (avg)"
 
-      !    print *,"Training network"
-      !    print *, "       Epoch  Cost (avg)"
-
-      !    call system_clock(start_training)
-      !  
-      !    train_write_and_maybe_exit: &
-      !    block
-      !      integer first_epoch
-      !      integer me
+    !    call system_clock(start_training)
+    !  
+    !    train_write_and_maybe_exit: &
+    !    block
+    !      integer first_epoch
+    !      integer me
 
 
 #if defined(MULTI_IMAGE_SUPPORT)
@@ -471,8 +476,8 @@ contains
       !  print *,"Training time: ", real(finish_training - start_training, real64)/real(clock_rate, real64),"for", &
       !    args%num_epochs,"epochs"
 
+        !end associate ! network_file
       !end block train_network
-    !end associate ! network_file
 
     !close(plot_file%plot_unit)
 
