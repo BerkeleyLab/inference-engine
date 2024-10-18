@@ -6,7 +6,6 @@ program train_cloud_microphysics
   !! https://github.com/BerkeleyLab/icar.
 
   !! Intrinic modules :
-  use ieee_arithmetic, only : ieee_is_nan
   use iso_fortran_env, only : int64, real64
 
   !! External dependencies:
@@ -260,6 +259,7 @@ contains
             associate(derivative_name => "d" // output_names(v)%string() // "/dt")
               print *,"- " // derivative_name
               derivative(v) = NetCDF_variable_t( input_variable(v) - output_variable(v) / dt, derivative_name)
+              call assert(.not. derivative(v)%any_nan(), "train_cloud_microhphysics: non NaN's")
             end associate
           end do
         end associate
@@ -267,38 +267,20 @@ contains
 
     end associate
 
-    !t_end = size(time_in)
-
-    !associate(dt => real(time_out - time_in))
-    !  do concurrent(t = 1:t_end)
-    !    dpt_dt(:,:,:,t) = (potential_temperature_out(:,:,:,t) - potential_temperature_in(:,:,:,t))/dt(t)
-    !    dqv_dt(:,:,:,t) = (qv_out(:,:,:,t)- qv_in(:,:,:,t))/dt(t)
-    !    dqc_dt(:,:,:,t) = (qc_out(:,:,:,t)- qc_in(:,:,:,t))/dt(t)
-    !    dqr_dt(:,:,:,t) = (qr_out(:,:,:,t)- qr_in(:,:,:,t))/dt(t)
-    !    dqs_dt(:,:,:,t) = (qs_out(:,:,:,t)- qs_in(:,:,:,t))/dt(t)
-    !  end do
-    !end associate
-     
-    !call assert(.not. any(ieee_is_nan(dpt_dt)), ".not. any(ieee_is_nan(dpt_dt)")
-    !call assert(.not. any(ieee_is_nan(dqv_dt)), ".not. any(ieee_is_nan(dqv_dt)")
-    !call assert(.not. any(ieee_is_nan(dqc_dt)), ".not. any(ieee_is_nan(dqc_dt)")
-    !call assert(.not. any(ieee_is_nan(dqr_dt)), ".not. any(ieee_is_nan(dqr_dt)")
-    !call assert(.not. any(ieee_is_nan(dqs_dt)), ".not. any(ieee_is_nan(dqs_dt)")
-     
-    !train_network: &
-    !block
-    !    type(trainable_network_t) trainable_network
-    !    type(mini_batch_t), allocatable :: mini_batches(:)
-    !    type(bin_t), allocatable :: bins(:)
-    !    type(input_output_pair_t), allocatable :: input_output_pairs(:)
-    !    type(tensor_t), allocatable, dimension(:) :: inputs, outputs
-    !    real, allocatable :: cost(:)
-    !    integer i, lon, lat, level, time, network_unit, io_status, epoch, end_step
-    !    integer(int64) start_training, finish_training
+    train_network: &
+    block
+        type(trainable_network_t) trainable_network
+        type(mini_batch_t), allocatable :: mini_batches(:)
+        type(bin_t), allocatable :: bins(:)
+        type(input_output_pair_t), allocatable :: input_output_pairs(:)
+        type(tensor_t), allocatable, dimension(:) :: inputs, outputs
+        real, allocatable :: cost(:)
+        integer i, lon, lat, level, time, network_unit, io_status, epoch, end_step
+        integer(int64) start_training, finish_training
        
-    !    associate( network_file => args%base_name // "_network.json")
-       
-    !    open(newunit=network_unit, file=network_file, form='formatted', status='old', iostat=io_status, action='read')
+        associate( network_file => args%base_name // "_network.json")
+      
+        open(newunit=network_unit, file=network_file, form='formatted', status='old', iostat=io_status, action='read')
        
     !    if (allocated(args%end_step)) then
     !      end_step = args%end_step
@@ -482,8 +464,8 @@ contains
       !  print *,"Training time: ", real(finish_training - start_training, real64)/real(clock_rate, real64),"for", &
       !    args%num_epochs,"epochs"
 
-        !end associate ! network_file
-      !end block train_network
+        end associate ! network_file
+      end block train_network
 
     !close(plot_file%plot_unit)
 

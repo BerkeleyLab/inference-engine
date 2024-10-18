@@ -21,6 +21,8 @@ module NetCDF_variable_m
     procedure, private, non_overridable :: default_real_conformable_with, double_precision_conformable_with
     generic :: rank                     => default_real_rank, double_precision_rank
     procedure, private, non_overridable :: default_real_rank, double_precision_rank
+    generic :: any_nan                  => default_real_any_nan, double_precision_any_nan
+    procedure, private, non_overridable :: default_real_any_nan, double_precision_any_nan
     generic :: operator(-)              => default_real_subtract, double_precision_subtract
     procedure, private, non_overridable :: default_real_subtract, double_precision_subtract
     generic :: operator(/)              => default_real_divide, double_precision_divide
@@ -154,6 +156,18 @@ module NetCDF_variable_m
       class(NetCDF_variable_t(double_precision)), intent(inout) :: lhs
       type(NetCDF_variable_t(double_precision)), intent(in) :: rhs
     end subroutine
+
+    elemental module function default_real_any_nan(self) result(any_nan)
+      implicit none
+      class(NetCDF_variable_t), intent(in) :: self
+      logical any_nan
+    end function
+
+    elemental module function double_precision_any_nan(self) result(any_nan)
+      implicit none
+      class(NetCDF_variable_t(double_precision)), intent(in) :: self
+      logical any_nan
+    end function
 
   end interface
 

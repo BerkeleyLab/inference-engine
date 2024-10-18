@@ -1,6 +1,7 @@
 ! Copyright (c), The Regents of the University of California
 ! Terms of use are as specified in LICENSE.txt
 submodule(NetCDF_variable_m) NetCDF_variable_s
+  use ieee_arithmetic, only : ieee_is_nan
   use kind_parameters_m, only : default_real
   use assert_m, only : assert, intrinsic_array_t
   implicit none
@@ -342,6 +343,38 @@ contains
       error stop "NetCDF_variable_s(double_precision_assign): unsupported rank)"
     end select
     call assert(lhs%rank()==rhs%rank(), "NetCDF_variable_s(double_precision_assign): ranks match)")
+  end procedure
+
+  module procedure default_real_any_nan
+
+    select case(self%rank())
+    case(1)
+      any_nan = any(ieee_is_nan(self%values_1D_))
+    case(2)
+      any_nan = any(ieee_is_nan(self%values_2D_))
+    case(3)
+      any_nan = any(ieee_is_nan(self%values_3D_))
+    case(4)
+      any_nan = any(ieee_is_nan(self%values_4D_))
+    case default
+      error stop "NetCDF_variable_s(default_real_any_nan): unsupported rank)"
+    end select
+  end procedure
+
+  module procedure double_precision_any_nan
+
+    select case(self%rank())
+    case(1)
+      any_nan = any(ieee_is_nan(self%values_1D_))
+    case(2)
+      any_nan = any(ieee_is_nan(self%values_2D_))
+    case(3)
+      any_nan = any(ieee_is_nan(self%values_3D_))
+    case(4)
+      any_nan = any(ieee_is_nan(self%values_4D_))
+    case default
+      error stop "NetCDF_variable_s(double_precision_any_nan): unsupported rank)"
+    end select
   end procedure
 
 end submodule NetCDF_variable_s
